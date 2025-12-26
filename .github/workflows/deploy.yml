@@ -1,4 +1,4 @@
-name: deploy
+name: deploy-check
 
 on:
   push:
@@ -8,27 +8,16 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    container: pandoc/latex
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
-
-      - name: Create output
-        run: sh ./build.sh
-
-      - name: Push to another repository
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      - uses: pnpm/action-setup@v4
         with:
-          source-directory: "output"
-          destination-github-username: hamxxn
-          destination-repository-name: SNAPPIN-CLIENT
-          user-email: hamin031121@gmail.com
-          commit-message: "[skip ci] ${{ github.event.head_commit.message }}"
-          target-branch: main
+          version: 10.13.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
