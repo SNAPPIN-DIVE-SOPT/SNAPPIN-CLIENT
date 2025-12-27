@@ -1,23 +1,30 @@
-name: deploy-check
+name: deploy
 
 on:
   push:
     branches: ["main"]
 
-permissions:
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: pandoc/latex
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - name: Install mustache (to update the date)
+        run: apk add ruby && gem install mustache
+      - name: creates output
+        run: sh ./build.sh
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.MY_TOKEN }}
         with:
-          version: 10.13.1
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-          cache: "pnpm"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run build
+          source-directory: "output"
+          destination-github-username: hamxxn
+          destination-repository-name: SNAPPIN-CLIENT
+          user-email: ${{ secrets.EMAIL }}
+          commit-message: ${{ github.event.commits[0].message }}
+          target-branch: main
+      - name: Test get variable exported by push-to-another-repository
+        run: echo $DESTINATION_CLONED_DIRECTORY
