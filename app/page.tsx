@@ -30,10 +30,10 @@ export default function Home() {
       <p className="title-26-sb">title_26_sb</p>
       <p className="title-23-eb">title_23_eb</p>
       <p className="title-20-bd">title_20_bd</p>
-      <p className="text-18-bd">text_18_bd</p>
-      <p className="text-18-md">text_18_md</p>
-      <p className="text-16-bd">text_16_bd</p>
-      <p className="text-16-md">text_16_md</p>
+      <p className="font-18-bd">font_18_bd</p>
+      <p className="font-18-md">font_18_md</p>
+      <p className="font-16-bd">font_16_bd</p>
+      <p className="font-16-md">font_16_md</p>
       <p className="caption-14-bd">caption_14_bd</p>
       <p className="caption-14-md">caption_14_md</p>
       <p className="caption-12-md">caption_12_md</p>
