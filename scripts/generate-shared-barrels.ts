@@ -169,15 +169,14 @@ function generateIndexForDir(dir: string) {
 }
 
 function main() {
-  const missing = TARGET_DIRS.filter((d) => !fs.existsSync(d));
-  if (missing.length) {
-    console.error("❌ 대상 폴더를 찾을 수 없습니다:");
-    for (const m of missing)
-      console.error(" -", path.relative(PROJECT_ROOT, m));
-    process.exit(1);
+  const existingTargets = TARGET_DIRS.filter(fs.existsSync);
+
+  if (existingTargets.length === 0) {
+    console.log("ℹ️ 대상 폴더가 없어 barrel 생성을 건너뜁니다.");
+    return;
   }
 
-  for (const target of TARGET_DIRS) {
+  for (const target of existingTargets) {
     const dirs = collectDirs(target).sort((a, b) => b.length - a.length);
     for (const dir of dirs) generateIndexForDir(dir);
   }
