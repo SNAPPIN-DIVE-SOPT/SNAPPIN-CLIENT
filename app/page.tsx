@@ -11,6 +11,8 @@ export default function Home() {
       <div className="bg-black-6 p-1">black_6</div>
       <div className="bg-black-7 p-1">black_7</div>
       <div className="bg-black-8 p-1">black_8</div>
+      <div className="bg-black-9 p-1">black_9</div>
+      <div className="bg-black-10 p-1">black_10</div>
       <div className="bg-neon-black p-1">neon_black</div>
       <div className="bg-neon-white p-1">neon_white</div>
       <div className="bg-orange p-1">orange</div>
