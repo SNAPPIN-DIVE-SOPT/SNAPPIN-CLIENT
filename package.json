@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && pnpm barrels:shared && pnpm build:icons",
     "start": "next start",
     "lint": "eslint",
     "build:icons": "tsx scripts/generate-icon-exports.ts",
-    "generate:icons": "pnpm build:icons"
+    "generate:icons": "pnpm build:icons",
+    "barrels:shared": "tsx scripts/generate-shared-barrels.ts"
   },
   "dependencies": {
     "next": "16.1.1",
