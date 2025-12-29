@@ -1,0 +1,14 @@
+@theme {
+  --custom-max-width: 45rem;
+}
+
+@layer base {
+  html,
+  body {
+    min-height: 100dvh;
+    width: 100%;
+  }
+  body {
+    background-color: #f7f7f7;
+  }
+}
