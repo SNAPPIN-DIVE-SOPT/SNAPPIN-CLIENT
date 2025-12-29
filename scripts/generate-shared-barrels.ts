@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import fs from "node:fs";
 import path from "node:path";
 
@@ -55,7 +54,7 @@ function hasAnyExportableCode(dir: string): boolean {
   let entries;
   try {
     entries = fs.readdirSync(dir, { withFileTypes: true });
-  } catch (error) {
+  } catch {
     return false;
   }
 

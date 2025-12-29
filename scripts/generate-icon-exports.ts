@@ -57,6 +57,7 @@ async function generateIconComponent(file: string) {
     { componentName }
   );
 
+  // viewBox가 없으면 추가
   let finalCode = jsCode;
   if (viewBox && !jsCode.includes("viewBox")) {
     finalCode = jsCode.replace(
@@ -104,17 +105,7 @@ async function generateIndexFile(icons: GeneratedIcon[]) {
 
 export default async function generate() {
   try {
-    let files: string[];
-    try {
-      files = await readdir(SVG_DIR);
-    } catch (error: any) {
-      if (error?.code === "ENOENT") {
-        files = [];
-      } else {
-        throw error;
-      }
-    }
-
+    const files = await readdir(SVG_DIR);
     const svgFiles = files.filter((f) => f.endsWith(".svg")).sort();
 
     await ensureCleanComponentsDir();
@@ -123,7 +114,7 @@ export default async function generate() {
 
     await generateIndexFile(icons);
 
-    console.info(`🎉 아이콘 컴포넌트를 성공적으로 생성했습니다`);
+    console.info("🎉 아이콘 컴포넌트를 성공적으로 생성했습니다");
   } catch (e) {
     console.error("❌ 에러:", e);
     process.exit(1);
