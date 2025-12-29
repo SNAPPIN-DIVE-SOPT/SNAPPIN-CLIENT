@@ -36,7 +36,7 @@ export default function Home() {
       <p className="text-16-md">text_16_md</p>
       <p className="caption-14-bd">caption_14_bd</p>
       <p className="caption-14-md">caption_14_md</p>
-      <p className="caption-12-md">aption_12_md</p>
+      <p className="caption-12-md">caption_12_md</p>
       <p className="caption-10-md">caption_10_md</p>
     </div>
   );
