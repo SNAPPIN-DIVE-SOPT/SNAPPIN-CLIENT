@@ -1,7 +1,10 @@
+import PageClient from "./page.client";
+
 export default function Home() {
   return (
     <div>
       <div className="text-3xl font-bold underline">Snappin</div>
+      <PageClient />
 
       <div className="bg-black-1 p-1">black_1</div>
       <div className="bg-black-2 p-1">black_2</div>

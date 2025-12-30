@@ -1,3 +1,4 @@
 @import "tailwindcss";
 @import "./reset.css";
-@import './sharedStyles.css';
+@import "./layout.css";
+@import "./sharedStyles.css";
