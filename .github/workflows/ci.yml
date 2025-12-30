@@ -3,6 +3,8 @@ name: ci
 on:
   pull_request:
     branches: [main, develop]
+  push:
+    branches: [main, develop]
 
 permissions:
   contents: read
@@ -10,7 +12,8 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && !contains(github.event.head_commit.message, '[skip ci]'))
+    runs-on: ubuntu-latest # 24.04(Ubuntu LTS)
 
     steps:
       - name: Checkout repository
@@ -30,43 +33,51 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 1) lint/build 결과는 각각 수집하기 위해 continue-on-error
       - name: Run lint
         id: lint
         run: pnpm run lint
         continue-on-error: true
 
-      - name: Build project (Next.js)
+      - name: Build project with Vite
         id: build
         run: pnpm run build
         continue-on-error: true
 
-      # 2) 결과 요약 메시지 생성 (멀티라인 GITHUB_OUTPUT 안전 처리)
       - name: Evaluate lint and build status
         id: status
         run: |
           lint_result="${{ steps.lint.outcome }}"
           build_result="${{ steps.build.outcome }}"
 
+          lint_message=""
+          build_message=""
           overall_result="success"
-          [ "$lint_result" = "success" ] && lint_message="린트 통과 ✅" || { lint_message="린트 실패 ❌"; overall_result="failed"; }
-          [ "$build_result" = "success" ] && build_message="빌드 성공 🎊" || { build_message="빌드 실패 ❌"; overall_result="failed"; }
 
-          if [ "$overall_result" = "success" ]; then
+          if [ "$lint_result" == "success" ]; then
+            lint_message="린트 통과 ✅"
+          else
+            lint_message="린트 실패 ❌"
+            overall_result="failed"
+          fi
+
+          if [ "$build_result" == "success" ]; then
+            build_message="빌드 성공 🎊"
+          else
+            build_message="빌드 실패 ❌"
+            overall_result="failed"
+          fi
+
+          if [ "$overall_result" == "success" ]; then
             message="모든 검사 통과 🎉\n- $lint_message\n- $build_message"
           else
             message="일부 검사 실패 ⚠️\n- $lint_message\n- $build_message"
           fi
 
-          echo "result=$overall_result" >> "$GITHUB_OUTPUT"
-          {
-            echo "message<<EOF"
-            echo -e "$message"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
+          echo "result=$overall_result" >> $GITHUB_OUTPUT
+          echo "message=$message" >> $GITHUB_OUTPUT
 
-      # 3) PR 댓글은 누적 (요구사항)
-      - name: Add comment to PR with status (accumulate)
+      - name: Add comment to PR with status
+        if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
         with:
           script: |
@@ -79,7 +90,6 @@ jobs:
               body: `### 빌드 및 린트 결과\n${message}`
             });
 
-      # 4) 필수 통과: 하나라도 실패면 job fail
       - name: Fail job if any step failed
         if: ${{ steps.status.outputs.result == 'failed' }}
         run: exit 1
