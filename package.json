@@ -11,6 +11,7 @@
     "generate:icons": "pnpm build:icons"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.14",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -22,6 +23,7 @@
     "@svgr/plugin-svgo": "8.1.0",
     "@tailwindcss/postcss": "^4.1.16",
     "@tailwindcss/vite": "^4.1.16",
+    "@tanstack/react-query-devtools": "^5.91.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
