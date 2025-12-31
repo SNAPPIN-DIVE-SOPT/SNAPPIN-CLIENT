@@ -9,18 +9,16 @@ const SVG_DIR = join(ASSET_DIR, 'svg');
 const COMPONENT_DIR = join(ASSET_DIR, 'components');
 const INDEX_FILE = join(ASSET_DIR, 'index.tsx');
 
-const HEADER_COMMENT = [
-  '/**',
-  ' * ⚠️ 자동 생성된 파일입니다. 직접 수정하지 마세요.',
-  ' */',
-].join('\n');
+const HEADER_COMMENT = ['/**', ' * ⚠️ 자동 생성된 파일입니다. 직접 수정하지 마세요.', ' */'].join(
+  '\n',
+);
 
 function toComponentName(filename: string): string {
   const nameWithoutExt = filename.replace(/\.svg$/i, '');
   return nameWithoutExt
     .split('-')
     .filter(Boolean)
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
     .join('');
 }
 
@@ -54,16 +52,13 @@ async function generateIconComponent(file: string) {
       prettier: false,
       plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
     },
-    { componentName }
+    { componentName },
   );
 
   // viewBox가 없으면 추가
   let finalCode = jsCode;
   if (viewBox && !jsCode.includes('viewBox')) {
-    finalCode = jsCode.replace(
-      /<svg\s+([^>]*)>/,
-      `<svg $1 viewBox="${viewBox}">`
-    );
+    finalCode = jsCode.replace(/<svg\s+([^>]*)>/, `<svg $1 viewBox="${viewBox}">`);
   }
 
   const pretty = await prettier.format(finalCode, {
@@ -74,7 +69,7 @@ async function generateIconComponent(file: string) {
   });
   const withImportSpacing = pretty.replace(
     /(import\s+type\s+\{[^}]+\}\s+from\s+'react';\n)(?!\n)/,
-    '$1\n'
+    '$1\n',
   );
   const final = `${HEADER_COMMENT}\n\n${withImportSpacing}`;
   const outputPath = join(COMPONENT_DIR, `${componentName}.tsx`);
@@ -95,7 +90,7 @@ async function generateIndexFile(icons: GeneratedIcon[]) {
   const exportLines = icons
     .map(
       ({ componentName }) =>
-        `export { default as ${componentName} } from './components/${componentName}';`
+        `export { default as ${componentName} } from './components/${componentName}';`,
     )
     .join('\n');
 
@@ -106,7 +101,7 @@ async function generateIndexFile(icons: GeneratedIcon[]) {
 export default async function generate() {
   try {
     const files = await readdir(SVG_DIR);
-    const svgFiles = files.filter(f => f.endsWith('.svg')).sort();
+    const svgFiles = files.filter((f) => f.endsWith('.svg')).sort();
 
     await ensureCleanComponentsDir();
 
