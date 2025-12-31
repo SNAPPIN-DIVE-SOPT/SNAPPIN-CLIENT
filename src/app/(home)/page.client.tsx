@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogHeader,
-} from '@/ui/dialog/Dialog';
+} from '@/ui';
 
 export default function PageClient() {
   const [open, setOpen] = useState(false);
