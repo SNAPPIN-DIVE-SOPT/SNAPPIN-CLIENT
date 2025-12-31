@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   DialogTrigger,
   DialogHeader,
 } from '@/ui/dialog/Dialog';
-import { useState } from 'react';
 
 export default function PageClient() {
   const [open, setOpen] = useState(false);

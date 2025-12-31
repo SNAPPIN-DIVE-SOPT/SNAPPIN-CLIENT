@@ -1,9 +1,9 @@
 import localFont from 'next/font/local';
 import { Providers } from '@/ui/providers';
-import '@/app/styles/global.css';
+import '@/styles/global.css';
 
 const suit = localFont({
-  src: '../public/fonts/SUIT-Variable.woff2',
+  src: '../../public/fonts/SUIT-Variable.woff2',
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -23,6 +23,7 @@ import {
   IconReservationFill,
   IconSearch,
 } from '@/assets';
+
 export default function Home() {
   return (
     <div>

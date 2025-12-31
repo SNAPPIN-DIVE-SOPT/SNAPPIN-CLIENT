@@ -1,24 +1,22 @@
-import fs from "node:fs";
-import path from "node:path";
+import fs from 'node:fs';
+import path from 'node:path';
 
 const PROJECT_ROOT = process.cwd();
 
-const TARGET_DIRS = ["src/shared/components", "src/shared/utils"].map((p) =>
-  path.join(PROJECT_ROOT, p)
-);
+const TARGET_DIRS = ['src/ui'].map((p) => path.join(PROJECT_ROOT, p));
 
-const INDEX_FILENAME = "index.ts";
+const INDEX_FILENAME = 'index.ts';
 
 const IGNORE_DIR_NAMES = new Set([
-  "node_modules",
-  ".git",
-  ".next",
-  "dist",
-  "build",
-  "__tests__",
-  "__mocks__",
-  ".turbo",
-  ".stories",
+  'node_modules',
+  '.git',
+  '.next',
+  'dist',
+  'build',
+  '__tests__',
+  '__mocks__',
+  '.turbo',
+  '.stories',
 ]);
 
 const IGNORE_FILE_PATTERNS: RegExp[] = [
@@ -27,7 +25,7 @@ const IGNORE_FILE_PATTERNS: RegExp[] = [
   /\.stories\.(ts|tsx|js|jsx)$/i,
 ];
 
-const ALLOWED_EXT = new Set([".ts", ".tsx"]);
+const ALLOWED_EXT = new Set(['.ts', '.tsx']);
 
 function shouldIgnoreFile(fileName: string) {
   if (fileName === INDEX_FILENAME) return true;
@@ -39,9 +37,9 @@ function isCodeFile(fileName: string) {
 }
 
 function relExportPath(fromDir: string, target: string) {
-  const rel = path.relative(fromDir, target).replaceAll("\\", "/");
-  const noExt = rel.replace(/\.(ts|tsx|js|jsx)$/, "");
-  return rel.startsWith(".") ? noExt : `./${noExt}`;
+  const rel = path.relative(fromDir, target).replaceAll('\\', '/');
+  const noExt = rel.replace(/\.(ts|tsx|js|jsx)$/, '');
+  return rel.startsWith('.') ? noExt : `./${noExt}`;
 }
 
 function uniqSort(lines: string[]) {
@@ -86,10 +84,7 @@ function collectDirs(root: string): string[] {
     try {
       entries = fs.readdirSync(cur, { withFileTypes: true });
     } catch (error) {
-      console.error(
-        `❌ 디렉토리 읽기 실패: ${path.relative(PROJECT_ROOT, cur)}`,
-        error
-      );
+      console.error(`❌ 디렉토리 읽기 실패: ${path.relative(PROJECT_ROOT, cur)}`, error);
       continue;
     }
 
@@ -109,10 +104,7 @@ function generateIndexForDir(dir: string) {
   try {
     entries = fs.readdirSync(dir, { withFileTypes: true });
   } catch (error) {
-    console.error(
-      `❌ 디렉토리 읽기 실패: ${path.relative(PROJECT_ROOT, dir)}`,
-      error
-    );
+    console.error(`❌ 디렉토리 읽기 실패: ${path.relative(PROJECT_ROOT, dir)}`, error);
     return;
   }
 
@@ -123,9 +115,7 @@ function generateIndexForDir(dir: string) {
     if (!isCodeFile(ent.name)) continue;
     if (shouldIgnoreFile(ent.name)) continue;
 
-    exportLines.push(
-      `export * from "${relExportPath(dir, path.join(dir, ent.name))}";`
-    );
+    exportLines.push(`export * from "${relExportPath(dir, path.join(dir, ent.name))}";`);
   }
 
   for (const ent of entries) {
@@ -144,26 +134,18 @@ function generateIndexForDir(dir: string) {
   if (finalLines.length === 0) {
     if (fs.existsSync(indexPath)) {
       fs.unlinkSync(indexPath);
-      console.log(
-        `🗑️  index.ts 삭제: ${path.relative(PROJECT_ROOT, indexPath)}`
-      );
+      console.log(`🗑️  index.ts 삭제: ${path.relative(PROJECT_ROOT, indexPath)}`);
     }
     return;
   }
 
   const content =
-    `// ⚠️ 자동 생성된 파일입니다. 직접 수정하지 마세요.\n` +
-    finalLines.join("\n") +
-    "\n";
+    `// ⚠️ 자동 생성된 파일입니다. 직접 수정하지 마세요.\n` + finalLines.join('\n') + '\n';
 
-  const prev = fs.existsSync(indexPath)
-    ? fs.readFileSync(indexPath, "utf8")
-    : "";
+  const prev = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, 'utf8') : '';
   if (prev !== content) {
-    fs.writeFileSync(indexPath, content, "utf8");
-    console.log(
-      `✅ index.ts 생성/갱신: ${path.relative(PROJECT_ROOT, indexPath)}`
-    );
+    fs.writeFileSync(indexPath, content, 'utf8');
+    console.log(`✅ index.ts 생성/갱신: ${path.relative(PROJECT_ROOT, indexPath)}`);
   }
 }
 
@@ -171,7 +153,7 @@ function main() {
   const existingTargets = TARGET_DIRS.filter(fs.existsSync);
 
   if (existingTargets.length === 0) {
-    console.log("ℹ️ 대상 폴더가 없어 barrel 생성을 건너뜁니다.");
+    console.log('ℹ️ 대상 폴더가 없어 barrel 생성을 건너뜁니다.');
     return;
   }
 
@@ -180,7 +162,7 @@ function main() {
     for (const dir of dirs) generateIndexForDir(dir);
   }
 
-  console.log("🎉 지정한 폴더의 barrel export 생성이 완료되었습니다.");
+  console.log('🎉 지정한 폴더의 barrel export 생성이 완료되었습니다.');
 }
 
 main();

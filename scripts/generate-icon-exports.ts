@@ -4,7 +4,7 @@ import { transform } from '@svgr/core';
 import prettier from 'prettier';
 
 const ROOT_DIR = process.cwd();
-const ASSET_DIR = join(ROOT_DIR, 'src/shared/assets');
+const ASSET_DIR = join(ROOT_DIR, 'src/assets');
 const SVG_DIR = join(ASSET_DIR, 'svg');
 const COMPONENT_DIR = join(ASSET_DIR, 'components');
 const INDEX_FILE = join(ASSET_DIR, 'index.tsx');
