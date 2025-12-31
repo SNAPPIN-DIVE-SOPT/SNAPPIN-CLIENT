@@ -1,7 +1,7 @@
 'use client';
 
-import { useNavVisibility } from '@/hooks/useNavVisibility';
-import { NavVisibleContext } from '@/hooks/useNavVisibility';
+import { useNavVisibility, NavVisibleContext } from '@/hooks/useNavVisibility';
+
 import Header from './components/header/Header';
 
 export default function PageClient() {
