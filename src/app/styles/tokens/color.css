@@ -1,0 +1,32 @@
+@theme {
+  --color-black-1: #FFFFFF;
+  --color-black-2: #FCFCFC;
+  --color-black-3: #F5F5F5;
+  --color-black-4: #EAEAEA;
+  --color-black-5: #E3E3E3;
+  --color-black-6: #BFBFBF;
+  --color-black-7: #8C8C8C;
+  --color-black-8: #595959;
+  --color-black-9: #313131;
+  --color-black-10: #000000;
+
+  --color-neon-black: #E7FF7E;
+  --color-neon-white: #DDF575;
+
+  --color-yellow: #FFF4CF;
+  --color-yellow-text: #996D26;
+  --color-green: #DCFCCE;
+  --color-green-text: #067419;
+  --color-red: #FFE6E6;
+  --color-red-text: #BB1B1B;
+  --color-blue: #E5F4FC;
+  --color-blue-text: #0F6CA2;
+
+  --gradient-photo: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 63.94%, rgba(0, 0, 0, 0.70) 100%);
+}
+
+@layer utilities {
+  .gradient-photo {
+    background: var(--gradient-photo);
+  }
+}

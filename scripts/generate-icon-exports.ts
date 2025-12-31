@@ -1,27 +1,25 @@
-import { mkdir, readdir, readFile, rm, writeFile } from "fs/promises";
-import { join } from "path";
-import { transform } from "@svgr/core";
-import prettier from "prettier";
+import { mkdir, readdir, readFile, rm, writeFile } from 'fs/promises';
+import { join } from 'path';
+import { transform } from '@svgr/core';
+import prettier from 'prettier';
 
 const ROOT_DIR = process.cwd();
-const ASSET_DIR = join(ROOT_DIR, "src/shared/assets");
-const SVG_DIR = join(ASSET_DIR, "svg");
-const COMPONENT_DIR = join(ASSET_DIR, "components");
-const INDEX_FILE = join(ASSET_DIR, "index.tsx");
+const ASSET_DIR = join(ROOT_DIR, 'src/shared/assets');
+const SVG_DIR = join(ASSET_DIR, 'svg');
+const COMPONENT_DIR = join(ASSET_DIR, 'components');
+const INDEX_FILE = join(ASSET_DIR, 'index.tsx');
 
-const HEADER_COMMENT = [
-  "/**",
-  " * ⚠️ 자동 생성된 파일입니다. 직접 수정하지 마세요.",
-  " */",
-].join("\n");
+const HEADER_COMMENT = ['/**', ' * ⚠️ 자동 생성된 파일입니다. 직접 수정하지 마세요.', ' */'].join(
+  '\n',
+);
 
 function toComponentName(filename: string): string {
-  const nameWithoutExt = filename.replace(/\.svg$/i, "");
+  const nameWithoutExt = filename.replace(/\.svg$/i, '');
   return nameWithoutExt
-    .split("-")
+    .split('-')
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
-    .join("");
+    .join('');
 }
 
 function normalizeFillAttributes(svg: string): string {
@@ -41,7 +39,7 @@ async function ensureCleanComponentsDir() {
 async function generateIconComponent(file: string) {
   const componentName = toComponentName(file);
   const svgPath = join(SVG_DIR, file);
-  const svgRaw = await readFile(svgPath, "utf-8");
+  const svgRaw = await readFile(svgPath, 'utf-8');
   const viewBox = extractViewBox(svgRaw);
   const sanitizedSvg = normalizeFillAttributes(svgRaw);
 
@@ -49,36 +47,33 @@ async function generateIconComponent(file: string) {
     sanitizedSvg,
     {
       typescript: true,
-      jsxRuntime: "automatic",
-      expandProps: "end",
+      jsxRuntime: 'automatic',
+      expandProps: 'end',
       prettier: false,
-      plugins: ["@svgr/plugin-svgo", "@svgr/plugin-jsx"],
+      plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
     },
-    { componentName }
+    { componentName },
   );
 
   // viewBox가 없으면 추가
   let finalCode = jsCode;
-  if (viewBox && !jsCode.includes("viewBox")) {
-    finalCode = jsCode.replace(
-      /<svg\s+([^>]*)>/,
-      `<svg $1 viewBox="${viewBox}">`
-    );
+  if (viewBox && !jsCode.includes('viewBox')) {
+    finalCode = jsCode.replace(/<svg\s+([^>]*)>/, `<svg $1 viewBox="${viewBox}">`);
   }
 
   const pretty = await prettier.format(finalCode, {
-    parser: "babel-ts",
+    parser: 'babel-ts',
     singleQuote: true,
     semi: true,
     printWidth: 80,
   });
   const withImportSpacing = pretty.replace(
     /(import\s+type\s+\{[^}]+\}\s+from\s+'react';\n)(?!\n)/,
-    "$1\n"
+    '$1\n',
   );
   const final = `${HEADER_COMMENT}\n\n${withImportSpacing}`;
   const outputPath = join(COMPONENT_DIR, `${componentName}.tsx`);
-  await writeFile(outputPath, final, "utf-8");
+  await writeFile(outputPath, final, 'utf-8');
 
   return { file, componentName };
 }
@@ -95,18 +90,18 @@ async function generateIndexFile(icons: GeneratedIcon[]) {
   const exportLines = icons
     .map(
       ({ componentName }) =>
-        `export { default as ${componentName} } from './components/${componentName}';`
+        `export { default as ${componentName} } from './components/${componentName}';`,
     )
-    .join("\n");
+    .join('\n');
 
   const content = `${HEADER_COMMENT}\n${imports}\n\n${iconType}\n\n${exportLines}\n`;
-  await writeFile(INDEX_FILE, content, "utf-8");
+  await writeFile(INDEX_FILE, content, 'utf-8');
 }
 
 export default async function generate() {
   try {
     const files = await readdir(SVG_DIR);
-    const svgFiles = files.filter((f) => f.endsWith(".svg")).sort();
+    const svgFiles = files.filter((f) => f.endsWith('.svg')).sort();
 
     await ensureCleanComponentsDir();
 
@@ -114,9 +109,9 @@ export default async function generate() {
 
     await generateIndexFile(icons);
 
-    console.info("🎉 아이콘 컴포넌트를 성공적으로 생성했습니다");
+    console.info('🎉 아이콘 컴포넌트를 성공적으로 생성했습니다');
   } catch (e) {
-    console.error("❌ 에러:", e);
+    console.error('❌ 에러:', e);
     process.exit(1);
   }
 }
