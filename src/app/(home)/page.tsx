@@ -23,6 +23,7 @@ import {
   IconReservationFill,
   IconSearch,
 } from '@/assets';
+import Button from '@/ui/button/base/Button';
 
 export default function Home() {
   return (
@@ -94,6 +95,37 @@ export default function Home() {
       <IconExploreFill className='text-red-500' />
       <IconProfileFill className='text-red-500' />
       <IconReservationFill className='text-red-500' />
+
+      <Button size='large' color='primary'>
+        button
+      </Button>
+      <Button size='large' color='black'>
+        button
+      </Button>
+      <Button size='large' color='transparent'>
+        button
+      </Button>
+      <Button size='large' disabled={true}>
+        button
+      </Button>
+      <Button size='medium' color='primary'>
+        button
+      </Button>
+      <Button size='medium' color='black'>
+        예약하기
+      </Button>
+      <Button size='medium' color='transparent'>
+        채팅하기
+      </Button>
+      <Button size='medium' color='transparent' disabled={true}>
+        button
+      </Button>
+      <Button size='small' display='inline' color='black'>
+        button
+      </Button>
+      <Button size='small' display='inline' color='black' disabled={true}>
+        button
+      </Button>
     </div>
   );
 }
