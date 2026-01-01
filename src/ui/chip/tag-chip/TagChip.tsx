@@ -21,9 +21,8 @@ export default function TagChip({
   return (
     <Chip
       label={label}
-      chipClassName={chipStyle}
+      chipClassName={cn('px-[0.6rem] py-[0.3rem]', chipStyle, className)}
       labelClassName={labelColor}
-      className={cn('px-[0.6rem] py-[0.3rem]', className)}
       {...props}
     />
   );

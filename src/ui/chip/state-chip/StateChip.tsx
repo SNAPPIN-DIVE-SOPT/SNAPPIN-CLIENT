@@ -18,9 +18,8 @@ export default function StateChip({
   return (
     <Chip
       label={label}
-      chipClassName={chipStyle}
+      chipClassName={cn('px-[0.5rem] py-[0.2rem]', chipStyle, className)}
       labelClassName={labelColor}
-      className={cn('px-[0.5rem] py-[0.2rem]', className)}
       {...props}
     />
   );

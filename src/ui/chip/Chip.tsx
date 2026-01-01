@@ -13,15 +13,13 @@ export default function Chip({
   label,
   chipClassName,
   labelClassName,
-  className,
   ...props
 }: ChipProps) {
   return (
     <div
       className={cn(
         'inline-flex justify-center items-center rounded-[0.3rem]',
-        chipClassName,
-        className
+        chipClassName
       )}
       {...props}
     >
