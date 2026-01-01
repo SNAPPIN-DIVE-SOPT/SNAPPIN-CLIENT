@@ -1,7 +1,7 @@
-import { ChipStyle } from '@/ui/chip/types/chipStyle';
+import { ChipTheme } from '@/ui/chip/types/chipTheme';
 import { StateChipLabel } from '../types/stateChipLabel';
 
-export const STATE_CHIP_STYLE_BY_LABEL: Record<StateChipLabel, ChipStyle> = {
+export const STATE_CHIP_STYLE_BY_LABEL: Record<StateChipLabel, ChipTheme> = {
   '예약 요청': { chipStyle: 'bg-yellow', labelColor: 'text-yellow-text' },
   '작가 확인 중': { chipStyle: 'bg-yellow', labelColor: 'text-yellow-text' },
   '결제 요청': { chipStyle: 'bg-yellow', labelColor: 'text-yellow-text' },
