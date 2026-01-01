@@ -10,16 +10,15 @@ type StateChipProps = {
 
 export default function StateChip({
   label,
-  className,
   ...props
 }: StateChipProps) {
-  const { chipStyle, labelColor } = STATE_CHIP_STYLE_BY_LABEL[label];
+  const { chipClassName, labelClassName } = STATE_CHIP_STYLE_BY_LABEL[label];
 
   return (
     <Chip
       label={label}
-      chipClassName={cn('px-[0.5rem] py-[0.2rem]', chipStyle, className)}
-      labelClassName={labelColor}
+      chipClassName={cn('px-[0.5rem] py-[0.2rem]', chipClassName)}
+      labelClassName={labelClassName}
       {...props}
     />
   );

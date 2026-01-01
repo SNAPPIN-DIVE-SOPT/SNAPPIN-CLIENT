@@ -1,4 +1,4 @@
 export type ChipTheme = {
-  chipStyle: string;
-  labelColor: string;
+  chipClassName: string;
+  labelClassName: string;
 }

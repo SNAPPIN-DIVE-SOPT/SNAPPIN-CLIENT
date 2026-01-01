@@ -13,16 +13,15 @@ type TagChipProps = {
 export default function TagChip({
   variant,
   label,
-  className,
   ...props
 }: TagChipProps) {
-  const { chipStyle, labelColor } = TAG_CHIP_STYLE_BY_VARIANT[variant];
+  const { chipClassName, labelClassName } = TAG_CHIP_STYLE_BY_VARIANT[variant];
 
   return (
     <Chip
       label={label}
-      chipClassName={cn('px-[0.6rem] py-[0.3rem]', chipStyle, className)}
-      labelClassName={labelColor}
+      chipClassName={cn('px-[0.6rem] py-[0.3rem]', chipClassName)}
+      labelClassName={labelClassName}
       {...props}
     />
   );
