@@ -48,7 +48,7 @@ export const BlackButton: StoryButton = {
   },
 };
 
-export const transparentButton: StoryButton = {
+export const TransparentButton: StoryButton = {
   args: {
     color: 'transparent',
     children: 'Transparent Button',
