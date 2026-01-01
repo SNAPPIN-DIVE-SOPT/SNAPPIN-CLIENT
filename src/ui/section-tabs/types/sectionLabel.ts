@@ -1,4 +1,4 @@
-import type { SECTION_TAB } from './sectionTabTheme';
+import type { SECTION_TAB } from '../constants/sectionTabTheme';
 
 export type SectionTabsProps = {
   tabs: readonly SECTION_TAB[];
