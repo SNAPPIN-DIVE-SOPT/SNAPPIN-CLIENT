@@ -1,12 +1,9 @@
 import Image from 'next/image';
 import { cn } from '@/utils/cn';
+import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
 import { TagChip } from '@/ui/index';
 import { IconStar } from '@/assets';
 import { TagCode } from '../chip/tag-chip/types/tagCode';
-
-function formatNumberWithComma(value: number): string {
-  return new Intl.NumberFormat('ko-KR').format(value);
-}
 
 type ProductCardProps = {
   image: { src: string; alt?: string; };
