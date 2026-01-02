@@ -29,13 +29,13 @@ function SectionTabsTemplate({
   tabs: readonly SECTION_TAB[];
   reviewCount?: number;
 }) {
-  const [selectedTab, setSelectedTab] = useState<SECTION_TAB>(tabs[0]);
+  const [selectedTab, setSelectedTab] = useState<SECTION_TAB | null>(tabs[0] ?? null);
 
-  return (
+  return tabs.length === 0 || selectedTab === null ? null : (
     <SectionTabs
       tabs={tabs}
       selectedTab={selectedTab}
-      onChangeTab={setSelectedTab}
+      onChangeTab={(tab) => setSelectedTab(tab)}
       getLabel={(tab) => getSectionTabLabel(tab, { reviewCount })}
     />
   );
