@@ -2,11 +2,6 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
 
 import SectionTabs from './SectionTabs';
-import {
-  SECTION_TAB,
-  SECTION_TAB_PRESET,
-  getSectionTabLabel,
-} from '@/ui/section-tabs/constants/sectionTabTheme';
 
 const meta: Meta<typeof SectionTabs> = {
   title: 'UI/SectionTabs',
@@ -22,33 +17,57 @@ const meta: Meta<typeof SectionTabs> = {
 export default meta;
 type Story = StoryObj<typeof SectionTabs>;
 
+type SectionTabItem = {
+  id: string;
+  label: string;
+  count?: number;
+};
+
 function SectionTabsTemplate({
   tabs,
-  reviewCount,
+  listClassName,
+  tabClassName = 'flex-1',
 }: {
-  tabs: readonly SECTION_TAB[];
-  reviewCount?: number;
+  tabs: SectionTabItem[];
+  listClassName?: string;
+  tabClassName?: string;
 }) {
-  const [selectedTab, setSelectedTab] = useState<SECTION_TAB | null>(tabs[0] ?? null);
+  const [selectedTab, setSelectedTab] = useState(tabs[0]?.id ?? '');
 
-  return tabs.length === 0 || selectedTab === null ? null : (
-    <SectionTabs
-      tabs={tabs}
-      selectedTab={selectedTab}
-      onChangeTab={(tab) => setSelectedTab(tab)}
-      getLabel={(tab) => getSectionTabLabel(tab, { reviewCount })}
-    />
+  return tabs.length === 0 ? null : (
+    <SectionTabs value={selectedTab} onValueChange={setSelectedTab}>
+      <SectionTabs.List className={listClassName}>
+        {tabs.map((tab) => (
+          <SectionTabs.Tab key={tab.id} value={tab.id} className={tabClassName}>
+            {tab.count !== undefined ? (
+              ({ isSelected }) => (
+                <span className='inline-flex items-center gap-1'>
+                  {tab.label}{' '}
+                  <span className={isSelected ? 'text-black-10' : 'text-black-5'}>
+                    ({tab.count})
+                  </span>
+                </span>
+              )
+            ) : (
+              tab.label
+            )}
+          </SectionTabs.Tab>
+        ))}
+      </SectionTabs.List>
+    </SectionTabs>
   );
 }
 
-export const ClientTab: Story = {
-  render: () => <SectionTabsTemplate tabs={SECTION_TAB_PRESET.CLIENT_TAB} />,
+const defaultTabs: SectionTabItem[] = [
+  { id: 'portfolio', label: '포트폴리오' },
+  { id: 'product', label: '상품' },
+  { id: 'review', label: '리뷰', count: 12 },
+];
+
+export const Default: Story = {
+  render: () => <SectionTabsTemplate tabs={defaultTabs} />,
 };
 
-export const DetailTabWithReviewCount: Story = {
-  render: () => <SectionTabsTemplate tabs={SECTION_TAB_PRESET.DETAIL_TAB} reviewCount={12} />,
-};
-
-export const AuthorReservation: Story = {
-  render: () => <SectionTabsTemplate tabs={SECTION_TAB_PRESET.AUTHOR_RESERVATION} />,
+export const FixedWidthTabs: Story = {
+  render: () => <SectionTabsTemplate tabs={defaultTabs} tabClassName='flex-none w-28' />,
 };
