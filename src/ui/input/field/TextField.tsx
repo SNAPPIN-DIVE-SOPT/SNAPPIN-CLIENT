@@ -1,5 +1,4 @@
-import Input from '@/ui/input/base/Input';
-import FieldMessage from '@/ui/input/message/FieldMessage';
+import { FieldMessage, Input } from '@/ui';
 
 type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   id: string;
@@ -33,7 +32,7 @@ export default function TextField({
         id={id}
         aria-invalid={hasError || undefined}
         hasError={hasError}
-        aria-describedby={hasError ? `${id}-error` : undefined}
+        aria-describedby={hasError ? `${id}` : undefined}
         required={required}
         onChange={onChange}
         {...rest}

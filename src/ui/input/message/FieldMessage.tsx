@@ -17,7 +17,7 @@ export default function FieldMessage({ id, message, variant = 'help' }: FieldMes
   const role = variant === 'error' ? 'alert' : undefined;
 
   return (
-    <p className={cn('caption-12-md mt-2', messageTheme[variant])} id={`${id}`} role={role}>
+    <p className={cn('caption-12-md mt-2', messageTheme[variant])} id={id} role={role}>
       {message}
     </p>
   );
