@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { cn } from '@/utils/cn';
 import { TagChip } from '@/ui/index';
 import { IconStar } from '@/assets';
 import { TagCode } from '../chip/tag-chip/types/tagCode';
@@ -15,6 +16,7 @@ type ProductCardProps = {
   photographer: string;
   price: number;
   tags: TagCode[];
+  className?: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export default function ProductCard({
@@ -25,11 +27,12 @@ export default function ProductCard({
   photographer,
   price,
   tags,
+  className,
   ...props
 }: ProductCardProps) {
   return (
     <div
-      className='flex items-start gap-[1.2rem] w-[30.4rem]'
+      className={cn('flex items-start gap-[1.2rem] w-[30.4rem]', className)}
       {...props}
     >
       <div className='relative w-[10.2rem] h-[10.2rem]'>
