@@ -1,6 +1,5 @@
 'use client';
 
-import { useContext } from 'react';
 import { Navigation } from '@/ui';
 import Image from 'next/image';
 import logo from '@/../public/imgs/logo.png';
