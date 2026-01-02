@@ -4,22 +4,7 @@ import * as React from 'react';
 import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '@/utils/cn';
-
-type SectionTabsContextValue = {
-  value: string | null;
-  onValueChange: (value: string) => void;
-};
-
-const SectionTabsContext = React.createContext<SectionTabsContextValue | null>(null);
-
-function useSectionTabsContext(componentName: string) {
-  const context = React.useContext(SectionTabsContext);
-  if (!context) {
-    throw new Error(`${componentName} must be used within SectionTabs.`);
-  }
-
-  return context;
-}
+import { SectionTabsContext, useSectionTabsContext } from './contexts/sectionTabsContext';
 
 type SectionTabsProps = HTMLAttributes<HTMLDivElement> & {
   value?: string;
@@ -106,7 +91,7 @@ function SectionTabsTab({
       type={type}
       data-selected={isSelected}
       className={cn(
-        'relative flex flex-1 items-center justify-center bg-transparent caption-14-bd transition-colors',
+        'caption-14-bd relative flex flex-1 items-center justify-center bg-transparent transition-colors',
         isSelected ? 'text-black-10' : 'text-black-5',
         className,
       )}
