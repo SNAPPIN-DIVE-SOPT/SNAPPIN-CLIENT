@@ -15,8 +15,7 @@ type ProductCardProps = {
   photographer: string;
   price: number;
   tags: TagCode[];
-  handleOnClick?: () => void;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export default function ProductCard({
   image,
@@ -26,19 +25,17 @@ export default function ProductCard({
   photographer,
   price,
   tags,
-  handleOnClick,
   ...props
 }: ProductCardProps) {
   return (
     <div
       className='flex items-start gap-[1.2rem] w-[30.4rem]'
-      onClick={handleOnClick}
       {...props}
     >
       <div className='relative w-[10.2rem] h-[10.2rem]'>
         <Image
           src={image.src}
-          alt={image.alt ?? `${image.src}`}
+          alt={image.alt ?? `${name} 상품 이미지`}
           fill
           className='shrink-0 self-stretch'
         />
