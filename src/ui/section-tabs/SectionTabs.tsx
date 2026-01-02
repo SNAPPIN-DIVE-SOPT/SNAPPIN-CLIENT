@@ -3,14 +3,14 @@
 import { cn } from '@/utils/cn';
 import type { SectionTabsProps } from './types/sectionLabel';
 
-export default function SectionTabs({
+export default function SectionTabs<T extends string>({
   tabs,
   selectedTab,
   onChangeTab,
   getLabel,
-}: SectionTabsProps) {
+}: SectionTabsProps<T>) {
   return (
-    <div className='border-black-4 flex h-[45px] w-full gap-[10px] border-b px-[20px]'>
+    <div className='border-black-4 flex h-18 w-full gap-4 border-b px-8'>
       {tabs.map((tab) => {
         const isSelected = tab === selectedTab;
 
@@ -24,14 +24,14 @@ export default function SectionTabs({
             <span
               className={cn(
                 'caption-14-bd transition-colors',
-                isSelected ? 'text-black' : 'text-black-5',
+                isSelected ? 'text-black-10' : 'text-black-5',
               )}
             >
               {getLabel(tab)}
             </span>
 
             {isSelected ? (
-              <span className='bg-black-10 absolute bottom-0 left-0 h-[2px] w-full' />
+              <span className='bg-black-10 absolute bottom-0 left-0 h-[0.2rem] w-full' />
             ) : null}
           </button>
         );
