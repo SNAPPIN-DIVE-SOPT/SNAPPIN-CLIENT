@@ -51,7 +51,7 @@ export default function ProductCard({
           <div className='flex flex-col items-start gap-[0.3rem]'>
             <div className='flex items-center self-stretch gap-[0.6rem]'>
               <div className='flex items-center gap-[0.2rem]'>
-                <IconStar className='text-black-8' />
+                <IconStar className='w-[1rem] h-[1rem] text-black-8' />
                 <span className='caption-12-md text-black-8'>
                   {rating}
                 </span>
