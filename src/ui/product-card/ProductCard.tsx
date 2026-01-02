@@ -43,7 +43,7 @@ export default function ProductCard({
           className='shrink-0 self-stretch'
         />
       </div>
-      <div className='flex flex-col flex-1 shrink-0 basis-0 items-start self-stretch gap-[0.3rem]'>
+      <div className='flex flex-col gap-[0.3rem]'>
         <div className='flex flex-col items-start self-stretch gap-[0.5rem]'>
           <span className='w-[19rem] self-stretch truncate caption-14-bd text-black-10'>
             {name}
