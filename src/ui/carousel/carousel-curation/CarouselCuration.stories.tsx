@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import CarouselCuration from './CarouselCuration';
 
 const meta: Meta<typeof CarouselCuration> = {
-  title: 'Carousel/CarouselCuration',
+  title: 'CarouselCuration',
   component: CarouselCuration,
   tags: ['autodocs'],
   parameters: {
@@ -80,17 +80,6 @@ export const MultipleImages: Story = {
     ],
     tags: ['WARM', 'FRESH', 'CLEAR', 'SUNNY', 'DREAMY'],
     name: '다중 이미지 작가',
-  },
-};
-
-export const ManyTags: Story = {
-  args: {
-    images: [
-      { src: 'https://picsum.photos/576/576?random=10', alt: 'Image 1' },
-      { src: 'https://picsum.photos/576/576?random=11', alt: 'Image 2' },
-    ],
-    tags: ['WARM', 'FRESH', 'CLEAR', 'SUNNY', 'DREAMY', 'CHIC', 'CALM', 'VIVID'],
-    name: '태그가 많은 작가',
   },
 };
 

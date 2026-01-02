@@ -72,7 +72,7 @@ export default function CarouselCuration({ images, tags, name, className }: Caro
 
       {/* 하단 컨텐츠 */}
       <div className='absolute bottom-[1.8rem] z-10 flex w-full flex-col items-center gap-[0.4rem] px-[1.2rem]'>
-        <div className='flex w-full items-center justify-start gap-[0.4rem] overflow-x-scroll'>
+        <div className='flex w-full items-center justify-start gap-[0.4rem]'>
           {tags.map((tag, idx) => (
             <TagChip key={idx} label={tag} variant='transparent' />
           ))}
