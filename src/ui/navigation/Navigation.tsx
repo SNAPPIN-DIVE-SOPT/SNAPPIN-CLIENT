@@ -34,7 +34,7 @@ const menuItems: {
   },
 ];
 
-export default function Gnb() {
+export default function Navigation() {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
 
