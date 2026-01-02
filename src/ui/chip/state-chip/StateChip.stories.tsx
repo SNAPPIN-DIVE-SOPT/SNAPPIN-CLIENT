@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import StateChip from './StateChip';
 
 const meta: Meta<typeof StateChip> = {
-  title: 'Components/UI/StateChip',
+  title: 'Chip/StateChip',
   component: StateChip,
   parameters: {
     layout: 'centered',
@@ -11,7 +11,15 @@ const meta: Meta<typeof StateChip> = {
   argTypes: {
     label: {
       control: { type: 'select' },
-      options: ['RESERVATION_REQUESTED', 'AUTHOR_CONFIRMING', 'PAYMENT_REQUESTED', 'PAYMENT_COMPLETED', 'RESERVATION_COMPLETED', 'RESERVATION_CANCELLED', 'SHOOT_COMPLETED'],
+      options: [
+        'RESERVATION_REQUESTED',
+        'AUTHOR_CONFIRMING',
+        'PAYMENT_REQUESTED',
+        'PAYMENT_COMPLETED',
+        'RESERVATION_COMPLETED',
+        'RESERVATION_CANCELLED',
+        'SHOOT_COMPLETED',
+      ],
       description: '예약 상태',
     },
   },

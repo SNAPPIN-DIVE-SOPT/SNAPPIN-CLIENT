@@ -4,8 +4,7 @@ type ChipProps = {
   label: string;
   chipClassName: string;
   labelClassName: string;
-  className?: string;
-};
+} & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>;
 
 export default function Chip({
   label,

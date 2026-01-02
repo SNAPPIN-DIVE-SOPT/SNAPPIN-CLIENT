@@ -6,8 +6,7 @@ import { STATE_CHIP_THEME_BY_LABEL } from './constants/stateChipTheme';
 
 type StateChipProps = {
   label: StateCode;
-  className?: string;
-};
+} & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>;
 
 export default function StateChip({
   label,
