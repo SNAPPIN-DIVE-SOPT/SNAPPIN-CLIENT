@@ -21,7 +21,7 @@ export function TimeButton({ time, state = 'default', onClick }: TimeButtonProps
       }}
       className={cn(
         'caption-14-md',
-        'flex items-center justify-center px-5.25 py-2 transition-colors',
+        'flex items-center justify-center w-[7.4rem] h-[3.3rem] transition-colors',
         'rounded border',
         state === 'default' && 'border-black-4 text-black-10 bg-white',
 
