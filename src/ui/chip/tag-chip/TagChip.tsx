@@ -10,17 +10,13 @@ type TagChipProps = {
   label: TagCode;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>;
 
-export default function TagChip({
-  variant,
-  label,
-  ...props
-}: TagChipProps) {
+export default function TagChip({ variant, label, ...props }: TagChipProps) {
   const { chipClassName, labelClassName } = TAG_CHIP_THEME_BY_VARIANT[variant];
 
   return (
     <Chip
       label={TAG_LABEL[label]}
-      chipClassName={cn('px-[0.6rem] py-[0.3rem]', chipClassName)}
+      chipClassName={cn('px-[0.6rem] py-[0.3rem] shrink-0', chipClassName)}
       labelClassName={labelClassName}
       {...props}
     />
