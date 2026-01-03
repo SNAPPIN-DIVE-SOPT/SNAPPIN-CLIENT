@@ -6,10 +6,11 @@ type SectionTabsIndicatorStyle = {
 };
 
 type SectionTabsContextValue = {
-  value: string | null;
+  value: string;
   handleValueChange: (value: string) => void;
   indicatorStyle: SectionTabsIndicatorStyle | null;
   setIndicatorStyle: (style: SectionTabsIndicatorStyle | null) => void;
+  baseId: string;
 };
 
 const SectionTabsContext = React.createContext<SectionTabsContextValue | null>(null);

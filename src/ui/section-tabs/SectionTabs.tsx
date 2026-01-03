@@ -12,6 +12,10 @@ import {
 import { useSectionTabsQuerySync } from './hooks/useSectionTabsQuerySync';
 
 const PX_PER_REM = 10;
+const getSectionTabsId = (baseId: string, value: string, suffix: string) => {
+  const normalizedValue = value.replace(/\s+/g, '-');
+  return `${baseId}-${suffix}-${normalizedValue}`;
+};
 
 type SectionTabsProps = HTMLAttributes<HTMLDivElement> & {
   value: string;
@@ -42,18 +46,13 @@ const SectionTabsRoot = ({
 }: SectionTabsProps) => {
   const [indicatorStyle, setIndicatorStyle] = React.useState<SectionTabsIndicatorStyle | null>(null);
   const selectedValue = value;
+  const baseId = React.useId();
 
   useSectionTabsQuerySync({
     queryKey,
     value: selectedValue,
     handleValueChange,
   });
-
-  React.useEffect(() => {
-    if (selectedValue === null) {
-      setIndicatorStyle(null);
-    }
-  }, [selectedValue]);
 
   const handleTabChange = React.useCallback(
     (nextValue: string) => {
@@ -68,8 +67,9 @@ const SectionTabsRoot = ({
       handleValueChange: handleTabChange,
       indicatorStyle,
       setIndicatorStyle,
+      baseId,
     }),
-    [handleTabChange, indicatorStyle, selectedValue],
+    [handleTabChange, indicatorStyle, selectedValue, baseId],
   );
 
   return (
@@ -81,7 +81,13 @@ const SectionTabsRoot = ({
   );
 };
 
-const SectionTabsList = ({ className, children, ...props }: SectionTabsListProps) => {
+const SectionTabsList = ({
+  className,
+  children,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
+  ...props
+}: SectionTabsListProps) => {
   const { indicatorStyle } = useSectionTabsContext('SectionTabs.List');
 
   return (
@@ -90,6 +96,10 @@ const SectionTabsList = ({ className, children, ...props }: SectionTabsListProps
         'border-black-4 relative flex h-[4.5rem] w-full gap-[0.4rem] border-b px-[0.8rem]',
         className,
       )}
+      role='tablist'
+      aria-orientation='horizontal'
+      aria-label={ariaLabelledBy ? undefined : ariaLabel ?? 'Section tabs'}
+      aria-labelledby={ariaLabelledBy}
       {...props}
     >
       {children}
@@ -107,15 +117,22 @@ const SectionTabsList = ({ className, children, ...props }: SectionTabsListProps
 };
 
 const SectionTabsPanel = ({ value, className, children, ...props }: SectionTabsPanelProps) => {
-  const { value: selectedValue } = useSectionTabsContext('SectionTabs.Panel');
+  const { value: selectedValue, baseId } = useSectionTabsContext('SectionTabs.Panel');
   const isSelected = value === selectedValue;
-
-  if (!isSelected) {
-    return null;
-  }
+  const tabId = getSectionTabsId(baseId, value, 'tab');
+  const panelId = getSectionTabsId(baseId, value, 'panel');
 
   return (
-    <div className={cn('w-full', className)} {...props}>
+    <div
+      id={panelId}
+      role='tabpanel'
+      aria-labelledby={tabId}
+      aria-hidden={!isSelected}
+      tabIndex={isSelected ? 0 : -1}
+      hidden={!isSelected}
+      className={cn('w-full', className)}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -128,10 +145,12 @@ const SectionTabsTab = ({
   type = 'button',
   ...props
 }: SectionTabsTabProps) => {
-  const { value: selectedValue, handleValueChange, setIndicatorStyle } =
+  const { value: selectedValue, handleValueChange, setIndicatorStyle, baseId } =
     useSectionTabsContext('SectionTabs.Tab');
   const isSelected = value === selectedValue;
   const tabRef = React.useRef<HTMLButtonElement>(null);
+  const tabId = getSectionTabsId(baseId, value, 'tab');
+  const panelId = getSectionTabsId(baseId, value, 'panel');
 
   const handleIndicatorUpdate = React.useCallback(() => {
     const element = tabRef.current;
@@ -176,6 +195,11 @@ const SectionTabsTab = ({
     <button
       type={type}
       data-selected={isSelected}
+      id={tabId}
+      role='tab'
+      aria-selected={isSelected}
+      aria-controls={panelId}
+      tabIndex={isSelected ? 0 : -1}
       className={cn(
         'caption-14-bd relative flex flex-1 items-center justify-center bg-transparent transition-colors',
         isSelected ? 'text-black-10' : 'text-black-5',
