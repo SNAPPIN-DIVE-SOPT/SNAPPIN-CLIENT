@@ -13,7 +13,7 @@ const meta: Meta<typeof ImageUploadButton> = {
     },
   },
   args: {
-    onUpload: (files: FileList) => {
+    handleUploadAction: (files: FileList) => {
       console.log('Uploaded files:', files);
     },
   },

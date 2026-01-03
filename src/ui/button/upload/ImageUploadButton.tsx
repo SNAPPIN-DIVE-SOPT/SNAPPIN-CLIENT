@@ -3,16 +3,17 @@
 import { Button } from '@/ui';
 import { IconAddPhotoAlternate } from '@/assets';
 import { useRef } from 'react';
+import { IMAGE_ACCEPT } from '@/ui/button/upload/constant/image';
 
 type ImageUploadButtonProps = {
-  onUpload: (files: FileList) => void;
+  handleUploadAction: (files: FileList) => void;
   accept?: string;
   multiple?: boolean;
 };
 
 export default function ImageUploadButton({
-  onUpload,
-  accept = 'image/*',
+  handleUploadAction,
+  accept = IMAGE_ACCEPT.BASIC,
   multiple = true,
 }: ImageUploadButtonProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -25,7 +26,7 @@ export default function ImageUploadButton({
     const files = event.target.files;
     if (!files || files.length === 0) return;
 
-    onUpload(files);
+    handleUploadAction(files);
 
     if (inputRef.current) {
       inputRef.current.value = '';
@@ -47,7 +48,7 @@ export default function ImageUploadButton({
         display='inline'
         color='muted'
         size='upload'
-        className={'gap-[0.4rem]'}
+        className='gap-[0.4rem]'
         onClick={handleClick}
       >
         <IconAddPhotoAlternate />
