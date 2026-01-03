@@ -28,6 +28,7 @@ export default function ButtonAddMinus({
       )}
     >
       <IconRemove
+        aria-disabled={isDisabledMinus}
         onClick={isDisabledMinus ? undefined : handleClickMinus}
         className={cn('cursor-pointer', isDisabledMinus && 'cursor-not-allowed')}
       />
@@ -35,6 +36,7 @@ export default function ButtonAddMinus({
         {value}
       </span>
       <IconAdd
+        aria-disabled={isDisabledAdd}
         onClick={isDisabledAdd ? undefined : handleClickAdd}
         className={cn('cursor-pointer', isDisabledAdd && 'cursor-not-allowed')}
       />
