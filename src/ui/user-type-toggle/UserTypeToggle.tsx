@@ -1,20 +1,20 @@
 import { cn } from '@/utils/cn';
-import { TabType } from './types/tabType';
-import { TOGGLE_THEME_BY_TAB } from './constants/toggleTheme';
+import { UserType } from './types/userType';
+import { TOGGLE_THEME_BY_TYPE } from './constants/toggleTheme';
 
-export type ToggleProps = {
-  selectedTab: TabType;
+export type UserTypeToggleProps = {
+  selectedType: UserType;
   className?: string;
   onClick: () => void;
 } & React.HTMLAttributes<HTMLButtonElement>;
 
-export default function Toggle({
-  selectedTab,
+export default function UserTypeToggle({
+  selectedType,
   className,
   onClick,
   ...props
-}: ToggleProps) {
-  const { trackClassName, thumbClassName, labelClassName, label } = TOGGLE_THEME_BY_TAB[selectedTab];
+}: UserTypeToggleProps) {
+  const { trackClassName, thumbClassName, labelClassName, label } = TOGGLE_THEME_BY_TYPE[selectedType];
 
   return (
     <button
