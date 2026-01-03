@@ -15,7 +15,7 @@ export default function Chip({
   return (
     <div
       className={cn(
-        'inline-flex justify-center items-center rounded-[0.3rem]',
+        'inline-flex shrink-0 justify-center items-center rounded-[0.3rem]',
         chipClassName
       )}
       {...props}

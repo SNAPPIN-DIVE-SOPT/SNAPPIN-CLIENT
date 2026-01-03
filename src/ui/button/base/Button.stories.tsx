@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import Button from '@/ui/button/base/Button';
 
 const meta: Meta<typeof Button> = {
-  title: 'Button',
+  title: 'button/Button',
   component: Button,
   tags: ['autodocs'],
   args: {
@@ -52,5 +52,12 @@ export const TransparentButton: StoryButton = {
   args: {
     color: 'transparent',
     children: 'Transparent Button',
+  },
+};
+
+export const SmallButton: StoryButton = {
+  args: {
+    size: 'small',
+    children: 'Small Button',
   },
 };
