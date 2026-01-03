@@ -1,0 +1,215 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: 'ko-KR'
+early_access: true
+
+tone_instructions: |
+  한국어(ko-KR)로 간결하고 건설적인 코드 리뷰를 제공해요.
+  리뷰 우선순위: 보안(security) > 성능(performance) > 유지보수성(maintainability).
+  아래 "팀 컨벤션"을 최우선으로 적용하고, 위반 사항은 명확한 근거와 함께 수정 제안을 해요.
+
+reviews:
+  profile: 'assertive'
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  assess_linked_issues: false
+  related_prs: false
+  suggested_labels: true
+  sequence_diagrams: false
+  changed_files_summary: true
+
+  high_level_summary_in_walkthrough: true
+  high_level_summary_placeholder: '이 PR의 주요 변경사항을 요약합니다'
+  collapse_walkthrough: true
+  commit_status: true
+  fail_commit_status: false
+  related_issues: false
+  abort_on_close: true
+
+  # ✅ SNAPPIN-CLIENT 구조 기반 allow/deny
+  path_filters:
+    # 포함
+    - 'src/**'
+    - '.storybook/**'
+    - '.github/**'
+    - 'next.config.*'
+    - 'tailwind.config.*'
+    - 'postcss.config.*'
+    - 'tsconfig*.json'
+    - 'package.json'
+    - '.coderabbit.yaml'
+    - 'scripts/**'
+    - 'public/**'
+    - 'README.md'
+
+    # 제외
+    - '!node_modules/**'
+    - '!.next/**'
+    - '!dist/**'
+    - '!storybook-static/**'
+    - '!build/**'
+    - '!src/assets/**'
+    - '!coverage/**'
+    - '!**/*.snap'
+    - '!**/*.png'
+    - '!**/*.jpg'
+    - '!**/*.jpeg'
+    - '!**/*.gif'
+    - '!**/*.webp'
+    - '!**/*.ico'
+    - '!**/*.avif'
+    - '!**/*.mp4'
+    - '!**/*.webm'
+    - '!**/*.mp3'
+    - '!**/*.ogg'
+    - '!*.lock'
+    - '!pnpm-lock.yaml'
+    - '!package-lock.json'
+    - '!bun.lockb'
+    - '!src/assets/**'
+
+  path_instructions:
+    - path: '.coderabbit.yaml'
+      instructions: |
+        CodeRabbit 설정 파일 리뷰 시:
+        - YAML 문법/스키마 호환성(지원 필드 여부)
+        - path_filters 포함/제외 패턴 충돌 여부
+        - path_instructions 중복/누락 여부
+        - 프로젝트 구조와 설정의 일치성 검토
+
+    - path: '.storybook/**'
+      instructions: |
+        Storybook 설정 리뷰 시:
+        - stories glob 패턴이 실제 파일(.stories.tsx 등)과 일치하는지
+        - Next 환경 호환성(이미지/라우팅) 확인
+        - addon 과다/불필요 설정 제거(런타임 이슈 방지)
+
+    - path: 'src/**/*.stories.@(ts|tsx)'
+      instructions: |
+        Storybook 스토리 리뷰 시:
+        - 주요 props 변형(variant/size/state)에 대한 스토리 커버
+        - map 렌더링 시 key는 index 지양, 유일한 값 사용
+        - 버튼이 포함되면 type 명시 여부 확인
+        - 스토리 제목/계층 구조가 컴포넌트 위치와 자연스럽게 매칭되는지
+
+    - path: 'src/app/**'
+      instructions: |
+        Next.js App Router 코드 리뷰 시:
+        - Server/Client 경계('use client') 최소화 및 이유 명확화
+        - window/document 접근은 클라이언트에서만(SSR 안전성 점검)
+        - 불필요한 전역 상태/리렌더 유발 로직 점검
+
+    - path: 'src/ui/**'
+      instructions: |
+        UI 컴포넌트 리뷰 시:
+        - 컴포넌트는 PascalCase(함수형 컴포넌트)
+        - props 타입은 컴포넌트명+Props로 선언하고 컴포넌트 상단에 위치
+        - props는 구조분해로 받기 (Component({ a, b }) 형태)
+        - 단일 export는 default export 사용, 2개 이상이면 named export
+        - common component(버튼/헤더 등)는 children 적극 활용
+        - button 태그에는 type을 반드시 명시 (type="button" 등)
+        - map 사용 시 key는 index 지양, 유일한 값 사용
+        - 문자열 조합은 템플릿 리터럴만 사용(`${a} ${b}`)
+        - 조건 분기는 기본적으로 삼항 연산자 사용(가능하면 early return로 분기 단순화)
+        - 스타일 관련 선언/구간은 컴포넌트 선언과 한 줄 띄어쓰기 유지
+
+    - path: 'src/hooks/**'
+      instructions: |
+        커스텀 훅 리뷰 시:
+        - use* 접두사 및 역할 명확화
+        - 의존성 배열(exhaustive-deps) 준수
+        - 브라우저 API(window/document)는 SSR 안전하게 처리
+
+    - path: 'src/**/utils/**'
+      instructions: |
+        유틸 함수 리뷰 시:
+        - 반환값 기준 네이밍(불리언이면 has*/is*/can* 등)
+        - 중복 로직은 utils로 모아 재사용
+        - 문자열 조합은 템플릿 리터럴만 사용
+
+    - path: 'src/**/*'
+      instructions: |
+        ✅ 팀 컨벤션
+
+        # 네이밍
+        - 상수: 영문 대문자 스네이크(API_KEY)
+        - 컴포넌트: PascalCase(MainHeader)
+        - 변수/함수: 의미가 명확해야 함(arr1 같은 이름 금지)
+        - 줄임말 지양(길어져도 명확하게 작성)
+
+        # 변수/구문
+        - var 금지, const 우선 / 불가피할 때만 let
+        - 기본적으로 화살표 함수 사용
+        - 조건 분기는 기본적으로 삼항 연산자 사용 + early return으로 단순화(암시적 반환 적극 활용)
+        - for 지양, forEach/map 사용
+        - switch-case 사용 시 break 강제 + case 사이 한 줄 띄움
+
+        # React/TSX
+        - props는 구조분해로 받기: Component({ a, b })
+        - map 렌더링 시 key는 index 지양, 유일한 값 사용
+        - button 태그에는 type 반드시 명시
+        - 주석은 대상 바로 위(또는 한 줄이면 끝에) / 아래에 쓰는 주석 금지
+
+        # Axios / Async
+        - axios then/catch 사용 시 then&catch 짝 맞추기
+        - async/await 사용 시 try/catch로 예외 처리
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - 'develop'
+      - 'main'
+    labels:
+      - '!wip'
+      - '!draft'
+      - '!skip-review'
+    ignore_usernames:
+      - 'dependabot'
+      - 'renovate'
+    ignore_title_keywords:
+      - '[docs]'
+      - '[skip-review]'
+
+  pre_merge_checks:
+    title:
+      mode: 'warning'
+      requirements: 'PR 제목은 [type/#issue] 제목 형식을 따르고 50자 이내로 작성해요.'
+    description:
+      mode: 'warning'
+    issue_assessment:
+      mode: 'off'
+
+  finishing_touches:
+    docstrings:
+      enabled: false
+    unit_tests:
+      enabled: false
+
+  tools:
+    eslint:
+      enabled: true
+    languagetool:
+      enabled: true
+      level: 'default'
+    markdownlint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    yamllint:
+      enabled: true
+    actionlint:
+      enabled: true
+
+chat:
+  art: false
+  auto_reply: true
+
+knowledge_base:
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - 'README.md'
