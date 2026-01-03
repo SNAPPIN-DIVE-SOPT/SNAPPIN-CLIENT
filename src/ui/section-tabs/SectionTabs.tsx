@@ -11,8 +11,7 @@ import {
 } from './contexts/sectionTabsContext';
 
 type SectionTabsProps = HTMLAttributes<HTMLDivElement> & {
-  value?: string;
-  defaultValue?: string;
+  value: string;
   onValueChange?: (value: string) => void;
 };
 
@@ -27,15 +26,13 @@ type SectionTabsListProps = HTMLAttributes<HTMLDivElement>;
 
 function SectionTabsRoot({
   value,
-  defaultValue,
   onValueChange,
   className,
   children,
   ...props
 }: SectionTabsProps) {
-  const [internalValue, setInternalValue] = React.useState<string | null>(defaultValue ?? null);
   const [indicatorStyle, setIndicatorStyle] = React.useState<SectionTabsIndicatorStyle | null>(null);
-  const selectedValue = value ?? internalValue;
+  const selectedValue = value;
 
   React.useEffect(() => {
     if (selectedValue === null) {
@@ -45,7 +42,6 @@ function SectionTabsRoot({
 
   const handleValueChange = React.useCallback(
     (nextValue: string) => {
-      setInternalValue(nextValue);
       onValueChange?.(nextValue);
     },
     [onValueChange],
@@ -178,4 +174,3 @@ SectionTabs.List = SectionTabsList;
 SectionTabs.Tab = SectionTabsTab;
 
 export default SectionTabs;
-export { SectionTabsList, SectionTabsTab };
