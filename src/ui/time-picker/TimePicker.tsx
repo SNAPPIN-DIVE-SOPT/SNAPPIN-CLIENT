@@ -13,7 +13,7 @@ export type TimeSlotSection = {
 
 type TimePickerProps = {
   sections: TimeSlotSection[];
-  value: string | null;
+  value: string;
   onChange?: (time: string) => void;
 };
 
