@@ -12,7 +12,7 @@ const meta: Meta<typeof TimeButton> = {
   argTypes: {
     state: {
       control: { type: 'select' },
-      options: ['default', 'clicked', 'disabled'],
+      options: ['default', 'selected', 'disabled'],
       description: '버튼 상태',
     },
     time: {
@@ -31,9 +31,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-export const Clicked: Story = {
+export const Selected: Story = {
   args: {
-    state: 'clicked',
+    state: 'selected',
   },
 };
 
