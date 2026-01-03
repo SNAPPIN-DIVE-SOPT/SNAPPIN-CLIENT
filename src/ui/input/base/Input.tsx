@@ -4,7 +4,7 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   hasError?: boolean;
 };
 
-export default function Input({ hasError, className, ...rest }: InputProps) {
+export default function Input({ hasError, className, ...props }: InputProps) {
   return (
     <input
       className={cn(
@@ -12,7 +12,7 @@ export default function Input({ hasError, className, ...rest }: InputProps) {
         hasError && 'border-red-500 focus:border-red-500 focus:ring-red-200',
         className,
       )}
-      {...rest}
+      {...props}
     />
   );
 }
