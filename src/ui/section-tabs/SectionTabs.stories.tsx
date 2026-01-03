@@ -6,6 +6,7 @@ import SectionTabs from './SectionTabs';
 const meta: Meta<typeof SectionTabs> = {
   title: 'UI/SectionTabs',
   component: SectionTabs,
+  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
