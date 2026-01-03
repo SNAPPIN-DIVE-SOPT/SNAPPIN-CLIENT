@@ -10,6 +10,8 @@ import {
   type SectionTabsIndicatorStyle,
 } from './contexts/sectionTabsContext';
 
+const PX_PER_REM = 10;
+
 type SectionTabsProps = HTMLAttributes<HTMLDivElement> & {
   value: string;
   onValueChange?: (value: string) => void;
@@ -23,6 +25,10 @@ type SectionTabsTabProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'childr
 };
 
 type SectionTabsListProps = HTMLAttributes<HTMLDivElement>;
+
+type SectionTabsPanelProps = HTMLAttributes<HTMLDivElement> & {
+  value: string;
+};
 
 function SectionTabsRoot({
   value,
@@ -91,6 +97,21 @@ function SectionTabsList({ className, children, ...props }: SectionTabsListProps
   );
 }
 
+function SectionTabsPanel({ value, className, children, ...props }: SectionTabsPanelProps) {
+  const { value: selectedValue } = useSectionTabsContext('SectionTabs.Panel');
+  const isSelected = value === selectedValue;
+
+  if (!isSelected) {
+    return null;
+  }
+
+  return (
+    <div className={cn('w-full', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
 function SectionTabsTab({
   value,
   className,
@@ -111,8 +132,8 @@ function SectionTabsTab({
     }
 
     setIndicatorStyle({
-      leftRem: element.offsetLeft / 10,
-      widthRem: element.offsetWidth / 10,
+      leftRem: element.offsetLeft / PX_PER_REM,
+      widthRem: element.offsetWidth / PX_PER_REM,
     });
   }, [setIndicatorStyle]);
 
@@ -167,10 +188,12 @@ function SectionTabsTab({
 type SectionTabsComponent = typeof SectionTabsRoot & {
   List: typeof SectionTabsList;
   Tab: typeof SectionTabsTab;
+  Panel: typeof SectionTabsPanel;
 };
 
 const SectionTabs = SectionTabsRoot as SectionTabsComponent;
 SectionTabs.List = SectionTabsList;
 SectionTabs.Tab = SectionTabsTab;
+SectionTabs.Panel = SectionTabsPanel;
 
 export default SectionTabs;
