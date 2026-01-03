@@ -2,29 +2,10 @@
 language: 'ko-KR'
 early_access: true
 
+# ✅ 250자 이내 — 톤/스타일만 유지
 tone_instructions: |
-  한국어(ko-KR)로 간결하고 건설적인 코드 리뷰를 제공해요.
-  리뷰 우선순위: 유지보수성(maintainability) > 성능(performance) > 보안(security).
-
-  ✅ 팀 컨벤션(전역, 최우선)
-  - 상수: 영문 대문자 스네이크(API_KEY)
-  - 컴포넌트: PascalCase(MainHeader)
-  - var 금지, const 우선 / 불가피할 때만 let
-  - 변수/함수명은 의미를 명확히(줄임말 지양, arr1 같은 이름 금지)
-  - map 렌더링 시 key는 index 지양, 유일한 값 사용
-  - 기본적으로 화살표 함수 사용
-  - early return(암시적 반환)으로 분기 단순화 권장
-  - 문자열 조합은 템플릿 리터럴만 사용(`${a} ${b}`)
-  - for 지양, forEach/map 사용
-  - switch-case는 break 강제 + case 사이 한 줄 띄움
-  - 조건 분기는 기본적으로 삼항 연산자 사용(단, 가독성/중첩 심하면 early return을 우선)
-  - 주석은 대상 바로 위(또는 한 줄이면 끝에) / 아래에 쓰는 주석 금지
-  - button 태그에는 type 반드시 명시
-  - axios then/catch 사용 시 then&catch 짝 맞추기, async/await 사용 시 try/catch 사용
-  - props는 구조분해로 받기: Component({ a, b })
-  - 컴포넌트 props 타입은 컴포넌트명+Props, 컴포넌트 상단에 선언
-  - 단일 export면 default export, 2개 이상이면 named export
-  - common component(버튼/헤더 등)는 children 적극 활용
+  한국어로 간결하고 건설적인 코드 리뷰를 제공합니다.
+  리뷰 우선순위는 유지보수성 > 성능 > 보안입니다.
 
 reviews:
   profile: 'assertive'
@@ -46,6 +27,9 @@ reviews:
   related_issues: false
   abort_on_close: true
 
+  # =====================
+  # Path Filters
+  # =====================
   path_filters:
     # 허용 경로
     - 'src/**'
@@ -60,6 +44,7 @@ reviews:
     - 'scripts/**'
     - 'public/**'
     - 'README.md'
+    - 'CONVENTIONS.md'
 
     # 제외 경로
     - '!node_modules/**'
@@ -86,74 +71,73 @@ reviews:
     - '!package-lock.json'
     - '!bun.lockb'
 
+  # =====================
+  # Path Instructions
+  # =====================
   path_instructions:
     - path: '.coderabbit.yaml'
       instructions: |
         CodeRabbit 설정 파일 리뷰 시:
-        - YAML 문법/스키마 호환성(지원 필드 여부)
-        - path_filters 포함/제외 패턴 충돌 여부
-        - path_instructions 중복/누락 여부
-        - 프로젝트 구조와 설정의 일치성 검토
+        - YAML 문법 및 스키마 호환성 확인
+        - path_filters / path_instructions 중복 여부 점검
+        - 프로젝트 구조와 설정 일관성 검토
 
     - path: '.storybook/**'
       instructions: |
         Storybook 설정 리뷰 시:
-        - stories glob 패턴이 실제 파일(.stories.tsx 등)과 일치하는지
-        - Next 환경 호환성(이미지/라우팅) 확인
-        - addon 과다/불필요 설정 제거(런타임 이슈 방지)
+        - stories glob 패턴이 실제 파일과 일치하는지
+        - Next.js 환경 호환성 확인
+        - 불필요한 addon 제거로 런타임 이슈 방지
 
     - path: 'src/**/*.stories.@(ts|tsx)'
       instructions: |
         Storybook 스토리 리뷰 시:
-        - 주요 props 변형(variant/size/state)에 대한 스토리 커버
-        - interaction test(play) 사용 시 사용자 플로우/접근성 중심 점검
+        - 주요 props 변형에 대한 스토리 커버
+        - interaction test 사용 시 사용자 플로우/접근성 중심 검토
 
     - path: 'src/app/**'
       instructions: |
-        Next.js App Router 코드 리뷰 시:
-        - Server/Client 경계('use client') 최소화 및 이유 명확화
-        - window/document 접근은 클라이언트에서만(SSR 안전성 점검)
-        - loading.tsx / error.tsx / not-found.tsx 활용 여부 검토
+        Next.js App Router 리뷰 시:
+        - Server / Client 컴포넌트 경계 최소화
+        - window/document 접근의 SSR 안전성 확인
+        - loading.tsx / error.tsx / not-found.tsx 활용 여부 점검
 
     - path: 'src/ui/**'
       instructions: |
         UI 컴포넌트 리뷰 시:
-        - 재사용성: 도메인 결합 최소화
-        - common 컴포넌트는 children/합성 패턴 적극 활용
-        - className 조합 시 cn 유틸 사용 일관성 유지
+        - 재사용성 중심 설계 여부
+        - common 컴포넌트에서 children 활용 여부
+        - className 조합 시 cn 유틸 사용 일관성
 
     - path: 'src/hooks/**'
       instructions: |
         커스텀 훅 리뷰 시:
-        - use* 접두사 및 역할 명확화
+        - use* 접두사 및 역할 명확성
         - 의존성 배열(exhaustive-deps) 준수
-        - 브라우저 API(window/document)는 SSR 안전하게 처리
+        - 브라우저 API 사용의 SSR 안전성 확인
 
     - path: 'src/**/utils/**'
       instructions: |
         유틸 함수 리뷰 시:
-        - 반환값 기준 네이밍(boolean이면 has*/is*/can*)
-        - 중복 로직은 utils로 모아 재사용
+        - 반환값 기준 네이밍(has*/is*/can*)
+        - 중복 로직의 공통화 여부
 
     - path: 'src/lib/**'
       instructions: |
         lib 레이어 리뷰 시:
-        - 공통 로직/헬퍼는 재사용 가능 형태로 분리되어 있는지
-        - Next 환경에서 서버/클라이언트 의존성 혼입 없는지
+        - 재사용 가능한 공통 로직 분리 여부
+        - 서버/클라이언트 의존성 혼입 여부
 
     - path: 'src/types/**'
       instructions: |
         타입 정의 리뷰 시:
-        - 타입/인터페이스는 PascalCase
-        - any 사용 최소화
-        - export type 우선, 필요 시에만 interface 사용
+        - PascalCase 사용 여부
+        - any 최소화
+        - export type 우선 사용
 
-    - path: 'src/**/*.@(ts|tsx)'
-      instructions: |
-        TS/TSX 전반 추가 점검:
-        - type-only import(import type) 사용
-        - 불필요한 중첩 삼항/복잡한 JSX는 early return 또는 헬퍼 분리로 가독성 개선 제안
-
+  # =====================
+  # Auto Review
+  # =====================
   auto_review:
     enabled: true
     drafts: false
@@ -171,39 +155,50 @@ reviews:
       - '[docs]'
       - '[skip-review]'
 
+  # =====================
+  # Pre-merge Checks
+  # =====================
   pre_merge_checks:
-  title:
-    mode: 'warning'
-    requirements: |
-      PR 제목은 아래 형식을 따르고 50자 이내로 작성해요.
+    title:
+      mode: 'warning'
+      requirements: |
+        PR 제목은 아래 형식을 따르고 50자 이내로 작성해요.
 
-      형식:
-      [이모지] [Type] : [이슈번호] 제목
+        형식:
+        [이모지] [Type] : [이슈번호] 제목
 
-      허용 이모지 / Type:
-      🐾 Init
-      🔨 Fix
-      🎨 Style
-      🎀 Feat
-      🔧 Refactor
+        허용 이모지 / Type:
+        🐾 Init
+        🔨 Fix
+        🎨 Style
+        🎀 Feat
+        🔧 Refactor
 
-      예시:
-      🎀 Feat : #123 로그인 버튼 추가
-  description:
-    mode: 'warning'
-    requirements: |
-      PR 본문은 반드시 아래 형식으로 시작해요.
+        예시:
+        🎀 Feat : #123 로그인 버튼 추가
 
-      🎀 Feat : #
-  issue_assessment:
-    mode: 'off'
+    description:
+      mode: 'warning'
+      requirements: |
+        PR 본문은 반드시 아래 형식으로 시작해요.
 
+        🎀 Feat : #
+
+    issue_assessment:
+      mode: 'off'
+
+  # =====================
+  # Finishing Touches
+  # =====================
   finishing_touches:
     docstrings:
       enabled: false
     unit_tests:
       enabled: false
 
+  # =====================
+  # Tools
+  # =====================
   tools:
     eslint:
       enabled: true
@@ -223,6 +218,9 @@ chat:
   art: false
   auto_reply: true
 
+# =====================
+# Knowledge Base
+# =====================
 knowledge_base:
   web_search:
     enabled: true
@@ -230,3 +228,4 @@ knowledge_base:
     enabled: true
     filePatterns:
       - 'README.md'
+      - 'CONVENTIONS.md'
