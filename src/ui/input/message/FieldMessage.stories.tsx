@@ -31,3 +31,17 @@ export const ErrorMessage: StoryInputField = {
     variant: 'error',
   },
 };
+
+export const SuccessMessage: StoryInputField = {
+  args: {
+    message: '성공 메시지입니다.',
+    variant: 'success',
+  },
+};
+
+export const HelpMessage: StoryInputField = {
+  args: {
+    message: '도움말 메시지입니다.',
+    variant: 'help',
+  },
+};

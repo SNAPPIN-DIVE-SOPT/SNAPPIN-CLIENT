@@ -1,9 +1,10 @@
 import { cn } from '@/utils/cn';
+import Image from 'next/image';
 
 type FieldMessageProps = {
   id: string;
   message?: string;
-  variant?: 'help' | 'error';
+  variant?: 'help' | 'error' | 'success';
 };
 
 export default function FieldMessage({ id, message, variant = 'help' }: FieldMessageProps) {
@@ -11,14 +12,26 @@ export default function FieldMessage({ id, message, variant = 'help' }: FieldMes
 
   const messageTheme = {
     help: 'text-black-7',
-    error: 'text-red-500',
+    error: 'text-red-error',
+    success: 'text-green-success',
   } as const;
 
   const role = variant === 'error' ? 'alert' : undefined;
 
+  const iconMap = {
+    help: null,
+    error: '/src/assets/svg-fill/icon-error.svg',
+    success: '/src/assets/svg-fill/icon-success.svg',
+  };
+
   return (
-    <p className={cn('caption-12-md mt-2', messageTheme[variant])} id={id} role={role}>
-      {message}
-    </p>
+    <div className='flex min-h-[2.4rem] items-center'>
+      {variant !== 'help' && (
+        <Image width={24} height={24} src={iconMap[variant]} alt={`${variant} icon`} />
+      )}
+      <p className={cn('caption-10-md', messageTheme[variant])} id={id} role={role}>
+        {message}
+      </p>
+    </div>
   );
 }
