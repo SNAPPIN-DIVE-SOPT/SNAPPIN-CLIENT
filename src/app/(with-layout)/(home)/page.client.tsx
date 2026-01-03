@@ -2,6 +2,7 @@
 
 import { useNavVisibility } from '@/hooks/useNavVisibility';
 import Header from './components/header/Header';
+import { IconSuccess, IconError } from '@/assets';
 
 export default function PageClient() {
   const { isVisible, handleShowHeader } = useNavVisibility();
@@ -13,7 +14,9 @@ export default function PageClient() {
       <button onClick={handleShowHeader} className='font-16-bd p-1 text-red-500'>
         SHOW HEADER
       </button>
-      <div className='h-[1000px]' />
+      <IconSuccess />
+      <IconError />
+      <div className='h-[1000px] bg-red-500' />
     </div>
   );
 }
