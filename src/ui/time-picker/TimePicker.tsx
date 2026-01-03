@@ -11,7 +11,7 @@ export type TimeSlotSection = {
   slots: TimeSlot[];
 };
 
-type TimeButtonState = 'default' | 'clicked' | 'disabled';
+type TimeButtonState = 'default' | 'selected' | 'disabled';
 
 type TimePickerProps = {
   sections: TimeSlotSection[];
@@ -29,7 +29,7 @@ export const TimePicker = ({ sections, value, onChange }: TimePickerProps) => {
   };
 
   const getState = (time: string, disabled: boolean): TimeButtonState =>
-    disabled ? 'disabled' : selectedTime === time ? 'clicked' : 'default';
+    disabled ? 'disabled' : selectedTime === time ? 'selected' : 'default';
 
   return (
     <div className='bg-black-1 p-5'>
