@@ -20,10 +20,10 @@ export default function TextField({
   onChange,
   placeholder,
   value,
-  ...rest
+  ...props
 }: InputFieldProps) {
   return (
-    <div className={'flex w-full flex-col'}>
+    <div className='flex w-full flex-col'>
       {label && (
         <label htmlFor={id} className='caption-14-md mb-[1rem] inline-block'>
           {label}
@@ -41,7 +41,7 @@ export default function TextField({
         required={required}
         onChange={onChange}
         placeholder={placeholder}
-        {...rest}
+        {...props}
       />
 
       <FieldMessage id={id} message={helpText} variant={hasError ? 'error' : 'help'} />
