@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { TimeButton } from './TimeButton';
 import type { TimeButtonState } from './constants/buttonState';
 
@@ -14,21 +13,17 @@ export type TimeSlotSection = {
 
 type TimePickerProps = {
   sections: TimeSlotSection[];
-  value?: string | null;
+  value: string | null;
   onChange?: (time: string) => void;
 };
 
 export const TimePicker = ({ sections, value, onChange }: TimePickerProps) => {
-  const [internalTime, setInternalTime] = useState<string | null>(null);
-  const selectedTime = value ?? internalTime;
-
   const handleSelect = (time: string) => {
-    setInternalTime(time);
     onChange?.(time);
   };
 
   const getState = (time: string, disabled: boolean): TimeButtonState =>
-    disabled ? 'disabled' : selectedTime === time ? 'selected' : 'default';
+    disabled ? 'disabled' : value === time ? 'selected' : 'default';
 
   return (
     <div className='bg-black-1 p-5'>
