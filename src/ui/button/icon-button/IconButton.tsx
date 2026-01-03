@@ -9,6 +9,7 @@ export default function IconButton({ children, className, disabled, ...props }: 
       type='button'
       className={cn('cursor-pointer', disabled && 'cursor-not-allowed', className)}
       aria-disabled={disabled}
+      disabled={disabled}
       {...props}
     >
       {children}
