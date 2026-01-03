@@ -1,10 +1,10 @@
 import { cn } from '@/utils/cn';
-import type { TimeButtonState } from './constants/buttonState';
+import type { TimeButtonClickHandler, TimeButtonState } from './constants/buttonState';
 
 type TimeButtonProps = {
   time: string;
   state?: TimeButtonState;
-  onClick?: (time: string) => void;
+  handleClick?: TimeButtonClickHandler;
 };
 
 const TIME_BUTTON_THEME = {
@@ -13,19 +13,16 @@ const TIME_BUTTON_THEME = {
   disabled: 'text-black-6 cursor-not-allowed border-black-4 bg-black-1',
 } as const;
 
-export const TimeButton = ({ time, state = 'default', onClick }: TimeButtonProps) => {
-  const isDisabled = state === 'disabled';
-  const handleOnClick = () => onClick?.(time);
+export const TimeButton = ({ time, state = 'default', handleClick }: TimeButtonProps) => {
+  const handleButtonClick = () => handleClick?.(time);
 
   return (
     <button
       type='button'
-      disabled={isDisabled}
-      onClick={handleOnClick}
+      disabled={state === 'disabled'}
+      onClick={handleButtonClick}
       className={cn(
-        'caption-14-md',
-        'flex h-[3.3rem] w-full items-center justify-center px-[1.8rem] py-[0.8rem] transition-colors',
-        'rounded border',
+        'caption-14-md flex h-[3.3rem] w-full items-center justify-center rounded border px-[1.8rem] py-[0.8rem] transition-colors',
         TIME_BUTTON_THEME[state],
       )}
     >
