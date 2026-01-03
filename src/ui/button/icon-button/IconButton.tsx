@@ -1,10 +1,9 @@
-import { IconClose } from '@/assets';
 import { cn } from '@/utils/cn';
 import { ButtonHTMLAttributes } from 'react';
 
-type ButtonCancelProps = ButtonHTMLAttributes<HTMLButtonElement>;
+type IconButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default function ButtonCancel({ className, ...props }: ButtonCancelProps) {
+export default function IconButton({ children, className, ...props }: IconButtonProps) {
   return (
     <button
       className={cn(
@@ -13,7 +12,7 @@ export default function ButtonCancel({ className, ...props }: ButtonCancelProps)
       )}
       {...props}
     >
-      <IconClose />
+      {children}
     </button>
   );
 }

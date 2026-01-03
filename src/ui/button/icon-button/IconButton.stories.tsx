@@ -1,9 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react';
-import ButtonCancel from './ButtonCancel';
+import IconButton from './IconButton';
+import { IconClose } from '@/assets';
 
-const meta: Meta<typeof ButtonCancel> = {
-  title: 'Button/ButtonCancel',
-  component: ButtonCancel,
+const meta: Meta<typeof IconButton> = {
+  title: 'Button/IconButton',
+  component: IconButton,
   tags: ['autodocs'],
   args: {
     disabled: false,
@@ -19,6 +20,10 @@ const meta: Meta<typeof ButtonCancel> = {
 
 export default meta;
 
-type StoryButtonCancel = StoryObj<typeof ButtonCancel>;
+type StoryIconButton = StoryObj<typeof IconButton>;
 
-export const Default: StoryButtonCancel = {};
+export const Default: StoryIconButton = {
+  args: {
+    children: <IconClose />,
+  },
+};
