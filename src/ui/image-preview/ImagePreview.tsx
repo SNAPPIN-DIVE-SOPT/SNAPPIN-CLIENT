@@ -22,8 +22,6 @@ export default function ImagePreview({
   imageWidthRem = 14,
   imageHeightRem = 14,
 }: ImagePreviewProps) {
-  const shouldShowRemoveButton = Boolean(imageSrc && showRemoveButton && handleRemove);
-  const handleRemoveClick = handleRemove ?? (() => {});
   const imagePreviewStyle = {
     width: `${imageWidthRem}rem`,
     height: `${imageHeightRem}rem`,
@@ -42,9 +40,9 @@ export default function ImagePreview({
       ) : (
         <div className='bg-black-3 h-full w-full' />
       )}
-      {shouldShowRemoveButton ? (
+      {imageSrc && showRemoveButton && handleRemove ? (
         <IconButton
-          onClick={handleRemoveClick}
+          onClick={handleRemove}
           className='bg-black-1 absolute top-[0.7rem] right-[0.7rem] flex h-[3.2rem] w-[3.2rem] items-center justify-center rounded-full'
         >
           <IconClose className='text-black-10 h-[2.4rem] w-[2.4rem]' />
