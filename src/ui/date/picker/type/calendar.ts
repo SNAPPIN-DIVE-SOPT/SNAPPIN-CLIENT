@@ -6,7 +6,6 @@ export type CalendarCell =
       day: number;
       iso: string;
       isDisabled: boolean;
-      isSelected: boolean;
     };
 
 export type DayAvailability = {
