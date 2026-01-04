@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { IconButton } from '@/ui';
 import { cn } from '@/utils/cn';
 import { IconClose } from '@/assets';
@@ -22,10 +23,12 @@ export default function ImagePreview({
   return (
     <div className={cn('relative h-[14rem] w-[14rem] overflow-hidden', className)}>
       {imageSrc ? (
-        <img
+        <Image
           src={imageSrc}
           alt={imageAlt ?? '이미지 미리보기'}
-          className='h-full w-full object-cover'
+          fill
+          sizes='14rem'
+          className='object-cover'
         />
       ) : (
         <div className='bg-black-3 h-full w-full' />
