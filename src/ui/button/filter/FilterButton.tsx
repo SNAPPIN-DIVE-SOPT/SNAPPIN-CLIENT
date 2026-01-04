@@ -34,13 +34,13 @@ export default function FilterButton({
       aria-label={`${label} 필터`}
       aria-pressed={isSelected}
       className={cn(
-        'inline-flex justify-center items-center py-[0.6rem] bg-black-10 rounded-[0.4rem] transition-[color_background-color] duration-500 ease-in-out',
+        'inline-flex justify-center items-center py-[0.6rem] bg-black-10 rounded-[0.4rem] transition-[background-color] duration-500 ease-in-out',
         buttonClassName
       )}
       onClick={!removable ? onClick : undefined}
       {...props}
     >
-      <span className={cn('caption-12-md', labelClassName)}>
+      <span className={cn('caption-12-md transition-[color] duration-500 ease-in-out', labelClassName)}>
         {TAG_LABEL[label]}
       </span>
       { removable && (
