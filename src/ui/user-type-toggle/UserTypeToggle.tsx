@@ -14,7 +14,7 @@ export default function UserTypeToggle({
   onClick,
   ...props
 }: UserTypeToggleProps) {
-  const { trackClassName, thumbClassName, labelClassName, label } = TOGGLE_THEME_BY_TYPE[selectedType];
+  const { trackClassName, thumbClassName, labelClassName } = TOGGLE_THEME_BY_TYPE[selectedType];
 
   return (
     <button
@@ -31,8 +31,23 @@ export default function UserTypeToggle({
           'flex shrink-0 justify-center items-center w-[4.4rem] h-[2.5rem] px-[1.3rem] py-[0.8rem] rounded-[1.9rem] transition-[transform_background-color] duration-500 ease-in-out',
           thumbClassName
         )}>
-          <span className={cn('caption-12-md transition-[color] duration-500 ease-in-out', labelClassName)}>
-            {label}
+          <span
+            className={cn(
+              'caption-12-md absolute transition-opacity duration-300 ease-in-out',
+              selectedType === 'client' ? 'opacity-100' : 'opacity-0',
+              labelClassName
+            )}
+          >
+            고객
+          </span>
+          <span
+            className={cn(
+              'caption-12-md absolute transition-opacity duration-300 ease-in-out',
+              selectedType === 'author' ? 'opacity-100' : 'opacity-0',
+              labelClassName
+            )}
+          >
+            작가
           </span>
         </div>
       </div>
