@@ -5,7 +5,6 @@ import DateCell from '../DateCell';
 import { CalendarCell, DatePickerVariant, DayAvailability } from '@/ui/date/picker/type/calendar';
 import {
   buildPrefixCells,
-  buildSuffixCells,
   compareISO,
   daysInMonth,
   padNumber,
@@ -111,8 +110,6 @@ export default function DatePicker({
 
     // CellGrid 앞 빈칸 채우기
     const prefixCells: CalendarCell[] = buildPrefixCells(year, monthIndex, startDay);
-    // CellGrid 뒤 빈칸 채우기(7의 배수 맞추기)
-    const suffixCells: CalendarCell[] = buildSuffixCells(year, monthIndex, startDay, totalDays);
 
     // 날짜
     const dayCells: CalendarCell[] = Array.from({ length: totalDays }, (_, i) => {
@@ -132,7 +129,7 @@ export default function DatePicker({
     });
 
     // 전체 셀 배열 반환 = 앞빈칸 + 날짜칸 + 뒷빈칸
-    return [...prefixCells, ...dayCells, ...suffixCells];
+    return [...prefixCells, ...dayCells];
   }, [
     viewMonth,
     variant,
