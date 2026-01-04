@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { FieldMessage } from '@/ui';
 
 const meta: Meta<typeof FieldMessage> = {

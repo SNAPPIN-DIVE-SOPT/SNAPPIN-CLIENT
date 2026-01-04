@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import ProductCard from './ProductCard';
 import type { TagCode } from '../chip/tag-chip/types/tagCode';
 
@@ -10,8 +10,8 @@ const meta: Meta<typeof ProductCard> = {
     docs: {
       description: {
         component: '프로덕트 카드 컴포넌트입니다.',
-      }
-    }
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -89,8 +89,8 @@ export const LongProductName: Story = {
     author: '김작가',
     price: 80000,
     tags: ['WARM', 'ANALOG', 'DIRECTED'],
-  }
-}
+  },
+};
 
 export const LongAuthorName: Story = {
   args: {
@@ -104,5 +104,5 @@ export const LongAuthorName: Story = {
     author: '작가 이름이 매우 긴 경우에는 이렇게 나와요',
     price: 80000,
     tags: ['WARM', 'ANALOG', 'DIRECTED'],
-  }
-}
+  },
+};

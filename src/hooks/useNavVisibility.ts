@@ -20,9 +20,5 @@ export function useNavVisibility() {
     return () => el.removeEventListener('scroll', onScroll);
   }, [compute]);
 
-  const handleShowHeader = () => {
-    setIsVisible(true);
-  };
-
-  return { isVisible, handleShowHeader };
+  return { isVisible };
 }

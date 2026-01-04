@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import TagChip from './TagChip';
 
 const meta: Meta<typeof TagChip> = {

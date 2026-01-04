@@ -1,10 +1,13 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/nextjs-vite';
 import Footer from '@/ui/footer/Footer';
 
 const meta: Meta<typeof Footer> = {
   title: 'Footer',
   component: Footer,
   tags: ['autodocs'],
+  args: {
+    userRole: 'user',
+  },
   parameters: {
     docs: {
       description: {
@@ -20,7 +23,7 @@ const meta: Meta<typeof Footer> = {
   },
   decorators: [
     (Story) => (
-      <div className='relative h-screen w-full max-w-[45rem]'>
+      <div className='relative h-screen w-full max-w-180'>
         <Story />
       </div>
     ),
@@ -32,6 +35,9 @@ export default meta;
 type StoryFooter = StoryObj<typeof Footer>;
 
 export const Default: StoryFooter = {
+  args: {
+    userRole: 'user',
+  },
   parameters: {
     nextjs: {
       navigation: {
@@ -41,31 +47,14 @@ export const Default: StoryFooter = {
   },
 };
 
-export const ActiveExplore: StoryFooter = {
-  parameters: {
-    nextjs: {
-      navigation: {
-        pathname: '/explore',
-      },
-    },
+export const AuthorDefault: StoryFooter = {
+  args: {
+    userRole: 'author',
   },
-};
-
-export const ActiveReservations: StoryFooter = {
   parameters: {
     nextjs: {
       navigation: {
-        pathname: '/reservations',
-      },
-    },
-  },
-};
-
-export const ActiveProfile: StoryFooter = {
-  parameters: {
-    nextjs: {
-      navigation: {
-        pathname: '/profile',
+        pathname: '/',
       },
     },
   },

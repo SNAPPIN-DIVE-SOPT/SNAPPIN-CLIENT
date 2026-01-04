@@ -1,9 +1,7 @@
 'use client';
 
 import { Navigation } from '@/ui';
-import Image from 'next/image';
-import logo from '@/../public/imgs/logo.png';
-import { IconSearch } from '@/assets';
+import { IconSearch, Logo } from '@/assets';
 import { cn } from '@/utils/cn';
 
 interface HeaderProps {
@@ -17,7 +15,7 @@ export default function Header({ isVisible }: HeaderProps) {
 
   return (
     <Navigation
-      left={<Image src={logo} alt='logo' className='h-full w-auto' />}
+      left={<Logo width={72} />}
       right={<IconSearch onClick={handleClickSearch} />}
       className={cn(
         'transition-all duration-300 ease-out',
