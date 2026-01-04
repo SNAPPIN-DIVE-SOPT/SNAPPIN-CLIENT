@@ -34,7 +34,7 @@ export default function FilterButton({
       aria-label={`${label} 필터`}
       aria-pressed={isSelected}
       className={cn(
-        'inline-flex justify-center items-center py-[0.6rem] bg-black-10 rounded-[0.4rem]',
+        'inline-flex justify-center items-center py-[0.6rem] bg-black-10 rounded-[0.4rem] transition-[color_background-color] duration-500 ease-in-out',
         buttonClassName
       )}
       onClick={!removable ? onClick : undefined}
