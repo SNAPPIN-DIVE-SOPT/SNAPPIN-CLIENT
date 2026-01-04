@@ -9,7 +9,7 @@ const meta: Meta<typeof DatePicker> = {
   component: DatePicker,
   tags: ['autodocs'],
   argTypes: {
-    handleDateChange: { action: 'change' },
+    handleDateChangeAction: { action: 'change' },
   },
 };
 
@@ -27,10 +27,10 @@ function ControlledTemplate(args: React.ComponentProps<typeof DatePicker>) {
         {...args}
         selectedDate={value}
         viewDateMonth={viewMonth}
-        handleMonthChange={setViewMonth}
-        handleDateChange={(next) => {
+        handleMonthChangeAction={setViewMonth}
+        handleDateChangeAction={(next) => {
           setValue(next);
-          args.handleDateChange?.(next); // action도 같이 찍히게
+          args.handleDateChangeAction?.(next); // action도 같이 찍히게
         }}
       />
       <div className='text-black-7 caption-12-md mt-[1.2rem]'>selected: {value}</div>

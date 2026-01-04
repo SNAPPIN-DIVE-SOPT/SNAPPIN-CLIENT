@@ -1,3 +1,5 @@
+'use client';
+
 import { IconButton } from '@/ui';
 import { IconKeyboardArrowLeft, IconKeyboardArrowRight } from '@/assets';
 import { useMemo, useState } from 'react';
@@ -25,10 +27,10 @@ type DatePickerProps = {
   viewDateMonth?: Date;
   // 제어형이 아닐 때 월 초기값
   defaultViewDateMonth?: Date;
-  handleMonthChange?: (nextMonth: Date) => void;
+  handleMonthChangeAction?: (nextMonth: Date) => void;
   // YYYY-MM-DD
   selectedDate?: string;
-  handleDateChange?: (nextDate: string) => void;
+  handleDateChangeAction?: (nextDate: string) => void;
 
   minDate?: string;
   maxDate?: string;
@@ -65,8 +67,8 @@ export default function DatePicker({
   viewDateMonth: controlledViewMonth,
   defaultViewDateMonth,
   selectedDate,
-  handleDateChange,
-  handleMonthChange,
+  handleDateChangeAction,
+  handleMonthChangeAction,
   maxDate,
   minDate,
   disablePastDates = true,
@@ -84,7 +86,7 @@ export default function DatePicker({
 
   const setMonth = (next: Date) => {
     if (!controlledViewMonth) setUncontrolledMonth(next);
-    handleMonthChange?.(next);
+    handleMonthChangeAction?.(next);
   };
 
   const handlePrevMonth = () =>
@@ -179,7 +181,7 @@ export default function DatePicker({
               value={String(cell.day)}
               isDisabled={cell.isDisabled}
               isSelected={selectedDate === cell.iso}
-              handleSelect={() => handleDateChange?.(cell.iso)}
+              handleSelect={() => handleDateChangeAction?.(cell.iso)}
             />
           ) : (
             <div key={cell.key} className='min-w-[3.2rem] py-[0.8rem]' />
