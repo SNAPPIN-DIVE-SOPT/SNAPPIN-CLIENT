@@ -102,12 +102,9 @@ async function generateIndexFile(icons: GeneratedIcon[]) {
   const iconType = `export type IconProps = SVGProps<SVGSVGElement>;`;
 
   const exportLines = icons
-    .map((componentName) => componentName)
-    .sort()
-    .map(
-      (componentName) =>
-        `export { default as ${componentName} } from './components/${componentName}';`,
-    )
+    .map((icon) => icon.componentName)
+    .sort((a, b) => a.localeCompare(b))
+    .map((name) => `export { default as ${name} } from './components/${name}';`)
     .join('\n');
 
   const content = `${HEADER_COMMENT}\n${imports}\n\n${iconType}\n\n${exportLines}\n`;
