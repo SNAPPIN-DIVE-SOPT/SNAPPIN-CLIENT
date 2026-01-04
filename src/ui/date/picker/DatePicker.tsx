@@ -1,7 +1,7 @@
 import { IconButton } from '@/ui';
 import { IconKeyboardArrowLeft, IconKeyboardArrowRight } from '@/assets';
 import { useMemo, useState } from 'react';
-import DateCell from '../DateCell';
+import DateCell from '../cell/DateCell';
 import { CalendarCell, DatePickerVariant, DayAvailability } from '@/ui/date/picker/type/calendar';
 import {
   buildPrefixCells,
@@ -18,18 +18,22 @@ const MAX_RESERVATION_MONTHS = 6;
 type DatePickerProps = {
   variant: DatePickerVariant;
 
-  today?: Date; // 오늘 날짜 (기본값: new Date())
+  // 오늘 날짜 (기본값: new Date())
+  today?: Date;
 
-  viewDateMonth?: Date; // 제어형 월 초기값
-  defaultViewDateMonth?: Date; // 제어형이 아닐 때 월 초기값
+  // 제어형 월 초기값
+  viewDateMonth?: Date;
+  // 제어형이 아닐 때 월 초기값
+  defaultViewDateMonth?: Date;
   handleMonthChange?: (nextMonth: Date) => void;
-
-  selectedDate?: string; // YYYY-MM-DD
+  // YYYY-MM-DD
+  selectedDate?: string;
   handleDateChange?: (nextDate: string) => void;
 
   minDate?: string;
   maxDate?: string;
-  monthAvailability?: DayAvailability[]; // 월별 날짜 활성화/비활성화 정보 (API 등에서 받아올 배열)
+  // 월별 날짜 활성화/비활성화 정보 (API 등에서 받아올 배열)
+  monthAvailability?: DayAvailability[];
 
   // 공통 옵션
   disablePastDates?: boolean;
