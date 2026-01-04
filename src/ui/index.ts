@@ -8,3 +8,5 @@ export * from './user-type-toggle/index';
 export * from './input/index';
 export * from './navigation/index';
 export * from './product-card/index';
+export * from './section-tabs/index';
+export * from './time-picker/index';
