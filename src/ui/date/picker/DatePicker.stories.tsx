@@ -41,7 +41,7 @@ function ControlledTemplate(args: React.ComponentProps<typeof DatePicker>) {
 type Story = StoryObj<typeof DatePicker>;
 
 export const Default: Story = {
-  render: (args) => <ControlledTemplate monthAvailability={JANUARY_AVAILABILITY_MOCK} {...args} />,
+  render: (args) => <ControlledTemplate {...args} monthAvailability={JANUARY_AVAILABILITY_MOCK} />,
 };
 
 export const DisablePastDates: Story = {

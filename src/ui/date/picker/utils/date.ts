@@ -36,6 +36,9 @@ export const toISO = (date: Date) => {
  */
 export const fromISO = (iso: string) => {
   const [y, m, d] = iso.split('-').map(Number);
+  if ([y, m, d].some((v) => isNaN(v))) {
+    throw new Error(`유효하지 않은 ISO 형식입니다. ex.올바른 형식 (YYYY-MM-DD): ${iso}`);
+  }
   return new Date(y, m - 1, d);
 };
 

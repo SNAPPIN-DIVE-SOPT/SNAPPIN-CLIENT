@@ -103,10 +103,10 @@ export default function DatePicker({
   const reservationBlockFromISO = useMemo(() => {
     if (variant !== 'reservation') return null;
 
-    const now = new Date();
+    const now = today ?? new Date();
     const blockFrom = new Date(now.getFullYear(), now.getMonth() + MAX_RESERVATION_MONTHS, 1);
     return toISO(blockFrom); // YYYY-MM-01
-  }, [variant]);
+  }, [today, variant]);
 
   const cells: CalendarCell[] = useMemo(() => {
     const year = viewMonth.getFullYear();
