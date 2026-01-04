@@ -1,10 +1,17 @@
 import { IconButton } from '@/ui';
 import { IconKeyboardArrowLeft, IconKeyboardArrowRight } from '@/assets';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import DateCell from '../DateCell';
 import { CalendarCell, DatePickerVariant, DayAvailability } from '@/ui/date/picker/type/calendar';
-import { compareISO, daysInMonth, pad2, toISO } from '@/ui/date/picker/utils/date';
-import { useHandleDate } from '@/ui/date/picker/hooks/useHandleDate';
+import {
+  buildPrefixCells,
+  buildSuffixCells,
+  compareISO,
+  daysInMonth,
+  padNumber,
+  startOfMonth,
+  toISO,
+} from '@/ui/date/picker/utils/date';
 import { WEEKDAY_LABELS } from '@/ui/date/picker/constants/date';
 
 const MAX_RESERVATION_MONTHS = 6;
@@ -12,37 +19,80 @@ const MAX_RESERVATION_MONTHS = 6;
 type DatePickerProps = {
   variant: DatePickerVariant;
 
-  selectedDate?: string; // YYYY-MM-DD
-  handleChange?: (nextDate: string) => void;
+  today?: Date; // 오늘 날짜 (기본값: new Date())
 
-  // reservation에서만 의미 있음 (birthday에서는 무시)
+  viewDateMonth?: Date; // 제어형 월 초기값
+  defaultViewDateMonth?: Date; // 제어형이 아닐 때 월 초기값
+  handleMonthChange?: (nextMonth: Date) => void;
+
+  selectedDate?: string; // YYYY-MM-DD
+  handleDateChange?: (nextDate: string) => void;
+
   minDate?: string;
   maxDate?: string;
-  monthAvailability?: DayAvailability[];
+  monthAvailability?: DayAvailability[]; // 월별 날짜 활성화/비활성화 정보 (API 등에서 받아올 배열)
 
   // 공통 옵션
   disablePastDates?: boolean;
 };
 
+/**
+ * 날짜 선택 컴포넌트
+ * - reservation: 예약일 선택용 (기본값)
+ * - birthday: 생일 선택용
+ * - 제어형/비제어형 모두 지원
+ * - 월별 날짜 활성화/비활성화 지원
+ * - 예약 모드에서 최대 예약 가능 월 제한 지원
+ * @param props DatePickerProps
+ * @example
+ * <DatePicker
+ *   variant="reservation"
+ *   selectedDate="2024-01-15"
+ *   handleDateChange={(next) => console.log(next)}
+ *   defaultViewMonth={new Date(2024, 0, 1)} // 2024년 1월
+ *   minDate="2024-01-10"
+ *   maxDate="2024-01-20"
+ *   monthAvailability={[{ date: '2024-01-12', isDisabled: true }]}
+ * />
+ * @returns DatePicker 컴포넌트
+ */
 export default function DatePicker({
   variant = 'reservation',
+  today,
+  viewDateMonth: controlledViewMonth,
+  defaultViewDateMonth,
   selectedDate,
-  handleChange,
+  handleDateChange,
+  handleMonthChange,
   maxDate,
   minDate,
   disablePastDates = true,
   monthAvailability,
 }: DatePickerProps) {
-  const { viewMonth, handlePrevMonth, handleNextMonth } = useHandleDate(selectedDate);
-  const todayISO = toISO(new Date());
-  const headerText = `${viewMonth.getFullYear()}.${pad2(viewMonth.getMonth() + 1)}`;
+  // 월 상태 관리 (제어형/비제어형)
+  const [uncontrolledMonth, setUncontrolledMonth] = useState(() =>
+    startOfMonth(defaultViewDateMonth ?? new Date()),
+  );
+  // 헤더에 실제로 보여질 월
+  const viewMonth = controlledViewMonth ?? uncontrolledMonth;
+  // 오늘 날짜 ISO (YYYY-MM-DD, 비교용)
+  const todayISO = toISO(today ?? new Date());
+  const headerText = `${viewMonth.getFullYear()}.${padNumber(viewMonth.getMonth() + 1)}`;
+
+  const setMonth = (next: Date) => {
+    if (!controlledViewMonth) setUncontrolledMonth(next);
+    handleMonthChange?.(next);
+  };
+
+  const handlePrevMonth = () =>
+    setMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1));
+
+  const handleNextMonth = () =>
+    setMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1));
 
   const availabilityMap = useMemo(() => {
     if (!monthAvailability) return undefined;
-    return Object.fromEntries(monthAvailability.map((d) => [d.date, d.isDisabled])) as Record<
-      string,
-      boolean
-    >;
+    return Object.fromEntries(monthAvailability.map((d) => [d.date, d.isDisabled]));
   }, [monthAvailability]);
 
   const reservationBlockFromISO = useMemo(() => {
@@ -54,23 +104,21 @@ export default function DatePicker({
   }, [variant]);
 
   const cells: CalendarCell[] = useMemo(() => {
-    const y = viewMonth.getFullYear();
-    const mIndex = viewMonth.getMonth();
+    const year = viewMonth.getFullYear();
+    const monthIndex = viewMonth.getMonth();
     const totalDays = daysInMonth(viewMonth);
-    const startDay = new Date(y, mIndex, 1).getDay(); // 0~6 (일~토)
+    const startDay = new Date(year, monthIndex, 1).getDay(); // 0~6 (일~토)
 
-    const list: CalendarCell[] = [];
-
-    // 앞 빈칸
-    for (let i = 0; i < startDay; i++) {
-      list.push({ kind: 'empty', key: `e-pre-${y}-${mIndex}-${i}` });
-    }
+    // CellGrid 앞 빈칸 채우기
+    const prefixCells: CalendarCell[] = buildPrefixCells(year, monthIndex, startDay);
+    // CellGrid 뒤 빈칸 채우기(7의 배수 맞추기)
+    const suffixCells: CalendarCell[] = buildSuffixCells(year, monthIndex, startDay, totalDays);
 
     // 날짜
-    for (let day = 1; day <= totalDays; day++) {
-      const iso = toISO(new Date(y, mIndex, day));
+    const dayCells: CalendarCell[] = Array.from({ length: totalDays }, (_, i) => {
+      const day = i + 1;
+      const iso = toISO(new Date(year, monthIndex, day));
 
-      // ✅ variant별 비활성화 규칙
       const isDisabled =
         variant === 'birthday'
           ? compareISO(iso, todayISO) > 0
@@ -80,28 +128,11 @@ export default function DatePicker({
             (!!reservationBlockFromISO && compareISO(iso, reservationBlockFromISO) >= 0) ||
             (availabilityMap?.[iso] ?? false);
 
-      const isSelected = !!selectedDate && iso === selectedDate;
+      return { kind: 'day', key: iso, day, iso, isDisabled };
+    });
 
-      list.push({
-        kind: 'day',
-        key: iso,
-        day,
-        iso,
-        isDisabled,
-        isSelected,
-      });
-    }
-
-    // 뒤 빈칸: 7의 배수 맞추기
-    const remainder = list.length % 7;
-    if (remainder !== 0) {
-      const fill = 7 - remainder;
-      for (let i = 0; i < fill; i++) {
-        list.push({ kind: 'empty', key: `e-post-${y}-${mIndex}-${i}` });
-      }
-    }
-
-    return list;
+    // 전체 셀 배열 반환 = 앞빈칸 + 날짜칸 + 뒷빈칸
+    return [...prefixCells, ...dayCells, ...suffixCells];
   }, [
     viewMonth,
     variant,
@@ -111,10 +142,7 @@ export default function DatePicker({
     maxDate,
     reservationBlockFromISO,
     availabilityMap,
-    selectedDate,
   ]);
-
-  const handleSelectDate = (iso: string) => handleChange?.(iso);
 
   return (
     <div className='flex flex-col px-[2rem]'>
@@ -129,8 +157,8 @@ export default function DatePicker({
         </IconButton>
       </header>
 
-      {/* 디바이더 */}
-      <div className='bg-black-3 mx-[1.6rem] h-[0.1rem]' />
+      {/* 공컴 디바이더 교체 */}
+      <div className='bg-black-3 h-[0.1rem]' />
 
       {/* 요일 */}
       <div className='flex flex-row items-center px-[1.6rem] py-[1.2rem]'>
@@ -142,24 +170,20 @@ export default function DatePicker({
       </div>
 
       {/* 날짜 그리드 */}
-      <div className='px-[1.6rem] pb-[1.6rem]'>
-        <div className='justify-items-center" grid grid-cols-7 gap-y-[0.8rem]'>
-          {cells.map((cell) =>
-            cell.kind === 'day' ? (
-              <div className={'flex justify-center'} key={cell.key}>
-                <DateCell
-                  key={cell.key}
-                  value={String(cell.day)}
-                  isDisabled={cell.isDisabled}
-                  isSelected={cell.isSelected}
-                  handleSelect={() => handleSelectDate(cell.iso)}
-                />
-              </div>
-            ) : (
-              <div key={cell.key} className='min-w-[3.2rem] py-[0.8rem]' />
-            ),
-          )}
-        </div>
+      <div className='grid grid-cols-7 place-items-center gap-y-[0.8rem] p-[1.6rem]'>
+        {cells.map((cell) =>
+          cell.kind === 'day' ? (
+            <DateCell
+              key={cell.key}
+              value={String(cell.day)}
+              isDisabled={cell.isDisabled}
+              isSelected={selectedDate === cell.iso}
+              handleSelect={() => handleDateChange?.(cell.iso)}
+            />
+          ) : (
+            <div key={cell.key} className='min-w-[3.2rem] py-[0.8rem]' />
+          ),
+        )}
       </div>
     </div>
   );
