@@ -16,7 +16,7 @@ const meta: Meta<typeof DatePicker> = {
 export default meta;
 
 function ControlledTemplate(args: React.ComponentProps<typeof DatePicker>) {
-  const [viewMonth, setViewMonth] = useState<Date>(new Date());
+  const [viewMonth, setViewMonth] = useState<Date>(() => args.viewDateMonth ?? new Date());
   const [value, setValue] = useState<string | undefined>(
     () => args.selectedDate ?? (args.viewDateMonth ? toISO(args.viewDateMonth) : undefined),
   );
@@ -79,5 +79,16 @@ export const MaxOnly: Story = {
     selectedDate: '2025-12-19',
     disablePastDates: false,
     maxDate: '2025-12-20',
+  },
+};
+
+export const BirthDatePicker: Story = {
+  render: (args) => <ControlledTemplate {...args} />,
+  args: {
+    variant: 'birthday',
+    viewDateMonth: new Date('1990-06-01'),
+    selectedDate: '1990-06-15',
+    disablePastDates: false,
+    maxDate: new Date().toISOString().split('T')[0], // 오늘 이전 날짜까지만 선택 가능
   },
 };
