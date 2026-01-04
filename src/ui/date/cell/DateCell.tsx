@@ -1,11 +1,9 @@
 import { cn } from '@/utils/cn';
 
 type DateProps = {
-  // date yyyy-mm-dd 형식으로 저장?
   value: string;
   isSelected: boolean;
   isDisabled: boolean;
-  // todo : DateCell 값 어떻게 저장할지 고민 후!
   handleSelect?: () => void;
 };
 
