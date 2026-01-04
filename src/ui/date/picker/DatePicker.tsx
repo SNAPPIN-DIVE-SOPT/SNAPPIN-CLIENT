@@ -54,7 +54,7 @@ type DatePickerProps = {
  *   variant="reservation"
  *   selectedDate="2024-01-15"
  *   handleDateChange={(next) => console.log(next)}
- *   defaultViewMonth={new Date(2024, 0, 1)} // 2024년 1월
+ *   defaultViewDateMonth={new Date(2024, 0, 1)} // 2024년 1월
  *   minDate="2024-01-10"
  *   maxDate="2024-01-20"
  *   monthAvailability={[{ date: '2024-01-12', isDisabled: true }]}
@@ -134,7 +134,7 @@ export default function DatePicker({
       return { kind: 'day', key: iso, day, iso, isDisabled };
     });
 
-    // 전체 셀 배열 반환 = 앞빈칸 + 날짜칸 + 뒷빈칸
+    // 전체 셀 배열 반환 = 앞빈칸 + 날짜칸
     return [...prefixCells, ...dayCells];
   }, [
     viewMonth,
@@ -151,11 +151,11 @@ export default function DatePicker({
     <div className='flex flex-col px-[2rem]'>
       {/* 이전, 다음 월 이동 */}
       <header className='flex flex-row items-center justify-between px-[1.6rem] py-[1.4rem]'>
-        <IconButton className='text-black-7' onClick={handlePrevMonth}>
+        <IconButton className='text-black-7' onClick={handlePrevMonth} aria-label='이전 달'>
           <IconKeyboardArrowLeft />
         </IconButton>
         <span className='text-black-10 font-16-bd'>{headerText}</span>
-        <IconButton className='text-black-7' onClick={handleNextMonth}>
+        <IconButton className='text-black-7' onClick={handleNextMonth} aria-label='다음 달'>
           <IconKeyboardArrowRight />
         </IconButton>
       </header>
@@ -173,7 +173,7 @@ export default function DatePicker({
       </div>
 
       {/* 날짜 그리드 */}
-      <div className='grid grid-cols-7 place-items-center gap-y-[0.8rem] p-[1.6rem]'>
+      <div className='grid grid-cols-7 place-items-center gap-y-[0.8rem] p-[1.6rem]' role='grid'>
         {cells.map((cell) =>
           cell.kind === 'day' ? (
             <DateCell
