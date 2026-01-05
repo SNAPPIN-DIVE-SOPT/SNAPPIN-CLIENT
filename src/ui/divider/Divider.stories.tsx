@@ -14,27 +14,27 @@ type Story = StoryObj<typeof Divider>;
 export const Default: Story = {
   args: {
     thickness: 'small',
-    color: 'gray-light',
+    color: 'bg-black-3',
   },
 };
 
 export const LargeDarkDivider: Story = {
   args: {
     thickness: 'large',
-    color: 'gray-dark',
+    color: 'bg-black-5',
   },
 };
 
 export const SmallDarkDivider: Story = {
   args: {
     thickness: 'small',
-    color: 'gray-dark',
+    color: 'bg-black-5',
   },
 };
 
 export const LargeLightDivider: Story = {
   args: {
     thickness: 'large',
-    color: 'gray-light',
+    color: 'bg-black-3',
   },
 };

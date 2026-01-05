@@ -6,6 +6,6 @@ export const DIVIDER_THICKNESS: Record<NonNullable<DividerSize>, string> = {
 };
 
 export const DIVIDER_COLOR: Record<NonNullable<DividerColor>, string> = {
-  'gray-dark': 'bg-black-5',
-  'gray-light': 'bg-black-3',
+  'bg-black-5': 'bg-black-5',
+  'bg-black-3': 'bg-black-3',
 };
