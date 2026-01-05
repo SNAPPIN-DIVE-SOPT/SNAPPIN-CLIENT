@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
 import Chip from '../Chip';
-import { MoodCode } from '../../../types/moodCode';
+import { MoodCode } from '@/types/moodCode';
 import { TagChipVariant } from './types/tagChipVariant';
 import { TAG_CHIP_THEME_BY_VARIANT } from './constants/tagChipTheme';
 

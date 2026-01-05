@@ -3,7 +3,7 @@ import { cn } from '@/utils/cn';
 import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
 import { TagChip } from '@/ui/index';
 import { IconStar } from '@/assets';
-import { MoodCode } from '../../types/moodCode';
+import { MoodCode } from '@/types/moodCode';
 
 type ProductCardProps = {
   image: { src: string; alt?: string; };
