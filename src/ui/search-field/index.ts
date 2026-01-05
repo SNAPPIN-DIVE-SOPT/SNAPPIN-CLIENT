@@ -1,1 +1,2 @@
-export { default as SearchField } from './SearchField';
+export { default as HeaderSearch } from './HeaderSearch';
+export { default as SearchBar } from './SearchBar';
