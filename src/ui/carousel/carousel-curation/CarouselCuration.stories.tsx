@@ -41,7 +41,7 @@ const meta: Meta<typeof CarouselCuration> = {
       { src: 'https://picsum.photos/576/576?random=2', alt: 'Image 2' },
       { src: 'https://picsum.photos/576/576?random=3', alt: 'Image 3' },
     ],
-    tags: ['WARM', 'DREAMY', 'CINEMATIC'],
+    tags: ['따스한', '몽환적인', '서사적인'],
     name: '작가 이름',
   },
 };
@@ -56,7 +56,7 @@ export const Default: Story = {
       { src: 'https://picsum.photos/576/576?random=2', alt: 'Image 2' },
       { src: 'https://picsum.photos/576/576?random=3', alt: 'Image 3' },
     ],
-    tags: ['WARM', 'DREAMY', 'CINEMATIC'],
+    tags: ['따스한', '몽환적인', '서사적인'],
     name: '작가 이름',
   },
 };
@@ -64,7 +64,7 @@ export const Default: Story = {
 export const SingleImage: Story = {
   args: {
     images: [{ src: 'https://picsum.photos/576/576?random=4', alt: 'Single Image' }],
-    tags: ['NATURAL'],
+    tags: ['내추럴'],
     name: '단일 이미지 작가',
   },
 };
@@ -78,7 +78,7 @@ export const MultipleImages: Story = {
       { src: 'https://picsum.photos/576/576?random=8', alt: 'Image 4' },
       { src: 'https://picsum.photos/576/576?random=9', alt: 'Image 5' },
     ],
-    tags: ['WARM', 'FRESH', 'CLEAR', 'SUNNY', 'DREAMY'],
+    tags: ['따스한', '청량한', '투명한', '아날로그', '몽환적인'],
     name: '다중 이미지 작가',
   },
 };
@@ -89,7 +89,7 @@ export const LongName: Story = {
       { src: 'https://picsum.photos/576/576?random=12', alt: 'Image 1' },
       { src: 'https://picsum.photos/576/576?random=13', alt: 'Image 2' },
     ],
-    tags: ['CINEMATIC', 'NATURAL'],
+    tags: ['서사적인', '내추럴'],
     name: '매우 긴 작가 이름이 표시되는 경우 테스트',
   },
 };

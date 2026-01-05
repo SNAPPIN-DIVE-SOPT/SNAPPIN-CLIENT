@@ -1,23 +1,21 @@
 import { cn } from '@/utils/cn';
 import { IconButton } from '@/ui/button';
 import { IconClose } from '@/assets';
+import { MoodCode } from '@/types/moodCode';
 import { FilterChipVariant } from './types/filterChipVariant';
 import { FILTER_CHIP_THEME } from './constants/filterChipTheme';
-// TODO: 공용 타입으로 변경
-import { TagCode } from '../tag-chip/types/tagCode';
-import { TAG_LABEL } from '../tag-chip/constants/tagLabel';
 
-const getVariant = (isSelected: boolean, onRemove?: (tag: TagCode) => void): FilterChipVariant => {
+const getVariant = (isSelected: boolean, onRemove?: (tag: MoodCode) => void): FilterChipVariant => {
   if (onRemove) { return 'selectedRemovable'; }
   else if (isSelected) { return 'selected'; }
   else { return 'default'; }
 }
 
 export type FilterChipProps = {
-  label: TagCode;
+  label: MoodCode;
   isSelected: boolean;
-  onClick?: (tag: TagCode) => void;
-  onRemove?: (tag: TagCode) => void;
+  onClick?: (tag: MoodCode) => void;
+  onRemove?: (tag: MoodCode) => void;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>;
 
 export default function FilterChip({
@@ -41,12 +39,12 @@ export default function FilterChip({
       {...props}
     >
       <button
-        aria-label={`${TAG_LABEL[label]} 필터`}
+        aria-label={`${label} 필터`}
         aria-pressed={isSelected}
         onClick={onClick ? () => onClick(label) : undefined}
       >
         <span className={cn('caption-12-md transition-[color] duration-500 ease-in-out', labelClassName)}>
-          {TAG_LABEL[label]}
+          {label}
         </span>
       </button>
       { onRemove && (

@@ -3,7 +3,7 @@ import { cn } from '@/utils/cn';
 import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
 import { TagChip } from '@/ui/index';
 import { IconStar } from '@/assets';
-import { TagCode } from '../chip/tag-chip/types/tagCode';
+import { MoodCode } from '../../types/moodCode';
 
 type ProductCardProps = {
   image: { src: string; alt?: string; };
@@ -12,7 +12,7 @@ type ProductCardProps = {
   reviewCount: number;
   author: string;
   price: number;
-  tags: TagCode[];
+  tags: MoodCode[];
   className?: string;
 } & React.HTMLAttributes<HTMLDivElement>;
 
