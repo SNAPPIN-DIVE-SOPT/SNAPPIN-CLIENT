@@ -43,13 +43,13 @@ const SearchFieldBase = React.forwardRef<HTMLInputElement, SearchFieldBaseProps>
       : typeof defaultValue === 'string' || typeof defaultValue === 'number'
         ? `${defaultValue}`
         : '';
-    const [hasValue, setHasValue] = React.useState(defaultValueText.length > 0 ? true : false);
+    const [hasValue, setHasValue] = React.useState(defaultValueText.length > 0);
     const valueText = Array.isArray(value)
       ? value.join(',')
       : typeof value === 'string' || typeof value === 'number'
         ? `${value}`
         : '';
-    const shouldUseControlledValue = typeof value !== 'undefined' ? true : false;
+    const shouldUseControlledValue = typeof value !== 'undefined';
     const resolvedHasValue = shouldUseControlledValue ? valueText.length > 0 : hasValue;
     const headlineText = headline ?? '';
     const shouldRenderHeaderText = Boolean(headlineText || supportingText);
@@ -63,7 +63,7 @@ const SearchFieldBase = React.forwardRef<HTMLInputElement, SearchFieldBaseProps>
       icon === null ? null : (icon ?? <IconSearch className={iconClassName} aria-hidden='true' />);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const nextHasValue = event.target.value.length > 0 ? true : false;
+      const nextHasValue = event.target.value.length > 0;
       setHasValue(nextHasValue);
       onChange?.(event);
     };
