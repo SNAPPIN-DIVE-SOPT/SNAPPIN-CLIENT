@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import UserTypeToggle, { UserTypeToggleProps } from './UserTypeToggle';
 import { UserType } from './types/userType';
 
@@ -11,8 +11,8 @@ const meta: Meta<typeof UserTypeToggle> = {
     docs: {
       description: {
         component: '고객/작가 토글 컴포넌트입니다.',
-      }
-    }
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -33,18 +33,10 @@ type Story = StoryObj<typeof meta>;
 const UserTypeToggleWithState = (args: UserTypeToggleProps) => {
   const [selectedType, setSelectedType] = useState<UserType>(args.selectedType);
 
-  const handleClick = () =>
-    setSelectedType(prev => (prev === 'client' ? 'author' : 'client'));
+  const handleClick = () => setSelectedType((prev) => (prev === 'client' ? 'author' : 'client'));
 
-  return (
-    <UserTypeToggle
-      {...args}
-      selectedType={selectedType}
-      onClick={handleClick}
-    />
-  );
+  return <UserTypeToggle {...args} selectedType={selectedType} onClick={handleClick} />;
 };
-
 
 export const Client: Story = {
   args: {
