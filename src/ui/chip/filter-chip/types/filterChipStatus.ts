@@ -1,1 +1,0 @@
-export type FilterChipStatus = 'default' | 'selected' | 'removable';
