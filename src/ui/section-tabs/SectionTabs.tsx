@@ -33,8 +33,14 @@ type SectionTabsTabProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'childr
 
 type SectionTabsListProps = HTMLAttributes<HTMLDivElement>;
 
-type SectionTabsPanelProps = HTMLAttributes<HTMLDivElement> & {
+type SectionTabContentsProps = HTMLAttributes<HTMLDivElement> & {
   value: string;
+};
+
+type SectionTabsComponent = typeof SectionTabsRoot & {
+  List: typeof SectionTabsList;
+  Tab: typeof SectionTabsTab;
+  Contents: typeof SectionTabContents;
 };
 
 const SectionTabsRoot = ({
@@ -45,7 +51,9 @@ const SectionTabsRoot = ({
   children,
   ...props
 }: SectionTabsProps) => {
-  const [indicatorStyle, setIndicatorStyle] = React.useState<SectionTabsIndicatorStyle | null>(null);
+  const [indicatorStyle, setIndicatorStyle] = React.useState<SectionTabsIndicatorStyle | null>(
+    null,
+  );
   const selectedValue = value;
   const baseId = React.useId();
 
@@ -92,7 +100,7 @@ const SectionTabsList = ({
       )}
       role='tablist'
       aria-orientation='horizontal'
-      aria-label={ariaLabelledBy ? undefined : ariaLabel ?? 'Section tabs'}
+      aria-label={ariaLabelledBy ? undefined : (ariaLabel ?? 'Section tabs')}
       aria-labelledby={ariaLabelledBy}
       {...props}
     >
@@ -110,8 +118,8 @@ const SectionTabsList = ({
   );
 };
 
-const SectionTabsPanel = ({ value, className, children, ...props }: SectionTabsPanelProps) => {
-  const { value: selectedValue, baseId } = useSectionTabsContext('SectionTabs.Panel');
+const SectionTabContents = ({ value, className, children, ...props }: SectionTabContentsProps) => {
+  const { value: selectedValue, baseId } = useSectionTabsContext('SectionTabs.Contents');
   const isSelected = value === selectedValue;
   const tabId = getSectionTabsId(baseId, value, 'tab');
   const panelId = getSectionTabsId(baseId, value, 'panel');
@@ -139,8 +147,12 @@ const SectionTabsTab = ({
   type = 'button',
   ...props
 }: SectionTabsTabProps) => {
-  const { value: selectedValue, handleValueChange, setIndicatorStyle, baseId } =
-    useSectionTabsContext('SectionTabs.Tab');
+  const {
+    value: selectedValue,
+    handleValueChange,
+    setIndicatorStyle,
+    baseId,
+  } = useSectionTabsContext('SectionTabs.Tab');
   const isSelected = value === selectedValue;
   const tabRef = React.useRef<HTMLButtonElement>(null);
   const tabId = getSectionTabsId(baseId, value, 'tab');
@@ -208,15 +220,10 @@ const SectionTabsTab = ({
   );
 };
 
-type SectionTabsComponent = typeof SectionTabsRoot & {
-  List: typeof SectionTabsList;
-  Tab: typeof SectionTabsTab;
-  Panel: typeof SectionTabsPanel;
-};
-
-const SectionTabs = SectionTabsRoot as SectionTabsComponent;
-SectionTabs.List = SectionTabsList;
-SectionTabs.Tab = SectionTabsTab;
-SectionTabs.Panel = SectionTabsPanel;
+const SectionTabs: SectionTabsComponent = Object.assign(SectionTabsRoot, {
+  List: SectionTabsList,
+  Tab: SectionTabsTab,
+  Contents: SectionTabContents,
+});
 
 export default SectionTabs;
