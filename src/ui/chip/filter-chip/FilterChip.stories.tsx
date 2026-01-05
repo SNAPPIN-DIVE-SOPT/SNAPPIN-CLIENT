@@ -74,7 +74,7 @@ const FilterChipsWithState = () => {
             key={mood}
             label={mood}
             isSelected
-            onRemove={() => handleRemove(mood)}
+            onRemove={handleRemove}
           />
         ))}
       </div>
@@ -85,7 +85,7 @@ const FilterChipsWithState = () => {
             key={mood}
             label={mood}
             isSelected={selectedMoods.includes(mood)}
-            onClick={() => handleClick(mood)}
+            onClick={handleClick}
           />
         ))}
       </div>
