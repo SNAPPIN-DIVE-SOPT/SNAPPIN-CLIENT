@@ -1,5 +1,5 @@
 import { cn } from '@/utils/cn';
-import { UserType } from './types/userType';
+import { USER_TYPES, USER_TYPE_LABEL, UserType } from './types/userType';
 import { TOGGLE_THEME_BY_TYPE } from './constants/toggleTheme';
 
 export type UserTypeToggleProps = {
@@ -31,24 +31,18 @@ export default function UserTypeToggle({
           'flex shrink-0 justify-center items-center w-[4.4rem] h-[2.5rem] px-[1.3rem] py-[0.8rem] rounded-[1.9rem] transition-[transform_background-color] duration-500 ease-in-out',
           thumbClassName
         )}>
-          <span
-            className={cn(
-              'caption-12-md absolute transition-opacity duration-300 ease-in-out',
-              selectedType === 'client' ? 'opacity-100' : 'opacity-0',
-              labelClassName
-            )}
-          >
-            고객
-          </span>
-          <span
-            className={cn(
-              'caption-12-md absolute transition-opacity duration-300 ease-in-out',
-              selectedType === 'author' ? 'opacity-100' : 'opacity-0',
-              labelClassName
-            )}
-          >
-            작가
-          </span>
+          {USER_TYPES.map((type) => (
+            <span
+              key={type}
+              className={cn(
+                'caption-12-md absolute transition-opacity duration-300 ease-in-out',
+                selectedType === type ? 'opacity-100' : 'opacity-0',
+                labelClassName
+              )}
+            >
+              {USER_TYPE_LABEL[type]}
+            </span>
+          ))}
         </div>
       </div>
     </button>
