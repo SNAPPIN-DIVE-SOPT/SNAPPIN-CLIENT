@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/nextjs-vite';
 import Navigation from '@/ui/navigation/Navigation';
 import { IconArrowBack, IconSearch, IconAdd } from '@/assets';
 

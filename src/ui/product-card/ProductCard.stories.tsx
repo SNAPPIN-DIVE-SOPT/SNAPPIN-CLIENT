@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import ProductCard from './ProductCard';
 
 const meta: Meta<typeof ProductCard> = {
@@ -9,8 +9,8 @@ const meta: Meta<typeof ProductCard> = {
     docs: {
       description: {
         component: '프로덕트 카드 컴포넌트입니다.',
-      }
-    }
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
