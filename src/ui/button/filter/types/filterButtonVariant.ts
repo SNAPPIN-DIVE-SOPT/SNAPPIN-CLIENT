@@ -1,1 +1,0 @@
-export type FilterButtonVariant = 'default' | 'selected' | 'removable';

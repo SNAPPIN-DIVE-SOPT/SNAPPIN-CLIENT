@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import FilterButton, { FilterButtonProps } from './FilterButton';
 import { TagCode } from '@/ui/chip/tag-chip/types/tagCode';
 import { TAG_LABEL } from '@/ui/chip/tag-chip/constants/tagLabel';
+import { FilterButtonStatus } from './types/filterButtonStatus';
 
 const TAGS = Object.keys(TAG_LABEL) as TagCode[];
 
@@ -21,18 +22,13 @@ const meta: Meta<typeof FilterButton> = {
   argTypes: {
     label: {
       control: { type: 'select' },
-      options: Object.keys(TAG_LABEL) as TagCode[],
+      options: TAGS,
       description: '무드',
     },
-    isSelected: {
+    status: {
       control: { type: 'select' },
-      options: [true, false],
+      options: ['default', 'selected', 'removable'],
       description: '선택 여부'
-    },
-    removable: {
-      control: { type: 'select' },
-      options: [undefined, true],
-      description: '제거 가능 여부',
     },
   },
 };
@@ -41,27 +37,30 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const FilterButtonWithState = (args: FilterButtonProps) => {
-  const [isSelected, setIsSelected] = useState<boolean>(args.isSelected);
-  const handleToggle = () => setIsSelected((prev) => !prev);
+  const [status, setStatus] = useState<FilterButtonStatus>(args.status);
+  const handleClick = () => {
+    setStatus((prev) => (prev === 'default' ? 'selected' : 'default'));
+  };
 
   return (
     <FilterButton
       label={args.label}
-      isSelected={isSelected}
-      onClick={handleToggle}
+      status={status}
+      onClick={handleClick}
     />
   );
-}
+};
 
 const FilterButtonsWithState = () => {
   const [selectedTags, setSelectedTags] = useState<TagCode[]>([]);
-  const handleToggle = (tag: TagCode) => {
+  const handleClick = (tag: TagCode) => {
     setSelectedTags((prev) =>
       prev.includes(tag)
         ? prev.filter((t) => t !== tag)
         : [...prev, tag]
     );
   };
+  const getStatus = (tag: TagCode) => selectedTags.includes(tag) ? 'selected' : 'default';
 
   return (
     <div className='flex flex-col gap-[1rem] max-w-[45rem]'>
@@ -70,9 +69,8 @@ const FilterButtonsWithState = () => {
           <FilterButton
             key={selectedTag}
             label={selectedTag}
-            isSelected
-            removable
-            onClick={() => handleToggle(selectedTag)}
+            status='removable'
+            onClick={() => handleClick(selectedTag)}
           />
         ))}
       </div>
@@ -82,8 +80,8 @@ const FilterButtonsWithState = () => {
           <FilterButton
             key={tag}
             label={tag}
-            isSelected={selectedTags.includes(tag)}
-            onClick={() => handleToggle(tag)}
+            status={getStatus(tag)}
+            onClick={() => handleClick(tag)}
           />
         ))}
       </div>
@@ -94,8 +92,12 @@ const FilterButtonsWithState = () => {
 export const Default: Story = {
   args: {
     label: 'WARM',
-    isSelected: false,
-    removable: undefined,
+    status: 'default'
+  },
+  argTypes: {
+    status: {
+      control: false,
+    },
   },
   render: FilterButtonWithState,
 };
@@ -103,8 +105,12 @@ export const Default: Story = {
 export const Selected: Story = {
   args: {
     label: 'WARM',
-    isSelected: true,
-    removable: undefined,
+    status: 'selected',
+  },
+  argTypes: {
+    status: {
+      control: false,
+    },
   },
   render: FilterButtonWithState,
 };
@@ -112,11 +118,23 @@ export const Selected: Story = {
 export const Removable: Story = {
   args: {
     label: 'WARM',
-    isSelected: true,
-    removable: true,
+    status: 'removable',
+  },
+  argTypes: {
+    status: {
+      control: false,
+    },
   },
 };
 
 export const FilteringSection: Story = {
+  argTypes: {
+    label: {
+      control: false,
+    },
+    status: {
+      control: false,
+    },
+  },
   render: FilterButtonsWithState,
 };

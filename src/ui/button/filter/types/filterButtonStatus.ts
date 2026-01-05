@@ -1,0 +1,1 @@
+export type FilterButtonStatus = 'default' | 'selected' | 'removable';
