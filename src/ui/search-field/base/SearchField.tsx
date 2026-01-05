@@ -6,7 +6,6 @@ type SearchFieldBaseProps = React.InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
   containerClassName?: string;
   inputWrapperClassName?: string;
-  iconWrapperClassName?: string;
   iconClassName?: string;
   textContainerClassName?: string;
   headlineClassName?: string;
@@ -22,7 +21,6 @@ const SearchFieldBase = React.forwardRef<HTMLInputElement, SearchFieldBaseProps>
       className,
       containerClassName,
       inputWrapperClassName,
-      iconWrapperClassName,
       iconClassName,
       textContainerClassName,
       headlineClassName,
@@ -86,7 +84,7 @@ const SearchFieldBase = React.forwardRef<HTMLInputElement, SearchFieldBaseProps>
         data-has-value={resolvedHasValue ? 'true' : 'false'}
         data-focused={isFocused ? 'true' : 'false'}
       >
-        {resolvedIcon ? <span className={cn(iconWrapperClassName)}>{resolvedIcon}</span> : null}
+        {resolvedIcon ? <span className='shrink-0'>{resolvedIcon}</span> : null}
         <div className={cn(inputWrapperClassName)}>
           <input
             type={type}
