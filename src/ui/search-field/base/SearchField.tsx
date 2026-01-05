@@ -62,22 +62,22 @@ const SearchFieldBase = React.forwardRef<HTMLInputElement, SearchFieldBaseProps>
         : false
       : false;
     const resolvedIcon =
-      icon === null ? null : icon ?? <IconSearch className={iconClassName} aria-hidden='true' />;
+      icon === null ? null : (icon ?? <IconSearch className={iconClassName} aria-hidden='true' />);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const nextHasValue = event.target.value.length > 0 ? true : false;
       setHasValue(nextHasValue);
-      onChange ? onChange(event) : undefined;
+      onChange?.(event);
     };
 
     const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
       setIsFocused(true);
-      onFocus ? onFocus(event) : undefined;
+      onFocus?.(event);
     };
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
       setIsFocused(false);
-      onBlur ? onBlur(event) : undefined;
+      onBlur?.(event);
     };
 
     return (
