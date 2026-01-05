@@ -4,8 +4,8 @@ import { cn } from '@/utils/cn';
 import { IconClose } from '@/assets';
 
 type ImagePreviewProps = {
-  imageSrc: string;
-  imageAlt: string;
+  imageSrc?: string;
+  imageAlt?: string;
   handleRemove?: () => void;
   handleClickImage?: () => void;
   className?: string;
@@ -30,6 +30,7 @@ export default function ImagePreview({
     event.stopPropagation();
     handleRemove?.();
   };
+  const canRemove = Boolean(imageSrc && showRemoveButton && handleRemove);
   const imagePreviewStyle = {
     width: `${imageWidthRem}rem`,
     height: `${imageHeightRem}rem`,
@@ -44,7 +45,7 @@ export default function ImagePreview({
       {imageSrc ? (
         <Image
           src={imageSrc}
-          alt={imageAlt}
+          alt={imageAlt ?? '이미지 미리보기'}
           fill
           sizes={`${imageWidthRem}rem`}
           className={cn('object-cover', imageClassName)}
@@ -52,9 +53,10 @@ export default function ImagePreview({
       ) : (
         <div className='bg-black-3 h-full w-full' />
       )}
-      {imageSrc && showRemoveButton && handleRemove ? (
+      {canRemove ? (
         <IconButton
           onClick={handleRemoveClick}
+          aria-label='이미지 삭제'
           className='bg-black-1 absolute top-[0.7rem] right-[0.7rem] flex h-[3.2rem] w-[3.2rem] items-center justify-center rounded-full'
         >
           <IconClose className='text-black-10 h-[2.4rem] w-[2.4rem]' />
