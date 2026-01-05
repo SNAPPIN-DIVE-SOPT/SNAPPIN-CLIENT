@@ -4,6 +4,7 @@ export * from './carousel/index';
 export * from './chip/index';
 export * from './dialog/index';
 export * from './footer/index';
+export * from './user-type-toggle/index';
 export * from './input/index';
 export * from './navigation/index';
 export * from './product-card/index';
