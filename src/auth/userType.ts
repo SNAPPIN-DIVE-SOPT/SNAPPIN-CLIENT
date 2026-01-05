@@ -1,3 +1,5 @@
+'use server';
+
 import { cookies } from 'next/headers';
 import { UserType } from './constant/userType';
 import { USER_TYPE_COOKIE_NAME } from './constant/cookie';
