@@ -26,9 +26,18 @@ export default function ImagePreview({
   imageWidthRem = 14,
   imageHeightRem = 14,
 }: ImagePreviewProps) {
+  const isClickable = Boolean(handleClickImage);
   const handleRemoveClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     handleRemove?.();
+  };
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!handleClickImage) return;
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleClickImage();
+    }
   };
   const canRemove = Boolean(imageSrc && showRemoveButton && handleRemove);
   const imagePreviewStyle = {
@@ -38,9 +47,13 @@ export default function ImagePreview({
 
   return (
     <div
-      className={cn('relative overflow-hidden', handleClickImage ? 'cursor-pointer' : null, className)}
+      className={cn('relative overflow-hidden', isClickable ? 'cursor-pointer' : null, className)}
       style={imagePreviewStyle}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      aria-label={isClickable ? imageAlt ?? '이미지 미리보기' : undefined}
       onClick={handleClickImage}
+      onKeyDown={isClickable ? handleKeyDown : undefined}
     >
       {imageSrc ? (
         <Image
