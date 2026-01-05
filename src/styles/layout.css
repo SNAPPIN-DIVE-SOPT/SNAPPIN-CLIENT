@@ -48,4 +48,12 @@
     left: 50%;
     transform: translateX(-50%);
   }
+
+  .footer-height {
+    height: 7.2rem;
+  }
+
+  .mb-footer {
+    margin-bottom: 7.2rem;
+  }
 }
