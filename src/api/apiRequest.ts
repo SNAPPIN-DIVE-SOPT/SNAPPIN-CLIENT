@@ -1,6 +1,6 @@
 import { getAccessToken } from '../auth/token';
 import { SERVER_API_BASE_URL, type RequestMethod } from './constants/api';
-import { refreshApi } from '../auth/refresh';
+import { getRefreshToken } from '@/auth/apis/index';
 
 interface ApiRequestProps {
   endPoint: string;
@@ -15,7 +15,7 @@ const responseInterceptor = async <T>(
   originalRequest: ApiRequestProps,
 ): Promise<T | null> => {
   if (response.status === 401) {
-    const refreshResponse = await refreshApi();
+    const refreshResponse = await getRefreshToken();
 
     if (refreshResponse.ok) {
       const retryHeader: Record<string, string> = {
