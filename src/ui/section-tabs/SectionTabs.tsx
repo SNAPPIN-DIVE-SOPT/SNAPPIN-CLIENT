@@ -170,7 +170,7 @@ const SectionTabsTab = ({
     if (isSelected) {
       handleIndicatorUpdate();
     }
-  }, [handleIndicatorUpdate, isSelected, children, className]);
+  }, [handleIndicatorUpdate, isSelected]);
 
   React.useEffect(() => {
     if (!isSelected) {
