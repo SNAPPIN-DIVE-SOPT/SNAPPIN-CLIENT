@@ -2,7 +2,7 @@ import { IconSearch } from '@/assets';
 import { cn } from '@/utils/cn';
 import React from 'react';
 
-type SearchFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
+type SearchFieldBaseProps = React.InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
   containerClassName?: string;
   inputWrapperClassName?: string;
@@ -11,13 +11,12 @@ type SearchFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   textContainerClassName?: string;
   headlineClassName?: string;
   supportingTextClassName?: string;
-  variant?: 'default' | 'header';
   headline?: string;
   supportingText?: string;
   icon?: React.ReactNode | null;
 };
 
-const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
+const SearchFieldBase = React.forwardRef<HTMLInputElement, SearchFieldBaseProps>(
   (
     {
       className,
@@ -28,7 +27,6 @@ const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       textContainerClassName,
       headlineClassName,
       supportingTextClassName,
-      variant = 'default',
       headline,
       supportingText,
       icon,
@@ -36,6 +34,8 @@ const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       value,
       defaultValue,
       onChange,
+      onFocus,
+      onBlur,
       ...props
     },
     ref,
@@ -53,9 +53,14 @@ const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
         : '';
     const shouldUseControlledValue = typeof value !== 'undefined' ? true : false;
     const resolvedHasValue = shouldUseControlledValue ? valueText.length > 0 : hasValue;
-    const headlineText = variant === 'header' ? headline ?? '' : '';
-    const shouldRenderHeaderText =
-      variant === 'header' ? Boolean(headlineText || supportingText) : false;
+    const headlineText = headline ?? '';
+    const shouldRenderHeaderText = Boolean(headlineText || supportingText);
+    const [isFocused, setIsFocused] = React.useState(false);
+    const shouldHideHeaderText = shouldRenderHeaderText
+      ? resolvedHasValue || isFocused
+        ? true
+        : false
+      : false;
     const resolvedIcon =
       icon === null ? null : icon ?? <IconSearch className={iconClassName} aria-hidden='true' />;
 
@@ -65,11 +70,21 @@ const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       onChange ? onChange(event) : undefined;
     };
 
+    const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      onFocus ? onFocus(event) : undefined;
+    };
+
+    const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(false);
+      onBlur ? onBlur(event) : undefined;
+    };
+
     return (
       <div
         className={cn(containerClassName)}
-        data-variant={variant}
         data-has-value={resolvedHasValue ? 'true' : 'false'}
+        data-focused={isFocused ? 'true' : 'false'}
       >
         {resolvedIcon ? <span className={cn(iconWrapperClassName)}>{resolvedIcon}</span> : null}
         <div className={cn(inputWrapperClassName)}>
@@ -79,13 +94,15 @@ const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
             value={shouldUseControlledValue ? value : undefined}
             defaultValue={shouldUseControlledValue ? undefined : defaultValue}
             onChange={handleChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             className={cn(className)}
             {...props}
           />
           {shouldRenderHeaderText ? (
             <div
               className={cn(textContainerClassName)}
-              aria-hidden={resolvedHasValue ? 'true' : undefined}
+              aria-hidden={shouldHideHeaderText ? 'true' : undefined}
             >
               <span className={cn(headlineClassName)}>{headlineText}</span>
               {supportingText ? (
@@ -99,5 +116,5 @@ const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
   },
 );
 
-SearchField.displayName = 'SearchField';
-export default SearchField;
+SearchFieldBase.displayName = 'SearchFieldBase';
+export default SearchFieldBase;
