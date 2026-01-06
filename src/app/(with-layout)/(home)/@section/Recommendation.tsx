@@ -11,14 +11,13 @@ const RecommendationSnapPlace = () => {
       </div>
       <InfiniteBanner
         items={places.map((place) => ({
+          //TODO: 검색 결과 페이지 연결
           href: `/`,
           imageUrl: place.imageUrl,
           id: place.id,
           name: place.name,
         }))}
         durationSec={20}
-        itemWidth={118}
-        itemHeight={118}
       />
     </div>
   );

@@ -7,12 +7,13 @@ import homeBackground from '@/../public/imgs/mainImg.png';
 import { MENU } from './constants/menu';
 import { RecommendationSnapPlace, RecommendationAuthor, MoodCurationSection } from './@section';
 import Link from 'next/link';
+import banner from '@/../public/imgs/banner.png';
 
 export default function PageClient() {
   const { isVisible } = useNavVisibility();
 
   return (
-    <div className='relative mt-[-5rem] flex w-full flex-col'>
+    <div className='relative mt-[-5rem] mb-[6rem] flex w-full flex-col'>
       <Header isVisible={isVisible} />
       <Image src={homeBackground} alt='home-background' />
       {/*  메뉴 영역 */}
@@ -37,9 +38,12 @@ export default function PageClient() {
         {/*  작가 추천 영역 */}
         <RecommendationAuthor />
         {/*  베너 영역 */}
+        {/* TODO: 베너 클릭 시 노션 페이지 연결 */}
+        <Link href='/'>
+          <Image src={banner} alt='banner' />
+        </Link>
         {/*  요즘 많이 찾는 무드 큐레이션  영역 */}
         <MoodCurationSection />
-        <div className='h-[7.2rem]'></div>
       </div>
     </div>
   );

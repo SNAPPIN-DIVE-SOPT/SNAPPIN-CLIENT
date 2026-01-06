@@ -1,57 +1,116 @@
 //로그인 시
-export const portfoliosRecommendationMock = {
+import { MOOD_CODE } from '@/types/moodCode';
+
+export const loginCurationMock = {
   userName: '사용자 이름',
-  moods: ['자연스러운', '따뜻한', '차분한'],
+  moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
   portfolios: [
     {
-      portfolioId: 1,
-      imageUrl: 'https://example.com/portfolio1.jpg',
+      id: 1,
+      photographerName: '작가명',
+      images: [
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 1,
+        },
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 2,
+        },
+      ],
+    },
+    {
+      id: 2,
+      images: [
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 1,
+        },
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 2,
+        },
+      ],
       photographerName: '작가명',
     },
     {
-      portfolioId: 2,
-      imageUrl: 'https://example.com/portfolio1.jpg',
+      id: 3,
+      images: [
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 1,
+        },
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 2,
+        },
+      ],
       photographerName: '작가명',
     },
     {
-      portfolioId: 3,
-      imageUrl: 'https://example.com/portfolio1.jpg',
+      id: 4,
+      images: [
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 1,
+        },
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 2,
+        },
+      ],
       photographerName: '작가명',
     },
     {
-      portfolioId: 4,
-      imageUrl: 'https://example.com/portfolio1.jpg',
-      photographerName: '작가명',
-    },
-    {
-      portfolioId: 5,
-      imageUrl: 'https://example.com/portfolio1.jpg',
+      id: 5,
+      images: [
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 1,
+        },
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 2,
+        },
+      ],
       photographerName: '작가명',
     },
   ],
 };
 
 //비로그인 시
-export const portfoliosPopularMock = {
-  moods: ['자연스러운', '따뜻한', '차분한'],
+export const notLoginCurationMock = {
+  moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
   portfolios: [
     {
       id: 1,
-      imageUrl: 'https://example.com/portfolio1.jpg',
+      images: [
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 1,
+        },
+      ],
       photographerName: '작가명',
-      moods: ['따뜻한', '빈티지'],
     },
     {
       id: 2,
-      imageUrl: 'https://example.com/portfolio1.jpg',
+      images: [
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 1,
+        },
+      ],
       photographerName: '작가명',
-      moods: ['따뜻한', '빈티지'],
     },
     {
       id: 3,
-      imageUrl: 'https://example.com/portfolio1.jpg',
+      images: [
+        {
+          imageUrl: 'https://picsum.photos/576/576?random=1',
+          order: 1,
+        },
+      ],
       photographerName: '작가명',
-      moods: ['따뜻한', '빈티지'],
     },
   ],
 };

@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
+import { ImageCarousel } from '@/ui/carousel';
 
 type Item = {
   id: number;
@@ -12,17 +12,10 @@ type Item = {
 
 type InfiniteBannerProps = {
   items: Item[];
-  itemWidth?: number;
-  itemHeight?: number;
   durationSec?: number;
 };
 
-export function InfiniteBanner({
-  items,
-  itemWidth = 118,
-  itemHeight = 118,
-  durationSec = 18,
-}: InfiniteBannerProps) {
+export function InfiniteBanner({ items, durationSec = 18 }: InfiniteBannerProps) {
   const loopItems = [...items, ...items];
 
   return (
@@ -32,14 +25,17 @@ export function InfiniteBanner({
     >
       <div className='infinite-track flex w-max gap-[0.4rem]'>
         {loopItems.map((item, idx) => (
-          <Link key={`${item.id}-${idx}`} href={item.href} className='shrink-0'>
-            <Image
+          <Link key={`${item.id}-${idx}`} href={item.href} className='relative shrink-0'>
+            <ImageCarousel
               src={item.imageUrl}
               alt={`${item.name} 이미지`}
-              width={itemWidth}
-              height={itemHeight}
-              className='rounded-md object-cover'
+              imageWidth={`11.8rem`}
+              imageHeight={`11.8rem`}
+              className='rounded-[0.6rem] object-cover'
             />
+            <span className='caption-12-md text-black-1 absolute bottom-[1.1rem] left-[1.2rem]'>
+              {item.name}
+            </span>
           </Link>
         ))}
       </div>
