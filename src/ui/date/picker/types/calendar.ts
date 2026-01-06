@@ -12,5 +12,3 @@ export type DayAvailability = {
   date: string;
   isDisabled: boolean;
 };
-
-export type DatePickerVariant = 'reservation' | 'birthday';
