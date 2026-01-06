@@ -5,7 +5,9 @@ import { ToastProps } from './types/toast';
 import { cn } from '@/utils/cn';
 import { useSetAtom } from 'jotai';
 import { RemoveToastAtom } from './toast.atom';
-import { IconError, IconSuccess } from '@/assets';
+import Lottie from 'lottie-react';
+import successAnimation from '@/assets/lotties/success.json';
+import errorAnimation from '@/assets/lotties/error.json';
 
 export default function Toast({ type, message, duration = 3000, className }: ToastProps) {
   const removeToast = useSetAtom(RemoveToastAtom);
@@ -23,8 +25,8 @@ export default function Toast({ type, message, duration = 3000, className }: Toa
   }, [removeToast]);
 
   const icon = {
-    success: <IconSuccess className='text-black-1' />,
-    error: <IconError className='text-black-1' />,
+    success: <Lottie animationData={successAnimation} className='h-[3rem] w-[3rem]' />,
+    error: <Lottie animationData={errorAnimation} className='h-[3rem] w-[3rem]' />,
     alert: null,
   };
 
