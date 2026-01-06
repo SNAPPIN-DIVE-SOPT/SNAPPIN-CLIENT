@@ -4,8 +4,9 @@ import { IconButton } from '@/ui';
 import { IconKeyboardArrowLeft, IconKeyboardArrowRight } from '@/assets';
 import { useMemo, useState } from 'react';
 import DateCell from '../cell/DateCell';
-import { CalendarCell, DatePickerVariant, DayAvailability } from '@/ui/date/picker/type/calendar';
+import { CalendarCell, DayAvailability } from '@/ui/date/picker/types/calendar';
 import {
+  addMonths,
   buildPrefixCells,
   compareISO,
   daysInMonth,
@@ -18,11 +19,8 @@ import { WEEKDAY_LABELS } from '@/ui/date/picker/constants/date';
 const MAX_RESERVATION_MONTHS = 6;
 
 type DatePickerProps = {
-  variant: DatePickerVariant;
-
   // 오늘 날짜 (기본값: new Date())
   today?: Date;
-
   // 제어형 월 초기값
   viewDateMonth?: Date;
   // 제어형이 아닐 때 월 초기값
@@ -31,12 +29,10 @@ type DatePickerProps = {
   // YYYY-MM-DD
   selectedDate?: string;
   handleDateChangeAction?: (nextDate: string) => void;
-
   minDate?: string;
   maxDate?: string;
   // 월별 날짜 활성화/비활성화 정보 (API 등에서 받아올 배열)
   monthAvailability?: DayAvailability[];
-
   // 공통 옵션
   disablePastDates?: boolean;
 };
@@ -44,14 +40,12 @@ type DatePickerProps = {
 /**
  * 날짜 선택 컴포넌트
  * - reservation: 예약일 선택용 (기본값)
- * - birthday: 생일 선택용
  * - 제어형/비제어형 모두 지원
  * - 월별 날짜 활성화/비활성화 지원
  * - 예약 모드에서 최대 예약 가능 월 제한 지원
  * @param props DatePickerProps
  * @example
  * <DatePicker
- *   variant="reservation"
  *   selectedDate="2024-01-15"
  *   handleDateChange={(next) => console.log(next)}
  *   defaultViewDateMonth={new Date(2024, 0, 1)} // 2024년 1월
@@ -62,7 +56,6 @@ type DatePickerProps = {
  * @returns DatePicker 컴포넌트
  */
 export default function DatePicker({
-  variant = 'reservation',
   today,
   viewDateMonth: controlledViewMonth,
   defaultViewDateMonth,
@@ -89,11 +82,8 @@ export default function DatePicker({
     handleMonthChangeAction?.(next);
   };
 
-  const handlePrevMonth = () =>
-    setMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1));
-
-  const handleNextMonth = () =>
-    setMonth(new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1));
+  const handlePrevMonth = () => setMonth(addMonths(viewMonth, -1));
+  const handleNextMonth = () => setMonth(addMonths(viewMonth, 1));
 
   const availabilityMap = useMemo(() => {
     if (!monthAvailability) return undefined;
@@ -101,12 +91,10 @@ export default function DatePicker({
   }, [monthAvailability]);
 
   const reservationBlockFromISO = useMemo(() => {
-    if (variant !== 'reservation') return null;
-
     const now = today ?? new Date();
     const blockFrom = new Date(now.getFullYear(), now.getMonth() + MAX_RESERVATION_MONTHS, 1);
     return toISO(blockFrom); // YYYY-MM-01
-  }, [today, variant]);
+  }, [today]);
 
   const cells: CalendarCell[] = useMemo(() => {
     const year = viewMonth.getFullYear();
@@ -123,13 +111,11 @@ export default function DatePicker({
       const iso = toISO(new Date(year, monthIndex, day));
 
       const isDisabled =
-        variant === 'birthday'
-          ? compareISO(iso, todayISO) > 0
-          : (disablePastDates && compareISO(iso, todayISO) < 0) ||
-            (!!minDate && compareISO(iso, minDate) < 0) ||
-            (!!maxDate && compareISO(iso, maxDate) > 0) ||
-            (!!reservationBlockFromISO && compareISO(iso, reservationBlockFromISO) >= 0) ||
-            (availabilityMap?.[iso] ?? false);
+        (disablePastDates && compareISO(iso, todayISO) < 0) ||
+        (!!minDate && compareISO(iso, minDate) < 0) ||
+        (!!maxDate && compareISO(iso, maxDate) > 0) ||
+        (!!reservationBlockFromISO && compareISO(iso, reservationBlockFromISO) >= 0) ||
+        (availabilityMap?.[iso] ?? false);
 
       return { kind: 'day', key: iso, day, iso, isDisabled };
     });
@@ -138,7 +124,6 @@ export default function DatePicker({
     return [...prefixCells, ...dayCells];
   }, [
     viewMonth,
-    variant,
     todayISO,
     disablePastDates,
     minDate,
