@@ -2,8 +2,7 @@
 import { MOOD_CODE } from '@/types/moodCode';
 
 export const loginCurationMock = {
-  userName: '사용자 이름',
-  moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
+  curatedMoods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
   portfolios: [
     {
       id: 1,
@@ -18,6 +17,7 @@ export const loginCurationMock = {
           order: 2,
         },
       ],
+      moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
     },
     {
       id: 2,
@@ -31,6 +31,7 @@ export const loginCurationMock = {
           order: 2,
         },
       ],
+      moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
       photographerName: '작가명',
     },
     {
@@ -45,6 +46,7 @@ export const loginCurationMock = {
           order: 2,
         },
       ],
+      moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
       photographerName: '작가명',
     },
     {
@@ -59,6 +61,7 @@ export const loginCurationMock = {
           order: 2,
         },
       ],
+      moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
       photographerName: '작가명',
     },
     {
@@ -73,6 +76,7 @@ export const loginCurationMock = {
           order: 2,
         },
       ],
+      moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
       photographerName: '작가명',
     },
   ],
@@ -80,7 +84,7 @@ export const loginCurationMock = {
 
 //비로그인 시
 export const notLoginCurationMock = {
-  moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
+  popularMoods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
   portfolios: [
     {
       id: 1,
@@ -90,6 +94,7 @@ export const notLoginCurationMock = {
           order: 1,
         },
       ],
+      moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
       photographerName: '작가명',
     },
     {
@@ -101,6 +106,7 @@ export const notLoginCurationMock = {
         },
       ],
       photographerName: '작가명',
+      moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
     },
     {
       id: 3,
@@ -111,6 +117,7 @@ export const notLoginCurationMock = {
         },
       ],
       photographerName: '작가명',
+      moods: [MOOD_CODE[0], MOOD_CODE[1], MOOD_CODE[2]],
     },
   ],
 };
