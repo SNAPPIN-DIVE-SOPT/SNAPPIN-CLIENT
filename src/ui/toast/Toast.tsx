@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { ToastProps } from './types/toast';
 import { cn } from '@/utils/cn';
 import { useSetAtom } from 'jotai';
@@ -32,11 +32,15 @@ export default function Toast({ type, message, duration = 3000, className }: Toa
     };
   }, [removeToast, duration]);
 
-  const icon = {
-    success: <Lottie animationData={successAnimation} className='h-[3rem] w-[3rem]' />,
-    error: <Lottie animationData={errorAnimation} className='h-[3rem] w-[3rem]' />,
-    alert: null,
-  } as const;
+  const icon = useMemo(
+    () =>
+      ({
+        success: <Lottie animationData={successAnimation} className='h-[3rem] w-[3rem]' />,
+        error: <Lottie animationData={errorAnimation} className='h-[3rem] w-[3rem]' />,
+        alert: null,
+      }) as const,
+    [],
+  );
 
   return (
     <div
