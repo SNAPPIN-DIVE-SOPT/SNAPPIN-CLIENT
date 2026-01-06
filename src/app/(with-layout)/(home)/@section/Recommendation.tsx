@@ -1,5 +1,6 @@
 import { recommendationMock } from '../mock/recommendation.mock';
 import { InfiniteBanner } from '../components/infinte-banner/InfiniteBanner';
+import Author from '../components/author/Author';
 
 const RecommendationSnapPlace = () => {
   const { places } = recommendationMock;
@@ -24,9 +25,15 @@ const RecommendationSnapPlace = () => {
 };
 
 const RecommendationAuthor = () => {
+  const { photographers } = recommendationMock;
   return (
     <div className='scrollbar-hide flex flex-col gap-[0.8rem]'>
       <span className='font-18-bd text-black-10'>이런 작가는 어때요?</span>
+      <div className='scrollbar-hide flex gap-[0.8rem] overflow-scroll'>
+        {photographers.map((photographer) => (
+          <Author key={photographer.id} {...photographer} />
+        ))}
+      </div>
     </div>
   );
 };
