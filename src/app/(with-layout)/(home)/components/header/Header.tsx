@@ -16,9 +16,7 @@ export default function Header({ isVisible }: HeaderProps) {
   return (
     <div
       className={cn(
-        // ✅ 레이아웃에서 빠짐(공간 안 남음)
-        'fixed top-0 left-1/2 z-50 w-full max-w-[45rem] -translate-x-1/2',
-        // ✅ 보일 때/숨길 때
+        'fixed-center top-0 z-50',
         'transition-transform duration-200',
         isVisible ? 'translate-y-0' : '-translate-y-full',
       )}
