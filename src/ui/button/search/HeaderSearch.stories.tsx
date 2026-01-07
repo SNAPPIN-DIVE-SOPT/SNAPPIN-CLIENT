@@ -19,8 +19,8 @@ const meta: Meta<typeof HeaderSearch> = {
   },
   decorators: [
     (Story) => (
-      <div className='bg-black-2 flex min-h-[10rem] w-full max-w-180 items-start p-4'>
-        <div className='w-full max-w-120'>
+      <div className='bg-black-2 flex min-h-[10rem] w-full max-w-[1.8rem] items-start p-4'>
+        <div className='w-full max-w-[1.2rem]'>
           <Story />
         </div>
       </div>
