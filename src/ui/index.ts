@@ -5,6 +5,7 @@ export * from './chip/index';
 export * from './dialog/index';
 export * from './divider/index';
 export * from './footer/index';
+export * from './image-preview/index';
 export * from './input/index';
 export * from './navigation/index';
 export * from './product-card/index';
