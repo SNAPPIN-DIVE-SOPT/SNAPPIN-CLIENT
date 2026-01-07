@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { type ChangeEvent, useState } from 'react';
 import SearchBar from './SearchBar';
 
 const meta: Meta<typeof SearchBar> = {
@@ -32,3 +33,42 @@ export default meta;
 type StorySearchBar = StoryObj<typeof SearchBar>;
 
 export const Default: StorySearchBar = {};
+
+export const Disabled: StorySearchBar = {
+  args: {
+    disabled: true,
+  },
+};
+
+export const WithDefaultValue: StorySearchBar = {
+  args: {
+    defaultValue: '제주',
+  },
+};
+
+export const WithCustomContainer: StorySearchBar = {
+  args: {
+    containerClassName: 'bg-black-1 border border-black-5',
+  },
+};
+
+export const WithCustomIcon: StorySearchBar = {
+  args: {
+    iconClassName: 'text-red-500',
+  },
+};
+
+export const Controlled: StorySearchBar = {
+  render: (args) => {
+    const [value, setValue] = useState(typeof args.value === 'string' ? args.value : '');
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      setValue(event.target.value);
+    };
+
+    return <SearchBar {...args} value={value} onChange={handleChange} />;
+  },
+  args: {
+    value: '서울',
+  },
+};
