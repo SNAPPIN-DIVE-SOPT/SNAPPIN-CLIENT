@@ -6,7 +6,7 @@ export function useNavVisibility() {
   const [isVisible, setIsVisible] = useState(false);
 
   const compute = useCallback((scrollTop: number) => {
-    setIsVisible(scrollTop > 0);
+    setIsVisible(scrollTop > 8);
   }, []);
 
   useEffect(() => {
@@ -15,8 +15,9 @@ export function useNavVisibility() {
 
     const onScroll = () => compute(el.scrollTop);
 
-    onScroll();
+    requestAnimationFrame(onScroll);
     el.addEventListener('scroll', onScroll, { passive: true });
+
     return () => el.removeEventListener('scroll', onScroll);
   }, [compute]);
 

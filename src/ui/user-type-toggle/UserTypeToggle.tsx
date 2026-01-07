@@ -1,5 +1,5 @@
 import { cn } from '@/utils/cn';
-import { USER_TYPES, USER_TYPE_LABEL, UserType } from './types/userType';
+import { USER_TYPE_LABEL, USER_TYPES, UserType } from '@/auth/constant/userType';
 import { TOGGLE_THEME_BY_TYPE } from './constants/toggleTheme';
 
 export type UserTypeToggleProps = {
@@ -19,25 +19,29 @@ export default function UserTypeToggle({
   return (
     <button
       type='button'
-      className={cn('flex justify-center items-center w-[7.7rem] h-[3.2rem]', className)}
+      className={cn('flex h-[3.2rem] w-[7.7rem] items-center justify-center', className)}
       onClick={onClick}
       {...props}
     >
-      <div className={cn(
-        'flex flex-col shrink-0 w-[7.7rem] h-[3.2rem] p-[0.3rem] rounded-[2.4rem] transition-[transform_background-color] duration-500 ease-in-out',
-        trackClassName
-      )}>
-        <div className={cn(
-          'flex shrink-0 justify-center items-center w-[4.4rem] h-[2.5rem] px-[1.3rem] py-[0.8rem] rounded-[1.9rem] transition-[transform_background-color] duration-500 ease-in-out',
-          thumbClassName
-        )}>
+      <div
+        className={cn(
+          'flex h-[3.2rem] w-[7.7rem] shrink-0 flex-col rounded-[2.4rem] p-[0.3rem] transition-[transform_background-color] duration-500 ease-in-out',
+          trackClassName,
+        )}
+      >
+        <div
+          className={cn(
+            'flex h-[2.5rem] w-[4.4rem] shrink-0 items-center justify-center rounded-[1.9rem] px-[1.3rem] py-[0.8rem] transition-[transform_background-color] duration-500 ease-in-out',
+            thumbClassName,
+          )}
+        >
           {USER_TYPES.map((type) => (
             <span
               key={type}
               className={cn(
                 'caption-12-md absolute transition-opacity duration-300 ease-in-out',
                 selectedType === type ? 'opacity-100' : 'opacity-0',
-                labelClassName
+                labelClassName,
               )}
             >
               {USER_TYPE_LABEL[type]}

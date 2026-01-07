@@ -14,6 +14,28 @@ const meta: Meta<typeof Navigation> = {
       },
     },
   },
+  argTypes: {
+    isSticky: {
+      control: 'boolean',
+      description: '네비게이션을 sticky로 고정할지 여부',
+    },
+    isFixed: {
+      control: 'boolean',
+      description: '네비게이션을 fixed로 고정할지 여부',
+    },
+    left: {
+      control: false,
+      description: '왼쪽 영역에 표시할 컨텐츠',
+    },
+    center: {
+      control: false,
+      description: '중앙 영역에 표시할 컨텐츠',
+    },
+    right: {
+      control: false,
+      description: '오른쪽 영역에 표시할 컨텐츠',
+    },
+  },
   decorators: [
     (Story) => (
       <div className='relative h-screen w-full max-w-180'>
@@ -32,6 +54,7 @@ export const Default: StoryNavigation = {
     left: <IconArrowBack />,
     center: <span className='text-black-10'>Title</span>,
     right: <IconSearch />,
+    isFixed: true,
   },
 };
 
@@ -39,6 +62,7 @@ export const WithCenterAndRight: StoryNavigation = {
   args: {
     center: <span className='text-black-10'>Title</span>,
     right: <IconSearch />,
+    isFixed: true,
   },
 };
 
@@ -46,6 +70,7 @@ export const WithLeftAndRight: StoryNavigation = {
   args: {
     left: <IconArrowBack />,
     right: <IconSearch />,
+    isFixed: true,
   },
 };
 
@@ -53,6 +78,7 @@ export const WithLeftAndCenter: StoryNavigation = {
   args: {
     left: <IconArrowBack />,
     center: <span className='text-black-10'>Settings</span>,
+    isFixed: true,
   },
 };
 
@@ -61,11 +87,31 @@ export const WithLeftAndCenterAndRight: StoryNavigation = {
     left: <IconArrowBack />,
     center: <span className='text-black-10'>My List</span>,
     right: <IconAdd />,
+    isFixed: true,
   },
 };
 
 export const OnlyCenter: StoryNavigation = {
   args: {
     center: <span className='text-black-10 text-lg font-semibold'>Center Title</span>,
+    isFixed: true,
+  },
+};
+
+export const Sticky: StoryNavigation = {
+  args: {
+    left: <IconArrowBack />,
+    center: <span className='text-black-10'>Sticky Navigation</span>,
+    right: <IconSearch />,
+    isSticky: true,
+  },
+};
+
+export const Fixed: StoryNavigation = {
+  args: {
+    left: <IconArrowBack />,
+    center: <span className='text-black-10'>Fixed Navigation</span>,
+    right: <IconAdd />,
+    isFixed: true,
   },
 };
