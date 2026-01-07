@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import TagChip from './TagChip';
 
 const meta: Meta<typeof TagChip> = {
@@ -17,29 +17,25 @@ const meta: Meta<typeof TagChip> = {
     label: {
       control: { type: 'select' },
       options: [
-        'WARM',
-        'FRESH',
-        'CLEAR',
-        'SUNNY',
-        'DREAMY',
-        'CHIC',
-        'CALM',
-        'VIVID',
-        'DIRECTED',
-        'CINEMATIC',
-        'NATURAL',
-        'SCENERY',
-        'ROUGH',
-        'SEASONAL',
-        'ANALOG',
-        'UNIQUE',
+        '따스한',
+        '청량한',
+        '투명한',
+        '몽환적인',
+        '뚜렷한',
+        '차가운',
+        '디지털',
+        '아날로그',
+        'Y2K',
+        '내추럴',
+        '연출된',
+        '서사적인',
       ],
       description: '무드',
     },
   },
   args: {
     variant: 'neon',
-    label: 'WARM',
+    label: '따스한',
   },
 };
 
@@ -49,13 +45,13 @@ type Story = StoryObj<typeof meta>;
 export const Neon: Story = {
   args: {
     variant: 'neon',
-    label: 'WARM',
+    label: '따스한',
   },
 };
 
 export const Gray: Story = {
   args: {
     variant: 'gray',
-    label: 'WARM',
+    label: '따스한',
   },
 };

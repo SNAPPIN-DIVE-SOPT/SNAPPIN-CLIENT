@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import ProductCard from './ProductCard';
-import type { TagCode } from '../chip/tag-chip/types/tagCode';
 
 const meta: Meta<typeof ProductCard> = {
   title: 'ProductCard',
@@ -10,8 +9,8 @@ const meta: Meta<typeof ProductCard> = {
     docs: {
       description: {
         component: '프로덕트 카드 컴포넌트입니다.',
-      }
-    }
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -38,23 +37,19 @@ const meta: Meta<typeof ProductCard> = {
     tags: {
       control: 'check',
       options: [
-        'WARM',
-        'FRESH',
-        'CLEAR',
-        'SUNNY',
-        'DREAMY',
-        'CHIC',
-        'CALM',
-        'VIVID',
-        'DIRECTED',
-        'CINEMATIC',
-        'NATURAL',
-        'SCENERY',
-        'ROUGH',
-        'SEASONAL',
-        'ANALOG',
-        'UNIQUE',
-      ] satisfies TagCode[],
+        '따스한',
+        '청량한',
+        '투명한',
+        '몽환적인',
+        '뚜렷한',
+        '차가운',
+        '디지털',
+        '아날로그',
+        'Y2K',
+        '내추럴',
+        '연출된',
+        '서사적인',
+      ],
       description: '무드 태그',
     },
   },
@@ -68,7 +63,7 @@ const meta: Meta<typeof ProductCard> = {
     reviewCount: 20,
     author: '김작가',
     price: 80000,
-    tags: ['WARM', 'ANALOG', 'DIRECTED'],
+    tags: ['따스한', '아날로그', '연출된'],
   },
 };
 
@@ -88,7 +83,7 @@ export const LongProductName: Story = {
     reviewCount: 20,
     author: '김작가',
     price: 80000,
-    tags: ['WARM', 'ANALOG', 'DIRECTED'],
+    tags: ['따스한', '아날로그', '연출된'],
   }
 }
 
@@ -103,6 +98,6 @@ export const LongAuthorName: Story = {
     reviewCount: 20,
     author: '작가 이름이 매우 긴 경우에는 이렇게 나와요',
     price: 80000,
-    tags: ['WARM', 'ANALOG', 'DIRECTED'],
+    tags: ['따스한', '아날로그', '연출된'],
   }
 }
