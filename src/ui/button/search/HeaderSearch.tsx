@@ -27,9 +27,9 @@ const HeaderSearch = ({
   ...props
 }: HeaderSearchProps) => {
   const resolvedIcon =
-    icon === null ? null : (
-      icon ?? <IconSearch className='h-[2.4rem] w-[2.4rem] text-black-7' aria-hidden='true' />
-    );
+    icon === null
+      ? null
+      : (icon ?? <IconSearch className='h-[2.4rem] w-[2.4rem]' aria-hidden='true' />);
 
   return (
     <button
@@ -43,7 +43,7 @@ const HeaderSearch = ({
       data-variant='headerSearch'
     >
       {resolvedIcon ? (
-        <span className={cn('shrink-0', slotClassNames?.icon)}>{resolvedIcon}</span>
+        <span className={cn('shrink-0 text-black-7', slotClassNames?.icon)}>{resolvedIcon}</span>
       ) : null}
       <span
         className={cn('min-w-0 flex flex-1 flex-col gap-[0.4rem]', slotClassNames?.textWrapper)}
