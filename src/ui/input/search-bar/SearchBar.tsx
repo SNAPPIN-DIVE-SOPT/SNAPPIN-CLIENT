@@ -1,6 +1,6 @@
+import React from 'react';
 import { IconSearch } from '@/assets';
 import { cn } from '@/utils/cn';
-import React from 'react';
 
 type SearchBarProps = React.InputHTMLAttributes<HTMLInputElement> & {
   containerClassName?: string;
@@ -8,7 +8,7 @@ type SearchBarProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
-  ({ className, containerClassName, iconClassName, type = 'search', ...props }, ref) => {
+  ({ className, containerClassName, iconClassName, type = 'text', ...props }, ref) => {
     return (
       <div
         className={cn(

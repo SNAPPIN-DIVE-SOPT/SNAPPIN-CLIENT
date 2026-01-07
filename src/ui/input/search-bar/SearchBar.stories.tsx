@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { type ChangeEvent, useState } from 'react';
+import { type ChangeEvent, type ComponentProps, useState } from 'react';
 import SearchBar from './SearchBar';
 
 const meta: Meta<typeof SearchBar> = {
@@ -13,14 +13,15 @@ const meta: Meta<typeof SearchBar> = {
   parameters: {
     docs: {
       description: {
-        component: '입력이 가능한 검색 input 컴포넌트입니다.',
+        component:
+          '입력이 가능한 검색 input 컴포넌트입니다. 검색 페이지/모달 트리거 용도는 `ButtonSearchBar`(button)를 사용합니다.',
       },
     },
   },
   decorators: [
     (Story) => (
-      <div className='bg-black-2 flex min-h-[10rem] w-full max-w-180 items-start p-4'>
-        <div className='w-full max-w-120'>
+      <div className='bg-black-2 flex w-full items-start p-4'>
+        <div className='w-full'>
           <Story />
         </div>
       </div>
@@ -33,12 +34,6 @@ export default meta;
 type StorySearchBar = StoryObj<typeof SearchBar>;
 
 export const Default: StorySearchBar = {};
-
-export const Disabled: StorySearchBar = {
-  args: {
-    disabled: true,
-  },
-};
 
 export const WithDefaultValue: StorySearchBar = {
   args: {
@@ -58,7 +53,7 @@ export const WithCustomIcon: StorySearchBar = {
   },
 };
 
-type ControlledSearchBarStoryProps = React.ComponentProps<typeof SearchBar>;
+type ControlledSearchBarStoryProps = ComponentProps<typeof SearchBar>;
 
 const ControlledSearchBarStory = (args: ControlledSearchBarStoryProps) => {
   const initialValue = typeof args.value === 'string' ? args.value : '';
