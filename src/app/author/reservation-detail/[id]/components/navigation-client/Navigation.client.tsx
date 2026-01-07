@@ -17,6 +17,7 @@ export default function NavigationClient() {
 
   return (
     <Navigation
+      isFixed={true}
       left={<IconArrowBack onClick={handleBackClick} />}
       right={<IconHome onClick={handleHomeClick} />}
     />

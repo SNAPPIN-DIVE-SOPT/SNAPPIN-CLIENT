@@ -1,4 +1,4 @@
-import { StateCode } from '@/ui/chip/state-chip/types/stateCode';
+import { StateCode } from '@/types/stateCode';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import ReservationCard from './components/reservation-card/ReservationCard';
 import { RESERVATION_MOCK } from './mock/reservation.mock';

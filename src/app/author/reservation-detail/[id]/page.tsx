@@ -1,17 +1,19 @@
 import { ProductStatus, Recipt, ReservationDetail } from './@section';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import { RESERVATION_DETAIL_MOCK } from './mock/reservationDetail.mock';
-import { StateCode } from '@/ui/chip/state-chip/types/stateCode';
+import { StateCode } from '@/types/stateCode';
 import { MoodCode } from '@/types/moodCode';
 import { Divider } from '@/ui';
 
 export default function page() {
   const data = RESERVATION_DETAIL_MOCK;
   return (
-    <div className='bg-black-3 flex h-full flex-col'>
+    <div className='bg-black-3 flex flex-col'>
       <NavigationClient />
       <div className='flex flex-col'>
         <ProductStatus
+          id={data.productInfo.id}
+          status={data.status as StateCode}
           imageUrl={data.productInfo.imageUrl}
           title={data.productInfo.title}
           rate={data.productInfo.rate}

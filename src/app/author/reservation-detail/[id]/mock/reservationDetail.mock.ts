@@ -1,5 +1,5 @@
 export const RESERVATION_DETAIL_MOCK = {
-  status: 'PHOTOGRAPHER_REQUESTED',
+  status: 'RESERVATION_CONFIRMED',
   productInfo: {
     id: 1,
     imageUrl: 'https://picsum.photos/576/576?random=1',
@@ -22,5 +22,13 @@ export const RESERVATION_DETAIL_MOCK = {
     basePrice: 200000,
     extraPrice: 50000,
     totalPrice: 250000,
+  },
+  reviewInfo: {
+    id: 1,
+    reviewer: '작성자명',
+    rating: 5,
+    createdAt: '2026-01-01',
+    images: ['https://picsum.photos/576/576?random=1', 'https://picsum.photos/576/576?random=2'],
+    content: '리뷰 내용',
   },
 };
