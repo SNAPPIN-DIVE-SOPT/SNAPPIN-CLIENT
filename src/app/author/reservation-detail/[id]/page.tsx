@@ -32,20 +32,28 @@ export default function page() {
           peopleCount={data.reservationInfo.peopleCount}
           requestNote={data.reservationInfo.requestNote}
         />
-        <Divider thickness='large' color='bg-black-3' />
-        <Recipt
-          basePrice={data.paymentInfo.basePrice}
-          extraPrice={data.paymentInfo.extraPrice}
-          totalPrice={data.paymentInfo.totalPrice}
-        />
-        <Divider thickness='large' color='bg-black-3' />
-        <ReviewDetail
-          reviewer={data.reviewInfo.reviewer}
-          rating={data.reviewInfo.rating}
-          createdAt={data.reviewInfo.createdAt}
-          images={data.reviewInfo.images}
-          content={data.reviewInfo.content}
-        />
+        {data.paymentInfo && (
+          <>
+            <Divider thickness='large' color='bg-black-3' />
+            <Recipt
+              basePrice={data.paymentInfo.basePrice}
+              extraPrice={data.paymentInfo.extraPrice}
+              totalPrice={data.paymentInfo.totalPrice}
+            />
+          </>
+        )}
+        {data.reviewInfo && (
+          <>
+            <Divider thickness='large' color='bg-black-3' />
+            <ReviewDetail
+              reviewer={data.reviewInfo.reviewer}
+              rating={data.reviewInfo.rating}
+              createdAt={data.reviewInfo.createdAt}
+              images={data.reviewInfo.images}
+              content={data.reviewInfo.content}
+            />
+          </>
+        )}
       </div>
     </div>
   );
