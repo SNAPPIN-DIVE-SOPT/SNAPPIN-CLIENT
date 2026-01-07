@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
 import Chip from '../base/Chip';
-import { StateCode } from '../../../types/stateCode';
+import { StateCode } from '@/types/stateCode';
 import { STATE_LABEL } from './constants/stateLabel';
 import { STATE_CHIP_THEME_BY_LABEL } from './constants/stateChipTheme';
 
