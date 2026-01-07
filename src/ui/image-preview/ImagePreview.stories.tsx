@@ -40,12 +40,12 @@ const meta: Meta<typeof ImagePreview> = {
       description: '삭제 버튼 노출 여부',
     },
     imageWidthRem: {
-      control: { type: 'number', min: 4, step: 1 },
-      description: '컨테이너 너비 (rem)',
+      control: 'text',
+      description: '컨테이너 너비 (rem 단위 string)',
     },
     imageHeightRem: {
-      control: { type: 'number', min: 4, step: 1 },
-      description: '컨테이너 높이 (rem)',
+      control: 'text',
+      description: '컨테이너 높이 (rem 단위 string)',
     },
   },
   args: {
@@ -53,8 +53,8 @@ const meta: Meta<typeof ImagePreview> = {
     imageAlt: '임시 이미지',
     showRemoveButton: true,
     imageClassName: '',
-    imageWidthRem: 14,
-    imageHeightRem: 14,
+    imageWidthRem: '14rem',
+    imageHeightRem: '14rem',
   },
 };
 
@@ -74,9 +74,10 @@ export const WithoutRemoveButton: Story = {
   },
 };
 
-export const NoImage: Story = {
+export const CustomSize: Story = {
   args: {
-    imageSrc: undefined,
-    showRemoveButton: false,
+    imageWidthRem: '18rem',
+    imageHeightRem: '12rem',
+    className: 'rounded-[1.2rem]',
   },
 };
