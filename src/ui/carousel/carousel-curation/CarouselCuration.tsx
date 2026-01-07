@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 
 import { cn } from '@/utils/cn';
 import {
@@ -10,13 +9,14 @@ import {
   CarouselItem,
   type CarouselApi,
 } from '@/ui/carousel/base/Carousel';
+import { ImageCarousel } from '@/ui/carousel';
 import { IconEllipse } from '@/assets';
 import { TagChip } from '@/ui/chip';
-import { TagCode } from '@/ui/chip/tag-chip/types/tagCode';
+import { MoodCode } from '@/types/moodCode';
 
 type CarouselCurationProps = {
   images: { src: string; alt?: string }[];
-  tags: TagCode[];
+  tags: MoodCode[];
   name: string;
   className?: string;
 };
@@ -47,24 +47,15 @@ export default function CarouselCuration({ images, tags, name, className }: Caro
       <Carousel setApi={setApi}>
         <CarouselContent>
           {images.map((img, idx) => (
-            <CarouselItem key={idx}>
-              <div className='relative h-[36rem] w-[36rem]'>
-                <Image
-                  src={img.src}
-                  alt={img.alt ?? `image-${img.src}`}
-                  fill
-                  sizes='36rem'
-                  className='object-cover select-none'
-                  priority={idx === 0}
-                  draggable={false}
-                />
-                <div
-                  className='pointer-events-none absolute inset-0 h-full w-full'
-                  style={{
-                    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 46.63%, #000 100%)',
-                  }}
-                />
-              </div>
+            <CarouselItem key={`image-${img.src}-${idx}`}>
+              <ImageCarousel
+                src={img.src}
+                alt={img.alt ?? `image-${img.src}`}
+                imageHeight='36rem'
+                imageWidth='36rem'
+                priority={idx === 0}
+                draggable={false}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
