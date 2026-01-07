@@ -1,6 +1,6 @@
 'use client';
 
-import { IconButton } from '@/ui';
+import { Divider, IconButton } from '@/ui';
 import { IconKeyboardArrowLeft, IconKeyboardArrowRight } from '@/assets';
 import { useMemo, useState } from 'react';
 import DateCell from '../cell/DateCell';
@@ -39,10 +39,9 @@ type DatePickerProps = {
 
 /**
  * 날짜 선택 컴포넌트
- * - reservation: 예약일 선택용 (기본값)
  * - 제어형/비제어형 모두 지원
  * - 월별 날짜 활성화/비활성화 지원
- * - 예약 모드에서 최대 예약 가능 월 제한 지원
+ * - 최대 예약 가능 월 제한 지원
  * @param props DatePickerProps
  * @example
  * <DatePicker
@@ -100,7 +99,8 @@ export default function DatePicker({
     const year = viewMonth.getFullYear();
     const monthIndex = viewMonth.getMonth();
     const totalDays = daysInMonth(viewMonth);
-    const startDay = new Date(year, monthIndex, 1).getDay(); // 0~6 (일~토)
+    // 0~6 (일~토)
+    const startDay = new Date(year, monthIndex, 1).getDay();
 
     // CellGrid 앞 빈칸 채우기
     const prefixCells: CalendarCell[] = buildPrefixCells(year, monthIndex, startDay);
@@ -132,6 +132,17 @@ export default function DatePicker({
     availabilityMap,
   ]);
 
+  const cellRows = useMemo(() => {
+    const rows: CalendarCell[][] = [];
+    for (let i = 0; i < cells.length; i += 7) {
+      rows.push(cells.slice(i, i + 7));
+    }
+    return rows;
+  }, [cells]);
+
+  const year = viewMonth.getFullYear();
+  const monthNum = viewMonth.getMonth() + 1;
+
   return (
     <div className='flex flex-col px-[2rem]'>
       {/* 이전, 다음 월 이동 */}
@@ -145,33 +156,44 @@ export default function DatePicker({
         </IconButton>
       </header>
 
-      {/* 공컴 디바이더 교체 */}
-      <div className='bg-black-3 h-[0.1rem]' />
+      <Divider color='bg-black-3' thickness='small' />
 
-      {/* 요일 */}
-      <div className='flex flex-row items-center px-[1.6rem] py-[1.2rem]'>
-        {WEEKDAY_LABELS.map((label) => (
-          <span key={label} className='caption-12-md text-black-7 flex-1 py-[0.4rem] text-center'>
-            {label}
-          </span>
-        ))}
-      </div>
-
-      {/* 날짜 그리드 */}
-      <div className='grid grid-cols-7 place-items-center gap-y-[0.8rem] p-[1.6rem]' role='grid'>
-        {cells.map((cell) =>
-          cell.kind === 'day' ? (
-            <DateCell
-              key={cell.key}
-              value={String(cell.day)}
-              isDisabled={cell.isDisabled}
-              isSelected={selectedDate === cell.iso}
-              handleSelect={() => handleDateChangeAction?.(cell.iso)}
-            />
-          ) : (
-            <div key={cell.key} className='min-w-[3.2rem] py-[0.8rem]' />
-          ),
-        )}
+      {/* 그리드 달력*/}
+      <div role='grid' aria-label={`${year}년 ${monthNum}월 달력`} className='flex flex-col'>
+        {/* 달력 헤더 (요일) */}
+        <div role='row' className='grid grid-cols-7 px-[1.6rem] py-[1.2rem]'>
+          {WEEKDAY_LABELS.map((label) => (
+            <span
+              key={label}
+              role='columnheader'
+              className='caption-12-md text-black-7 py-[0.4rem] text-center'
+            >
+              {label}
+            </span>
+          ))}
+        </div>
+        {/* 달력 각 셀 */}
+        <div className='flex flex-col gap-y-[0.8rem] p-[1.6rem]'>
+          {cellRows.map((row, rowIndex) => (
+            <div key={rowIndex} role='row' className='grid grid-cols-7 place-items-center'>
+              {row.map((cell) =>
+                cell.kind === 'day' ? (
+                  <DateCell
+                    key={cell.key}
+                    value={String(cell.day)}
+                    iso={cell.iso}
+                    isDisabled={cell.isDisabled}
+                    isSelected={selectedDate === cell.iso}
+                    isToday={cell.iso === todayISO}
+                    handleSelect={() => handleDateChangeAction?.(cell.iso)}
+                  />
+                ) : (
+                  <div key={cell.key} aria-disabled='true' className='min-w-[3.2rem] py-[0.8rem]' />
+                ),
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
