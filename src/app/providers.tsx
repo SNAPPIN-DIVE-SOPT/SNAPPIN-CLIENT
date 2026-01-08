@@ -3,6 +3,11 @@
 import { Logo } from '@/assets';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import dynamic from 'next/dynamic';
+
+const ToastContainer = dynamic(() => import('@/ui/toast/ToastContainer'), {
+  ssr: false,
+});
 
 function makeQueryClient() {
   return new QueryClient({
@@ -34,6 +39,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ToastContainer />
       <div className='bg-black-1 mx-auto h-dvh max-w-[45rem] shadow-[0_0_10px_4px_rgba(0,0,0,0.04)]'>
         <div id='app-scroll' className='scrollbar-hide h-full overflow-y-auto'>
           {children}
