@@ -21,6 +21,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
+    "jotai": "^2.16.1",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",
     "react": "19.2.3",

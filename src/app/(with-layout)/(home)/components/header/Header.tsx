@@ -14,13 +14,13 @@ export default function Header({ isVisible }: HeaderProps) {
   };
 
   return (
-    <Navigation
-      left={<Logo width={72} />}
-      right={<IconSearch onClick={handleClickSearch} />}
+    <div
       className={cn(
         'z-15 transition-transform duration-300 ease-out will-change-transform',
         isVisible ? 'pointer-events-auto translate-y-0' : 'pointer-events-none -translate-y-full',
       )}
-    />
+    >
+      <Navigation left={<Logo width={72} />} right={<IconSearch onClick={handleClickSearch} />} />
+    </div>
   );
 }

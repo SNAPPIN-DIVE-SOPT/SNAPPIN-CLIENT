@@ -43,5 +43,6 @@ export { default as IconReservationFill } from './components/IconReservationFill
 export { default as IconSearch } from './components/IconSearch';
 export { default as IconSettingsBackupRestore } from './components/IconSettingsBackupRestore';
 export { default as IconStar } from './components/IconStar';
+export { default as IconStarHalf } from './components/IconStarHalf';
 export { default as IconSuccess } from './components/IconSuccess';
 export { default as Logo } from './components/Logo';

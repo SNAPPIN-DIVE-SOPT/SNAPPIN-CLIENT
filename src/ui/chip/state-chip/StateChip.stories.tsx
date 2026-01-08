@@ -13,11 +13,12 @@ const meta: Meta<typeof StateChip> = {
       control: { type: 'select' },
       options: [
         'RESERVATION_REQUESTED',
-        'AUTHOR_CONFIRMING',
+        'PHOTOGRAPHER_CHECKING',
         'PAYMENT_REQUESTED',
         'PAYMENT_COMPLETED',
-        'RESERVATION_COMPLETED',
-        'RESERVATION_CANCELLED',
+        'RESERVATION_CONFIRMED',
+        'RESERVATION_REFUSED',
+        'RESERVATION_CANCELED',
         'SHOOT_COMPLETED',
       ],
       description: '예약 상태',
@@ -39,7 +40,7 @@ export const 예약요청: Story = {
 
 export const 작가확인중: Story = {
   args: {
-    label: 'AUTHOR_CONFIRMING',
+    label: 'PHOTOGRAPHER_CHECKING',
   },
 };
 
@@ -57,13 +58,13 @@ export const 결제완료: Story = {
 
 export const 예약확정: Story = {
   args: {
-    label: 'RESERVATION_COMPLETED',
+    label: 'RESERVATION_CONFIRMED',
   },
 };
 
 export const 예약취소: Story = {
   args: {
-    label: 'RESERVATION_CANCELLED',
+    label: 'RESERVATION_CANCELED',
   },
 };
 
