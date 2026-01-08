@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 export default function Header({ isVisible }: HeaderProps) {
-  const isLogIn = useAuth();
+  const { isLogIn } = useAuth();
 
   const handleClickSearch = () => {
     //TODO: 검색 페이지로 이동
@@ -33,7 +33,7 @@ export default function Header({ isVisible }: HeaderProps) {
         right={
           <div className='flex items-center gap-[1.2rem]'>
             <IconSearch onClick={handleClickSearch} />
-            {isLogIn && (
+            {!isLogIn && (
               <Button size='small' color='black' onClick={handleClickLogin}>
                 로그인
               </Button>
