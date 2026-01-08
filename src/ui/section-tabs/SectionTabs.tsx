@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '@/utils/cn';
@@ -10,6 +9,7 @@ import {
   type SectionTabsIndicatorStyle,
 } from './contexts/sectionTabsContext';
 import { useSectionTabsQuerySync } from './hooks/useSectionTabsQuerySync';
+import { useId, useState, useMemo, useRef, useCallback, useLayoutEffect, useEffect } from 'react';
 
 const makeId = (baseId: string, value: string, suffix: string) => {
   const normalizedValue = value.replace(/\s+/g, '-');
@@ -30,11 +30,9 @@ const SectionTabsRoot = ({
   children,
   ...props
 }: SectionTabsProps) => {
-  const [indicatorStyle, setIndicatorStyle] = React.useState<SectionTabsIndicatorStyle | null>(
-    null,
-  );
+  const [indicatorStyle, setIndicatorStyle] = useState<SectionTabsIndicatorStyle | null>(null);
   const selectedValue = value;
-  const baseId = React.useId();
+  const baseId = useId();
 
   useSectionTabsQuerySync({
     queryKey,
@@ -42,7 +40,7 @@ const SectionTabsRoot = ({
     handleValueChange,
   });
 
-  const contextValue = React.useMemo(
+  const contextValue = useMemo(
     () => ({
       value: selectedValue,
       handleValueChange: handleValueChange ?? (() => {}),
@@ -144,11 +142,11 @@ const SectionTabsTab = ({
     baseId,
   } = useSectionTabsContext('SectionTabs.Tab');
   const isSelected = value === selectedValue;
-  const tabRef = React.useRef<HTMLButtonElement>(null);
+  const tabRef = useRef<HTMLButtonElement>(null);
   const tabId = makeId(baseId, value, 'tab');
   const panelId = makeId(baseId, value, 'panel');
 
-  const handleIndicatorUpdate = React.useCallback(() => {
+  const handleIndicatorUpdate = useCallback(() => {
     const element = tabRef.current;
     if (!element) {
       return;
@@ -160,13 +158,13 @@ const SectionTabsTab = ({
     });
   }, [setIndicatorStyle]);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (isSelected) {
       handleIndicatorUpdate();
     }
   }, [handleIndicatorUpdate, isSelected]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isSelected) {
       return;
     }
