@@ -15,9 +15,9 @@ type PresetProps = {
   type: Exclude<DefaultModalType, 'default'>;
 };
 
-type StatefulDefaultmModalProps = DefaultProps | PresetProps;
+type StatefulDefaultModalProps = DefaultProps | PresetProps;
 
-function StatefulDefaultModal(props: StatefulDefaultmModalProps) {
+function StatefulDefaultModal(props: StatefulDefaultModalProps) {
   const [open, setOpen] = useState(false);
   const handleOpenChange = (open: boolean) => setOpen(open);
   const handleClose = () => setOpen(false);
@@ -28,7 +28,7 @@ function StatefulDefaultModal(props: StatefulDefaultmModalProps) {
 
   return (
     <>
-      <button onClick={() => setOpen(true)}>모달 열기</button>
+      <button type='button' onClick={() => setOpen(true)}>모달 열기</button>
 
       {props.type === 'default'
         ? <DefaultModal
