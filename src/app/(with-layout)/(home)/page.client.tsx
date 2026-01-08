@@ -13,7 +13,7 @@ export default function PageClient() {
   const { isVisible } = useNavVisibility();
 
   return (
-    <div className='relative mt-[-5rem] mb-[6rem] flex w-full flex-col'>
+    <div className='relative mb-[6rem] flex w-full flex-col'>
       <Header isVisible={isVisible} />
       <Image src={homeBackground} alt='home-background' />
       {/*  메뉴 영역 */}
