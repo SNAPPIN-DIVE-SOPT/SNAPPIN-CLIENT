@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import ProductCard from './ProductCard';
 
 const meta: Meta<typeof ProductCard> = {
-  title: 'ProductCard',
+  title: 'UI/ProductCard',
   component: ProductCard,
   parameters: {
     layout: 'centered',
@@ -84,8 +84,8 @@ export const LongProductName: Story = {
     author: '김작가',
     price: 80000,
     tags: ['따스한', '아날로그', '연출된'],
-  }
-}
+  },
+};
 
 export const LongAuthorName: Story = {
   args: {
@@ -99,5 +99,5 @@ export const LongAuthorName: Story = {
     author: '작가 이름이 매우 긴 경우에는 이렇게 나와요',
     price: 80000,
     tags: ['따스한', '아날로그', '연출된'],
-  }
-}
+  },
+};
