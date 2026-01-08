@@ -23,4 +23,5 @@ export const BUTTON_COLOR: Record<NonNullable<ButtonColor>, string> = {
   white: 'bg-black-1 text-black-7 border border-black-5',
   transparent: 'bg-transparent text-black-10 border border-black-10',
   muted: 'bg-transparent text-black-7 border border-black-7',
+  disabled: 'bg-black-4 text-black-7 border-none',
 };
