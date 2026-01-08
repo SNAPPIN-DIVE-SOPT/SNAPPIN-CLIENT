@@ -1,4 +1,4 @@
-import { ProductStatus, Recipt, ReservationDetail, ReviewDetail } from './@section';
+import { ProductStatus, Recipt, ReservationDetail, ReviewDetail } from './_section';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import { RESERVATION_DETAIL_MOCK } from './mock/reservationDetail.mock';
 import { StateCode } from '@/types/stateCode';
@@ -48,6 +48,7 @@ export default function page() {
           <>
             <Divider thickness='large' color='bg-black-3' />
             <ReviewDetail
+              id={data.reviewInfo.id}
               reviewer={data.reviewInfo.reviewer}
               rating={data.reviewInfo.rating}
               createdAt={data.reviewInfo.createdAt}
