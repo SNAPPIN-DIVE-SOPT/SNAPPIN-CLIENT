@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { IconArrowForward, IconArrowBack } from '@/assets';
 
 import { cn } from '@/utils/cn';
 
@@ -166,7 +166,7 @@ function CarouselPrevious({ className, ...props }: React.ComponentProps<'button'
     <button
       data-slot='carousel-previous'
       className={cn(
-        'absolute size-8 rounded-full',
+        'absolute size-8 rounded-full !bg-black/5',
         orientation === 'horizontal'
           ? 'top-1/2 -left-12 -translate-y-1/2'
           : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
@@ -176,7 +176,7 @@ function CarouselPrevious({ className, ...props }: React.ComponentProps<'button'
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeft />
+      <IconArrowBack className='text-black-1' />
       <span className='sr-only'>Previous slide</span>
     </button>
   );
@@ -189,7 +189,7 @@ function CarouselNext({ className, ...props }: React.ComponentProps<'button'>) {
     <button
       data-slot='carousel-next'
       className={cn(
-        'absolute size-8 rounded-full',
+        'absolute size-8 rounded-full !bg-black/5',
         orientation === 'horizontal'
           ? 'top-1/2 -right-12 -translate-y-1/2'
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
@@ -199,7 +199,7 @@ function CarouselNext({ className, ...props }: React.ComponentProps<'button'>) {
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRight />
+      <IconArrowForward className='text-black-1' />
       <span className='sr-only'>Next slide</span>
     </button>
   );
