@@ -59,7 +59,7 @@ export default function DefaultModal(props: DefaultModalProps) {
   const content = type === 'default' ? props.content : CONTENT[type];
   const buttons = type === 'default'
     ? props.buttons
-    : props.buttons.map((button, idx) => ({ ...BUTTONS[type][idx], ...button.onClick }));
+    : props.buttons.map((button, idx) => ({ ...BUTTONS[type][idx], onClick: button.onClick }));
   const theme = THEME[type];
 
   return (
