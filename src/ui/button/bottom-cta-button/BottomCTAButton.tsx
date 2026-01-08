@@ -21,7 +21,7 @@ function BottomCTAButtonRoot({
   return (
     <div
       className={cn(
-        fixed ? 'fixed-center bottom-cta-button-0' : 'mt-auto',
+        fixed ? 'fixed-center bottom-0' : 'mt-auto',
         background === 'white' ? 'bg-black-1' : undefined,
         hasPadding ? 'px-[2.4rem] pt-[0.8rem] pb-[2rem]' : undefined,
         className,
