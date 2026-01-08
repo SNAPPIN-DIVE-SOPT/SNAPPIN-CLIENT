@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import ReviewStar from './ReviewStar';
 
 const meta: Meta<typeof ReviewStar> = {
-  title: 'reviewStar',
+  title: 'UI/ReviewStar',
   component: ReviewStar,
   tags: ['autodocs'],
   parameters: {

@@ -4,7 +4,7 @@ import UserTypeToggle, { UserTypeToggleProps } from './UserTypeToggle';
 import { UserType } from '@/auth/constant/userType';
 
 const meta: Meta<typeof UserTypeToggle> = {
-  title: 'UserTypeToggle',
+  title: 'UI/UserTypeToggle',
   component: UserTypeToggle,
   parameters: {
     layout: 'centered',

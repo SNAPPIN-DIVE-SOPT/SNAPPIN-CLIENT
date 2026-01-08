@@ -3,7 +3,7 @@ import Navigation from '@/ui/navigation/Navigation';
 import { IconArrowBack, IconSearch, IconAdd } from '@/assets';
 
 const meta: Meta<typeof Navigation> = {
-  title: 'Navigation',
+  title: 'UI/Navigation',
   component: Navigation,
   tags: ['autodocs'],
   parameters: {
