@@ -21,6 +21,7 @@ export { default as IconHeart } from './components/IconHeart';
 export { default as IconHeartFill } from './components/IconHeartFill';
 export { default as IconHome } from './components/IconHome';
 export { default as IconHomeFill } from './components/IconHomeFill';
+export { default as IconKakao } from './components/IconKakao';
 export { default as IconKeyboardArrowDown } from './components/IconKeyboardArrowDown';
 export { default as IconKeyboardArrowLeft } from './components/IconKeyboardArrowLeft';
 export { default as IconKeyboardArrowRight } from './components/IconKeyboardArrowRight';
