@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ImageCarousel } from '@/ui/carousel';
+import { ImageCarousel } from '@/ui';
 
 type Item = {
   id: number;
@@ -15,12 +15,13 @@ type InfiniteBannerProps = {
   durationSec?: number;
 };
 
-export function InfiniteBanner({ items, durationSec = 18 }: InfiniteBannerProps) {
+export default function InfiniteBanner({ items, durationSec = 18 }: InfiniteBannerProps) {
   const loopItems = [...items, ...items];
 
   return (
     <div
       className='relative w-full overflow-hidden'
+      //eslint-disable-next-line @typescript-eslint/no-explicit-any
       style={{ ['--duration' as any]: `${durationSec}s` }}
     >
       <div className='infinite-track flex w-max gap-[0.4rem]'>

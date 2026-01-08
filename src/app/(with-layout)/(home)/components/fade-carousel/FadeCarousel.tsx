@@ -1,10 +1,11 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/utils/cn';
 import Logo from '@/assets/components/Logo';
-import SearchButton from '@/ui/button/button-search-bar/ButtonSearchBar';
+import { ButtonSearchBar } from '@/ui';
 
 type FadeCarouselProps = {
   images: { src: string; alt?: string }[];
@@ -55,6 +56,7 @@ export default function FadeCarousel({ images }: FadeCarouselProps) {
           </div>
         ))}
       </div>
+      {/* overlay */}
       <div className='absolute inset-0 flex h-full w-full flex-col items-center justify-between bg-black/40 px-[2rem] py-[2.2rem]'>
         <Logo className='text-neon-white' width={318} height={67} />
         <div className='flex w-full flex-col items-center gap-[3.2rem]'>
@@ -66,14 +68,17 @@ export default function FadeCarousel({ images }: FadeCarouselProps) {
               스냅 촬영을 예약해보세요
             </p>
           </div>
-          <SearchButton
-            headline='어떤 스냅 작가를 찾고 있나요?'
-            supportingText='스냅 종류, 촬영 장소, 촬영 날짜로 정교한 검색'
-            className='border-black-1 w-full rounded-[6rem] border bg-white/15 backdrop-blur-[7.5px]'
-            iconClassName='text-black-1'
-            headlineClassName='text-black-1'
-            supportingTextClassName='text-black-1'
-          />
+          {/* TODO: 검색 페이지 연결 */}
+          <Link href='/' className='w-full'>
+            <ButtonSearchBar
+              headline='어떤 스냅 작가를 찾고 있나요?'
+              supportingText='스냅 종류, 촬영 장소, 촬영 날짜로 정교한 검색'
+              className='border-black-1 w-full rounded-[6rem] border bg-white/15 backdrop-blur-[7.5px]'
+              iconClassName='text-black-1'
+              headlineClassName='text-black-1'
+              supportingTextClassName='text-black-1'
+            />
+          </Link>
         </div>
       </div>
     </div>

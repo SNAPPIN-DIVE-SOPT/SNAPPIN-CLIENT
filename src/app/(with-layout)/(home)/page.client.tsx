@@ -1,16 +1,16 @@
 'use client';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import { useNavVisibility } from './hooks/useNavVisibility';
-import Header from './components/header/Header';
-import Image from 'next/image';
+import { Header, FadeCarousel } from './components';
+import { MENU } from './constants/menu';
+import { RecommendationSnapPlace, RecommendationAuthor, MoodCurationSection } from './_section';
+
 import homeBackground1 from '@/../public/imgs/image-main1.png';
 import homeBackground2 from '@/../public/imgs/image-main2.png';
 import homeBackground3 from '@/../public/imgs/image-main3.png';
-import { MENU } from './constants/menu';
-import { RecommendationSnapPlace, RecommendationAuthor, MoodCurationSection } from './@section';
-import Link from 'next/link';
 import banner from '@/../public/imgs/banner.png';
-import FadeCarousel from './components/fade-carousel/FadeCarousel';
 
 export default function PageClient() {
   const { isVisible } = useNavVisibility();

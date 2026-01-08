@@ -1,13 +1,11 @@
-import { TagChip } from '@/ui/chip';
-
-import { loginCurationMock, notLoginCurationMock } from '../mock/curation.mock';
-import CarouselCuration from '@/ui/carousel/carousel-curation/CarouselCuration';
+import { Chip, CarouselCuration } from '@/ui';
 import { MoodCode } from '@/types/moodCode';
+import { useAuth } from '@/auth/hooks/useAuth';
+import { loginCurationMock, notLoginCurationMock } from '../mock/curation.mock';
 
 export default function MoodCurationSection() {
-  //TODO: 로그인 여부 확인
-  const isLogin = true;
-  const mock = isLogin ? loginCurationMock : notLoginCurationMock;
+  const { isLogIn } = useAuth();
+  const mock = isLogIn ? loginCurationMock : notLoginCurationMock;
 
   return (
     <div className='scrollbar-hide flex flex-col gap-[1.6rem]'>
@@ -15,12 +13,22 @@ export default function MoodCurationSection() {
         <span className='font-18-bd text-black-10'>요즘 많이 찾는 무드 큐레이션</span>
         <div className='flex items-end gap-[0.6rem]'>
           <div className='flex gap-[0.5rem]'>
-            {isLogin
+            {isLogIn
               ? loginCurationMock.curatedMoods.map((mood: MoodCode) => (
-                  <TagChip key={mood} variant='neon' label={mood} />
+                  <Chip
+                    key={mood}
+                    label={mood}
+                    chipClassName='px-[0.6rem] py-[0.3rem] border-[0.3px] border-black-10 '
+                    labelClassName='caption-12-md'
+                  />
                 ))
               : notLoginCurationMock.popularMoods.map((mood: MoodCode) => (
-                  <TagChip key={mood} variant='neon' label={mood} />
+                  <Chip
+                    key={mood}
+                    label={mood}
+                    chipClassName='px-[0.6rem] py-[0.3rem] border-[0.3px] border-black-10 '
+                    labelClassName='caption-12-md'
+                  />
                 ))}
           </div>
           <p className='caption-14-md text-black-8'>스냅사진을 추천할게요</p>

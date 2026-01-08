@@ -1,6 +1,5 @@
+import { Author, InfiniteBanner } from '../components';
 import { recommendationMock } from '../mock/recommendation.mock';
-import { InfiniteBanner } from '../components/infinte-banner/InfiniteBanner';
-import Author from '../components/author/Author';
 
 const RecommendationSnapPlace = () => {
   const { places } = recommendationMock;

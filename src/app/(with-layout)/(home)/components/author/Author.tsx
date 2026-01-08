@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import Chip from '@/ui/chip/base/Chip';
+import { Chip } from '@/ui';
 
 type AuthorProps = {
   id: number;
