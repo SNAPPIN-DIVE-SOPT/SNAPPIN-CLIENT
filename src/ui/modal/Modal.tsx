@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
+import { Button } from '@/ui';
 import {
-  Button,
   Dialog,
   DialogClose,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogOverlay,
   DialogPortal,
   DialogTitle,
-} from '@/ui';
+} from './Dialog';
 import { ModalType } from './types/modalType';
 import { ModalTitle, MODAL_CONTENT } from './constants/modalContent';
 import { MODAL_THEME } from './constants/modalTheme';
