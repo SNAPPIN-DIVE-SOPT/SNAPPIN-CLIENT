@@ -1,0 +1,59 @@
+'use client';
+
+import { useState } from 'react';
+import { StateCode } from '@/types/stateCode';
+import { MoodCode } from '@/types/moodCode';
+import { Divider, SectionTabs } from '@/ui';
+import { RESERVATION_TABS } from '../../constants/tabs';
+import ReservationCard from '../reservation-card/ReservationCard';
+import { RESERVATION_MOCK } from '../../mock/reservation.mock';
+
+export default function ReservationContent() {
+  const [selectedTabValue, setSelectedTabValue] =
+    useState<(typeof RESERVATION_TABS)[number]['value']>('PHOTOGRAPHER_REQUESTED');
+
+  const handleTabChange = (value: (typeof RESERVATION_TABS)[number]['value']) => {
+    setSelectedTabValue(value);
+  };
+
+  //TODO: 서버 데이터 연동( 파라미터에 selectedTabValue 추가)
+  const data = RESERVATION_MOCK;
+
+  return (
+    <div className='flex flex-col'>
+      <SectionTabs value={selectedTabValue} handleValueChange={handleTabChange}>
+        <SectionTabs.List>
+          {RESERVATION_TABS.map((tab) => (
+            <SectionTabs.Tab key={tab.value} value={tab.value}>
+              {tab.label}
+            </SectionTabs.Tab>
+          ))}
+        </SectionTabs.List>
+
+        <SectionTabs.Contents value={selectedTabValue}>
+          <div className='flex flex-col gap-[1.2rem]'>
+            {data.products.map((product, index) => (
+              <div key={product.id}>
+                <ReservationCard
+                  key={product.id}
+                  id={product.id}
+                  status={product.status as StateCode}
+                  image={{ src: product.imageUrl, alt: product.title }}
+                  name={product.title}
+                  rating={product.rate}
+                  reviewCount={product.reviewCount}
+                  author={product.photographer}
+                  price={product.price}
+                  tags={product.moods as MoodCode[]}
+                />
+                {index !== data.products.length - 1 && (
+                  <Divider thickness='large' color='bg-black-3' />
+                )}
+              </div>
+            ))}
+          </div>
+        </SectionTabs.Contents>
+      </SectionTabs>
+    </div>
+  );
+}

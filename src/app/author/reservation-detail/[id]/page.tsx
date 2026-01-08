@@ -6,7 +6,9 @@ import { MoodCode } from '@/types/moodCode';
 import { Divider } from '@/ui';
 
 export default function page() {
+  //TODO: 서버 데이터 연동( 파라미터에 id 추가)
   const data = RESERVATION_DETAIL_MOCK;
+
   return (
     <div className='bg-black-3 flex flex-col'>
       <NavigationClient />

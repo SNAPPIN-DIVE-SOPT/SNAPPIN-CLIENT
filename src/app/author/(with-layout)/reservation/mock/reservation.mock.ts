@@ -2,7 +2,7 @@ export const RESERVATION_MOCK = {
   products: [
     {
       id: 1,
-      status: 'PHOTOGRAPHER_REQUESTED',
+      status: 'RESERVATION_REQUESTED',
       imageUrl: 'https://picsum.photos/576/576?random=1',
       title: '상품명',
       rate: 4.7,
@@ -14,7 +14,7 @@ export const RESERVATION_MOCK = {
     },
     {
       id: 2,
-      status: 'SHOOT_COMPLETED',
+      status: 'RESERVATION_CONFIRMED',
       imageUrl: 'https://picsum.photos/576/576?random=2',
       title: '상품명2',
       rate: 4.9,
@@ -26,7 +26,7 @@ export const RESERVATION_MOCK = {
     },
     {
       id: 3,
-      status: 'SHOOT_COMPLETED',
+      status: 'RESERVATION_CONFIRMED',
       imageUrl: 'https://picsum.photos/576/576?random=3',
       title: '상품명3',
       rate: 4.8,
@@ -38,7 +38,7 @@ export const RESERVATION_MOCK = {
     },
     {
       id: 4,
-      status: 'SHOOT_COMPLETED',
+      status: 'RESERVATION_CONFIRMED',
       imageUrl: 'https://picsum.photos/576/576?random=4',
       title: '상품명4',
       rate: 4.6,
@@ -50,7 +50,7 @@ export const RESERVATION_MOCK = {
     },
     {
       id: 5,
-      status: 'SHOOT_COMPLETED',
+      status: 'RESERVATION_CONFIRMED',
       imageUrl: 'https://picsum.photos/576/576?random=5',
       title: '상품명5',
       rate: 5.0,

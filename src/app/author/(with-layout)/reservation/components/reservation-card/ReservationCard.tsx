@@ -44,7 +44,7 @@ export default function ReservationCard({
           <StateChip label={status} />
           <Button
             size='small'
-            className='text-black-8 flex items-center gap-[0.5rem] bg-white'
+            className='text-black-8 flex items-center bg-white p-0'
             onClick={handleCancel}
           >
             예약상세
