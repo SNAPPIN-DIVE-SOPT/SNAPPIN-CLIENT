@@ -16,3 +16,5 @@ export const RESERVATION_TABS = [
     value: 'PHOTOGRAPHER_DONE',
   },
 ];
+
+export type ReservationTabValue = (typeof RESERVATION_TABS)[number]['value'];
