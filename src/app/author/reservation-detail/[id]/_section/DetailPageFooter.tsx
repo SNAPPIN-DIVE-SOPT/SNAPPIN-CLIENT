@@ -3,7 +3,7 @@
 import { STATE_CODES, StateCode } from '@/types/stateCode';
 import Button from '@/ui/button/base/Button';
 
-type FooterProps = {
+type DetailPageFooterProps = {
   date: string; // 예약 날짜 (YYYY-MM-DD)
   startTime: string; // 10:00
   status: StateCode;
@@ -15,12 +15,11 @@ type ButtonConfig = {
   onClick?: () => void;
 };
 
-export default function Footer({ date, startTime, status }: FooterProps) {
+export default function DetailPageFooter({ date, startTime, status }: DetailPageFooterProps) {
   const now = new Date();
-  const start = new Date(date + ' ' + startTime);
+  const start = new Date(`${date}T${startTime}:00`);
 
   const isAfterStart = now >= start;
-  console.log(isAfterStart, 'isAfterStart');
 
   const getButtonConfig = (): ButtonConfig => {
     switch (status) {
@@ -82,10 +81,9 @@ export default function Footer({ date, startTime, status }: FooterProps) {
         };
 
       default:
-        return {
-          label: '알 수 없음',
-          disabled: true,
-        };
+        throw new Error(
+          `작가 예약 상세 페이지에서 예약 상태에 대한 버튼 설정이 없습니다 : ${status}`,
+        );
     }
   };
 

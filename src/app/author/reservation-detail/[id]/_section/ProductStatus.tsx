@@ -29,6 +29,11 @@ export default function ProductStatus({
   status,
 }: ProductStatusProps) {
   const toast = useToast();
+  const isRefusable =
+    status !== STATE_CODES.RESERVATION_CANCELED &&
+    status !== STATE_CODES.RESERVATION_REFUSED &&
+    status !== STATE_CODES.SHOOT_COMPLETED;
+
   const handleRefuse = () => {
     //TODO: 예약 거절 기능 구현
     console.info('예약 거절', id);
@@ -53,18 +58,16 @@ export default function ProductStatus({
         />
       </div>
       <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
-        {status !== STATE_CODES.RESERVATION_CANCELED &&
-          status !== STATE_CODES.RESERVATION_REFUSED &&
-          status !== STATE_CODES.SHOOT_COMPLETED && (
-            <Button
-              size='small'
-              color='white'
-              className='text-black-10 w-full'
-              onClick={handleRefuse}
-            >
-              예약 거절
-            </Button>
-          )}
+        {isRefusable && (
+          <Button
+            size='small'
+            color='white'
+            className='text-black-10 w-full'
+            onClick={handleRefuse}
+          >
+            예약 거절
+          </Button>
+        )}
 
         <Button
           size='small'

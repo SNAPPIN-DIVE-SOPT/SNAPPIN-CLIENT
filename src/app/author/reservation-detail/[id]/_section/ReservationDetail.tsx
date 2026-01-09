@@ -1,5 +1,6 @@
 import { StateCode } from '@/types/stateCode';
 import { DetailLayout, DetailRow } from '../components/detail-layout/DetailLayout';
+import { formatReservationDateTime } from '@/utils/formatNumberWithComma';
 
 type ReservationDetailProps = {
   status: StateCode;
@@ -20,13 +21,9 @@ export default function ReservationDetail({
   peopleCount,
   requestNote,
 }: ReservationDetailProps) {
-  const [_, month, day] = date.split('-');
-  const [hour, minute] = startTime.split(':');
-  const dateValue = `${Number(month)}/${Number(day)} ${Number(hour)}시 ${Number(minute) !== 0 ? `${Number(minute)}분` : ''}`;
-
   return (
     <DetailLayout title='예약 상세' subtitle={status}>
-      <DetailRow label='날짜 및 시간' value={dateValue} />
+      <DetailRow label='날짜 및 시간' value={formatReservationDateTime(date, startTime)} />
       <DetailRow label='촬영 시간' value={`${durationTime}분`} />
       <DetailRow label='촬영 장소' value={place} />
       <DetailRow label='촬영 인원' value={`${peopleCount}인`} />

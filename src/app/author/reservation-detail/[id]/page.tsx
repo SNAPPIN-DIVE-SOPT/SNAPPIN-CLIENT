@@ -1,11 +1,17 @@
-import { ProductStatus, Recipt, ReservationDetail, ReviewDetail, Footer } from './_section';
+import {
+  ProductStatus,
+  Receipt,
+  ReservationDetail,
+  ReviewDetail,
+  DetailPageFooter,
+} from './_section';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import { StateCode } from '@/types/stateCode';
 import { MoodCode } from '@/types/moodCode';
 import { Divider } from '@/ui';
 import { RESERVATION_DETAIL_MOCK } from './mock/reservationDetail.mock';
 
-export default function page() {
+export default function Page() {
   //TODO: 서버 데이터 연동( 파라미터에 id 추가)
   const data = RESERVATION_DETAIL_MOCK;
 
@@ -37,7 +43,7 @@ export default function page() {
         {data.paymentInfo && (
           <>
             <Divider thickness='large' color='bg-black-3' />
-            <Recipt
+            <Receipt
               basePrice={data.paymentInfo.basePrice}
               extraPrice={data.paymentInfo.extraPrice}
               totalPrice={data.paymentInfo.totalPrice}
@@ -45,7 +51,7 @@ export default function page() {
           </>
         )}
         {!data.reviewInfo && (
-          <Footer
+          <DetailPageFooter
             date={data.reservationInfo.date}
             startTime={data.reservationInfo.startTime}
             status={data.status as StateCode}
