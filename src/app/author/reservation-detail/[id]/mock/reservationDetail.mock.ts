@@ -1,5 +1,5 @@
 export const RESERVATION_DETAIL_MOCK = {
-  status: 'PAYMENT_REQUESTED',
+  status: 'PHOTOGRAPHER_CHECKING',
   productInfo: {
     id: 1,
     imageUrl: 'https://picsum.photos/576/576?random=1',
@@ -28,14 +28,7 @@ export const RESERVATION_DETAIL_MOCK = {
     reviewer: '작성자명',
     rating: 5,
     createdAt: '2026-01-01',
-    images: [
-      'https://picsum.photos/576/576?random=1',
-      'https://picsum.photos/576/576?random=2',
-      'https://picsum.photos/576/576?random=3',
-      'https://picsum.photos/576/576?random=4',
-      'https://picsum.photos/576/576?random=5',
-      'https://picsum.photos/576/576?random=6',
-    ],
+    images: ['https://picsum.photos/576/576?random=1', 'https://picsum.photos/576/576?random=2'],
     content: '리뷰 내용',
   },
 };

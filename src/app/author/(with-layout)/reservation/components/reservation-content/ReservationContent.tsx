@@ -4,16 +4,16 @@ import { useState } from 'react';
 import { StateCode } from '@/types/stateCode';
 import { MoodCode } from '@/types/moodCode';
 import { Divider, SectionTabs } from '@/ui';
-import { RESERVATION_TABS } from '../../constants/tabs';
+import { RESERVATION_TABS, ReservationTabValue } from '../../constants/tabs';
 import ReservationCard from '../reservation-card/ReservationCard';
 import { RESERVATION_MOCK } from '../../mock/reservation.mock';
 
 export default function ReservationContent() {
   const [selectedTabValue, setSelectedTabValue] =
-    useState<(typeof RESERVATION_TABS)[number]['value']>('PHOTOGRAPHER_REQUESTED');
+    useState<ReservationTabValue>('PHOTOGRAPHER_REQUESTED');
 
-  const handleTabChange = (value: (typeof RESERVATION_TABS)[number]['value']) => {
-    setSelectedTabValue(value);
+  const handleTabChange = (value: string) => {
+    setSelectedTabValue(value as ReservationTabValue);
   };
 
   //TODO: 서버 데이터 연동( 파라미터에 selectedTabValue 추가)
