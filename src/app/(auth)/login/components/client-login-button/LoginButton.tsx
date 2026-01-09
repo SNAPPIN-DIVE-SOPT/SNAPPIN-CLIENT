@@ -16,7 +16,7 @@ export default function LoginButton() {
       onClick={handleLogin}
     >
       <IconKakao color='bg-black-10' />
-      <span>카카오 로그인</span>
+      <span className='font-16-bd text-black-10'>카카오 로그인</span>
     </Button>
   );
 }

@@ -1,22 +1,22 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { IconSearch, Logo } from '@/assets';
+import { IconArrowBack } from '@/assets';
 import { Navigation } from '@/ui';
 
 export default function ClientNavigation() {
   const router = useRouter();
 
-  const handleSearchClick = () => {
-    //TODO: 검색 페이지로 이동
-    router.push('/');
+  const handleBackClick = () => {
+    router.back();
   };
 
   return (
     <Navigation
       isFixed={true}
-      left={<Logo width={72} />}
-      right={<IconSearch onClick={handleSearchClick} />}
+      left={<IconArrowBack onClick={handleBackClick} />}
+      className='text-black-1 bg-black-10'
+      center={<span className='text-black-1 caption-14-bd'>로그인</span>}
     />
   );
 }

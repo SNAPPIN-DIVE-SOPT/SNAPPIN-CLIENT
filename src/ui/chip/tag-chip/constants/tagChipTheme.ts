@@ -8,8 +8,4 @@ export const TAG_CHIP_THEME_BY_VARIANT: Record<TagChipVariant, ChipTheme> = {
     chipClassName: 'bg-transparent border-[0.07rem] border-black-1',
     labelClassName: 'text-black-1',
   },
-  neonTransparent: {
-    chipClassName: 'bg-transparent border-[0.07rem] border-neon-black',
-    labelClassName: 'text-neon-black',
-  },
 };
