@@ -3,9 +3,9 @@ export function formatNumberWithComma(value: number): string {
 }
 
 /**
- * 날짜를 콤마로 포맷팅하는 함수
+ * 날짜를 년.월.일 형식으로 포맷팅하는 함수
  * @param date 날짜 (YYYY-MM-DD)
- * @returns 콤마로 포맷팅된 날짜 (ex. 2026.01.01)
+ * @returns 포맷팅된 날짜 (ex. 2026.01.01)
  */
 export function formatDate(date: string): string {
   const [year, month, day] = date.split('-');

@@ -8,7 +8,7 @@ export type StateCode =
   | 'RESERVATION_CANCELED' // 예약 취소
   | 'SHOOT_COMPLETED'; // 촬영 완료
 
-export const STATE_CODES: Record<string, StateCode> = {
+export const STATE_CODES = {
   RESERVATION_REQUESTED: 'RESERVATION_REQUESTED',
   PHOTOGRAPHER_CHECKING: 'PHOTOGRAPHER_CHECKING',
   PAYMENT_REQUESTED: 'PAYMENT_REQUESTED',
@@ -17,4 +17,4 @@ export const STATE_CODES: Record<string, StateCode> = {
   RESERVATION_REFUSED: 'RESERVATION_REFUSED',
   RESERVATION_CANCELED: 'RESERVATION_CANCELED',
   SHOOT_COMPLETED: 'SHOOT_COMPLETED',
-};
+} as const satisfies Record<string, StateCode>;
