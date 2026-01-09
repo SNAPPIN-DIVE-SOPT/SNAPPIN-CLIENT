@@ -1,10 +1,8 @@
 'use client';
 
-import { ProductCard } from '@/ui/product-card';
+import { ProductCard, IconButton, StateChip } from '@/ui';
 import { MoodCode } from '@/types/moodCode';
 import { StateCode } from '@/types/stateCode';
-import StateChip from '@/ui/chip/state-chip/StateChip';
-import Button from '@/ui/button/base/Button';
 import { IconKeyboardArrowRight } from '@/assets';
 import { useRouter } from 'next/navigation';
 
@@ -33,7 +31,7 @@ export default function ReservationCard({
 }: ReservationCardProps) {
   const router = useRouter();
 
-  const handleCancel = () => {
+  const handleDetailClick = () => {
     router.push(`/author/reservation-detail/${id}`);
   };
 
@@ -42,14 +40,13 @@ export default function ReservationCard({
       <div className='border-black-5 flex w-full flex-col gap-[1.2rem] rounded-[0.6rem] border border-[0.7px] p-[1.2rem]'>
         <div className='flex w-full items-center justify-between'>
           <StateChip label={status} />
-          <Button
-            size='small'
-            className='text-black-8 flex items-center bg-white p-0'
-            onClick={handleCancel}
+          <IconButton
+            className='text-black-8 flex items-center bg-white'
+            onClick={handleDetailClick}
           >
             예약상세
             <IconKeyboardArrowRight />
-          </Button>
+          </IconButton>
         </div>
         <ProductCard
           image={image}

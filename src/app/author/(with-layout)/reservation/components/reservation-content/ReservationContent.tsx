@@ -35,7 +35,6 @@ export default function ReservationContent() {
             {data.products.map((product, index) => (
               <div key={product.id}>
                 <ReservationCard
-                  key={product.id}
                   id={product.id}
                   status={product.status as StateCode}
                   image={{ src: product.imageUrl, alt: product.title }}

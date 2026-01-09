@@ -9,6 +9,10 @@ export default function NavigationClient() {
   };
 
   return (
-    <Navigation isFixed={true} left={<Logo />} right={<IconSearch onClick={handleSearchClick} />} />
+    <Navigation
+      isFixed={true}
+      left={<Logo width={72} />}
+      right={<IconSearch onClick={handleSearchClick} />}
+    />
   );
 }

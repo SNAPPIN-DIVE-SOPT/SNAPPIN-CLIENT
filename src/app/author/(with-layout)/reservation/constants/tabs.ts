@@ -15,6 +15,6 @@ export const RESERVATION_TABS = [
     label: '촬영 완료',
     value: 'PHOTOGRAPHER_DONE',
   },
-];
+] as const;
 
 export type ReservationTabValue = (typeof RESERVATION_TABS)[number]['value'];
