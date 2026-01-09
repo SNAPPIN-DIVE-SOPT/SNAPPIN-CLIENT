@@ -4,6 +4,7 @@ import { Chip, CarouselCuration } from '@/ui';
 import { MoodCode } from '@/types/moodCode';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { loginCurationMock, notLoginCurationMock } from '../mock/curation.mock';
+import { SectionHeader } from '../components';
 
 export default function MoodCurationSection() {
   const { isLogIn } = useAuth();
@@ -12,7 +13,7 @@ export default function MoodCurationSection() {
   return (
     <section className='scrollbar-hide flex flex-col gap-[1.6rem]'>
       <div className='flex flex-col gap-[0.5rem]'>
-        <h2 className='font-18-bd text-black-10'>요즘 많이 찾는 무드 큐레이션</h2>
+        <SectionHeader title='요즘 많이 찾는 무드 큐레이션' />
         <div className='flex items-end gap-[0.6rem]'>
           <div className='flex gap-[0.5rem]'>
             {moods.map((mood: MoodCode) => (

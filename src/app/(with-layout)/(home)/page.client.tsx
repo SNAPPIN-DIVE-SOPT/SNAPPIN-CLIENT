@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { useNavVisibility } from './hooks/useNavVisibility';
-import { Header, FadeCarousel } from './components';
+import { ClientHeader, FadeCarousel } from './components';
 import { MENU } from './constants/menu';
 import { RecommendationSnapPlace, RecommendationAuthor, MoodCurationSection } from './_section';
 
@@ -17,7 +17,7 @@ export default function PageClient() {
 
   return (
     <div className='relative mb-[6rem] flex w-full flex-col'>
-      <Header isVisible={isVisible} />
+      <ClientHeader isVisible={isVisible} />
       <FadeCarousel
         images={[
           { src: homeBackground1.src, alt: 'home-background-1' },
@@ -26,7 +26,7 @@ export default function PageClient() {
         ]}
       />
       {/*  메뉴 영역 */}
-      <div className='grid grid-cols-4 gap-x-[2.8rem] gap-y-[2rem] px-[3.5rem] py-[4rem]'>
+      <nav className='grid grid-cols-4 gap-x-[2.8rem] gap-y-[2rem] px-[3.5rem] py-[4rem]'>
         {MENU.map((menu) => (
           <Link
             key={menu.label}
@@ -40,7 +40,7 @@ export default function PageClient() {
             />
           </Link>
         ))}
-      </div>
+      </nav>
       <div className='flex flex-col gap-[5.2rem] px-[2rem]'>
         {/*  스냅 명소 추천 영역 */}
         <RecommendationSnapPlace />

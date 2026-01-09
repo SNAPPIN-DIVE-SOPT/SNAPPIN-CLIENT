@@ -35,7 +35,7 @@ export default function Author({
         )}
         <Image
           src={profileImageUrl}
-          alt={`${name}-${profileImageUrl}`}
+          alt={`${name}의 포토폴리오 이미지-${profileImageUrl}`}
           width={164}
           height={164}
           className='rounded-[0.2rem] object-cover'
@@ -47,9 +47,9 @@ export default function Author({
             <span className='font-16-bd'>{name}</span>
             <span className='caption-12-md'>작가</span>
           </div>
-          <p className='caption-12-md'>{bio}</p>
+          <p className='caption-12-md truncate'>{bio}</p>
         </div>
-        <div className='flex gap-[0.8rem]'>
+        <div className='flex gap-[0.8rem] overflow-hidden'>
           {specialties.map((specialty) => (
             <Chip
               key={specialty}

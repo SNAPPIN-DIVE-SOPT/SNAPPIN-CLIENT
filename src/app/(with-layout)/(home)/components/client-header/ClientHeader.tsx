@@ -1,15 +1,15 @@
 'use client';
 
-import { Navigation, Button } from '@/ui';
+import { Navigation, Button, IconButton } from '@/ui';
 import { IconSearch, Logo } from '@/assets';
 import { cn } from '@/utils/cn';
 import { useAuth } from '@/auth/hooks/useAuth';
 
-interface HeaderProps {
+interface ClientHeaderProps {
   isVisible: boolean;
 }
 
-export default function Header({ isVisible }: HeaderProps) {
+export default function ClientHeader({ isVisible }: ClientHeaderProps) {
   const { isLogIn } = useAuth();
 
   const handleClickSearch = () => {
@@ -18,6 +18,14 @@ export default function Header({ isVisible }: HeaderProps) {
 
   const handleClickLogin = () => {
     //TODO: 로그인 페이지로 이동
+  };
+
+  const handleClickLogo = () => {
+    const el = document.getElementById('app-scroll');
+    el?.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   return (
@@ -29,10 +37,12 @@ export default function Header({ isVisible }: HeaderProps) {
     >
       <Navigation
         className='items-center py-0 pr-[1.6rem]'
-        left={<Logo width={72} />}
+        left={<Logo width={72} onClick={handleClickLogo} className='cursor-pointer' />}
         right={
           <div className='flex items-center gap-[1.2rem]'>
-            <IconSearch onClick={handleClickSearch} />
+            <IconButton onClick={handleClickSearch}>
+              <IconSearch />
+            </IconButton>
             {!isLogIn && (
               <Button size='small' color='black' onClick={handleClickLogin}>
                 로그인

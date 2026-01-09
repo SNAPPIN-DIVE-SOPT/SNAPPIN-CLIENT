@@ -42,8 +42,8 @@ export const recommendationMock = {
       name: '작가명',
       profileImageUrl: 'https://picsum.photos/576/576?random=10',
       isNew: true,
-      bio: '한줄 소개',
-      specialties: ['졸업스냅', '연주스냅'],
+      bio: '한줄 소개한줄 소개한줄 소개한줄 소개한줄 소개한줄 소개',
+      specialties: ['졸업스냅', '연주스냅', '스냅추억'],
     },
     {
       id: 11,

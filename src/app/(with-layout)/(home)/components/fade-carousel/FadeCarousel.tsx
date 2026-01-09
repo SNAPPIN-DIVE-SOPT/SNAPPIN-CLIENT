@@ -16,14 +16,14 @@ const FADE_DURATION_MS = 600;
 
 export default function FadeCarousel({ images }: FadeCarouselProps) {
   const [active, setActive] = useState(0);
-  const timerRef = useRef<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const total = images.length;
 
   useEffect(() => {
     if (total <= 1) return;
 
-    timerRef.current = window.setInterval(() => {
+    timerRef.current = setInterval(() => {
       setActive((prev) => (prev + 1) % total);
     }, INTERVAL_MS);
 
@@ -39,7 +39,7 @@ export default function FadeCarousel({ images }: FadeCarouselProps) {
       <div className='relative h-[44rem] w-full'>
         {images.map((img, i) => (
           <div
-            key={`${img.src}-${i}`}
+            key={img.src}
             className={cn(
               'absolute inset-0 transition-opacity ease-in-out',
               i === active ? 'opacity-100' : 'opacity-0',
@@ -48,7 +48,7 @@ export default function FadeCarousel({ images }: FadeCarouselProps) {
           >
             <Image
               src={img.src}
-              alt={img.alt ?? `slide-${i + 1}`}
+              alt={img.alt ?? `메인 배너 이미지-${img.src}`}
               fill
               className='object-cover'
               priority={i === 0}
