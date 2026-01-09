@@ -4,10 +4,10 @@ import { recommendationMock } from '../mock/recommendation.mock';
 const RecommendationSnapPlace = () => {
   const { places } = recommendationMock;
   return (
-    <div className='scrollbar-hide flex flex-col gap-[1.2rem]'>
+    <section className='scrollbar-hide flex flex-col gap-[1.2rem]'>
       <div className='flex flex-col gap-[0.2rem]'>
-        <span className='font-18-bd text-black-10'>트렌디한 스냅 명소</span>
-        <p className='caption-14-md text-black-8'>유저들이 많이 찾는 장소를 소개할게요</p>
+        <h2 className='font-18-bd text-black-10'>트렌디한 스냅 명소</h2>
+        <h3 className='caption-14-md text-black-8'>유저들이 많이 찾는 장소를 소개할게요</h3>
       </div>
       <InfiniteBanner
         items={places.map((place) => ({
@@ -19,21 +19,21 @@ const RecommendationSnapPlace = () => {
         }))}
         durationSec={20}
       />
-    </div>
+    </section>
   );
 };
 
 const RecommendationAuthor = () => {
   const { photographers } = recommendationMock;
   return (
-    <div className='scrollbar-hide flex flex-col gap-[0.8rem]'>
-      <span className='font-18-bd text-black-10'>이런 작가는 어때요?</span>
+    <section className='scrollbar-hide flex flex-col gap-[0.8rem]'>
+      <h2 className='font-18-bd text-black-10'>이런 작가는 어때요?</h2>
       <div className='scrollbar-hide flex gap-[0.8rem] overflow-scroll'>
         {photographers.map((photographer) => (
           <Author key={photographer.id} {...photographer} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
