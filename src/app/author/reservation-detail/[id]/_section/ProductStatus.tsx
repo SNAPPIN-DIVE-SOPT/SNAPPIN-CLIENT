@@ -54,7 +54,8 @@ export default function ProductStatus({
       </div>
       <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
         {status !== STATE_CODES.RESERVATION_CONFIRMED &&
-          status !== STATE_CODES.RESERVATION_REFUSED && (
+          status !== STATE_CODES.RESERVATION_REFUSED &&
+          status !== STATE_CODES.SHOOT_COMPLETED && (
             <Button
               size='small'
               color='white'
