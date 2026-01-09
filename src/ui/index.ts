@@ -5,7 +5,7 @@ export * from './chip/index';
 export * from './date/index';
 export * from './dialog/index';
 export * from './divider/index';
-export * from '@/ui/drawer/index';
+export * from './drawer/index';
 export * from './footer/index';
 export * from './image-preview/index';
 export * from './input/index';
