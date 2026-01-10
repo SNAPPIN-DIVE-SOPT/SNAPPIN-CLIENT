@@ -2,20 +2,8 @@ import { cn } from '@/utils/cn';
 import { Modal, ModalButtonProps } from '../base/Modal';
 import { DefaultModalType } from './types/type';
 import { THEME } from './constants/theme';
-import { Title, Content, CONTENT } from './constants/content';
+import { Content, CONTENT } from './constants/content';
 import { BUTTONS } from './constants/buttons';
-
-const renderTitle = (title: Title) => {
-  const { type, text } = title;
-
-  if (type === 'multiple') {
-    return text.map((line, idx) => (
-      <span className='block' key={idx}>{line}</span>
-    ))
-  }
-
-  return text;
-}
 
 type BaseProps = {
   open: boolean;
@@ -76,8 +64,8 @@ export default function DefaultModal(props: DefaultModalProps) {
       <Modal.Header className={cn('flex flex-col items-center', theme.headerTheme, headerClassName)}>
         {content.icon}
         <div className={cn('flex flex-col items-center', content.description && 'gap-[0.4rem]', containerClassName)}>
-          <Modal.Title className={cn('flex flex-col items-center font-16-md text-black-10', theme.titleTheme, titleClassName)}>
-            {renderTitle(content.title)}
+          <Modal.Title className={cn('flex flex-col items-center font-16-md text-black-10 whitespace-pre-line', theme.titleTheme, titleClassName)}>
+            {content.title}
           </Modal.Title>
           <Modal.Description className={cn('caption-12-md text-black-7', descriptionClassName)}>
             {content.description}

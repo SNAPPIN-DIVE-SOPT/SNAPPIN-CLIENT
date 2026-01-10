@@ -82,7 +82,7 @@ export const Refused: Story = {
     <StatefulDefaultModal
       type='default'
       content={{
-        title: { type: 'single', text: '예약을 거절할까요?' },
+        title: '예약을 거절할까요?',
       }}
       buttons={[
         { label: '아니요', size: 'medium', color: 'disabled' },
@@ -97,7 +97,7 @@ export const Canceled: Story = {
     <StatefulDefaultModal
       type='default'
       content={{
-        title: { type: 'multiple', text: ['예약하신 스냅 일정을', '취소할까요?'] },
+        title: '예약하신 스냅 일정을\n취소할까요?',
       }}
       buttons={[
         { label: '아니요', size: 'medium', color: 'disabled' },
@@ -112,7 +112,7 @@ export const Confirmed: Story = {
     <StatefulDefaultModal
       type='default'
       content={{
-        title: { type: 'single', text: '예약을 확정할까요?' },
+        title: '예약을 확정할까요?',
       }}
       buttons={[
         { label: '아니요', size: 'medium', color: 'disabled' },
