@@ -1,1 +1,1 @@
-export { default as Stepper } from './base/Stepper';
+export { default as Stepper } from './Stepper';
