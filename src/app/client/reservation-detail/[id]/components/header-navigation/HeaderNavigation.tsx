@@ -4,7 +4,11 @@ import { IconArrowBack, IconHome } from '@/assets';
 import { Navigation } from '@/ui';
 import { useRouter } from 'next/navigation';
 
-export default function HeaderNavigation() {
+type HeaderNavigationProps = {
+  title?: string;
+};
+
+export default function HeaderNavigation({ title = '예약 상세' }: HeaderNavigationProps) {
   const router = useRouter();
 
   const handleHomeClick = () => {
@@ -19,7 +23,7 @@ export default function HeaderNavigation() {
     <Navigation
       isFixed={true}
       left={<IconArrowBack onClick={handleBackClick} />}
-      center='예약 상세'
+      center={title}
       right={<IconHome onClick={handleHomeClick} />}
       className='caption-14-bd text-black-10'
     />

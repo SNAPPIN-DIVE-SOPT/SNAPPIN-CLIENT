@@ -52,16 +52,14 @@ export default function Page({ params }: ReservationDetailPageProps) {
     // TODO: 문의하기 이동
   };
 
-  const handleReviewCreateClick = () => {
-    // TODO: 리뷰 작성 이동
-  };
-
   const hasPaymentRequestAction = reservationStatus === 'PAYMENT_REQUESTED';
   const hasPaymentConfirmingAction = reservationStatus === 'PAYMENT_COMPLETED';
+  const hasReservationConfirmedAction = reservationStatus === 'RESERVATION_CONFIRMED';
   const hasReservationCanceledAction = reservationStatus === 'RESERVATION_CANCELED';
-  const hasShootCompletedAction = reservationStatus === 'SHOOT_COMPLETED';
   const hasPaymentDetailSection =
-    hasPaymentRequestAction || hasPaymentConfirmingAction || hasShootCompletedAction;
+    hasPaymentRequestAction ||
+    hasPaymentConfirmingAction ||
+    hasReservationConfirmedAction;
 
   const bottomCtaButton = hasPaymentRequestAction ? (
     <BottomCTAButton background='white' hasPadding={true}>
@@ -97,7 +95,6 @@ export default function Page({ params }: ReservationDetailPageProps) {
         reservationStatus={reservationStatus}
         handleReservationCancelClick={handleReservationCancelClick}
         handleInquiryClick={handleInquiryClick}
-        handleReviewCreateClick={handleReviewCreateClick}
       />
       <Divider thickness='large' />
       <ReservationDetail

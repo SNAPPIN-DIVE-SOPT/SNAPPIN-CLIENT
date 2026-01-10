@@ -13,9 +13,23 @@ import {
 import { RESERVATION_MOCK } from '@/app/client/(with-layout)/reservation/mock/reservationList.mock';
 import { ReservationStatusByReservationProductIdAtom } from '@/app/client/(with-layout)/reservation/store';
 import { IconArrowForward } from '@/assets';
+import { ReviewByReservationProductIdAtom } from '@/app/client/review/store';
+import { ReviewedByReservationProductIdAtom } from '@/app/client/(with-layout)/reservation/store';
 
 const createReservationDetailPath = (reservationProductId: number) =>
   `/client/reservation-detail/${reservationProductId}`;
+
+const createDoneDetailPath = (reservationProductId: number) => `/client/done-detail/${reservationProductId}`;
+
+const createReviewWritePath = (reservationProductId: number) => `/client/review/write/${reservationProductId}`;
+
+const createReservationDetailPathByStatus = (
+  reservationStatus: StateCode,
+  reservationProductId: number,
+) =>
+  reservationStatus === 'SHOOT_COMPLETED'
+    ? createDoneDetailPath(reservationProductId)
+    : createReservationDetailPath(reservationProductId);
 
 const hasShootCompletedStatus = (status: StateCode) => status === 'SHOOT_COMPLETED';
 
@@ -32,9 +46,18 @@ export default function ReservationContent() {
   const reservationStatusByReservationProductId = useAtomValue(
     ReservationStatusByReservationProductIdAtom,
   );
+  const reviewByReservationProductId = useAtomValue(ReviewByReservationProductIdAtom);
+  const reviewedByReservationProductId = useAtomValue(ReviewedByReservationProductIdAtom);
 
-  const handleReservationDetailNavigation = (reservationProductId: number) => {
-    router.push(createReservationDetailPath(reservationProductId));
+  const handleReservationDetailNavigation = (
+    reservationStatus: StateCode,
+    reservationProductId: number,
+  ) => {
+    router.push(createReservationDetailPathByStatus(reservationStatus, reservationProductId));
+  };
+
+  const handleWriteReviewNavigation = (reservationProductId: number) => {
+    router.push(createReviewWritePath(reservationProductId));
   };
 
   const handleTabValueChange = (value: string) => {
@@ -99,7 +122,10 @@ export default function ReservationContent() {
                                   type='button'
                                   className='flex flex-row items-center gap-[1rem]'
                                   onClick={() =>
-                                    handleReservationDetailNavigation(reservationProduct.id)
+                                    handleReservationDetailNavigation(
+                                      reservationStatus,
+                                      reservationProduct.id,
+                                    )
                                   }
                                 >
                                   <span className='text-black-8 caption-12-md'>예약상세</span>
@@ -112,7 +138,7 @@ export default function ReservationContent() {
                               className='block w-full appearance-none border-0 bg-transparent p-0 text-left'
                               aria-label={`${reservationProduct.title} 예약 상세 보기`}
                               onClick={() =>
-                                handleReservationDetailNavigation(reservationProduct.id)
+                                handleReservationDetailNavigation(reservationStatus, reservationProduct.id)
                               }
                             >
                               <ProductCard
@@ -129,10 +155,17 @@ export default function ReservationContent() {
                                 className='w-full'
                               />
                             </button>
-                            <div className='flex justify-end'>
+	                            <div className='flex justify-end'>
                               {reservationStatus === 'SHOOT_COMPLETED' &&
-                              !reservationProduct.isReviewed ? (
-                                <Button size='small' color='black' display='inline' type='button'>
+                              !(reviewedByReservationProductId[reservationProduct.id] ?? reservationProduct.isReviewed) &&
+                              !reviewByReservationProductId[reservationProduct.id] ? (
+                                <Button
+                                  size='small'
+                                  color='black'
+                                  display='inline'
+                                  type='button'
+                                  onClick={() => handleWriteReviewNavigation(reservationProduct.id)}
+                                >
                                   리뷰 작성
                                 </Button>
                               ) : null}

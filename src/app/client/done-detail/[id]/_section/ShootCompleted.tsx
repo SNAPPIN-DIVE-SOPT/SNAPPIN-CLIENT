@@ -1,16 +1,17 @@
 'use client';
 
 import type { ComponentProps } from 'react';
+import { useAtomValue } from 'jotai';
 
 import { RESERVATION_MOCK } from '@/app/client/(with-layout)/reservation/mock/reservationList.mock';
-import type { StateCode } from '@/types/stateCode';
+import { ReviewedByReservationProductIdAtom } from '@/app/client/(with-layout)/reservation/store';
 import { Button, ProductCard } from '@/ui';
 
-type ReservationRequestedProps = {
+type ShootCompletedProps = {
   reservationProductId: number;
-  reservationStatus: StateCode;
-  handleReservationCancelClick: () => void;
+  hasReviewCreated: boolean;
   handleInquiryClick: () => void;
+  handleReviewCreateClick: () => void;
 };
 
 type ReservationMockProduct = (typeof RESERVATION_MOCK.products)[number];
@@ -31,23 +32,25 @@ const createProductCardPropsByReservationProduct = (
   className: 'w-full',
 });
 
-export default function ReservationRequested({
+export default function ShootCompleted({
   reservationProductId,
-  reservationStatus,
-  handleReservationCancelClick,
+  hasReviewCreated,
   handleInquiryClick,
-}: ReservationRequestedProps) {
+  handleReviewCreateClick,
+}: ShootCompletedProps) {
+  const reviewedByReservationProductId = useAtomValue(ReviewedByReservationProductIdAtom);
   const selectedReservationProduct =
     RESERVATION_MOCK.products.find(({ id }) => id === reservationProductId) ??
     RESERVATION_MOCK.products[0];
 
   const reservationProducts = selectedReservationProduct ? [selectedReservationProduct] : [];
-  const hasReservationCancelButton = reservationStatus !== 'RESERVATION_CANCELED';
-  const inquiryButtonColor = reservationStatus === 'RESERVATION_CANCELED' ? 'transparent' : 'black';
+  const hasReviewed =
+    hasReviewCreated ||
+    (reviewedByReservationProductId[reservationProductId] ?? selectedReservationProduct.isReviewed);
 
   return (
     <section className='bg-black-1 px-[2rem] pt-[1.7rem] pb-[1.2rem]'>
-      <label className='caption-14-bd text-black-10'>예약 요청 상품</label>
+      <label className='caption-14-bd text-black-10'>촬영 완료</label>
       <div className='mt-[1.2rem] mb-[1.7rem]'>
         {reservationProducts.map((reservationProduct) => (
           <ProductCard
@@ -56,22 +59,10 @@ export default function ReservationRequested({
           />
         ))}
       </div>
-      <div className='flex flex-row gap-[0.6rem]'>
-        {hasReservationCancelButton ? (
-          <Button
-            size='small'
-            color='white'
-            display='inline'
-            type='button'
-            className='w-full'
-            onClick={handleReservationCancelClick}
-          >
-            예약 취소
-          </Button>
-        ) : null}
+      {hasReviewed ? (
         <Button
           size='small'
-          color={inquiryButtonColor}
+          color='transparent'
           display='inline'
           type='button'
           className='w-full'
@@ -79,7 +70,30 @@ export default function ReservationRequested({
         >
           문의하기
         </Button>
-      </div>
+      ) : (
+        <div className='flex flex-row gap-[0.6rem]'>
+          <Button
+            size='small'
+            color='transparent'
+            display='inline'
+            type='button'
+            className='w-full'
+            onClick={handleInquiryClick}
+          >
+            문의하기
+          </Button>
+          <Button
+            size='small'
+            color='black'
+            display='inline'
+            type='button'
+            className='w-full'
+            onClick={handleReviewCreateClick}
+          >
+            리뷰 작성
+          </Button>
+        </div>
+      )}
     </section>
   );
 }
