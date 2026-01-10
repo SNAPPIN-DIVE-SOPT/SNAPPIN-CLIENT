@@ -2,6 +2,7 @@
 export * from './button/index';
 export * from './carousel/index';
 export * from './chip/index';
+export * from './control-row/index';
 export * from './date/index';
 export * from './dialog/index';
 export * from './divider/index';
