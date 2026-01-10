@@ -24,15 +24,15 @@ type ModalSlotProps = {
   className?: string; 
 };
 
-export type ModalButtonProps = Omit<React.ComponentProps<typeof Button>, 'children'> & {
+export type ModalButtonProps = {
   label: string;
-};
+} & Omit<React.ComponentProps<typeof Button>, 'children'>;
 
 type ModalButtonsProps = {
   buttons: ModalButtonProps[];
 };
 
-export function Modal({
+export function ModalRoot({
   open,
   handleOpenChange,
   showCloseButton,
@@ -52,7 +52,7 @@ export function Modal({
   );
 }
 
-Modal.Header = function ModalHeader({ children, className }: ModalSlotProps) {
+function ModalHeader({ children, className }: ModalSlotProps) {
   return (
     <DialogHeader className={className}>
       {children}
@@ -60,7 +60,7 @@ Modal.Header = function ModalHeader({ children, className }: ModalSlotProps) {
   );
 }
 
-Modal.Title = function ModalTitle({ children, className }: ModalSlotProps) {
+function ModalTitle({ children, className }: ModalSlotProps) {
   return (
     <DialogTitle className={className}>
       {children}
@@ -68,7 +68,7 @@ Modal.Title = function ModalTitle({ children, className }: ModalSlotProps) {
   );
 }
 
-Modal.Description = function ModalDescription({ children, className }: ModalSlotProps) {
+function ModalDescription({ children, className }: ModalSlotProps) {
   return (
     <DialogDescription className={className}>
       {children}
@@ -76,7 +76,7 @@ Modal.Description = function ModalDescription({ children, className }: ModalSlot
   );
 }
 
-Modal.Footer = function ModalFooter({ children, className }: ModalSlotProps) {
+function ModalFooter({ children, className }: ModalSlotProps) {
   return (
     <DialogFooter className={className}>
       {children}
@@ -84,7 +84,7 @@ Modal.Footer = function ModalFooter({ children, className }: ModalSlotProps) {
   );
 }
 
-Modal.Button = function ModalButton({
+function ModalButton({
   label,
   onClick,
   ...props
@@ -98,7 +98,7 @@ Modal.Button = function ModalButton({
   );
 }
 
-Modal.Buttons = function ModalButtons({ buttons }: ModalButtonsProps) {
+function ModalButtons({ buttons }: ModalButtonsProps) {
   return (
     <>
       {buttons.map(({label, ...props}, idx) => (
@@ -107,3 +107,21 @@ Modal.Buttons = function ModalButtons({ buttons }: ModalButtonsProps) {
     </>
   );
 }
+
+type ModalComponent = typeof ModalRoot & {
+  Header: typeof ModalHeader;
+  Title: typeof ModalTitle;
+  Description: typeof ModalDescription;
+  Footer: typeof ModalFooter;
+  Button: typeof ModalButton;
+  Buttons: typeof ModalButtons;
+};
+
+export const Modal = Object.assign(ModalRoot, {
+  Header: ModalHeader,
+  Title: ModalTitle,
+  Description: ModalDescription,
+  Footer: ModalFooter,
+  Button: ModalButton,
+  Buttons: ModalButtons,
+}) as ModalComponent;
