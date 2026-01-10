@@ -3,11 +3,11 @@
 import {
   BottomCTAButton,
   BottomDrawer,
-  ButtonAddMinus,
   DatePicker,
   Divider,
   DrawerDescription,
   DrawerTitle,
+  Stepper,
   TextField,
   TimePicker,
 } from '@/ui';
@@ -118,7 +118,7 @@ export default function ReservationBottomDrawer({
             <BottomDrawer.Title as='span' className='caption-14-md'>
               촬영 시간
             </BottomDrawer.Title>
-            <ButtonAddMinus
+            <Stepper
               value={formattedTime}
               handleClickMinus={() =>
                 patch({
@@ -149,7 +149,7 @@ export default function ReservationBottomDrawer({
             <BottomDrawer.Title as='span' className='caption-14-md'>
               촬영 인원
             </BottomDrawer.Title>
-            <ButtonAddMinus
+            <Stepper
               value={formattedCount}
               handleClickMinus={() =>
                 patch({

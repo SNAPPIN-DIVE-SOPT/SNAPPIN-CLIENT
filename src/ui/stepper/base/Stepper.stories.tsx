@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
-import ButtonAddMinus from './ButtonAddMinus';
+import Stepper from './Stepper';
 
-const meta: Meta<typeof ButtonAddMinus> = {
-  title: 'Button/ButtonAddMinus',
-  component: ButtonAddMinus,
+const meta: Meta<typeof Stepper> = {
+  title: 'Button/Stepper',
+  component: Stepper,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
