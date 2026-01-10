@@ -9,6 +9,6 @@ export {
   DrawerFooter,
   DrawerTitle,
   DrawerDescription,
-} from './Drawer';
-export { default as BottomDrawer } from './BottomDrawer';
+} from './base/Drawer';
+export { default as BottomDrawer } from './bottom-drawer/BottomDrawer';
 export { default as ReservationBottomDrawer } from './reservation/ReservationBottomDrawer';

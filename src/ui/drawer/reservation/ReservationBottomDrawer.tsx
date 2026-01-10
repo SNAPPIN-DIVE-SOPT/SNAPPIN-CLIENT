@@ -1,8 +1,8 @@
 'use client';
 
-import BottomDrawer from '@/ui/drawer/BottomDrawer';
 import {
   BottomCTAButton,
+  BottomDrawer,
   ButtonAddMinus,
   DatePicker,
   Divider,

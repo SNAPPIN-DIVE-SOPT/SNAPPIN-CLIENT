@@ -1,4 +1,4 @@
-import { Drawer, DrawerContent } from '@/ui/drawer/Drawer';
+import { Drawer, DrawerContent } from '@/ui/drawer/base/Drawer';
 import { cn } from '@/utils/cn';
 
 type BottomDrawerRootProps = {

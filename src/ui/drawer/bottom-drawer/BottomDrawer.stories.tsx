@@ -1,4 +1,4 @@
-import BottomDrawer from '@/ui/drawer/BottomDrawer';
+import BottomDrawer from '@/ui/drawer/bottom-drawer/BottomDrawer';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
 import { Button } from '@/ui';
