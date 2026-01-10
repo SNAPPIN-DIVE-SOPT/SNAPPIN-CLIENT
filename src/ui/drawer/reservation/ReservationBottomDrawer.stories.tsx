@@ -42,12 +42,12 @@ function ReservationBottomDrawerStory() {
         isOpen={isOpen}
         productId={3}
         amount={10000}
-        handleOpenChange={setIsOpen}
+        handleOpenChangeAction={setIsOpen}
         viewDateMonth={viewDateMonth}
         reservationConstraints={{ minDurationHours: 2, maxParticipantCount: 8 }}
         draft={draft}
-        handleDraftChange={setDraft}
-        onSubmit={handleSubmit}
+        handleDraftChangeAction={setDraft}
+        onFormSubmitAction={handleSubmit}
       />
     </div>
   );
