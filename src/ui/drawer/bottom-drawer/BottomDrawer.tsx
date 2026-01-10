@@ -15,16 +15,14 @@ const BottomDrawerRoot = ({
   className,
 }: BottomDrawerRootProps) => {
   return (
-    <>
-      <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-        <DrawerContent
-          className={cn('bg-black-1 rounded-t-[1.3rem] border-none py-[1rem]', className)}
-        >
-          <div className='bg-gray-4 mx-auto h-[0.4rem] w-[3.8rem] rounded-[2rem]' />
-          {children}
-        </DrawerContent>
-      </Drawer>
-    </>
+    <Drawer open={isOpen} onOpenChange={handleOpenChange}>
+      <DrawerContent
+        className={cn('bg-black-1 rounded-t-[1.3rem] border-none py-[1rem]', className)}
+      >
+        <div className='bg-gray-4 mx-auto h-[0.4rem] w-[3.8rem] rounded-[2rem]' />
+        {children}
+      </DrawerContent>
+    </Drawer>
   );
 };
 
@@ -51,6 +49,15 @@ const BottomDrawerRow = ({ children, className }: BottomDrawerRowProps) => {
   return <div className={cn(className)}>{children}</div>;
 };
 
+type BottomDrawerSectionProps = {
+  children?: React.ReactNode;
+  className?: string;
+};
+
+const BottomDrawerSection = ({ children, className }: BottomDrawerSectionProps) => {
+  return <section className={cn(className)}>{children}</section>;
+};
+
 type BottomDrawerFooterProps = {
   children?: React.ReactNode;
   className?: string;
@@ -62,11 +69,13 @@ const BottomDrawerFooter = ({ children, className }: BottomDrawerFooterProps) =>
 
 type BottomDrawerComponent = typeof BottomDrawerRoot & {
   Title: typeof BottomDrawerTitle;
+  Section: typeof BottomDrawerSection;
   Row: typeof BottomDrawerRow;
   Footer: typeof BottomDrawerFooter;
 };
 
 const BottomDrawer: BottomDrawerComponent = Object.assign(BottomDrawerRoot, {
+  Section: BottomDrawerSection,
   Title: BottomDrawerTitle,
   Row: BottomDrawerRow,
   Footer: BottomDrawerFooter,
