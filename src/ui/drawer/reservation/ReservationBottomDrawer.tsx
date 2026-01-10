@@ -3,6 +3,7 @@
 import {
   BottomCTAButton,
   BottomDrawer,
+  ControlRow,
   DatePicker,
   Divider,
   DrawerDescription,
@@ -16,6 +17,7 @@ import TextareaField from '@/ui/input/textarea-field/TextareaField';
 import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
 import { useEffect, useRef } from 'react';
 import {
+  DraftUpdater,
   ReservationConstraints,
   ReservationDraft,
 } from '@/ui/drawer/reservation/types/reservation';
@@ -24,12 +26,12 @@ type ReservationBottomDrawerProps = {
   isOpen: boolean;
   productId: number;
   amount: number;
-  handleOpenChange: (open: boolean) => void;
+  handleOpenChangeAction: (open: boolean) => void;
   viewDateMonth?: Date;
   draft: ReservationDraft;
-  handleDraftChange: (next: ReservationDraft) => void;
+  handleDraftChangeAction: (next: DraftUpdater) => void;
   reservationConstraints: ReservationConstraints;
-  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+  onFormSubmitAction: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
 const DURATION_HOURS_STEP = 1;
@@ -39,12 +41,12 @@ export default function ReservationBottomDrawer({
   isOpen,
   productId,
   amount,
-  handleOpenChange,
+  handleOpenChangeAction,
   viewDateMonth,
   draft,
-  handleDraftChange,
+  handleDraftChangeAction,
   reservationConstraints,
-  onSubmit,
+  onFormSubmitAction,
 }: ReservationBottomDrawerProps) {
   const timeSectionRef = useRef<HTMLDivElement>(null);
 
@@ -59,25 +61,61 @@ export default function ReservationBottomDrawer({
     minParticipantCount = 1,
     maxParticipantCount,
   } = reservationConstraints;
-  const patch = (p: Partial<ReservationDraft>) => handleDraftChange({ ...draft, ...p });
   const isButtonDisabled = !date || !time;
-
   const formattedTime = `${durationHours}시간`;
   const formattedCount = `${participantCount}명`;
+
+  const patch = (p: Partial<ReservationDraft>) =>
+    handleDraftChangeAction((prev) => ({ ...prev, ...p }));
+
+  const decreaseDurationHours = () =>
+    handleDraftChangeAction((prev) => ({
+      ...prev,
+      durationHours: Math.max(minDurationHours, prev.durationHours - DURATION_HOURS_STEP),
+    }));
+
+  const increaseDurationHours = () =>
+    handleDraftChangeAction((prev) => ({
+      ...prev,
+      durationHours: Math.min(maxDurationHours, prev.durationHours + DURATION_HOURS_STEP),
+    }));
+
+  const decreaseParticipant = () =>
+    handleDraftChangeAction((prev) => ({
+      ...prev,
+      participantCount: Math.max(
+        minParticipantCount,
+        prev.participantCount - PARTICIPANT_COUNT_STEP,
+      ),
+    }));
+
+  const increaseParticipant = () =>
+    handleDraftChangeAction((prev) => ({
+      ...prev,
+      participantCount: Math.min(
+        maxParticipantCount,
+        prev.participantCount + PARTICIPANT_COUNT_STEP,
+      ),
+    }));
 
   useEffect(() => {
     if (!date) return;
 
-    requestAnimationFrame(() => {
+    const rafId = requestAnimationFrame(() => {
       timeSectionRef.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       });
     });
+    return () => cancelAnimationFrame(rafId);
   }, [date]);
 
   return (
-    <BottomDrawer isOpen={isOpen} handleOpenChange={handleOpenChange} className='max-h-[92dvh]!'>
+    <BottomDrawer
+      isOpen={isOpen}
+      handleOpenChange={handleOpenChangeAction}
+      className='max-h-[92dvh]!'
+    >
       {/* 접근성 위한 title & description (숨김처리) */}
       <DrawerTitle className='sr-only'>예약 정보 입력</DrawerTitle>
       <DrawerDescription className='sr-only'>
@@ -85,104 +123,100 @@ export default function ReservationBottomDrawer({
       </DrawerDescription>
 
       {/* 예약 폼 */}
-      <form id='reservation-form' onSubmit={onSubmit} className='scrollbar-hide overflow-y-auto'>
+      <form
+        id='reservation-form'
+        onSubmit={onFormSubmitAction}
+        className='scrollbar-hide overflow-y-auto'
+      >
         {/* 날짜 선택 */}
-        <BottomDrawer.Row>
-          <BottomDrawer.Title className='px-[3rem] py-[2rem]'>
-            희망 날짜 및 시간을 선택해 주세요
-          </BottomDrawer.Title>
-          <DatePicker
-            viewDateMonth={viewDateMonth}
-            selectedDate={date ?? undefined}
-            handleDateChangeAction={(nextDate) => patch({ date: nextDate })}
-          />
-          <div ref={timeSectionRef} aria-hidden />
-        </BottomDrawer.Row>
-
-        {/* 촬영 시작할 시간 선택 */}
-        {date && (
-          <BottomDrawer.Row className='flex flex-col gap-[1.2rem] px-[2rem] py-[2rem]'>
-            <BottomDrawer.Title>촬영 시작 시간을 선택해 주세요</BottomDrawer.Title>
-            <TimePicker
-              sections={MOCK_TIME_SLOTS}
-              value={time ?? undefined}
-              handleChange={(nextTime) => patch({ time: nextTime })}
+        <BottomDrawer.Section>
+          <BottomDrawer.Row>
+            <BottomDrawer.Title className='px-[3rem] py-[2rem]'>
+              희망 날짜 및 시간을 선택해 주세요
+            </BottomDrawer.Title>
+            <DatePicker
+              viewDateMonth={viewDateMonth}
+              selectedDate={date ?? undefined}
+              handleDateChangeAction={(nextDate) => patch({ date: nextDate, time: null })}
             />
+            <div ref={timeSectionRef} aria-hidden />
           </BottomDrawer.Row>
-        )}
+
+          <Divider color='bg-black-3' thickness='small' className='mx-[2rem]' />
+
+          {/* 촬영 시작할 시간 선택 */}
+          {date && (
+            <BottomDrawer.Row className='flex flex-col gap-[1.2rem] px-[2rem] py-[2rem]'>
+              <BottomDrawer.Title>촬영 시작 시간을 선택해 주세요</BottomDrawer.Title>
+              <TimePicker
+                sections={MOCK_TIME_SLOTS}
+                value={time ?? undefined}
+                handleChange={(nextTime) => patch({ time: nextTime })}
+              />
+            </BottomDrawer.Row>
+          )}
+        </BottomDrawer.Section>
+
         <Divider thickness='large' color='bg-black-3' />
 
-        <div className='flex flex-col gap-[2.4rem] p-[2rem]'>
-          {/* 촬영 시간 선택 */}
-          <BottomDrawer.Row className='flex justify-between'>
-            <BottomDrawer.Title as='span' className='caption-14-md'>
-              촬영 시간
-            </BottomDrawer.Title>
-            <Stepper
-              value={formattedTime}
-              handleClickMinus={() =>
-                patch({
-                  durationHours: Math.max(minDurationHours, durationHours - DURATION_HOURS_STEP),
-                })
-              }
-              handleClickAdd={() =>
-                patch({
-                  durationHours: Math.min(maxDurationHours, durationHours + DURATION_HOURS_STEP),
-                })
-              }
-            />
-          </BottomDrawer.Row>
+        <BottomDrawer.Section className='flex flex-col gap-[2.4rem] p-[2rem]'>
+          {/* 촬영 시간 입력 */}
+          <ControlRow
+            leftLabel={
+              <BottomDrawer.Title as='span' className='caption-14-md'>
+                촬영 시간
+              </BottomDrawer.Title>
+            }
+            rightControl={
+              <Stepper
+                value={formattedTime}
+                handleClickMinus={decreaseDurationHours}
+                handleClickAdd={increaseDurationHours}
+                isDisabledMinus={durationHours <= minDurationHours}
+                isDisabledAdd={durationHours >= maxDurationHours}
+              />
+            }
+          />
 
-          {/* 촬용 장소 입력 */}
-          <BottomDrawer.Row className='flex items-center'>
-            <TextField
-              id='reservation-place'
-              label='촬영 장소'
-              value={place}
-              onChange={(e) => patch({ place: e.target.value })}
-              placeholder='작가님의 활동 지역 내 장소만 검색할 수 있어요'
-            />
-          </BottomDrawer.Row>
+          {/* 촬영 장소 입력 */}
+          <TextField
+            id='reservation-place'
+            label='촬영 장소'
+            value={place}
+            onChange={(e) => patch({ place: e.target.value })}
+            placeholder='작가님의 활동 지역 내 장소만 검색할 수 있어요'
+          />
 
           {/* 촬영 인원 선택 */}
-          <BottomDrawer.Row className='flex justify-between'>
-            <BottomDrawer.Title as='span' className='caption-14-md'>
-              촬영 인원
-            </BottomDrawer.Title>
-            <Stepper
-              value={formattedCount}
-              handleClickMinus={() =>
-                patch({
-                  participantCount: Math.max(
-                    minParticipantCount,
-                    participantCount - PARTICIPANT_COUNT_STEP,
-                  ),
-                })
-              }
-              handleClickAdd={() =>
-                patch({
-                  participantCount: Math.min(
-                    maxParticipantCount,
-                    participantCount + PARTICIPANT_COUNT_STEP,
-                  ),
-                })
-              }
-            />
-          </BottomDrawer.Row>
+          <ControlRow
+            leftLabel={
+              <BottomDrawer.Title as='span' className='caption-14-md'>
+                촬영 인원
+              </BottomDrawer.Title>
+            }
+            rightControl={
+              <Stepper
+                value={formattedCount}
+                handleClickMinus={decreaseParticipant}
+                handleClickAdd={increaseParticipant}
+                isDisabledMinus={participantCount <= minParticipantCount}
+                isDisabledAdd={participantCount >= maxParticipantCount}
+              />
+            }
+          />
 
           {/* 기타 요청 사항 입력 */}
-          <BottomDrawer.Row className='flex items-center'>
-            <TextareaField
-              id='reservation-etc'
-              label='기타 요청 사항'
-              rows={2}
-              value={request}
-              placeholder='추가 문의 사항 혹은 유료 서비스 포함 여부를 작성해주세요'
-              helpText={`${request.length}/500자까지 작성 가능합니다.`}
-              onChange={(e) => patch({ request: e.target.value })}
-            />
-          </BottomDrawer.Row>
-        </div>
+          <TextareaField
+            id='reservation-etc'
+            label='기타 요청 사항'
+            rows={2}
+            maxLength={500}
+            value={request}
+            placeholder='추가 문의 사항 혹은 유료 서비스 포함 여부를 작성해주세요'
+            helpText={`${request.length}/500자까지 작성 가능합니다.`}
+            onChange={(e) => patch({ request: e.target.value })}
+          />
+        </BottomDrawer.Section>
       </form>
 
       {/* 하단 버튼 영역 */}

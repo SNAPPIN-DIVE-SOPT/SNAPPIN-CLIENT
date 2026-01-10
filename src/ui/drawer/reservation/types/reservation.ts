@@ -7,6 +7,8 @@ export type ReservationDraft = {
   request: string;
 };
 
+export type DraftUpdater = ReservationDraft | ((prev: ReservationDraft) => ReservationDraft);
+
 export type ReservationConstraints = {
   minDurationHours: number;
   maxDurationHours?: number;
