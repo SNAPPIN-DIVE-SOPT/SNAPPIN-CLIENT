@@ -4,7 +4,7 @@ import { Modal, ModalButtonProps } from '../base/Modal';
 type ConfirmModalProps = {
   open: boolean;
   handleOpenChange: (open: boolean) => void;
-  showCloseButton: boolean;
+  showCloseButton?: boolean;
   title: string;
   description?: string;
   buttons: ModalButtonProps[];
@@ -19,7 +19,7 @@ type ConfirmModalProps = {
 export default function ConfirmModal({
   open,
   handleOpenChange,
-  showCloseButton,
+  showCloseButton = false,
   title,
   description,
   buttons,

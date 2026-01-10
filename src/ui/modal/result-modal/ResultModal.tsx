@@ -7,7 +7,7 @@ import { THEME } from './constants/theme';
 type ResultModalProps = {
   open: boolean;
   handleOpenChange: (open: boolean) => void;
-  showCloseButton: boolean;
+  showCloseButton?: boolean;
   type: ResultModalType;
   title: string;
   description?: string;
@@ -23,7 +23,7 @@ type ResultModalProps = {
 export default function ResultModal({
   open,
   handleOpenChange,
-  showCloseButton,
+  showCloseButton = false,
   type,
   title,
   description,
