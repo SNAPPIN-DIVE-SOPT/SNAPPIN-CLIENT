@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Stepper from './Stepper';
 
 const meta: Meta<typeof Stepper> = {
-  title: 'Button/Stepper',
+  title: 'stepper/Stepper',
   component: Stepper,
   tags: ['autodocs'],
   parameters: {
