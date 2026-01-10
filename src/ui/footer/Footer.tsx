@@ -35,7 +35,7 @@ const menuUserItems: {
     label: 'Home',
   },
   {
-    href: '/',
+    href: '/explore',
     activeIcon: IconExploreFill,
     inactiveIcon: IconExplore,
     label: 'Explore',
