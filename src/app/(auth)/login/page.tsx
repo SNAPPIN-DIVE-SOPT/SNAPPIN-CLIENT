@@ -12,7 +12,7 @@ export default function page() {
           <p className='title-20-bd text-neon-black'>가장 나다운 스냅 촬영</p>
         </div>
         {/* TODO: 로그인 폼 */}
-        <ImageSlide type='login' />
+        <ImageSlide />
 
         <div className='flex justify-center px-[2rem]'>
           <LoginButton />
