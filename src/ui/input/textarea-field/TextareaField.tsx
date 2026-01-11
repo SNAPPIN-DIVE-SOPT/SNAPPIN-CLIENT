@@ -1,5 +1,4 @@
-import { FieldMessage } from '@/ui';
-import Textarea from '@/ui/input/textarea/Textarea';
+import { FieldMessage, Textarea } from '@/ui';
 
 type TextareaFieldProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   id: string;
