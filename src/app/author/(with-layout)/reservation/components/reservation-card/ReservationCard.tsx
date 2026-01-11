@@ -5,14 +5,15 @@ import { StateCode } from '@/types/stateCode';
 import { IconKeyboardArrowRight } from '@/assets';
 import { useRouter } from 'next/navigation';
 import { ProductCardProps } from '@/ui/product-card/ProductCard';
+
 type ReservationCardProps = {
-  id: number;
+  reservationId: number;
   status: StateCode;
   date: string;
 } & ProductCardProps;
 
 export default function ReservationCard({
-  id,
+  reservationId,
   status,
   image,
   name,
@@ -26,7 +27,7 @@ export default function ReservationCard({
   const router = useRouter();
 
   const handleDetailClick = () => {
-    router.push(`/author/reservation-detail/${id}`);
+    router.push(`/author/reservation-detail/${reservationId}`);
   };
 
   return (
