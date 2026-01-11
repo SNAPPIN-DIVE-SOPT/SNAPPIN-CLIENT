@@ -44,6 +44,7 @@ export default function ReservationContent() {
                   author={product.photographer}
                   price={product.price}
                   tags={product.moods as MoodCode[]}
+                  date={product.date}
                 />
                 {index !== data.products.length - 1 && (
                   <Divider thickness='large' color='bg-black-3' />

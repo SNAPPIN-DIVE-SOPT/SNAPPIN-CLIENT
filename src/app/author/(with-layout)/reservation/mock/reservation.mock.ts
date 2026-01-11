@@ -11,6 +11,7 @@ export const RESERVATION_MOCK = {
       price: 80000,
       moods: ['따스한', '내추럴', '투명한'],
       isReviewed: false,
+      date: '2026-03-15',
     },
     {
       id: 2,
@@ -23,6 +24,7 @@ export const RESERVATION_MOCK = {
       price: 120000,
       moods: ['시크한', '미니멀'],
       isReviewed: false,
+      date: '2026-03-15',
     },
     {
       id: 3,
@@ -35,6 +37,7 @@ export const RESERVATION_MOCK = {
       price: 95000,
       moods: ['로맨틱한', '우아한'],
       isReviewed: false,
+      date: '2026-03-15',
     },
     {
       id: 4,
@@ -47,6 +50,7 @@ export const RESERVATION_MOCK = {
       price: 110000,
       moods: ['모던한', '심플한'],
       isReviewed: false,
+      date: '2026-03-15',
     },
     {
       id: 5,
@@ -59,6 +63,7 @@ export const RESERVATION_MOCK = {
       price: 130000,
       moods: ['빈티지한', '감성적인'],
       isReviewed: true,
+      date: '2026-03-15',
     },
   ],
 };
