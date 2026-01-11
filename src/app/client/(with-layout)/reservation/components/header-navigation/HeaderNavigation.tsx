@@ -2,8 +2,13 @@
 
 import { IconSearch, Logo } from '@/assets';
 import { Navigation } from '@/ui';
+import { cn } from '@/utils/cn';
 
-export default function HeaderNavigation() {
+type HeaderNavigationProps = {
+  isVisible: boolean;
+};
+
+export default function HeaderNavigation({ isVisible }: HeaderNavigationProps) {
   const handleSearchClick = () => {
     // 검색페이지
   };
@@ -13,9 +18,17 @@ export default function HeaderNavigation() {
       <Navigation
         left={<Logo width={72} />}
         right={<IconSearch onClick={handleSearchClick} />}
-        className='fixed-center top-0 z-10'
+        className={cn(
+          'fixed-center top-0 z-15 flex h-[5rem] items-center justify-between px-[2rem] transition-transform duration-300 ease-out will-change-transform',
+          isVisible ? 'pointer-events-auto translate-y-0' : 'pointer-events-none -translate-y-full',
+        )}
       />
-      <div className='bg-black-1 h-[5rem] flex-none' />
+      <div
+        className={cn(
+          'bg-black-1 flex-none transition-[height] duration-300 ease-out',
+          isVisible ? 'h-[5rem]' : 'h-0',
+        )}
+      />
     </>
   );
 }
