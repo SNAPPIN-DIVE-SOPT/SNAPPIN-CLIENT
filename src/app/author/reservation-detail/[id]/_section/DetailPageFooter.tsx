@@ -2,7 +2,6 @@
 
 import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { BottomCTAButton } from '@/ui';
-import Button from '@/ui/button/base/Button';
 
 type DetailPageFooterProps = {
   date: string; // 예약 날짜 (YYYY-MM-DD)

@@ -11,6 +11,7 @@ type ReviewDetailProps = {
   images: string[];
   content: string;
 };
+
 export default function ReviewDetail({
   id,
   reviewer,
@@ -20,7 +21,7 @@ export default function ReviewDetail({
   content,
 }: ReviewDetailProps) {
   return (
-    <div className='bg-black-1 flex flex-col gap-[2rem] px-[2rem] pt-[1.7rem] pb-[11.1rem]'>
+    <div className='bg-black-1 flex flex-col gap-[2rem] px-[2rem] pt-[1.7rem] pb-[2rem]'>
       <p className='caption-14-bd'>리뷰 상세</p>
       <div className='flex flex-col gap-[1.2rem]'>
         <div className='flex flex-col items-start gap-[0.4rem]'>

@@ -52,14 +52,8 @@ export default function Page() {
             />
           </>
         )}
-        {!data.reviewInfo && (
-          <DetailPageFooter
-            date={data.reservationInfo.date}
-            startTime={data.reservationInfo.startTime}
-            status={data.status as StateCode}
-          />
-        )}
-        {data.reviewInfo && (
+
+        {data.reviewInfo ? (
           <>
             <Divider thickness='large' color='bg-black-3' />
             <ReviewDetail
@@ -70,6 +64,15 @@ export default function Page() {
               images={data.reviewInfo.images}
               content={data.reviewInfo.content}
             />
+          </>
+        ) : (
+          <>
+            <DetailPageFooter
+              date={data.reservationInfo.date}
+              startTime={data.reservationInfo.startTime}
+              status={data.status as StateCode}
+            />
+            <div className='bg-black-1 h-[6.3rem]' />
           </>
         )}
       </div>

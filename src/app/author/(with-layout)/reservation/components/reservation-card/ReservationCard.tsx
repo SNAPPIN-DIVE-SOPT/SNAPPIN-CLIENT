@@ -1,23 +1,15 @@
 'use client';
 
 import { ProductCard, IconButton, StateChip } from '@/ui';
-import { MoodCode } from '@/types/moodCode';
 import { StateCode } from '@/types/stateCode';
 import { IconKeyboardArrowRight } from '@/assets';
 import { useRouter } from 'next/navigation';
-
+import { ProductCardProps } from '@/ui/product-card/ProductCard';
 type ReservationCardProps = {
   id: number;
   status: StateCode;
-  image: { src: string; alt?: string };
-  name: string;
-  rating: number;
-  reviewCount: number;
-  author: string;
-  price: number;
-  tags: MoodCode[];
   date: string;
-};
+} & ProductCardProps;
 
 export default function ReservationCard({
   id,
@@ -43,9 +35,9 @@ export default function ReservationCard({
         <span className='caption-10-md text-black-7'>{date}</span>
         <div className='flex flex-col gap-[1.2rem]'>
           <div className='flex w-full items-center justify-between'>
-            <div className='flex items-center gap-[0.8em]'>
+            <div className='flex items-center gap-[0.8rem]'>
               <StateChip label={status} />
-              <div className='flex items-center gap-[0.2em]'>
+              <div className='flex items-center gap-[0.2rem]'>
                 <span className='font-16-bd'>{author}</span>
                 <span className='font-16-md'>님</span>
               </div>
