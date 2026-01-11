@@ -1,6 +1,5 @@
 import { StateCode } from '@/types/stateCode';
 
-// TODO: 서버 enum 확정되면 변경
 export const STATE_LABEL: Record<StateCode, string> = {
   RESERVATION_REQUESTED: '예약 요청',
   PHOTOGRAPHER_CHECKING: '작가 확인 중',
