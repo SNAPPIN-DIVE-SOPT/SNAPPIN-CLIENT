@@ -15,7 +15,7 @@ import {
 } from '@/ui';
 import { MOCK_TIME_SLOTS } from '@/ui/time-picker/constants/mockTimeSlots';
 import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   DraftUpdater,
   ReservationConstraints,
@@ -27,7 +27,6 @@ type ReservationBottomDrawerProps = {
   productId: number;
   amount: number;
   handleOpenChangeAction: (open: boolean) => void;
-  viewDateMonth?: Date;
   draft: ReservationDraft;
   handleDraftChangeAction: (next: DraftUpdater) => void;
   reservationConstraints: ReservationConstraints;
@@ -42,13 +41,13 @@ export default function ReservationBottomDrawer({
   productId,
   amount,
   handleOpenChangeAction,
-  viewDateMonth,
   draft,
   handleDraftChangeAction,
   reservationConstraints,
   onFormSubmitAction,
 }: ReservationBottomDrawerProps) {
   const timeSectionRef = useRef<HTMLDivElement>(null);
+  const [viewMonth, setViewMonth] = useState<Date>(new Date());
 
   // todo useSuspenseQueries 연결
   // 1. 휴뮤일 조회
@@ -135,8 +134,9 @@ export default function ReservationBottomDrawer({
               희망 날짜 및 시간을 선택해 주세요
             </BottomDrawer.Title>
             <DatePicker
-              viewDateMonth={viewDateMonth}
               selectedDate={date ?? undefined}
+              viewDateMonth={viewMonth}
+              handleMonthChangeAction={setViewMonth}
               handleDateChangeAction={(nextDate) => patch({ date: nextDate, time: null })}
             />
             <div ref={timeSectionRef} aria-hidden />

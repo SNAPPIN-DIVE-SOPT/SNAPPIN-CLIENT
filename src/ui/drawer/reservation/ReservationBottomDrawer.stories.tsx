@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/ui';
 import ReservationBottomDrawer from './ReservationBottomDrawer';
 import { ReservationDraft } from '@/ui/drawer/reservation/types/reservation';
@@ -27,8 +27,6 @@ function ReservationBottomDrawerStory() {
   const [isOpen, setIsOpen] = useState(false);
   const [draft, setDraft] = useState<ReservationDraft>(initialDraft);
 
-  const viewDateMonth = useMemo(() => new Date(), []);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 제출 로직 추가 작성 가능
@@ -43,7 +41,6 @@ function ReservationBottomDrawerStory() {
         productId={3}
         amount={10000}
         handleOpenChangeAction={setIsOpen}
-        viewDateMonth={viewDateMonth}
         reservationConstraints={{ minDurationHours: 2, maxParticipantCount: 8 }}
         draft={draft}
         handleDraftChangeAction={setDraft}
