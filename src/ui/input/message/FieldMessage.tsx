@@ -5,9 +5,15 @@ type FieldMessageProps = {
   id: string;
   message?: string;
   variant?: 'help' | 'error' | 'success';
+  showIcon?: boolean;
 };
 
-export default function FieldMessage({ id, message, variant = 'help' }: FieldMessageProps) {
+export default function FieldMessage({
+  id,
+  message,
+  variant = 'help',
+  showIcon,
+}: FieldMessageProps) {
   if (!message) return null;
 
   const messageTheme = {
@@ -25,8 +31,8 @@ export default function FieldMessage({ id, message, variant = 'help' }: FieldMes
   };
 
   return (
-    <div className='flex min-h-[2.4rem] items-center'>
-      {variant !== 'help' && (
+    <div className='flex min-h-[2.4rem] flex-row items-center'>
+      {showIcon && variant !== 'help' && (
         <Image width={24} height={24} src={iconMap[variant]} alt={`${variant} icon`} />
       )}
       <p className={cn('caption-10-md', messageTheme[variant])} id={id} role={role}>
