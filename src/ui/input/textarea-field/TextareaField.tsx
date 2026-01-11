@@ -1,9 +1,9 @@
-import { FieldMessage, Textarea } from '@/ui';
+import { Textarea } from '@/ui';
 
 type TextareaFieldProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   id: string;
   label?: string;
-  helpText?: string;
+  helpText?: React.ReactNode;
   hasError?: boolean;
   required?: boolean;
   placeholder?: string;
@@ -28,7 +28,7 @@ export default function TextareaField({
       {label && (
         <label htmlFor={id} className='caption-14-md mb-[1rem] inline-block'>
           {label}
-          {required && <span className='ml-2 text-red-500'>*</span>}
+          {required && <span className='text-red-error ml-2'>*</span>}
         </label>
       )}
 
@@ -44,7 +44,7 @@ export default function TextareaField({
         {...props}
       />
 
-      <FieldMessage id={messageId} message={helpText} variant={hasError ? 'error' : 'help'} />
+      {helpText}
     </div>
   );
 }
