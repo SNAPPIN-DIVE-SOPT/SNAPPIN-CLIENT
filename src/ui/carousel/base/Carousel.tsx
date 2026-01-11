@@ -161,12 +161,12 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
 
 function CarouselPrevious({ className, ...props }: React.ComponentProps<'button'>) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
-
+  if (!canScrollPrev) return null;
   return (
     <button
       data-slot='carousel-previous'
       className={cn(
-        'absolute size-8 rounded-full !bg-black/5',
+        'absolute size-8 rounded-full bg-black/5',
         orientation === 'horizontal'
           ? 'top-1/2 -left-12 -translate-y-1/2'
           : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
@@ -184,12 +184,12 @@ function CarouselPrevious({ className, ...props }: React.ComponentProps<'button'
 
 function CarouselNext({ className, ...props }: React.ComponentProps<'button'>) {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
-
+  if (!canScrollNext) return null;
   return (
     <button
       data-slot='carousel-next'
       className={cn(
-        'absolute size-8 rounded-full !bg-black/5',
+        'absolute size-8 rounded-full bg-black/5',
         orientation === 'horizontal'
           ? 'top-1/2 -right-12 -translate-y-1/2'
           : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
