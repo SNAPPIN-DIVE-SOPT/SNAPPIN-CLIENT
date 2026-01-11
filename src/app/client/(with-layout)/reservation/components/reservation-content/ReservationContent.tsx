@@ -12,16 +12,19 @@ import {
 } from '@/app/client/(with-layout)/reservation/constants/tabList';
 import { RESERVATION_MOCK } from '@/app/client/(with-layout)/reservation/mock/reservationList.mock';
 import { ReservationStatusByReservationProductIdAtom } from '@/app/client/(with-layout)/reservation/store';
-import { IconArrowForward } from '@/assets';
+import { IconKeyboardArrowRight } from '@/assets';
 import { ReviewByReservationProductIdAtom } from '@/app/client/review/store';
 import { ReviewedByReservationProductIdAtom } from '@/app/client/(with-layout)/reservation/store';
+import { cn } from '@/utils/cn';
 
 const createReservationDetailPath = (reservationProductId: number) =>
   `/client/reservation-detail/${reservationProductId}`;
 
-const createDoneDetailPath = (reservationProductId: number) => `/client/done-detail/${reservationProductId}`;
+const createDoneDetailPath = (reservationProductId: number) =>
+  `/client/done-detail/${reservationProductId}`;
 
-const createReviewWritePath = (reservationProductId: number) => `/client/review/write/${reservationProductId}`;
+const createReviewWritePath = (reservationProductId: number) =>
+  `/client/review/write/${reservationProductId}`;
 
 const createReservationDetailPathByStatus = (
   reservationStatus: StateCode,
@@ -33,12 +36,26 @@ const createReservationDetailPathByStatus = (
 
 const hasShootCompletedStatus = (status: StateCode) => status === 'SHOOT_COMPLETED';
 
+const createReservationCreatedAtLabel = (createdAt: string) => {
+  const match = createdAt.match(/(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})(?::(\d{2}))?/);
+  if (!match) {
+    return createdAt;
+  }
+
+  const [, year, month, day, hour, minute] = match;
+  return `${year.slice(2)}년 ${month}월 ${day}일 ${hour}:${minute}`;
+};
+
 const getReservationTabValue = (value: string): ReservationTabValue =>
   RESERVATION_TABS.some(({ value: reservationTabValue }) => reservationTabValue === value)
     ? (value as ReservationTabValue)
     : RESERVATION_TABS[0].value;
 
-export default function ReservationContent() {
+type ReservationContentProps = {
+  isHeaderVisible: boolean;
+};
+
+export default function ReservationContent({ isHeaderVisible }: ReservationContentProps) {
   const router = useRouter();
   const [selectedTabValue, setSelectedTabValue] = useState<ReservationTabValue>(
     RESERVATION_TABS[0].value,
@@ -71,10 +88,7 @@ export default function ReservationContent() {
 
   const getReservationsByTabValue = (reservationTabValue: ReservationTabValue) =>
     RESERVATION_MOCK.reservations.filter(({ reservation }) => {
-      const reservationStatus = getReservationStatus(
-        reservation.reservationId,
-        reservation.status,
-      );
+      const reservationStatus = getReservationStatus(reservation.reservationId, reservation.status);
       const hasClientDoneTab = reservationTabValue === 'CLIENT_DONE';
 
       return hasClientDoneTab
@@ -90,7 +104,12 @@ export default function ReservationContent() {
         handleValueChange={handleTabValueChange}
         className='bg-black-1'
       >
-        <SectionTabs.List>
+        <SectionTabs.List
+          className={cn(
+            'sticky z-10 bg-black-1',
+            isHeaderVisible ? 'top-[5rem]' : 'top-0',
+          )}
+        >
           {RESERVATION_TABS.map(({ label, value }) => (
             <SectionTabs.Tab key={value} value={value}>
               {label}
@@ -115,16 +134,15 @@ export default function ReservationContent() {
                       <Fragment key={reservation.reservationId}>
                         <div className='border-black-5 rounded-[0.6rem] border-[0.07rem] p-[1.2rem]'>
                           <div className='flex flex-col gap-[1.2rem]'>
-                            {/* TODO: 예약 일시로 바꾸기 */}
                             <div className='flex flex-col gap-[0.6rem]'>
-                              <div className='text-caption-10-md text-black-7'>
-                                {reservationStatus}
+                              <div className='caption-10-md text-black-7'>
+                                {createReservationCreatedAtLabel(reservation.createdAt)}
                               </div>
                               <div className='flex justify-between'>
                                 <StateChip label={reservationStatus} />
                                 <button
                                   type='button'
-                                  className='flex flex-row items-center gap-[1rem]'
+                                  className='flex items-center'
                                   onClick={() =>
                                     handleReservationDetailNavigation(
                                       reservationStatus,
@@ -132,8 +150,8 @@ export default function ReservationContent() {
                                     )
                                   }
                                 >
-                                  <span className='text-black-8 caption-12-md'>예약상세</span>
-                                  <IconArrowForward className='text-black-8 h-[1.6rem] w-[1.6rem]' />
+                                  <span className='text-black-7 caption-12-md'>예약상세</span>
+                                  <IconKeyboardArrowRight className='text-black-7 h-[2.4rem] w-[2.4rem]' />
                                 </button>
                               </div>
                             </div>
@@ -174,7 +192,9 @@ export default function ReservationContent() {
                                   color='black'
                                   display='inline'
                                   type='button'
-                                  onClick={() => handleWriteReviewNavigation(reservation.reservationId)}
+                                  onClick={() =>
+                                    handleWriteReviewNavigation(reservation.reservationId)
+                                  }
                                 >
                                   리뷰 작성
                                 </Button>
