@@ -10,8 +10,8 @@ type TimeButtonProps = {
 };
 
 const TIME_BUTTON_THEME = {
-  default: 'border-black-4 text-black-10 bg-white',
-  selected: 'border-neon-white bg-neon-white text-black-10',
+  default: 'border-black-4 text-black-10 bg-black-1',
+  selected: 'border-neon-black bg-neon-black text-black-10',
 } as const;
 
 export default function TimeButton({
@@ -28,7 +28,7 @@ export default function TimeButton({
       className={cn(
         'caption-14-md flex h-[3.3rem] w-full items-center justify-center rounded border px-[1.8rem] py-[0.8rem] transition-colors',
         TIME_BUTTON_THEME[state],
-        disabled && 'text-black-6 cursor-not-allowed border-black-4 bg-black-1',
+        disabled && 'text-black-6 border-black-4 bg-black-1 cursor-not-allowed',
       )}
     >
       {time}

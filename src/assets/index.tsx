@@ -27,6 +27,14 @@ export { default as IconKeyboardArrowDown } from './components/IconKeyboardArrow
 export { default as IconKeyboardArrowLeft } from './components/IconKeyboardArrowLeft';
 export { default as IconKeyboardArrowRight } from './components/IconKeyboardArrowRight';
 export { default as IconKeyboardArrowUp } from './components/IconKeyboardArrowUp';
+export { default as IconMenuAiMood } from './components/IconMenuAiMood';
+export { default as IconMenuDaily } from './components/IconMenuDaily';
+export { default as IconMenuGraduate } from './components/IconMenuGraduate';
+export { default as IconMenuJeju } from './components/IconMenuJeju';
+export { default as IconMenuLove } from './components/IconMenuLove';
+export { default as IconMenuMarry } from './components/IconMenuMarry';
+export { default as IconMenuMusic } from './components/IconMenuMusic';
+export { default as IconMenuSchool } from './components/IconMenuSchool';
 export { default as IconMessage } from './components/IconMessage';
 export { default as IconMessageFill } from './components/IconMessageFill';
 export { default as IconProfile } from './components/IconProfile';
