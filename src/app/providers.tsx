@@ -1,6 +1,5 @@
 'use client';
 
-import { Logo } from '@/assets';
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import dynamic from 'next/dynamic';
