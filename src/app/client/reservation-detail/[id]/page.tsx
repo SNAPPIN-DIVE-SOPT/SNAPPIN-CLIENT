@@ -59,6 +59,7 @@ export default function Page({ params }: ReservationDetailPageProps) {
   const hasPaymentRequestAction = reservationStatus === 'PAYMENT_REQUESTED';
   const hasPaymentConfirmingAction = reservationStatus === 'PAYMENT_COMPLETED';
   const hasReservationConfirmedAction = reservationStatus === 'RESERVATION_CONFIRMED';
+  const hasReservationRefusedAction = reservationStatus === 'RESERVATION_REFUSED';
   const hasReservationCanceledAction = reservationStatus === 'RESERVATION_CANCELED';
   const hasPaymentDetailSection =
     hasPaymentRequestAction || hasPaymentConfirmingAction || hasReservationConfirmedAction;
@@ -80,13 +81,19 @@ export default function Page({ params }: ReservationDetailPageProps) {
         결제 확인중
       </BottomCTAButton.Single>
     </BottomCTAButton>
-  ) : hasReservationCanceledAction ? (
-    <BottomCTAButton background='white' hasPadding={true}>
-      <BottomCTAButton.Single size='large' color='black' type='button' disabled={true}>
-        작가님의 예약 거절
-      </BottomCTAButton.Single>
-    </BottomCTAButton>
-  ) : null;
+	  ) : hasReservationCanceledAction ? (
+	    <BottomCTAButton background='white' hasPadding={true}>
+	      <BottomCTAButton.Single size='large' color='black' type='button' disabled={true}>
+	        예약 취소 완료
+	      </BottomCTAButton.Single>
+	    </BottomCTAButton>
+	  ) : hasReservationRefusedAction ? (
+	    <BottomCTAButton background='white' hasPadding={true}>
+	      <BottomCTAButton.Single size='large' color='black' type='button' disabled={true}>
+	        작가님의 예약 거절
+	      </BottomCTAButton.Single>
+	    </BottomCTAButton>
+	  ) : null;
 
   return (
     <div className='bg-black-3 flex min-h-full flex-col'>

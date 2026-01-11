@@ -86,8 +86,12 @@ export default function ReservationContent({ isHeaderVisible }: ReservationConte
     fallbackReservationStatus: StateCode,
   ) => reservationStatusByReservationProductId[reservationProductId] ?? fallbackReservationStatus;
 
+  // NOTE: 엠티뷰 구현을 위해 목데이터를 잠시 비워둡니다.
+  // const reservationMockList = RESERVATION_MOCK.reservations;
+  const reservationMockList: typeof RESERVATION_MOCK.reservations = [];
+
   const getReservationsByTabValue = (reservationTabValue: ReservationTabValue) =>
-    RESERVATION_MOCK.reservations.filter(({ reservation }) => {
+    reservationMockList.filter(({ reservation }) => {
       const reservationStatus = getReservationStatus(reservation.reservationId, reservation.status);
       const hasClientDoneTab = reservationTabValue === 'CLIENT_DONE';
 
@@ -105,10 +109,7 @@ export default function ReservationContent({ isHeaderVisible }: ReservationConte
         className='bg-black-1'
       >
         <SectionTabs.List
-          className={cn(
-            'sticky z-10 bg-black-1',
-            isHeaderVisible ? 'top-[5rem]' : 'top-0',
-          )}
+          className={cn('bg-black-1 sticky z-10', isHeaderVisible ? 'top-[5rem]' : 'top-0')}
         >
           {RESERVATION_TABS.map(({ label, value }) => (
             <SectionTabs.Tab key={value} value={value}>
@@ -118,10 +119,19 @@ export default function ReservationContent({ isHeaderVisible }: ReservationConte
         </SectionTabs.List>
         {RESERVATION_TABS.map(({ value }) => {
           const reservations = getReservationsByTabValue(value);
+          const emptyTitle =
+            value === 'CLIENT_DONE' ? '촬영 완료한 상품이 없어요' : '예약 문의한 상품이 없어요';
 
           return (
             <SectionTabs.Contents key={`${value}-panel`} value={value}>
-              {reservations.length === 0 ? null : (
+              {reservations.length === 0 ? (
+                <div className='flex min-h-[calc(100dvh-11rem)] flex-col items-center justify-center gap-[0.4rem] px-[2rem] text-center'>
+                  <div className='font-18-bd text-black-10'>{emptyTitle}</div>
+                  <div className='caption-14-md text-black-6'>
+                    '탐색'에서 다양한 포트폴리오를 확인해보세요
+                  </div>
+                </div>
+              ) : (
                 <div className='flex flex-col px-[2rem] py-[1.2rem]'>
                   {reservations.map(({ reservation }, reservationIndex) => {
                     const reservationProduct = reservation.product;

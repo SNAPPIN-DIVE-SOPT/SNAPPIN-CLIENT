@@ -1,10 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import type { ComponentProps } from 'react';
 
 import { RESERVATION_MOCK } from '@/app/client/(with-layout)/reservation/mock/reservationList.mock';
 import type { StateCode } from '@/types/stateCode';
-import { Button, ProductCard } from '@/ui';
+import { Button, ConfirmModal, ProductCard } from '@/ui';
 
 type ReservationRequestedProps = {
   reservationProductId: number;
@@ -37,6 +38,8 @@ export default function ReservationRequested({
   handleReservationCancelClick,
   handleInquiryClick,
 }: ReservationRequestedProps) {
+  const [isReservationCancelConfirmModalOpen, setIsReservationCancelConfirmModalOpen] =
+    useState(false);
   const selectedReservation =
     RESERVATION_MOCK.reservations.find(
       ({ reservation }) => reservation.reservationId === reservationProductId,
@@ -46,41 +49,79 @@ export default function ReservationRequested({
   const hasReservationCancelButton = reservationStatus !== 'RESERVATION_CANCELED';
   const inquiryButtonColor = reservationStatus === 'RESERVATION_CANCELED' ? 'transparent' : 'black';
 
+  const handleReservationCancelButtonClick = () => {
+    setIsReservationCancelConfirmModalOpen(true);
+  };
+
+  const handleReservationCancelConfirmModalCloseClick = () => {
+    setIsReservationCancelConfirmModalOpen(false);
+  };
+
+  const handleReservationCancelConfirmClick = () => {
+    handleReservationCancelClick();
+    setIsReservationCancelConfirmModalOpen(false);
+  };
+
   return (
-    <section className='bg-black-1 px-[2rem] pt-[1.7rem] pb-[1.2rem]'>
-      <label className='caption-14-bd text-black-10'>예약 요청 상품</label>
-      <div className='mt-[1.2rem] mb-[1.7rem]'>
-        {reservations.map((reservation) => (
-          <ProductCard
-            key={reservation.reservationId}
-            {...createProductCardPropsByReservation(reservation)}
-          />
-        ))}
-      </div>
-      <div className='flex flex-row gap-[0.6rem]'>
-        {hasReservationCancelButton ? (
+    <>
+      <ConfirmModal
+        open={isReservationCancelConfirmModalOpen}
+        handleOpenChange={setIsReservationCancelConfirmModalOpen}
+        showCloseButton={false}
+        title={'예약하신 스냅 일정을\n취소할까요?'}
+        buttons={[
+          {
+            label: '아니요',
+            size: 'medium',
+            color: 'disabled',
+            type: 'button',
+            onClick: handleReservationCancelConfirmModalCloseClick,
+          },
+          {
+            label: '네, 취소할게요',
+            size: 'medium',
+            color: 'black',
+            type: 'button',
+            onClick: handleReservationCancelConfirmClick,
+          },
+        ]}
+        titleClassName='text-center'
+      />
+      <section className='bg-black-1 px-[2rem] pt-[1.7rem] pb-[1.2rem]'>
+        <label className='caption-14-bd text-black-10'>예약 요청 상품</label>
+        <div className='mt-[1.2rem] mb-[1.7rem]'>
+          {reservations.map((reservation) => (
+            <ProductCard
+              key={reservation.reservationId}
+              {...createProductCardPropsByReservation(reservation)}
+            />
+          ))}
+        </div>
+        <div className='flex flex-row gap-[0.6rem]'>
+          {hasReservationCancelButton ? (
+            <Button
+              size='small'
+              color='white'
+              display='inline'
+              type='button'
+              className='w-full'
+              onClick={handleReservationCancelButtonClick}
+            >
+              예약 취소
+            </Button>
+          ) : null}
           <Button
             size='small'
-            color='white'
+            color={inquiryButtonColor}
             display='inline'
             type='button'
             className='w-full'
-            onClick={handleReservationCancelClick}
+            onClick={handleInquiryClick}
           >
-            예약 취소
+            문의하기
           </Button>
-        ) : null}
-        <Button
-          size='small'
-          color={inquiryButtonColor}
-          display='inline'
-          type='button'
-          className='w-full'
-          onClick={handleInquiryClick}
-        >
-          문의하기
-        </Button>
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   );
 }
