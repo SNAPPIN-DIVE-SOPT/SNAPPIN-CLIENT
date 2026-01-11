@@ -25,7 +25,7 @@ export default function TimePicker({ sections, value, handleChange }: TimePicker
   const getState = (time: string): TimeButtonState => (value === time ? 'selected' : 'default');
 
   return (
-    <div className='bg-black-1 p-[1.25rem]'>
+    <div className='bg-black-1'>
       {sections.map((section) => (
         <section key={section.label} className='mb-[1.5rem] last:mb-[0.5rem]'>
           <p className='caption-12-md text-black-8 mb-[0.25rem]'>{section.label}</p>
