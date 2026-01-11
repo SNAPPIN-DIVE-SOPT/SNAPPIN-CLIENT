@@ -9,6 +9,12 @@ type DetailLayoutProps = {
   className?: string;
 };
 
+type DetailRowProps = {
+  label: string;
+  value: string;
+  className?: string;
+};
+
 const DetailLayout = ({ title, subtitle, children, className }: DetailLayoutProps) => {
   return (
     <div className='bg-black-1 flex flex-col px-[2rem] pt-[1.7rem]'>
@@ -30,9 +36,9 @@ const DetailLayout = ({ title, subtitle, children, className }: DetailLayoutProp
   );
 };
 
-const DetailRow = ({ label, value }: { label: string; value: string }) => {
+const DetailRow = ({ label, value, className }: DetailRowProps) => {
   return (
-    <div className='caption-12-md flex items-center gap-[1rem]'>
+    <div className={cn('caption-12-md flex items-center gap-[1rem]', className)}>
       <p className='text-black-7'>{label}</p>
       <p>{value}</p>
     </div>
