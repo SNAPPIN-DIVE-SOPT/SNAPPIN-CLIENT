@@ -28,7 +28,7 @@ const RecommendationAuthor = () => {
   return (
     <section className='scrollbar-hide flex flex-col gap-[0.8rem]'>
       <SectionHeader title='이런 작가는 어때요?' />
-      <div className='scrollbar-hide flex gap-[0.8rem] overflow-scroll'>
+      <div className='scrollbar-hide flex gap-[0.8rem] overflow-x-auto'>
         {photographers.map((photographer) => (
           <Author key={photographer.id} {...photographer} />
         ))}
