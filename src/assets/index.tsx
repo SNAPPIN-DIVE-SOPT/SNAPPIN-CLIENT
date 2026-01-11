@@ -5,6 +5,8 @@ import type { SVGProps } from 'react';
 
 export type IconProps = SVGProps<SVGSVGElement>;
 
+export { default as GraphicError } from './components/GraphicError';
+export { default as GraphicSuccess } from './components/GraphicSuccess';
 export { default as IconAdd } from './components/IconAdd';
 export { default as IconAdd2 } from './components/IconAdd2';
 export { default as IconAddPhotoAlternate } from './components/IconAddPhotoAlternate';
