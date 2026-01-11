@@ -13,21 +13,21 @@ type ReservationRequestedProps = {
   handleInquiryClick: () => void;
 };
 
-type ReservationMockProduct = (typeof RESERVATION_MOCK.products)[number];
+type ReservationMockReservation = (typeof RESERVATION_MOCK.reservations)[number]['reservation'];
 
-const createProductCardPropsByReservationProduct = (
-  reservationProduct: ReservationMockProduct,
+const createProductCardPropsByReservation = (
+  reservation: ReservationMockReservation,
 ): ComponentProps<typeof ProductCard> => ({
   image: {
-    src: reservationProduct.imageUrl,
-    alt: `${reservationProduct.title} 상품 이미지`,
+    src: reservation.product.imageUrl,
+    alt: `${reservation.product.title} 상품 이미지`,
   },
-  name: reservationProduct.title,
-  rating: reservationProduct.rate,
-  reviewCount: reservationProduct.reviewCount,
-  author: reservationProduct.photographer,
-  price: reservationProduct.price,
-  tags: reservationProduct.moods,
+  name: reservation.product.title,
+  rating: reservation.product.rate,
+  reviewCount: reservation.product.reviewCount,
+  author: reservation.product.photographer,
+  price: reservation.product.price,
+  tags: reservation.product.moods,
   className: 'w-full',
 });
 
@@ -37,11 +37,12 @@ export default function ReservationRequested({
   handleReservationCancelClick,
   handleInquiryClick,
 }: ReservationRequestedProps) {
-  const selectedReservationProduct =
-    RESERVATION_MOCK.products.find(({ id }) => id === reservationProductId) ??
-    RESERVATION_MOCK.products[0];
+  const selectedReservation =
+    RESERVATION_MOCK.reservations.find(
+      ({ reservation }) => reservation.reservationId === reservationProductId,
+    )?.reservation ?? RESERVATION_MOCK.reservations[0].reservation;
 
-  const reservationProducts = selectedReservationProduct ? [selectedReservationProduct] : [];
+  const reservations = selectedReservation ? [selectedReservation] : [];
   const hasReservationCancelButton = reservationStatus !== 'RESERVATION_CANCELED';
   const inquiryButtonColor = reservationStatus === 'RESERVATION_CANCELED' ? 'transparent' : 'black';
 
@@ -49,10 +50,10 @@ export default function ReservationRequested({
     <section className='bg-black-1 px-[2rem] pt-[1.7rem] pb-[1.2rem]'>
       <label className='caption-14-bd text-black-10'>예약 요청 상품</label>
       <div className='mt-[1.2rem] mb-[1.7rem]'>
-        {reservationProducts.map((reservationProduct) => (
+        {reservations.map((reservation) => (
           <ProductCard
-            key={reservationProduct.id}
-            {...createProductCardPropsByReservationProduct(reservationProduct)}
+            key={reservation.reservationId}
+            {...createProductCardPropsByReservation(reservation)}
           />
         ))}
       </div>

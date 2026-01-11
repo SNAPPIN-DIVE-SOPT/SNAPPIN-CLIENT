@@ -69,9 +69,12 @@ export default function ReservationContent() {
     fallbackReservationStatus: StateCode,
   ) => reservationStatusByReservationProductId[reservationProductId] ?? fallbackReservationStatus;
 
-  const getReservationProductsByTabValue = (reservationTabValue: ReservationTabValue) =>
-    RESERVATION_MOCK.products.filter(({ id, status }) => {
-      const reservationStatus = getReservationStatus(id, status);
+  const getReservationsByTabValue = (reservationTabValue: ReservationTabValue) =>
+    RESERVATION_MOCK.reservations.filter(({ reservation }) => {
+      const reservationStatus = getReservationStatus(
+        reservation.reservationId,
+        reservation.status,
+      );
       const hasClientDoneTab = reservationTabValue === 'CLIENT_DONE';
 
       return hasClientDoneTab
@@ -95,20 +98,21 @@ export default function ReservationContent() {
           ))}
         </SectionTabs.List>
         {RESERVATION_TABS.map(({ value }) => {
-          const reservationProducts = getReservationProductsByTabValue(value);
+          const reservations = getReservationsByTabValue(value);
 
           return (
             <SectionTabs.Contents key={`${value}-panel`} value={value}>
-              {reservationProducts.length === 0 ? null : (
+              {reservations.length === 0 ? null : (
                 <div className='flex flex-col px-[2rem] py-[1.2rem]'>
-                  {reservationProducts.map((reservationProduct, reservationProductIndex) => {
+                  {reservations.map(({ reservation }, reservationIndex) => {
+                    const reservationProduct = reservation.product;
                     const reservationStatus = getReservationStatus(
-                      reservationProduct.id,
-                      reservationProduct.status,
+                      reservation.reservationId,
+                      reservation.status,
                     );
 
                     return (
-                      <Fragment key={reservationProduct.id}>
+                      <Fragment key={reservation.reservationId}>
                         <div className='border-black-5 rounded-[0.6rem] border-[0.07rem] p-[1.2rem]'>
                           <div className='flex flex-col gap-[1.2rem]'>
                             {/* TODO: 예약 일시로 바꾸기 */}
@@ -124,7 +128,7 @@ export default function ReservationContent() {
                                   onClick={() =>
                                     handleReservationDetailNavigation(
                                       reservationStatus,
-                                      reservationProduct.id,
+                                      reservation.reservationId,
                                     )
                                   }
                                 >
@@ -138,7 +142,10 @@ export default function ReservationContent() {
                               className='block w-full appearance-none border-0 bg-transparent p-0 text-left'
                               aria-label={`${reservationProduct.title} 예약 상세 보기`}
                               onClick={() =>
-                                handleReservationDetailNavigation(reservationStatus, reservationProduct.id)
+                                handleReservationDetailNavigation(
+                                  reservationStatus,
+                                  reservation.reservationId,
+                                )
                               }
                             >
                               <ProductCard
@@ -155,16 +162,19 @@ export default function ReservationContent() {
                                 className='w-full'
                               />
                             </button>
-	                            <div className='flex justify-end'>
+                            <div className='flex justify-end'>
                               {reservationStatus === 'SHOOT_COMPLETED' &&
-                              !(reviewedByReservationProductId[reservationProduct.id] ?? reservationProduct.isReviewed) &&
-                              !reviewByReservationProductId[reservationProduct.id] ? (
+                              !(
+                                reviewedByReservationProductId[reservation.reservationId] ??
+                                reservationProduct.isReviewed
+                              ) &&
+                              !reviewByReservationProductId[reservation.reservationId] ? (
                                 <Button
                                   size='small'
                                   color='black'
                                   display='inline'
                                   type='button'
-                                  onClick={() => handleWriteReviewNavigation(reservationProduct.id)}
+                                  onClick={() => handleWriteReviewNavigation(reservation.reservationId)}
                                 >
                                   리뷰 작성
                                 </Button>
@@ -172,7 +182,7 @@ export default function ReservationContent() {
                             </div>
                           </div>
                         </div>
-                        {reservationProductIndex !== reservationProducts.length - 1 ? (
+                        {reservationIndex !== reservations.length - 1 ? (
                           <div className='-mx-[2rem] py-[1.2rem]'>
                             <Divider thickness='large' />
                           </div>
