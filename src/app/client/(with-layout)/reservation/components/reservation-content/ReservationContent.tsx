@@ -86,9 +86,7 @@ export default function ReservationContent({ isHeaderVisible }: ReservationConte
     fallbackReservationStatus: StateCode,
   ) => reservationStatusByReservationProductId[reservationProductId] ?? fallbackReservationStatus;
 
-  // NOTE: 엠티뷰 구현을 위해 목데이터를 잠시 비워둡니다.
-  // const reservationMockList = RESERVATION_MOCK.reservations;
-  const reservationMockList: typeof RESERVATION_MOCK.reservations = [];
+  const reservationMockList = RESERVATION_MOCK.reservations;
 
   const getReservationsByTabValue = (reservationTabValue: ReservationTabValue) =>
     reservationMockList.filter(({ reservation }) => {

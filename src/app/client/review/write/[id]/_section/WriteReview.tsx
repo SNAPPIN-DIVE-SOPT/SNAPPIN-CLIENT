@@ -3,7 +3,7 @@
 import type { PointerEvent } from 'react';
 import { useRef, useState } from 'react';
 
-import { BottomCTAButton, Carousel, CarouselContent, CarouselItem } from '@/ui';
+import { Carousel, CarouselContent, CarouselItem, TextareaField } from '@/ui';
 import ImageUploadButton from '@/ui/button/upload/ImageUploadButton';
 import ImagePreview from '@/ui/image-preview/ImagePreview';
 import ReviewStar from '@/ui/review-star/ReviewStar';
@@ -12,11 +12,9 @@ type WriteReviewProps = {
   rating: number;
   reviewContent: string;
   reviewImageUrls: string[];
-  hasSubmitDisabled: boolean;
   handleRatingChange: (nextRating: number) => void;
   handleReviewContentChange: (nextReviewContent: string) => void;
   handleReviewImageUrlsChange: (nextReviewImageUrls: string[]) => void;
-  handleReviewSubmit: () => void;
 };
 
 const MAX_RATING = 5;
@@ -41,11 +39,9 @@ export default function WriteReview({
   rating,
   reviewContent,
   reviewImageUrls,
-  hasSubmitDisabled,
   handleRatingChange,
   handleReviewContentChange,
   handleReviewImageUrlsChange,
-  handleReviewSubmit,
 }: WriteReviewProps) {
   const starContainerRef = useRef<HTMLDivElement>(null);
   const [hasPointerDown, setHasPointerDown] = useState<boolean>(false);
@@ -93,77 +89,84 @@ export default function WriteReview({
   };
 
   return (
-    <>
-      <section className='bg-black-1 px-[2.4rem] pt-[1.7rem] pb-[2rem]'>
-        <div>
-          <label className='caption-14-md text-black-10'>이번 촬영은 어떠셨나요?</label>
+    <section className='bg-black-1 px-[2.4rem] pt-[1.7rem] pb-[2rem]'>
+      <div>
+        <label className='caption-14-md text-black-10'>이번 촬영은 어떠셨나요?</label>
+        <div className='mt-[1.2rem]'>
+          <div ref={starContainerRef} className='relative inline-flex'>
+            <ReviewStar starSize='large' rating={rating} />
+            <div
+              className='absolute inset-0 touch-none'
+              role='slider'
+              aria-label='별점 선택'
+              aria-valuemin={0}
+              aria-valuemax={MAX_RATING}
+              aria-valuenow={rating}
+              tabIndex={0}
+              onPointerDown={handleStarPointerDown}
+              onPointerMove={handleStarPointerMove}
+              onPointerUp={handleStarPointerUp}
+              onPointerCancel={handleStarPointerUp}
+              onPointerLeave={handleStarPointerUp}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className='mt-[2.8rem]'>
+        <label className='caption-14-md text-black-10 mb-[1rem] block'>
+          자세한 스냅 촬영 리뷰를 작성해주세요
+        </label>
+        <TextareaField
+          id='review-content'
+          placeholder='리뷰 입력'
+          value={reviewContent}
+          onChange={(event) => handleReviewContentChange(event.target.value)}
+          hasError={reviewContent.length > 500}
+          className='h-[13.4rem]'
+          helpText={
+            <div className='mt-[0.8rem] flex items-center justify-between'>
+              {reviewContent.length > 500 ? (
+                <span className='caption-12-md text-red-error'>최대 500자까지 입력할 수 있어요</span>
+              ) : (
+                <span />
+              )}
+              <span className='caption-12-md text-black-7'>{`${reviewContent.length}/500`}</span>
+            </div>
+          }
+        />
+
+        {reviewImageUrls.length >= 2 ? (
+          <div className='mt-[1.2rem] -mr-[2.4rem]'>
+            <Carousel opts={{ align: 'start', dragFree: true, containScroll: 'trimSnaps' }}>
+              <CarouselContent className='ml-0 gap-[0.4rem]'>
+                {reviewImageUrls.map((reviewImageUrl) => (
+                  <CarouselItem key={reviewImageUrl} className='basis-[14rem] pl-0'>
+                    <ImagePreview
+                      imageSrc={reviewImageUrl}
+                      imageAlt='업로드한 리뷰 이미지'
+                      showRemoveButton={true}
+                      handleRemove={() => handleReviewImageRemove(reviewImageUrl)}
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
+        ) : reviewImageUrls.length === 1 ? (
           <div className='mt-[1.2rem]'>
-            <div ref={starContainerRef} className='relative inline-flex'>
-              <ReviewStar starSize='large' rating={rating} />
-              <div
-                className='absolute inset-0 touch-none'
-                role='slider'
-                aria-label='별점 선택'
-                aria-valuemin={0}
-                aria-valuemax={MAX_RATING}
-                aria-valuenow={rating}
-                tabIndex={0}
-                onPointerDown={handleStarPointerDown}
-                onPointerMove={handleStarPointerMove}
-                onPointerUp={handleStarPointerUp}
-                onPointerCancel={handleStarPointerUp}
-                onPointerLeave={handleStarPointerUp}
-              />
-            </div>
+            <ImagePreview
+              imageSrc={reviewImageUrls[0]}
+              imageAlt='업로드한 리뷰 이미지'
+              showRemoveButton={true}
+              handleRemove={() => handleReviewImageRemove(reviewImageUrls[0])}
+            />
           </div>
+        ) : null}
+        <div className='mt-[1.2rem] flex items-center justify-between'>
+          <ImageUploadButton handleUploadAction={handleImageUploadAction} multiple={true} />
         </div>
-
-        <div className='mt-[2.8rem]'>
-          <label className='caption-14-md text-black-10 block'>
-            자세한 스냅 촬영 리뷰를 작성해주세요
-          </label>
-
-          {/* TODO: 공동컴포넌트로 textarea 바꾸기 */}
-          <textarea
-            className='border-black-5 text-black-10 mt-[1.2rem] w-full resize-none rounded-[0.6rem] border-[0.07rem] bg-transparent px-[1.2rem] py-[1.1rem]'
-            rows={6}
-            value={reviewContent}
-            onChange={(event) => handleReviewContentChange(event.target.value)}
-            placeholder='리뷰 내용을 입력해주세요.'
-          />
-
-          {reviewImageUrls.length >= 2 ? (
-            <div className='mt-[1.2rem] -mr-[2.4rem]'>
-              <Carousel opts={{ align: 'start', dragFree: true, containScroll: 'trimSnaps' }}>
-                <CarouselContent className='ml-0 gap-[0.4rem]'>
-                  {reviewImageUrls.map((reviewImageUrl) => (
-                    <CarouselItem key={reviewImageUrl} className='basis-[14rem] pl-0'>
-                      <ImagePreview
-                        imageSrc={reviewImageUrl}
-                        imageAlt='업로드한 리뷰 이미지'
-                        showRemoveButton={true}
-                        handleRemove={() => handleReviewImageRemove(reviewImageUrl)}
-                      />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
-            </div>
-          ) : reviewImageUrls.length === 1 ? (
-            <div className='mt-[1.2rem]'>
-              <ImagePreview
-                imageSrc={reviewImageUrls[0]}
-                imageAlt='업로드한 리뷰 이미지'
-                showRemoveButton={true}
-                handleRemove={() => handleReviewImageRemove(reviewImageUrls[0])}
-              />
-            </div>
-          ) : null}
-          <div className='mt-[1.2rem] flex items-center justify-between'>
-            <ImageUploadButton handleUploadAction={handleImageUploadAction} multiple={true} />
-          </div>
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

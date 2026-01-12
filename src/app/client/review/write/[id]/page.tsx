@@ -52,7 +52,7 @@ export default function Page({ params }: ReviewWritePageProps) {
 
   const trimmedReviewContent = reviewContent.trim();
   const hasSubmitDisabled =
-    rating === 0 || trimmedReviewContent.length < 1 || trimmedReviewContent.length > 500;
+    rating === 0 || trimmedReviewContent.length <= 1 || trimmedReviewContent.length > 500;
 
   const handleReviewSubmit = () => {
     if (hasSubmitDisabled) {
@@ -101,11 +101,9 @@ export default function Page({ params }: ReviewWritePageProps) {
         rating={rating}
         reviewContent={reviewContent}
         reviewImageUrls={reviewImageUrls}
-        hasSubmitDisabled={hasSubmitDisabled}
         handleRatingChange={handleRatingChange}
         handleReviewContentChange={handleReviewContentChange}
         handleReviewImageUrlsChange={setReviewImageUrls}
-        handleReviewSubmit={handleReviewSubmit}
       />
       <BottomCTAButton fixed={true} background='white' hasPadding={true}>
         <BottomCTAButton.Single
