@@ -23,7 +23,7 @@ export default function Page({ params }: PageProps) {
   const productImage = { src: mock.productInfo.imageUrl, alt: `${mock.productInfo.title} 상품 이미지`};
 
   return (
-    <div>
+    <div className='mb-[8.4rem]'>
       <Header isVisible={isVisible} />
       <PortfolioSection
         id={mock.id}
