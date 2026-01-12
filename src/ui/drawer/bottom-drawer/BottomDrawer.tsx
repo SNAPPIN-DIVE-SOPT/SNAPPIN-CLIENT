@@ -20,7 +20,10 @@ const BottomDrawerRoot = ({
   return (
     <Drawer open={isOpen} onOpenChange={handleOpenChange}>
       <DrawerContent
-        className={cn('bg-black-1 rounded-t-[1.3rem] border-none py-[1rem]', className)}
+        className={cn(
+          'bg-black-1 mx-auto max-w-[45rem] rounded-t-[1.3rem] border-none py-[1rem]',
+          className,
+        )}
       >
         <div
           className='bg-gray-4 mx-auto h-[0.4rem] w-[3.8rem] rounded-[2rem]'
