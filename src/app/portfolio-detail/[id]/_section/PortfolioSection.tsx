@@ -37,8 +37,9 @@ export default function PortfolioSection({
   const [likeCount, setLikeCount] = useState<number>(initialLikeCount);
 
   const handleLike = () => {
-    setIsLiked((prev) => !prev);
-    setLikeCount((prev) => isLiked ? prev - 1 : prev + 1);
+    const willBeLiked = !isLiked;
+    setIsLiked(willBeLiked);
+    setLikeCount((prev) => willBeLiked ? prev + 1 : prev - 1);
     // TODO: 포폴 좋아요/취소 API 연동 (request에 id 전달)
   };
 
