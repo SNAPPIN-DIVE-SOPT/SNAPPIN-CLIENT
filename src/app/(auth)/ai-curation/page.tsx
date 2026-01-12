@@ -13,7 +13,7 @@ export default function page() {
           <p className='font-16-md text-black-7'>좋아하는 스냅 사진 무드 찾기</p>
         </div>
       </div>
-      <ImageSlide type='ai-curation' />
+      <ImageSlide />
       <p className='text-black-5 caption-14-md text-center'>
         간단한 테스트로 원하는 무드의
         <br />
