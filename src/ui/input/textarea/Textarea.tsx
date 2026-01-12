@@ -1,4 +1,5 @@
 import { cn } from '@/utils/cn';
+import './Textarea.css';
 
 type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   hasError?: boolean;

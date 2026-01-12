@@ -60,18 +60,3 @@
     margin-bottom: 7.2rem;
   }
 }
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 0.8rem;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-left: 0.2rem solid #b8b8b8;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  margin-top: 1.2rem;
-  margin-bottom: 1.2rem;
-  background: transparent;
-}
