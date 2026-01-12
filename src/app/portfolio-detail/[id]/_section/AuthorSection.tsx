@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { IconArrowForward } from '@/assets';
 import defaultProfile from '@/../public/imgs/default-profile.png';
 
-
 type AuthorSectionProps = {
   id: number;
   name: string;
