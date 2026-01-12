@@ -23,7 +23,7 @@ export default function PageCLient({ params }: PageClientProps) {
   const productImage = { src: mock.productInfo.imageUrl, alt: `${mock.productInfo.title} 상품 이미지`};
 
   return (
-    <div className='mb-[8.4rem]'>
+    <div>
       <Header isVisible={isVisible} />
       <PortfolioSection
         id={mock.id}
