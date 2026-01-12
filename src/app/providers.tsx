@@ -4,6 +4,7 @@ import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-quer
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import dynamic from 'next/dynamic';
 import { OverlayProvider } from 'overlay-kit';
+import { Logo } from '@/assets';
 
 const ToastContainer = dynamic(() => import('@/ui/toast/ToastContainer'), {
   ssr: false,
