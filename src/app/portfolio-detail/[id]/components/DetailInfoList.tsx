@@ -45,9 +45,9 @@ export default function DetailInfoList({
 }: DetailInfoListProps) {
   return (
     <div className={cn('flex flex-col', layoutClassName)}>
-      {infoList.map((info, idx) => (
+      {infoList.map((info) => (
         <DetailInfo
-          key={idx}
+          key={info.label}
           label={info.label}
           content={info.content}
           rowClassName={rowClassName}
