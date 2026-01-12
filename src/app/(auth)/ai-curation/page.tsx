@@ -2,7 +2,7 @@ import { Logo } from '@/assets';
 import { ClientFooter, ClientNavigation } from './components';
 import ImageSlide from '../_components/image-slide/ImageSlide';
 
-export default function page() {
+export default function Page() {
   return (
     <div className='bg-black-10 flex h-dvh flex-col gap-[2.2rem]'>
       <ClientNavigation />

@@ -2,7 +2,7 @@ import { ClientNavigation, LoginButton } from './components';
 import ImageSlide from '@/app/(auth)/_components/image-slide/ImageSlide';
 import { Logo } from '@/assets';
 
-export default function page() {
+export default function Page() {
   return (
     <div className='bg-black-10 h-dvh'>
       <ClientNavigation />

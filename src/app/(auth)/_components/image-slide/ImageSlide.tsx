@@ -8,7 +8,7 @@ import { IMAGE_SLIDE_MOCK } from './ImageSlide.mock';
 
 const SIDE_OFFSET = 110;
 
-const cardVariants = {
+const CARD_VARIANTS = {
   left: {
     x: `-${SIDE_OFFSET}%`,
     scale: 0.92,
@@ -68,7 +68,7 @@ export default function ImageSlide() {
             <motion.div
               key={index + item.imageUrl + item.photographerName}
               className='absolute top-1/2 -translate-y-1/2'
-              variants={cardVariants}
+              variants={CARD_VARIANTS}
               animate={pos}
               initial={false}
               exit={{ opacity: 0, scale: 0.98 }}
