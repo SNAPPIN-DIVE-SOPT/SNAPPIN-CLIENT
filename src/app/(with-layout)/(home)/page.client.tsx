@@ -41,9 +41,10 @@ export default function PageClient() {
           </Link>
         ))}
       </nav>
-      {/*  스냅 명소 추천 영역 */}
-      <RecommendationSnapPlace />
+
       <div className='flex flex-col gap-[5.2rem] px-[2rem]'>
+        {/*  스냅 명소 추천 영역 */}
+        <RecommendationSnapPlace />
         {/*  작가 추천 영역 */}
         <RecommendationAuthor />
         {/*  베너 영역 */}
