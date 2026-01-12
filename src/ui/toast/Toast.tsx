@@ -8,11 +8,13 @@ import { RemoveToastAtom } from './toast.atom';
 import Lottie from 'lottie-react';
 import successAnimation from '@/assets/lotties/success.json';
 import errorAnimation from '@/assets/lotties/error.json';
+import Link from 'next/link';
 
 const FADE_MS = 300;
 const ANIMATION_DATA = {
   success: successAnimation,
   error: errorAnimation,
+  login: null,
 } as const;
 
 export default function Toast({ type, message, duration = 3000, className }: ToastProps) {
@@ -48,6 +50,11 @@ export default function Toast({ type, message, duration = 3000, className }: Toa
         <Lottie animationData={ANIMATION_DATA[type]} className='h-[3rem] w-[3rem]' />
       )}
       <div className='caption-12-md text-black-1'>{message}</div>
+      {type === 'login' && (
+        <Link href='/login' className='caption-12-md text-neon-black ml-[1rem] underline'>
+          로그인 하기
+        </Link>
+      )}
     </div>
   );
 }
