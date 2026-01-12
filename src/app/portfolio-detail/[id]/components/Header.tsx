@@ -12,11 +12,11 @@ type HeaderProps = {
 export default function Header({ isVisible }: HeaderProps) {
   const router = useRouter();
 
-  const handleClickLeft = () => {
+  const handleGoBack = () => {
     router.back();
   }
 
-  const handleClickRight = () => {
+  const handleGoHome = () => {
     router.push('/');
   }
 
@@ -29,7 +29,7 @@ export default function Header({ isVisible }: HeaderProps) {
     >
       <Navigation
         left={
-          <IconButton className='w-[2.4rem] h-[2.4rem]' onClick={handleClickLeft}>
+          <IconButton className='w-[2.4rem] h-[2.4rem]' onClick={handleGoBack}>
             <IconArrowBack />
           </IconButton>
         }
@@ -39,7 +39,7 @@ export default function Header({ isVisible }: HeaderProps) {
           </span>
         }
         right={
-          <IconButton className='w-[2.4rem] h-[2.4rem]' onClick={handleClickRight}>
+          <IconButton className='w-[2.4rem] h-[2.4rem]' onClick={handleGoHome}>
             <IconHome />
           </IconButton>
         }

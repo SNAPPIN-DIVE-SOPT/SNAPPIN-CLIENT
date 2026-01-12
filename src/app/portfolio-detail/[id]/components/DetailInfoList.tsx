@@ -2,22 +2,6 @@ import { cn } from '@/utils/cn';
 import { TagChip } from '@/ui';
 import { MOOD_CODE, MoodCode } from '@/types/moodCode';
 
-function getRenderedContent(content: string | string[] | MoodCode[]) {
-  if (typeof content === 'string') {
-    return content;
-  }
-
-  if (isMoodCodeArray(content)) {
-    return content.map((mood) => <TagChip key={mood} variant='neon' label={mood} />);
-  }
-
-  return content.join(', ');
-}
-
-function isMoodCodeArray(content: ContentType): content is MoodCode[] {
-  return [...content].every((item) => MOOD_CODE.includes(item as MoodCode));
-}
-
 type DetailInfoListProps = {
   infoList: { label: string; content: ContentType }[];
   layoutClassName?: string;
@@ -35,6 +19,22 @@ type DetailInfoProps = {
 }
 
 type ContentType = string | string[] | MoodCode[];
+
+function getRenderedContent(content: string | string[] | MoodCode[]) {
+  if (typeof content === 'string') {
+    return content;
+  }
+
+  if (isMoodCodeArray(content)) {
+    return content.map((mood) => <TagChip key={mood} variant='neon' label={mood} />);
+  }
+
+  return content.join(', ');
+}
+
+function isMoodCodeArray(content: ContentType): content is MoodCode[] {
+  return Array.isArray(content) && content.every((item) => MOOD_CODE.includes(item as MoodCode));
+}
 
 export default function DetailInfoList({
   infoList,

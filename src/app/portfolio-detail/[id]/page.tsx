@@ -9,7 +9,7 @@ import { useNavVisibility } from '@/hooks/useNavVisibility';
 
 type PageProps = {
   params: {
-    id: number;
+    id: string;
   }
 }
 

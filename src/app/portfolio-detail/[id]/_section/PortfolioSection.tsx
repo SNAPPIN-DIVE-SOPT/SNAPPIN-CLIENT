@@ -30,7 +30,7 @@ export default function PortfolioSection({
   const [isLiked, setIsLiked] = useState<boolean>(initialIsLiked);
   const [likeCount, setLikeCount] = useState<number>(initialLikeCount);
 
-  const handleClick = () => {
+  const handleLike = () => {
     setIsLiked((prev) => !prev);
     setLikeCount((prev) => isLiked ? prev - 1 : prev + 1);
     // TODO: 포폴 좋아요/취소 API 연동 (request에 id 전달)
@@ -46,7 +46,7 @@ export default function PortfolioSection({
         <div className='flex items-center gap-[0.2rem] w-[4.4rem] h-[3rem]'>
           <LikeButton
             isLiked={isLiked}
-            handleClick={handleClick}
+            handleClick={handleLike}
           />
           <span className='font-18-md text-black-9'>{likeCount}</span>
         </div>
