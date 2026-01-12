@@ -38,12 +38,12 @@ export default function PortfolioCarousel({ images, className }: PortfolioCarous
   if (images.length === 0) return null;
 
   return (
-    <div className={cn('relative w-[36rem] h-[36rem] overflow-hidden', className)}>
+    <div className={cn('relative w-full aspect-square overflow-hidden', className)}>
       <Carousel setApi={setApi}>
         <CarouselContent>
           {images.map((img, idx) => (
             <CarouselItem key={`image-${img.src}-${idx}`}>
-              <div className={cn('relative w-[36rem] h-[36rem] overflow-hidden', className)}>
+              <div className={cn('relative w-full aspect-square overflow-hidden', className)}>
                 <Image
                   src={img.src}
                   alt={img.alt}
