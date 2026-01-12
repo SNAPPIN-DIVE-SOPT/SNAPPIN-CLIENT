@@ -1,4 +1,4 @@
-import { BottomDrawer, Drawer, DrawerDescription, DrawerTitle, IconButton, Navigation } from '@/ui';
+import { BottomDrawer, DrawerDescription, DrawerTitle, IconButton, Navigation } from '@/ui';
 import { IconClose } from '@/assets';
 
 type ExploreSearchDrawerProps = {
