@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ImageCarousel, TagChip } from '@/ui';
 import { MoodCode } from '@/types/moodCode';
-import { LOGIN_MOCK } from './ImageSlide.mock';
+import { IMAGE_SLIDE_MOCK } from './ImageSlide.mock';
 
 const SIDE_OFFSET = 110;
 
@@ -33,7 +33,7 @@ const cardVariants = {
 } as const;
 
 export default function ImageSlide() {
-  const data = LOGIN_MOCK.portfolios;
+  const data = IMAGE_SLIDE_MOCK.portfolios;
   const [activeIndex, setActiveIndex] = useState(0);
 
   const len = data.length;

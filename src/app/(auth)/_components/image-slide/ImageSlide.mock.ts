@@ -1,4 +1,4 @@
-export const LOGIN_MOCK = {
+export const IMAGE_SLIDE_MOCK = {
   portfolios: [
     {
       imageUrl: 'https://picsum.photos/576/576?random=1',
