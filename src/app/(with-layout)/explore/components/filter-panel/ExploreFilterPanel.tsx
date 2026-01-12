@@ -33,7 +33,6 @@ export default function ExploreFilterPanel({
   const searchParams = useSearchParams();
   const [draftMoodIds, setDraftMoodIds] = useState<number[]>(() => selectedMoodIds);
   const groupedMoods = groupByCategory(moodList);
-  console.log(draftMoodIds);
 
   const toggleMood = (moodId: number) => {
     setDraftMoodIds((prev) =>
@@ -63,7 +62,7 @@ export default function ExploreFilterPanel({
 
       <div className='flex flex-col gap-[0.7rem]'>
         {(Object.keys(groupedMoods) as MoodCategory[]).map((category) => (
-          <div key={category} className='gap-x[0.8rem] grid grid-cols-[5rem_1fr] items-start'>
+          <div key={category} className='grid grid-cols-[5rem_1fr] items-start gap-x-[0.8rem]'>
             {/* 카테고리 Label */}
             <span className='caption-12-md text-black-9 py-[0.6rem] whitespace-nowrap'>
               {MOOD_CATEGORY_MAP[category]}

@@ -14,7 +14,7 @@ export default function PortfolioListSection() {
           <Image
             src={portfolio.imageUrl}
             fill
-            alt='프리뷰 이미지'
+            alt={`${portfolio.id}-portfolio-image`}
             className='aspect-square w-full'
           />
         </Link>

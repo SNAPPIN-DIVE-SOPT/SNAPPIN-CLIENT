@@ -1,8 +1,10 @@
+'use client';
+
 import { FilterChip, IconButton } from '@/ui';
 import { IconFilter, IconSettingsBackupRestore } from '@/assets';
 import { Mood, MoodCode } from '@/types/moodCode';
 import { useEffect, useMemo, useState } from 'react';
-import ExploreFilterPanel from '@/app/(with-layout)/explore/coponents/filter-panel/ExploreFilterPanel';
+import ExploreFilterPanel from '@/app/(with-layout)/explore/components/filter-panel/ExploreFilterPanel';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const CURATED_APPLIED_KEY = 'explore_curated_applied_v1';
@@ -60,7 +62,8 @@ export default function ExploreFilter({ moodList }: ExploreFilterProps) {
   const handleReset = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete('moodIds');
-    router.replace(`${pathname}?${params.toString()}`);
+    const qs = params.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname);
   };
 
   useEffect(() => {
@@ -116,7 +119,12 @@ export default function ExploreFilter({ moodList }: ExploreFilterProps) {
         </div>
 
         {/* 필터 on 버튼 todo: 좌측 디바이더 고민 */}
-        <IconButton className='border-black-3 h-[4.4rem] w-[4.4rem]' onClick={() => setOpen(!open)}>
+        <IconButton
+          className='border-black-3 h-[4.4rem] w-[4.4rem]'
+          aria-expanded={open}
+          aria-label='무드 필터 패널 열기'
+          onClick={() => setOpen(!open)}
+        >
           <IconFilter className='m-auto' />
         </IconButton>
       </div>

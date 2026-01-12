@@ -4,12 +4,14 @@ import { ButtonSearchBar, SectionTabs } from '@/ui';
 import { useState } from 'react';
 import PortfolioListSection from '@/app/(with-layout)/explore/_section/PortfolioListSection';
 import ProductListSection from '@/app/(with-layout)/explore/_section/ProductListSection';
-import ExploreFilter from '@/app/(with-layout)/explore/coponents/filter/ExploreFilter';
-import ExploreSearchDrawer from '@/app/(with-layout)/explore/coponents/search-drawer/ExploreSearchDrawer';
+import ExploreFilter from '@/app/(with-layout)/explore/components/filter/ExploreFilter';
+import ExploreSearchDrawer from '@/app/(with-layout)/explore/components/search-drawer/ExploreSearchDrawer';
 import { MOOD_LIST } from '@/app/(with-layout)/explore/mocks/filter';
 import { overlay } from 'overlay-kit';
 
 export default function PageClient() {
+  /* todo: refactor tab value query string */
+  /* todo: extract explore tab type */
   const [currentTab, setCurrentTab] = useState('포트폴리오');
 
   return (
