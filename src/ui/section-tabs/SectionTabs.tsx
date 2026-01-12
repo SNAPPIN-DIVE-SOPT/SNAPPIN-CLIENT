@@ -20,12 +20,14 @@ type SectionTabsProps = HTMLAttributes<HTMLDivElement> & {
   value: string;
   handleValueChange?: (value: string) => void;
   queryKey?: string;
+  historyStateKey?: string;
 };
 
 const SectionTabsRoot = ({
   value,
   handleValueChange,
   queryKey,
+  historyStateKey,
   className,
   children,
   ...props
@@ -36,6 +38,7 @@ const SectionTabsRoot = ({
 
   useSectionTabsQuerySync({
     queryKey,
+    historyStateKey,
     value: selectedValue,
     handleValueChange,
   });

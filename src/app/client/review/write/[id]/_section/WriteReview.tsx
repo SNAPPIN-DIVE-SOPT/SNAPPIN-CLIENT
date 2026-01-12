@@ -51,6 +51,7 @@ export default function WriteReview({
     URL.revokeObjectURL(reviewImageUrl);
   };
 
+  // TODO: API 연동 필요
   const handleImageUploadAction = (files: FileList) => {
     const remainingImageCount = MAX_REVIEW_IMAGES_COUNT - reviewImageUrls.length;
     if (remainingImageCount <= 0) {
@@ -127,10 +128,10 @@ export default function WriteReview({
           helpText={
             <div className='mt-[0.8rem] flex items-center justify-between'>
               {reviewContent.length > 500 ? (
-                <span className='caption-12-md text-red-error'>최대 500자까지 입력할 수 있어요</span>
-              ) : (
-                <span />
-              )}
+                <span className='caption-12-md text-red-error'>
+                  최대 500자까지 입력할 수 있어요
+                </span>
+              ) : null}
               <span className='caption-12-md text-black-7'>{`${reviewContent.length}/500`}</span>
             </div>
           }

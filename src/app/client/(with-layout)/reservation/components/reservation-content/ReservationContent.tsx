@@ -19,6 +19,8 @@ import { cn } from '@/utils/cn';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useToast } from '@/ui/toast/hooks/useToast';
 
+const CLIENT_RESERVATION_TAB_HISTORY_STATE_KEY = 'CLIENT_RESERVATION_TAB';
+
 const createReservationDetailPath = (reservationProductId: number) =>
   `/client/reservation-detail/${reservationProductId}`;
 
@@ -128,6 +130,7 @@ export default function ReservationContent({
       <SectionTabs
         value={selectedTabValue}
         handleValueChange={handleTabValueChange}
+        historyStateKey={CLIENT_RESERVATION_TAB_HISTORY_STATE_KEY}
         className='bg-black-1'
       >
         <SectionTabs.List

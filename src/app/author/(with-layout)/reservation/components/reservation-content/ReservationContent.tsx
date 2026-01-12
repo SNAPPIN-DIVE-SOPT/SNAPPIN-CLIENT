@@ -8,6 +8,8 @@ import { RESERVATION_TABS, ReservationTabValue } from '../../constants/tabs';
 import ReservationCard from '../reservation-card/ReservationCard';
 import { RESERVATION_MOCK } from '../../mock/reservation.mock';
 
+const AUTHOR_RESERVATION_TAB_HISTORY_STATE_KEY = 'AUTHOR_RESERVATION_TAB';
+
 export default function ReservationContent() {
   const [selectedTabValue, setSelectedTabValue] =
     useState<ReservationTabValue>('PHOTOGRAPHER_REQUESTED');
@@ -16,12 +18,16 @@ export default function ReservationContent() {
     setSelectedTabValue(value as ReservationTabValue);
   };
 
-  //TODO: 서버 데이터 연동( 파라미터에 selectedTabValue 추가)
+  //TODO: 서버 데이터 연동, 파라미터에 selectedTabValue 추가
   const data = RESERVATION_MOCK;
 
   return (
     <div className='flex flex-col'>
-      <SectionTabs value={selectedTabValue} handleValueChange={handleTabChange}>
+      <SectionTabs
+        value={selectedTabValue}
+        handleValueChange={handleTabChange}
+        historyStateKey={AUTHOR_RESERVATION_TAB_HISTORY_STATE_KEY}
+      >
         <SectionTabs.List>
           {RESERVATION_TABS.map((tab) => (
             <SectionTabs.Tab key={tab.value} value={tab.value}>
