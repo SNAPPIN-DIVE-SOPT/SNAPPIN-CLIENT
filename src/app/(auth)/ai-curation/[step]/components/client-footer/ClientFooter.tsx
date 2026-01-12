@@ -10,13 +10,17 @@ type ClientFooterProps = {
 export default function ClientFooter({ step }: ClientFooterProps) {
   const router = useRouter();
   const handleNextStep = () => {
-    router.push(`/ai-curation/${Number(step) + 1}`);
+    if (step === 5) {
+      router.push('/ai-curation/result');
+    } else {
+      router.push(`/ai-curation/${Number(step) + 1}`);
+    }
   };
 
   return (
     <BottomCTAButton>
       <BottomCTAButton.Single color='primary' size='large' onClick={handleNextStep}>
-        다음으로
+        {step === 5 ? '결과 보기' : '다음으로'}
       </BottomCTAButton.Single>
     </BottomCTAButton>
   );
