@@ -1,10 +1,10 @@
 import { useSetAtom } from 'jotai';
-import { ToastAtom } from '../toast.atom';
+import { RemoveToastAtom, ToastAtom } from '../toast.atom';
 import { useMemo } from 'react';
 
 export const useToast = () => {
   const addToast = useSetAtom(ToastAtom);
-
+  const removeToast = useSetAtom(RemoveToastAtom);
   return useMemo(
     () => ({
       success: (message: string, duration?: number) =>
@@ -12,7 +12,9 @@ export const useToast = () => {
       error: (message: string, duration?: number) => addToast({ type: 'error', message, duration }),
       alert: (message: string, duration?: number) => addToast({ type: 'alert', message, duration }),
       login: (message: string, duration?: number) => addToast({ type: 'login', message, duration }),
+
+      removeToast: () => removeToast(),
     }),
-    [addToast],
+    [addToast, removeToast],
   );
 };
