@@ -13,7 +13,7 @@ type ButtonAddMinusProps = {
   className?: string;
 };
 
-export default function ButtonAddMinus({
+export default function Stepper({
   value,
   handleClickMinus,
   handleClickAdd,
