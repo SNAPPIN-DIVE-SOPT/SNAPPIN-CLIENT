@@ -7,4 +7,4 @@ export {
   type ReservationDetailMockProductInfo,
   type ReservationDetailMockReservationInfo,
   type ReservationDetailMockReviewInfo,
-} from '@/app/client/reservation-detail/[id]/mock/reservationDetail.mock';
+} from '@/app/reservation-detail/[id]/mock/reservationDetail.mock';

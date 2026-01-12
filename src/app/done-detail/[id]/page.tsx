@@ -8,7 +8,7 @@ import { PaymentDetail, ReservationDetail, ReviewDetail, ShootCompleted } from '
 import HeaderNavigation from './components/header-navigation/HeaderNavigation';
 import { Divider } from '@/ui';
 import { getReservationDetailMockById } from './mock/reservationDetail.mock';
-import { ReviewByReservationProductIdAtom } from '@/app/client/review/store';
+import { ReviewByReservationProductIdAtom } from '@/app/review/store';
 import { useNavVisibility } from '@/app/(with-layout)/(home)/hooks/useNavVisibility';
 import { useToast } from '@/ui/toast/hooks/useToast';
 

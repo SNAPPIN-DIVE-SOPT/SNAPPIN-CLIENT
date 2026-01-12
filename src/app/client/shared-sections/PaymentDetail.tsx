@@ -1,7 +1,7 @@
 'use client';
 
 import { Divider } from '@/ui';
-import type { ReservationDetailMockPaymentInfo } from '@/app/client/reservation-detail/[id]/mock/reservationDetail.mock';
+import type { ReservationDetailMockPaymentInfo } from '@/app/reservation-detail/[id]/mock/reservationDetail.mock';
 import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
 
 type PaymentDetailProps = {

@@ -2,7 +2,7 @@
 
 import { StateChip } from '@/ui';
 import type { StateCode } from '@/types/stateCode';
-import type { ReservationDetailMockReservationInfo } from '@/app/client/reservation-detail/[id]/mock/reservationDetail.mock';
+import type { ReservationDetailMockReservationInfo } from '@/app/reservation-detail/[id]/mock/reservationDetail.mock';
 
 type ReservationInfoField = {
   label: string;
