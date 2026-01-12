@@ -1,5 +1,5 @@
-import { Drawer, DrawerContent } from '@/ui/drawer/base/Drawer';
 import { cn } from '@/utils/cn';
+import { Drawer, DrawerContent } from '@/ui';
 
 type BottomDrawerCommonProps = {
   children?: React.ReactNode;
@@ -22,7 +22,10 @@ const BottomDrawerRoot = ({
       <DrawerContent
         className={cn('bg-black-1 rounded-t-[1.3rem] border-none py-[1rem]', className)}
       >
-        <div className='bg-gray-4 mx-auto h-[0.4rem] w-[3.8rem] rounded-[2rem]' />
+        <div
+          className='bg-gray-4 mx-auto h-[0.4rem] w-[3.8rem] rounded-[2rem]'
+          aria-hidden='true'
+        />
         {children}
       </DrawerContent>
     </Drawer>
@@ -43,15 +46,15 @@ const BottomDrawerTitle = ({
 };
 
 const BottomDrawerRow = ({ children, className }: BottomDrawerCommonProps) => {
-  return <div className={cn(className)}>{children}</div>;
+  return <div className={className}>{children}</div>;
 };
 
 const BottomDrawerSection = ({ children, className }: BottomDrawerCommonProps) => {
-  return <section className={cn(className)}>{children}</section>;
+  return <section className={className}>{children}</section>;
 };
 
 const BottomDrawerFooter = ({ children, className }: BottomDrawerCommonProps) => {
-  return <footer className={cn(className)}>{children}</footer>;
+  return <footer className={className}>{children}</footer>;
 };
 
 type BottomDrawerComponent = typeof BottomDrawerRoot & {

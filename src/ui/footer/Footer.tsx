@@ -90,38 +90,41 @@ export default function Footer({ userRole }: FooterProps) {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <footer className='border-black-6 fixed-center footer-height bg-black-1 bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
-      {userRole === 'user' &&
-        menuUserItems.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className='flex flex-col items-center gap-[0.2rem]'
-          >
-            {isActive(item.href) ? (
-              <item.activeIcon className={cn(isActive(item.href) && 'text-black-10')} />
-            ) : (
-              <item.inactiveIcon />
-            )}
-            <span className='caption-10-md'>{item.label}</span>
-          </Link>
-        ))}
+    <>
+      <div className='bg-black-1 footer-height' />
+      <footer className='border-black-6 fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
+        {userRole === 'user' &&
+          menuUserItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className='flex flex-col items-center gap-[0.2rem]'
+            >
+              {isActive(item.href) ? (
+                <item.activeIcon className={cn(isActive(item.href) && 'text-black-10')} />
+              ) : (
+                <item.inactiveIcon />
+              )}
+              <span className='caption-10-md'>{item.label}</span>
+            </Link>
+          ))}
 
-      {userRole === 'author' &&
-        menuAuthorItems.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className='flex flex-col items-center gap-[0.2rem]'
-          >
-            {isActive(item.href) ? (
-              <item.activeIcon className={cn(isActive(item.href) && 'text-black-10')} />
-            ) : (
-              <item.inactiveIcon />
-            )}
-            <span className='caption-10-md'>{item.label}</span>
-          </Link>
-        ))}
-    </footer>
+        {userRole === 'author' &&
+          menuAuthorItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className='flex flex-col items-center gap-[0.2rem]'
+            >
+              {isActive(item.href) ? (
+                <item.activeIcon className={cn(isActive(item.href) && 'text-black-10')} />
+              ) : (
+                <item.inactiveIcon />
+              )}
+              <span className='caption-10-md'>{item.label}</span>
+            </Link>
+          ))}
+      </footer>
+    </>
   );
 }

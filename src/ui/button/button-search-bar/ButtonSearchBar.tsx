@@ -5,6 +5,9 @@ import { IconSearch } from '@/assets';
 type ButtonSearchBarProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> & {
   headline: string;
   supportingText?: string;
+  iconClassName?: string;
+  headlineClassName?: string;
+  supportingTextClassName?: string;
 };
 
 export default function ButtonSearchBar({
@@ -12,6 +15,9 @@ export default function ButtonSearchBar({
   headline,
   supportingText,
   type = 'button',
+  iconClassName,
+  headlineClassName,
+  supportingTextClassName,
   ...props
 }: ButtonSearchBarProps) {
   return (
@@ -23,15 +29,19 @@ export default function ButtonSearchBar({
       )}
       {...props}
     >
-      <span className='text-black-7 shrink-0' data-slot='icon'>
-        <IconSearch className='h-[2.4rem] w-[2.4rem]' aria-hidden='true' />
-      </span>
+      <IconSearch
+        className={cn('text-black-7 h-[2.4rem] w-[2.4rem] shrink-0', iconClassName)}
+        aria-hidden='true'
+      />
       <span className='flex min-w-0 flex-1 flex-col gap-[0.4rem]'>
-        <span className='caption-14-bd text-black-9' data-slot='headline'>
+        <span className={cn('caption-14-bd text-black-9', headlineClassName)} data-slot='headline'>
           {headline}
         </span>
         {supportingText ? (
-          <span className='caption-12-md text-black-7' data-slot='supporting'>
+          <span
+            className={cn('caption-12-md text-black-7', supportingTextClassName)}
+            data-slot='supporting'
+          >
             {supportingText}
           </span>
         ) : null}

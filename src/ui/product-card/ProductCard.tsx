@@ -5,8 +5,8 @@ import { TagChip } from '@/ui/index';
 import { IconStar } from '@/assets';
 import { MoodCode } from '@/types/moodCode';
 
-type ProductCardProps = {
-  image: { src: string; alt?: string; };
+export type ProductCardProps = {
+  image: { src: string; alt?: string };
   name: string;
   rating: number;
   reviewCount: number;
@@ -29,7 +29,7 @@ export default function ProductCard({
 }: ProductCardProps) {
   return (
     <div
-      className={cn('flex gap-[1.2rem] w-[30.4rem]', className)}
+      className={cn('flex gap-[1.2rem] w-full', className)}
       {...props}
     >
       <div className='shrink-0 relative w-[10.2rem] h-[10.2rem]'>
@@ -39,35 +39,27 @@ export default function ProductCard({
           fill
         />
       </div>
-      <div className='flex flex-col gap-[0.3rem] min-w-0'>
+      <div className='flex min-w-0 flex-col gap-[0.3rem]'>
         <div className='flex flex-col gap-[0.5rem]'>
-          <span className='truncate caption-14-bd text-black-10'>
-            {name}
-          </span>
+          <span className='caption-14-bd text-black-10 truncate'>{name}</span>
           <div className='flex flex-col gap-[0.3rem]'>
             <div className='flex gap-[0.6rem]'>
               <div className='flex items-center gap-[0.2rem]'>
-                <IconStar className='w-[1rem] h-[1rem] text-black-8' />
-                <span className='caption-12-md text-black-8'>
-                  {rating}
-                </span>
+                <IconStar className='text-black-8 h-[1rem] w-[1rem]' />
+                <span className='caption-12-md text-black-8'>{rating}</span>
               </div>
               <div className='flex items-center gap-[0.3rem]'>
-                <span className='caption-12-md text-black-10 text-right'>
-                  리뷰 {reviewCount}
-                </span>
+                <span className='caption-12-md text-black-10 text-right'>리뷰 {reviewCount}</span>
               </div>
             </div>
-            <span className='w-[19rem] truncate caption-12-md text-black-7'>
-              {author}
-            </span>
+            <span className='caption-12-md text-black-7 w-[19rem] truncate'>{author}</span>
           </div>
         </div>
-        <span className='font-16-bd text-black-10'>
-          {formatNumberWithComma(price)}원~
-        </span>
-        <div className='flex gap-[0.4rem] overflow-scroll scrollbar-hide'>
-          {tags.map((tag) => <TagChip key={tag} variant='neon' label={tag} />)}
+        <span className='font-16-bd text-black-10'>{formatNumberWithComma(price)}원~</span>
+        <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
+          {tags.map((tag) => (
+            <TagChip key={tag} variant='neon' label={tag} />
+          ))}
         </div>
       </div>
     </div>

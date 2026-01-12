@@ -1,33 +1,37 @@
 @theme {
-  --color-black-1: #FFFFFF;
-  --color-black-2: #FCFCFC;
-  --color-black-3: #F5F5F5;
-  --color-black-4: #EAEAEA;
-  --color-black-5: #E3E3E3;
-  --color-black-6: #BFBFBF;
-  --color-black-7: #8C8C8C;
+  --color-black-1: #ffffff;
+  --color-black-2: #fcfcfc;
+  --color-black-3: #f5f5f5;
+  --color-black-4: #eaeaea;
+  --color-black-5: #e3e3e3;
+  --color-black-6: #bfbfbf;
+  --color-black-7: #8c8c8c;
   --color-black-8: #595959;
   --color-black-9: #313131;
   --color-black-10: #000000;
 
-  --color-black-zinc-4: #A1A1AA;
-  --color-black-zinc-7: #3F3F46;
+  --color-black-zinc-4: #a1a1aa;
+  --color-black-zinc-7: #3f3f46;
 
-  --color-neon-black: #E7FF7E;
-  --color-neon-white: #DDF575;
+  --color-gray-4: #dee2e6;
 
-  --color-yellow: #FFF4CF;
-  --color-yellow-text: #996D26;
-  --color-green: #DCFCCE;
+  --color-neon-black: #e7ff7e;
+  --color-neon-white: #ddf575;
+
+  --color-yellow: #fff4cf;
+  --color-yellow-text: #996d26;
+  --color-green: #dcfcce;
   --color-green-text: #067419;
-  --color-green-success: #05AC4B;
-  --color-red: #FFE6E6;
-  --color-red-text: #BB1B1B;
-  --color-red-error: #FE4E39;
-  --color-blue: #E5F4FC;
-  --color-blue-text: #0F6CA2;
+  --color-green-success: #05ac4b;
+  --color-red: #ffe6e6;
+  --color-red-text: #bb1b1b;
+  --color-red-error: #fe4e39;
+  --color-blue: #e5f4fc;
+  --color-blue-text: #0f6ca2;
 
-  --gradient-photo: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 63.94%, rgba(0, 0, 0, 0.70) 100%);
+  --color-kakao: #fee500;
+
+  --gradient-photo: linear-gradient(180deg, rgba(0, 0, 0, 0) 63.94%, rgba(0, 0, 0, 0.7) 100%);
 }
 
 @layer utilities {
