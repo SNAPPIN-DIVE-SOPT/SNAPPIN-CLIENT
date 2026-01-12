@@ -92,7 +92,7 @@ export default function WriteReview({
   return (
     <section className='bg-black-1 px-[2.4rem] pt-[1.7rem] pb-[2rem]'>
       <div>
-        <label className='caption-14-md text-black-10'>이번 촬영은 어떠셨나요?</label>
+        <span className='caption-14-md text-black-10'>이번 촬영은 어떠셨나요?</span>
         <div className='mt-[1.2rem]'>
           <div ref={starContainerRef} className='relative inline-flex'>
             <ReviewStar starSize='large' rating={rating} />
@@ -115,9 +115,6 @@ export default function WriteReview({
       </div>
 
       <div className='mt-[2.8rem]'>
-        <label className='caption-14-md text-black-10 mb-[1rem] block'>
-          자세한 스냅 촬영 리뷰를 작성해주세요
-        </label>
         <TextareaField
           id='review-content'
           placeholder='리뷰 입력'
@@ -135,6 +132,7 @@ export default function WriteReview({
               <span className='caption-12-md text-black-7'>{`${reviewContent.length}/500`}</span>
             </div>
           }
+          label='자세한 스냅 촬영 리뷰를 작성해주세요'
         />
 
         {reviewImageUrls.length >= 2 ? (
@@ -164,7 +162,7 @@ export default function WriteReview({
             />
           </div>
         ) : null}
-        <div className='mt-[1.2rem] flex items-center justify-between'>
+        <div className='mt-[1.2rem] flex items-center'>
           <ImageUploadButton handleUploadAction={handleImageUploadAction} multiple={true} />
         </div>
       </div>

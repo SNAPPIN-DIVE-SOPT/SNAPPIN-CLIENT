@@ -52,7 +52,7 @@ export default function ShootCompleted({
 
   return (
     <section className='bg-black-1 px-[2rem] pt-[1.7rem] pb-[1.2rem]'>
-      <label className='caption-14-bd text-black-10'>촬영 완료</label>
+      <span className='caption-14-bd text-black-10'>촬영 완료</span>
       <div className='mt-[1.2rem] mb-[1.7rem]'>
         {reservations.map((reservation) => (
           <ProductCard

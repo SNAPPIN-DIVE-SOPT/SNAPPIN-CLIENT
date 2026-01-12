@@ -44,7 +44,7 @@ export default function ReviewDetail({
 
   return (
     <section className='bg-black-1 px-[2rem] pt-[1.7rem]'>
-      <label className='caption-14-bd text-black-10'>리뷰 상세</label>
+      <span className='caption-14-bd text-black-10'>리뷰 상세</span>
       <div className='flex flex-col gap-[1.2rem] py-[2rem]'>
         <div className='flex flex-col gap-[0.6rem]'>
           <div className='flex justify-between'>

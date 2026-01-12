@@ -1,8 +1,8 @@
 'use client';
 
-import type { ReservationDetailMockReservationInfo } from '../mock/reservationDetail.mock';
 import { StateChip } from '@/ui';
 import type { StateCode } from '@/types/stateCode';
+import type { ReservationDetailMockReservationInfo } from '@/app/client/reservation-detail/[id]/mock/reservationDetail.mock';
 
 type ReservationInfoField = {
   label: string;
@@ -26,8 +26,8 @@ const createDurationTimeLabel = (durationTime: number) => {
 };
 
 const createReservationDateTimeLabel = (date: string, startTime: string) => {
-  const [year, month, day] = date.split('-').map((item) => Number(item));
-  const [hour, minute] = startTime.split(':').map((item) => Number(item));
+  const [year, month, day] = date.split('-').map(Number);
+  const [hour, minute] = startTime.split(':').map(Number);
 
   const hasValidDate = ![year, month, day].some((value) => Number.isNaN(value));
   const hasValidTime = ![hour, minute].some((value) => Number.isNaN(value));
@@ -54,15 +54,16 @@ const createReservationInfoFieldsByReservationInfo = ({
   { label: '요청 사항', value: requestNote },
 ];
 
-export default function ReservationDetail({ reservationStatus, reservationInfo }: ReservationDetailProps) {
-  const reservationInfoFields = createReservationInfoFieldsByReservationInfo(
-    reservationInfo,
-  );
+export default function ReservationDetail({
+  reservationStatus,
+  reservationInfo,
+}: ReservationDetailProps) {
+  const reservationInfoFields = createReservationInfoFieldsByReservationInfo(reservationInfo);
 
   return (
     <section className='bg-black-1 h-auto px-[2rem] pt-[1.7rem] pb-[2.4rem]'>
       <div className='flex justify-between'>
-        <label className='caption-14-bd text-black-10'>예약 상세</label>
+        <span className='caption-14-bd text-black-10'>예약 상세</span>
         <StateChip label={reservationStatus} />
       </div>
       <div className='border-black-5 mt-[1.2rem] rounded-[0.6rem] border-[0.07rem] px-[1.7rem] py-[1.3rem]'>
