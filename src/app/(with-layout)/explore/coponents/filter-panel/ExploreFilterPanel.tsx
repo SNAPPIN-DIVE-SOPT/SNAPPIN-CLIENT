@@ -55,14 +55,21 @@ export default function ExploreFilterPanel({
   };
 
   return (
-    <div className='border-black-3 border-[0.1rem] px-[2rem] py-[1.2rem]'>
+    <section
+      aria-label='무드 필터'
+      className='border-black-3 relative z-100 border-[0.1rem] px-[2rem] py-[1.2rem]'
+    >
+      <h2 className='sr-only'>무드 필터</h2>
+
       <div className='flex flex-col gap-[0.7rem]'>
         {(Object.keys(groupedMoods) as MoodCategory[]).map((category) => (
-          <div key={category} className='flex flex-row gap-[1.2rem]'>
-            <span className='caption-12-md text-black-9 whitespace-nowrap'>
+          <div key={category} className='gap-x[0.8rem] grid grid-cols-[5rem_1fr] items-start'>
+            {/* 카테고리 Label */}
+            <span className='caption-12-md text-black-9 py-[0.6rem] whitespace-nowrap'>
               {MOOD_CATEGORY_MAP[category]}
             </span>
-            <div className='flex flex-row flex-wrap gap-[0.8rem]'>
+            {/* 칩 목록 */}
+            <div className='flex flex-wrap gap-[0.8rem]'>
               {groupedMoods[category].map((mood) => (
                 <FilterChip
                   key={`${mood.id}-${mood.name}`}
@@ -83,6 +90,6 @@ export default function ExploreFilterPanel({
       >
         완료
       </Button>
-    </div>
+    </section>
   );
 }
