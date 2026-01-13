@@ -1,23 +1,42 @@
 'use client';
 
 import { ButtonSearchBar, SectionTabs } from '@/ui';
-import { useState } from 'react';
+import { useMemo } from 'react';
 import PortfolioListSection from '@/app/(with-layout)/explore/_section/PortfolioListSection';
 import ProductListSection from '@/app/(with-layout)/explore/_section/ProductListSection';
 import ExploreFilter from '@/app/(with-layout)/explore/components/filter/ExploreFilter';
 import ExploreSearchDrawer from '@/app/(with-layout)/explore/components/search-drawer/ExploreSearchDrawer';
 import { MOOD_LIST } from '@/app/(with-layout)/explore/mocks/filter';
 import { overlay } from 'overlay-kit';
+import { EXPLORE_TAB, EXPLORE_TAB_MAP } from '@/app/(with-layout)/explore/constants/tab';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+const isExploreTab = (value: string | null) => {
+  return value === EXPLORE_TAB.PORTFOLIO || value === EXPLORE_TAB.PRODUCT;
+};
 
 export default function PageClient() {
-  /* todo: refactor tab value query string */
-  /* todo: extract explore tab type */
-  const [currentTab, setCurrentTab] = useState('포트폴리오');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentTab = useMemo(() => {
+    const raw = searchParams.get('tab');
+    return isExploreTab(raw) ? raw : EXPLORE_TAB.PORTFOLIO;
+  }, [searchParams]);
+
+  const handleTabChange = (nextTab: string) => {
+    if (!isExploreTab(nextTab)) return;
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('tab', nextTab);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <SectionTabs
       value={currentTab}
-      handleValueChange={setCurrentTab}
+      handleValueChange={handleTabChange}
       className='flex h-dvh flex-col overflow-hidden'
     >
       {/* 탐색 페이지 상단 고정 영역 헤더 */}
@@ -38,8 +57,12 @@ export default function PageClient() {
 
         {/* 탐색 탭 */}
         <SectionTabs.List>
-          <SectionTabs.Tab value='포트폴리오'>포트폴리오</SectionTabs.Tab>
-          <SectionTabs.Tab value='상품'>상품</SectionTabs.Tab>
+          <SectionTabs.Tab value={EXPLORE_TAB.PORTFOLIO}>
+            {EXPLORE_TAB_MAP[EXPLORE_TAB.PORTFOLIO]}
+          </SectionTabs.Tab>
+          <SectionTabs.Tab value={EXPLORE_TAB.PRODUCT}>
+            {EXPLORE_TAB_MAP[EXPLORE_TAB.PRODUCT]}
+          </SectionTabs.Tab>
         </SectionTabs.List>
 
         {/* 필터 */}
@@ -48,12 +71,15 @@ export default function PageClient() {
 
       {/* 탐색 페이지 탭 메인 콘텐츠 영역 */}
       <main className='scrollbar-hide flex min-h-0 flex-1 flex-col overflow-y-auto'>
-        <SectionTabs.Contents value='포트폴리오'>
+        <SectionTabs.Contents value={EXPLORE_TAB.PORTFOLIO}>
           {/* 포트폴리오 목록 */}
           <PortfolioListSection />
         </SectionTabs.Contents>
 
-        <SectionTabs.Contents value='상품' className='bg-black-3 flex flex-1 flex-col'>
+        <SectionTabs.Contents
+          value={EXPLORE_TAB.PRODUCT}
+          className='bg-black-3 flex flex-1 flex-col'
+        >
           {/* 상품 목록 */}
           <ProductListSection />
         </SectionTabs.Contents>
