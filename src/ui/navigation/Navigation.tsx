@@ -21,7 +21,7 @@ export default function Navigation({
 
   return (
     <>
-      <nav
+      <header
         className={cn(
           'bg-black-1 nav-height grid w-full grid-cols-3 items-center px-[2rem] py-[1.7rem]',
           isSticky && 'sticky top-0 z-10',
@@ -32,7 +32,7 @@ export default function Navigation({
         <div className='justify-self-start'>{left}</div>
         <div className='justify-self-center'>{center}</div>
         <div className='justify-self-end'>{right}</div>
-      </nav>
+      </header>
       {isFixed && <div className={cn(bgClass + ' nav-height')} />}
     </>
   );

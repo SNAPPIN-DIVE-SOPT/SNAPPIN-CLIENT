@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { useNavVisibility } from './hooks/useNavVisibility';
+import { useNavVisibility } from '@/hooks/useNavVisibility';
 import { ClientHeader, FadeCarousel } from './components';
 import { MENU } from './constants/menu';
 import { RecommendationSnapPlace, RecommendationAuthor, MoodCurationSection } from './_section';

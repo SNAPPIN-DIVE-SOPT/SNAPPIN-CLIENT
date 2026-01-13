@@ -28,9 +28,16 @@ export default function ProductCard({
   ...props
 }: ProductCardProps) {
   return (
-    <div className={cn('flex w-[30.4rem] gap-[1.2rem]', className)} {...props}>
-      <div className='relative h-[10.2rem] w-[10.2rem] shrink-0'>
-        <Image src={image.src} alt={image.alt ?? `${name} 상품 이미지`} fill />
+    <div
+      className={cn('flex gap-[1.2rem] w-full', className)}
+      {...props}
+    >
+      <div className='shrink-0 relative w-[10.2rem] h-[10.2rem]'>
+        <Image
+          src={image.src}
+          alt={image.alt ?? `${name} 상품 이미지`}
+          fill
+        />
       </div>
       <div className='flex min-w-0 flex-col gap-[0.3rem]'>
         <div className='flex flex-col gap-[0.5rem]'>
