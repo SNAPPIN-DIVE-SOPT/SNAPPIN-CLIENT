@@ -23,7 +23,7 @@ export default function Navigation({
     <>
       <header
         className={cn(
-          'bg-black-1 nav-height grid w-full grid-cols-3 items-center px-[2rem] py-[1.7rem]',
+          'bg-black-1 nav-height grid w-full grid-cols-3 items-center px-[2rem] py-[0.3rem]',
           isSticky && 'sticky top-0 z-10',
           isFixed && 'fixed-center top-0 z-10',
           className,
