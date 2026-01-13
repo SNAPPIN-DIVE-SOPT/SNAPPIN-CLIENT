@@ -80,10 +80,12 @@ export default function ReservationList() {
                         author={reservation.product.photographer}
                         price={reservation.product.price}
                         tags={reservation.product.moods as MoodCode[]}
+                        isReviewed={reservation.product.isReviewed}
+                        reviewHref={`/photo-completed/${reservation.reservationId}`}
                         status={reservation.status as StateCode}
                         href={
                           tab.value === 'CLIENT_DONE'
-                            ? `/client/done-detail/${reservation.reservationId}`
+                            ? `/photo-completed/${reservation.reservationId}`
                             : `/reservation-detail/${reservation.reservationId}`
                         }
                       />
