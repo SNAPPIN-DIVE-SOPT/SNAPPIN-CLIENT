@@ -21,7 +21,7 @@ export default function ClientFooter({ step }: ClientFooterProps) {
 
   const handleNextStep = () => {
     if (!isSelected) {
-      error('이미지를 선택해주세요.');
+      error('이미지를 선택해주세요.', undefined, 'bottom-[8rem]');
       return;
     }
 
