@@ -67,6 +67,9 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
               className={cn(
                 'absolute h-[19.3rem] w-[14.5rem] overflow-hidden rounded-[0.6rem]',
                 selectedByStep[currentStep] === img.id && 'border-neon-black z-10 border-[3px]',
+                selectedByStep[currentStep] &&
+                  selectedByStep[currentStep] !== img.id &&
+                  'opacity-80 brightness-[0.6]',
               )}
               onClick={() => handleSelect(img.id)}
               initial={false}
