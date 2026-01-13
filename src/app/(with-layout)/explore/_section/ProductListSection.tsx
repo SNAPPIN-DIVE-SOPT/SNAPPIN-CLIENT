@@ -1,24 +1,20 @@
-import { ProductCard } from '@/ui';
-import Link from 'next/link';
 import { MOCK_PRODUCTS } from '@/app/(with-layout)/explore/mocks/product';
+import { ProductList } from '@/ui';
 
 export default function ProductListSection() {
+  const isProductListEmpty = MOCK_PRODUCTS.length === 0;
+
+  if (isProductListEmpty)
+    return (
+      <section className='flex min-h-[calc(100vh-29.9rem)] items-center justify-center gap-[0.4rem]'>
+        <h3 className='font-18-bd text-black-9'>검색 결과가 없어요</h3>
+        <span className='caption-14-md text-black-6 mt-[0.8rem]'>다른 키워드로 검색해 보세요</span>
+      </section>
+    );
+
   return (
     <section className='bg-black-1 z-0 shrink-0'>
-      {MOCK_PRODUCTS.map((product) => (
-        <Link key={product.id} href={`/product/${product.id}`}>
-          <ProductCard
-            photographer={product.photographer}
-            moods={product.moods}
-            rate={product.rate}
-            reviewCount={product.reviewCount}
-            price={product.price}
-            name={product.title}
-            image={{ src: product.imageUrl, alt: `${product.title} 이미지` }}
-            className='border-black-3 w-full border-b-[0.1rem] px-[2rem] py-[1.6rem] text-left'
-          />
-        </Link>
-      ))}
+      <ProductList productList={MOCK_PRODUCTS} />
     </section>
   );
 }
