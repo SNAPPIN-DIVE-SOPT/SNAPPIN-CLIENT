@@ -8,7 +8,7 @@ type TitleProps = {
   title: string;
 };
 
-export default function HeaderNavigation({ title }: TitleProps) {
+export default function ClientNavigation({ title }: TitleProps) {
   const router = useRouter();
 
   const handleHomeClick = () => {

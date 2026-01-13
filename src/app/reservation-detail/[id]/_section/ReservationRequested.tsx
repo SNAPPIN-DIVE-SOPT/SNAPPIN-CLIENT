@@ -48,8 +48,8 @@ export default function ReservationRequested({
           className='w-full'
         />
       </div>
-      {hasCancelButton ? (
-        <div className='flex flex-row gap-[0.6rem]'>
+      <div className='flex flex-row gap-[0.6rem]'>
+        {hasCancelButton && (
           <Button
             size='small'
             color='white'
@@ -60,18 +60,8 @@ export default function ReservationRequested({
           >
             예약 취소
           </Button>
-          <Button
-            size='small'
-            color='black'
-            display='inline'
-            type='button'
-            className='w-full'
-            onClick={handleInquiryClick}
-          >
-            문의하기
-          </Button>
-        </div>
-      ) : (
+        )}
+
         <Button
           size='small'
           color='black'
@@ -82,7 +72,7 @@ export default function ReservationRequested({
         >
           문의하기
         </Button>
-      )}
+      </div>
     </section>
   );
 }

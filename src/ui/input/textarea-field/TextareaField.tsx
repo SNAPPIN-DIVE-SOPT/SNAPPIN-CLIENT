@@ -44,7 +44,7 @@ export default function TextareaField({
         {...props}
       />
 
-      {helpText ? <div id={messageId}>{helpText}</div> : null}
+      {helpText}
     </div>
   );
 }

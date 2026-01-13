@@ -3,14 +3,14 @@
 import { Navigation } from '@/ui';
 import { Logo, IconSearch } from '@/assets';
 
-export default function HeaderNavigation() {
+export default function ClientNavigation() {
   const handleSearchClick = () => {
     //TODO: 검색 페이지
   };
 
   return (
     <Navigation
-      isFixed={true}
+      isSticky={false}
       left={<Logo width={72} />}
       right={<IconSearch onClick={handleSearchClick} />}
     />

@@ -2,7 +2,7 @@
 
 import { use, useState } from 'react';
 
-import HeaderNavigation from './components/HeaderNavigation';
+import { ClientNavigation } from './components';
 import { PaymentDetail, ReservationDetail, ReservationRequested } from './_section';
 import { BottomCTAButton, ConfirmModal, Divider } from '@/ui';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
@@ -39,6 +39,7 @@ export default function PageClient({ params }: ReservationDetailPageClientProps)
 
   const hasPaymentDetailSection = !hasTopActionButtons;
 
+  // TODO: 문의하기 토스트 위치 적용
   const handleInquiryClick = () => {
     const hasBottomButton =
       reservationStatus === STATE_CODES.PAYMENT_REQUESTED ||
@@ -49,9 +50,6 @@ export default function PageClient({ params }: ReservationDetailPageClientProps)
     addToast({
       type: 'error',
       message: '작가님이 아직 채팅방을 운영하지 않아요.',
-      positionClassName: hasBottomButton
-        ? TOAST_POSITION_WITH_BUTTON
-        : TOAST_POSITION_WITHOUT_BUTTON,
     });
   };
 
@@ -140,7 +138,7 @@ export default function PageClient({ params }: ReservationDetailPageClientProps)
 
   return (
     <div className='bg-black-3 flex min-h-full flex-col'>
-      <HeaderNavigation title='예약 상세' />
+      <ClientNavigation title='예약 상세' />
       <Divider color='bg-black-5' />
       <ReservationRequested
         reservationId={reservationId}

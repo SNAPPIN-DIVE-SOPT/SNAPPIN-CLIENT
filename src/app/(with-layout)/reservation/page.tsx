@@ -1,10 +1,10 @@
 import ReservationList from './_section/ReservationList';
-import { HeaderNavigation } from './components';
+import { ClientNavigation } from './components';
 
 export default function Page() {
   return (
     <div className='bg-black-3 flex min-h-full flex-col'>
-      <HeaderNavigation />
+      <ClientNavigation />
       <ReservationList />
     </div>
   );

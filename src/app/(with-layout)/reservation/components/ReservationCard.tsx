@@ -42,10 +42,10 @@ export default function ReservationCard({
         </div>
         <div className='mb-[1.2rem] flex justify-between'>
           <StateChip label={status} />
-          <button type='button' className='flex items-center'>
+          <div className='flex items-center'>
             <span className='text-black-7 caption-12-md'>예약상세</span>
             <IconKeyboardArrowRight className='text-black-7 h-[2.4rem] w-[2.4rem]' />
-          </button>
+          </div>
         </div>
       </div>
       <ProductCard
