@@ -3,9 +3,11 @@ import { ToastProps } from './types/toast';
 
 export const ToastDataAtom = atom<ToastProps | null>(null);
 
-export const ToastAtom = atom(null, (_, set, toast: ToastProps) => {
+export const ToastAtom = atom(null, (_, set, { type, message, duration }: ToastProps) => {
   const newToast = {
-    ...toast,
+    type,
+    message,
+    duration,
     id: Date.now().toString(),
   };
 
