@@ -8,6 +8,7 @@ import { setAccessToken } from '@/auth/token';
 import { setUserType } from '@/auth/userType';
 import { USER_TYPES } from '@/auth/constant/userType';
 import { useToast } from '@/ui/toast/hooks/useToast';
+import { Loading } from '@/ui';
 
 export default function KakaoCallbackPage() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function KakaoCallbackPage() {
   const code = params.get('code');
   const error = params.get('error');
   const toast = useToast();
-  const { mutate, isPending } = useKakaoLoginMutation()!;
+  const { mutate } = useKakaoLoginMutation()!;
 
   useEffect(() => {
     if (error) {
@@ -45,5 +46,10 @@ export default function KakaoCallbackPage() {
     );
   }, [code, error, mutate, router]);
 
-  return <h1>{isPending ? '로그인 중입니다…' : '처리 중…'}</h1>;
+  return (
+    <div className='bg-black-10 flex h-dvh flex-col items-center justify-center gap-[1.5rem]'>
+      <Loading />
+      <p className='caption-14-md text-neon-black'>로그인 중...</p>
+    </div>
+  );
 }
