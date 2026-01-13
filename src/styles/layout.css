@@ -59,4 +59,19 @@
   .nav-height {
     height: 5rem;
   }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 0.8rem;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #b8b8b8;
+    border-radius: 999px;
+
+    border-top: 0.3rem solid transparent;
+    border-bottom: 0.3rem solid transparent;
+    border-left: 0.25rem solid transparent;
+    border-right: 0.25rem solid transparent;
+    background-clip: padding-box;
+  }
 }
