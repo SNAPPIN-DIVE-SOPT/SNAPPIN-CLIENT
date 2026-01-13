@@ -16,10 +16,10 @@ const getVariant = (isSelected: boolean, onRemove?: (tag: MoodCode) => void): Fi
 };
 
 export type FilterChipProps = {
-  label: MoodCode;
+  label: string;
   isSelected: boolean;
-  onClick?: (tag: MoodCode) => void;
-  onRemove?: (tag: MoodCode) => void;
+  onClick?: (tag: string) => void;
+  onRemove?: (tag: string) => void;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>;
 
 export default function FilterChip({

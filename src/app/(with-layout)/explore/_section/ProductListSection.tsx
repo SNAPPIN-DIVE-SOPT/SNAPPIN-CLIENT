@@ -1,5 +1,4 @@
 import { ProductCard } from '@/ui';
-import { MoodCode } from '@/types/moodCode';
 import Link from 'next/link';
 import { MOCK_PRODUCTS } from '@/app/(with-layout)/explore/mocks/product';
 
@@ -9,9 +8,9 @@ export default function ProductListSection() {
       {MOCK_PRODUCTS.map((product) => (
         <Link key={product.id} href={`/product/${product.id}`}>
           <ProductCard
-            author={product.photographer}
-            tags={product.moods as MoodCode[]}
-            rating={product.rate}
+            photographer={product.photographer}
+            moods={product.moods}
+            rate={product.rate}
             reviewCount={product.reviewCount}
             price={product.price}
             name={product.title}
