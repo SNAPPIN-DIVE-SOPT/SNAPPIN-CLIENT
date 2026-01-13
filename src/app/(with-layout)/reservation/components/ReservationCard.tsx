@@ -35,29 +35,31 @@ export default function ReservationCard({
   const router = useRouter();
 
   return (
-    <Link className='border-black-5 rounded-[0.6rem] border-[0.07rem] p-[1.2rem]' href={href}>
-      <div className='flex flex-col gap-[0.6rem]'>
-        <div className='caption-10-md text-black-7'>
-          <span>{date}</span>
-        </div>
-        <div className='mb-[1.2rem] flex justify-between'>
-          <StateChip label={status} />
-          <div className='flex items-center'>
-            <span className='text-black-7 caption-12-md'>예약상세</span>
-            <IconKeyboardArrowRight className='text-black-7 h-[2.4rem] w-[2.4rem]' />
+    <div className='border-black-5 rounded-[0.6rem] border-[0.07rem] p-[1.2rem]'>
+      <Link href={href}>
+        <div className='flex flex-col gap-[0.6rem]'>
+          <div className='caption-10-md text-black-7'>
+            <span>{date}</span>
+          </div>
+          <div className='mb-[1.2rem] flex justify-between'>
+            <StateChip label={status} />
+            <div className='flex items-center'>
+              <span className='text-black-7 caption-12-md'>예약상세</span>
+              <IconKeyboardArrowRight className='text-black-7 h-[2.4rem] w-[2.4rem]' />
+            </div>
           </div>
         </div>
-      </div>
-      <ProductCard
-        image={image}
-        name={name}
-        rating={rating}
-        reviewCount={reviewCount}
-        author={author}
-        price={price}
-        tags={tags}
-        className={className}
-      />
+        <ProductCard
+          image={image}
+          name={name}
+          rating={rating}
+          reviewCount={reviewCount}
+          author={author}
+          price={price}
+          tags={tags}
+          className={className}
+        />
+      </Link>
       {hasReviewWriteButton ? (
         <div className='mt-[1.2rem] flex justify-end'>
           <Button
@@ -71,6 +73,6 @@ export default function ReservationCard({
           </Button>
         </div>
       ) : null}
-    </Link>
+    </div>
   );
 }
