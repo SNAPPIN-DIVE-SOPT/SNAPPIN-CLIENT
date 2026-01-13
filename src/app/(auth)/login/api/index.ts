@@ -14,7 +14,10 @@ export const useKakaoLoginMutation = () => {
     mutationFn: async ({ code }) => {
       const res = await fetch(URL, {
         method: 'POST',
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code: code }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
       if (!res.ok) {
