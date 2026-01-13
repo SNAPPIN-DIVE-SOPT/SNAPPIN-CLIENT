@@ -18,7 +18,7 @@ const meta: Meta<typeof ProductCard> = {
       control: 'text',
       description: '상품명',
     },
-    rating: {
+    rate: {
       control: { type: 'number', min: 0, max: 5, step: 0.1 },
       description: '별점',
     },
@@ -26,7 +26,7 @@ const meta: Meta<typeof ProductCard> = {
       control: { type: 'number', min: 0 },
       description: '리뷰 수',
     },
-    author: {
+    photographer: {
       control: 'text',
       description: '작가명',
     },
@@ -34,7 +34,7 @@ const meta: Meta<typeof ProductCard> = {
       control: { type: 'number', min: 0 },
       description: '가격',
     },
-    tags: {
+    moods: {
       control: 'check',
       options: [
         '따스한',
@@ -59,11 +59,11 @@ const meta: Meta<typeof ProductCard> = {
       alt: '임시 이미지',
     },
     name: '잊지 못 할 졸업스냅',
-    rating: 4.8,
+    rate: 4.8,
     reviewCount: 20,
-    author: '김작가',
+    photographer: '김작가',
     price: 80000,
-    tags: ['따스한', '아날로그', '연출된'],
+    moods: ['따스한', '아날로그', '연출된'],
   },
 };
 
@@ -79,11 +79,11 @@ export const LongProductName: Story = {
       alt: '임시 이미지',
     },
     name: '찰나의 순간을 기억으로 남기는 소중한 촬영',
-    rating: 4.8,
+    rate: 4.8,
     reviewCount: 20,
-    author: '김작가',
+    photographer: '김작가',
     price: 80000,
-    tags: ['따스한', '아날로그', '연출된'],
+    moods: ['따스한', '아날로그', '연출된'],
   },
 };
 
@@ -94,10 +94,10 @@ export const LongAuthorName: Story = {
       alt: '임시 이미지',
     },
     name: '잊지 못 할 졸업스냅',
-    rating: 4.8,
+    rate: 4.8,
     reviewCount: 20,
-    author: '작가 이름이 매우 긴 경우에는 이렇게 나와요',
+    photographer: '작가 이름이 매우 긴 경우에는 이렇게 나와요',
     price: 80000,
-    tags: ['따스한', '아날로그', '연출된'],
+    moods: ['따스한', '아날로그', '연출된'],
   },
 };

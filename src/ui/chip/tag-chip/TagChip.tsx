@@ -1,12 +1,11 @@
 import { cn } from '@/utils/cn';
 import Chip from '../base/Chip';
-import { MoodCode } from '@/types/moodCode';
 import { TagChipVariant } from './types/tagChipVariant';
 import { TAG_CHIP_THEME_BY_VARIANT } from './constants/tagChipTheme';
 
 type TagChipProps = {
   variant: TagChipVariant;
-  label: MoodCode;
+  label: string;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>;
 
 export default function TagChip({ variant, label, ...props }: TagChipProps) {

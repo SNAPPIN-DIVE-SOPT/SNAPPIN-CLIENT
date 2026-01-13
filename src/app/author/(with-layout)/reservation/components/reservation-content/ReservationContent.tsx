@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { StateCode } from '@/types/stateCode';
-import { MoodCode } from '@/types/moodCode';
 import { Divider, SectionTabs } from '@/ui';
 import { RESERVATION_TABS, ReservationTabValue } from '../../constants/tabs';
 import ReservationCard from '../reservation-card/ReservationCard';
@@ -39,11 +38,11 @@ export default function ReservationContent() {
                   status={product.status as StateCode}
                   image={{ src: product.imageUrl, alt: product.title }}
                   name={product.title}
-                  rating={product.rate}
+                  rate={product.rate}
                   reviewCount={product.reviewCount}
-                  author={product.photographer}
+                  photographer={product.photographer}
                   price={product.price}
-                  tags={product.moods as MoodCode[]}
+                  moods={product.moods}
                   date={product.date}
                 />
                 {index !== data.products.length - 1 && (

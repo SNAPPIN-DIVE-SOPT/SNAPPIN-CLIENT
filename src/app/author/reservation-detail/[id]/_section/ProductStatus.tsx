@@ -1,6 +1,5 @@
 'use client';
 
-import { MoodCode } from '@/types/moodCode';
 import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { Button, ProductCard } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
@@ -13,7 +12,7 @@ type ProductStatusProps = {
   reviewCount: number;
   photographer: string;
   price: number;
-  moods: MoodCode[];
+  moods: string[];
   status: StateCode;
 };
 
@@ -50,11 +49,11 @@ export default function ProductStatus({
         <ProductCard
           image={{ src: imageUrl, alt: title }}
           name={title}
-          rating={rate}
+          rate={rate}
           reviewCount={reviewCount}
-          author={photographer}
+          photographer={photographer}
           price={price}
-          tags={moods}
+          moods={moods}
         />
       </div>
       <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
