@@ -139,7 +139,7 @@ export default function PageClient({ params }: ReservationDetailPageClientProps)
   return (
     <div className='bg-black-3 flex min-h-full flex-col'>
       <ClientNavigation title='예약 상세' />
-      <Divider color='bg-black-5' />
+      <Divider color='bg-black-5' className='h-[0.6rem]' />
       <ReservationRequested
         reservationId={reservationId}
         reservationStatus={reservationStatus}
@@ -150,14 +150,14 @@ export default function PageClient({ params }: ReservationDetailPageClientProps)
         handleReservationCancelClick={handleReservationCancelClick}
         handleInquiryClick={handleInquiryClick}
       />
-      <Divider thickness='large' />
+      <Divider thickness='large' className='h-[0.6rem]' />
       <ReservationDetail
         reservationStatus={reservationStatus}
         reservationInfo={data.reservationInfo}
       />
       {hasPaymentDetailSection ? (
         <>
-          <Divider thickness='large' />
+          <Divider thickness='large' className='h-[0.6rem]' />
           <PaymentDetail paymentInfo={data.paymentInfo} />
         </>
       ) : null}

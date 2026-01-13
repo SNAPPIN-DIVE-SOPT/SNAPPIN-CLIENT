@@ -6,11 +6,13 @@ import { RESERVATION_MOCK } from '../mock/reservationList.mock';
 import { RESERVATION_TABS, ReservationTabValue } from '../constants/tabs';
 import { EmptyView, ReservationCard } from '../components';
 import type { MoodCode } from '@/types/moodCode';
-import { STATE_CODES, StateCode } from '@/types/stateCode';
+import type { StateCode } from '@/types/stateCode';
 import { formatCreatedAt } from '@/utils/formatNumberWithComma';
 
 export default function ReservationList() {
-  const [selectedTabValue, setSelectedTabValue] = useState<ReservationTabValue>('CLIENT_OVERVIEW');
+  const [selectedTabValue, setSelectedTabValue] = useState<ReservationTabValue>(
+    RESERVATION_TABS[0].value,
+  );
 
   const handleTabValueChange = (value: string) => {
     const nextTabValue = value as ReservationTabValue;
@@ -18,16 +20,6 @@ export default function ReservationList() {
   };
 
   const { reservations } = RESERVATION_MOCK;
-
-  // 각 탭 값에 따라 보여줄 목록 분류
-  const getListByTabValue = (tabValue: ReservationTabValue) => {
-    const hasDoneTab = tabValue === 'CLIENT_DONE';
-    return reservations.filter(({ reservation }) =>
-      hasDoneTab
-        ? reservation.status === STATE_CODES.SHOOT_COMPLETED
-        : reservation.status !== STATE_CODES.SHOOT_COMPLETED,
-    );
-  };
 
   return (
     <SectionTabs
@@ -44,20 +36,19 @@ export default function ReservationList() {
       </SectionTabs.List>
 
       {RESERVATION_TABS.map((tab) => {
-        const reservationsByTabValue = getListByTabValue(tab.value);
         const emptyTitle =
           tab.value === 'CLIENT_DONE' ? '촬영 완료한 상품이 없어요' : '예약 문의한 상품이 없어요';
 
         return (
           <SectionTabs.Contents key={tab.value} value={tab.value}>
-            {reservationsByTabValue.length === 0 ? (
+            {reservations.length === 0 ? (
               <EmptyView
                 title={emptyTitle}
                 description='탐색에서 다양한 포트폴리오를 확인해보세요'
               />
             ) : (
               <div className='flex flex-col p-[2rem]'>
-                {reservationsByTabValue.map(({ reservation }, reservationIndex) => (
+                {reservations.map(({ reservation }, reservationIndex) => (
                   <Fragment key={reservation.reservationId}>
                     <ReservationCard
                       image={{
@@ -80,9 +71,9 @@ export default function ReservationList() {
                           : `/reservation-detail/${reservation.reservationId}`
                       }
                     />
-                    {reservationIndex !== reservationsByTabValue.length - 1 ? (
+                    {reservationIndex !== reservations.length - 1 ? (
                       <div className='-mx-[2rem] py-[1.2rem]'>
-                        <Divider thickness='large' color='bg-black-3' />
+                        <Divider className='h-[0.6rem]' color='bg-black-3' />
                       </div>
                     ) : null}
                   </Fragment>
