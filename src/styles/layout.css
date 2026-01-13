@@ -59,19 +59,19 @@
   .nav-height {
     height: 5rem;
   }
-}
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 0.8rem;
-}
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 0.8rem;
+  }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-left: 0.2rem solid #b8b8b8;
-}
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #b8b8b8;
+    border-radius: 999px;
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  margin-top: 1.2rem;
-  margin-bottom: 1.2rem;
-  background: transparent;
+    border-top: 0.3rem solid transparent;
+    border-bottom: 0.3rem solid transparent;
+    border-left: 0.25rem solid transparent;
+    border-right: 0.25rem solid transparent;
+    background-clip: padding-box;
+  }
 }

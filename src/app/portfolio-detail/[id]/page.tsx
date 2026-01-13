@@ -7,16 +7,22 @@ import { PORTFOLIO_DETAIL_MOCK } from './mock/portfolioDetail.mock';
 type PageProps = {
   params: {
     id: string;
-  }
-}
+  };
+};
 
 export default function Page({ params }: PageProps) {
   const { id } = params;
 
   // TODO: 포폴 상세 조회 API 연동 (request에 id 전달)
   const mock = PORTFOLIO_DETAIL_MOCK;
-  const portfolioImages = mock.images.map((image, idx) => ({ src: image, alt: `${mock.description} 포트폴리오 이미지 ${idx}` }));
-  const productImage = { src: mock.productInfo.imageUrl, alt: `${mock.productInfo.title} 상품 이미지`};
+  const portfolioImages = mock.images.map((image, idx) => ({
+    src: image,
+    alt: `${mock.description} 포트폴리오 이미지 ${idx}`,
+  }));
+  const productImage = {
+    src: mock.productInfo.imageUrl,
+    alt: `${mock.productInfo.title} 상품 이미지`,
+  };
 
   return (
     <div>
@@ -45,11 +51,11 @@ export default function Page({ params }: PageProps) {
         id={mock.productInfo.id}
         image={productImage}
         name={mock.productInfo.title}
-        rating={mock.productInfo.rate}
+        rate={mock.productInfo.rate}
         reviewCount={mock.productInfo.reviewCount}
-        author={mock.productInfo.photographer}
+        photographer={mock.productInfo.photographer}
         price={mock.productInfo.price}
-        tags={mock.productInfo.moods as MoodCode[]}
+        moods={mock.productInfo.moods}
       />
     </div>
   );

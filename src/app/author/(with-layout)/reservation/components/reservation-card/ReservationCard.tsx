@@ -17,11 +17,11 @@ export default function ReservationCard({
   status,
   image,
   name,
-  rating,
+  rate,
   reviewCount,
-  author,
+  photographer,
   price,
-  tags,
+  moods,
   date,
 }: ReservationCardProps) {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function ReservationCard({
             <div className='flex items-center gap-[0.8rem]'>
               <StateChip label={status} />
               <div className='flex items-center gap-[0.2rem]'>
-                <span className='font-16-bd'>{author}</span>
+                <span className='font-16-bd'>{photographer}</span>
                 <span className='font-16-md'>님</span>
               </div>
             </div>
@@ -54,11 +54,11 @@ export default function ReservationCard({
           <ProductCard
             image={image}
             name={name}
-            rating={rating}
+            rate={rate}
             reviewCount={reviewCount}
-            author={author}
+            photographer={photographer}
             price={price}
-            tags={tags}
+            moods={moods}
           />
         </div>
       </div>

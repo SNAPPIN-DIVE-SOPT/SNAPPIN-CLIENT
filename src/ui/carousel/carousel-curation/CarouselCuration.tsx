@@ -12,11 +12,10 @@ import {
 import { ImageCarousel } from '@/ui/carousel';
 import { IconEllipse } from '@/assets';
 import { TagChip } from '@/ui/chip';
-import { MoodCode } from '@/types/moodCode';
 
 type CarouselCurationProps = {
   images: { src: string; alt?: string }[];
-  tags: MoodCode[];
+  tags: string[];
   name: string;
   className?: string;
 };

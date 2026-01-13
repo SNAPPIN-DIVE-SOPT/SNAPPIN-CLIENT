@@ -7,7 +7,6 @@ import {
 } from './_section';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import { StateCode } from '@/types/stateCode';
-import { MoodCode } from '@/types/moodCode';
 import { Divider } from '@/ui';
 import { RESERVATION_DETAIL_MOCK } from './mock/reservationDetail.mock';
 
@@ -28,7 +27,7 @@ export default function Page() {
           reviewCount={data.productInfo.reviewCount}
           photographer={data.productInfo.photographer}
           price={data.productInfo.price}
-          moods={data.productInfo.moods as MoodCode[]}
+          moods={data.productInfo.moods}
         />
         <Divider thickness='large' color='bg-black-3' />
         <ReservationDetail
