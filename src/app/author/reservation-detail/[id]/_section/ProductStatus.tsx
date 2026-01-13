@@ -40,7 +40,7 @@ export default function ProductStatus({
   };
 
   const handleSendMessage = () => {
-    toast.alert('메시지 기능은 준비 중 이에요. 조금만 기다려주세요!');
+    toast.alert('메시지 기능은 준비 중 이에요. 조금만 기다려주세요!', undefined, 'top-[1rem]');
   };
 
   return (
