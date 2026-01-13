@@ -48,4 +48,7 @@ export { default as IconSettingsBackupRestore } from './components/IconSettingsB
 export { default as IconStar } from './components/IconStar';
 export { default as IconStarHalf } from './components/IconStarHalf';
 export { default as IconSuccess } from './components/IconSuccess';
+export { default as IconUnion1 } from './components/IconUnion1';
+export { default as IconUnion2 } from './components/IconUnion2';
+export { default as IconUnion3 } from './components/IconUnion3';
 export { default as Logo } from './components/Logo';

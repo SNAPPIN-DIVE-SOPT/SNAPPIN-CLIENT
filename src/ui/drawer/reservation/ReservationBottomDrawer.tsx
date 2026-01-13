@@ -56,6 +56,7 @@ export default function ReservationBottomDrawer({
   // 1. 휴뮤일 조회
   // 2. 시간 슬롯
   const queries = productId;
+  console.info(queries);
   const { date, time, durationHours, place, participantCount, request } = draft;
   const {
     minDurationHours,

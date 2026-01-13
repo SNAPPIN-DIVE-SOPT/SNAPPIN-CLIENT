@@ -8,8 +8,7 @@ export default function ClientNavigation() {
   const router = useRouter();
 
   const handleCloseClick = () => {
-    //TODO: 검색 페이지로 이동
-    router.push('/');
+    router.back();
   };
 
   return (

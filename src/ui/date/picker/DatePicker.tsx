@@ -10,11 +10,11 @@ import {
   buildPrefixCells,
   compareISO,
   daysInMonth,
-  padNumber,
   startOfMonth,
   toISO,
 } from '@/ui/date/picker/utils/date';
 import { WEEKDAY_LABELS } from '@/ui/date/picker/constants/date';
+import { padNumber } from '@/utils/padNumber';
 
 const MAX_RESERVATION_MONTHS = 6;
 
