@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ProductCard } from '@/ui';
-import { MoodCode } from '@/types/moodCode';
 
 type ProductListSectionProps = {
   products: {
@@ -38,11 +37,11 @@ export default function ProductListSection({ products }: ProductListSectionProps
                 <ProductCard
                   image={{ src: product.imageUrl, alt: `${product.title} 상품 대표 이미자` }}
                   name={product.title}
-                  rating={product.rate}
+                  rate={product.rate}
                   reviewCount={product.reviewCount}
-                  author={product.photographer}
+                  photographer={product.photographer}
                   price={product.price}
-                  tags={product.moods as MoodCode[]}
+                  moods={product.moods}
                 />
               </Link>
             ))}
