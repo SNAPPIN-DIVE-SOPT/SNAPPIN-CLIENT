@@ -1,4 +1,4 @@
-//TODO: login, logout, refresh api 호출
+//TODO: logout, refresh api 호출
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 
 export const getRefreshToken = async () => {
@@ -15,10 +15,4 @@ export const logoutApi = async () => {
   //TODO: logout api 호출
   //deleteAccessToken
   //deleteUserType
-};
-
-export const loginApi = async () => {
-  //TODO: login api 호출
-  //setAccessToken
-  //setUserType
 };

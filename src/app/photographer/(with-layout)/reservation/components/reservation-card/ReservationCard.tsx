@@ -27,7 +27,7 @@ export default function ReservationCard({
   const router = useRouter();
 
   const handleDetailClick = () => {
-    router.push(`/author/reservation-detail/${reservationId}`);
+    router.push(`/photographer/reservation-detail/${reservationId}`);
   };
 
   return (

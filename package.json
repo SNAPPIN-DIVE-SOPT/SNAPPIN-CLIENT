@@ -13,7 +13,8 @@
     "generate:icons": "pnpm build:icons",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "barrels:ui": "tsx scripts/generate-ui-root-index.ts"
+    "barrels:ui": "tsx scripts/generate-ui-root-index.ts",
+    "generate:api": "dotenv -e .env -- sh -lc 'swagger-typescript-api generate -p \"$SWAGGER_API_URL\" -r -o ./src/swagger-api --modular -d --extract-request-body --extract-response-body --extract-response-error --axios'"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -29,6 +30,7 @@
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "swagger-typescript-api": "^13.2.16",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2"
   },
@@ -54,6 +56,7 @@
     "@vitest/coverage-v8": "^4.0.16",
     "autoprefixer": "^10.4.20",
     "babel-plugin-react-compiler": "1.0.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "eslint-config-prettier": "^10.1.8",

@@ -1,4 +1,4 @@
-import { UserType } from '@/auth/constant/userType';
+import { USER_TYPE, UserType } from '@/auth/constant/userType';
 
 type UserTypeToggleTheme = {
   trackClassName: string;
@@ -7,12 +7,12 @@ type UserTypeToggleTheme = {
 };
 
 export const TOGGLE_THEME_BY_TYPE: Record<UserType, UserTypeToggleTheme> = {
-  client: {
+  [USER_TYPE.CLIENT]: {
     trackClassName: 'bg-black-4',
     thumbClassName: 'translate-x-0 bg-black-10',
     labelClassName: 'text-black-1',
   },
-  author: {
+  [USER_TYPE.PHOTOGRAPHER]: {
     trackClassName: 'bg-black-10',
     thumbClassName: 'translate-x-[2.7rem] bg-neon-black',
     labelClassName: 'text-black-10',
