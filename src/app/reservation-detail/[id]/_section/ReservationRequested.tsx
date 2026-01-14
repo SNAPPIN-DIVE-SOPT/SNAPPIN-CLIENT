@@ -44,7 +44,6 @@ export default function ReservationRequested({
           photographer={productInfo.photographer}
           price={productInfo.price}
           moods={productInfo.moods}
-          className='w-full'
         />
       </div>
       <div className='flex flex-row gap-[0.6rem]'>

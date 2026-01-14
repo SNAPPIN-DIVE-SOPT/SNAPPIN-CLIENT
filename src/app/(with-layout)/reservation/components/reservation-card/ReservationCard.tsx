@@ -14,7 +14,6 @@ type ReservationCardProps = {
   href: string;
   isReviewed: boolean;
   reviewHref?: string;
-  handleReviewClick?: () => void;
 } & ProductCardProps;
 
 export default function ReservationCard({
@@ -25,12 +24,11 @@ export default function ReservationCard({
   reviewHref,
   ...productCardProps
 }: ReservationCardProps) {
-  const hasReviewWriteButton = status === STATE_CODES.SHOOT_COMPLETED && !isReviewed;
+  const hasReviewWriteButton =
+    status === STATE_CODES.SHOOT_COMPLETED && !isReviewed && Boolean(reviewHref);
   const router = useRouter();
 
-  const handleReviewClick = () => {
-    reviewHref && router.push(reviewHref);
-  };
+  const handleReviewClick = () => (reviewHref ? router.push(reviewHref) : undefined);
 
   return (
     <div className='border-black-5 rounded-[0.6rem] border-[0.07rem] p-[1.2rem]'>
