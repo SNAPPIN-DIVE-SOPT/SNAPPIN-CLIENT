@@ -1,3 +1,3 @@
-export { default as CategoryButton } from './CategoryButton';
-export { default as ProfileCard } from './ProfileCard';
-export { default as Header } from './Header';
+export { default as CategoryButton } from './category-button/CategoryButton';
+export { default as ProfileCard } from './profile-card/ProfileCard';
+export { default as Header } from './header/Header';
