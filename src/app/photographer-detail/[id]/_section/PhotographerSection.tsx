@@ -52,8 +52,8 @@ function DetailRow({
 }: DetailRowProps) {
   return (
     <div className='flex gap-[0.8rem]'>
-      <div className='caption-12-md text-black-7'>{label}</div>
-      <span className='caption-12-md text-black-9'>{content.join(', ')}</span>
+      <dt className='caption-12-md text-black-7'>{label}</dt>
+      <dd className='caption-12-md text-black-9'>{content.join(', ')}</dd>
     </div>
   );
 }
