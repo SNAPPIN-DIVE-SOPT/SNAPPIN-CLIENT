@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import FilterChip, { FilterChipProps } from './FilterChip';
-import { MOOD_CODE, MoodCode } from '@/types/moodCode';
+import { MOOD_CODE } from '@/types/moodCode';
 
 const meta: Meta<typeof FilterChip> = {
   title: 'chip/FilterChip',
@@ -11,8 +11,8 @@ const meta: Meta<typeof FilterChip> = {
     docs: {
       description: {
         component: '필터칩 컴포넌트입니다.',
-      }
-    }
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -36,51 +36,37 @@ type Story = StoryObj<typeof meta>;
 const FilterChipWithState = (args: FilterChipProps) => {
   const [selected, setSelected] = useState(args.isSelected);
 
-  const handleClick = (label: MoodCode) => {
-    setSelected(prev => !prev);
+  const handleClick = (label: string) => {
+    setSelected((prev) => !prev);
     args.onClick?.(label);
   };
 
-  return (
-    <FilterChip
-      {...args}
-      isSelected={selected}
-      onClick={handleClick}
-      onRemove={undefined}
-    />
-  );
+  return <FilterChip {...args} isSelected={selected} onClick={handleClick} onRemove={undefined} />;
 };
 
 const FilterChipsWithState = () => {
-  const [selectedMoods, setSelectedMoods] = useState<MoodCode[]>([]);
+  const [selectedMoods, setSelectedMoods] = useState<string[]>([]);
 
-  const handleClick = (mood: MoodCode) => {
-    setSelectedMoods(prev =>
-      prev.includes(mood)
-        ? prev.filter(m => m !== mood)
-        : [...prev, mood]
+  const handleClick = (mood: string) => {
+    setSelectedMoods((prev) =>
+      prev.includes(mood) ? prev.filter((m) => m !== mood) : [...prev, mood],
     );
   };
 
-  const handleRemove = (mood: MoodCode) => {
-    setSelectedMoods(prev => prev.filter(m => m !== mood));
+  const handleRemove = (mood: string) => {
+    setSelectedMoods((prev) => prev.filter((m) => m !== mood));
   };
 
   return (
-    <div className="flex flex-col gap-4 max-w-[45rem]">
-      <div className="flex flex-wrap gap-2">
-        {selectedMoods.map(mood => (
-          <FilterChip
-            key={mood}
-            label={mood}
-            isSelected
-            onRemove={handleRemove}
-          />
+    <div className='flex max-w-[45rem] flex-col gap-4'>
+      <div className='flex flex-wrap gap-2'>
+        {selectedMoods.map((mood) => (
+          <FilterChip key={mood} label={mood} isSelected onRemove={handleRemove} />
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        {MOOD_CODE.map(mood => (
+      <div className='flex flex-wrap gap-2'>
+        {MOOD_CODE.map((mood) => (
           <FilterChip
             key={mood}
             label={mood}
@@ -95,7 +81,7 @@ const FilterChipsWithState = () => {
 
 export const Default: Story = {
   args: {
-    label: '따스한' as MoodCode,
+    label: '따스한',
     isSelected: false,
   },
   render: FilterChipWithState,
@@ -103,7 +89,7 @@ export const Default: Story = {
 
 export const Selected: Story = {
   args: {
-    label: '따스한' as MoodCode,
+    label: '따스한',
     isSelected: true,
   },
   render: FilterChipWithState,
@@ -111,7 +97,7 @@ export const Selected: Story = {
 
 export const Removable: Story = {
   args: {
-    label: '따스한' as MoodCode,
+    label: '따스한',
     isSelected: true,
   },
 };
