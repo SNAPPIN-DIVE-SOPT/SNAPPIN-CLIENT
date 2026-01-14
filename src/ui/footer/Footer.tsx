@@ -16,9 +16,10 @@ import {
 import { usePathname } from 'next/navigation';
 import { cn } from '@/utils/cn';
 import { SVGProps } from 'react';
+import { USER_TYPE, UserType } from '@/auth/constant/userType';
 
 type FooterProps = {
-  userRole: 'author' | 'user';
+  userRole: UserType;
 };
 
 //TODO: 메뉴 경로 수정
@@ -92,8 +93,8 @@ export default function Footer({ userRole }: FooterProps) {
   return (
     <>
       <div className='bg-black-1 footer-height' />
-      <footer className='border-black-6 fixed-center bg-black-1 footer-height bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
-        {userRole === 'user' &&
+      <footer className='border-black-6 fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
+        {userRole === USER_TYPE.CLIENT &&
           menuUserItems.map((item) => (
             <Link
               key={item.label}
@@ -109,7 +110,7 @@ export default function Footer({ userRole }: FooterProps) {
             </Link>
           ))}
 
-        {userRole === 'author' &&
+        {userRole === USER_TYPE.PHOTOGRAPHER &&
           menuAuthorItems.map((item) => (
             <Link
               key={item.label}

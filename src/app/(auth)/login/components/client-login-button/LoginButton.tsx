@@ -4,8 +4,16 @@ import { Button } from '@/ui';
 import { IconKakao } from '@/assets';
 
 export default function LoginButton() {
+  const clientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
+  const redirectUri = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL!;
+  const KAKAO_LOGIN_URL =
+    `https://kauth.kakao.com/oauth/authorize` +
+    `?response_type=code` +
+    `&client_id=${clientId}` +
+    `&redirect_uri=${encodeURIComponent(redirectUri)}`;
+
   const handleLogin = () => {
-    //TODO: 카카오 로그인 호출
+    window.location.href = KAKAO_LOGIN_URL;
   };
 
   return (

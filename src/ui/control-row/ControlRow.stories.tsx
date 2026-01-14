@@ -1,3 +1,4 @@
+import { USER_TYPE, UserType } from '@/auth/constant/userType';
 import { Stepper, UserTypeToggle } from '@/ui';
 import ControlRow from '@/ui/control-row/ControlRow';
 import { useState } from 'react';
@@ -43,10 +44,10 @@ function ControlRowExample() {
 }
 
 function ControlRowExample2() {
-  const [type, setType] = useState<'client' | 'author'>('client');
+  const [type, setType] = useState<UserType>(USER_TYPE.CLIENT);
 
   const handleToggle = () => {
-    setType((prev) => (prev === 'client' ? 'author' : 'client'));
+    setType((prev) => (prev === USER_TYPE.CLIENT ? USER_TYPE.PHOTOGRAPHER : USER_TYPE.CLIENT));
   };
 
   return (

@@ -38,7 +38,7 @@ const meta: Meta<typeof Navigation> = {
   },
   decorators: [
     (Story) => (
-      <div className='relative h-screen w-full max-w-180'>
+      <div className='bg-black-10 relative h-screen w-[45rem]'>
         <Story />
       </div>
     ),

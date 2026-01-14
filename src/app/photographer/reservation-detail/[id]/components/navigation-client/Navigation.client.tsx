@@ -20,6 +20,7 @@ export default function NavigationClient() {
       isFixed={true}
       left={<IconArrowBack onClick={handleBackClick} />}
       right={<IconHome onClick={handleHomeClick} />}
+      className='border-b-black-5 border-b-1'
     />
   );
 }
