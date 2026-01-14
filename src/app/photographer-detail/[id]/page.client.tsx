@@ -9,25 +9,22 @@ import { PHOTOGRAPHER_DETAIL_MOCK, PORTFOLIO_LIST_MOCK, PRODUCT_LIST_MOCK } from
 import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TAB_MAP } from './constants/tab';
 
 type PageClientProps = {
-  params: {
-    id: string;
-  }
+  photographerId: string;
 }
 
-export default function PageClient({ params }: PageClientProps) {
+export default function PageClient({ photographerId }: PageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
   const [selectedTab, setSelectedTab] = useState(tabParam ?? PHOTOGRAPHER_TAB.PORTFOLIO);
 
-  const { id } = params;
   const [cursor, setCursor] = useState<number | null>(null);
 
-  // TODO: 작가 상세 조회 API 연동 (request에 id, cursor 전달)
+  // TODO: 작가 상세 조회 API 연동 (request에 photographerId, cursor 전달)
   const photographerMock = PHOTOGRAPHER_DETAIL_MOCK;
-  // TODO: 포폴 목록 조회 API 연동 (request에 id, cursor 전달)
+  // TODO: 포폴 목록 조회 API 연동 (request에 photographerId, cursor 전달)
   const portfolioListMock = PORTFOLIO_LIST_MOCK;
-  // TODO: 상품 목록 조회 API 연동 (request에 id, cursor 전달)
+  // TODO: 상품 목록 조회 API 연동 (request에 photographerId, cursor 전달)
   const productListMock = PRODUCT_LIST_MOCK;
 
   const handleTabChange = (value: string) => {
