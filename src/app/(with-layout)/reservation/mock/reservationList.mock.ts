@@ -1,6 +1,6 @@
 import type { StateCode } from '@/types/stateCode';
 
-type ReservationMockResponse = {
+export type ReservationMockResponse = {
   reservations: Array<{
     reservation: {
       reservationId: number;
@@ -178,3 +178,5 @@ export const RESERVATION_MOCK = {
     },
   ],
 } satisfies ReservationMockResponse;
+
+export type ReservationListItemMock = ReservationMockResponse['reservations'][number];

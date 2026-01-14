@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react';
 
-import type { ReservationListItemMock } from '../mock';
+import type { ReservationListItemMock } from '../mock/reservationList.mock';
 import ReservationCard from '../components/reservation-card/ReservationCard';
 
 type ReservationCardProps = ComponentProps<typeof ReservationCard>;

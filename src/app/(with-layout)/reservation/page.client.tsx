@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ReservationListSection, ShootCompletedListSection } from './_section';
 import { ClientNavigation, EmptyView } from './components';
 import { RESERVATION_TAB, RESERVATION_TAB_MAP, type ReservationTab } from './constants/tabs';
-import { RESERVATION_MOCK } from './mock';
+import { RESERVATION_MOCK } from './mock/reservationList.mock';
 import { useToast } from '@/ui/toast/hooks/useToast';
 
 export default function PageClient() {
