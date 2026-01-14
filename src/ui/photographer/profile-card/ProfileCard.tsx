@@ -5,25 +5,14 @@ import { Button } from '@/ui';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-type ProfileCardInfoRowProps = {
-  label: string;
-  value: string;
-};
-
-const ProfileCardInfoRow = ({ label, value }: ProfileCardInfoRowProps) => (
-  <div className='flex items-center gap-[0.8rem]'>
-    <span className='caption-10-md text-black-7'>{label}</span>
-    <span className='caption-10-md text-black-10'>{value}</span>
-  </div>
-);
-
-type ProfileCardProps = {
+type ProfileCardProps = React.HTMLAttributes<HTMLDivElement> & {
   profileImageUrl: string;
   name: string;
-  isLoggedIn: boolean | null;
+  isLoggedIn: boolean;
   bio: string;
   specialties: string[];
   locations: string[];
+  icon?: React.ReactNode;
 };
 
 export default function ProfileCard({
@@ -33,6 +22,8 @@ export default function ProfileCard({
   bio,
   specialties,
   locations,
+  icon,
+  ...props
 }: ProfileCardProps) {
   const router = useRouter();
 
@@ -46,7 +37,7 @@ export default function ProfileCard({
   ];
 
   return (
-    <div className='bg-black-1 flex items-center gap-[1.2rem] p-[2rem]'>
+    <div className='bg-black-1 flex items-center gap-[1.2rem] p-[2rem]' {...props}>
       <Image
         src={
           isLoggedIn === true
@@ -60,9 +51,9 @@ export default function ProfileCard({
       />
 
       <div className='flex flex-1 items-center justify-between gap-[1.2rem]'>
-        {isLoggedIn === false ? (
+        {!isLoggedIn ? (
           <span className='caption-14-bd text-black-10'>로그인이 필요해요</span>
-        ) : isLoggedIn === true ? (
+        ) : (
           <div className='flex flex-col gap-[0.9rem]'>
             <div className='flex flex-col gap-[0.4rem]'>
               <span className='caption-14-bd text-black-10'>{name}</span>
@@ -74,14 +65,27 @@ export default function ProfileCard({
               ))}
             </div>
           </div>
-        ) : null}
+        )}
 
-        {isLoggedIn === false ? (
+        {!isLoggedIn && (
           <Button size='small' color='black' onClick={handleLoginClick}>
             로그인
           </Button>
-        ) : null}
+        )}
       </div>
+      {icon && icon}
     </div>
   );
 }
+
+type ProfileCardInfoRowProps = {
+  label: string;
+  value: string;
+};
+
+const ProfileCardInfoRow = ({ label, value }: ProfileCardInfoRowProps) => (
+  <div className='flex items-center gap-[0.8rem]'>
+    <span className='caption-10-md text-black-7'>{label}</span>
+    <span className='caption-10-md text-black-10'>{value}</span>
+  </div>
+);

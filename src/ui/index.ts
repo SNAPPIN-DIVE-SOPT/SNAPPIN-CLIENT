@@ -11,6 +11,7 @@ export * from './image-preview/index';
 export * from './input/index';
 export * from './modal/index';
 export * from './navigation/index';
+export * from './photographer/index';
 export * from './product-card/index';
 export * from './section-tabs/index';
 export * from './stepper/index';

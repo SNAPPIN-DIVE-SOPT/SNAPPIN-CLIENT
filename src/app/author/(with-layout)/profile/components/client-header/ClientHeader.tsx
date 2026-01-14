@@ -4,7 +4,7 @@ import { IconButton, Navigation } from '@/ui';
 import { useRouter } from 'next/navigation';
 import { IconSearch, Logo } from '@/assets';
 
-export default function Header() {
+export default function ClientHeader() {
   const router = useRouter();
 
   const handleClickLogo = () => {

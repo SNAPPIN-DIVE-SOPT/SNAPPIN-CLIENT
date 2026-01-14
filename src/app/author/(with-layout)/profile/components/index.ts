@@ -1,3 +1,4 @@
-export { default as CategoryButton } from './category-button/CategoryButton';
-export { default as ProfileCard } from './profile-card/ProfileCard';
-export { default as Header } from './header/Header';
+export { default as Menus } from './menus/Menus';
+export { default as ClientProfileCard } from './client-profile-card/ClientProfileCard';
+export { default as ClientHeader } from './client-header/ClientHeader';
+export { default as SwitchProfile } from './switch-profile/SwitchProfile';
