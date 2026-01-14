@@ -1,10 +1,19 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { CreateKakaoLoginData } from '@/swagger-api/data-contracts';
-import { useMutation } from '@tanstack/react-query';
+import { USER_TYPES } from '@/auth/constant/userType';
+import { setUserType } from '@/auth/userType';
+import { setAccessToken } from '@/auth/token';
+import { useToast } from '@/ui/toast/hooks/useToast';
 
 type KakaoCodePayload = { code: string };
 
 export const useKakaoLoginMutation = () => {
+  const router = useRouter();
+  const toast = useToast();
   const CLIENT_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL;
   const URL =
     `${SERVER_API_BASE_URL}/api/v1/auth/login/kakao` +
@@ -14,10 +23,8 @@ export const useKakaoLoginMutation = () => {
     mutationFn: async ({ code }) => {
       const res = await fetch(URL, {
         method: 'POST',
-        body: JSON.stringify({ code: code }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
       });
 
       if (!res.ok) {
@@ -26,6 +33,21 @@ export const useKakaoLoginMutation = () => {
       }
 
       return res.json();
+    },
+
+    onSuccess: (data) => {
+      setAccessToken(data.data?.accessToken ?? '');
+      setUserType(USER_TYPES[0]);
+      router.replace('/');
+    },
+
+    onError: () => {
+      router.replace('/login?error=kakao');
+      toast.error(
+        '카카오 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
+        undefined,
+        'top-[2rem]',
+      );
     },
   });
 };
