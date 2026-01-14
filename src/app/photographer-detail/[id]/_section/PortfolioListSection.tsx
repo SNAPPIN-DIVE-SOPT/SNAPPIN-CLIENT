@@ -6,11 +6,9 @@ type PortfolioListSectionProps = {
 }
 
 export default function PortfolioListSection({ portfolios }: PortfolioListSectionProps) {
-  const isPortfolioEmpty = portfolios.length === 0;
-
   return (
     <section>
-      {isPortfolioEmpty
+      {portfolios.length === 0
         ?
           <div className='flex justify-center items-center min-h-[calc(100vh-29.9rem)]'>
             <span className='caption-14-rg text-black-6 text-center'>
