@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Command, CommandList, CommandEmpty, CommandGroup, CommandItem } from './base/command';
 import { cn } from '@/utils/cn';
-import Input from '../input/base/Input';
+import { Input } from '@/ui';
 
 type ComboBoxProps = {
   options: string[];
@@ -28,7 +28,7 @@ export default function ComboBox({
 
   const isControlled = value !== undefined;
 
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [uncontrolledQuery, setUncontrolledQuery] = useState('');
 
   const query = isControlled ? value : uncontrolledQuery;
@@ -43,7 +43,7 @@ export default function ComboBox({
     const onDown = (e: MouseEvent | TouchEvent) => {
       const el = rootRef.current;
       if (!el) return;
-      if (!el.contains(e.target as Node)) setOpen(false);
+      if (!el.contains(e.target as Node)) setIsOpen(false);
     };
     document.addEventListener('mousedown', onDown);
     document.addEventListener('touchstart', onDown);
@@ -53,9 +53,9 @@ export default function ComboBox({
     };
   }, []);
 
-  const handleSelect = (v: string) => {
+  const handleOptionSelect = (v: string) => {
     setQuery(v);
-    setOpen(false);
+    setIsOpen(false);
   };
 
   return (
@@ -65,13 +65,13 @@ export default function ComboBox({
           placeholder={placeholder}
           onChange={(e) => {
             setQuery(e.target.value);
-            setOpen(true);
+            setIsOpen(true);
           }}
           value={query}
           className={cn('h-[4.2rem] w-full', inputClassName)}
         />
 
-        {open && (
+        {isOpen && (
           <div className='absolute top-[calc(4.2rem+0.5rem)] left-0 w-full'>
             <CommandList
               className={cn(
@@ -88,7 +88,7 @@ export default function ComboBox({
                   <CommandItem
                     key={option}
                     value={option}
-                    onSelect={() => handleSelect(option)}
+                    onSelect={() => handleOptionSelect(option)}
                     className={cn(
                       'caption-12-md hover:bg-black-3 rounded-[0.4rem] p-[1rem] hover:cursor-pointer',
                       optionClassName,
