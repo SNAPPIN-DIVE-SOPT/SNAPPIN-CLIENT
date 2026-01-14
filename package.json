@@ -28,6 +28,7 @@
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",
+    "overlay-kit": "^1.8.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "swagger-typescript-api": "^13.2.16",

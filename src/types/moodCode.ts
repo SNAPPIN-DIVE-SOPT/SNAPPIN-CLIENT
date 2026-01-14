@@ -1,2 +1,31 @@
-export const MOOD_CODE = ['따스한', '청량한', '투명한', '몽환적인', '뚜렷한', '차가운', '디지털', '아날로그', 'Y2K', '내추럴', '연출된', '서사적인'] as const;
-export type MoodCode = typeof MOOD_CODE[number];
+export const MOOD_CODE = [
+  '따스한',
+  '청량한',
+  '투명한',
+  '몽환적인',
+  '뚜렷한',
+  '차가운',
+  '디지털',
+  '아날로그',
+  'Y2K',
+  '내추럴',
+  '연출된',
+  '서사적인',
+] as const;
+export type MoodCode = (typeof MOOD_CODE)[number];
+
+export const MOOD_CATEGORY_MAP = {
+  COMPOSITION: '장면구성',
+  ATMOSPHERE: '분위기',
+  STYLE: '스타일',
+} as const;
+
+export type MoodCategory = keyof typeof MOOD_CATEGORY_MAP;
+export type MoodCategoryLabel = (typeof MOOD_CATEGORY_MAP)[MoodCategory];
+
+export type Mood = {
+  id: number;
+  name: string;
+  category: MoodCategory;
+  isCurated: boolean;
+};
