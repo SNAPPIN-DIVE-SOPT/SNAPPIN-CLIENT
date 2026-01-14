@@ -18,12 +18,12 @@ const meta: Meta<typeof UserTypeToggle> = {
   argTypes: {
     selectedType: {
       control: { type: 'select' },
-      options: ['client', 'author'] satisfies UserType[],
+      options: ['CLIENT', 'PHOTOGRAPHER'] satisfies UserType[],
       description: '사용자 유형',
     },
   },
   args: {
-    selectedType: 'client',
+    selectedType: 'CLIENT',
   },
 };
 
@@ -33,21 +33,22 @@ type Story = StoryObj<typeof meta>;
 const UserTypeToggleWithState = (args: UserTypeToggleProps) => {
   const [selectedType, setSelectedType] = useState<UserType>(args.selectedType);
 
-  const handleClick = () => setSelectedType((prev) => (prev === 'client' ? 'author' : 'client'));
+  const handleClick = () =>
+    setSelectedType((prev) => (prev === 'CLIENT' ? 'PHOTOGRAPHER' : 'CLIENT'));
 
   return <UserTypeToggle {...args} selectedType={selectedType} onClick={handleClick} />;
 };
 
 export const Client: Story = {
   args: {
-    selectedType: 'client',
+    selectedType: 'CLIENT',
   },
   render: UserTypeToggleWithState,
 };
 
 export const Author: Story = {
   args: {
-    selectedType: 'author',
+    selectedType: 'PHOTOGRAPHER',
   },
   render: UserTypeToggleWithState,
 };
