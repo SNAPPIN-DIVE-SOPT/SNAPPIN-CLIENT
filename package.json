@@ -16,6 +16,7 @@
     "barrels:ui": "tsx scripts/generate-ui-root-index.ts"
   },
   "dependencies": {
+    "@hookform/resolvers": "5.2.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@tanstack/react-query": "^5.90.14",
     "class-variance-authority": "^0.7.1",
@@ -28,8 +29,10 @@
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-hook-form": "7.62.0",
     "tailwind-merge": "^3.3.1",
-    "vaul": "^1.1.2"
+    "vaul": "^1.1.2",
+    "zod": "4.1.8"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.3",
