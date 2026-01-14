@@ -35,11 +35,11 @@ export default function ProfileCard({ profileImageUrl, name, isLoggedIn }: Profi
         <span className='caption-14-bd text-black-10'>
           {isLoggedIn === true ? name : '로그인이 필요해요'}
         </span>
-        {isLoggedIn === false && (
+        {isLoggedIn === false ? (
           <Button size='small' color='black' onClick={handleLoginClick}>
             로그인
           </Button>
-        )}
+        ) : null}
       </div>
     </div>
   );
