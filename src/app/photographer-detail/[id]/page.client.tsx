@@ -6,6 +6,7 @@ import { SectionTabs } from '@/ui';
 import { PhotographerSection, PortfolioListSection, ProductListSection } from './_section/index';
 import { Header, Footer } from './components/index';
 import { PHOTOGRAPHER_DETAIL_MOCK, PORTFOLIO_LIST_MOCK, PRODUCT_LIST_MOCK } from './mock/index';
+import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TAB_MAP } from './constants/tab';
 
 type PageClientProps = {
   params: {
@@ -17,7 +18,7 @@ export default function PageClient({ params }: PageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
-  const [selectedTab, setSelectedTab] = useState(tabParam ?? 'portfolio');
+  const [selectedTab, setSelectedTab] = useState(tabParam ?? PHOTOGRAPHER_TAB.PORTFOLIO);
 
   const { id } = params;
   const [cursor, setCursor] = useState<number | null>(null);
@@ -49,19 +50,23 @@ export default function PageClient({ params }: PageClientProps) {
       >
         {/* 탭 영역 */}
         <SectionTabs.List className='sticky top-[17.8rem] z-10 bg-black-1'>
-          <SectionTabs.Tab value='portfolio'>포트폴리오</SectionTabs.Tab>
-          <SectionTabs.Tab value='product'>상품</SectionTabs.Tab>
+          <SectionTabs.Tab value={PHOTOGRAPHER_TAB.PORTFOLIO}>
+            {PHOTOGRAPHER_TAB_MAP[PHOTOGRAPHER_TAB.PORTFOLIO]}
+          </SectionTabs.Tab>
+          <SectionTabs.Tab value={PHOTOGRAPHER_TAB.PRODUCT}>
+            {PHOTOGRAPHER_TAB_MAP[PHOTOGRAPHER_TAB.PRODUCT]}
+          </SectionTabs.Tab>
         </SectionTabs.List>
         {/* 포트폴리오 목록 */}
         <SectionTabs.Contents
-          value='portfolio'
+          value={PHOTOGRAPHER_TAB.PORTFOLIO}
           className='p-[1rem] mb-[8rem] bg-black-1'
         >
           <PortfolioListSection portfolios={portfolioListMock.portfolios} />
         </SectionTabs.Contents>
         {/* 상품 목록 */}
         <SectionTabs.Contents
-          value='product'
+          value={PHOTOGRAPHER_TAB.PRODUCT}
           className='mb-[8rem]'
         >
           <ProductListSection products={productListMock.products} />
