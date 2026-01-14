@@ -23,6 +23,7 @@ export default function Header() {
           <IconSearch className='h-[2.4rem] w-[2.4rem]' />
         </IconButton>
       }
+      isFixed
     />
   );
 }
