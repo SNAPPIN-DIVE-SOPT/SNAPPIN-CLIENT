@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import UserTypeToggle, { UserTypeToggleProps } from './UserTypeToggle';
-import { UserType } from '@/auth/constant/userType';
+import { UserType, USER_TYPE, USER_TYPES } from '@/auth/constant/userType';
 
 const meta: Meta<typeof UserTypeToggle> = {
   title: 'UI/UserTypeToggle',
@@ -18,12 +18,12 @@ const meta: Meta<typeof UserTypeToggle> = {
   argTypes: {
     selectedType: {
       control: { type: 'select' },
-      options: ['CLIENT', 'PHOTOGRAPHER'] satisfies UserType[],
+      options: USER_TYPES satisfies UserType[],
       description: '사용자 유형',
     },
   },
   args: {
-    selectedType: 'CLIENT',
+    selectedType: USER_TYPE.CLIENT,
   },
 };
 
@@ -34,21 +34,23 @@ const UserTypeToggleWithState = (args: UserTypeToggleProps) => {
   const [selectedType, setSelectedType] = useState<UserType>(args.selectedType);
 
   const handleClick = () =>
-    setSelectedType((prev) => (prev === 'CLIENT' ? 'PHOTOGRAPHER' : 'CLIENT'));
+    setSelectedType((prev) =>
+      prev === USER_TYPE.CLIENT ? USER_TYPE.PHOTOGRAPHER : USER_TYPE.CLIENT,
+    );
 
   return <UserTypeToggle {...args} selectedType={selectedType} onClick={handleClick} />;
 };
 
 export const Client: Story = {
   args: {
-    selectedType: 'CLIENT',
+    selectedType: USER_TYPE.CLIENT,
   },
   render: UserTypeToggleWithState,
 };
 
 export const Author: Story = {
   args: {
-    selectedType: 'PHOTOGRAPHER',
+    selectedType: USER_TYPE.PHOTOGRAPHER,
   },
   render: UserTypeToggleWithState,
 };
