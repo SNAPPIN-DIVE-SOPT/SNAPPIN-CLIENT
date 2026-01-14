@@ -13,34 +13,30 @@ type ReservationCardProps = {
   date: string;
   href: string;
   isReviewed: boolean;
-  reviewHref: string;
+  reviewHref?: string;
+  handleReviewClick?: () => void;
 } & ProductCardProps;
 
 export default function ReservationCard({
-  image,
-  name,
-  rate,
-  reviewCount,
-  photographer,
-  price,
-  moods,
-  className,
   status,
   date,
   href,
   isReviewed = false,
   reviewHref,
+  ...productCardProps
 }: ReservationCardProps) {
   const hasReviewWriteButton = status === STATE_CODES.SHOOT_COMPLETED && !isReviewed;
   const router = useRouter();
+
+  const handleReviewClick = () => {
+    reviewHref && router.push(reviewHref);
+  };
 
   return (
     <div className='border-black-5 rounded-[0.6rem] border-[0.07rem] p-[1.2rem]'>
       <Link href={href}>
         <div className='flex flex-col gap-[0.6rem]'>
-          <div className='caption-10-md text-black-7'>
-            <span>{date}</span>
-          </div>
+          <span className='caption-10-md text-black-7'>{date}</span>
           <div className='mb-[1.2rem] flex justify-between'>
             <StateChip label={status} />
             <div className='flex items-center'>
@@ -49,30 +45,22 @@ export default function ReservationCard({
             </div>
           </div>
         </div>
-        <ProductCard
-          image={image}
-          name={name}
-          rate={rate}
-          reviewCount={reviewCount}
-          photographer={photographer}
-          price={price}
-          moods={moods}
-          className={className}
-        />
+        <ProductCard {...productCardProps} />
       </Link>
-      {hasReviewWriteButton ? (
+
+      {hasReviewWriteButton && (
         <div className='mt-[1.2rem] flex justify-end'>
           <Button
             size='small'
             color='black'
             display='inline'
             type='button'
-            onClick={() => router.push(reviewHref)}
+            onClick={handleReviewClick}
           >
             리뷰 작성
           </Button>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

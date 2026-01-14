@@ -1,5 +1,3 @@
-'use client';
-
 type DetailRowProps = {
   label: string;
   value: string;

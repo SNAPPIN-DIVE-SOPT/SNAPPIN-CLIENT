@@ -1,3 +1,27 @@
+import type { StateCode } from '@/types/stateCode';
+
+type ReservationMockResponse = {
+  reservations: Array<{
+    reservation: {
+      reservationId: number;
+      status: StateCode;
+      client: string;
+      createdAt: string;
+      product: {
+        id: number;
+        imageUrl: string;
+        title: string;
+        rate: number;
+        reviewCount: number;
+        photographer: string;
+        price: number;
+        moods: string[];
+        isReviewed: boolean;
+      };
+    };
+  }>;
+};
+
 export const RESERVATION_MOCK = {
   reservations: [
     {
@@ -153,4 +177,4 @@ export const RESERVATION_MOCK = {
       },
     },
   ],
-};
+} satisfies ReservationMockResponse;

@@ -1,5 +1,3 @@
-'use client';
-
 import { Divider } from '@/ui';
 import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
 

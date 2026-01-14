@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useState } from 'react';
+import { useState } from 'react';
 
 import { ClientNavigation } from './components';
 import { PaymentDetail, ReservationDetail, ReservationRequested } from './_section';
@@ -10,14 +10,11 @@ import { RESERVATION_DETAIL_MOCK } from './mock/reservationDetail.mock';
 import { useToast } from '@/ui/toast/hooks/useToast';
 
 type ReservationDetailPageClientProps = {
-  params: Promise<{
-    id: string;
-  }>;
+  reservationId: string;
 };
 
-export default function PageClient({ params }: ReservationDetailPageClientProps) {
-  const { id } = use(params);
-  const reservationId = Number(id);
+export default function PageClient({ reservationId }: ReservationDetailPageClientProps) {
+  const reservationNumericId = Number(reservationId);
   const { alert } = useToast();
 
   // TODO: 예약 상세 조회 API 연동 (request에 id 전달)
@@ -128,7 +125,7 @@ export default function PageClient({ params }: ReservationDetailPageClientProps)
     <div className='bg-black-3 flex min-h-full flex-col'>
       <ClientNavigation title='예약 상세' />
       <ReservationRequested
-        reservationId={reservationId}
+        reservationId={reservationNumericId}
         reservationStatus={reservationStatus}
         productInfo={{
           ...data.productInfo,

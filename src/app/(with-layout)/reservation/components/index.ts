@@ -1,3 +1,3 @@
-export { default as ClientNavigation } from './ClientNavigation';
-export { default as ReservationCard } from './ReservationCard';
-export { default as EmptyView } from './EmptyView';
+export { default as ClientNavigation } from './client-navigation/ClientNavigation';
+export { default as ReservationCard } from './reservation-card/ReservationCard';
+export { default as EmptyView } from './empty-view/EmptyView';

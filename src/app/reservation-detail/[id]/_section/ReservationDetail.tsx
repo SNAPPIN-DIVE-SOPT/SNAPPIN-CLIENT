@@ -1,5 +1,3 @@
-'use client';
-
 import { DetailRow } from '../components';
 import { StateChip } from '@/ui';
 import type { StateCode } from '@/types/stateCode';

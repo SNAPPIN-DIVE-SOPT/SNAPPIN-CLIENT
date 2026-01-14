@@ -1,11 +1,10 @@
 import PageClient from './page.client';
 
 type ReservationDetailPageProps = {
-  params: Promise<{
-    id: string;
-  }>;
+  params: Promise<{ id: string }>;
 };
 
-export default function Page({ params }: ReservationDetailPageProps) {
-  return <PageClient params={params} />;
+export default async function Page({ params }: ReservationDetailPageProps) {
+  const { id } = await params;
+  return <PageClient reservationId={id} />;
 }
