@@ -43,7 +43,7 @@ export default function ReservationCard({
                 <span className='font-16-md'>님</span>
               </div>
             </div>
-            <IconButton className='text-black-8 flex items-center bg-white'>
+            <IconButton className='caption-12-md text-black-7 flex items-center bg-white'>
               예약상세
               <IconKeyboardArrowRight />
             </IconButton>

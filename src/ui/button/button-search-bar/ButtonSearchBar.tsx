@@ -39,7 +39,7 @@ export default function ButtonSearchBar({
         </span>
         {supportingText ? (
           <span
-            className={cn('caption-12-md text-black-7', supportingTextClassName)}
+            className={cn('caption-12-md text-black-5', supportingTextClassName)}
             data-slot='supporting'
           >
             {supportingText}
