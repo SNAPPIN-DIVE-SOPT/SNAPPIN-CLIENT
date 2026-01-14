@@ -34,7 +34,7 @@ export default function PhotographerSection({
         <div className='flex flex-col flex-1 gap-[0.9rem]'>
           <div className='flex flex-col gap-[0.2rem]'>
             <h2 className='font-16-bd text-black-10'>{name}</h2>
-            <span className='caption-14-rg text-black-8'>{bio}</span>
+            <p className='caption-14-rg text-black-8'>{bio}</p>
           </div>
           <div className='flex flex-col gap-[0.4rem]'>
             <DetailRow label='촬영 상품' content={specialties} />
