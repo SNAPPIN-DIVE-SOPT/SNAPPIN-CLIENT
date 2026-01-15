@@ -50,13 +50,13 @@ const menuUserItems: {
     label: 'Explore',
   },
   {
-    href: '/',
+    href: '/reservation',
     activeIcon: IconReservationFill,
     inactiveIcon: IconReservation,
     label: 'Reservations',
   },
   {
-    href: '/',
+    href: '/profile',
     activeIcon: IconProfileFill,
     inactiveIcon: IconProfile,
     label: 'Profile',
