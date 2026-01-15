@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-
 import { ClientNavigation } from './components';
 import { PaymentDetail, ReservationDetail, ReservationRequested } from './_section';
-import { BottomCTAButton, ConfirmModal, Divider } from '@/ui';
+import { BottomCTAButton, Divider } from '@/ui';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
 import { RESERVATION_DETAIL_MOCK } from './mock/reservationDetail.mock';
+import CancelModal from './@modal/(.)cancel-modal/CancelModal';
 import { useToast } from '@/ui/toast/hooks/useToast';
 
 type ReservationDetailPageClientProps = {
@@ -15,13 +15,14 @@ type ReservationDetailPageClientProps = {
 
 export default function PageClient({ reservationId }: ReservationDetailPageClientProps) {
   const reservationNumericId = Number(reservationId);
+  const [cancelOpen, setCancelOpen] = useState(false);
+
   const toast = useToast();
 
   // TODO: 예약 상세 조회 API 연동 (request에 id 전달)
   const data = RESERVATION_DETAIL_MOCK;
 
   const [reservationStatus, setReservationStatus] = useState<StateCode>(data.status as StateCode);
-  const [isReservationCancelModalOpen, setIsReservationCancelModalOpen] = useState(false);
 
   // 취소하기 및 문의하기 버튼 노출 조건
   const hasTopActionButtons =
@@ -31,12 +32,12 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   const hasPaymentDetailSection = !hasTopActionButtons;
 
   const handleReservationCancelClick = () => {
-    setIsReservationCancelModalOpen(true);
+    setCancelOpen(true);
   };
 
   const handleReservationCancel = () => {
     setReservationStatus(STATE_CODES.RESERVATION_CANCELED);
-    setIsReservationCancelModalOpen(false);
+    setCancelOpen(false);
   };
 
   const handlePaymentConfirmClick = () => {
@@ -112,52 +113,37 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   };
 
   return (
-    <div className='bg-black-1 flex flex-col'>
-      <ClientNavigation title='예약 상세' />
-      <ReservationRequested
-        reservationId={reservationNumericId}
-        reservationStatus={reservationStatus}
-        productInfo={{
-          ...data.productInfo,
-          moods: data.productInfo.moods,
-        }}
-        handleReservationCancelClick={handleReservationCancelClick}
-        handleInquiryClick={handleInquiryClick}
+    <>
+      <div className='bg-black-1 flex flex-col'>
+        <ClientNavigation title='예약 상세' />
+        <ReservationRequested
+          reservationId={reservationNumericId}
+          reservationStatus={reservationStatus}
+          productInfo={{
+            ...data.productInfo,
+            moods: data.productInfo.moods,
+          }}
+          handleReservationCancelClick={handleReservationCancelClick}
+          handleInquiryClick={handleInquiryClick}
+        />
+        <Divider thickness='large' className='h-[0.6rem]' />
+        <ReservationDetail
+          reservationStatus={reservationStatus}
+          reservationInfo={data.reservationInfo}
+        />
+        {hasPaymentDetailSection && (
+          <>
+            <Divider thickness='large' className='h-[0.6rem]' />
+            <PaymentDetail paymentInfo={data.paymentInfo} />
+          </>
+        )}
+        {bottomCtaButton && <div className='mt-[5.5rem]'>{bottomCtaButton}</div>}
+      </div>
+      <CancelModal
+        open={cancelOpen}
+        handleOpenChange={setCancelOpen}
+        handleReservationCancel={handleReservationCancel}
       />
-      <Divider thickness='large' className='h-[0.6rem]' />
-      <ReservationDetail
-        reservationStatus={reservationStatus}
-        reservationInfo={data.reservationInfo}
-      />
-      {hasPaymentDetailSection && (
-        <>
-          <Divider thickness='large' className='h-[0.6rem]' />
-          <PaymentDetail paymentInfo={data.paymentInfo} />
-        </>
-      )}
-      {bottomCtaButton && <div className='mt-[5.5rem]'>{bottomCtaButton}</div>}
-
-      <ConfirmModal
-        open={isReservationCancelModalOpen}
-        handleOpenChange={setIsReservationCancelModalOpen}
-        showCloseButton={false}
-        title={'예약하신 스냅 일정을\n취소할까요?'}
-        buttons={[
-          {
-            label: '아니요',
-            size: 'medium',
-            color: 'disabled',
-            type: 'button',
-          },
-          {
-            label: '네, 취소할게요',
-            size: 'medium',
-            color: 'black',
-            type: 'button',
-            onClick: handleReservationCancel,
-          },
-        ]}
-      />
-    </div>
+    </>
   );
 }
