@@ -29,8 +29,8 @@ export default function ImageSlide({ images }: ImageSlideProps) {
       </CarouselContent>
       {images.length > 1 && (
         <>
-          <CarouselPrevious className='top-1/2 left-[1.2rem] flex h-[4.4rem] w-[4.4rem] -translate-y-1/2 items-center justify-center rounded-none' />
-          <CarouselNext className='top-1/2 right-[1.2rem] flex h-[4.4rem] w-[4.4rem] -translate-y-1/2 items-center justify-center rounded-none' />
+          <CarouselPrevious className='top-1/2 left-0 flex h-[4.4rem] w-[4.4rem] -translate-y-1/2 items-center justify-center rounded-none' />
+          <CarouselNext className='top-1/2 right-0 flex h-[4.4rem] w-[4.4rem] -translate-y-1/2 items-center justify-center rounded-none' />
         </>
       )}
     </Carousel>
