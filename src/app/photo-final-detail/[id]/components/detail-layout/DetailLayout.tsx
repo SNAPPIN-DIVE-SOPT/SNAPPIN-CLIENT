@@ -27,7 +27,7 @@ const DetailLayout = ({ title, subtitle, children, className }: DetailLayoutProp
 
       <div
         className={cn(
-          'border-black-5 flex flex-col gap-[2rem] rounded-[0.6rem] border-[0.7px] px-[1.7rem] py-[1.3rem]',
+          'border-black-5 flex flex-col gap-[2rem] rounded-[0.6rem] border-[0.07rem] px-[1.7rem] py-[1.3rem]',
           className,
         )}
       >

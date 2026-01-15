@@ -1,7 +1,7 @@
 import { ProductStatus, Receipt, ReservationDetail, ReviewDetail } from './_section';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import { StateCode } from '@/types/stateCode';
-import { BottomCTAButton, Divider } from '@/ui';
+import { Divider } from '@/ui';
 import { RESERVATION_DETAIL_MOCK } from './mock/reservationDetail.mock';
 
 export default function Page() {

@@ -51,26 +51,38 @@ export default function ProductStatus({
           moods={moods}
         />
       </div>
-      <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
-        <Button
-          size='small'
-          color='white'
-          className='text-black-10 border-black-10 w-full border-[1px]'
-          onClick={handleSendMessage}
-        >
-          문의하기
-        </Button>
-        {!hasReview && (
+
+      {!hasReview ? (
+        <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
+          <Button
+            size='small'
+            color='transparent'
+            className='text-black-10 w-full'
+            onClick={handleSendMessage}
+          >
+            문의하기
+          </Button>
           <Button
             size='small'
             color='black'
-            className='border-black-1 w-full border-[1px]'
+            className='border-black-10 w-full border'
             onClick={handleWriteReview}
           >
             리뷰 작성
           </Button>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
+          <Button
+            size='small'
+            color='black'
+            className='text-black-1 border-black-10 w-full border'
+            onClick={handleSendMessage}
+          >
+            문의하기
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
