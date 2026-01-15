@@ -1,12 +1,13 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite';
 import Footer from '@/ui/footer/Footer';
+import { USER_TYPE } from '@/auth/constant/userType';
 
 const meta: Meta<typeof Footer> = {
   title: 'UI/Footer',
   component: Footer,
   tags: ['autodocs'],
   args: {
-    userRole: 'user',
+    userRole: USER_TYPE.CLIENT,
   },
   parameters: {
     docs: {
@@ -36,7 +37,7 @@ type StoryFooter = StoryObj<typeof Footer>;
 
 export const Default: StoryFooter = {
   args: {
-    userRole: 'user',
+    userRole: USER_TYPE.CLIENT,
   },
   parameters: {
     nextjs: {
@@ -49,7 +50,7 @@ export const Default: StoryFooter = {
 
 export const AuthorDefault: StoryFooter = {
   args: {
-    userRole: 'author',
+    userRole: USER_TYPE.PHOTOGRAPHER,
   },
   parameters: {
     nextjs: {

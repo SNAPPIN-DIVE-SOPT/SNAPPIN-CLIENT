@@ -41,7 +41,7 @@ export const formatReservationDateTime = (date: string, startTime: string): stri
 /**
  * 생성 날짜와 시간을 표시용 문자열로 포맷팅하는 함수
  * @param date YYYY-MM-DD HH:mm 또는 YYYY-MM-DD HH:mm:ss 형식의 날짜 문자열
- * @returns 포맷팅된 날짜/시간 문자열 (ex. "26년 01월 01일 23시 23분")
+ * @returns 포맷팅된 날짜/시간 문자열 (ex. "26년 01월 01일 23:23")
  */
 export const formatCreatedAt = (date: string) => {
   const [dateStr, timeStr] = date.split(' ');
@@ -54,5 +54,5 @@ export const formatCreatedAt = (date: string) => {
   // Extract last 2 digits of year
   const yearShort = year.slice(-2);
 
-  return `${yearShort}년 ${Number(month)}월 ${Number(day)}일 ${Number(hour)}시 ${Number(minute)}분`;
+  return `${yearShort}년 ${month.padStart(2, '0')}월 ${day.padStart(2, '0')}일 ${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
 };

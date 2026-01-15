@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import MoodChip from '../mood-chip/MoodChip';
-import { IconUnion1, IconUnion2, IconUnion3 } from '@/assets';
 import { BottomCTAButton } from '@/ui';
 import {
   INTRO_TEXT,
@@ -17,6 +16,7 @@ import {
   Phase,
 } from './phaseAnimation';
 import { MOOD_RESULT_MOCK } from '../../mock/result.mock';
+import { MoodCode } from '@/types/moodCode';
 
 type MoodAnimationResultProps = { data: typeof MOOD_RESULT_MOCK };
 
@@ -101,7 +101,7 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
           variants={CHIPS_CONTAINER}
           initial='hidden'
           animate='show'
-          className='mt-[1.6rem] flex flex-col items-center gap-[0.9rem]'
+          className='mt-[8rem] flex flex-col items-center gap-[0.9rem]'
           onAnimationComplete={() => {
             if (phase === 'chips') {
               setTimeout(() => {
@@ -111,15 +111,15 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
           }}
         >
           <motion.div variants={CHIP_VARIANTS} custom={CHIP_POSES[0]}>
-            <MoodChip iconLayout='left' icon={<IconUnion1 />} mood={data.moods[0]} />
+            <MoodChip mood={data.moods[0] as MoodCode} />
           </motion.div>
 
           <motion.div variants={CHIP_VARIANTS} custom={CHIP_POSES[1]}>
-            <MoodChip iconLayout='right' icon={<IconUnion2 />} mood={data.moods[1]} />
+            <MoodChip mood={data.moods[1] as MoodCode} />
           </motion.div>
 
           <motion.div variants={CHIP_VARIANTS} custom={CHIP_POSES[2]}>
-            <MoodChip iconLayout='left' icon={<IconUnion3 />} mood={data.moods[2]} />
+            <MoodChip mood={data.moods[2] as MoodCode} />
           </motion.div>
         </motion.div>
       )}

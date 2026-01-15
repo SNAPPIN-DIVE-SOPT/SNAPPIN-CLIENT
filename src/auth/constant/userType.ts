@@ -1,7 +1,11 @@
-export const USER_TYPES = ['client', 'author'] as const;
+export const USER_TYPE = {
+  CLIENT: 'CLIENT',
+  PHOTOGRAPHER: 'PHOTOGRAPHER',
+} as const;
+
 export const USER_TYPE_LABEL: Record<UserType, string> = {
-  client: '고객',
-  author: '작가',
+  [USER_TYPE.CLIENT]: '고객',
+  [USER_TYPE.PHOTOGRAPHER]: '작가',
 };
 
-export type UserType = (typeof USER_TYPES)[number];
+export type UserType = (typeof USER_TYPE)[keyof typeof USER_TYPE];

@@ -76,7 +76,6 @@ export default function FadeCarousel({ images }: FadeCarouselProps) {
               className='border-black-1 w-full rounded-[6rem] border bg-white/15 backdrop-blur-[7.5px]'
               iconClassName='text-black-1'
               headlineClassName='text-black-1'
-              supportingTextClassName='text-black-1'
             />
           </Link>
         </div>
