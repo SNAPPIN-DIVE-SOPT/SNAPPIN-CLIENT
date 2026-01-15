@@ -1,17 +1,35 @@
+'use client';
+
+import { useEffect } from 'react';
 import { Divider } from '@/ui';
 import { EmptyView, ReservationCard } from '../components';
-import type { ReservationListItemMock } from '../mock/reservationList.mock';
+import { RESERVATION_MOCK } from '../mock/reservationList.mock';
+import { useToast } from '@/ui/toast/hooks/useToast';
+import { StateCode } from '@/types/stateCode';
 
-type ReservationListSectionProps = {
-  reservations: ReservationListItemMock[];
-};
+export default function ReservationListSection() {
+  const data = RESERVATION_MOCK.reservations;
+  const toast = useToast();
 
-export default function ReservationListSection({ reservations }: ReservationListSectionProps) {
-  const data = reservations;
+  const isReservationListEmpty = data.length === 0;
 
-  return data.length === 0 ? (
-    <EmptyView title='예약 문의한 상품이 없어요' description='원하는 상품을 예약해보세요.' />
-  ) : (
+  const isLoggedIn = false;
+
+  useEffect(() => {
+    if (isLoggedIn) return;
+    toast.login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
+  }, [isLoggedIn, toast]);
+
+  if (isReservationListEmpty || !isLoggedIn) {
+    return (
+      <EmptyView
+        title='예약 문의한 상품이 없어요'
+        description='&#39;탐색&#39;에서 다양한 상품을 확인해 보세요'
+      />
+    );
+  }
+
+  return (
     <section className='flex flex-col gap-[1.2rem] p-[1.2rem]'>
       {data.map(({ reservation }, reservationIndex) => (
         <div key={reservation.reservationId}>
@@ -23,7 +41,7 @@ export default function ReservationListSection({ reservations }: ReservationList
             photographer={reservation.product.photographer}
             price={reservation.product.price}
             moods={reservation.product.moods}
-            status={reservation.status}
+            status={reservation.status as StateCode}
             date={reservation.createdAt}
             href={`/reservation-detail/${reservation.reservationId}`}
             isReviewed={reservation.product.isReviewed}

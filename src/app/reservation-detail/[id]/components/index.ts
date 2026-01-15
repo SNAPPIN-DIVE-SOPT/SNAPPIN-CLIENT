@@ -1,2 +1,2 @@
-export { default as ClientNavigation } from './ClientNavigation';
-export { default as DetailRow } from './DetailRow';
+export { default as ClientNavigation } from './client-navigation/ClientNavigation';
+export { default as DetailRow } from './detail-row/DetailRow';

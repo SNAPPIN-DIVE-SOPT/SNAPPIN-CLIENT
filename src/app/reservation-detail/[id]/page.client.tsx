@@ -15,7 +15,7 @@ type ReservationDetailPageClientProps = {
 
 export default function PageClient({ reservationId }: ReservationDetailPageClientProps) {
   const reservationNumericId = Number(reservationId);
-  const { alert } = useToast();
+  const toast = useToast();
 
   // TODO: 예약 상세 조회 API 연동 (request에 id 전달)
   const data = RESERVATION_DETAIL_MOCK;
@@ -114,7 +114,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   const bottomCtaButton = createBottomCtaButton(reservationStatus);
 
   const handleInquiryClick = () => {
-    alert(
+    toast.alert(
       '메시지 기능은 준비 중이에요. 조금만 기다려주세요!',
       undefined,
       bottomCtaButton ? 'bottom-[8.4rem]' : 'bottom-[2rem]',

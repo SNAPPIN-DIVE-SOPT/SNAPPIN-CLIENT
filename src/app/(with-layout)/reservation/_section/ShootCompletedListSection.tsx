@@ -1,23 +1,38 @@
+'use client';
+
+import { useEffect } from 'react';
 import { Divider } from '@/ui';
 import { EmptyView, ReservationCard } from '../components';
-import type { ReservationListItemMock } from '../mock/reservationList.mock';
-import { STATE_CODES } from '@/types/stateCode';
+import { RESERVATION_MOCK } from '../mock/reservationList.mock';
+import { STATE_CODES, StateCode } from '@/types/stateCode';
+import { useToast } from '@/ui/toast/hooks/useToast';
 
-type ShootCompletedListSectionProps = {
-  reservations: ReservationListItemMock[];
-};
+export default function ShootCompletedListSection() {
+  const data = RESERVATION_MOCK.reservations;
+  const toast = useToast();
 
-export default function ShootCompletedListSection({ reservations }: ShootCompletedListSectionProps) {
-  const data = reservations;
+  const isShootCompletedListEmpty = data.length === 0;
 
-  return data.length === 0 ? (
-    <EmptyView
-      title='촬영 완료 내역이 없어요'
-      description='촬영이 완료되면 이곳에서 확인할 수 있어요.'
-    />
-  ) : (
+  const isLoggedIn = false;
+
+  useEffect(() => {
+    if (isLoggedIn) return;
+    toast.login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
+  }, [isLoggedIn, toast]);
+
+  if (isShootCompletedListEmpty || isLoggedIn) {
+    return (
+      <EmptyView
+        title='예약 문의한 상품이 없어요'
+        description='&#39;탐색&#39;에서 다양한 상품을 확인해 보세요'
+      />
+    );
+  }
+
+  return (
     <section className='flex flex-col gap-[1.2rem] p-[1.2rem]'>
       {data.map(({ reservation }, reservationIndex) => {
+        // 리뷰 버튼 필요 여부 판단
         const reviewWriteHref =
           reservation.status === STATE_CODES.SHOOT_COMPLETED && !reservation.product.isReviewed
             ? `/review/write/${reservation.reservationId}`
@@ -33,7 +48,7 @@ export default function ShootCompletedListSection({ reservations }: ShootComplet
               photographer={reservation.product.photographer}
               price={reservation.product.price}
               moods={reservation.product.moods}
-              status={reservation.status}
+              status={reservation.status as StateCode}
               date={reservation.createdAt}
               href={`/reservation-detail/${reservation.reservationId}`}
               isReviewed={reservation.product.isReviewed}

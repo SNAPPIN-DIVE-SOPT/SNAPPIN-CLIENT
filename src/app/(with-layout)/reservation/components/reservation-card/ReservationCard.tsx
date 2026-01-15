@@ -8,7 +8,7 @@ import { IconKeyboardArrowRight } from '@/assets';
 import { StateChip, Button } from '@/ui';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
 
-type ReservationCardProps = {
+export type reservationCardProps = {
   status: StateCode;
   date: string;
   href: string;
@@ -23,7 +23,7 @@ export default function ReservationCard({
   isReviewed = false,
   reviewHref,
   ...productCardProps
-}: ReservationCardProps) {
+}: reservationCardProps) {
   const hasReviewWriteButton =
     status === STATE_CODES.SHOOT_COMPLETED && !isReviewed && Boolean(reviewHref);
   const router = useRouter();
