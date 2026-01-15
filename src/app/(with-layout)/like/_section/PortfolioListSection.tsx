@@ -8,9 +8,9 @@ export default function PortfolioListSection() {
   if (isPortfolioListEmpty)
     return (
       <section className='bg-black-1 flex min-h-[calc(100vh-29.9rem)] flex-1 flex-col items-center justify-center gap-[0.4rem]'>
-        <h3 className='font-18-bd text-black-9'>좋아요를 누른 상품이 없어요</h3>
-        <span className='caption-14-md text-black-6 mt-[0.8rem]'>
-          &#39;탐색&#39;에서 다양한 상품을 확인해 보세요
+        <h3 className='font-18-bd text-black-9'>좋아요를 누른 포트폴리오가 없어요</h3>
+        <span className='caption-14-md text-black-6'>
+          &#39;탐색&#39;에서 다양한 포트폴리오를 확인해 보세요
         </span>
       </section>
     );
