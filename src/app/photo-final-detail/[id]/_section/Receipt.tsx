@@ -14,14 +14,14 @@ export default function Receipt({ basePrice, extraPrice, totalPrice }: ReceiptPr
       {/* 디자인 물어보기 */}
       <DetailRow
         label='기본 촬영 비용'
-        value={`${formatPrice(basePrice)} 원`}
+        value={`${formatPrice(basePrice)}원`}
         className='justify-between'
         valueClassName='caption-14-bd'
       />
 
       <DetailRow
         label='추가 비용'
-        value={`${formatPrice(extraPrice)} 원`}
+        value={`${formatPrice(extraPrice)}원`}
         className='justify-between'
         valueClassName='caption-14-bd'
       />
