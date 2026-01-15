@@ -2,7 +2,7 @@ import { StateCode } from '@/types/stateCode';
 import { DetailLayout, DetailRow } from '../components/detail-layout/DetailLayout';
 import { formatCreatedAt, formatReservationDateTime } from '@/utils/formatNumberWithComma';
 import { Divider } from '@/ui';
-import { formatReservationTime } from '../utils/reservationTime';
+import { formatReservationTime } from '@/utils/formatNumberWithComma';
 
 type ReservationDetailProps = {
   status: StateCode;
