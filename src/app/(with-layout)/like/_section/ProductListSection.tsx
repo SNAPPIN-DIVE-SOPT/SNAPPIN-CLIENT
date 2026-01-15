@@ -18,7 +18,7 @@ export default function ProductListSection() {
     <section>
       <ProductList
         productList={MOCK_PRODUCTS}
-        className='bg-black-3 flex flex-col'
+        className='bg-black-3 flex flex-col gap-[0.6rem]'
         itemClassName='bg-black-1'
       />
     </section>
