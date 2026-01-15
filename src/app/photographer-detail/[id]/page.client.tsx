@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { SectionTabs } from '@/ui';
 import { PhotographerSection, PortfolioListSection, ProductListSection } from './_section/index';
 import { Header, Footer } from './components/index';
-import { PHOTOGRAPHER_DETAIL_MOCK, PORTFOLIO_LIST_MOCK, PRODUCT_LIST_MOCK } from './mock/index';
+import { PHOTOGRAPHER_DETAIL_MOCK } from './mock/index';
 import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TAB_MAP } from './constants/tab';
 
 type PageClientProps = {
@@ -21,11 +21,7 @@ export default function PageClient({ photographerId }: PageClientProps) {
   const [cursor, setCursor] = useState<number | null>(null);
 
   // TODO: 작가 상세 조회 API 연동 (request에 photographerId, cursor 전달)
-  const photographerMock = PHOTOGRAPHER_DETAIL_MOCK;
-  // TODO: 포폴 목록 조회 API 연동 (request에 photographerId, cursor 전달)
-  const portfolioListMock = PORTFOLIO_LIST_MOCK;
-  // TODO: 상품 목록 조회 API 연동 (request에 photographerId, cursor 전달)
-  const productListMock = PRODUCT_LIST_MOCK;
+  const mock = PHOTOGRAPHER_DETAIL_MOCK;
 
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
@@ -36,10 +32,10 @@ export default function PageClient({ photographerId }: PageClientProps) {
     <div className='flex flex-col'>
       <Header />
       <PhotographerSection
-        name={photographerMock.name}
-        bio={photographerMock.bio}
-        specialties={photographerMock.specialties}
-        locations={photographerMock.locations}
+        name={mock.name}
+        bio={mock.bio}
+        specialties={mock.specialties}
+        locations={mock.locations}
       />
       <SectionTabs
         value={selectedTab}
@@ -59,14 +55,14 @@ export default function PageClient({ photographerId }: PageClientProps) {
           value={PHOTOGRAPHER_TAB.PORTFOLIO}
           className='p-[1rem] mb-[8rem] bg-black-1'
         >
-          <PortfolioListSection portfolios={portfolioListMock.portfolios} />
+          <PortfolioListSection photographerId={Number(photographerId)} />
         </SectionTabs.Contents>
         {/* 상품 목록 */}
         <SectionTabs.Contents
           value={PHOTOGRAPHER_TAB.PRODUCT}
           className='mb-[8rem]'
         >
-          <ProductListSection products={productListMock.products} />
+          <ProductListSection photographerId={Number(photographerId)} />
         </SectionTabs.Contents>
       </SectionTabs>
       <Footer />
