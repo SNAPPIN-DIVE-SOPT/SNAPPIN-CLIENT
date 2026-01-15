@@ -31,7 +31,7 @@ type Detail = {
 function removeEmptyDetail(items: Detail[]) {
   return items.filter(
     (item): item is { label: string; content: string } =>
-      item.content !== undefined && item.content !== ''
+      item.content !== null
   );
 }
 
