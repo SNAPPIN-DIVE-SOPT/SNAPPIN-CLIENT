@@ -8,6 +8,7 @@ import { REVIEW_LIST_MOCK } from '../mock';
 
 type ReviewListSectionProps = {
   productId: string;
+  averageRate: number;
 }
 
 type ReviewProps = {
@@ -18,9 +19,10 @@ type ReviewProps = {
   content: string;
 }
 
-export default function ReviewListSection({ productId }: ReviewListSectionProps) {
+export default function ReviewListSection({ productId, averageRate }: ReviewListSectionProps) {
   // TODO: 상품 리뷰 목록 조회 API 연동 (request에 productId, cursor 전달)
   const reviewListMock = REVIEW_LIST_MOCK.data;
+  const isReviewEmpty = reviewListMock.reviews.length === 0;
 
   return (
     <section className='mb-[8.4rem]'>
@@ -33,6 +35,11 @@ export default function ReviewListSection({ productId }: ReviewListSectionProps)
           </div>
         :
           <>
+            <div className='flex gap-[0.8rem] p-[2rem]'>
+              <ReviewStar rating={isReviewEmpty ? 0 : averageRate} starSize='large' />
+              <span className='title-20-bd text-black-10'>{isReviewEmpty ? '0.0' : averageRate}</span>
+            </div>
+            <Divider thickness='large' color='bg-black-3' className='w-full' />
             {reviewListMock.reviews.map((review, idx) => (
               <div key={review.id}>
                 <Review

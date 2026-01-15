@@ -23,7 +23,6 @@ export default function ClientPage({ productId }: { productId: string }) {
 
   // TODO: 상품 상세 정보 및 상품 안내 조회 API 연동 (request에 productId 전달)
   const productDetailMock = PRODUCT_DETAIL_MOCK;
-  const isReviewEmpty = productDetailMock.reviewCount === 0;
 
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
@@ -69,14 +68,7 @@ export default function ClientPage({ productId }: { productId: string }) {
         </SectionTabs.Contents>
         {/* 리뷰 탭 */}
         <SectionTabs.Contents value={PRODUCT_TAB.REVIEW}>
-          {/* 별점, 별점 평균 */}
-          <div className='flex gap-[0.8rem] p-[2rem]'>
-            <ReviewStar rating={isReviewEmpty ? 0 : productDetailMock.averageRate} starSize='large' />
-            <span className='title-20-bd text-black-10'>{isReviewEmpty ? '0.0' : productDetailMock.averageRate}</span>
-          </div>
-          <Divider thickness='large' color='bg-black-3' className='w-full' />
-          {/* 리뷰 목록 */}
-          <ReviewListSection productId={productId} />
+          <ReviewListSection productId={productId} averageRate={productDetailMock.averageRate} />
         </SectionTabs.Contents>
       </SectionTabs>
       <Footer
