@@ -1,12 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BottomCTAButton, Button, Divider } from '@/ui';
 import { formatPrice } from '@/utils/price';
 import { IconAdd } from '@/assets';
 import { usePaymentSummary } from '../../hooks/usePaymentSummary';
 import CompleteModal from '../../@modal/(.)complete-modal/CompleteModal';
-import { useState } from 'react';
 
 type PaymentDetailContainerProps = {
   id: number;
@@ -19,7 +19,7 @@ export default function PaymentDetailContainer({ id, basePrice }: PaymentDetailC
   const { extraPrices, totalAmount, submitPayment } = usePaymentSummary(id, basePrice);
 
   const handleAddPayment = () => {
-    router.push(`/author/payment/${id}/add-payment`);
+    router.push(`/photographer/payment/${id}/add-payment`);
   };
 
   const handleSubmitPayment = () => {
@@ -53,7 +53,7 @@ export default function PaymentDetailContainer({ id, basePrice }: PaymentDetailC
           <Divider thickness='small' color='bg-black-5' />
           <div className='flex items-center justify-between'>
             <span className='caption-14-bd'>최종 결제 금액</span>
-            <div className='flex items-center gap-[0.3rem]'>
+            <div className='flex items-center gap-[0.4rem]'>
               <span className='title-23-eb'>{formatPrice(totalAmount)}</span>
               <span className='caption-14-md'>원</span>
             </div>

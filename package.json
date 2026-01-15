@@ -32,11 +32,11 @@
     "overlay-kit": "^1.8.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "swagger-typescript-api": "^13.2.16",
     "react-hook-form": "7.62.0",
+    "swagger-typescript-api": "^13.2.16",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2",
-    "zod": "4.1.8"
+    "zod": "4.3.5"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.3",

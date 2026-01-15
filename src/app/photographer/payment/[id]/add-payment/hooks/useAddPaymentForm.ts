@@ -34,7 +34,6 @@ export const useAddPaymentForm = () => {
     reset,
     trigger,
     setError,
-    clearErrors,
     formState: { errors, isValid },
     watch,
   } = useForm<AddPaymentInput>({
@@ -50,7 +49,7 @@ export const useAddPaymentForm = () => {
       setError('name', { message: `비용명은 ${MAX_NAME_LENGTH}자 이하이어야 합니다.` });
       return;
     }
-    clearErrors('name');
+
     setValue('name', value, { shouldValidate: true });
   };
 
@@ -62,7 +61,6 @@ export const useAddPaymentForm = () => {
       return;
     }
 
-    clearErrors('amount');
     setValue('amount', raw, { shouldValidate: true });
   };
 
@@ -76,8 +74,8 @@ export const useAddPaymentForm = () => {
     amount: errors.amount?.message,
   };
 
-  const handleSubmitForm = (onSuccess: () => void) => {
-    trigger();
+  const handleSubmitForm = async (onSuccess: () => void) => {
+    const isValid = await trigger();
 
     if (isValid) {
       handleSubmit(() => {
