@@ -64,43 +64,27 @@ export default function AddPaymentPage() {
       />
 
       <div className='flex flex-1 flex-col gap-[1.2rem] px-[2rem] py-[2rem]'>
-        <section className='flex flex-col'>
-          <TextField
-            id='name'
-            label='비용명'
-            placeholder='비용명을 입력해주세요.'
-            value={compatibleFormData.name}
-            onChange={(e) => updateName(e.target.value)}
-            hasError={!!compatibleErrors.name}
-          />
-          <div className='flex items-center justify-between'>
-            <FieldMessage
-              id='name'
-              message={compatibleErrors.name ?? '공백 포함 20자까지 입력 가능해요.'}
-              variant={compatibleErrors.name ? 'error' : 'help'}
-            />
-            <span className='caption-10-md text-black-6'>
-              {compatibleFormData.name.length}/{MAX_NAME_LENGTH}
-            </span>
-          </div>
-        </section>
-
-        <section className='flex flex-col'>
-          <TextField
-            id='amount'
-            label='금액(원)'
-            placeholder='금액을 입력해주세요.'
-            value={compatibleFormData.amount}
-            inputMode='numeric'
-            onChange={(e) => updateAmount(e.target.value)}
-            hasError={!!compatibleErrors.amount}
-          />
-          <FieldMessage
-            id='amount'
-            message={compatibleErrors.amount ?? '10,000,000원 미만까지 입력 가능해요.'}
-            variant={compatibleErrors.amount ? 'error' : 'help'}
-          />
-        </section>
+        <TextField
+          id='name'
+          label='비용명'
+          placeholder='비용명을 입력해주세요.'
+          value={compatibleFormData.name}
+          onChange={(e) => updateName(e.target.value)}
+          hasError={!!compatibleErrors.name}
+          maxLength={MAX_NAME_LENGTH}
+          helpText={compatibleErrors.name ?? '공백 포함 20자까지 입력 가능해요.'}
+          showMaxLength={true}
+        />
+        <TextField
+          id='amount'
+          label='금액(원)'
+          placeholder='금액을 입력해주세요.'
+          value={compatibleFormData.amount}
+          inputMode='numeric'
+          onChange={(e) => updateAmount(e.target.value)}
+          hasError={!!compatibleErrors.amount}
+          helpText={compatibleErrors.amount ?? '10,000,000원 미만까지 입력 가능해요.'}
+        />
       </div>
 
       <BottomCTAButton className='px-[2rem] pb-[2rem]'>
