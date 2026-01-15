@@ -21,11 +21,10 @@ type ReviewProps = {
 export default function ReviewListSection({ productId }: ReviewListSectionProps) {
   // TODO: 상품 리뷰 목록 조회 API 연동 (request에 productId, cursor 전달)
   const reviewListMock = REVIEW_LIST_MOCK.data;
-  const reviewCount = reviewListMock.reviews.length;
 
   return (
     <section className='mb-[8.4rem]'>
-      {reviewCount === 0
+      {reviewListMock.reviews.length === 0
         ?
           <div className='flex justify-center items-center py-[8rem]'>
             <span className='caption-14-rg text-black-6 text-center'>
@@ -43,7 +42,7 @@ export default function ReviewListSection({ productId }: ReviewListSectionProps)
                   images={review.images}
                   content={review.content}
                 />
-                {idx !== reviewCount - 1
+                {idx < reviewListMock.reviews.length - 1
                   && (<Divider thickness='large' color='bg-black-3' className='w-full' />)}
               </div>
             ))}
