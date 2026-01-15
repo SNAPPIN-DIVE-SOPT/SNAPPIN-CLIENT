@@ -5,6 +5,7 @@ import { StateCode } from '@/types/stateCode';
 import { IconKeyboardArrowRight } from '@/assets';
 import { useRouter } from 'next/navigation';
 import { ProductCardProps } from '@/ui/product-card/ProductCard';
+import { formatCreatedAt } from '@/utils/formatNumberWithComma';
 
 type ReservationCardProps = {
   reservationId: number;
@@ -33,7 +34,7 @@ export default function ReservationCard({
   return (
     <div className='flex cursor-pointer px-[2rem] py-[1.2rem]' onClick={handleDetailClick}>
       <div className='border-black-5 flex w-full flex-col gap-[0.6rem] rounded-[0.6rem] border border-[0.7px] p-[1.2rem]'>
-        <span className='caption-10-md text-black-7'>{date}</span>
+        <span className='caption-10-md text-black-7'>{formatCreatedAt(date)}</span>
         <div className='flex flex-col gap-[1.2rem]'>
           <div className='flex w-full items-center justify-between'>
             <div className='flex items-center gap-[0.8rem]'>
@@ -43,7 +44,7 @@ export default function ReservationCard({
                 <span className='font-16-md'>님</span>
               </div>
             </div>
-            <IconButton className='text-black-8 flex items-center bg-white'>
+            <IconButton className='caption-12-md text-black-7 flex items-center bg-white'>
               예약상세
               <IconKeyboardArrowRight />
             </IconButton>

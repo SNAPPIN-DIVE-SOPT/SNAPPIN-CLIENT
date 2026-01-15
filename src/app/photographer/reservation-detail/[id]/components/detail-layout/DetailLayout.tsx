@@ -39,7 +39,7 @@ const DetailLayout = ({ title, subtitle, children, className }: DetailLayoutProp
 const DetailRow = ({ label, value, className }: DetailRowProps) => {
   return (
     <div className={cn('caption-12-md flex items-center gap-[1rem]', className)}>
-      <p className='text-black-7'>{label}</p>
+      <p className='text-black-7 min-w-[8rem]'>{label}</p>
       <p>{value}</p>
     </div>
   );

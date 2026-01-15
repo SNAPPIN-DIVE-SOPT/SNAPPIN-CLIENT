@@ -4,7 +4,7 @@
 
 import type { SVGProps } from 'react';
 
-const IconUnion3 = (props: SVGProps<SVGSVGElement>) => (
+const IconChip내추럴 = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={70}
@@ -19,4 +19,4 @@ const IconUnion3 = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
-export default IconUnion3;
+export default IconChip내추럴;

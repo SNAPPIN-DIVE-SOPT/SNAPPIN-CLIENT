@@ -31,25 +31,29 @@ export default function ReservationContent() {
 
         <SectionTabs.Contents value={selectedTabValue}>
           <div className='flex flex-col gap-[1.2rem]'>
-            {data.products.map((product, index) => (
-              <div key={product.id}>
-                <ReservationCard
-                  reservationId={product.id}
-                  status={product.status as StateCode}
-                  image={{ src: product.imageUrl, alt: product.title }}
-                  name={product.title}
-                  rate={product.rate}
-                  reviewCount={product.reviewCount}
-                  photographer={product.photographer}
-                  price={product.price}
-                  moods={product.moods}
-                  date={product.date}
-                />
-                {index !== data.products.length - 1 && (
-                  <Divider thickness='large' color='bg-black-3' />
-                )}
-              </div>
-            ))}
+            {data.reservations.map((item, index) => {
+              const { reservation } = item;
+              const { product } = reservation;
+              return (
+                <div key={reservation.reservationId}>
+                  <ReservationCard
+                    reservationId={reservation.reservationId}
+                    status={reservation.status as StateCode}
+                    image={{ src: product.imageUrl, alt: product.title }}
+                    name={product.title}
+                    rate={product.rate}
+                    reviewCount={product.reviewCount}
+                    photographer={product.photographer}
+                    price={product.price}
+                    moods={product.moods}
+                    date={reservation.createdAt}
+                  />
+                  {index !== data.reservations.length - 1 && (
+                    <Divider thickness='large' color='bg-black-3' />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </SectionTabs.Contents>
       </SectionTabs>
