@@ -15,7 +15,7 @@ export default function PortfolioList({
     <div className={cn('grid shrink-0 grid-cols-3 gap-[0.2rem]', className)} {...props}>
       {portfolioList.map((portfolio) => (
         <Link
-          href={`/portfolio/${portfolio.id}`}
+          href={`/portfolio-detail/${portfolio.id}`}
           key={portfolio.id}
           className='relative aspect-square'
         >

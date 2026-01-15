@@ -1,6 +1,6 @@
 import { Divider } from '@/ui';
 import { MoodCode } from '@/types/moodCode';
-import { AuthorSection, PortfolioSection, ProductSection } from './_section/index';
+import { PhotographerSection, PortfolioSection, ProductSection } from './_section/index';
 import { Header } from './components/index';
 import { PORTFOLIO_DETAIL_MOCK } from './mock/portfolioDetail.mock';
 
@@ -39,7 +39,7 @@ export default function Page({ params }: PageProps) {
         moods={mock.moods as MoodCode[]}
       />
       <Divider thickness='large' color='bg-black-3' />
-      <AuthorSection
+      <PhotographerSection
         id={mock.photographerInfo.id}
         name={mock.photographerInfo.name}
         bio={mock.photographerInfo.bio}

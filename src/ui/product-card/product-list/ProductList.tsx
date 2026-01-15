@@ -21,7 +21,7 @@ export default function ProductList({
   return (
     <div>
       {productList.map((product) => (
-        <Link key={product.id} href={`/product/${product.id}`}>
+        <Link key={product.id} href={`/product-detail/${product.id}`}>
           <ProductCard
             photographer={product.photographer}
             moods={product.moods}
