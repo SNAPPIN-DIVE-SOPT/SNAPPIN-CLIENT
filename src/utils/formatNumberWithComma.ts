@@ -42,7 +42,6 @@ export const formatReservationDateTime = (date: string, startTime: string): stri
  * 생성 날짜와 시간을 표시용 문자열로 포맷팅하는 함수
  * @param date YYYY-MM-DD HH:mm 또는 YYYY-MM-DD HH:mm:ss 형식의 날짜 문자열
  * @returns 포맷팅된 날짜/시간 문자열 (ex. "26년 01월 01일 23:23")
- * @returns 포맷팅된 날짜/시간 문자열 (ex. "26년 01월 01일 23:23")
  */
 export const formatCreatedAt = (date: string) => {
   const [dateStr, timeStr] = date.split(' ');
