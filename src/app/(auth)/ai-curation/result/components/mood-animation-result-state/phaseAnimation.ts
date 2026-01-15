@@ -37,7 +37,7 @@ export const CHIPS_CONTAINER = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.3,
+      staggerChildren: 0.8,
       delayChildren: 0.1,
     },
   },
@@ -51,8 +51,8 @@ export const CHIP_VARIANTS: Variants = {
   }),
   show: {
     opacity: 1,
-    scale: [0.9, 1.1, 1],
-    transition: { type: 'tween', duration: 0.12, ease: 'easeOut' },
+    scale: [0.9, 1.2, 1],
+    transition: { type: 'tween', duration: 0.3, ease: 'easeInOut' },
   },
 };
 
