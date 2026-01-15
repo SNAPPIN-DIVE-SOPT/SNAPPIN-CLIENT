@@ -29,6 +29,7 @@ export default function ProductStatus({
 }: ProductStatusProps) {
   const toast = useToast();
   const isRefusable =
+    status !== STATE_CODES.RESERVATION_CONFIRMED &&
     status !== STATE_CODES.RESERVATION_CANCELED &&
     status !== STATE_CODES.RESERVATION_REFUSED &&
     status !== STATE_CODES.SHOOT_COMPLETED;

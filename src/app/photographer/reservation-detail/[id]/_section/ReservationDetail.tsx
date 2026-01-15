@@ -1,8 +1,9 @@
-import { StateCode } from '@/types/stateCode';
+import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { DetailLayout, DetailRow } from '../components/detail-layout/DetailLayout';
 import { formatCreatedAt, formatReservationDateTime } from '@/utils/formatNumberWithComma';
 import { Divider } from '@/ui';
 import { formatReservationTime } from '../utils/reservationTime';
+import { STATE_LABEL } from '@/ui/chip/state-chip/constants/stateLabel';
 
 type ReservationDetailProps = {
   status: StateCode;
