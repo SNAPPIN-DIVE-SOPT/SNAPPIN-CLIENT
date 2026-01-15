@@ -41,6 +41,7 @@ export default function Page() {
           extraPrice={data.paymentInfo.extraPrice}
           totalPrice={data.paymentInfo.totalPrice}
         />
+
         {data.reviewInfo && (
           <>
             <Divider thickness='large' color='bg-black-3' />
@@ -52,16 +53,6 @@ export default function Page() {
               images={data.reviewInfo.images}
               content={data.reviewInfo.content}
             />
-            <div className='bg-black-1 h-[6.3rem]' />
-            <BottomCTAButton className='fixed-center bg-black-3 bottom-0 px-[2rem] pt-[0.4rem] pb-[2rem]'>
-              <BottomCTAButton.Single
-                size='large'
-                color='disabled'
-                className='bg-black-10/50 caption-12-md text-black-1 w-full'
-              >
-                메시지 기능은 준비 중 이에요. 조금만 기다려주세요!
-              </BottomCTAButton.Single>
-            </BottomCTAButton>
           </>
         )}
       </div>

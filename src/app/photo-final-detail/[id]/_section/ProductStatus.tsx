@@ -34,7 +34,7 @@ export default function ProductStatus({
   };
 
   const handleSendMessage = () => {
-    toast.alert('메시지 기능은 준비 중 이에요. 조금만 기다려주세요!', undefined, 'top-[1rem]');
+    toast.alert('메시지 기능은 준비 중 이에요. 조금만 기다려주세요!', undefined, 'bottom-[2rem]');
   };
 
   return (
@@ -64,7 +64,7 @@ export default function ProductStatus({
           <Button
             size='small'
             color='black'
-            className='border-black-10 w-full border-[1px]'
+            className='border-black-1 w-full border-[1px]'
             onClick={handleWriteReview}
           >
             리뷰 작성
