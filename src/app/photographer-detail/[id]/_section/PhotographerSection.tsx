@@ -28,6 +28,7 @@ export default function PhotographerSection({
             src={defaultProfile}
             alt='기본 프로필 이미지'
             fill
+            className='object-fill'
           />
         </div>
         {/* 작가 정보 */}

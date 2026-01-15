@@ -1,3 +1,5 @@
+'use client';
+
 import { BottomCTAButton } from '@/ui';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useToast } from '@/ui/toast/hooks/useToast';
