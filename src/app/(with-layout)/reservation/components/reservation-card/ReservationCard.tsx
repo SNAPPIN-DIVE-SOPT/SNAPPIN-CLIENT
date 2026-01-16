@@ -34,8 +34,8 @@ export default function ReservationCard({
   };
 
   return (
-    <button
-      type='button'
+    <div
+      role='button'
       className='border-black-5 w-full rounded-[0.6rem] border-[0.07rem] bg-transparent p-[1.2rem] text-left'
       onClick={handleDetailClick}
     >
@@ -58,6 +58,6 @@ export default function ReservationCard({
           </Button>
         </div>
       )}
-    </button>
+    </div>
   );
 }
