@@ -12,6 +12,8 @@ import {
   IconExplore,
   IconMessageFill,
   IconMessage,
+  IconHeartFill,
+  IconHeart,
 } from '@/assets';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/utils/cn';
@@ -34,6 +36,12 @@ const menuUserItems: {
     activeIcon: IconHomeFill,
     inactiveIcon: IconHome,
     label: 'Home',
+  },
+  {
+    href: '/like',
+    activeIcon: IconHeartFill,
+    inactiveIcon: IconHeart,
+    label: 'Like',
   },
   {
     href: '/explore',
@@ -93,7 +101,7 @@ export default function Footer({ userRole }: FooterProps) {
   return (
     <>
       <div className='bg-black-1 footer-height' />
-      <footer className='border-black-6 fixed-center footer-height bg-black-1 bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
+      <footer className='border-black-6 footer-height fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
         {userRole === USER_TYPE.CLIENT &&
           menuUserItems.map((item) => (
             <Link
