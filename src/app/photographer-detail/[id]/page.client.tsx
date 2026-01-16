@@ -53,14 +53,14 @@ export default function PageClient({ photographerId }: PageClientProps) {
         {/* 포트폴리오 목록 */}
         <SectionTabs.Contents
           value={PHOTOGRAPHER_TAB.PORTFOLIO}
-          className='p-[1rem] mb-[8rem] bg-black-1'
+          className='p-[1rem] mb-[7.6rem] bg-black-1'
         >
           <PortfolioListSection photographerId={Number(photographerId)} />
         </SectionTabs.Contents>
         {/* 상품 목록 */}
         <SectionTabs.Contents
           value={PHOTOGRAPHER_TAB.PRODUCT}
-          className='mb-[8rem]'
+          className='mb-[7.6rem]'
         >
           <ProductListSection photographerId={Number(photographerId)} />
         </SectionTabs.Contents>
