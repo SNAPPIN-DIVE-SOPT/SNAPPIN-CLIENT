@@ -12,7 +12,7 @@ export default function Page({ params }: { params: Promise<{ reviewId: string }>
   return (
     <div className='flex flex-col h-dvh bg-black-10'>
       <Header />
-      <div className='flex flex-1 items-center'>
+      <div className='flex items-center h-[48rem]'>
         <ImageSlide images={reviewImages} />
       </div>
       <div className='flex flex-col gap-[1.2rem] px-[2rem] pt-[2rem] pb-[6rem]'>
