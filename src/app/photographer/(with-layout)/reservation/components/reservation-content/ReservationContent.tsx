@@ -22,7 +22,7 @@ export default function ReservationContent() {
   return (
     <div className='flex flex-col'>
       <SectionTabs value={selectedTabValue} handleValueChange={handleTabChange}>
-        <SectionTabs.List className='px-[2rem]'>
+        <SectionTabs.List>
           {RESERVATION_TABS.map((tab) => (
             <SectionTabs.Tab key={tab.value} value={tab.value}>
               {tab.label}
