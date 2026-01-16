@@ -25,7 +25,7 @@ export default function DateCell({
       aria-selected={isSelected}
       aria-disabled={isDisabled}
       aria-current={isToday ? 'date' : undefined}
-      className='flex min-w-[3.2rem] justify-center py-[0.8rem]'
+      className='flex min-w-[3.2rem] justify-center py-[0.4rem]'
     >
       <button
         type='button'
