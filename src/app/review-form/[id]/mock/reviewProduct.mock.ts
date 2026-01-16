@@ -7,7 +7,7 @@ export const REVIEW_PRODUCT = {
       createdAt: '2026-03-01 14:23:11',
       product: {
         id: 1,
-        imageUrl: 'https://example.com/product301_thumb.jpg',
+        imageUrl: 'https://picsum.photos/576/576?random=1',
         title: '상품명',
         rate: 4.7,
         reviewCount: 32,
