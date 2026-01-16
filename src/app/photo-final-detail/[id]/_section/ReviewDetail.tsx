@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatShortDate } from '@/utils/formatNumberWithComma';
-import { ReviewStar } from '@/ui';
+import { ReviewStar } from '@/ui/review-star';
 
 type ReviewDetailProps = {
   id: number;
@@ -34,16 +34,11 @@ export default function ReviewDetail({
 
         <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
           {images.map((image) => (
-            <Link
-              key={image}
-              href={`/photographer/reservation-detail/${id}/photos`}
-              className='shrink-0'
-            >
+            <Link key={image} href={`/photo-final-detail/${id}/photos`} className='shrink-0'>
               <Image src={image} alt={reviewer} width={140} height={140} className='object-cover' />
             </Link>
           ))}
         </div>
-
         <p className='caption-14-md'>{content}</p>
       </div>
     </div>

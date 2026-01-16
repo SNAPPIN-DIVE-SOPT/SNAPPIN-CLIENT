@@ -25,7 +25,7 @@ export default function Page() {
           </div>
           <span className='caption-12-md text-black-7'>{data.reviewInfo.reviewer}</span>
         </div>
-        <p className='caption-14-md text-black-1'>{data.reviewInfo.content}</p>
+        <p className='caption-14-bd text-black-1'>{data.reviewInfo.content}</p>
       </div>
     </div>
   );

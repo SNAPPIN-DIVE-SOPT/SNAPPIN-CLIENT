@@ -1,6 +1,5 @@
 'use client';
 
-import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { Button, ProductCard } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
 
@@ -13,7 +12,7 @@ type ProductStatusProps = {
   photographer: string;
   price: number;
   moods: string[];
-  status: StateCode;
+  hasReview: boolean;
 };
 
 export default function ProductStatus({
@@ -25,22 +24,17 @@ export default function ProductStatus({
   photographer,
   price,
   moods,
-  status,
+  hasReview,
 }: ProductStatusProps) {
   const toast = useToast();
-  const isRefusable =
-    status !== STATE_CODES.RESERVATION_CONFIRMED &&
-    status !== STATE_CODES.RESERVATION_CANCELED &&
-    status !== STATE_CODES.RESERVATION_REFUSED &&
-    status !== STATE_CODES.SHOOT_COMPLETED;
 
-  const handleRefuse = () => {
-    //TODO: 예약 거절 기능 구현
-    console.info('예약 거절', id);
+  const handleWriteReview = () => {
+    //TODO: 리뷰 작성 기능 구현
+    console.info('리뷰 작성', id);
   };
 
   const handleSendMessage = () => {
-    toast.alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', undefined, 'top-[1rem]');
+    toast.alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', undefined, 'bottom-[2rem]');
   };
 
   return (
@@ -57,27 +51,38 @@ export default function ProductStatus({
           moods={moods}
         />
       </div>
-      <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
-        {isRefusable && (
+
+      {!hasReview ? (
+        <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
           <Button
             size='small'
-            color='white'
+            color='transparent'
             className='text-black-10 w-full'
-            onClick={handleRefuse}
+            onClick={handleSendMessage}
           >
-            예약 거절
+            문의하기
           </Button>
-        )}
-
-        <Button
-          size='small'
-          color='black'
-          className='text-black-1 border-black-10 w-full border-1'
-          onClick={handleSendMessage}
-        >
-          메시지 보내기
-        </Button>
-      </div>
+          <Button
+            size='small'
+            color='black'
+            className='border-black-10 w-full border'
+            onClick={handleWriteReview}
+          >
+            리뷰 작성
+          </Button>
+        </div>
+      ) : (
+        <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
+          <Button
+            size='small'
+            color='black'
+            className='text-black-1 border-black-10 w-full border'
+            onClick={handleSendMessage}
+          >
+            문의하기
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

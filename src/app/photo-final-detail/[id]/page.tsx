@@ -1,10 +1,4 @@
-import {
-  ProductStatus,
-  Receipt,
-  ReservationDetail,
-  ReviewDetail,
-  DetailPageFooter,
-} from './_section';
+import { ProductStatus, Receipt, ReservationDetail, ReviewDetail } from './_section';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import { StateCode } from '@/types/stateCode';
 import { Divider } from '@/ui';
@@ -15,12 +9,11 @@ export default function Page() {
   const data = RESERVATION_DETAIL_MOCK;
 
   return (
-    <div className='bg-black-3 flex flex-col'>
+    <div className='bg-black-3 flex min-h-dvh flex-col'>
       <NavigationClient />
-      <div className='flex flex-col'>
+      <div className='relative flex flex-col'>
         <ProductStatus
           id={data.productInfo.id}
-          status={data.status as StateCode}
           imageUrl={data.productInfo.imageUrl}
           title={data.productInfo.title}
           rate={data.productInfo.rate}
@@ -28,10 +21,10 @@ export default function Page() {
           photographer={data.productInfo.photographer}
           price={data.productInfo.price}
           moods={data.productInfo.moods}
+          hasReview={!!data.reviewInfo}
         />
         <Divider thickness='large' color='bg-black-3' />
         <ReservationDetail
-          client={data.reservationInfo.client}
           createdAt={data.reservationInfo.createdAt}
           status={data.status as StateCode}
           date={data.reservationInfo.date}
@@ -41,18 +34,15 @@ export default function Page() {
           peopleCount={data.reservationInfo.peopleCount}
           requestNote={data.reservationInfo.requestNote}
         />
-        {data.paymentInfo && (
-          <>
-            <Divider thickness='large' color='bg-black-3' />
-            <Receipt
-              basePrice={data.paymentInfo.basePrice}
-              extraPrice={data.paymentInfo.extraPrice}
-              totalPrice={data.paymentInfo.totalPrice}
-            />
-          </>
-        )}
 
-        {data.reviewInfo ? (
+        <Divider thickness='large' color='bg-black-3' />
+        <Receipt
+          basePrice={data.paymentInfo.basePrice}
+          extraPrice={data.paymentInfo.extraPrice}
+          totalPrice={data.paymentInfo.totalPrice}
+        />
+
+        {data.reviewInfo && (
           <>
             <Divider thickness='large' color='bg-black-3' />
             <ReviewDetail
@@ -63,16 +53,6 @@ export default function Page() {
               images={data.reviewInfo.images}
               content={data.reviewInfo.content}
             />
-            <div className='h-[6.3rem]' />
-          </>
-        ) : (
-          <>
-            <DetailPageFooter
-              date={data.reservationInfo.date}
-              startTime={data.reservationInfo.startTime}
-              status={data.status as StateCode}
-            />
-            <div className='bg-black-1 h-[6.3rem]' />
           </>
         )}
       </div>
