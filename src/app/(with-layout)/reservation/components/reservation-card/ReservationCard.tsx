@@ -36,7 +36,7 @@ export default function ReservationCard({
   return (
     <div
       role='button'
-      className='border-black-5 w-full rounded-[0.6rem] border-[0.07rem] bg-transparent p-[1.2rem] text-left'
+      className='border-black-4 w-full rounded-[0.6rem] border-[0.07rem] bg-transparent p-[1.2rem] text-left'
       onClick={handleDetailClick}
     >
       <div className='flex flex-col gap-[0.6rem]'>

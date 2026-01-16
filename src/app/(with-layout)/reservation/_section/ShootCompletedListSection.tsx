@@ -30,7 +30,7 @@ export default function ShootCompletedListSection() {
   }
 
   return (
-    <section className='flex flex-col gap-[1.2rem] p-[1.2rem]'>
+    <section className='flex flex-col gap-[1.2rem] p-[1.6rem]'>
       {data.map(({ reservation }, reservationIndex) => {
         // 리뷰 버튼 필요 여부 판단
         const reviewWriteHref =
@@ -54,7 +54,7 @@ export default function ShootCompletedListSection() {
               isReviewed={reservation.product.isReviewed}
             />
             {reservationIndex !== data.length - 1 && (
-              <Divider thickness='large' color='bg-black-3' className='-mx-[2rem] mt-[1.2rem]' />
+              <Divider thickness='large' color='bg-black-3' className='-mx-[1.6rem] mt-[1.6rem]' />
             )}
           </div>
         );

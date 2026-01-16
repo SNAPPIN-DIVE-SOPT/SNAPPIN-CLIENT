@@ -31,7 +31,7 @@ export default function ReservationListSection() {
   }
 
   return (
-    <section className='flex flex-col gap-[1.2rem] p-[1.2rem]'>
+    <section className='flex flex-col gap-[1.6rem] p-[1.6rem]'>
       {data.map(({ reservation }, reservationIndex) => (
         <div key={reservation.reservationId}>
           <ReservationCard
@@ -48,7 +48,7 @@ export default function ReservationListSection() {
             isReviewed={reservation.product.isReviewed}
           />
           {reservationIndex !== data.length - 1 && (
-            <Divider thickness='large' color='bg-black-3' className='-mx-[2rem] mt-[1.2rem]' />
+            <Divider thickness='large' color='bg-black-3' className='-mx-[1.6rem] mt-[1.6rem]' />
           )}
         </div>
       ))}

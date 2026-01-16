@@ -74,7 +74,7 @@ const SectionTabsList = ({
   return (
     <div
       className={cn(
-        'border-black-4 relative flex h-[4.5rem] w-full gap-[0.4rem] border-b px-[0.8rem]',
+        'border-black-4 relative flex h-[4.5rem] w-full gap-[0.4rem] border-b px-[2rem]',
         className,
       )}
       role='tablist'
