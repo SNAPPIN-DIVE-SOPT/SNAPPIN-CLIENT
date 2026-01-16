@@ -1,3 +1,5 @@
+import { padNumber } from './padNumber';
+
 export function formatNumberWithComma(value: number): string {
   return new Intl.NumberFormat('ko-KR').format(value);
 }
@@ -11,6 +13,15 @@ export function formatDate(date: string): string {
   const [year, month, day] = date.split('-');
   return `${Number(year)}.${Number(month)}.${Number(day)}`;
 }
+
+/**
+ * 생성 날짜와 시간을 표시용 문자열로 포맷팅하는 함수
+ * @param date YYYY-MM-DD 형식의 날짜 문자열
+ * @returns 포맷팅된 날짜/시간 문자열 (ex. 26.01.15)
+ */
+export const formatShortDate = (date: string) => {
+  return formatDate(date).slice(2).split('.').map((number) => padNumber(Number(number))).join('.');
+};
 
 /**
  * 예약 날짜와 시간을 표시용 문자열로 포맷팅하는 함수
