@@ -37,7 +37,7 @@ export default function Footer({
   }
 
   const handleReservation = () => {
-    if (isLogIn) {
+    if (!isLogIn) {
       setIsDrawerOpen(true);
     } else {
       login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, toastStyle);
