@@ -53,7 +53,7 @@ export default function PaymentDetailContainer({ id, basePrice }: PaymentDetailC
           <Divider thickness='small' color='bg-black-5' />
           <div className='flex items-center justify-between'>
             <span className='caption-14-bd'>최종 결제 금액</span>
-            <div className='flex items-center gap-[0.4rem]'>
+            <div className='flex items-center gap-[0.2rem]'>
               <span className='title-23-eb'>{formatPrice(totalAmount)}</span>
               <span className='caption-14-md'>원</span>
             </div>

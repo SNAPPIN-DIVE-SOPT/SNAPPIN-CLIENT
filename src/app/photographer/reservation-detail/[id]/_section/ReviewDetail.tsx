@@ -21,10 +21,10 @@ export default function ReviewDetail({
   content,
 }: ReviewDetailProps) {
   return (
-    <div className='bg-black-1 flex flex-col gap-[2rem] px-[2rem] pt-[1.7rem] pb-[2rem]'>
+    <div className='bg-black-1 flex flex-col gap-[2rem] pt-[1.7rem] pb-[2rem] pl-[2rem]'>
       <p className='caption-14-bd'>리뷰 상세</p>
       <div className='flex flex-col gap-[1.2rem]'>
-        <div className='flex flex-col items-start gap-[0.6rem]'>
+        <div className='flex flex-col items-start gap-[0.6rem] pr-[2rem]'>
           <div className='flex w-full items-center justify-between'>
             <ReviewStar starSize='small' starFillColor='text-black-9' rating={rating} />
             <span className='caption-12-md text-black-7'>{formatShortDate(createdAt)}</span>
@@ -32,7 +32,7 @@ export default function ReviewDetail({
           <span className='caption-12-md text-black-7'>{reviewer}</span>
         </div>
 
-        <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
+        <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll pr-[2rem]'>
           {images.map((image) => (
             <Link
               key={image}
@@ -44,7 +44,7 @@ export default function ReviewDetail({
           ))}
         </div>
 
-        <p className='caption-14-md'>{content}</p>
+        <p className='caption-14-md pr-[2rem]'>{content}</p>
       </div>
     </div>
   );

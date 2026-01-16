@@ -37,7 +37,7 @@ export default function ReservationContent() {
               description='‘탐색’에서 다양한 포트폴리오를 확인해보세요'
             />
           ) : (
-            <div className='flex flex-col gap-[1.2rem]'>
+            <div className='flex flex-col'>
               {data.reservations.map((item, index) => {
                 const { reservation } = item;
                 const { product } = reservation;

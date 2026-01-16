@@ -68,6 +68,7 @@ export default function Page() {
         ) : (
           <>
             <DetailPageFooter
+              id={data.productInfo.id}
               date={data.reservationInfo.date}
               startTime={data.reservationInfo.startTime}
               status={data.status as StateCode}

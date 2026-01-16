@@ -8,10 +8,12 @@ export default function Page() {
   const data = RESERVATION_DETAIL_MOCK;
 
   return (
-    <div className='bg-black-10 flex min-h-dvh flex-col items-center justify-around'>
+    <div className='bg-black-10 flex h-dvh flex-col'>
       <NavigationClient />
-      <ImageSlide images={data.reviewInfo.images.map((image) => ({ src: image }))} />
-      <div className='flex w-full flex-col gap-[1.2rem] px-[2rem]'>
+      <div className='flex flex-1 items-center'>
+        <ImageSlide images={data.reviewInfo.images.map((image) => ({ src: image }))} />
+      </div>
+      <div className='flex flex-col gap-[1.2rem] px-[2rem] pt-[2rem] pb-[6rem]'>
         <div className='flex flex-col gap-[0.6rem]'>
           <div className='flex items-center justify-between'>
             <ReviewStar
