@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SectionTabs, Divider } from '@/ui';
-import ReviewStar from '@/ui/review-star/ReviewStar';
+import { SectionTabs } from '@/ui';
 import {
   PhotographerSection,
   PortfolioListSection,
