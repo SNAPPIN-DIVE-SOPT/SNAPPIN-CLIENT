@@ -36,7 +36,7 @@ export default function Header() {
           <IconHome />
         </IconButton>
       }
-      className='flex justify-between items-center px-[2rem] py-[0.3rem] border-b-1 border-b-black-5 bg-black-1'
+      className='flex justify-between items-center px-[2rem] py-[0.3rem] border-b-1 border-b-black-5 bg-black-1 z-20'
       isFixed={true}
     />
   );
