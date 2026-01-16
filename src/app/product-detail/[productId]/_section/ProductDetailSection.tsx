@@ -95,7 +95,7 @@ function DetailLayout({ detailList }: { detailList: Detail[]; }) {
     <div className='flex flex-col gap-[0.8rem]'>
       {detailList.map((detail) => (
         <div key={detail.label} className='flex gap-[4rem]'>
-          <span className='caption-12-md text-black-7 w-[12.1rem]'>{detail.label}</span>
+          <span className='caption-12-md text-black-7 w-[12.2rem]'>{detail.label}</span>
           <span className='caption-12-md text-black-10'>{detail.content}</span>
         </div>
       ))}
