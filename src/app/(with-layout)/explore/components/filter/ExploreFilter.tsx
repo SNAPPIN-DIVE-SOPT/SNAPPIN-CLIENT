@@ -96,7 +96,7 @@ export default function ExploreFilter({ moodList }: ExploreFilterProps) {
       <div className='relative flex flex-row items-center justify-between gap-[0.3rem] px-[0.4rem] py-[0.6rem]'>
         {/* 필터 초기화 버튼 */}
         <IconButton
-          className='py-[1rem h-[4.4rem] w-[4.4rem] px-[1.05rem]'
+          className='py-[1rem] h-[4.4rem] w-[4.4rem] px-[1.05rem]'
           onClick={handleReset}
           aria-label='무드 필터 초기화'
         >
