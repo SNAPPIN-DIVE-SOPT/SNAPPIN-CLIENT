@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Divider } from '@/ui';
 import { EmptyView, ReservationCard } from '../components';
 import { RESERVATION_MOCK } from '../mock/reservationList.mock';
-import { STATE_CODES, StateCode } from '@/types/stateCode';
+import { StateCode } from '@/types/stateCode';
 import { useToast } from '@/ui/toast/hooks/useToast';
 
 export default function ShootCompletedListSection() {
@@ -32,12 +32,6 @@ export default function ShootCompletedListSection() {
   return (
     <section className='flex flex-col gap-[1.2rem] p-[1.6rem]'>
       {data.map(({ reservation }, reservationIndex) => {
-        // 리뷰 버튼 필요 여부 판단
-        const reviewWriteHref =
-          reservation.status === STATE_CODES.SHOOT_COMPLETED && !reservation.product.isReviewed
-            ? `/review/write/${reservation.reservationId}`
-            : undefined;
-
         return (
           <div key={reservation.reservationId}>
             <ReservationCard
