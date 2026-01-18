@@ -22,20 +22,42 @@ import {
   CreateReviewPayload,
   GetAllMoodFiltersData,
   GetCategoriesData,
+  GetCuratedPortfoliosData,
   GetCurationQuestionData,
   GetPhotographerProfileData,
   GetPlacesData,
+  GetPopularPortfoliosData,
+  GetPortfolioDetailData,
+  GetPortfolioListData,
+  GetPortfolioListRequest,
   GetProductAvailableTimesData,
   GetProductClosedDatesData,
+  GetProductDetailData,
+  GetProductListData,
+  GetProductListQuery,
   GetProductPeopleRangeData,
+  GetProductPriceData,
   GetProductReviewsData,
+  GetRecommendationData,
+  GetReservationDetailData,
   GetReservationsData,
+  GetReviewDetailData,
   GetUserInfoData,
   GetWishedPortfoliosData,
   GetWishedProductsData,
   LogoutData,
+  PatchUserRoleData,
+  PostPresignedUrlData,
+  PostPresignedUrlRequest,
   ProductReservationRequest,
   Type무드태그와연결할사진정보DTO,
+  UpdateReservationCancelData,
+  UpdateReservationCompleteData,
+  UpdateReservationConfirmData,
+  UpdateReservationPaymentData,
+  UpdateReservationRefuseData,
+  UpdateReservationRequestPaymentData,
+  UpdateReservationRequestPaymentPayload,
   UpdateWishPortfolioData,
   UpdateWishProductData,
   WishPortfolioRequest,
@@ -115,6 +137,28 @@ export class Api<
   ) =>
     this.request<UpdateWishPortfolioData, any>({
       path: `/api/v1/wishes/portfolios`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description 리뷰에 업로드하는 사진을 저장할 S3 Presigned URL을 생성하여 반환합니다.
+   *
+   * @tags 011 - Review
+   * @name PostPresignedUrl
+   * @summary 리뷰 사진 url 발급 API
+   * @request POST:/api/v1/reviews/image
+   * @secure
+   * @response `200` `PostPresignedUrlData` OK
+   */
+  postPresignedUrl = (
+    data: PostPresignedUrlRequest,
+    params: RequestParams = {},
+  ) =>
+    this.request<PostPresignedUrlData, any>({
+      path: `/api/v1/reviews/image`,
       method: "POST",
       body: data,
       secure: true,
@@ -305,6 +349,146 @@ export class Api<
       ...params,
     });
   /**
+   * @description 현재 로그인한 사용자가 유저 프로필 전환이 가능한 경우, 사용자 역할을 전환하여 accessCode를 재발급합니다.
+   *
+   * @tags 01 - User
+   * @name PatchUserRole
+   * @summary 유저 프로필 전환 API
+   * @request PATCH:/api/v1/users/role
+   * @secure
+   * @response `200` `PatchUserRoleData` OK
+   */
+  patchUserRole = (params: RequestParams = {}) =>
+    this.request<PatchUserRoleData, any>({
+      path: `/api/v1/users/role`,
+      method: "PATCH",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 작가에게 요청된 예약에 대해 결제 금액을 확정하고 고객에게 결제를 요청합니다.
+   *
+   * @tags 010 - Reservation
+   * @name UpdateReservationRequestPayment
+   * @summary 결제 요청 (작가)
+   * @request PATCH:/api/v1/reservations/{reservationId}/request-payment
+   * @secure
+   * @response `200` `UpdateReservationRequestPaymentData` OK
+   */
+  updateReservationRequestPayment = (
+    reservationId: string,
+    data: UpdateReservationRequestPaymentPayload,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateReservationRequestPaymentData, any>({
+      path: `/api/v1/reservations/${reservationId}/request-payment`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description 작가에게 들어온 예약에 대해 예약 거절 상태로 변경합니다.
+   *
+   * @tags 010 - Reservation
+   * @name UpdateReservationRefuse
+   * @summary 예약 거절 (작가)
+   * @request PATCH:/api/v1/reservations/{reservationId}/refuse
+   * @secure
+   * @response `200` `UpdateReservationRefuseData` OK
+   */
+  updateReservationRefuse = (
+    reservationId: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateReservationRefuseData, any>({
+      path: `/api/v1/reservations/${reservationId}/refuse`,
+      method: "PATCH",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 고객에게 결제 요청된 예약에 대해 결제 완료 상태로 변경합니다.
+   *
+   * @tags 010 - Reservation
+   * @name UpdateReservationPayment
+   * @summary 결제하기 (고객)
+   * @request PATCH:/api/v1/reservations/{reservationId}/pay
+   * @secure
+   * @response `200` `UpdateReservationPaymentData` OK
+   */
+  updateReservationPayment = (
+    reservationId: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateReservationPaymentData, any>({
+      path: `/api/v1/reservations/${reservationId}/pay`,
+      method: "PATCH",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 결제 완료된 작가의 예약을 예약 확정 상태로 변경합니다.
+   *
+   * @tags 010 - Reservation
+   * @name UpdateReservationConfirm
+   * @summary 예약 확정 (작가)
+   * @request PATCH:/api/v1/reservations/{reservationId}/confirm
+   * @secure
+   * @response `200` `UpdateReservationConfirmData` OK
+   */
+  updateReservationConfirm = (
+    reservationId: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateReservationConfirmData, any>({
+      path: `/api/v1/reservations/${reservationId}/confirm`,
+      method: "PATCH",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 예약 확정 상태인 작가의 예약을 촬영 완료 상태로 변경합니다.
+   *
+   * @tags 010 - Reservation
+   * @name UpdateReservationComplete
+   * @summary 촬영 완료 및 리뷰 요청하기 (작가)
+   * @request PATCH:/api/v1/reservations/{reservationId}/complete
+   * @secure
+   * @response `200` `UpdateReservationCompleteData` OK
+   */
+  updateReservationComplete = (
+    reservationId: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateReservationCompleteData, any>({
+      path: `/api/v1/reservations/${reservationId}/complete`,
+      method: "PATCH",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 고객의 예약을 취소 상태로 변경합니다.
+   *
+   * @tags 010 - Reservation
+   * @name UpdateReservationCancel
+   * @summary 예약 취소 (고객)
+   * @request PATCH:/api/v1/reservations/{reservationId}/cancel
+   * @secure
+   * @response `200` `UpdateReservationCancelData` OK
+   */
+  updateReservationCancel = (
+    reservationId: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<UpdateReservationCancelData, any>({
+      path: `/api/v1/reservations/${reservationId}/cancel`,
+      method: "PATCH",
+      secure: true,
+      ...params,
+    });
+  /**
    * @description 현재 로그인한 사용자의 역할을 기반으로 사용자 정보를 조회합니다.
    *
    * @tags 01 - User
@@ -317,6 +501,23 @@ export class Api<
   getUserInfo = (params: RequestParams = {}) =>
     this.request<GetUserInfoData, any>({
       path: `/api/v1/users/me`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 상품 상세 조회와 고객/작가 예약에서 리뷰 상세 정보를 조회합니다.
+   *
+   * @tags 011 - Review
+   * @name GetReviewDetail
+   * @summary 리뷰 상세 조회
+   * @request GET:/api/v1/reviews/{reviewId}
+   * @secure
+   * @response `200` `GetReviewDetailData` OK
+   */
+  getReviewDetail = (reviewId: string, params: RequestParams = {}) =>
+    this.request<GetReviewDetailData, any>({
+      path: `/api/v1/reviews/${reviewId}`,
       method: "GET",
       secure: true,
       ...params,
@@ -349,6 +550,63 @@ export class Api<
       ...params,
     });
   /**
+   * @description 예약된 상품에 대하여 예약 상세 정보와 결제 정보를 조회합니다.
+   *
+   * @tags 010 - Reservation
+   * @name GetReservationDetail
+   * @summary 예약상세/촬영내역 조회
+   * @request GET:/api/v1/reservations/{reservationId}
+   * @secure
+   * @response `200` `GetReservationDetailData` OK
+   */
+  getReservationDetail = (reservationId: string, params: RequestParams = {}) =>
+    this.request<GetReservationDetailData, any>({
+      path: `/api/v1/reservations/${reservationId}`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 요청받은 조건에 맞게 상품 목록을 필터링하여 반환합니다.
+   *
+   * @tags 06 - Product
+   * @name GetProductList
+   * @summary 상품 목록 조회 API
+   * @request GET:/api/v1/products
+   * @secure
+   * @response `200` `GetProductListData` OK
+   */
+  getProductList = (
+    query: {
+      query: GetProductListQuery;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<GetProductListData, any>({
+      path: `/api/v1/products`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 상품 상세 정보, 상품 안내, 관련 작가, 관련 상품을 함께 조회합니다.
+   *
+   * @tags 06 - Product
+   * @name GetProductDetail
+   * @summary 상품 상세 정보 및 상품 안내 조회 API
+   * @request GET:/api/v1/products/{productId}
+   * @secure
+   * @response `200` `GetProductDetailData` OK
+   */
+  getProductDetail = (productId: string, params: RequestParams = {}) =>
+    this.request<GetProductDetailData, any>({
+      path: `/api/v1/products/${productId}`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
    * @description 커서 기반 페이지네이션 방식으로 상품 리뷰 목록을 조회합니다.
    *
    * @tags 06 - Product
@@ -373,6 +631,23 @@ export class Api<
       path: `/api/v1/products/${productId}/reviews`,
       method: "GET",
       query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 작가의 결제 요청 과정에서 상품의 기본 촬영 비용을 조회합니다.
+   *
+   * @tags 06 - Product
+   * @name GetProductPrice
+   * @summary 기본 촬영 비용 조회 API
+   * @request GET:/api/v1/products/{productId}/price
+   * @secure
+   * @response `200` `GetProductPriceData` OK
+   */
+  getProductPrice = (productId: string, params: RequestParams = {}) =>
+    this.request<GetProductPriceData, any>({
+      path: `/api/v1/products/${productId}/price`,
+      method: "GET",
       secure: true,
       ...params,
     });
@@ -450,6 +725,81 @@ export class Api<
       ...params,
     });
   /**
+   * @description 포트폴리오 전체 조회, 필터링, 검색 시 사용되는 API 입니다.
+   *
+   * @tags 08 - Portfolio
+   * @name GetPortfolioList
+   * @summary 포폴 목록 조회 (전체조회/필터링(무드&상품)/검색) API
+   * @request GET:/api/v1/portfolios
+   * @secure
+   * @response `200` `GetPortfolioListData` OK
+   */
+  getPortfolioList = (
+    query: {
+      /** 포폴 목록 조회 요청 DTO - 쿼리 파라미터용 */
+      request: GetPortfolioListRequest;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<GetPortfolioListData, any>({
+      path: `/api/v1/portfolios`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 포트폴리오 ID를 받아서 포트폴리오 상세 정보를 조회합니다.
+   *
+   * @tags 08 - Portfolio
+   * @name GetPortfolioDetail
+   * @summary 포트폴리오 상세 조회 API
+   * @request GET:/api/v1/portfolios/{portfolioId}
+   * @secure
+   * @response `200` `GetPortfolioDetailData` OK
+   */
+  getPortfolioDetail = (portfolioId: number, params: RequestParams = {}) =>
+    this.request<GetPortfolioDetailData, any>({
+      path: `/api/v1/portfolios/${portfolioId}`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 큐레이션 기반 포트폴리오 추천 목록을 조회합니다.
+   *
+   * @tags 08 - Portfolio
+   * @name GetCuratedPortfolios
+   * @summary 로그인 시 큐레이션 기반 포폴 추천 목록 조회
+   * @request GET:/api/v1/portfolios/recommendation
+   * @secure
+   * @response `200` `GetCuratedPortfoliosData` OK
+   */
+  getCuratedPortfolios = (params: RequestParams = {}) =>
+    this.request<GetCuratedPortfoliosData, any>({
+      path: `/api/v1/portfolios/recommendation`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 비로그인 시 인기 무드와 많이 매칭되는 순서대로 속한 포트폴리오를 3개 조회합니다.
+   *
+   * @tags 08 - Portfolio
+   * @name GetPopularPortfolios
+   * @summary 비로그인 시 인기 무드 기반 포폴 추천 목록 조회 API
+   * @request GET:/api/v1/portfolios/popular
+   * @secure
+   * @response `200` `GetPopularPortfoliosData` OK
+   */
+  getPopularPortfolios = (params: RequestParams = {}) =>
+    this.request<GetPopularPortfoliosData, any>({
+      path: `/api/v1/portfolios/popular`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
    * @description 입력받은 키워드로 촬영 장소를 검색합니다.
    *
    * @tags 05 - Place
@@ -505,6 +855,23 @@ export class Api<
   getAllMoodFilters = (params: RequestParams = {}) =>
     this.request<GetAllMoodFiltersData, any>({
       path: `/api/v1/moods`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 최근 1개월 간 예약 건수가 가장 많은 장소 5곳과 랜덤으로 작가 5명을 추천합니다.
+   *
+   * @tags 04 - Home
+   * @name GetRecommendation
+   * @summary 스냅 명소 및 작가 추천 목록 조회 API
+   * @request GET:/api/v1/home/recommendation
+   * @secure
+   * @response `200` `GetRecommendationData` OK
+   */
+  getRecommendation = (params: RequestParams = {}) =>
+    this.request<GetRecommendationData, any>({
+      path: `/api/v1/home/recommendation`,
       method: "GET",
       secure: true,
       ...params,
