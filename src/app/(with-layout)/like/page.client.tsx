@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SectionTabs } from '@/ui';
 import { LIKE_TAB, LIKE_TAB_MAP } from '@/app/(with-layout)/like/constants/tab';
@@ -8,7 +8,9 @@ import PortfolioListSection from '@/app/(with-layout)/like/_section/PortfolioLis
 import ProductListSection from '@/app/(with-layout)/like/_section/ProductListSection';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useToast } from '@/ui/toast/hooks/useToast';
-import Header from '@/app/(with-layout)/like/component/Header';
+import Header from '@/app/(with-layout)/like/component/header/Header';
+import LikeEmpty from '@/app/(with-layout)/like/component/empty/LikeEmpty';
+import PortfolioListSkeleton from '@/ui/skeletone/portfolio/PortfolioListSkeleton';
 
 const isLikeTab = (value: string | null) => {
   return value === LIKE_TAB.PORTFOLIO || value === LIKE_TAB.PRODUCT;
@@ -55,12 +57,24 @@ export default function PageClient() {
       <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
         <SectionTabs.Contents value={LIKE_TAB.PORTFOLIO} className='min-h-full'>
           {/* 포트폴리오 목록 */}
-          <PortfolioListSection />
+          {!isLogIn ? (
+            <LikeEmpty tab={currentTab} />
+          ) : (
+            <Suspense fallback={<PortfolioListSkeleton />}>
+              <PortfolioListSection />
+            </Suspense>
+          )}
         </SectionTabs.Contents>
 
         <SectionTabs.Contents value={LIKE_TAB.PRODUCT} className='bg-black-3 min-h-full'>
           {/* 상품 목록 */}
-          <ProductListSection />
+          {!isLogIn ? (
+            <LikeEmpty tab={currentTab} />
+          ) : (
+            <Suspense>
+              <ProductListSection />
+            </Suspense>
+          )}
         </SectionTabs.Contents>
       </main>
     </SectionTabs>
