@@ -15,13 +15,14 @@ import {
   CHIP_POSES,
   Phase,
 } from './phaseAnimation';
-import { MOOD_RESULT_MOCK } from '../../mock/result.mock';
 import { MoodCode } from '@/types/moodCode';
+import type { CreateMoodCurationResponse } from '@/swagger-api/data-contracts';
 
-type MoodAnimationResultProps = { data: typeof MOOD_RESULT_MOCK };
+type MoodAnimationResultProps = { data: CreateMoodCurationResponse };
 
 export default function MoodAnimationResult({ data }: MoodAnimationResultProps) {
   const router = useRouter();
+  console.log(data);
 
   const [phase, setPhase] = useState<Phase>('intro');
 
@@ -76,12 +77,12 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
 
               <div className='flex items-center gap-[0.5rem]'>
                 <div className='flex gap-[0.5rem]'>
-                  {data.moods.map((mood) => (
+                  {data.moods?.map((mood) => (
                     <div
-                      key={mood}
+                      key={mood.id}
                       className='caption-14-md text-black-10 border-black-10 rounded-[0.3rem] border px-[0.6rem] py-[0.4rem]'
                     >
-                      {mood}
+                      {mood.name}
                     </div>
                   ))}
                 </div>
@@ -111,15 +112,15 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
           }}
         >
           <motion.div variants={CHIP_VARIANTS} custom={CHIP_POSES[0]}>
-            <MoodChip mood={data.moods[0] as MoodCode} />
+            <MoodChip mood={data.moods?.[0]?.name as MoodCode} />
           </motion.div>
 
           <motion.div variants={CHIP_VARIANTS} custom={CHIP_POSES[1]}>
-            <MoodChip mood={data.moods[1] as MoodCode} />
+            <MoodChip mood={data.moods?.[1]?.name as MoodCode} />
           </motion.div>
 
           <motion.div variants={CHIP_VARIANTS} custom={CHIP_POSES[2]}>
-            <MoodChip mood={data.moods[2] as MoodCode} />
+            <MoodChip mood={data.moods?.[2]?.name as MoodCode} />
           </motion.div>
         </motion.div>
       )}

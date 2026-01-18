@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
-import type { GetCurationQuestionData, GetCurationQuestionPhotosResponse } from '@/swagger-api/data-contracts';
+import type { ApiResponseBodyCreateMoodCurationResponseVoid, CreateMoodCurationResponse, GetCurationQuestionData, GetCurationQuestionPhotosResponse } from '@/swagger-api/data-contracts';
 import { USER_QUERY_KEY } from '@/query-key/user';
 
 export const useGetAiCuration = (step: number) => {
@@ -19,5 +19,26 @@ export const useGetAiCuration = (step: number) => {
     staleTime: 0,
     gcTime: 0,
     refetchOnMount: 'always',
+  });
+};
+
+
+export const usePostAiCuration = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<CreateMoodCurationResponse, Error, number[]>({
+    mutationFn: async (photoIds: number[]) => {
+      const res = await apiRequest<ApiResponseBodyCreateMoodCurationResponseVoid>({
+        endPoint: '/api/v1/curation',
+        method: 'POST',
+        data: { photoIds: photoIds },
+      });
+
+      if (!res.data) throw new Error('No data from POST /api/v1/curation');
+      return res.data; 
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(USER_QUERY_KEY.AI_CURATION_RESULT(), data);
+    },
   });
 };
