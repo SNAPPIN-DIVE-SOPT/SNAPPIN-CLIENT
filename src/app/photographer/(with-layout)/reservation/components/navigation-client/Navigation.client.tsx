@@ -11,7 +11,7 @@ export default function NavigationClient() {
   return (
     <Navigation
       isFixed={true}
-      left={<Logo width={72} />}
+      left={<Logo width={82} />}
       right={<IconSearch onClick={handleSearchClick} />}
     />
   );

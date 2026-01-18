@@ -16,12 +16,15 @@ export default function ReservationContent() {
     setSelectedTabValue(value as ReservationTabValue);
   };
 
-  //TODO: 서버 데이터 연동( 파라미터에 selectedTabValue 추가)
+  //TODO: 서버 데이터 연동, 파라미터에 selectedTabValue 추가
   const data = RESERVATION_MOCK;
 
   return (
     <div className='flex flex-col'>
-      <SectionTabs value={selectedTabValue} handleValueChange={handleTabChange}>
+      <SectionTabs
+        value={selectedTabValue}
+        handleValueChange={handleTabChange}
+      >
         <SectionTabs.List>
           {RESERVATION_TABS.map((tab) => (
             <SectionTabs.Tab key={tab.value} value={tab.value}>
