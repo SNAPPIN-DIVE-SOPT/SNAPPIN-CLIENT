@@ -42,7 +42,7 @@ export default function MoodCurationSection() {
           <CarouselCuration
             key={portfolio.id}
             images={portfolio.images?.map((image) => ({
-              src: "https://snappin-dev-images.s3.ap-northeast-2.amazonaws.com/portfolio/photo_graduation_1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260118T120148Z&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIASC23XLO7TIMEOLX4%2F20260118%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Expires=600&X-Amz-Signature=eaa42c79cb323c33092557d5fc0d0e00e7e7c0621ce8c0cc88aff8165a853198",
+              src: image.imageUrl ?? '',
               alt: portfolio.photographerName ?? '',
             })) ?? []}
             tags={portfolio.moods ?? []}

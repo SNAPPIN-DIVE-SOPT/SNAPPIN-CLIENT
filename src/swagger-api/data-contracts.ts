@@ -415,6 +415,8 @@ export interface ApiResponseBodyCreateKakaoLoginResponseVoid {
 
 /** 카카오 로그인 응답 DTO */
 export interface CreateKakaoLoginResponse {
+  /** 신규 가입 여부 */
+  isNew?: boolean;
   /** 인증 시 필요한 accessToken입니다. refreshToken은 쿠키로 내려드립니다. */
   accessToken?: string;
 }
@@ -951,7 +953,7 @@ export interface ReservationListItemResponse {
   client?: string;
   /**
    * 예약 생성 일시
-   * @example "2026-01-12 15:00:02"
+   * @example "2026-01-12 15:00"
    */
   createdAt?: string;
   /** 예약 목록 상품 응답 DTO */
@@ -1045,7 +1047,7 @@ export interface ReservationDetailInfoResponse {
   client?: string;
   /**
    * 예약 생성 일시
-   * @example "2026-02-18 10:05:44"
+   * @example "2026-02-18 10:05"
    */
   createdAt?: string;
   /**
@@ -2045,6 +2047,8 @@ export interface GetRecommendationPhotographerInfoResponse {
   profileImageUrl?: string;
   /** 신규 작가 여부 */
   isNew?: boolean;
+  /** 작가 한 줄 소개 */
+  bio?: string;
   /** 작가 촬영 상품 목록 */
   specialties?: string[];
 }

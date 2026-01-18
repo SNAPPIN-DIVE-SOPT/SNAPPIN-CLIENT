@@ -43,7 +43,7 @@ const RecommendationAuthor = () => {
       <SectionHeader title='이런 작가는 어때요?' />
       <div className='scrollbar-hide flex gap-[0.8rem] overflow-x-auto'>
         {data?.photographers?.map((photographer,index) => (
-          <Author key={index} id={photographer.id??0} name={photographer.name ?? ''} profileImageUrl={photographer.profileImageUrl ?? ''} isNew={false} bio={photographer.introduction ?? ''} specialties={photographer.specialties ?? []} />
+          <Author key={index} id={photographer.id??0} name={photographer.name ?? ''} profileImageUrl={photographer.profileImageUrl ?? ''} isNew={false} bio={photographer.bio ?? ''} specialties={photographer.specialties ?? []} />
         ))}
       </div>
     </section>
