@@ -90,7 +90,6 @@ export const apiRequest = async <T = unknown>({
     const fetchOptions: RequestInit = {
       method,
       headers: defaultHeaders,
-      credentials: 'include',
     };
     if (data) {
       fetchOptions.body = JSON.stringify(data);
