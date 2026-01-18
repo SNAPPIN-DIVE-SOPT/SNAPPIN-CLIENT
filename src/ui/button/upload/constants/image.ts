@@ -1,5 +1,1 @@
-export const IMAGE_ACCEPT = {
-  ALL: 'image/*',
-  BASIC: 'image/jpeg,image/png,image/webp',
-  WITH_HEIC: 'image/jpeg,image/png,image/webp,image/heic',
-} as const;
+export { IMAGE_ACCEPT } from '@/constants/image-type/imageAccept';
