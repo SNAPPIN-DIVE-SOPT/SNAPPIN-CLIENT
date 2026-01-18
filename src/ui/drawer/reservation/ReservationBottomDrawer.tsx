@@ -135,8 +135,8 @@ export default function ReservationBottomDrawer({
       >
         {/* 날짜 선택 */}
         <BottomDrawer.Section>
-          <BottomDrawer.Row>
-            <BottomDrawer.Title className='px-[3rem] py-[2rem]'>
+          <BottomDrawer.Row className='px-[2rem]'>
+            <BottomDrawer.Title className='px-[1rem] py-[2rem]'>
               희망 날짜 및 시간을 선택해 주세요
             </BottomDrawer.Title>
             <DatePicker
