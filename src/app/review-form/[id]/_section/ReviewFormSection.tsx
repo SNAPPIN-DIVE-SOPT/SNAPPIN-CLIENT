@@ -1,34 +1,21 @@
 'use client';
 
-import { useState } from 'react';
 import { TextareaField, FieldMessage } from '@/ui';
 
 type ReviewFormSectionProps = {
   content: string;
-  handleChangeContent: (value: string) => { ok: boolean; reason?: 'min' | 'max' };
+  handleChangeContent: (value: string) => void;
+  errorMessage?: string;
+  maxLength: number;
 };
-
-const REVIEW_CONTENT_MAX_LENGTH = 500;
 
 export default function ReviewFormSection({
   content,
   handleChangeContent,
+  errorMessage,
+  maxLength,
 }: ReviewFormSectionProps) {
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const next = event.target.value;
-    const result = handleChangeContent(next);
-
-    if (!result.ok && result.reason === 'max') {
-      setErrorMessage(`최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.`);
-      return;
-    }
-
-    setErrorMessage('');
-  };
-
-  const hasError = errorMessage !== '';
+  const hasError = Boolean(errorMessage);
 
   return (
     <section className='bg-black-1 flex flex-col px-[2rem]'>
@@ -43,17 +30,17 @@ export default function ReviewFormSection({
           <div className='flex flex-row justify-between'>
             <FieldMessage
               id='review-form-error'
-              message={errorMessage}
+              message={errorMessage ?? ' '}
               variant={hasError ? 'error' : 'help'}
             />
             <FieldMessage
               id='review-form-help'
-              message={`(${content.length}/${REVIEW_CONTENT_MAX_LENGTH})`}
+              message={`(${content.length}/${maxLength})`}
               variant={hasError ? 'error' : 'help'}
             />
           </div>
         }
-        onChange={handleChange}
+        onChange={(e) => handleChangeContent(e.target.value)}
       />
     </section>
   );

@@ -4,18 +4,21 @@ type ReviewStarSectionProps = {
   rating: number;
   handleChangeRating: (rating: number) => void;
   errorMessage?: string;
+  maxRating: number;
 };
 
-const MAX_RATING = 5;
-
-export default function ReviewStarSection({ rating, handleChangeRating }: ReviewStarSectionProps) {
+export default function ReviewStarSection({
+  rating,
+  handleChangeRating,
+  maxRating,
+}: ReviewStarSectionProps) {
   const handleClickStar = (index: number) => {
     handleChangeRating(index + 1);
   };
 
   const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const next = Number(event.target.value);
-    handleChangeRating(Math.max(0, Math.min(MAX_RATING, next)));
+    handleChangeRating(Math.max(0, Math.min(maxRating, next)));
   };
 
   return (
@@ -29,7 +32,7 @@ export default function ReviewStarSection({ rating, handleChangeRating }: Review
           className='pointer-events-none'
         />
         <div className='absolute inset-0 flex items-center gap-[0.5rem]'>
-          {Array.from({ length: MAX_RATING }).map((_, idx) => (
+          {Array.from({ length: maxRating }).map((_, idx) => (
             <button
               key={idx}
               type='button'
@@ -42,7 +45,7 @@ export default function ReviewStarSection({ rating, handleChangeRating }: Review
         <input
           type='range'
           min={0}
-          max={MAX_RATING}
+          max={maxRating}
           step={1}
           value={rating}
           onChange={handleRangeChange}

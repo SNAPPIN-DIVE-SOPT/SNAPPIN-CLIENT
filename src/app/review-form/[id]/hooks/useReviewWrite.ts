@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IMAGE_ACCEPT, MAX_IMAGE_SIZE } from '@/constants/image-type/imageAccept';
 
-const REVIEW_CONTENT_MAX_LENGTH = 500;
-const MAX_RATING = 5;
+export const REVIEW_CONTENT_MAX_LENGTH = 500;
+export const MAX_RATING = 5;
 const MAX_IMAGE_COUNT = 5;
 const ALLOWED_TYPES = new Set(IMAGE_ACCEPT.WITH_HEIC.split(','));
 
@@ -113,8 +113,15 @@ export const useReviewWrite = () => {
     imageUrls: errors.imageUrls?.message,
   };
 
+  const compatibleFormData = {
+    rating: formData.rating,
+    content: formData.content,
+    imageUrls: formData.imageUrls,
+  };
+
   return {
     formData,
+    compatibleFormData,
     isValid,
     handleSubmitForm,
     updateRating,

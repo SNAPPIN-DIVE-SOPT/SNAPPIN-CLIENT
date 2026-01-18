@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { ClientHeader } from './components';
 import { ReviewFormSection, ReviewStarSection, ImageUploadSection } from './_section';
 import ClientFooter from './components/client-footer/ClientFooter';
-import { useReviewWrite } from './hooks/useReviewWrite';
+import { useReviewWrite, REVIEW_CONTENT_MAX_LENGTH, MAX_RATING } from './hooks/useReviewWrite';
 import { REVIEW_PRODUCT } from './mock/reviewProduct.mock';
 
 export default function Page() {
   const {
-    formData,
+    compatibleFormData,
     isValid,
     updateRating,
     updateContent,
@@ -47,10 +47,19 @@ export default function Page() {
         />
       </section>
       <Divider thickness='large' color='bg-black-3' />
-      <ReviewStarSection rating={formData.rating} handleChangeRating={updateRating} />
-      <ReviewFormSection content={formData.content} handleChangeContent={updateContent} />
+      <ReviewStarSection
+        rating={compatibleFormData.rating}
+        handleChangeRating={updateRating}
+        maxRating={MAX_RATING}
+      />
+      <ReviewFormSection
+        content={compatibleFormData.content}
+        handleChangeContent={updateContent}
+        errorMessage={compatibleErrors.content}
+        maxLength={REVIEW_CONTENT_MAX_LENGTH}
+      />
       <ImageUploadSection
-        imageUrls={formData.imageUrls}
+        imageUrls={compatibleFormData.imageUrls}
         handleChangeImageUrls={updateImageUrls}
         validateFiles={validateFiles}
         errorMessage={compatibleErrors.imageUrls}
