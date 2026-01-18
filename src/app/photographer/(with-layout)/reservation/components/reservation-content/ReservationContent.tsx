@@ -19,8 +19,6 @@ export default function ReservationContent() {
   const searchParams = useSearchParams();
   const selectedTab = isReservationTab(searchParams.get('tab')) ? searchParams.get('tab') as ReservationTab : RESERVATION_TAB.PHOTOGRAPHER_REQUESTED;
   
-  //TODO: 서버 데이터 연동, 파라미터에 selectedTabValue 추가
-
   const { data } = useGetReservationList(selectedTab);
   
   const handleTabChange = (value: string) => {

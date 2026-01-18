@@ -84,9 +84,11 @@ export default function DetailPageFooter({ id, date, startTime, status }: Detail
         };
 
       default:
-        throw new Error(
-          `작가 예약 상세 페이지에서 예약 상태에 대한 버튼 설정이 없습니다 : ${status}`,
-        );
+        return {
+          label: '예약 확정',
+          disabled: true,
+          onClick: undefined,
+        };
     }
   };
 
