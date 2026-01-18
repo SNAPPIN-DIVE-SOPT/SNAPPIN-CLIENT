@@ -104,6 +104,52 @@ export interface WishPortfolioResponse {
   liked?: boolean;
 }
 
+/** 리뷰 사진 Presigned URL 발급 요청 DTO */
+export interface PostPresignedUrlRequest {
+  /**
+   * 원본 사진 파일명
+   * @example "review_1.jpg"
+   */
+  fileName: string;
+  /**
+   * 파일 MIME 타입
+   * @example "image/jpg"
+   */
+  contentType: string;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyPostPresignedUrlResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 리뷰 이미지 URL 발급 응답 DTO */
+  data?: PostPresignedUrlResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 리뷰 이미지 URL 발급 응답 DTO */
+export interface PostPresignedUrlResponse {
+  /** 리뷰 이미지를 등록할 Presigned URL */
+  uploadUrl?: string;
+  /** 리뷰 이미지 미리보기 조회 시 필요한 Presigned URL */
+  imageUrl?: string;
+  /** 리뷰 이미지 S3 Key */
+  s3Key?: string;
+}
+
 /** 공통 응답 DTO */
 export interface ApiResponseBodyCreateReservationReviewResponseVoid {
   /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
@@ -369,8 +415,285 @@ export interface ApiResponseBodyCreateKakaoLoginResponseVoid {
 
 /** 카카오 로그인 응답 DTO */
 export interface CreateKakaoLoginResponse {
+  /** 신규 가입 여부 */
+  isNew?: boolean;
   /** 인증 시 필요한 accessToken입니다. refreshToken은 쿠키로 내려드립니다. */
   accessToken?: string;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyGetSwitchedUserProfileResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 유저 프로필 전환 API 응답 DTO */
+  data?: GetSwitchedUserProfileResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 유저 프로필 전환 API 응답 DTO */
+export interface GetSwitchedUserProfileResponse {
+  /** 새로 발급된 AccessToken */
+  accessToken?: string;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyRequestPaymentReservationResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 예약 결제 요청 응답 DTO */
+  data?: RequestPaymentReservationResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 결제 요청 정보 */
+export interface Payment {
+  /** @format int32 */
+  basePrice?: number;
+  /** @format int32 */
+  extraPrice?: number;
+  /** @format int32 */
+  totalPrice?: number;
+}
+
+/** 예약 결제 요청 응답 DTO */
+export interface RequestPaymentReservationResponse {
+  /**
+   * 결제 요청 처리된 예약 ID
+   * @format int64
+   * @example 501
+   */
+  reservationId?: number;
+  /**
+   * 변경된 예약 상태
+   * @example "PAYMENT_REQUESTED"
+   */
+  status?:
+    | "RESERVATION_REQUESTED"
+    | "PHOTOGRAPHER_CHECKING"
+    | "PAYMENT_REQUESTED"
+    | "PAYMENT_COMPLETED"
+    | "RESERVATION_CONFIRMED"
+    | "RESERVATION_CANCELED"
+    | "RESERVATION_REFUSED"
+    | "SHOOT_COMPLETED";
+  /** 결제 요청 정보 */
+  payment?: Payment;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyRefuseReservationResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 예약 거절 응답 DTO */
+  data?: RefuseReservationResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 예약 거절 응답 DTO */
+export interface RefuseReservationResponse {
+  /**
+   * 거절 완료된 예약 ID
+   * @format int64
+   * @example 51
+   */
+  reservationId?: number;
+  /**
+   * 변경된 예약 상태
+   * @example "RESERVATION_REFUSED"
+   */
+  status?: string;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyPayReservationResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 예약 결제하기 응답 DTO */
+  data?: PayReservationResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 예약 결제하기 응답 DTO */
+export interface PayReservationResponse {
+  /**
+   * 결제 완료된 예약 아이디
+   * @format int64
+   * @example 501
+   */
+  reservationId?: number;
+  /**
+   * 변경된 예약 상태
+   * @example "PAYMENT_COMPLETED"
+   */
+  status?: string;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyConfirmReservationResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 예약 확정 응답 DTO */
+  data?: ConfirmReservationResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 예약 확정 응답 DTO */
+export interface ConfirmReservationResponse {
+  /**
+   * 확정된 예약 ID
+   * @format int64
+   * @example 501
+   */
+  reservationId?: number;
+  /**
+   * 변경된 예약 상태
+   * @example "RESERVATION_CONFIRMED"
+   */
+  status?: string;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyCompleteReservationResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 예약 촬영 완료/리뷰 요청 응답 DTO */
+  data?: CompleteReservationResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 예약 촬영 완료/리뷰 요청 응답 DTO */
+export interface CompleteReservationResponse {
+  /**
+   * 촬영 완료 처리된 예약 ID
+   * @format int64
+   * @example 501
+   */
+  reservationId?: number;
+  /**
+   * 변경된 예약 상태
+   * @example "SHOOT_COMPLETED"
+   */
+  status?: string;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyCancelReservationResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 예약 취소 응답 DTO */
+  data?: CancelReservationResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 예약 취소 응답 DTO */
+export interface CancelReservationResponse {
+  /**
+   * 취소 처리된 예약 ID
+   * @format int64
+   * @example 501
+   */
+  reservationId?: number;
+  /**
+   * 취소 처리 이전의 예약 상태
+   * @example "PAYMENT_REQUESTED"
+   */
+  previousStatus?: string;
+  /**
+   * 변경된 예약 상태
+   * @example "RESERVATION_CANCELED"
+   */
+  status?: string;
 }
 
 /** 공통 응답 DTO */
@@ -554,7 +877,7 @@ export interface GetUserInfoResponse {
 }
 
 /** 공통 응답 DTO */
-export interface ApiResponseBodyReservationListResponseVoid {
+export interface ApiResponseBodyGetReviewDetailResponseVoid {
   /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
   success?: boolean;
   /**
@@ -570,39 +893,500 @@ export interface ApiResponseBodyReservationListResponseVoid {
    */
   code?: string;
   /** 해당 API에서 반환하는 결과 데이터입니다. */
+  data?: GetReviewDetailResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 해당 API에서 반환하는 결과 데이터입니다. */
+export interface GetReviewDetailResponse {
+  /** @format int64 */
+  id?: number;
+  reviewer?: string;
+  /** @format int32 */
+  rating?: number;
+  /** @format date */
+  createdAt?: string;
+  images?: string[];
+  content?: string;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyReservationListResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 예약 목록 조회 응답 DTO */
   data?: ReservationListResponse;
   /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
   meta?: object;
 }
 
+/** 예약 목록 단일 응답 DTO */
 export interface ReservationListItemResponse {
-  /** @format int64 */
+  /**
+   * 예약 ID
+   * @format int64
+   * @example 51
+   */
   reservationId?: number;
+  /**
+   * 예약 상태(진행 단계)
+   * @example "RESERVATION_REQUESTED"
+   */
   status?: string;
+  /**
+   * 예약자명
+   * @example "홍길동"
+   */
   client?: string;
+  /**
+   * 예약 생성 일시
+   * @example "2026-01-12 15:00:02"
+   */
   createdAt?: string;
+  /** 예약 목록 상품 응답 DTO */
   product?: ReservationListProductResponse;
 }
 
+/** 예약 목록 상품 응답 DTO */
 export interface ReservationListProductResponse {
-  /** @format int64 */
+  /**
+   * 상품 ID
+   * @format int64
+   * @example 501
+   */
   id?: number;
+  /**
+   * 상품 대표 이미지
+   * @example "product/product_grad_12.jpg"
+   */
   imageUrl?: string;
+  /**
+   * 상품명
+   * @example "한여름밤의 스냅"
+   */
   title?: string;
-  /** @format double */
+  /**
+   * 평균 별점
+   * @format double
+   * @example 4.7
+   */
   rate?: number;
-  /** @format int32 */
+  /**
+   * 리뷰 개수
+   * @format int32
+   * @example 20
+   */
   reviewCount?: number;
+  /**
+   * 상품 등록 작가명
+   * @example "김작가"
+   */
   photographer?: string;
-  /** @format int32 */
+  /**
+   * 상품 가격
+   * @format int32
+   * @example 90000
+   */
   price?: number;
+  /** 상품 무드 태그 목록 */
   moods?: string[];
+  /**
+   * 리뷰 작성 여부
+   * @example true
+   */
   isReviewed?: boolean;
 }
 
-/** 해당 API에서 반환하는 결과 데이터입니다. */
+/** 예약 목록 조회 응답 DTO */
 export interface ReservationListResponse {
+  /** 예약 목록 */
   reservations?: ReservationListItemResponse[];
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyReservationDetailResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 예약 상세 전체 응답 DTO */
+  data?: ReservationDetailResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 예약 상세 정보 DTO */
+export interface ReservationDetailInfoResponse {
+  /**
+   * 예약자명
+   * @example "홍길동"
+   */
+  client?: string;
+  /**
+   * 예약 생성 일시
+   * @example "2026-02-18 10:05:44"
+   */
+  createdAt?: string;
+  /**
+   * 촬영 희망 날짜
+   * @example "2026-03-15"
+   */
+  date?: string;
+  /**
+   * 촬영 시작 시간
+   * @example "10:00"
+   */
+  startTime?: string;
+  /**
+   * 촬영 시간
+   * @format double
+   * @example 1.5
+   */
+  durationTime?: number;
+  /**
+   * 촬영 장소
+   * @example "건국대"
+   */
+  place?: string;
+  /**
+   * 촬영 인원
+   * @format int32
+   * @example 2
+   */
+  peopleCount?: number;
+  /**
+   * 기타 요청 사항
+   * @example "예쁘게 찍어주세요."
+   */
+  requestNote?: string;
+}
+
+/** 예약 상세 결제 정보 DTO */
+export interface ReservationDetailPaymentResponse {
+  /**
+   * 기본 촬영 비용
+   * @format int32
+   * @example 80000
+   */
+  basePrice?: number;
+  /**
+   * 추가 비용
+   * @format int32
+   * @example 10000
+   */
+  extraPrice?: number;
+  /**
+   * 최종 결제 금액
+   * @format int32
+   * @example 90000
+   */
+  totalPrice?: number;
+}
+
+/** 예약 상세 상품 정보 응답 DTO */
+export interface ReservationDetailProductResponse {
+  /**
+   * 상품 ID
+   * @format int64
+   * @example 51
+   */
+  id?: number;
+  /**
+   * 상품 대표 이미지
+   * @example "https://example.com/product301_thumb.jpg"
+   */
+  imageUrl?: string;
+  /**
+   * 상품명
+   * @example "한여름밤의 스냅"
+   */
+  title?: string;
+  /**
+   * 평균 별점
+   * @format double
+   * @example 4.7
+   */
+  rate?: number;
+  /**
+   * 리뷰 개수
+   * @format int32
+   * @example 20
+   */
+  reviewCount?: number;
+  /**
+   * 상품 등록 작가
+   * @example "김작가"
+   */
+  photographer?: string;
+  /**
+   * 상품 가격
+   * @format int32
+   * @example 90000
+   */
+  price?: number;
+  /** 상품 무드 태그 목록 */
+  moods?: string[];
+}
+
+/** 예약 상세 전체 응답 DTO */
+export interface ReservationDetailResponse {
+  /**
+   * 예약 상태(진행 단계)
+   * @example "RESERVATION_REQUESTED"
+   */
+  status?: string;
+  /** 예약 상세 상품 정보 응답 DTO */
+  productInfo?: ReservationDetailProductResponse;
+  /** 예약 상세 정보 DTO */
+  reservationInfo?: ReservationDetailInfoResponse;
+  /** 예약 상세 결제 정보 DTO */
+  paymentInfo?: ReservationDetailPaymentResponse;
+  /** 예약 리뷰 상세 응답 DTO */
+  reviewInfo?: ReservationDetailReviewResponse;
+}
+
+/** 예약 리뷰 상세 응답 DTO */
+export interface ReservationDetailReviewResponse {
+  /**
+   * 리뷰 ID
+   * @format int64
+   * @example 40
+   */
+  id?: number;
+  /**
+   * 작성자명
+   * @example "홍길동"
+   */
+  reviewer?: string;
+  /**
+   * 별점
+   * @format int32
+   * @example 4
+   */
+  rating?: number;
+  /**
+   * 작성일
+   * @example "2026-01-08"
+   */
+  createdAt?: string;
+  /** 이미지 url 목록 */
+  images?: string[];
+  /**
+   * 리뷰 내용
+   * @example "친절하셔서 좋았어요."
+   */
+  content?: string;
+}
+
+export interface GetProductListQuery {
+  moodIds?: number[];
+  /** @format int64 */
+  photographerId?: number;
+  snapCategory?:
+    | "GRADUATION"
+    | "WEDDING"
+    | "COUPLE"
+    | "DAILY"
+    | "FAMILY"
+    | "RECITAL";
+  /** @format int64 */
+  placeId?: number;
+  /** @format date */
+  date?: string;
+  /** @format int32 */
+  peopleCount?: number;
+  /** @format int64 */
+  cursor?: number;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyGetProductListResponseGetProductListMeta {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 상품 목록 응답 DTO */
+  data?: GetProductListResponse;
+  /** 상품 목록 조회 응답 Meta DTO */
+  meta?: GetProductListMeta;
+}
+
+/** 상품 목록 조회 개별 상품 응답 DTO */
+export interface GetProductCardResponse {
+  /**
+   * 상품 ID
+   * @format int64
+   */
+  id?: number;
+  /** 상품 썸네일 */
+  imageUrl?: string;
+  /** 상품명 */
+  title?: string;
+  /**
+   * 평균 별점
+   * @format double
+   */
+  rate?: number;
+  /**
+   * 리뷰 개수
+   * @format int64
+   */
+  reviewCount?: number;
+  /** 상품 등록 작가 */
+  photographer?: string;
+  /**
+   * 상품 가격
+   * @format int32
+   */
+  price?: number;
+  /** 상품 무드 태그 목록 */
+  moods?: string[];
+}
+
+/** 상품 목록 조회 응답 Meta DTO */
+export interface GetProductListMeta {
+  /**
+   * 다음 커서 값
+   * @format int64
+   */
+  nextCursor?: number;
+  /** 다음 커서 존재 여부 */
+  hasNext?: boolean;
+}
+
+/** 상품 목록 응답 DTO */
+export interface GetProductListResponse {
+  /** 상품 목록 */
+  products?: GetProductCardResponse[];
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyGetProductDetailResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 상품 상세 조회 응답 DTO */
+  data?: GetProductDetailResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 상품 상세 조회 응답 DTO */
+export interface GetProductDetailResponse {
+  /**
+   * 상품 ID
+   * @format int64
+   */
+  id?: number;
+  /** 상품 이미지 목록 */
+  images?: string[];
+  /** 상품명 */
+  title?: string;
+  /** 좋아요 여부 */
+  isLiked?: boolean;
+  /**
+   * 평균 별점
+   * @format double
+   */
+  averageRate?: number;
+  /**
+   * 리뷰 개수
+   * @format int64
+   */
+  reviewCount?: number;
+  /**
+   * 가격
+   * @format int32
+   */
+  price?: number;
+  /** 작가 정보 응답 DTO */
+  photographerInfo?: GetPhotographerInfoResponse;
+  /** 상품 안내 정보 응답 DTO */
+  productInfo?: GetProductInfoResponse;
+}
+
+/** 상품 안내 정보 응답 DTO */
+export interface GetProductInfoResponse {
+  /** 촬영 종류 (유형) */
+  snapCategory?: string;
+  /** 촬영 장소 (지역) */
+  regions?: string[];
+  /** 스냅 무드 */
+  moods?: string[];
+  /** 최대 촬영 인원 */
+  maxPeople?: string;
+  /** 촬영 작가 인원 */
+  photographerCount?: string;
+  /** 촬영 시간 (시간단위) */
+  durationTime?: string;
+  /** RAW 파일 제공 여부 */
+  provideRaw?: string;
+  /** 원본 JPG 제공 여부 */
+  provideOriginalJpg?: string;
+  /** 원본 JPG 제공 장수 */
+  originalJpgCount?: string;
+  /** 원본 제공 시점 */
+  originalDeliveryTime?: string;
+  /** 동영상 제공 여부 */
+  provideVideo?: string;
+  /** 무료 수정 횟수 */
+  freeRevisionCount?: string;
+  /** 최종 결과물 제공 장수 */
+  finalCutCount?: string;
+  /** 최종 결과물 전달 소요시간 */
+  finalDeliveryTime?: string;
+  /** 상품 소개 */
+  description?: string;
+  /** 촬영 진행 순서  */
+  processDescription?: string;
+  /** 사용 장비 */
+  equipment?: string;
+  /** 기타 주의 사항 */
+  caution?: string;
 }
 
 /** 공통 응답 DTO */
@@ -680,6 +1464,38 @@ export interface ProductReviewsMetaResponse {
 export interface ProductReviewsResponse {
   /** 상품 리뷰 목록 */
   reviews?: ProductReviewResponse[];
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyProductPriceResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 상품 기본 촬영 비용 응답 DTO */
+  data?: ProductPriceResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 상품 기본 촬영 비용 응답 DTO */
+export interface ProductPriceResponse {
+  /**
+   * 상품 가격
+   * @format int32
+   * @example 80000
+   */
+  price?: number;
 }
 
 /** 공통 응답 DTO */
@@ -796,6 +1612,245 @@ export interface ProductPeopleRangeResponse {
    * @example 5
    */
   maxPeople?: number;
+}
+
+/** 포폴 목록 조회 요청 DTO - 쿼리 파라미터용 */
+export interface GetPortfolioListRequest {
+  /** 무드 아이디 목록(,로 구분, 개수 제한 없음) */
+  moodIds?: number[];
+  /**
+   * 상품 ID
+   * @format int64
+   */
+  productId?: number;
+  /**
+   * 스냅 작가 ID
+   * @format int64
+   */
+  photographerId?: number;
+  /** 촬영 상황 (스냅 유형) */
+  snapCategory?:
+    | "GRADUATION"
+    | "WEDDING"
+    | "COUPLE"
+    | "DAILY"
+    | "FAMILY"
+    | "RECITAL";
+  /**
+   * 장소 ID
+   * @format int64
+   */
+  placeId?: number;
+  /**
+   * 커서 값
+   * @format int64
+   */
+  cursor?: number;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 포트폴리오 목록 조회 응답 DTO */
+  data?: GetPortfolioListResponse;
+  /** 포트폴리오 목록 조회 메타 정보 */
+  meta?: GetPortfolioMetaResponse;
+}
+
+/** 포트폴리오 카드 조회 응답 DTO */
+export interface GetPortfolioCardResponse {
+  /**
+   * 포트폴리오 ID
+   * @format int64
+   */
+  id?: number;
+  /** 포트폴리오 이미지 url */
+  imageUrl?: string;
+}
+
+/** 포트폴리오 목록 조회 응답 DTO */
+export interface GetPortfolioListResponse {
+  /** 포트폴리오 카드 목록 */
+  portfolios?: GetPortfolioCardResponse[];
+}
+
+/** 포트폴리오 목록 조회 메타 정보 */
+export interface GetPortfolioMetaResponse {
+  /**
+   * 다음 커서 값
+   * @format int64
+   */
+  nextCursor?: number;
+  /** 다음 커서 존재 여부 */
+  hasNext?: boolean;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyGetPortfolioDetailResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 포트폴리오 상세 조회 응답 DTO */
+  data?: GetPortfolioDetailResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 포트폴리오 상세 조회 응답 DTO */
+export interface GetPortfolioDetailResponse {
+  /**
+   * 포트폴리오 ID
+   * @format int64
+   */
+  id?: number;
+  /** 포트폴리오 한줄 소개 */
+  description?: string;
+  /** 이미지 URL 목록 */
+  images?: string[];
+  /** 좋아요 여부 */
+  isLiked?: boolean;
+  /**
+   * 좋아요 수
+   * @format int32
+   */
+  likeCount?: number;
+  /** 촬영 종류 */
+  snapCategory?: string;
+  /** 촬영 장소 */
+  place?: string;
+  /** 촬영 시각 */
+  startsAt?: string;
+  /** 스냅 무드 */
+  moods?: string[];
+  /** 작가 정보 응답 DTO */
+  photographerInfo?: GetPhotographerInfoResponse;
+  /** 상품 안내 정보 응답 DTO */
+  productInfo?: GetProductInfoResponse;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyGetCurationResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 로그인 시 큐레이션 기반 포폴 추천 목록 조회 */
+  data?: GetCurationResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 로그인 시 큐레이션 기반 포폴 추천 목록 조회 */
+export interface GetCurationResponse {
+  /** 큐레이션된 무드 태그 목록 */
+  curatedMoods?: string[];
+  /** 추천 포트폴리오 목록 */
+  portfolios?: GetPortfolioResponse[];
+}
+
+/** 포트폴리오 이미지 응답 DTO */
+export interface GetImageResponse {
+  /** 이미지 URL */
+  imageUrl?: string;
+  /**
+   * 이미지 표시 순서
+   * @format int32
+   */
+  order?: number;
+}
+
+/** 포트폴리오 응답 DTO */
+export interface GetPortfolioResponse {
+  /**
+   * 포트폴리오 ID
+   * @format int64
+   */
+  id?: number;
+  /** 포트폴리오 이미지 목록 */
+  images?: GetImageResponse[];
+  /** 포트폴리오 관련 무드 */
+  moods?: string[];
+  /** 작가명 */
+  photographerName?: string;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyGetPopularPortfolioListResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 비로그인 시 인기 무드 기반 포폴 목록 추천 조회 응답 DTO */
+  data?: GetPopularPortfolioListResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 비로그인 시 인기 무드 기반 포폴 목록 추천 조회 응답 DTO */
+export interface GetPopularPortfolioListResponse {
+  /** 인기 무드 목록 */
+  popularMoods?: string[];
+  /** 관련 포트폴리오 목록 */
+  portfolios?: GetPopularPortfolioResponse[];
+}
+
+/** 인기 무드 기반 추천 포트폴리오 응답 DTO */
+export interface GetPopularPortfolioResponse {
+  /**
+   * 포트폴리오 ID
+   * @format int64
+   */
+  id?: number;
+  /** 포트폴리오 이미지 목록 */
+  images?: GetImageResponse[];
+  /** 포트폴리오 무드 목록 */
+  moods?: string[];
+  /** 포트폴리오 작가명 */
+  photographerName?: string;
 }
 
 /** 공통 응답 DTO */
@@ -937,6 +1992,66 @@ export interface GetMoodFilterResponse {
 }
 
 /** 공통 응답 DTO */
+export interface ApiResponseBodyGetPlacePhotographerRecommendationResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 스냅 명소 및 작가 추천 목록 조회 응답 DTO */
+  data?: GetPlacePhotographerRecommendationResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 추천 장소 응답 DTO */
+export interface GetPlaceInfoResponse {
+  /**
+   * 장소 ID
+   * @format int64
+   */
+  id?: number;
+  /** 장소 이름 */
+  name?: string;
+  /** 장소 이미지 url */
+  imageUrl?: string;
+}
+
+/** 스냅 명소 및 작가 추천 목록 조회 응답 DTO */
+export interface GetPlacePhotographerRecommendationResponse {
+  /** 추천 장소 목록 */
+  places?: GetPlaceInfoResponse[];
+  /** 추천 작가 목록 */
+  photographers?: GetRecommendationPhotographerInfoResponse[];
+}
+
+/** 추천 작가 응답 DTO */
+export interface GetRecommendationPhotographerInfoResponse {
+  /**
+   * 작가 ID
+   * @format int64
+   */
+  id?: number;
+  /** 작가명 */
+  name?: string;
+  /** 작가 프로필 이미지 */
+  profileImageUrl?: string;
+  /** 신규 작가 여부 */
+  isNew?: boolean;
+  /** 작가 촬영 상품 목록 */
+  specialties?: string[];
+}
+
+/** 공통 응답 DTO */
 export interface ApiResponseBodyGetCurationQuestionPhotosResponseVoid {
   /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
   success?: boolean;
@@ -1059,6 +2174,8 @@ export type GetWishedPortfoliosData =
 
 export type UpdateWishPortfolioData = ApiResponseBodyWishPortfolioResponseVoid;
 
+export type PostPresignedUrlData = ApiResponseBodyPostPresignedUrlResponseVoid;
+
 /** 리뷰 정보 */
 export type CreateReviewPayload = string;
 
@@ -1083,12 +2200,48 @@ export type LogoutData = ApiResponseBodyVoidVoid;
 
 export type CreateKakaoLoginData = ApiResponseBodyCreateKakaoLoginResponseVoid;
 
+export type PatchUserRoleData =
+  ApiResponseBodyGetSwitchedUserProfileResponseVoid;
+
+/** 결제 정보 */
+export type UpdateReservationRequestPaymentPayload = string;
+
+export type UpdateReservationRequestPaymentData =
+  ApiResponseBodyRequestPaymentReservationResponseVoid;
+
+export type UpdateReservationRefuseData =
+  ApiResponseBodyRefuseReservationResponseVoid;
+
+export type UpdateReservationPaymentData =
+  ApiResponseBodyPayReservationResponseVoid;
+
+export type UpdateReservationConfirmData =
+  ApiResponseBodyConfirmReservationResponseVoid;
+
+export type UpdateReservationCompleteData =
+  ApiResponseBodyCompleteReservationResponseVoid;
+
+export type UpdateReservationCancelData =
+  ApiResponseBodyCancelReservationResponseVoid;
+
 export type GetUserInfoData = ApiResponseBodyGetUserInfoResponseVoid;
+
+export type GetReviewDetailData = ApiResponseBodyGetReviewDetailResponseVoid;
 
 export type GetReservationsData = ApiResponseBodyReservationListResponseVoid;
 
+export type GetReservationDetailData =
+  ApiResponseBodyReservationDetailResponseVoid;
+
+export type GetProductListData =
+  ApiResponseBodyGetProductListResponseGetProductListMeta;
+
+export type GetProductDetailData = ApiResponseBodyGetProductDetailResponseVoid;
+
 export type GetProductReviewsData =
   ApiResponseBodyProductReviewsResponseProductReviewsMetaResponse;
+
+export type GetProductPriceData = ApiResponseBodyProductPriceResponseVoid;
 
 export type GetProductClosedDatesData =
   ApiResponseBodyProductClosedDatesResponseVoid;
@@ -1099,6 +2252,17 @@ export type GetProductAvailableTimesData =
 export type GetProductPeopleRangeData =
   ApiResponseBodyProductPeopleRangeResponseVoid;
 
+export type GetPortfolioListData =
+  ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse;
+
+export type GetPortfolioDetailData =
+  ApiResponseBodyGetPortfolioDetailResponseVoid;
+
+export type GetCuratedPortfoliosData = ApiResponseBodyGetCurationResponseVoid;
+
+export type GetPopularPortfoliosData =
+  ApiResponseBodyGetPopularPortfolioListResponseVoid;
+
 export type GetPlacesData = ApiResponseBodyGetPlaceListResponseVoid;
 
 export type GetPhotographerProfileData =
@@ -1106,5 +2270,8 @@ export type GetPhotographerProfileData =
 
 export type GetAllMoodFiltersData =
   ApiResponseBodyGetMoodFilterListResponseVoid;
+
+export type GetRecommendationData =
+  ApiResponseBodyGetPlacePhotographerRecommendationResponseVoid;
 
 export type GetCategoriesData = ApiResponseBodyCategoriesResponseVoid;
