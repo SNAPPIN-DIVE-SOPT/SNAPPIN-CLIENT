@@ -9,11 +9,12 @@ import { GetPortfolioResponse } from '@/swagger-api/data-contracts';
 
 export default function MoodCurationSection() {
   const { isLogIn } = useAuth();
+  //TODO: 로그인 시 사용자 이름 조회 후 사용
   const userName="gkals"
   const { data } = useGetPortfoliosRecommendation(isLogIn ?? false);
   const { data: popularPortfolios } = useGetPopularPortfoliosRecommendation(!isLogIn);
 
-  const mock = isLogIn ? data?.portfolios ?? [] : popularPortfolios?.portfolios ?? [];
+  const portfolios = isLogIn ? data?.portfolios ?? [] : popularPortfolios?.portfolios ?? [];
   const moods = isLogIn ? data?.curatedMoods ?? [] : popularPortfolios?.popularMoods ?? [];
 
 
@@ -37,7 +38,7 @@ export default function MoodCurationSection() {
         </div>
       </div>
       <div className='flex flex-col items-center justify-center gap-[1.6rem]'>
-        {mock?.map((portfolio: GetPortfolioResponse) => (
+          {portfolios?.map((portfolio: GetPortfolioResponse) => (
           <CarouselCuration
             key={portfolio.id}
             images={portfolio.images?.map((image) => ({

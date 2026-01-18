@@ -1,8 +1,8 @@
 import { apiRequest } from "@/api/apiRequest";
 import { ApiResponseBodyGetCurationResponseVoid, GetCurationResponse, GetPlacePhotographerRecommendationResponse, GetPopularPortfolioListResponse } from "@/swagger-api/data-contracts";
-import { USER_QUERY_KEY } from "@/query-key/user";
 import { useQuery } from "@tanstack/react-query";
 import { SERVER_API_BASE_URL } from "@/api/constants/api";
+import { USER_QUERY_KEY } from "@/query-key/user";
 
 export const useGetRecommendation = () => {
   //토큰 불필요 api 이므로 fetch 사용
