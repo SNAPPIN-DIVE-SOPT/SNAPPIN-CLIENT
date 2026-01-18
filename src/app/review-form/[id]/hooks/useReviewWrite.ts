@@ -21,7 +21,7 @@ export const enrollReviewSchema = z.object({
   content: z
     .string()
     .trim()
-    .min(1)
+    .min(0)
     .max(REVIEW_CONTENT_MAX_LENGTH, `최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.`),
 
   imageUrls: z.array(z.string().url('이미지 URL이 올바르지 않습니다.')).max(MAX_IMAGE_COUNT),
@@ -51,15 +51,9 @@ export const useReviewWrite = () => {
   };
 
   const updateContent = (value: string): ContentValidationResult => {
-    const isUnderMin = value.trim().length < 1;
     const isOverMax = value.length > REVIEW_CONTENT_MAX_LENGTH;
 
     setValue('content', value, { shouldValidate: true });
-
-    if (isUnderMin) {
-      setError('content', { message: '최소 1자 이상 입력해 주세요.' });
-      return { ok: false, reason: 'min' };
-    }
 
     if (isOverMax) {
       setError('content', {

@@ -84,6 +84,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
 
   const hasContentError = Boolean(compatibleErrors.content);
   const hasImageError = Boolean(compatibleErrors.imageUrls);
+  const isContentEmpty = compatibleFormData.content.trim().length < 1;
 
   return (
     <>
@@ -180,7 +181,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
         <div className='pb-[10rem]' />
       </form>
 
-      <ClientFooter disabled={!isValid} handleClick={handleSubmit} />
+      <ClientFooter disabled={!isValid || isContentEmpty} handleClick={handleSubmit} />
     </>
   );
 }
