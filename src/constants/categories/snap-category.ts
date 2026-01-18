@@ -6,3 +6,5 @@ export const SNAP_CATEGORY = {
   FAMILY: '가족스냅',
   RECITAL: '연주스냅',
 } as const;
+
+export type SnapCategory = keyof typeof SNAP_CATEGORY;

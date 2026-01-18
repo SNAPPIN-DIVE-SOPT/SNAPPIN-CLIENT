@@ -35,7 +35,7 @@ const ControlSheetField = ({
   wrapperClassName,
   ...props
 }: ControlSheetFieldProps) => {
-  const showValue = selectedValue !== '' && !active;
+  const showValue = Boolean(selectedValue) && !active;
 
   return (
     <div

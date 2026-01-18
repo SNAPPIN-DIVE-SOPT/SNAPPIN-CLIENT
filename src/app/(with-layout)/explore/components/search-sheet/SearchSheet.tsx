@@ -11,13 +11,12 @@ import {
   Stepper,
 } from '@/ui';
 import { IconClose } from '@/assets';
-import SearchFooter from '@/app/(with-layout)/explore/components/search-sheet/footer/SearchFooter';
 import { useSearchReducer } from '@/app/(with-layout)/explore/hooks/use-search-reducer';
-import SnapCategory from '@/app/(with-layout)/explore/components/search-sheet/snap-category/SnapCategory';
-import { MOCK_SNAP_CATEGORIES } from '@/app/(with-layout)/explore/mocks/search';
-import { parseInitialDraft, patchSearchParams } from '@/app/(with-layout)/explore/utils/query';
-import { SNAP_CATEGORY } from '@/app/(with-layout)/explore/constants/snap-category';
 import { SearchField } from '@/app/(with-layout)/explore/types/search';
+import { parseInitialDraft, patchSearchParams } from '@/app/(with-layout)/explore/utils/query';
+import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
+import { SearchFooter, SnapCategory } from '@/app/(with-layout)/explore/components';
+import { MOCK_SNAP_CATEGORIES } from '@/app/(with-layout)/explore/mocks/search';
 
 type SearchSheetProps = {
   open: boolean;
@@ -46,16 +45,9 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   const didInitRef = useRef(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const { snapCategory, peopleCount, placeId, date } = searchDraft;
-  const isButtonActive = snapCategory || placeId || date || (peopleCount && peopleCount > 0);
   const formattedCount = `${peopleCount ?? 0}명`;
 
   const handleFieldClick = (category: SearchField) => {
-    // 기획 합의 후 제거
-    /*if (category === currentField) {
-      setCurrentField(undefined); // 필드 닫기
-      return;
-    }*/
-
     setCurrentField(category);
   };
 
@@ -90,7 +82,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
     setPlaceId(placeId);
     setDate(date);
     setPeopleCount(peopleCount ?? 0);
-  }, [open]);
+  }, [open, searchParams, setCategory, setDate, setPeopleCount, setPlaceId]);
 
   return (
     <ControlSheet
@@ -110,14 +102,14 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
         center={<h3 className='caption-14-bd whitespace-nowrap'>어떤 스냅 작가를 찾고 있나요?</h3>}
         right={
           <IconButton type='button' onClick={onOpenChange}>
-            <IconClose width={24} height={24} />
+            <IconClose />
           </IconButton>
         }
         className='border-black-5 border-b-[0.1rem] px-[2rem] py-[1.3rem]'
       />
 
       {/* 검색 필드 */}
-      <div className='flex flex-col gap-[1rem] px-[2rem] pt-[1.5rem]'>
+      <div className='flex flex-col gap-[1.5rem] px-[2rem] pt-[1.5rem]'>
         {/* 촬영 상황 선택 */}
         <ControlSheet.Field
           label='촬영 상황'
@@ -141,7 +133,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
         >
           <ComboBox
             placeholder='장소·학교명을 검색 후 선택해 주세요'
-            options={['건국대학교', '이화여자대학교', '연세대학교', '고려대학교', '국민대학교']}
+            options={['건국대학교', '이화여자대학교', '연세대학교', '고려대학교']}
             onChange={setPlaceId}
           />
         </ControlSheet.Field>
@@ -180,11 +172,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
           />
         </ControlSheet.Field>
       </div>
-      <SearchFooter
-        handleLeftClick={resetSearchDraft}
-        handleRightClick={handleSearch}
-        rightDisabled={!isButtonActive} // 기획 요구사항 수정 얘기하기
-      />
+      <SearchFooter handleResetClick={resetSearchDraft} handleConfirmClick={handleSearch} />
     </ControlSheet>
   );
 }

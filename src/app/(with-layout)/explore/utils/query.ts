@@ -1,7 +1,8 @@
 import { SearchDraft } from '@/app/(with-layout)/explore/types/search';
+import { SnapCategory } from '@/constants/categories/snap-category';
 
 export const parseInitialDraft = (sp: URLSearchParams) => {
-  const snapCategory = sp.get('snapCategory');
+  const snapCategory = sp.get('snapCategory') as SnapCategory;
   const placeId = sp.get('placeId');
   const date = sp.get('date');
 

@@ -1,11 +1,11 @@
 'use client';
 
+import { useEffect, useMemo, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FilterChip, IconButton } from '@/ui';
 import { IconFilter, IconSettingsBackupRestore } from '@/assets';
 import { Mood } from '@/types/moodCode';
-import { useEffect, useMemo, useState } from 'react';
-import ExploreFilterPanel from '@/app/(with-layout)/explore/components/filter-panel/ExploreFilterPanel';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ExploreFilterPanel } from '@/app/(with-layout)/explore/components';
 
 const CURATED_APPLIED_KEY = 'explore_curated_applied_v1';
 

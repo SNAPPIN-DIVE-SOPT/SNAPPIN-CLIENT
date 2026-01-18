@@ -1,17 +1,15 @@
 'use client';
 
-import { ButtonSearchBar, SectionTabs } from '@/ui';
 import { useMemo } from 'react';
-import PortfolioListSection from '@/app/(with-layout)/explore/_section/PortfolioListSection';
-import ProductListSection from '@/app/(with-layout)/explore/_section/ProductListSection';
-import ExploreFilter from '@/app/(with-layout)/explore/components/filter/ExploreFilter';
-import { MOOD_LIST } from '@/app/(with-layout)/explore/mocks/filter';
 import { overlay } from 'overlay-kit';
-import { EXPLORE_TAB, EXPLORE_TAB_MAP } from '@/app/(with-layout)/explore/constants/tab';
+import { ButtonSearchBar, SectionTabs } from '@/ui';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import SearchSheet from '@/app/(with-layout)/explore/components/search-sheet/SearchSheet';
 import { parseInitialDraft, pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
-import { SNAP_CATEGORY } from '@/app/(with-layout)/explore/constants/snap-category';
+import { ExploreFilter, SearchSheet } from '@/app/(with-layout)/explore/components';
+import { PortfolioListSection, ProductListSection } from '@/app/(with-layout)/explore/_section';
+import { MOOD_LIST } from '@/app/(with-layout)/explore/mocks/filter';
+import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
+import { EXPLORE_TAB, EXPLORE_TAB_MAP } from '@/app/(with-layout)/explore/constants/tab';
 
 const isExploreTab = (value: string | null | undefined) => {
   return value === EXPLORE_TAB.PORTFOLIO || value === EXPLORE_TAB.PRODUCT;
