@@ -81,8 +81,24 @@ export default function DatePicker({
     handleMonthChangeAction?.(next);
   };
 
-  const handlePrevMonth = () => setMonth(addMonths(viewMonth, -1));
-  const handleNextMonth = () => setMonth(addMonths(viewMonth, 1));
+  const handlePrevMonth = () => {
+    if (
+      viewMonth.getMonth() === (today ?? new Date()).getMonth() &&
+      viewMonth.getFullYear() === (today ?? new Date()).getFullYear()
+    ) {
+      return;
+    }
+    setMonth(addMonths(viewMonth, -1));
+  };
+  const handleNextMonth = () => {
+    if (
+      viewMonth.getFullYear() === (today ?? new Date()).getFullYear() &&
+      viewMonth.getMonth() === (today ?? new Date()).getMonth() + MAX_RESERVATION_MONTHS - 1
+    ) {
+      return;
+    }
+    setMonth(addMonths(viewMonth, 1));
+  };
 
   const availabilityMap = useMemo(() => {
     if (!monthAvailability) return undefined;
@@ -144,7 +160,7 @@ export default function DatePicker({
   const monthNum = viewMonth.getMonth() + 1;
 
   return (
-    <div className='flex flex-col px-[2rem]'>
+    <div className='flex flex-col'>
       {/* 이전, 다음 월 이동 */}
       <header className='flex flex-row items-center justify-between px-[1.6rem] py-[1.4rem]'>
         <IconButton className='text-black-7' onClick={handlePrevMonth} aria-label='이전 달'>
