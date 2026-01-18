@@ -51,7 +51,7 @@ export default function ImageUploadSection({
   return (
     <section className='flex flex-col gap-[1.2rem] px-[2rem] pt-[1rem]'>
       {previews.length > 0 &&
-        (previews.length >= 3 ? ( // 필요에 따라 2/3 기준 조정
+        (previews.length >= 3 ? (
           <div className='mt-[1.2rem] -mr-[2.4rem]'>
             <Carousel opts={{ align: 'start', dragFree: true, containScroll: 'trimSnaps' }}>
               <CarouselContent className='ml-0 gap-[0.4rem]'>

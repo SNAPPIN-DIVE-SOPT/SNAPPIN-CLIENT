@@ -5,7 +5,7 @@ import { TextareaField, FieldMessage } from '@/ui';
 
 type ReviewFormSectionProps = {
   content: string;
-  handleChangeContent: (value: string) => { ok: boolean; reason: 'max' };
+  handleChangeContent: (value: string) => { ok: boolean; reason?: 'min' | 'max' };
 };
 
 const REVIEW_CONTENT_MAX_LENGTH = 500;
@@ -20,16 +20,15 @@ export default function ReviewFormSection({
     const next = event.target.value;
     const result = handleChangeContent(next);
 
-    if (!result.ok) {
-      if (result.reason === 'max') {
-        setErrorMessage(`최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.`);
-      }
+    if (!result.ok && result.reason === 'max') {
+      setErrorMessage(`최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.`);
       return;
     }
+
     setErrorMessage(' ');
   };
 
-  const hasError = errorMessage.trim() !== '';
+  const hasError = Boolean(errorMessage);
 
   return (
     <section className='bg-black-1 flex flex-col px-[2rem]'>

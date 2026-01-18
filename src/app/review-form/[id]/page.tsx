@@ -17,6 +17,7 @@ export default function Page() {
     updateImageUrls,
     handleSubmitForm,
     validateFiles,
+    compatibleErrors,
   } = useReviewWrite();
 
   const data = REVIEW_PRODUCT.reservations.reservation;
@@ -52,6 +53,7 @@ export default function Page() {
         imageUrls={formData.imageUrls}
         handleChangeImageUrls={updateImageUrls}
         validateFiles={validateFiles}
+        errorMessage={compatibleErrors.imageUrls}
       />
       <ClientFooter disabled={!isValid} handleClick={handleSubmit} />
     </>
