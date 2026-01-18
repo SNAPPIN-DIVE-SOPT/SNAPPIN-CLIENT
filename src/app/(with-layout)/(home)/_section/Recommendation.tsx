@@ -25,13 +25,12 @@ const RecommendationSnapPlace = () => {
 const RecommendationAuthor = () => {
   const { data } = useGetRecommendation();
 
-
   return (
     <section className='scrollbar-hide flex flex-col gap-[0.8rem]'>
       <SectionHeader title='이런 작가는 어때요?' />
       <div className='scrollbar-hide flex gap-[0.8rem] overflow-x-auto'>
         {data?.photographers?.map((photographer,index) => (
-          <Author key={index} id={index} name={photographer.name ?? ''} profileImageUrl={ ''} isNew={false} bio={photographer.bio ?? ''} specialties={photographer.specialties ?? []} />
+          <Author key={index} id={photographer.id??0} name={photographer.name ?? ''} profileImageUrl={photographer.profileImageUrl ?? ''} isNew={false} bio={photographer.introduction ?? ''} specialties={photographer.specialties ?? []} />
         ))}
       </div>
     </section>
