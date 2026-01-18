@@ -1,3 +1,3 @@
-export { default as Header } from './Header';
-export { default as LikeButton } from './LikeButton';
-export { default as PortfolioCarousel } from './PortfolioCarousel';
+export { default as Header } from './Header/Header';
+export { default as LikeButton } from './LikeButton/LikeButton';
+export { default as PortfolioCarousel } from './PortfolioCarousel/PortfolioCarousel';

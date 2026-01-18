@@ -47,9 +47,9 @@ export default function Author({
             <span className='font-16-bd'>{name}</span>
             <span className='caption-12-md'>작가</span>
           </div>
-          <p className='caption-12-md truncate'>{bio}</p>
+          <p className='caption-12-md text-black-8 truncate'>{bio}</p>
         </div>
-        <div className='flex gap-[0.8rem] overflow-hidden'>
+        <div className='flex gap-[0.4rem] overflow-hidden'>
           {specialties.map((specialty) => (
             <Chip
               key={specialty}

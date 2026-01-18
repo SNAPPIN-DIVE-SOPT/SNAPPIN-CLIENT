@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import UserTypeToggle, { UserTypeToggleProps } from './UserTypeToggle';
-import { UserType, USER_TYPE, USER_TYPES } from '@/auth/constant/userType';
+import { USER_TYPE, UserType } from '@/auth/constant/userType';
 
 const meta: Meta<typeof UserTypeToggle> = {
   title: 'UI/UserTypeToggle',
@@ -18,7 +18,7 @@ const meta: Meta<typeof UserTypeToggle> = {
   argTypes: {
     selectedType: {
       control: { type: 'select' },
-      options: USER_TYPES satisfies UserType[],
+      options: [USER_TYPE.CLIENT, USER_TYPE.PHOTOGRAPHER] satisfies UserType[],
       description: '사용자 유형',
     },
   },

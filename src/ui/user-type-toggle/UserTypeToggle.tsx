@@ -1,5 +1,5 @@
 import { cn } from '@/utils/cn';
-import { USER_TYPE_LABEL, USER_TYPES, UserType } from '@/auth/constant/userType';
+import { USER_TYPE_LABEL, USER_TYPE, UserType } from '@/auth/constant/userType';
 import { TOGGLE_THEME_BY_TYPE } from './constants/toggleTheme';
 
 export type UserTypeToggleProps = {
@@ -35,7 +35,7 @@ export default function UserTypeToggle({
             thumbClassName,
           )}
         >
-          {USER_TYPES.map((type) => (
+          {Object.values(USER_TYPE).map((type) => (
             <span
               key={type}
               className={cn(

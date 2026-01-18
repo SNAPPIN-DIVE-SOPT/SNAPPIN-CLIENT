@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/ui';
-
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { cn } from '@/utils/cn';
 
 type ProfileCardProps = React.HTMLAttributes<HTMLDivElement> & {
   profileImageUrl: string;
@@ -23,6 +23,7 @@ export default function ProfileCard({
   specialties,
   locations,
   icon,
+  className,
   ...props
 }: ProfileCardProps) {
   const router = useRouter();
@@ -37,13 +38,9 @@ export default function ProfileCard({
   ];
 
   return (
-    <div className='bg-black-1 flex items-center gap-[1.2rem] p-[2rem]' {...props}>
+    <div className={cn('bg-black-1 flex items-center gap-[1.2rem] p-[2rem]', className)} {...props}>
       <Image
-        src={
-          isLoggedIn === true
-            ? (profileImageUrl ?? '/imgs/default-profile.png')
-            : '/imgs/default-profile.png'
-        }
+        src={isLoggedIn && profileImageUrl ? profileImageUrl : '/imgs/default-profile.png'}
         alt='프로필 이미지'
         width={64}
         height={64}

@@ -1,4 +1,4 @@
-import { UserType, USER_TYPE } from '@/auth/constant/userType';
+import { USER_TYPE, UserType } from '@/auth/constant/userType';
 
 type UserTypeToggleTheme = {
   trackClassName: string;

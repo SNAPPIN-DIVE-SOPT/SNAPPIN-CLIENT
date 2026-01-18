@@ -17,7 +17,7 @@ export default function FieldMessage({
   if (!message) return null;
 
   const messageTheme = {
-    help: 'text-black-7',
+    help: 'text-black-6',
     error: 'text-red-error',
     success: 'text-green-success',
   } as const;
