@@ -12,7 +12,7 @@ export default function PortfolioList({
   ...props
 }: ProductListProps & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('grid shrink-0 grid-cols-3 gap-[0.2rem]', className)} {...props}>
+    <div className={cn('grid shrink-0 grid-cols-3 gap-[0.2rem] overflow-hidden rounded-[0.4rem]', className)} {...props}>
       {portfolioList.map((portfolio) => (
         <Link
           href={`/portfolio-detail/${portfolio.id}`}

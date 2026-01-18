@@ -80,7 +80,7 @@ function DetailRow({
     <div className='flex gap-[1rem]'>
       <div className='w-[8rem] self-center caption-12-md text-black-7'>{label}</div>
       {Array.isArray(content)
-        ? <div className='flex items-center gap-[0.4rem] caption-12-md'>
+        ? <div className='flex items-center gap-[0.4rem]'>
             {content.map((mood) => <TagChip key={mood} variant='neon' label={mood} />)}
           </div>
         : <span className='caption-12-md text-black-9'>{content}</span>

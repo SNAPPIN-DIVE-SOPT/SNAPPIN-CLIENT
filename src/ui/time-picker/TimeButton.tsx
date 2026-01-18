@@ -26,7 +26,7 @@ export default function TimeButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        'caption-14-md flex h-[3.3rem] w-full items-center justify-center rounded border px-[1.8rem] py-[0.8rem] transition-colors',
+        'caption-14-md flex h-[3.3rem] w-full items-center justify-center rounded-[0.4rem] border px-[1.4rem] py-[0.8rem] transition-colors',
         TIME_BUTTON_THEME[state],
         disabled && 'text-black-6 border-black-4 bg-black-1 cursor-not-allowed',
       )}

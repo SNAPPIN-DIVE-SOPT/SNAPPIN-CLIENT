@@ -35,31 +35,31 @@ const menuUserItems: {
     href: '/',
     activeIcon: IconHomeFill,
     inactiveIcon: IconHome,
-    label: 'Home',
+    label: '홈',
   },
   {
     href: '/like',
     activeIcon: IconHeartFill,
     inactiveIcon: IconHeart,
-    label: 'Like',
+    label: '좋아요',
   },
   {
     href: '/explore',
     activeIcon: IconExploreFill,
     inactiveIcon: IconExplore,
-    label: 'Explore',
+    label: '탐색',
   },
   {
-    href: '/',
+    href: '/reservation',
     activeIcon: IconReservationFill,
     inactiveIcon: IconReservation,
-    label: 'Reservations',
+    label: '예약',
   },
   {
-    href: '/',
+    href: '/profile',
     activeIcon: IconProfileFill,
     inactiveIcon: IconProfile,
-    label: 'Profile',
+    label: '프로필',
   },
 ];
 const menuAuthorItems: {
@@ -72,25 +72,31 @@ const menuAuthorItems: {
     href: '/',
     activeIcon: IconHomeFill,
     inactiveIcon: IconHome,
-    label: 'Home',
+    label: '홈',
   },
   {
     href: '/',
     activeIcon: IconMessageFill,
     inactiveIcon: IconMessage,
-    label: 'Messages',
+    label: '상품 관리',
   },
   {
-    href: '/',
+    href: '/photographer/reservation',
     activeIcon: IconReservationFill,
     inactiveIcon: IconReservation,
-    label: 'Reservations',
+    label: '예약 관리',
   },
   {
     href: '/',
+    activeIcon: IconMessageFill,
+    inactiveIcon: IconMessage,
+    label: '메시지함',
+  },
+  {
+    href: '/photographer/profile',
     activeIcon: IconProfileFill,
     inactiveIcon: IconProfile,
-    label: 'Profile',
+    label: '프로필',
   },
 ];
 
@@ -99,7 +105,7 @@ export default function Footer({ userRole }: FooterProps) {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <>
+    <div className='z-20'>
       <div className='bg-black-1 footer-height' />
       <footer className='border-black-6 footer-height fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
         {userRole === USER_TYPE.CLIENT &&
@@ -134,6 +140,6 @@ export default function Footer({ userRole }: FooterProps) {
             </Link>
           ))}
       </footer>
-    </>
+    </div>
   );
 }

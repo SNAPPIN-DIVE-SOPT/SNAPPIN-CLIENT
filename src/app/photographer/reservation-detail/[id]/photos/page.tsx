@@ -1,5 +1,5 @@
-import { formatDate } from '@/utils/formatNumberWithComma';
-import ReviewStar from '@/ui/review-star/ReviewStar';
+import { formatShortDate } from '@/utils/formatNumberWithComma';
+import { ReviewStar } from '@/ui';
 import { ImageSlide, NavigationClient } from './components';
 import { RESERVATION_DETAIL_MOCK } from '../mock/reservationDetail.mock';
 
@@ -8,10 +8,12 @@ export default function Page() {
   const data = RESERVATION_DETAIL_MOCK;
 
   return (
-    <div className='bg-black-10 flex min-h-dvh flex-col items-center justify-around'>
+    <div className='bg-black-10 flex h-dvh flex-col'>
       <NavigationClient />
-      <ImageSlide images={data.reviewInfo.images.map((image) => ({ src: image }))} />
-      <div className='flex w-full flex-col gap-[1.2rem] px-[2rem]'>
+      <div className='flex flex-1 items-center'>
+        <ImageSlide images={data.reviewInfo.images.map((image) => ({ src: image }))} />
+      </div>
+      <div className='flex flex-col gap-[1.2rem] px-[2rem] pt-[2rem] pb-[6rem]'>
         <div className='flex flex-col gap-[0.6rem]'>
           <div className='flex items-center justify-between'>
             <ReviewStar
@@ -20,7 +22,7 @@ export default function Page() {
               rating={data.reviewInfo.rating}
             />
             <span className='caption-12-md text-black-7'>
-              {formatDate(data.reviewInfo.createdAt)}
+              {formatShortDate(data.reviewInfo.createdAt)}
             </span>
           </div>
           <span className='caption-12-md text-black-7'>{data.reviewInfo.reviewer}</span>

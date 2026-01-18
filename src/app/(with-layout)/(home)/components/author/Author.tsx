@@ -22,7 +22,7 @@ export default function Author({
   return (
     //TODO: 작가 상세 페이지 연결
     <Link
-      href={`/${id}`}
+      href={`/photographer-detail/${id}`}
       className='bg-black-3 border-black-4 flex w-[18.4rem] shrink-0 flex-col gap-[0.5rem] rounded-[0.4rem] border-[0.5px] p-[1.2rem]'
     >
       <div className='relative'>

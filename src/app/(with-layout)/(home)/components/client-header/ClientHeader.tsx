@@ -37,7 +37,7 @@ export default function ClientHeader({ isVisible }: ClientHeaderProps) {
     >
       <Navigation
         className='items-center py-0 pr-[1.6rem]'
-        left={<Logo width={72} onClick={handleClickLogo} className='cursor-pointer' />}
+        left={<Logo width={82} onClick={handleClickLogo} className='cursor-pointer' />}
         right={
           <div className='flex items-center gap-[1.2rem]'>
             <IconButton onClick={handleSearchClick}>

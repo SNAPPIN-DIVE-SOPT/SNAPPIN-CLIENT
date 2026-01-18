@@ -30,7 +30,7 @@ export default function Header() {
           <IconHome />
         </IconButton>
       }
-      className='flex justify-between items-center h-[5rem] px-[2rem] border-b-1 border-b-black-5'
+      className='flex justify-between items-center h-[5rem] px-[2rem] border-b-1 border-b-black-5 z-20'
       isFixed={true}
     />
   );

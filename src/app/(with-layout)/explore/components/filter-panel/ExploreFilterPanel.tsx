@@ -56,35 +56,37 @@ export default function ExploreFilterPanel({
   return (
     <section
       aria-label='무드 필터'
-      className='border-black-3 relative z-100 border-[0.1rem] px-[2rem] py-[1.2rem]'
+      className='border-black-3 relative z-100 border-[0.1rem]'
     >
-      <h2 className='sr-only'>무드 필터</h2>
+      <div className='px-[2rem] py-[1.2rem]'>
+        <h2 className='sr-only'>무드 필터</h2>
 
-      <div className='flex flex-col gap-[0.7rem]'>
-        {(Object.keys(groupedMoods) as MoodCategory[]).map((category) => (
-          <div key={category} className='grid grid-cols-[5rem_1fr] items-start gap-x-[0.8rem]'>
-            {/* 카테고리 Label */}
-            <span className='caption-12-md text-black-9 py-[0.6rem] whitespace-nowrap'>
-              {MOOD_CATEGORY_MAP[category]}
-            </span>
-            {/* 칩 목록 */}
-            <div className='flex flex-wrap gap-[0.8rem]'>
-              {groupedMoods[category].map((mood) => (
-                <FilterChip
-                  key={`${mood.id}-${mood.name}`}
-                  label={mood.name as MoodCode}
-                  isSelected={draftMoodIds.includes(mood.id)}
-                  onClick={() => toggleMood(mood.id)}
-                />
-              ))}
+        <div className='flex flex-col gap-[0.7rem]'>
+          {(Object.keys(groupedMoods) as MoodCategory[]).map((category) => (
+            <div key={category} className='grid grid-cols-[5rem_1fr] items-start gap-x-[0.8rem]'>
+              {/* 카테고리 Label */}
+              <span className='caption-12-md text-black-9 py-[0.6rem] whitespace-nowrap'>
+                {MOOD_CATEGORY_MAP[category]}
+              </span>
+              {/* 칩 목록 */}
+              <div className='flex flex-wrap gap-[0.8rem]'>
+                {groupedMoods[category].map((mood) => (
+                  <FilterChip
+                    key={`${mood.id}-${mood.name}`}
+                    label={mood.name as MoodCode}
+                    isSelected={draftMoodIds.includes(mood.id)}
+                    onClick={() => toggleMood(mood.id)}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       <Button
         color='transparent'
         size='medium'
-        className='ml-auto w-fit border-0 px-[2rem]'
+        className='ml-auto w-fit border-0 h-[4.2rem] px-[2rem]'
         onClick={handleFilterApply}
       >
         완료

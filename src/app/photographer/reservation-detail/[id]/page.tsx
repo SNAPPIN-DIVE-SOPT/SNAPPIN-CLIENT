@@ -63,10 +63,12 @@ export default function Page() {
               images={data.reviewInfo.images}
               content={data.reviewInfo.content}
             />
+            <div className='h-[6.3rem]' />
           </>
         ) : (
           <>
             <DetailPageFooter
+              id={data.productInfo.id}
               date={data.reservationInfo.date}
               startTime={data.reservationInfo.startTime}
               status={data.status as StateCode}

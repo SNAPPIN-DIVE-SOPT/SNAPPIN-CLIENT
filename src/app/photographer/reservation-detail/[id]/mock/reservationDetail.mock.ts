@@ -1,5 +1,5 @@
 export const RESERVATION_DETAIL_MOCK = {
-  status: 'RESERVATION_REFUSED',
+  status: 'PHOTOGRAPHER_CHECKING',
   productInfo: {
     id: 1,
     imageUrl: 'https://picsum.photos/576/576?random=1',
@@ -18,7 +18,7 @@ export const RESERVATION_DETAIL_MOCK = {
     durationTime: 120,
     place: '건국대',
     peopleCount: 2,
-    requestNote: '기타 요청 사항',
+    requestNote: '기타 요청 사항기타 요청 사항기타 요청 사항기타 요청 사항기타 요청 사항',
   },
   paymentInfo: {
     basePrice: 200000,

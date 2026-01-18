@@ -13,6 +13,7 @@ type DetailRowProps = {
   label: string;
   value: string;
   className?: string;
+  valueClassName?: string;
 };
 
 const DetailLayout = ({ title, subtitle, children, className }: DetailLayoutProps) => {
@@ -36,11 +37,11 @@ const DetailLayout = ({ title, subtitle, children, className }: DetailLayoutProp
   );
 };
 
-const DetailRow = ({ label, value, className }: DetailRowProps) => {
+const DetailRow = ({ label, value, className, valueClassName }: DetailRowProps) => {
   return (
-    <div className={cn('caption-12-md flex items-center gap-[1rem]', className)}>
+    <div className={cn('caption-12-md flex items-start gap-[1rem]', className)}>
       <p className='text-black-7 min-w-[8rem]'>{label}</p>
-      <p>{value}</p>
+      <p className={cn('text-black-10', valueClassName)}>{value}</p>
     </div>
   );
 };

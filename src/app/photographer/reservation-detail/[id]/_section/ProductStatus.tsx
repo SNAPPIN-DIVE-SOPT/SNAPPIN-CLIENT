@@ -40,7 +40,7 @@ export default function ProductStatus({
   };
 
   const handleSendMessage = () => {
-    toast.alert('메시지 기능은 준비 중 이에요. 조금만 기다려주세요!', undefined, 'top-[1rem]');
+    toast.alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', undefined, 'top-[1rem]');
   };
 
   return (
@@ -72,7 +72,7 @@ export default function ProductStatus({
         <Button
           size='small'
           color='black'
-          className='text-black-1 w-full'
+          className='text-black-1 border-black-10 w-full border-1'
           onClick={handleSendMessage}
         >
           메시지 보내기

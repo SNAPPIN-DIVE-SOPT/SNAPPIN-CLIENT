@@ -52,7 +52,7 @@ export default function Toast({ type, message, duration = 3000, className }: Toa
       <div className='caption-12-md text-black-1'>{message}</div>
       {type === 'login' && (
         <Link href='/login' className='caption-12-md text-neon-black ml-[1rem] underline'>
-          로그인 하기
+          로그인하기
         </Link>
       )}
     </div>

@@ -2,8 +2,10 @@
 
 import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { BottomCTAButton } from '@/ui';
+import { useRouter } from 'next/navigation';
 
 type DetailPageFooterProps = {
+  id: number;
   date: string; // 예약 날짜 (YYYY-MM-DD)
   startTime: string; // 10:00
   status: StateCode;
@@ -15,7 +17,8 @@ type ButtonConfig = {
   onClick?: () => void;
 };
 
-export default function DetailPageFooter({ date, startTime, status }: DetailPageFooterProps) {
+export default function DetailPageFooter({ id, date, startTime, status }: DetailPageFooterProps) {
+  const router = useRouter();
   const now = new Date();
   const start = new Date(`${date}T${startTime}:00`);
 
@@ -28,7 +31,7 @@ export default function DetailPageFooter({ date, startTime, status }: DetailPage
           label: '결제 요청하기',
           disabled: false,
           onClick: () => {
-            //TODO: 결제 요청 페이지로 이동 후 결제 요청 API 호출 쿼리키 무효화
+            router.push(`/photographer/payment/${id}`);
           },
         };
       case STATE_CODES.PAYMENT_REQUESTED:
