@@ -4,7 +4,7 @@ import { MOCK_SNAP_CATEGORIES } from '@/app/(with-layout)/explore/mocks/search';
 
 type SnapCategoryProps = {
   currentCategory?: string | null;
-  categories?: { key: string; label: string }[];
+  categories?: { key?: string; label?: string }[];
   handleCategoryChange: (selectedCategory: string | null) => void;
 };
 
@@ -26,9 +26,9 @@ export default function SnapCategory({
       {snapCategories.map((category) => (
         <SnapCategoryButton
           key={category.key}
-          categoryKey={category.key}
-          label={category.label}
-          isSelected={isSelected(category.key)}
+          categoryKey={category.key ?? ''}
+          label={category.label ?? ''}
+          isSelected={isSelected(category.key ?? '')}
           handleCategoryClick={handleCategoryClick}
         />
       ))}

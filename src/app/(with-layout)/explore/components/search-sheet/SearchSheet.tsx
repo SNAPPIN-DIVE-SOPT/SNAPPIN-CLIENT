@@ -16,7 +16,7 @@ import { SearchField } from '@/app/(with-layout)/explore/types/search';
 import { parseInitialDraft, patchSearchParams } from '@/app/(with-layout)/explore/utils/query';
 import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
 import { SearchFooter, SnapCategory } from '@/app/(with-layout)/explore/components';
-import { MOCK_SNAP_CATEGORIES } from '@/app/(with-layout)/explore/mocks/search';
+import { useGetCategories } from '@/app/(with-layout)/explore/api';
 
 type SearchSheetProps = {
   open: boolean;
@@ -27,6 +27,7 @@ const MIN_PARTICIPANT_COUNT = 0;
 const MAX_PARTICIPANT_COUNT = 15;
 
 export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
+  const { data: snapCategories } = useGetCategories();
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -119,7 +120,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
         >
           <SnapCategory
             currentCategory={snapCategory}
-            categories={MOCK_SNAP_CATEGORIES}
+            categories={snapCategories}
             handleCategoryChange={setCategory}
           />
         </ControlSheet.Field>

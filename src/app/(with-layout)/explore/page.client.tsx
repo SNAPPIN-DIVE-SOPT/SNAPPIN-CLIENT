@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import { overlay } from 'overlay-kit';
-import { ButtonSearchBar, SectionTabs } from '@/ui';
+import { ButtonSearchBar, Loading, SectionTabs } from '@/ui';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { parseInitialDraft, pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
 import { ExploreFilter, SearchSheet } from '@/app/(with-layout)/explore/components';
@@ -61,7 +61,11 @@ export default function PageClient() {
   };
 
   const handleSheetOpen = () => {
-    overlay.open(({ isOpen, close }) => <SearchSheet open={isOpen} onOpenChange={close} />);
+    overlay.open(({ isOpen, close }) => (
+      <Suspense fallback={<Loading />}>
+        <SearchSheet open={isOpen} onOpenChange={close} />
+      </Suspense>
+    ));
   };
 
   return (
