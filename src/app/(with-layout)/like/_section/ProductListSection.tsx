@@ -1,6 +1,7 @@
 import { ProductList } from '@/ui';
 import { useGetLikeProducts } from '@/app/(with-layout)/like/api';
 import LikeEmpty from '@/app/(with-layout)/like/component/empty/LikeEmpty';
+import { useAuth } from '@/auth/hooks/useAuth';
 
 export default function ProductListSection() {
   const { data: likedProductResponse } = useGetLikeProducts();
@@ -11,7 +12,7 @@ export default function ProductListSection() {
   return (
     <section>
       <ProductList
-        productList={likedProductResponse}
+        productList={likedProductResponse?.products ?? []}
         className='bg-black-3 flex flex-col gap-[0.6rem]'
         itemClassName='bg-black-1'
       />

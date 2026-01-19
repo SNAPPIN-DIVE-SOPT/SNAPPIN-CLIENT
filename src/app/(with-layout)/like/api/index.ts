@@ -4,45 +4,35 @@ import {
   WishedProductResponse,
   WishedProductsResponse,
 } from '@/swagger-api/data-contracts';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { apiRequest } from '@/api/apiRequest';   
+ import { ApiResponseBodyWishedPortfoliosResponseVoid } from '@/swagger-api/data-contracts';
 
-const LIKED_PORTFOLIO_END_POINT = `${process.env.NEXT_PUBLIC_API_SERVER_BASE_URL}/api/v1/wishes/portfolios`;
-const LIKED_PRODUCT_END_POINT = `${process.env.NEXT_PUBLIC_API_SERVER_BASE_URL}/api/v1/wishes/products`;
-
-const fetchLikePortfolios = async () => {
-  const res = await fetch(LIKED_PORTFOLIO_END_POINT, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) {
-    throw new Error('위시 포트폴리오 조회 에러');
-  }
-  return (await res.json()) as WishedPortfoliosResponse;
-};
 
 export const useGetLikePortfolios = () => {
-  return useSuspenseQuery({
-    // todo: 쿼리키 통합
+  return useQuery<WishedPortfoliosResponse>({
     queryKey: ['likePortfolios'],
-    queryFn: () => fetchLikePortfolios().then((res) => res.portfolios as WishedPortfolioResponse[]),
+    queryFn: async () => {
+      const res = await apiRequest<ApiResponseBodyWishedPortfoliosResponseVoid>({
+        endPoint: '/api/v1/wishes/portfolios',
+        method: 'GET',
+      });
+      if (!res.data) throw new Error('No data from /api/v1/wishes/portfolios');
+      return res.data;
+    },
   });
 };
 
-const fetchLikeProducts = async () => {
-  const res = await fetch(LIKED_PRODUCT_END_POINT, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) {
-    throw new Error('위시 포트폴리오 조회 에러');
-  }
-  return (await res.json()) as WishedProductsResponse;
-};
-
-export const useGetLikeProducts = () => {
-  return useSuspenseQuery({
+export const useGetLikeProducts =  () => {
+  return useQuery<WishedProductResponse[]>({
     queryKey: ['likeProducts'],
-    queryFn: () =>
-      fetchLikeProducts().then((res) => res.products as Required<WishedProductResponse>[]),
+      queryFn: async () => {
+        const res = await apiRequest<WishedProductsResponse>({
+        endPoint: '/api/v1/wishes/products',
+        method: 'GET',
+      });
+      if (!res.products) throw new Error('No data from /api/v1/wishes/products');
+      return res.products;
+    },
   });
 };
