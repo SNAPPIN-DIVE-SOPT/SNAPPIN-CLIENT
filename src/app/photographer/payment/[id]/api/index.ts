@@ -1,40 +1,41 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PHOTOGRAPHER_QUERY_KEY } from "@/query-key/photographer";
 import { apiRequest } from "@/api/apiRequest";
-import { ApiResponseBodyPayReservationResponseVoid, ApiResponseBodyRequestPaymentReservationResponseVoid, GetProductDetailData, GetProductDetailResponse, GetProductPriceData, Payment, PayReservationResponse, ProductPriceResponse, RequestPaymentReservationResponse } from "@/swagger-api/data-contracts";
+import {  ApiResponseBodyReservationPriceResponseVoid, ReservationPriceResponse, RequestPaymentReservationRequest } from "@/swagger-api/data-contracts";
 
-export const useGetProductDetail = (productId: number) => {
-  return useQuery<GetProductDetailResponse>({
-    queryKey: PHOTOGRAPHER_QUERY_KEY.RESERVATION_DETAIL(productId),
-    enabled: !!productId,
+export const useGetPaymentPrice = (reservationId: number) => {
+  return useQuery<ReservationPriceResponse>({
+    queryKey: PHOTOGRAPHER_QUERY_KEY.PRODUCT_PRICE(reservationId),
     queryFn: async () => {
-      const res = await apiRequest<GetProductDetailData>({
-        endPoint: `/api/v1/products/${productId}/price`,
+      const res = await apiRequest<ApiResponseBodyReservationPriceResponseVoid>({
+        endPoint: `/api/v1/reservations/${reservationId}/price`,
         method: "GET",
+
       });
 
-      if (!res.success) {
+      if (!res.data) {
         throw new Error(
-          `Failed to fetch /api/v1/products/${productId}/price`
+          `Failed to fetch /api/v1/reservations/${reservationId}/price`
         );
       }
 
-      return res.data ?? {};
+      return res.data;
     },
   });
 };
 
 
+
 export const useRequestPayment = (reservationId: number) => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (payment) => {
-      console.info('payment', payment);
+    mutationFn: async (payment: RequestPaymentReservationRequest) => {
       const res =
         await apiRequest({
-          endPoint: `/api/v1/reservations/${reservationId}/request-payment`, // ✅ 그대로
+          endPoint: `/api/v1/reservations/${reservationId}/request-payment`, 
           method: "PATCH",
-          data: JSON.stringify(payment), 
-        });
+          data: payment,     
+        },);
 
       if (!res) {
         throw new Error(
@@ -43,6 +44,9 @@ export const useRequestPayment = (reservationId: number) => {
       }
 
       return res;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PHOTOGRAPHER_QUERY_KEY.RESERVATION_DETAIL(reservationId) });
     },
   });
 };

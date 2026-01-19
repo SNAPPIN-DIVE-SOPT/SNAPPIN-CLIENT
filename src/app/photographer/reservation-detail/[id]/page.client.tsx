@@ -72,7 +72,6 @@ export default function PageClient({ id }: PageClientProps) {
       <>
         <DetailPageFooter
           reservationId={reservationId}
-          productId={data?.productInfo?.id ?? -1}
           date={data?.reservationInfo?.date ?? ''}
           startTime={data?.reservationInfo?.startTime ?? ''}
           status={data?.status as StateCode ?? ''}

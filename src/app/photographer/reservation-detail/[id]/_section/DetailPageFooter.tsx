@@ -3,11 +3,10 @@
 import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { BottomCTAButton } from '@/ui';
 import { useRouter } from 'next/navigation';
-import { useCompleteReservation } from '../api';
+import { useCompleteReservation, useConfirmReservation } from '../api';
 
 type DetailPageFooterProps = {
   reservationId: number;
-  productId: number;
   date: string; // 예약 날짜 (YYYY-MM-DD)
   startTime: string; // 10:00
   status: StateCode;
@@ -19,11 +18,12 @@ type ButtonConfig = {
   onClick?: () => void;
 };
 
-export default function DetailPageFooter({ reservationId, productId, date, startTime, status }: DetailPageFooterProps) {
+export default function DetailPageFooter({ reservationId, date, startTime, status }: DetailPageFooterProps) {
   const router = useRouter();
   const now = new Date();
   const start = new Date(`${date}T${startTime}:00`);
   const { mutate: completeReservation } = useCompleteReservation(reservationId);
+  const { mutate: confirmReservation } = useConfirmReservation(reservationId);
   const isAfterStart = now >= start;
 
   const getButtonConfig = (): ButtonConfig => {
@@ -33,7 +33,7 @@ export default function DetailPageFooter({ reservationId, productId, date, start
           label: '결제 요청하기',
           disabled: false,
           onClick: () => {
-            router.push(`/photographer/payment/${productId}`);
+            router.push(`/photographer/payment/${reservationId}`);
           },
         };
       case STATE_CODES.PAYMENT_REQUESTED:
@@ -47,7 +47,7 @@ export default function DetailPageFooter({ reservationId, productId, date, start
           label: '예약 확정하기',
           disabled: false,
           onClick: () => {
-            // TODO: 예약 확정 API 호출 후 성공 시 쿼리키 무효화
+              confirmReservation(reservationId);
           },
         };
 

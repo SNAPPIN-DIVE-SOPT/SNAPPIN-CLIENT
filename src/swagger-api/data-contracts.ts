@@ -449,6 +449,39 @@ export interface GetSwitchedUserProfileResponse {
   accessToken?: string;
 }
 
+/** 촬영 추가 비용 DTO */
+export interface ExtraPriceRequest {
+  /**
+   * 비용명
+   * @example "원본 JPG 추가"
+   */
+  name?: string;
+  /**
+   * 금액
+   * @format int32
+   * @example 10000
+   */
+  amount?: number;
+}
+
+/** 예약 결제 요청 금액 목록 DTO */
+export interface RequestPaymentReservationRequest {
+  /**
+   * 기본 촬영 비용
+   * @format int32
+   * @example 80000
+   */
+  basePrice: number;
+  /** 추가 비용 목록 */
+  extraPrices?: ExtraPriceRequest[];
+  /**
+   * 최종 결제 금액
+   * @format int32
+   * @example 90000
+   */
+  totalPrice: number;
+}
+
 /** 공통 응답 DTO */
 export interface ApiResponseBodyRequestPaymentReservationResponseVoid {
   /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
@@ -471,13 +504,36 @@ export interface ApiResponseBodyRequestPaymentReservationResponseVoid {
   meta?: object;
 }
 
-/** 결제 요청 정보 */
-export interface Payment {
-  /** @format int32 */
+/** 촬영 추가 비용 DTO */
+export interface ExtraPriceResponse {
+  /**
+   * 비용명
+   * @example "원본 JPG 추가"
+   */
+  name?: string;
+  /**
+   * 금액
+   * @format int32
+   * @example 10000
+   */
+  amount?: number;
+}
+
+/** 결제 정보 DTO */
+export interface PaymentResponse {
+  /**
+   * 기본 촬영 비용
+   * @format int32
+   * @example 200000
+   */
   basePrice?: number;
-  /** @format int32 */
-  extraPrice?: number;
-  /** @format int32 */
+  /** 추가 비용 목록 */
+  extraPrices?: ExtraPriceResponse[];
+  /**
+   * 최종 결제 금액
+   * @format int32
+   * @example 210000
+   */
   totalPrice?: number;
 }
 
@@ -502,8 +558,8 @@ export interface RequestPaymentReservationResponse {
     | "RESERVATION_CANCELED"
     | "RESERVATION_REFUSED"
     | "SHOOT_COMPLETED";
-  /** 결제 요청 정보 */
-  payment?: Payment;
+  /** 결제 정보 DTO */
+  payment?: PaymentResponse;
 }
 
 /** 공통 응답 DTO */
@@ -1201,6 +1257,44 @@ export interface ReservationDetailReviewResponse {
   content?: string;
 }
 
+/** 공통 응답 DTO */
+export interface ApiResponseBodyReservationPriceResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 예약 상품 기본 촬영 비용 응답 DTO */
+  data?: ReservationPriceResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 예약 상품 기본 촬영 비용 응답 DTO */
+export interface ReservationPriceResponse {
+  /**
+   * 예약 ID
+   * @format int64
+   * @example 501
+   */
+  reservationId?: number;
+  /**
+   * 예약 상품 가격
+   * @format int32
+   * @example 80000
+   */
+  price?: number;
+}
+
 export interface GetProductListQuery {
   moodIds?: number[];
   /** @format int64 */
@@ -1464,38 +1558,6 @@ export interface ProductReviewsMetaResponse {
 export interface ProductReviewsResponse {
   /** 상품 리뷰 목록 */
   reviews?: ProductReviewResponse[];
-}
-
-/** 공통 응답 DTO */
-export interface ApiResponseBodyProductPriceResponseVoid {
-  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
-  success?: boolean;
-  /**
-   * 해당 API의 HTTP 상태 코드입니다.
-   * @format int32
-   */
-  status?: number;
-  /** 해당 API의 결과에 대한 상태 메시지입니다. */
-  message?: string;
-  /**
-   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
-   * @example "TIC_200_001"
-   */
-  code?: string;
-  /** 상품 기본 촬영 비용 응답 DTO */
-  data?: ProductPriceResponse;
-  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
-  meta?: object;
-}
-
-/** 상품 기본 촬영 비용 응답 DTO */
-export interface ProductPriceResponse {
-  /**
-   * 상품 가격
-   * @format int32
-   * @example 80000
-   */
-  price?: number;
 }
 
 /** 공통 응답 DTO */
@@ -2205,9 +2267,6 @@ export type CreateKakaoLoginData = ApiResponseBodyCreateKakaoLoginResponseVoid;
 export type PatchUserRoleData =
   ApiResponseBodyGetSwitchedUserProfileResponseVoid;
 
-/** 결제 정보 */
-export type UpdateReservationRequestPaymentPayload = string;
-
 export type UpdateReservationRequestPaymentData =
   ApiResponseBodyRequestPaymentReservationResponseVoid;
 
@@ -2235,6 +2294,9 @@ export type GetReservationsData = ApiResponseBodyReservationListResponseVoid;
 export type GetReservationDetailData =
   ApiResponseBodyReservationDetailResponseVoid;
 
+export type GetReservationPriceData =
+  ApiResponseBodyReservationPriceResponseVoid;
+
 export type GetProductListData =
   ApiResponseBodyGetProductListResponseGetProductListMeta;
 
@@ -2242,8 +2304,6 @@ export type GetProductDetailData = ApiResponseBodyGetProductDetailResponseVoid;
 
 export type GetProductReviewsData =
   ApiResponseBodyProductReviewsResponseProductReviewsMetaResponse;
-
-export type GetProductPriceData = ApiResponseBodyProductPriceResponseVoid;
 
 export type GetProductClosedDatesData =
   ApiResponseBodyProductClosedDatesResponseVoid;

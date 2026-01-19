@@ -1,30 +1,39 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useExtraPrices } from './useExtraPrices';
 import { useRouter } from 'next/navigation';
 import { useRequestPayment } from '../api';
 
 // 결제 요약 관리
-export const usePaymentSummary = (id: number, basePrice: number) => {
+export const usePaymentSummary = (reservationId: number, basePrice: number) => {
+  const [currentBasePrice, setCurrentBasePrice] = useState(basePrice);
+
   const router = useRouter();
   const { extraPrices } = useExtraPrices();
 
   const totalAmount = useMemo(
-    () => extraPrices.reduce((acc, cur) => acc + cur.amount, basePrice),
-    [extraPrices, basePrice],
+    () => extraPrices.reduce((acc, cur) => acc + cur.amount, currentBasePrice),
+    [extraPrices, currentBasePrice],
   );
-  const requestPaymentMutation = useRequestPayment(id);
-  const submitPayment = () => {
-    console.info('id', id);
-    console.info('basePrice', basePrice);
-    console.info('extraPrices', extraPrices);
-    console.info('totalAmount', totalAmount);
-    // TODO: API
-    //쿼리키 무효화
-    
+  
+  useEffect(() => {
+    setCurrentBasePrice(basePrice);
+  }, [basePrice]);
 
-    router.push(`/photographer/reservation-detail/${id}`);
+  const requestPaymentMutation = useRequestPayment(reservationId);
+  
+  const submitPayment = () => {
+    requestPaymentMutation.mutate({
+        basePrice: currentBasePrice,
+        extraPrices: extraPrices.map((extraPrice) => ({
+          name: extraPrice.name,
+          amount: extraPrice.amount,
+        })),
+        totalPrice: totalAmount,
+    });
+
+    router.push(`/photographer/reservation-detail/${reservationId}`);
   };
 
   return { extraPrices, totalAmount, submitPayment };

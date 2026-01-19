@@ -7,7 +7,7 @@ import { formatPrice } from '@/utils/price';
 import { IconAdd } from '@/assets';
 import { usePaymentSummary } from '../../hooks/usePaymentSummary';
 import CompleteModal from '../../@modal/(.)complete-modal/CompleteModal';
-import { useGetProductDetail } from '../../api';
+import { useGetPaymentPrice } from '../../api';
 
 type PaymentDetailContainerProps = {
   id: number;
@@ -15,7 +15,8 @@ type PaymentDetailContainerProps = {
 
 export default function PaymentDetailContainer({ id }: PaymentDetailContainerProps) {
   const router = useRouter();
-  const { data } = useGetProductDetail(id);
+
+  const { data } = useGetPaymentPrice(id);
 
   const [completeOpen, setCompleteOpen] = useState(false);
   const { extraPrices, totalAmount, submitPayment } = usePaymentSummary(id, data?.price ?? 0);
