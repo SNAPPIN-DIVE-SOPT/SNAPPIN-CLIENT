@@ -3,25 +3,22 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SectionTabs } from '@/ui';
-import { PhotographerSection, PortfolioListSection, ProductListSection } from './_section/index';
+import { PhotographerSection, PhotographerSectionSkeleton, PortfolioListSection, ProductListSection } from './_section/index';
 import { Header, Footer } from './components/index';
-import { PHOTOGRAPHER_DETAIL_MOCK } from './mock/index';
 import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TAB_MAP } from './constants/tab';
+import { useGetPhotographerDetail } from './api/index';
 
-type PageClientProps = {
-  photographerId: string;
+type ClientPageProps = {
+  id: string;
 }
 
-export default function PageClient({ photographerId }: PageClientProps) {
+export default function ClientPage({ id }: ClientPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
   const [selectedTab, setSelectedTab] = useState(tabParam ?? PHOTOGRAPHER_TAB.PORTFOLIO);
 
-  const [cursor, setCursor] = useState<number | null>(null);
-
-  // TODO: 작가 상세 조회 API 연동 (request에 photographerId, cursor 전달)
-  const mock = PHOTOGRAPHER_DETAIL_MOCK;
+  const { data, isPending } = useGetPhotographerDetail(Number(id));
 
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
@@ -31,12 +28,15 @@ export default function PageClient({ photographerId }: PageClientProps) {
   return (
     <div className='flex flex-col'>
       <Header />
-      <PhotographerSection
-        name={mock.name}
-        bio={mock.bio}
-        specialties={mock.specialties}
-        locations={mock.locations}
-      />
+      {isPending
+        ? <PhotographerSectionSkeleton />
+        : <PhotographerSection
+            name={data?.name ?? ''}
+            bio={data?.bio ?? ''}
+            specialties={data?.specialties ?? []}
+            locations={data?.locations ?? []}
+          />
+      }
       <SectionTabs
         value={selectedTab}
         handleValueChange={handleTabChange}
@@ -55,14 +55,14 @@ export default function PageClient({ photographerId }: PageClientProps) {
           value={PHOTOGRAPHER_TAB.PORTFOLIO}
           className='p-[1rem] mb-[7.6rem] bg-black-1'
         >
-          <PortfolioListSection photographerId={Number(photographerId)} />
+          <PortfolioListSection id={Number(id)} />
         </SectionTabs.Contents>
         {/* 상품 목록 */}
         <SectionTabs.Contents
           value={PHOTOGRAPHER_TAB.PRODUCT}
           className='mb-[7.6rem]'
         >
-          <ProductListSection photographerId={Number(photographerId)} />
+          <ProductListSection id={Number(id)} />
         </SectionTabs.Contents>
       </SectionTabs>
       <Footer />

@@ -13,7 +13,7 @@ type DetailRowProps = {
   content: string[];
 }
 
-export default function PhotographerSection({
+export function PhotographerSection({
   name,
   bio,
   specialties,
@@ -56,5 +56,24 @@ function DetailRow({
       <dt className='caption-12-md text-black-7'>{label}</dt>
       <dd className='caption-12-md text-black-9'>{content.join(', ')}</dd>
     </div>
+  );
+}
+
+// TODO: 스켈레톤 위치
+export const PhotographerSectionSkeleton = () => {
+  return (
+    <section className='flex gap-[1.2rem] p-[2rem]'>
+      <div className='w-[8.7rem] h-[8.7rem] bg-black-3 rounded-full' />
+      <div className='flex flex-col gap-[0.9rem]'>
+        <div className='flex flex-col gap-[0.4rem]'>
+          <div className='w-[4.5rem] h-[2.2rem] bg-black-3 rounded-[0.2rem]' />
+          <div className='w-[13.2rem] h-[2.2rem] bg-black-3 rounded-[0.2rem]' />
+        </div>
+        <div className='flex flex-col gap-[0.4rem]'>
+          <div className='w-[15.8rem] h-[1.2rem] bg-black-3 rounded-[0.2rem]' />
+          <div className='w-[3.7rem] h-[1.2rem] bg-black-3 rounded-[0.2rem]' />
+        </div>
+      </div>
+    </section>
   );
 }

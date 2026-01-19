@@ -1,6 +1,6 @@
-import PageClient from './page.client';
+import ClientPage from './page.client';
 
-export default async function PhotographerDetail({ params }: { params: Promise<{ id: string }> }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  return <PageClient photographerId={id} />;
+  return <ClientPage id={id} />;
 }
