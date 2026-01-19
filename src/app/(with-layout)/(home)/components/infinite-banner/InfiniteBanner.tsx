@@ -2,16 +2,11 @@
 
 import Link from 'next/link';
 import { ImageCarousel } from '@/ui';
-
-type Item = {
-  id: number;
-  href: string;
-  imageUrl: string;
-  name: string;
-};
+import imageEmpty from '@/../public/imgs/image-empty.png';
+import { GetPlaceInfoResponse } from '@/swagger-api/data-contracts';
 
 type InfiniteBannerProps = {
-  items: Item[];
+  items:  GetPlaceInfoResponse[];
   durationSec?: number;
 };
 
@@ -26,9 +21,9 @@ export default function InfiniteBanner({ items, durationSec = 18 }: InfiniteBann
     >
       <div className='infinite-track flex w-max gap-[0.4rem]'>
         {loopItems.map((item, idx) => (
-          <Link key={`${item.id}-${idx}`} href={item.href} className='relative shrink-0'>
+          <Link key={`${item.id}-${idx}`} href={""} className='relative shrink-0'>
             <ImageCarousel
-              src={item.imageUrl}
+              src={item.imageUrl ?? imageEmpty.src}
               alt={`${item.name} 이미지`}
               imageWidth={`11.8rem`}
               imageHeight={`11.8rem`}
