@@ -3,7 +3,7 @@
 import { Button } from '@/ui';
 import { IconAddPhotoAlternate } from '@/assets';
 import { useRef } from 'react';
-import { IMAGE_ACCEPT } from '@/ui/button/upload/constants/image';
+import { IMAGE_ACCEPT } from '@/constants/image-type/imageAccept';
 
 type ImageUploadButtonProps = {
   handleUploadAction: (files: FileList) => void;
