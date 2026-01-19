@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/utils/cn';
+import productPlaceholder from '@/../public/imgs/image-default.png';
 
 type ProductListProps = {
   portfolioList: { id?: number; imageUrl?: string }[];
@@ -26,7 +27,7 @@ export default function PortfolioList({
           className='relative aspect-square'
         >
           <Image
-            src={portfolio.imageUrl!}
+            src={portfolio.imageUrl ?? productPlaceholder}
             fill
             alt={`portfolio ${portfolio.id}`}
             sizes='(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw'
