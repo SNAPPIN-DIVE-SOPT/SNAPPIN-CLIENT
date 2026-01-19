@@ -61,9 +61,9 @@ export default function ReservationContent() {
                 return (
                   <div key={index}>
                     <ReservationCard
-                      reservationId={product?.id ?? 0}
+                      reservationId={item.reservationId ?? 0}
                       status={item.status as StateCode ?? ''}
-                      image={{ src:  '', alt: product?.title ?? '' }}
+                      image={{ src: product?.imageUrl ?? '', alt: product?.title ?? '' }}
                       name={product?.title ?? ''}
                       rate={product?.rate ?? 0}
                       reviewCount={product?.reviewCount ?? 0}

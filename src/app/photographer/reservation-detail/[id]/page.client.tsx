@@ -4,6 +4,7 @@ import { ProductStatus, ReservationDetail, Receipt, ReviewDetail, DetailPageFoot
 import { StateCode } from '@/types/stateCode';  
 import { Divider } from '@/ui';
 import { useGetReservationDetail } from './api';
+import ProducctImage from "@/../public/product.png";
 
 type PageClientProps = {
   id: string;
@@ -16,7 +17,7 @@ export default function PageClient({ id }: PageClientProps) {
     <ProductStatus
       id={data?.productInfo?.id ?? -1}
       status={data?.status as StateCode ?? ''}
-      imageUrl={'https://picsum.photos/576/576?random=1'}
+      imageUrl={data?.productInfo?.imageUrl ?? ProducctImage.src}
       title={data?.productInfo?.title ?? ''}
       rate={data?.productInfo?.rate ?? 0}
       reviewCount={data?.productInfo?.reviewCount ?? 0}
