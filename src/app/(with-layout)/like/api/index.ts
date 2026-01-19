@@ -1,12 +1,11 @@
 import {
-  WishedPortfolioResponse,
   WishedPortfoliosResponse,
   WishedProductResponse,
   WishedProductsResponse,
 } from '@/swagger-api/data-contracts';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';   
- import { ApiResponseBodyWishedPortfoliosResponseVoid } from '@/swagger-api/data-contracts';
+ import { ApiResponseBodyWishedPortfoliosResponseVoid, ApiResponseBodyWishedProductsResponseVoid } from '@/swagger-api/data-contracts';
 
 
 export const useGetLikePortfolios = () => {
@@ -24,15 +23,15 @@ export const useGetLikePortfolios = () => {
 };
 
 export const useGetLikeProducts =  () => {
-  return useQuery<WishedProductResponse[]>({
+  return useQuery<WishedProductsResponse>({
     queryKey: ['likeProducts'],
       queryFn: async () => {
-        const res = await apiRequest<WishedProductsResponse>({
+        const res = await apiRequest<ApiResponseBodyWishedProductsResponseVoid>({
         endPoint: '/api/v1/wishes/products',
         method: 'GET',
       });
-      if (!res.products) throw new Error('No data from /api/v1/wishes/products');
-      return res.products;
+      if (!res.data) throw new Error('No data from /api/v1/wishes/products');
+      return res.data;
     },
   });
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import {  useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SectionTabs } from '@/ui';
 import { LIKE_TAB, LIKE_TAB_MAP } from '@/app/(with-layout)/like/constants/tab';
@@ -17,10 +17,9 @@ const isLikeTab = (value: string | null) => {
 
 export default function PageClient() {
   const { isLogIn } = useAuth();
-  const {login}  = useToast();
+  const { login } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
-
 
   const currentTab = useMemo(() => {
     const raw = searchParams.get('tab');
@@ -40,7 +39,6 @@ export default function PageClient() {
     if (isLogIn === false) {
       login('좋아요 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
     }
-
   }, [isLogIn, login]);
 
   return (
@@ -59,22 +57,12 @@ export default function PageClient() {
       <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
         <SectionTabs.Contents value={LIKE_TAB.PORTFOLIO} className='min-h-full'>
           {/* 포트폴리오 목록 */}
-          <SectionTabs.Contents value={LIKE_TAB.PORTFOLIO} className='min-h-full'>
-            {!isLogIn ? (
-              <LikeEmpty tab={currentTab} />
-            ) : 
-              <PortfolioListSection />
-            }
-          </SectionTabs.Contents>
+          {!isLogIn ? <LikeEmpty tab={currentTab} /> : <PortfolioListSection />}
         </SectionTabs.Contents>
 
         <SectionTabs.Contents value={LIKE_TAB.PRODUCT} className='bg-black-3 min-h-full'>
           {/* 상품 목록 */}
-          {!isLogIn ? (
-            <LikeEmpty tab={currentTab} />
-          ) : (
-              <ProductListSection />
-          )}
+            {!isLogIn ? <LikeEmpty tab={currentTab} /> : <ProductListSection />}
         </SectionTabs.Contents>
       </main>
     </SectionTabs>
