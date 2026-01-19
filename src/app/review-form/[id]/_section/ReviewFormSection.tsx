@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FieldMessage, ImagePreview, TextareaField } from '@/ui';
 import ImageUploadButton from '@/ui/button/upload/ImageUploadButton';
-import ReviewStar from '@/ui/review-star/ReviewStar';
 import { cn } from '@/utils/cn';
 import ClientFooter from '../components/client-footer/ClientFooter';
 import {
@@ -16,6 +15,7 @@ import {
 import { REVIEW_PRODUCT } from '../mock/reviewProduct.mock';
 import { IMAGE_ACCEPT } from '@/constants/image-type/imageAccept';
 
+import { StarRating } from '../components';
 type ReviewFormSectionProps = {
   reservationId: string;
 };
@@ -47,15 +47,6 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
     });
   };
 
-  const handleClickStar = (index: number) => {
-    updateRating(index + 1);
-  };
-
-  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const next = Number(event.target.value);
-    updateRating(Math.max(0, Math.min(MAX_RATING, next)));
-  };
-
   const scrollImagesToEnd = () => {
     const el = document.getElementById('review-image-list');
     if (!el) return;
@@ -63,7 +54,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
     el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' });
 
     const rect = el.getBoundingClientRect();
-    const y = rect.top + window.scrollY - 50; // 헤더 높이만큼 보정
+    const y = rect.top + window.scrollY - 50;
     window.scrollTo({ top: y, behavior: 'smooth' });
   };
 
@@ -109,34 +100,11 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
       >
         <section className='flex flex-col gap-[0.8rem] p-[2.4rem_2rem_2.8rem_2rem]'>
           <span className='caption-14-md text-black-10'>이번 촬영은 어떠셨나요?</span>
-          <div className='relative inline-flex w-fit' aria-label='별점 선택'>
-            <ReviewStar
-              starSize='large'
-              rating={compatibleFormData.rating}
-              starFillColor='text-black-10'
-              className='pointer-events-none'
-            />
-            <div className='absolute inset-0 flex items-center gap-[0.5rem]'>
-              {Array.from({ length: MAX_RATING }).map((_, idx) => (
-                <button
-                  key={idx}
-                  type='button'
-                  className='h-full w-[2.4rem] cursor-pointer'
-                  onClick={() => handleClickStar(idx)}
-                  aria-label={`${idx + 1}점`}
-                />
-              ))}
-            </div>
-            <input
-              type='range'
-              min={0}
-              max={MAX_RATING}
-              step={1}
-              value={compatibleFormData.rating}
-              onChange={handleRangeChange}
-              className='absolute inset-0 h-full w-full cursor-pointer opacity-0'
-            />
-          </div>
+          <StarRating
+            maxLength={MAX_RATING}
+            value={compatibleFormData.rating}
+            onChange={updateRating}
+          />
         </section>
 
         <section className='flex flex-col px-[2rem]'>
@@ -171,7 +139,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
           {previews.length > 0 && (
             <div
               id='review-image-list'
-              className='scrollbar-hide -mr-[2rem] flex gap-[0.8rem] overflow-x-auto pr-[2rem]'
+              className='scrollbar-hide -mr-[1.4rem] flex gap-[0.8rem] overflow-x-auto pr-[2rem]'
             >
               {previews.map(({ url }) => (
                 <ImagePreview

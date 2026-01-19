@@ -3,11 +3,11 @@ import { ClientHeader } from './components';
 import { Divider } from '@/ui';
 
 type ReviewFormPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-export default function Page({ params }: ReviewFormPageProps) {
-  const { id } = params;
+export default async function Page({ params }: ReviewFormPageProps) {
+  const { id } = await params;
 
   return (
     <>
