@@ -17,6 +17,7 @@ export default function PageClient({ id }: PageClientProps) {
   if (isPending) {
     return <SectionSkeleton />;
   }
+  
   return (
     <div className='flex flex-col'>
     <ProductStatus
@@ -52,7 +53,6 @@ export default function PageClient({ id }: PageClientProps) {
         />
       </>
     )}
-
     {data?.reviewInfo ? (
       <>
         <Divider thickness='large' color='bg-black-3' />
