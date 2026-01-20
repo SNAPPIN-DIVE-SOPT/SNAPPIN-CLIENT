@@ -24,6 +24,9 @@ export const USER_QUERY_KEY = {
   WISHED_PORTFOLIOS: () => [...USER_QUERY_KEY.WISH, 'portfolios'],
   WISHED_PRODUCTS: () => [...USER_QUERY_KEY.WISH, 'products'],
 
+  MOODS: ['moods'],
+  MOODS_FILTER: (scope: 'guest' | 'user') => [...USER_QUERY_KEY.MOODS, 'filter', scope],
+
   // 예약 목록 조회
   RESERVATION: ['reservation'],
   RESERVATION_LISTS: () => [...USER_QUERY_KEY.RESERVATION, 'list'],

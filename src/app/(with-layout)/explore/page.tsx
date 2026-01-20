@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 
 export default function Explore() {
   return (
-    <Suspense fallback={<span>임시 loading</span>}>
+    <Suspense fallback={null}>
       <PageClient />
     </Suspense>
   );
