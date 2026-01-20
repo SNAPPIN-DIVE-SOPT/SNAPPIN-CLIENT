@@ -12,28 +12,23 @@ import {
   Stepper,
   TextareaField,
   TextField,
-  TimePicker,
 } from '@/ui';
-import { MOCK_TIME_SLOTS } from '@/ui/time-picker/constants/mockTimeSlots';
 import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
-import { useEffect, useRef, useState } from 'react';
-import {
-  DraftUpdater,
-  ReservationConstraints,
-  ReservationDraft,
-} from '@/ui/drawer/reservation/types/reservation';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { ReservationDraft } from '@/app/product-detail/[productId]/types/reservation';
+import { useAvailablePeopleRange, useClosedDates } from '@/app/product-detail/[productId]/api';
+import AvailableTimeSection from '@/app/product-detail/[productId]/components/time-picker/AvailableTimePicker';
 
 type ReservationBottomDrawerProps = {
   isOpen: boolean;
-  productId: number;
+  productId: string;
   amount: number;
   handleOpenChangeAction: (open: boolean) => void;
-  draft: ReservationDraft;
-  handleDraftChangeAction: (next: DraftUpdater) => void;
-  reservationConstraints: ReservationConstraints;
   onFormSubmitAction: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
+const MIN_DURATION_HOURS = 1;
+const MAX_DURATION_HOURS = 5;
 const DURATION_HOURS_STEP = 0.5;
 const PARTICIPANT_COUNT_STEP = 1;
 const REQUEST_TEXTAREA_MAX_LENGTH = 500;
@@ -43,50 +38,50 @@ export default function ReservationBottomDrawer({
   productId,
   amount,
   handleOpenChangeAction,
-  draft,
-  handleDraftChangeAction,
-  reservationConstraints,
   onFormSubmitAction,
 }: ReservationBottomDrawerProps) {
+  const [draft, setDraft] = useState<ReservationDraft>({
+    date: null,
+    time: null,
+    durationHours: 1,
+    participantCount: 1,
+    place: '',
+    request: '',
+  });
+
   const timeSectionRef = useRef<HTMLDivElement>(null);
   const [viewMonth, setViewMonth] = useState<Date>(new Date());
   const [isRequestFocused, setIsRequestFocused] = useState(false);
 
-  // todo useSuspenseQueries 연결
-  // 1. 휴뮤일 조회
-  // 2. 시간 슬롯
-  const queries = productId;
-  console.info(queries);
+  const { data: peopleRange } = useAvailablePeopleRange(productId);
+  const { data: closedDates } = useClosedDates(productId, viewMonth);
+
   const { date, time, durationHours, place, participantCount, request } = draft;
-  const {
-    minDurationHours,
-    maxDurationHours = 5,
-    minParticipantCount = 1,
-    maxParticipantCount,
-  } = reservationConstraints;
+
+  const minParticipantCount = peopleRange?.minPeople ?? 1;
+  const maxParticipantCount = peopleRange?.maxPeople ?? 10;
   const isButtonDisabled = !date || !time;
   const formattedTime = `${durationHours}시간`;
   const formattedCount = `${participantCount}명`;
   const requestLength = request.length;
   const isRequestTextareaError = requestLength > REQUEST_TEXTAREA_MAX_LENGTH;
 
-  const patch = (p: Partial<ReservationDraft>) =>
-    handleDraftChangeAction((prev) => ({ ...prev, ...p }));
+  const patch = (p: Partial<ReservationDraft>) => setDraft((prev) => ({ ...prev, ...p }));
 
   const decreaseDurationHours = () =>
-    handleDraftChangeAction((prev) => ({
+    setDraft((prev) => ({
       ...prev,
-      durationHours: Math.max(minDurationHours, prev.durationHours - DURATION_HOURS_STEP),
+      durationHours: Math.max(MIN_DURATION_HOURS, prev.durationHours - DURATION_HOURS_STEP),
     }));
 
   const increaseDurationHours = () =>
-    handleDraftChangeAction((prev) => ({
+    setDraft((prev) => ({
       ...prev,
-      durationHours: Math.min(maxDurationHours, prev.durationHours + DURATION_HOURS_STEP),
+      durationHours: Math.min(MAX_DURATION_HOURS, prev.durationHours + DURATION_HOURS_STEP),
     }));
 
   const decreaseParticipant = () =>
-    handleDraftChangeAction((prev) => ({
+    setDraft((prev) => ({
       ...prev,
       participantCount: Math.max(
         minParticipantCount,
@@ -95,7 +90,7 @@ export default function ReservationBottomDrawer({
     }));
 
   const increaseParticipant = () =>
-    handleDraftChangeAction((prev) => ({
+    setDraft((prev) => ({
       ...prev,
       participantCount: Math.min(
         maxParticipantCount,
@@ -122,7 +117,7 @@ export default function ReservationBottomDrawer({
       className='max-h-[92dvh]!'
     >
       {/* 접근성 위한 title & description (숨김처리) */}
-      <DrawerTitle className='sr-only'>예약 정보 입력</DrawerTitle>
+      <DrawerTitle className='sr-only'>예약 정보 ㅌ입력</DrawerTitle>
       <DrawerDescription className='sr-only'>
         예약 날짜, 시간, 촬영 시간, 촬영 인원, 장소와 요청 사항을 입력하는 화면입니다.
       </DrawerDescription>
@@ -143,6 +138,7 @@ export default function ReservationBottomDrawer({
               selectedDate={date ?? undefined}
               viewDateMonth={viewMonth}
               handleMonthChangeAction={setViewMonth}
+              closedDates={closedDates}
               handleDateChangeAction={(nextDate) => patch({ date: nextDate, time: null })}
             />
             <div ref={timeSectionRef} aria-hidden />
@@ -154,11 +150,17 @@ export default function ReservationBottomDrawer({
           {date && (
             <BottomDrawer.Row className='flex flex-col gap-[1.2rem] px-[2rem] py-[2rem]'>
               <BottomDrawer.Title>촬영 시작 시간을 선택해 주세요</BottomDrawer.Title>
-              <TimePicker
-                sections={MOCK_TIME_SLOTS}
-                value={time ?? undefined}
-                handleChange={(nextTime) => patch({ time: nextTime })}
-              />
+              {/* 촬영 시작할 시간 선택 */}
+              {date && (
+                <Suspense>
+                  <AvailableTimeSection
+                    productId={productId}
+                    date={date}
+                    time={time}
+                    onChangeTime={(nextTime) => patch({ time: nextTime })}
+                  />
+                </Suspense>
+              )}
             </BottomDrawer.Row>
           )}
         </BottomDrawer.Section>
@@ -178,8 +180,8 @@ export default function ReservationBottomDrawer({
                 value={formattedTime}
                 handleClickMinus={decreaseDurationHours}
                 handleClickAdd={increaseDurationHours}
-                isDisabledMinus={durationHours <= minDurationHours}
-                isDisabledAdd={durationHours >= maxDurationHours}
+                isDisabledMinus={durationHours <= MIN_DURATION_HOURS}
+                isDisabledAdd={durationHours >= MAX_DURATION_HOURS}
               />
             }
           />
