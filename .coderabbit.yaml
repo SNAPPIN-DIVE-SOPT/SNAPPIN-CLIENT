@@ -1,15 +1,231 @@
-# .coderabbit.yaml
-language: "ko-KR"
-early_access: false
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: 'ko-KR'
+early_access: true
+
+# ✅ 250자 이내 — 톤/스타일만 유지
+tone_instructions: |
+  한국어로 간결하고 건설적인 코드 리뷰를 제공합니다.
+  리뷰 우선순위는 유지보수성 > 성능 > 보안입니다.
+
 reviews:
-  profile: "chill"
-  request_changes_workflow: true
+  profile: 'assertive'
+  request_changes_workflow: false
   high_level_summary: true
-  poem: true
+  poem: false
   review_status: true
-  collapse_walkthrough: false
+  assess_linked_issues: false
+  related_prs: false
+  suggested_labels: true
+  sequence_diagrams: false
+  changed_files_summary: true
+
+  high_level_summary_in_walkthrough: true
+  high_level_summary_placeholder: '이 PR의 주요 변경사항을 요약합니다'
+  collapse_walkthrough: true
+  commit_status: true
+  fail_commit_status: false
+  related_issues: false
+  abort_on_close: true
+
+  # =====================
+  # Path Filters
+  # =====================
+  path_filters:
+    # 허용 경로
+    - 'src/**'
+    - '.storybook/**'
+    - '.github/**'
+    - 'next.config.*'
+    - 'tailwind.config.*'
+    - 'postcss.config.*'
+    - 'tsconfig*.json'
+    - 'package.json'
+    - '.coderabbit.yaml'
+    - 'scripts/**'
+    - 'public/**'
+    - 'README.md'
+    - 'CONVENTIONS.md'
+
+    # 제외 경로
+    - '!node_modules/**'
+    - '!.next/**'
+    - '!dist/**'
+    - '!storybook-static/**'
+    - '!build/**'
+    - '!src/assets/**'
+    - '!coverage/**'
+    - '!**/*.snap'
+    - '!**/*.png'
+    - '!**/*.jpg'
+    - '!**/*.jpeg'
+    - '!**/*.gif'
+    - '!**/*.webp'
+    - '!**/*.ico'
+    - '!**/*.avif'
+    - '!**/*.mp4'
+    - '!**/*.webm'
+    - '!**/*.mp3'
+    - '!**/*.ogg'
+    - '!*.lock'
+    - '!pnpm-lock.yaml'
+    - '!package-lock.json'
+    - '!bun.lockb'
+
+  # =====================
+  # Path Instructions
+  # =====================
+  path_instructions:
+    - path: '.coderabbit.yaml'
+      instructions: |
+        CodeRabbit 설정 파일 리뷰 시:
+        - YAML 문법 및 스키마 호환성 확인
+        - path_filters / path_instructions 중복 여부 점검
+        - 프로젝트 구조와 설정 일관성 검토
+
+    - path: '.storybook/**'
+      instructions: |
+        Storybook 설정 리뷰 시:
+        - stories glob 패턴이 실제 파일과 일치하는지
+        - Next.js 환경 호환성 확인
+        - 불필요한 addon 제거로 런타임 이슈 방지
+
+    - path: 'src/**/*.stories.@(ts|tsx)'
+      instructions: |
+        Storybook 스토리 리뷰 시:
+        - 주요 props 변형에 대한 스토리 커버
+        - interaction test 사용 시 사용자 플로우/접근성 중심 검토
+
+    - path: 'src/app/**'
+      instructions: |
+        Next.js App Router 리뷰 시:
+        - Server / Client 컴포넌트 경계 최소화
+        - window/document 접근의 SSR 안전성 확인
+        - loading.tsx / error.tsx / not-found.tsx 활용 여부 점검
+
+    - path: 'src/ui/**'
+      instructions: |
+        UI 컴포넌트 리뷰 시:
+        - 재사용성 중심 설계 여부
+        - common 컴포넌트에서 children 활용 여부
+        - className 조합 시 cn 유틸 사용 일관성
+
+    - path: 'src/hooks/**'
+      instructions: |
+        커스텀 훅 리뷰 시:
+        - use* 접두사 및 역할 명확성
+        - 의존성 배열(exhaustive-deps) 준수
+        - 브라우저 API 사용의 SSR 안전성 확인
+
+    - path: 'src/**/utils/**'
+      instructions: |
+        유틸 함수 리뷰 시:
+        - 반환값 기준 네이밍(has*/is*/can*)
+        - 중복 로직의 공통화 여부
+
+    - path: 'src/lib/**'
+      instructions: |
+        lib 레이어 리뷰 시:
+        - 재사용 가능한 공통 로직 분리 여부
+        - 서버/클라이언트 의존성 혼입 여부
+
+    - path: 'src/types/**'
+      instructions: |
+        타입 정의 리뷰 시:
+        - PascalCase 사용 여부
+        - any 최소화
+        - export type 우선 사용
+
+  # =====================
+  # Auto Review
+  # =====================
   auto_review:
     enabled: true
     drafts: false
+    base_branches:
+      - 'develop'
+      - 'main'
+    labels:
+      - '!wip'
+      - '!draft'
+      - '!skip-review'
+    ignore_usernames:
+      - 'dependabot'
+      - 'renovate'
+    ignore_title_keywords:
+      - '[docs]'
+      - '[skip-review]'
+
+  # =====================
+  # Pre-merge Checks
+  # =====================
+  pre_merge_checks:
+    title:
+      mode: 'warning'
+      requirements: |
+        PR 제목은 아래 형식을 따르고 50자 이내로 작성해요.
+
+        형식:
+        [이모지] [Type] : [이슈번호] 제목
+
+        허용 이모지 / Type:
+        🐾 Init
+        🔨 Fix
+        🎨 Style
+        🎀 Feat
+        🔧 Refactor
+
+        예시:
+        🎀 Feat : #123 로그인 버튼 추가
+
+    description:
+      mode: 'warning'
+      requirements: |
+        PR 본문은 반드시 아래 형식으로 시작해요.
+
+        🎀 Feat : #
+
+    issue_assessment:
+      mode: 'off'
+
+  # =====================
+  # Finishing Touches
+  # =====================
+  finishing_touches:
+    docstrings:
+      enabled: false
+    unit_tests:
+      enabled: false
+
+  # =====================
+  # Tools
+  # =====================
+  tools:
+    eslint:
+      enabled: true
+    languagetool:
+      enabled: true
+      level: 'default'
+    markdownlint:
+      enabled: true
+    gitleaks:
+      enabled: true
+    yamllint:
+      enabled: true
+    actionlint:
+      enabled: true
+
 chat:
+  art: false
   auto_reply: true
+
+# =====================
+# Knowledge Base
+# =====================
+knowledge_base:
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - 'README.md'
+      - 'CONVENTIONS.md'
