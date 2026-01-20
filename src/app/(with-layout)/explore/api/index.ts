@@ -14,7 +14,7 @@ const FULL_URL = BASE_URL + ENDPOINT;
 export const useMoodFilters = () => {
   const { isLogIn } = useAuth();
   return useSuspenseQuery<GetMoodFilterListResponse>({
-    queryKey: USER_QUERY_KEY.CATEGORIES_MOOD_FILTER(isLogIn ? 'user' : 'guest'),
+    queryKey: USER_QUERY_KEY.MOODS_FILTER(isLogIn ? 'user' : 'guest'),
     queryFn: async () => {
       // 로그인 상태
       if (isLogIn) {
