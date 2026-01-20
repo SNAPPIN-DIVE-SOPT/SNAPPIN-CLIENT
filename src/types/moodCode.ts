@@ -39,9 +39,3 @@ export const MOOD_CATEGORY_MAP = {
 export type MoodCategory = keyof typeof MOOD_CATEGORY_MAP;
 export type MoodCategoryLabel = (typeof MOOD_CATEGORY_MAP)[MoodCategory];
 
-export type Mood = {
-  id: number;
-  name: string;
-  category: MoodCategory;
-  isCurated: boolean;
-};

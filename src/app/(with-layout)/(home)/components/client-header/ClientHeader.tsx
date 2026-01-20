@@ -13,6 +13,7 @@ interface ClientHeaderProps {
 export default function ClientHeader({ isVisible }: ClientHeaderProps) {
   const { isLogIn } = useAuth();
   const router = useRouter();
+
   const handleSearchClick = () => {
     //TODO: 검색 페이지로 이동
   };

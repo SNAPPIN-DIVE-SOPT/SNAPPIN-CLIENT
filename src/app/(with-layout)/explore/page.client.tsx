@@ -7,7 +7,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { parseInitialDraft, pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
 import { ExploreFilter, SearchSheet } from '@/app/(with-layout)/explore/components';
 import { PortfolioListSection, ProductListSection } from '@/app/(with-layout)/explore/_section';
-import { MOOD_LIST } from '@/app/(with-layout)/explore/mocks/filter';
 import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
 import { EXPLORE_TAB, EXPLORE_TAB_MAP } from '@/app/(with-layout)/explore/constants/tab';
 
@@ -97,7 +96,7 @@ export default function PageClient() {
         </SectionTabs.List>
 
         {/* 필터 */}
-        <ExploreFilter moodList={MOOD_LIST} />
+        <ExploreFilter />
       </header>
 
       {/* 탐색 페이지 탭 메인 콘텐츠 영역 */}

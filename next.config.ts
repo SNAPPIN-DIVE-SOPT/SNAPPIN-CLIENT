@@ -31,14 +31,9 @@ const nextConfig: NextConfig = {
         hostname: 't1.kakaocdn.net',
       },
       {
-        protocol:"https",
-        hostname:"snappin-dev-images.s3.ap-northeast-2.amazonaws.com"
+        protocol: 'https',
+        hostname: 'snappin-dev-images.s3.ap-northeast-2.amazonaws.com',
       },
-      {
-        protocol: "http",
-        hostname: "img1.kakaocdn.net"
-      },
-
     ],
   },
 };
