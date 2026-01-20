@@ -32,7 +32,7 @@ type DatePickerProps = {
   minDate?: string;
   maxDate?: string;
   // 월별 날짜 활성화/비활성화 정보 (API 등에서 받아올 배열)
-  monthAvailability?: DayAvailability[];
+  closedDates?: string[];
   // 공통 옵션
   disablePastDates?: boolean;
 };
@@ -64,7 +64,7 @@ export default function DatePicker({
   maxDate,
   minDate,
   disablePastDates = true,
-  monthAvailability,
+  closedDates,
 }: DatePickerProps) {
   // 월 상태 관리 (제어형/비제어형)
   const [uncontrolledMonth, setUncontrolledMonth] = useState(() =>
@@ -100,10 +100,9 @@ export default function DatePicker({
     setMonth(addMonths(viewMonth, 1));
   };
 
-  const availabilityMap = useMemo(() => {
-    if (!monthAvailability) return undefined;
-    return Object.fromEntries(monthAvailability.map((d) => [d.date, d.isDisabled]));
-  }, [monthAvailability]);
+  const closedDateSet = useMemo(() => {
+    return new Set(closedDates ?? []);
+  }, [closedDates]);
 
   const reservationBlockFromISO = useMemo(() => {
     const now = today ?? new Date();
@@ -131,7 +130,7 @@ export default function DatePicker({
         (!!minDate && compareISO(iso, minDate) < 0) ||
         (!!maxDate && compareISO(iso, maxDate) > 0) ||
         (!!reservationBlockFromISO && compareISO(iso, reservationBlockFromISO) >= 0) ||
-        (availabilityMap?.[iso] ?? false);
+        closedDateSet.has(iso);
 
       return { kind: 'day', key: iso, day, iso, isDisabled };
     });
@@ -140,12 +139,12 @@ export default function DatePicker({
     return [...prefixCells, ...dayCells];
   }, [
     viewMonth,
-    todayISO,
     disablePastDates,
+    todayISO,
     minDate,
     maxDate,
     reservationBlockFromISO,
-    availabilityMap,
+    closedDateSet,
   ]);
 
   const cellRows = useMemo(() => {
