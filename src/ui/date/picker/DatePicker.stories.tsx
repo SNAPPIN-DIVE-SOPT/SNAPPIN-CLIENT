@@ -2,7 +2,6 @@ import { Meta, StoryObj } from '@storybook/nextjs-vite';
 import DatePicker from '@/ui/date/picker/DatePicker';
 import { useState } from 'react';
 import { toISO } from '@/ui/date/picker/utils/date';
-import { JANUARY_AVAILABILITY_MOCK } from '@/ui/date/picker/mocks/date';
 
 const meta: Meta<typeof DatePicker> = {
   title: 'date/DatePicker',
@@ -41,7 +40,12 @@ function ControlledTemplate(args: React.ComponentProps<typeof DatePicker>) {
 type Story = StoryObj<typeof DatePicker>;
 
 export const Default: Story = {
-  render: (args) => <ControlledTemplate {...args} monthAvailability={JANUARY_AVAILABILITY_MOCK} />,
+  render: (args) => (
+    <ControlledTemplate
+      {...args}
+      closedDates={['2026-01-01', '2026-01-05', '2026-01-12', '2026-01-20']}
+    />
+  ),
 };
 
 export const DisablePastDates: Story = {
