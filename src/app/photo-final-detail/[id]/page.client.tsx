@@ -72,6 +72,7 @@ export default function Page({ reservationId }: PhotoFinalDetailPageProps) {
         {reservationData.reviewInfo && (
           <ReviewDetail
             id={reservationData.reviewInfo.id ?? 0}
+            reviewId={reservationData.reviewInfo.id ?? 0}
             reviewer={reservationData.reviewInfo.reviewer ?? ''}
             rating={reservationData.reviewInfo.rating ?? 0}
             createdAt={reservationData.reviewInfo.createdAt ?? ''}
