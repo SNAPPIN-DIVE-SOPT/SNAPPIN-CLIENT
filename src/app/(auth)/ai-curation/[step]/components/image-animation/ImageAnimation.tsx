@@ -106,6 +106,7 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
             >
               {isLoading && <div className='bg-black-8 absolute inset-0 animate-pulse' />}
               <Image
+                priority
                 unoptimized
                 src={img.imageUrl ?? ''}
                 alt='큐레이션 선택 이미지'
@@ -117,7 +118,6 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
                 draggable={false}
                 onLoadingComplete={() => handleImageLoad(imageId)}
                 onError={() => handleImageLoad(imageId)}
-                priority
               />
             </motion.button>
           );
