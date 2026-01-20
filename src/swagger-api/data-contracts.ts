@@ -1148,12 +1148,8 @@ export interface ReservationDetailPaymentResponse {
    * @example 80000
    */
   basePrice?: number;
-  /**
-   * 추가 비용
-   * @format int32
-   * @example 10000
-   */
-  extraPrice?: number;
+  /** 추가 비용 */
+  extraPrices?: ExtraPriceResponse[];
   /**
    * 최종 결제 금액
    * @format int32
@@ -2237,6 +2233,34 @@ export interface GetQuestionResponse {
 }
 
 /** 공통 응답 DTO */
+export interface ApiResponseBodyGetAllCurationQuestionsResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 전체 무드 큐레이션 질문 / 사진 조회 API 응답 DTO */
+  data?: GetAllCurationQuestionsResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 전체 무드 큐레이션 질문 / 사진 조회 API 응답 DTO */
+export interface GetAllCurationQuestionsResponse {
+  /** 질문 별 내용 및 사진 모음 목록 */
+  questions?: GetCurationQuestionPhotosResponse[];
+}
+
+/** 공통 응답 DTO */
 export interface ApiResponseBodyCategoriesResponseVoid {
   /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
   success?: boolean;
@@ -2384,5 +2408,8 @@ export type GetAllMoodFiltersData =
 
 export type GetRecommendationData =
   ApiResponseBodyGetPlacePhotographerRecommendationResponseVoid;
+
+export type GetAllCurationQuestionsData =
+  ApiResponseBodyGetAllCurationQuestionsResponseVoid;
 
 export type GetCategoriesData = ApiResponseBodyCategoriesResponseVoid;

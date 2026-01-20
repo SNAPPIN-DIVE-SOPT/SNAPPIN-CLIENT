@@ -1,13 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, startTransition } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/utils/cn';
 import { useAiCuration } from '../../../hooks/useAiCuration';
+import type { GetPhotoResponse } from '@/swagger-api/data-contracts';
+import { useToast } from '@/ui/toast/hooks/useToast';
 
 type ImageAnimationProps = {
-  images: { id: number; imageUrl: string; order: number }[];
+  images: GetPhotoResponse[];
 };
 
 type Pose = {
@@ -43,14 +45,36 @@ const POSES_ANIMATION: Record<PoseKeys, PoseSet> = {
 };
 
 export default function ImageAnimation({ images }: ImageAnimationProps) {
-  const sorted = useMemo(() => images.slice().sort((a, b) => a.order - b.order), [images]);
+  const { error } = useToast();
+  const sorted = useMemo(() => images.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0)), [images]);
 
   const [isAnimating, setIsAnimating] = useState(false);
+  const [loadingImages, setLoadingImages] = useState<Set<number>>(new Set());
   const { selectedByStep, currentStep, toggleImageId } = useAiCuration();
 
-  const handleSelect = (id: number) => {
+  // 이미지가 변경될 때마다 모든 이미지를 로딩 중 상태로 설정
+  useEffect(() => {
+    const imageIds = sorted.map((img) => img.id ?? 0).filter((id) => id !== 0);
+    startTransition(() => {
+      setLoadingImages(new Set(imageIds));
+    });
+  }, [sorted]);
+
+  const handleSelect = (id: number,isLoading: boolean) => {
+    if (isLoading) {
+      error('이미지 로딩 중입니다. 잠시 후 다시 시도해주세요.', undefined, 'top-[2rem]');
+      return;
+    }
     toggleImageId(id);
     setIsAnimating((prev) => !prev);
+  };
+
+  const handleImageLoad = (id: number) => {
+    setLoadingImages((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
   };
 
   return (
@@ -59,6 +83,8 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
         {sorted.map((img, idx) => {
           const poseKey = POSE_KEYS[idx % POSE_KEYS.length];
           const pose = POSES_ANIMATION[poseKey];
+          const imageId = img.id ?? 0;
+          const isLoading = loadingImages.has(imageId);
 
           return (
             <motion.button
@@ -71,16 +97,23 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
                   selectedByStep[currentStep] !== img.id &&
                   'opacity-80 brightness-[0.6]',
               )}
-              onClick={() => handleSelect(img.id)}
+              onClick={ () => handleSelect(img.id ?? 0, isLoading)}
               initial={false}
               animate={isAnimating ? pose.animation : pose.default}
             >
+              {isLoading && (
+                <div className='absolute inset-0 bg-black-8 animate-pulse' />
+              )}
               <Image
-                src={img.imageUrl}
+                unoptimized
+                src={img.imageUrl ?? ''}
                 alt='큐레이션 선택 이미지'
                 fill
-                className='object-cover'
+                className={cn('object-cover transition-opacity duration-300', isLoading && 'opacity-0')}
                 draggable={false}
+                onLoadingComplete={() => handleImageLoad(imageId)}
+                onError={() => handleImageLoad(imageId)}
+                priority
               />
             </motion.button>
           );

@@ -1,25 +1,14 @@
-import { STEP1_MOCK, STEP2_MOCK, STEP3_MOCK, STEP4_MOCK, STEP5_MOCK } from '../mock/steps.mock';
+export type AiCurationStep = number;
 
-export const AI_CURATION_STEPS = [
-  STEP1_MOCK,
-  STEP2_MOCK,
-  STEP3_MOCK,
-  STEP4_MOCK,
-  STEP5_MOCK,
-] as const;
-
-export type AiCurationStep = (typeof AI_CURATION_STEPS)[number]['question']['step'];
-
-export const TOTAL_STEP_COUNT = AI_CURATION_STEPS.length;
+export const TOTAL_STEP_COUNT = 5;
 
 export const isAiCurationStep = (step: number): boolean => {
   return step >= 1 && step <= TOTAL_STEP_COUNT;
 };
 
-export const getStepInfo = (step: AiCurationStep) => {
-  return {
-    progress: Math.round((step / TOTAL_STEP_COUNT) * 100),
-    question: AI_CURATION_STEPS[step - 1].question,
-    photos: AI_CURATION_STEPS[step - 1].photos,
-  };
+export const getProgress = (step: AiCurationStep) => {
+  const clampedStep = Math.min(Math.max(step, 0), TOTAL_STEP_COUNT);
+  return Math.round((clampedStep / TOTAL_STEP_COUNT) * 100);
 };
+
+

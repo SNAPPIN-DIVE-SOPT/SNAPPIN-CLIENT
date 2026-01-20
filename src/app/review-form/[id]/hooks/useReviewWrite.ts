@@ -1,7 +1,7 @@
 'use client';
 
 import { z } from 'zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IMAGE_ACCEPT, MAX_IMAGE_SIZE } from '@/constants/image-type/imageAccept';
 
@@ -17,13 +17,11 @@ type ContentValidationResult = {
 
 export const enrollReviewSchema = z.object({
   rating: z.number().min(1, '별점을 선택해 주세요.').max(MAX_RATING),
-
   content: z
     .string()
     .trim()
     .min(0)
     .max(REVIEW_CONTENT_MAX_LENGTH, `최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.`),
-
   imageUrls: z.array(z.string().url('이미지 URL이 올바르지 않습니다.')).max(MAX_IMAGE_COUNT),
 });
 
@@ -31,12 +29,12 @@ export type EnrollReviewInput = z.infer<typeof enrollReviewSchema>;
 
 export const useReviewWrite = () => {
   const {
+    control,
     handleSubmit,
     setValue,
     setError,
     clearErrors,
     trigger,
-    watch,
     formState: { errors, isValid },
   } = useForm<EnrollReviewInput>({
     resolver: zodResolver(enrollReviewSchema),
@@ -44,7 +42,10 @@ export const useReviewWrite = () => {
     mode: 'onChange',
   });
 
-  const formData = watch();
+  const [rating, content, imageUrls] = useWatch({
+    control,
+    name: ['rating', 'content', 'imageUrls'],
+  });
 
   const updateRating = (value: number) => {
     setValue('rating', value, { shouldValidate: true });
@@ -56,9 +57,7 @@ export const useReviewWrite = () => {
     setValue('content', value, { shouldValidate: true });
 
     if (isOverMax) {
-      setError('content', {
-        message: `최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.`,
-      });
+      setError('content', { message: `최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.` });
       return { ok: false, reason: 'max' };
     }
 
@@ -98,7 +97,6 @@ export const useReviewWrite = () => {
     }
 
     clearErrors('imageUrls');
-
     return { ok: true };
   };
 
@@ -109,13 +107,13 @@ export const useReviewWrite = () => {
   };
 
   const compatibleFormData = {
-    rating: formData.rating,
-    content: formData.content,
-    imageUrls: formData.imageUrls,
+    rating,
+    content,
+    imageUrls,
   };
 
   return {
-    formData,
+    formData: compatibleFormData,
     compatibleFormData,
     isValid,
     handleSubmitForm,

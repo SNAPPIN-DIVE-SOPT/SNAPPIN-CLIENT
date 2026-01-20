@@ -20,6 +20,7 @@ import {
   CreateReissuedTokensData,
   CreateReviewData,
   CreateReviewPayload,
+  GetAllCurationQuestionsData,
   GetAllMoodFiltersData,
   GetCategoriesData,
   GetCuratedPortfoliosData,
@@ -872,6 +873,23 @@ export class Api<
   getRecommendation = (params: RequestParams = {}) =>
     this.request<GetRecommendationData, any>({
       path: `/api/v1/home/recommendation`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 로그인한 사용자가 전체 큐레이션 질문과 각 질문 별 사진을 한꺼번에 조회할 수 있습니다.
+   *
+   * @tags 03 - Curation
+   * @name GetAllCurationQuestions
+   * @summary 큐레이션 전체 질문/사진 조회
+   * @request GET:/api/v1/curation/all
+   * @secure
+   * @response `200` `GetAllCurationQuestionsData` OK
+   */
+  getAllCurationQuestions = (params: RequestParams = {}) =>
+    this.request<GetAllCurationQuestionsData, any>({
+      path: `/api/v1/curation/all`,
       method: "GET",
       secure: true,
       ...params,
