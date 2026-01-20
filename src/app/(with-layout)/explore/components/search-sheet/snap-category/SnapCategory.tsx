@@ -1,19 +1,19 @@
 import { Button } from '@/ui';
 import { cn } from '@/utils/cn';
 import { MOCK_SNAP_CATEGORIES } from '@/app/(with-layout)/explore/mocks/search';
+import { useGetCategories } from '@/app/(with-layout)/explore/api';
 
 type SnapCategoryProps = {
   currentCategory?: string | null;
-  categories?: { key: string; label: string }[];
   handleCategoryChange: (selectedCategory: string | null) => void;
 };
 
 export default function SnapCategory({
-  categories,
   currentCategory,
   handleCategoryChange,
 }: SnapCategoryProps) {
-  const snapCategories = categories ?? MOCK_SNAP_CATEGORIES;
+  const { data } = useGetCategories();
+  const snapCategories = data.categories ?? MOCK_SNAP_CATEGORIES;
   const isSelected = (categoryKey: string) => currentCategory === categoryKey;
 
   const handleCategoryClick = (next: string) => {
@@ -25,10 +25,10 @@ export default function SnapCategory({
     <div className='grid grid-cols-2 gap-x-[0.5rem] gap-y-[0.7rem] rounded-[0.4rem]'>
       {snapCategories.map((category) => (
         <SnapCategoryButton
-          key={category.key}
-          categoryKey={category.key}
-          label={category.label}
-          isSelected={isSelected(category.key)}
+          key={category.key ?? ''}
+          categoryKey={category.key ?? ''}
+          label={category.label ?? ''}
+          isSelected={isSelected(category.key ?? '')}
           handleCategoryClick={handleCategoryClick}
         />
       ))}

@@ -1,27 +1,16 @@
 import { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button, FilterChip } from '@/ui';
-import { Mood, MOOD_CATEGORY_MAP, MoodCategory, MoodCode } from '@/types/moodCode';
+import { MoodCategoryLabel, MoodCode } from '@/types/moodCode';
+import { GetMoodFilterResponse } from '@/swagger-api/data-contracts';
 
 type ExploreFilterPanelProps = {
-  moodList: Mood[];
+  moodList?: GetMoodFilterResponse[];
   selectedMoodIds: number[];
   handlePanelClose: () => void;
 };
 
-const groupByCategory = (moods: Mood[]) => {
-  return moods.reduce<Record<MoodCategory, Mood[]>>(
-    (acc, mood) => {
-      acc[mood.category].push(mood);
-      return acc;
-    },
-    {
-      ATMOSPHERE: [],
-      STYLE: [],
-      COMPOSITION: [],
-    },
-  );
-};
+const CATEGORIES: MoodCategoryLabel[] = ['분위기', '스타일', '장면구성']
 
 export default function ExploreFilterPanel({
   moodList,
@@ -32,7 +21,6 @@ export default function ExploreFilterPanel({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [draftMoodIds, setDraftMoodIds] = useState<number[]>(() => selectedMoodIds);
-  const groupedMoods = groupByCategory(moodList);
 
   const toggleMood = (moodId: number) => {
     setDraftMoodIds((prev) =>
@@ -54,39 +42,38 @@ export default function ExploreFilterPanel({
   };
 
   return (
-    <section
-      aria-label='무드 필터'
-      className='border-black-3 relative z-100 border-[0.1rem]'
-    >
+    <section aria-label='무드 필터' className='border-black-3 relative z-100 border-[0.1rem]'>
       <div className='px-[2rem] py-[1.2rem]'>
         <h2 className='sr-only'>무드 필터</h2>
 
         <div className='flex flex-col gap-[0.7rem]'>
-          {(Object.keys(groupedMoods) as MoodCategory[]).map((category) => (
-            <div key={category} className='grid grid-cols-[5rem_1fr] items-start gap-x-[0.8rem]'>
-              {/* 카테고리 Label */}
-              <span className='caption-12-md text-black-9 py-[0.6rem] whitespace-nowrap'>
-                {MOOD_CATEGORY_MAP[category]}
-              </span>
-              {/* 칩 목록 */}
-              <div className='flex flex-wrap gap-[0.8rem]'>
-                {groupedMoods[category].map((mood) => (
-                  <FilterChip
-                    key={`${mood.id}-${mood.name}`}
-                    label={mood.name as MoodCode}
-                    isSelected={draftMoodIds.includes(mood.id)}
-                    onClick={() => toggleMood(mood.id)}
-                  />
-                ))}
+          {CATEGORIES.map((category) => {
+            const moodsInCategory = moodList?.filter((m) => m.category === category);
+            return (
+              <div key={category} className='grid grid-cols-[5rem_1fr] items-start gap-x-[0.8rem]'>
+                <span className='caption-12-md text-black-9 py-[0.6rem] whitespace-nowrap'>
+                  {category}
+                </span>
+
+                <div className='flex flex-wrap gap-[0.8rem]'>
+                  {moodsInCategory?.map((mood) => (
+                    <FilterChip
+                      key={mood.id}
+                      label={mood.name as MoodCode}
+                      isSelected={draftMoodIds.includes(mood.id ?? 0)}
+                      onClick={() => toggleMood(mood.id ?? 0)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       <Button
         color='transparent'
         size='medium'
-        className='ml-auto w-fit border-0 h-[4.2rem] px-[2rem]'
+        className='ml-auto h-[4.2rem] w-fit border-0 px-[2rem]'
         onClick={handleFilterApply}
       >
         완료
