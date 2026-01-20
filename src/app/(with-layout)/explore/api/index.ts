@@ -1,22 +1,32 @@
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import {
   GetPlaceResponse,
   ApiResponseBodyGetMoodFilterListResponseVoid,
   CategoriesResponse,
   GetMoodFilterListResponse,
+  GetProductListData,
+  ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse,
 } from '@/swagger-api/data-contracts';
 import { USER_QUERY_KEY } from '@/query-key/user';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { apiRequest } from '@/api/apiRequest';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_SERVER_BASE_URL;
+
 const CATEGORY_END_POINT = '/api/v1/categories';
 const CATEGORY_FULL_URL = BASE_URL + CATEGORY_END_POINT;
+
 const MOODS_ENDPOINT = '/api/v1/moods';
 const MOODS_FULL_URL = BASE_URL + MOODS_ENDPOINT;
 
 const PLACE_ENDPOINT = '/api/v1/places';
 const PLACE_FULL_URL = `${BASE_URL}${PLACE_ENDPOINT}`;
+
+const PORTFOLIO_ENDPOINT = '/api/v1/portfolios';
+const PORTFOLIO_FULL_URL = `${BASE_URL}${PORTFOLIO_ENDPOINT}`;
+
+const PRODUCT_ENDPOINT = '/api/v1/products';
+const PRODUCT_FULL_URL = `${BASE_URL}${PRODUCT_ENDPOINT}`;
 
 export const useSearchPlaces = (keyword: string) => {
   const trimmedKeyword = keyword.trim();
@@ -109,6 +119,88 @@ export const useMoodFilters = () => {
       }
 
       return data.data;
+    },
+  });
+};
+
+// 탐색 쿼리 빌더
+export const buildExploreQuery = (sp: URLSearchParams) => {
+  const query = new URLSearchParams();
+
+  const moodIds = sp.get('moodIds');
+  if (moodIds) query.set('moodIds', moodIds);
+
+  const photographerId = sp.get('photographerId');
+  if (photographerId) query.set('photographerId', photographerId);
+
+  const snapCategory = sp.get('snapCategory');
+  if (snapCategory) query.set('snapCategory', snapCategory);
+
+  const placeId = sp.get('placeId');
+  if (placeId) query.set('placeId', placeId);
+
+  const date = sp.get('date');
+  if (date) query.set('date', date);
+
+  const peopleCount = sp.get('peopleCount');
+  if (peopleCount) query.set('peopleCount', peopleCount);
+
+  return query;
+};
+
+// 포폴 목록 조회 API
+export const useGetPortfolioList = (sp: URLSearchParams) => {
+  const baseQuery = buildExploreQuery(sp);
+
+  return useSuspenseInfiniteQuery<ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse>({
+    queryKey: ['explorePortfolios', baseQuery.toString()],
+    initialPageParam: undefined,
+    queryFn: async ({ pageParam }) => {
+      const url = new URL(PORTFOLIO_FULL_URL);
+
+      // 필터 파라미터 주입
+      baseQuery.forEach((value, key) => url.searchParams.set(key, value));
+
+      // 커서
+      if (pageParam !== undefined && pageParam !== null) {
+        url.searchParams.set('cursor', String(pageParam));
+      }
+
+      const res = await fetch(url.toString(), { method: 'GET' });
+      if (!res.ok) throw new Error('/api/v1/portfolios 응답 실패');
+      return await res.json();
+    },
+    getNextPageParam: (lastPage) => {
+      return lastPage.meta?.hasNext ? lastPage.meta?.nextCursor : undefined;
+    },
+  });
+};
+
+// 상품 목록 조회 API
+export const useGetProductList = (sq: URLSearchParams) => {
+  const baseQuery = buildExploreQuery(sq);
+
+  return useSuspenseInfiniteQuery<GetProductListData>({
+    queryKey: ['exploreProducts', baseQuery.toString()],
+    initialPageParam: undefined,
+    queryFn: async ({ pageParam }) => {
+      const url = new URL(PRODUCT_FULL_URL);
+
+      // 필터 파라미터 주입
+      baseQuery.forEach((value, key) => url.searchParams.set(key, value));
+
+      // 커서
+      if (pageParam !== undefined && pageParam !== null) {
+        url.searchParams.set('cursor', String(pageParam));
+      }
+
+      const res = await fetch(url.toString(), { method: 'GET' });
+      if (!res.ok) throw new Error('/api/v1/products 응답 실패');
+
+      return await res.json();
+    },
+    getNextPageParam: (lastPage) => {
+      return lastPage.meta?.hasNext ? lastPage.meta?.nextCursor : undefined;
     },
   });
 };
