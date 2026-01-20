@@ -4,23 +4,25 @@ import { Button, ProductCard } from '@/ui';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
 
 type ReservationRequestedProps = {
-  productInfo: {
-    imageUrl: string;
-    title: string;
-    rate: number;
-    reviewCount: number;
-    photographer: string;
-    price: number;
-    moods: string[];
-  };
-  reservationId: number;
+  imageUrl?: string;
+  title?: string;
+  rate?: number;
+  reviewCount?: number;
+  photographer?: string;
+  price?: number;
+  moods?: string[];
   reservationStatus: StateCode;
   handleReservationCancelClick: () => void;
   handleInquiryClick: () => void;
 };
-
 export default function ReservationRequested({
-  productInfo,
+  imageUrl = '',
+  title = '',
+  rate = 0,
+  reviewCount = 0,
+  photographer = '',
+  price = 0,
+  moods = [],
   reservationStatus,
   handleReservationCancelClick,
   handleInquiryClick,
@@ -34,16 +36,13 @@ export default function ReservationRequested({
       <span className='caption-14-bd text-black-10'>예약 요청 상품</span>
       <div className='mt-[1.2rem] mb-[1.7rem]'>
         <ProductCard
-          image={{
-            src: productInfo.imageUrl,
-            alt: `${productInfo.title}`,
-          }}
-          name={productInfo.title}
-          rate={productInfo.rate}
-          reviewCount={productInfo.reviewCount}
-          photographer={productInfo.photographer}
-          price={productInfo.price}
-          moods={productInfo.moods}
+          image={{ src: imageUrl, alt: title || '상품 이미지' }}
+          name={title}
+          rate={rate}
+          reviewCount={reviewCount}
+          photographer={photographer}
+          price={price}
+          moods={moods ?? []}
         />
       </div>
       <div className='flex flex-row gap-[0.6rem]'>

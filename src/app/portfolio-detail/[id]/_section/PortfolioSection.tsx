@@ -1,16 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import { TagChip } from '@/ui';
 import { MoodCode } from '@/types/moodCode';
+import { useAuth } from '@/auth/hooks/useAuth';
+import { useToast } from '@/ui/toast/hooks/useToast';
 import { PortfolioCarousel, LikeButton } from '../components/index';
+import { useWishPortfolio } from '../api';
 
 type PortfolioSectionProps = {
   id: number;
   description: string;
   images: { src: string; alt: string }[];
-  initialIsLiked: boolean;
-  initialLikeCount: number;
+  isLiked: boolean;
+  likeCount: number;
   snapCategory: string;
   place: string;
   startsAt: string;
@@ -26,21 +28,23 @@ export default function PortfolioSection({
   id,
   description,
   images,
-  initialIsLiked,
-  initialLikeCount,
+  isLiked,
+  likeCount,
   snapCategory,
   place,
   startsAt,
   moods
 }: PortfolioSectionProps) {
-  const [isLiked, setIsLiked] = useState<boolean>(initialIsLiked);
-  const [likeCount, setLikeCount] = useState<number>(initialLikeCount);
+  const { mutateAsync } = useWishPortfolio();
+  const { isLogIn } = useAuth();
+  const toast = useToast();
 
   const handleLike = () => {
-    const willBeLiked = !isLiked;
-    setIsLiked(willBeLiked);
-    setLikeCount((prev) => willBeLiked ? prev + 1 : prev - 1);
-    // TODO: 포폴 좋아요/취소 API 연동 (request에 id 전달)
+    if (isLogIn) {
+      mutateAsync(id);
+    } else {
+      toast.login('좋아요 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[2rem]');
+    }
   };
 
   return (
@@ -64,7 +68,7 @@ export default function PortfolioSection({
         <div className='flex flex-col self-stretch gap-[1.2rem] p-[1.6rem] bg-black-1 border-1 border-black-4 rounded-[0.6rem]'>
           <DetailRow label='촬영 종류' content={snapCategory} />
           <DetailRow label='촬영 장소' content={place} />
-          <DetailRow label='촬영 시각' content={startsAt} />
+          <DetailRow label='촬영 시각' content={startsAt.slice(0, 5)} />
           <DetailRow label='스냅 무드' content={moods} />
         </div>
       </div>
