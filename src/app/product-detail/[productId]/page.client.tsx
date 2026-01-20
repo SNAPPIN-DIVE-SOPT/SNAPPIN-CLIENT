@@ -8,7 +8,7 @@ import {
   PortfolioListSection,
   ProductDetailSection,
   ProductMainSection,
-  ReviewListSection
+  ReviewListSection,
 } from './_section/index';
 import { Footer, Header } from './components/index';
 import { PRODUCT_TAB, PRODUCT_TAB_MAP } from './constants/tab';
@@ -26,7 +26,7 @@ export default function ClientPage({ productId }: { productId: string }) {
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
     router.replace(`?tab=${value}`, { scroll: false });
-  }
+  };
 
   return (
     <div>
@@ -42,10 +42,7 @@ export default function ClientPage({ productId }: { productId: string }) {
         photographer={productDetailMock.photographerInfo.name}
       />
       <PhotographerSection photographerInfo={productDetailMock.photographerInfo} />
-      <SectionTabs
-        value={selectedTab}
-        handleValueChange={handleTabChange}
-      >
+      <SectionTabs value={selectedTab} handleValueChange={handleTabChange}>
         <SectionTabs.List>
           <SectionTabs.Tab value={PRODUCT_TAB.PRODUCT_DETAIL}>
             {PRODUCT_TAB_MAP[PRODUCT_TAB.PRODUCT_DETAIL]}
@@ -62,7 +59,10 @@ export default function ClientPage({ productId }: { productId: string }) {
           <ProductDetailSection productInfo={productDetailMock.productInfo} />
         </SectionTabs.Contents>
         {/* 포트폴리오 탭 */}
-        <SectionTabs.Contents value={PRODUCT_TAB.PORTFOLIO} className='p-[1rem] mb-[8rem] bg-black-1'>
+        <SectionTabs.Contents
+          value={PRODUCT_TAB.PORTFOLIO}
+          className='bg-black-1 mb-[8rem] p-[1rem]'
+        >
           <PortfolioListSection productId={productId} />
         </SectionTabs.Contents>
         {/* 리뷰 탭 */}
@@ -70,14 +70,7 @@ export default function ClientPage({ productId }: { productId: string }) {
           <ReviewListSection productId={productId} averageRate={productDetailMock.averageRate} />
         </SectionTabs.Contents>
       </SectionTabs>
-      <Footer
-        productId={productId}
-        amount={productDetailMock.price}
-        reservationConstraints={{
-          minDurationHours: Number(productDetailMock.productInfo.durationTime),
-          maxParticipantCount: Number(productDetailMock.productInfo.maxPeople)
-        }}
-      />
+      <Footer productId={productId} amount={productDetailMock.price} />
     </div>
   );
 }
