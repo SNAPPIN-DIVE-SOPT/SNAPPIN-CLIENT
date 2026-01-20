@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FilterChip, IconButton } from '@/ui';
 import { IconFilter, IconSettingsBackupRestore } from '@/assets';
-import { Mood, MoodCategoryLabel } from '@/types/moodCode';
 import { ExploreFilterPanel } from '@/app/(with-layout)/explore/components';
 import { useMoodFilters } from '@/app/(with-layout)/explore/api';
+import { GetMoodFilterResponse } from '@/swagger-api/data-contracts';
 
 const CURATED_APPLIED_KEY = 'explore_curated_applied_v1';
 
@@ -20,7 +20,7 @@ const parseMoodIds = (params: URLSearchParams): number[] => {
 };
 
 export default function ExploreFilter() {
-  const { data: moodList } = useMoodFilters();
+  const { data } = useMoodFilters();
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -30,20 +30,20 @@ export default function ExploreFilter() {
   const moodIds = useMemo(() => parseMoodIds(searchParams), [searchParams]);
 
   const moodById = useMemo(() => {
-    const map = new Map<number, Mood>();
-    moodList?.forEach((m) =>
+    const map = new Map<number, GetMoodFilterResponse>();
+    data.moods?.forEach((m) =>
       map.set(m.id!, {
         name: m.name ?? '',
         id: m.id ?? 0,
-        category: (m.category as MoodCategoryLabel) ?? '스타일',
+        category: m.category ?? '스타일',
         isCurated: m.isCurated ?? false,
       }),
     );
     return map;
-  }, [moodList]);
+  }, [data]);
 
   const selectedMoods = useMemo(() => {
-    return moodIds.map((id) => moodById.get(id)).filter((m): m is Mood => Boolean(m));
+    return moodIds.map((id) => moodById.get(id)).filter((m): m is GetMoodFilterResponse => Boolean(m));
   }, [moodIds, moodById]);
 
   const handleRemoveMood = (removeId: number) => {
@@ -77,7 +77,7 @@ export default function ExploreFilter() {
     if (alreadyApplied) return;
 
     // 큐레이션된 무드 필터 아이디들 추출
-    const curatedIds = moodList?.filter((mood) => mood.isCurated).map((mood) => mood.id);
+    const curatedIds = data.moods?.filter((mood) => mood.isCurated).map((mood) => mood.id);
 
     // curated가 비어 있으면 플래그만 세우고 종료
     sessionStorage.setItem(CURATED_APPLIED_KEY, 'true');
@@ -87,7 +87,7 @@ export default function ExploreFilter() {
     params.set('moodIds', curatedIds?.join(',') ?? '');
 
     router.replace(`${pathname}?${params.toString()}`);
-  }, [moodIds, moodList, pathname, router, searchParams]);
+  }, [moodIds, data, pathname, router, searchParams]);
 
   useEffect(() => {
     return () => {
@@ -116,8 +116,8 @@ export default function ExploreFilter() {
             selectedMoods.map((mood) => (
               <FilterChip
                 key={mood.id}
-                label={mood.name}
-                onRemove={() => handleRemoveMood(mood.id)}
+                label={mood.name ?? ''}
+                onRemove={() => handleRemoveMood(mood.id ?? 0)}
                 isSelected
               />
             ))
@@ -137,7 +137,7 @@ export default function ExploreFilter() {
         <div className='bg-black-1 absolute top-full right-0 left-0 z-100'>
           <ExploreFilterPanel
             key={moodIds.join(',')}
-            moodList={moodList as Mood[]}
+            moodList={data.moods}
             selectedMoodIds={moodIds}
             handlePanelClose={() => setOpen(false)}
           />

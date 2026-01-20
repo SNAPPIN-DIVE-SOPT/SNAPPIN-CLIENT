@@ -1,28 +1,16 @@
 import { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button, FilterChip } from '@/ui';
-import { Mood, MoodCategoryLabel, MoodCode } from '@/types/moodCode';
+import { MoodCategoryLabel, MoodCode } from '@/types/moodCode';
+import { GetMoodFilterResponse } from '@/swagger-api/data-contracts';
 
 type ExploreFilterPanelProps = {
-  moodList: Mood[];
+  moodList?: GetMoodFilterResponse[];
   selectedMoodIds: number[];
   handlePanelClose: () => void;
 };
 
-const groupByCategory = (moods: Mood[]) => {
-  return moods.reduce<Record<MoodCategoryLabel, Mood[]>>(
-    (acc, mood) => {
-      const category = mood.category as MoodCategoryLabel;
-      acc[category].push(mood);
-      return acc;
-    },
-    {
-      분위기: [],
-      스타일: [],
-      장면구성: [],
-    },
-  );
-};
+const CATEGORIES: MoodCategoryLabel[] = ['분위기', '스타일', '장면구성']
 
 export default function ExploreFilterPanel({
   moodList,
@@ -33,7 +21,6 @@ export default function ExploreFilterPanel({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [draftMoodIds, setDraftMoodIds] = useState<number[]>(() => selectedMoodIds);
-  const groupedMoods = groupByCategory(moodList);
 
   const toggleMood = (moodId: number) => {
     setDraftMoodIds((prev) =>
@@ -60,25 +47,27 @@ export default function ExploreFilterPanel({
         <h2 className='sr-only'>무드 필터</h2>
 
         <div className='flex flex-col gap-[0.7rem]'>
-          {(Object.keys(groupedMoods) as MoodCategoryLabel[]).map((category) => (
-            <div key={category} className='grid grid-cols-[5rem_1fr] items-start gap-x-[0.8rem]'>
-              {/* 카테고리 Label */}
-              <span className='caption-12-md text-black-9 py-[0.6rem] whitespace-nowrap'>
-                {category}
-              </span>
-              {/* 칩 목록 */}
-              <div className='flex flex-wrap gap-[0.8rem]'>
-                {groupedMoods[category].map((mood) => (
-                  <FilterChip
-                    key={`${mood.id}-${mood.name}`}
-                    label={mood.name as MoodCode}
-                    isSelected={draftMoodIds.includes(mood.id)}
-                    onClick={() => toggleMood(mood.id)}
-                  />
-                ))}
+          {CATEGORIES.map((category) => {
+            const moodsInCategory = moodList?.filter((m) => m.category === category);
+            return (
+              <div key={category} className='grid grid-cols-[5rem_1fr] items-start gap-x-[0.8rem]'>
+                <span className='caption-12-md text-black-9 py-[0.6rem] whitespace-nowrap'>
+                  {category}
+                </span>
+
+                <div className='flex flex-wrap gap-[0.8rem]'>
+                  {moodsInCategory?.map((mood) => (
+                    <FilterChip
+                      key={mood.id}
+                      label={mood.name as MoodCode}
+                      isSelected={draftMoodIds.includes(mood.id ?? 0)}
+                      onClick={() => toggleMood(mood.id ?? 0)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       <Button
