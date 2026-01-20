@@ -1,16 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import { IconButton } from '@/ui';
+import { useToast } from '@/ui/toast/hooks/useToast';
+import { useAuth } from '@/auth/hooks/useAuth';
 import { IconHeart, IconHeartFill, IconStar } from '@/assets';
 import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
 import { ProductCarousel } from '../components/index';
+import { useWishProduct } from '../api';
 
 type ProductMainSectionProps = {
   id: number;
   images: string[],
   title: string,
-  initialIsLiked: boolean,
+  isLiked: boolean,
   averageRate: number,
   reviewCount: number,
   price: number,
@@ -21,18 +23,24 @@ export default function ProductMainSection({
   id,
   images,
   title,
-  initialIsLiked,
+  isLiked,
   averageRate,
   reviewCount,
   price,
   photographer
 }: ProductMainSectionProps) {
-  const [isLiked, setIsLiked] = useState<boolean>(initialIsLiked);
+  const { mutateAsync } = useWishProduct();
+  const { isLogIn } = useAuth();
+  const toast = useToast();
+
   const productImages = images.map((image, idx) => ({ src: image, alt: `${title} 상품 이미지 ${idx}` }));
 
-  const handleLike = () => {
-    setIsLiked((prev) => !prev);
-    // TODO: 상품 좋아요 API 연동 (request에 id 전달)
+  const handleLike = async () => {
+    if (isLogIn) {
+      mutateAsync(id);
+    } else {
+      toast.login('좋아요 기능은 로그인 후에 사용할 수 있어요.', undefined, 'px-[2rem] bottom-[8.4rem]');
+    }
   }
 
   return (

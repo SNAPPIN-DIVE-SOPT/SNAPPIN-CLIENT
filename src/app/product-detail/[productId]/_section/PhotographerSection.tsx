@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import defaultProfile from '@/../public/imgs/default-profile.png';
-import { IconButton } from '@/ui';
 import { IconArrowForward } from '@/assets';
 
 type PhotographerSectionProps = {

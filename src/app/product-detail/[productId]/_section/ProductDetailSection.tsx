@@ -36,6 +36,17 @@ function removeEmptyDetail(items: Detail[]) {
 }
 
 export default function ProductDetailSection({ productInfo }: ProductDetailSectionProps) {
+  const optionalDetailList = removeEmptyDetail([
+    { label: 'RAW 파일 제공 여부', content: productInfo.provideRaw },
+    { label: '원본 JPG 제공 여부', content: productInfo.provideOriginalJpg },
+    { label: '원본 JPG 제공 장수', content: productInfo.originalJpgCount },
+    { label: '원본 제공 시점', content: productInfo.originalDeliveryTime },
+    { label: '동영상 제공 여부', content: productInfo.provideVideo },
+    { label: '무료 수정 횟수', content: productInfo.freeRevisionCount },
+    { label: '최종 결과물 제공 장수', content: productInfo.finalCutCount },
+    { label: '최종 결과물 전달 소요시간', content: productInfo.finalDeliveryTime },
+  ]);
+
   return (
     <section className='flex flex-col gap-[3.2rem] p-[2rem] bg-black-1 mb-[7.4rem]'>
       <div className='flex flex-col gap-[1.2rem]'>
@@ -61,24 +72,17 @@ export default function ProductDetailSection({ productInfo }: ProductDetailSecti
           <div className='flex flex-col gap-[1.2rem]'>
             <DetailLayout
               detailList={[
-                { label: '최대 촬영 인원', content: `${productInfo.maxPeople}명` },
-                { label: '촬영 작가 인원', content: `${productInfo.photographerCount}명` },
-                { label: '촬영 시간', content: `${productInfo.durationTime}시간` },
+                { label: '최대 촬영 인원', content: `${productInfo.maxPeople}` },
+                { label: '촬영 작가 인원', content: `${productInfo.photographerCount}` },
+                { label: '촬영 시간', content: `${productInfo.durationTime}` },
               ]}
             />
-            <Divider thickness='small' color='bg-black-5' className='w-full' />
-            <DetailLayout
-              detailList={removeEmptyDetail([
-                { label: 'RAW 파일 제공 여부', content: productInfo.provideRaw },
-                { label: '원본 JPG 제공 여부', content: productInfo.provideOriginalJpg },
-                { label: '원본 JPG 제공 장수', content: productInfo.originalJpgCount },
-                { label: '원본 제공 시점', content: productInfo.originalDeliveryTime },
-                { label: '동영상 제공 여부', content: productInfo.provideVideo },
-                { label: '무료 수정 횟수', content: productInfo.freeRevisionCount },
-                { label: '최종 결과물 제공 장수', content: productInfo.finalCutCount },
-                { label: '최종 결과물 전달 소요시간', content: productInfo.finalDeliveryTime },
-              ])}
-            />
+            {optionalDetailList.length > 0 && (
+              <>
+                <Divider thickness='small' color='bg-black-5' className='w-full' />
+                <DetailLayout detailList={optionalDetailList} />
+              </>
+            )}
           </div>
         </div>
       </div>

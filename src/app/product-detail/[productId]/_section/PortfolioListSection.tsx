@@ -1,25 +1,49 @@
-import { PortfolioList } from '@/ui';
-import { PORTFOLIO_LIST_MOCK } from '../mock';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { PortfolioList, PortfolioListSkeleton } from '@/ui';
+import { useGetPortfolioList } from '../api';
 
 type PortfolioListSectionProps = {
   productId: string;
 }
 
 export default function PortfolioListSection({ productId }: PortfolioListSectionProps) {
-  // TODO: 포폴 목록 조회 API 연동 (request에 productId, cursor 전달)
-  const portfolioListMock = PORTFOLIO_LIST_MOCK.data;
+  const { data, isFetching, fetchNextPage, hasNextPage } = useGetPortfolioList(Number(productId));
+  const { ref, inView } = useInView();
+
+  const portfolioList = data?.pages.flatMap(page => page.data?.portfolios ?? []) ?? [];
+  const isEmpty = portfolioList.length === 0;
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, hasNextPage]);
+
+  if (isFetching && isEmpty) {
+    return (
+      <section>
+        <PortfolioListSkeleton />
+      </section>
+    );
+  };
+
+  if (isEmpty) {
+    return (
+      <section>
+        <div className='flex justify-center items-center min-h-[calc(100vh-29.9rem)] '>
+          <span className='caption-14-rg text-black-6 text-center'>
+            아직 작가님이<br/>포트폴리오를 등록하지 않았어요
+          </span>
+        </div>
+      </section>
+    );
+  };
 
   return (
     <section>
-      {portfolioListMock.portfolios.length === 0
-        ?
-          <div className='flex justify-center items-center py-[8rem]'>
-            <span className='caption-14-rg text-black-6 text-center'>
-              아직 작가님이<br/>포트폴리오를 등록하지 않았어요
-            </span>
-          </div>
-        : <PortfolioList portfolioList={portfolioListMock.portfolios} />
-      }
+      <PortfolioList portfolioList={portfolioList} />
+      <div ref={ref} className='h-[0.1rem]' />
     </section>
   );
 }
