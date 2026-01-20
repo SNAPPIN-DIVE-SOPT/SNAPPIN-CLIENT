@@ -7,7 +7,7 @@ import MoodAnimationPending from './components/mood-animation-pending-state/Mood
 import { useGetAiCurationResult } from './api';
 
 export default function Page() {
-  const { data  } = useGetAiCurationResult();
+  const { data } = useGetAiCurationResult();
 
   const [isPending, setIsPending] = useState(true);
 
@@ -18,7 +18,7 @@ export default function Page() {
 
     return () => clearTimeout(t);
   }, []);
-  
+
   useEffect(() => {
     if (data && isPending) {
       startTransition(() => {
@@ -26,7 +26,7 @@ export default function Page() {
       });
     }
   }, [data, isPending]);
-  
+
   return (
     <div className='bg-neon-black h-dvh'>
       <AnimatePresence mode='wait'>

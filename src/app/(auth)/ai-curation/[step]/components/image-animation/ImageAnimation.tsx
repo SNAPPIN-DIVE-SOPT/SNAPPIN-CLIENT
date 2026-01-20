@@ -46,7 +46,10 @@ const POSES_ANIMATION: Record<PoseKeys, PoseSet> = {
 
 export default function ImageAnimation({ images }: ImageAnimationProps) {
   const { error } = useToast();
-  const sorted = useMemo(() => images.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0)), [images]);
+  const sorted = useMemo(
+    () => images.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
+    [images],
+  );
 
   const [isAnimating, setIsAnimating] = useState(false);
   const [loadingImages, setLoadingImages] = useState<Set<number>>(new Set());
@@ -60,7 +63,7 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
     });
   }, [sorted]);
 
-  const handleSelect = (id: number,isLoading: boolean) => {
+  const handleSelect = (id: number, isLoading: boolean) => {
     if (isLoading) {
       error('이미지 로딩 중입니다. 잠시 후 다시 시도해주세요.', undefined, 'top-[2rem]');
       return;
@@ -97,19 +100,20 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
                   selectedByStep[currentStep] !== img.id &&
                   'opacity-80 brightness-[0.6]',
               )}
-              onClick={ () => handleSelect(img.id ?? 0, isLoading)}
+              onClick={() => handleSelect(img.id ?? 0, isLoading)}
               initial={false}
               animate={isAnimating ? pose.animation : pose.default}
             >
-              {isLoading && (
-                <div className='absolute inset-0 bg-black-8 animate-pulse' />
-              )}
+              {isLoading && <div className='bg-black-8 absolute inset-0 animate-pulse' />}
               <Image
                 unoptimized
                 src={img.imageUrl ?? ''}
                 alt='큐레이션 선택 이미지'
                 fill
-                className={cn('object-cover transition-opacity duration-300', isLoading && 'opacity-0')}
+                className={cn(
+                  'object-cover transition-opacity duration-300',
+                  isLoading && 'opacity-0',
+                )}
                 draggable={false}
                 onLoadingComplete={() => handleImageLoad(imageId)}
                 onError={() => handleImageLoad(imageId)}
