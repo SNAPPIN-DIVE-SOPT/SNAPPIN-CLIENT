@@ -1,20 +1,16 @@
-export const RESERVATION_TABS = [
-  {
-    label: '예약 요청',
-    value: 'PHOTOGRAPHER_REQUESTED',
-  },
-  {
-    label: '조율 중',
-    value: 'PHOTOGRAPHER_ADJUSTING',
-  },
-  {
-    label: '예약 확정',
-    value: 'PHOTOGRAPHER_CONFIRMED',
-  },
-  {
-    label: '촬영 완료',
-    value: 'PHOTOGRAPHER_DONE',
-  },
-] as const;
+export const RESERVATION_TAB = {
+  PHOTOGRAPHER_REQUESTED: 'PHOTOGRAPHER_REQUESTED',
+  PHOTOGRAPHER_ADJUSTING: 'PHOTOGRAPHER_ADJUSTING',
+  PHOTOGRAPHER_CONFIRMED: 'PHOTOGRAPHER_CONFIRMED',
+  PHOTOGRAPHER_DONE: 'PHOTOGRAPHER_DONE',
+} as const;
 
-export type ReservationTabValue = (typeof RESERVATION_TABS)[number]['value'];
+export const RESERVATION_TAB_MAP: Record<ReservationTab, string> = {
+  PHOTOGRAPHER_REQUESTED: '예약 요청',
+  PHOTOGRAPHER_ADJUSTING: '조율 중',
+  PHOTOGRAPHER_CONFIRMED: '예약 확정',
+  PHOTOGRAPHER_DONE: '촬영 완료',
+} as const;
+
+export type ReservationTab = keyof typeof RESERVATION_TAB;
+

@@ -7,16 +7,19 @@ import { formatPrice } from '@/utils/price';
 import { IconAdd } from '@/assets';
 import { usePaymentSummary } from '../../hooks/usePaymentSummary';
 import CompleteModal from '../../@modal/(.)complete-modal/CompleteModal';
+import { useGetPaymentPrice } from '../../api';
 
 type PaymentDetailContainerProps = {
   id: number;
-  basePrice: number;
 };
 
-export default function PaymentDetailContainer({ id, basePrice }: PaymentDetailContainerProps) {
+export default function PaymentDetailContainer({ id }: PaymentDetailContainerProps) {
   const router = useRouter();
+
+  const { data } = useGetPaymentPrice(id);
+
   const [completeOpen, setCompleteOpen] = useState(false);
-  const { extraPrices, totalAmount, submitPayment } = usePaymentSummary(id, basePrice);
+  const { extraPrices, totalAmount, submitPayment } = usePaymentSummary(id, data?.price ?? 0);
 
   const handleAddPayment = () => {
     router.push(`/photographer/payment/${id}/add-payment`);
@@ -31,8 +34,7 @@ export default function PaymentDetailContainer({ id, basePrice }: PaymentDetailC
       <div className='bg-black-1 flex flex-col gap-[1.2rem] px-[2rem] pt-[1.7rem] pb-[2.4rem]'>
         <h2 className='caption-14-bd'>결제 요청</h2>
         <div className='border-black-5 flex flex-col gap-[1.2rem] rounded-[0.6rem] border-1 p-[1.7rem]'>
-          <PaymentDetailRow label='기본 촬영 비용' price={basePrice} />
-
+          <PaymentDetailRow label='기본 촬영 비용' price={data?.price ?? 0} />
           {extraPrices.length > 0 &&
             extraPrices.map((extraPrice, idx) => (
               <PaymentDetailRow

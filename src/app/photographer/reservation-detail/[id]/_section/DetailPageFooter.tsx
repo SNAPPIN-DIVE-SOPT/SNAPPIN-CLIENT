@@ -3,9 +3,10 @@
 import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { BottomCTAButton } from '@/ui';
 import { useRouter } from 'next/navigation';
+import { useCompleteReservation, useConfirmReservation } from '../api';
 
 type DetailPageFooterProps = {
-  id: number;
+  reservationId: number;
   date: string; // 예약 날짜 (YYYY-MM-DD)
   startTime: string; // 10:00
   status: StateCode;
@@ -17,12 +18,19 @@ type ButtonConfig = {
   onClick?: () => void;
 };
 
-export default function DetailPageFooter({ id, date, startTime, status }: DetailPageFooterProps) {
+export default function DetailPageFooter({
+  reservationId,
+  date,
+  startTime,
+  status,
+}: DetailPageFooterProps) {
   const router = useRouter();
   const now = new Date();
   const start = new Date(`${date}T${startTime}:00`);
-
   const isAfterStart = now >= start;
+
+  const { mutate: completeReservation } = useCompleteReservation(reservationId);
+  const { mutate: confirmReservation } = useConfirmReservation(reservationId);
 
   const getButtonConfig = (): ButtonConfig => {
     switch (status) {
@@ -31,7 +39,7 @@ export default function DetailPageFooter({ id, date, startTime, status }: Detail
           label: '결제 요청하기',
           disabled: false,
           onClick: () => {
-            router.push(`/photographer/payment/${id}`);
+            router.push(`/photographer/payment/${reservationId}`);
           },
         };
       case STATE_CODES.PAYMENT_REQUESTED:
@@ -45,7 +53,7 @@ export default function DetailPageFooter({ id, date, startTime, status }: Detail
           label: '예약 확정하기',
           disabled: false,
           onClick: () => {
-            // TODO: 예약 확정 API 호출 후 성공 시 쿼리키 무효화
+            confirmReservation(reservationId);
           },
         };
 
@@ -55,7 +63,7 @@ export default function DetailPageFooter({ id, date, startTime, status }: Detail
             label: '촬영 완료하고 리뷰 요청하기',
             disabled: false,
             onClick: () => {
-              // TODO:  API 호출 후 성공 시 쿼리키 무효화
+              completeReservation(reservationId);
             },
           };
         }
@@ -84,9 +92,11 @@ export default function DetailPageFooter({ id, date, startTime, status }: Detail
         };
 
       default:
-        throw new Error(
-          `작가 예약 상세 페이지에서 예약 상태에 대한 버튼 설정이 없습니다 : ${status}`,
-        );
+        return {
+          label: '',
+          disabled: true,
+          onClick: undefined,
+        };
     }
   };
 

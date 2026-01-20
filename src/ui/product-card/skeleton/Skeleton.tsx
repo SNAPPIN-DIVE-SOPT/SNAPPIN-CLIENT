@@ -11,15 +11,15 @@ type ProductCardSkeletonProps = {
 
 export function ProductCardSkeleton({ className }: ProductCardSkeletonProps) {
   return (
-    <div className={cn('flex gap-[1.2rem] w-full bg-black-1 px-[2rem] py-[1.6rem]', className)}>
-      <div className='shrink-0 relative w-[10.2rem] h-[10.2rem] bg-black-3' />
+    <div className={cn('bg-black-1 flex w-full gap-[1.2rem] px-[2rem] py-[1.6rem]', className)}>
+      <div className='bg-black-3 relative h-[10.2rem] w-[10.2rem] shrink-0' />
       <div className='flex flex-col justify-between'>
         <div className='flex w-full flex-col gap-[0.4rem]'>
-          <div className='w-full h-[1.7rem] bg-black-3' />
-          <div className='w-[12.7rem] h-[1.4rem] bg-black-3' />
-          <div className='w-[7.4rem] h-[1.4rem] bg-black-3' />
+          <div className='bg-black-3 h-[1.7rem] w-full' />
+          <div className='bg-black-3 h-[1.4rem] w-[12.7rem]' />
+          <div className='bg-black-3 h-[1.4rem] w-[7.4rem]' />
         </div>
-        <div className='w-[10.1rem] h-[2.2rem] bg-black-3' />
+        <div className='bg-black-3 h-[2.2rem] w-[10.1rem]' />
       </div>
     </div>
   );
@@ -29,11 +29,11 @@ export function ProductListSkeleton({ length = 15 }: ProductListSkeletonProps) {
   return (
     <div className='flex flex-col'>
       {Array.from({ length: length }).map((_, i) => (
-       <div key={i} className='flex flex-col'>
-        <ProductCardSkeleton/>
-        {i < length - 1 && <Divider thickness='large' color='bg-black-3' className='w-full' />}
-      </div>   
-    ))}
+        <div key={i} className='flex flex-col'>
+          <ProductCardSkeleton />
+          {i < length - 1 && <Divider thickness='large' color='bg-black-3' className='w-full' />}
+        </div>
+      ))}
     </div>
   );
 }

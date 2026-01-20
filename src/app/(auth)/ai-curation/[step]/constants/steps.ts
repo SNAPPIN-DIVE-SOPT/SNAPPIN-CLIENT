@@ -10,5 +10,3 @@ export const getProgress = (step: AiCurationStep) => {
   const clampedStep = Math.min(Math.max(step, 0), TOTAL_STEP_COUNT);
   return Math.round((clampedStep / TOTAL_STEP_COUNT) * 100);
 };
-
-

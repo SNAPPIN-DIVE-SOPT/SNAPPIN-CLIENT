@@ -78,8 +78,7 @@ export const formatCreatedAt = (date: string) => {
  * @returns 포맷팅된 촬영 시간 (ex. 2시간, 2.5시간)
  */
 export const formatDurationTime = (durationTime: number) => {
-  const hours = Math.floor(durationTime / 60);
-  const minutes = durationTime % 60;
-  const minuteStr = minutes !== 0 ? ` ${minutes}분` : '';
-  return `${hours}시간${minuteStr}`;
+  const hours = Math.floor(durationTime / 60)!== 0 ? `${Math.floor(durationTime / 60)}시간` : "";
+  const minutes = durationTime % 60 !== 0 ? `${durationTime % 60}분` : "";
+  return `${hours}${minutes}`;
 };

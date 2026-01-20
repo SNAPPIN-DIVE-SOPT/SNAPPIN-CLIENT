@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
-import StepShell from './StepShell';
-import { isAiCurationStep } from './constants/steps';
+import { getProgress, isAiCurationStep } from './constants/steps';
+import ProgressBar from './components/progress-bar/ProgressBar';
+import PageClient from './page.client';
 
 type Props = {
   params: Promise<{ step: string }>;
@@ -14,9 +15,12 @@ export default async function Page({ params }: Props) {
     notFound();
   }
 
+  const progress = getProgress(aiCurationStep);
+
   return (
     <div className='bg-black-10 flex h-dvh flex-col px-[2rem] pt-[4.7rem] pb-[2.1rem]'>
-      <StepShell step={aiCurationStep} />
+      <ProgressBar progress={progress} />
+      <PageClient step={aiCurationStep} />
     </div>
   );
 }

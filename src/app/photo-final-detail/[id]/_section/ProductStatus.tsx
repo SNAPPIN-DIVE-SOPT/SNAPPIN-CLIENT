@@ -1,36 +1,37 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { Button, ProductCard } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
 
 type ProductStatusProps = {
-  id: number;
-  imageUrl: string;
-  title: string;
-  rate: number;
-  reviewCount: number;
-  photographer: string;
-  price: number;
-  moods: string[];
+  id?: number;
+  imageUrl?: string;
+  title?: string;
+  rate?: number;
+  reviewCount?: number;
+  photographer?: string;
+  price?: number;
+  moods?: string[];
   hasReview: boolean;
 };
 
 export default function ProductStatus({
-  id,
-  imageUrl,
-  title,
-  rate,
-  reviewCount,
-  photographer,
-  price,
-  moods,
+  id = 0,
+  imageUrl = '',
+  title = '',
+  rate = 0,
+  reviewCount = 0,
+  photographer = '',
+  price = 0,
+  moods = [],
   hasReview,
 }: ProductStatusProps) {
   const toast = useToast();
+  const router = useRouter();
 
   const handleWriteReview = () => {
-    //TODO: 리뷰 작성 기능 구현
-    console.info('리뷰 작성', id);
+    router.push(`review-form/${id}`);
   };
 
   const handleSendMessage = () => {

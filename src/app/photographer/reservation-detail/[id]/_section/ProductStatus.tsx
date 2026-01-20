@@ -1,11 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { Button, ProductCard } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
+import { useRefuseReservation } from '../api';
+import RefuseModal from '../@modal/(.)refuse-modal/RefuseModal';
 
 type ProductStatusProps = {
-  id: number;
+  reservationId: number;
   imageUrl: string;
   title: string;
   rate: number;
@@ -17,7 +20,7 @@ type ProductStatusProps = {
 };
 
 export default function ProductStatus({
-  id,
+  reservationId,
   imageUrl,
   title,
   rate,
@@ -34,9 +37,16 @@ export default function ProductStatus({
     status !== STATE_CODES.RESERVATION_REFUSED &&
     status !== STATE_CODES.SHOOT_COMPLETED;
 
+  const { mutate: refuseReservation } = useRefuseReservation(reservationId);
+  const [isRefuseModalOpen, setIsRefuseModalOpen] = useState(false);
+
   const handleRefuse = () => {
-    //TODO: 예약 거절 기능 구현
-    console.info('예약 거절', id);
+    setIsRefuseModalOpen(true);
+  };
+
+  const handleConfirmRefuse = () => {
+    refuseReservation(reservationId);
+    setIsRefuseModalOpen(false);
   };
 
   const handleSendMessage = () => {
@@ -78,6 +88,11 @@ export default function ProductStatus({
           메시지 보내기
         </Button>
       </div>
+      <RefuseModal
+        open={isRefuseModalOpen}
+        handleOpenChange={setIsRefuseModalOpen}
+        handleClickConfirm={handleConfirmRefuse}
+      />
     </div>
   );
 }

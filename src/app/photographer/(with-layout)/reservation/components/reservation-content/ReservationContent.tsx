@@ -1,64 +1,79 @@
 'use client';
 
-import { useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { StateCode } from '@/types/stateCode';
 import { Divider, SectionTabs } from '@/ui';
-import { RESERVATION_TABS, ReservationTabValue } from '../../constants/tabs';
+import { RESERVATION_TAB, RESERVATION_TAB_MAP, ReservationTab } from '../../constants/tabs';
 import ReservationCard from '../reservation-card/ReservationCard';
-import { RESERVATION_MOCK } from '../../mock/reservation.mock';
 import EmtpyView from '../emtpy-view/EmtpyView';
+import { useGetReservationList } from '../../api';
+
+
+const isReservationTab = (value: string | null) => {
+  return value === RESERVATION_TAB.PHOTOGRAPHER_REQUESTED || value === RESERVATION_TAB.PHOTOGRAPHER_ADJUSTING || value === RESERVATION_TAB.PHOTOGRAPHER_CONFIRMED || value === RESERVATION_TAB.PHOTOGRAPHER_DONE;
+};
 
 export default function ReservationContent() {
-  const [selectedTabValue, setSelectedTabValue] =
-    useState<ReservationTabValue>('PHOTOGRAPHER_REQUESTED');
-
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const selectedTab = isReservationTab(searchParams.get('tab')) ? searchParams.get('tab') as ReservationTab : RESERVATION_TAB.PHOTOGRAPHER_REQUESTED;
+  
+  const { data } = useGetReservationList(selectedTab);
+  
   const handleTabChange = (value: string) => {
-    setSelectedTabValue(value as ReservationTabValue);
+    const updatedSearchParams = new URLSearchParams(searchParams.toString());
+    updatedSearchParams.set('tab', value);
+    router.push(`${pathname}?${updatedSearchParams.toString()}`);
   };
-
-  //TODO: 서버 데이터 연동, 파라미터에 selectedTabValue 추가
-  const data = RESERVATION_MOCK;
 
   return (
     <div className='flex flex-col'>
-      <SectionTabs
-        value={selectedTabValue}
+      <SectionTabs  
+        value={selectedTab}
         handleValueChange={handleTabChange}
       >
         <SectionTabs.List>
-          {RESERVATION_TABS.map((tab) => (
-            <SectionTabs.Tab key={tab.value} value={tab.value}>
-              {tab.label}
-            </SectionTabs.Tab>
-          ))}
+          <SectionTabs.Tab value={RESERVATION_TAB.PHOTOGRAPHER_REQUESTED}>
+            {RESERVATION_TAB_MAP.PHOTOGRAPHER_REQUESTED}
+          </SectionTabs.Tab>
+          <SectionTabs.Tab value={RESERVATION_TAB.PHOTOGRAPHER_ADJUSTING}>
+            {RESERVATION_TAB_MAP.PHOTOGRAPHER_ADJUSTING}
+          </SectionTabs.Tab>
+          <SectionTabs.Tab value={RESERVATION_TAB.PHOTOGRAPHER_CONFIRMED}>
+            {RESERVATION_TAB_MAP.PHOTOGRAPHER_CONFIRMED}
+          </SectionTabs.Tab>
+          <SectionTabs.Tab value={RESERVATION_TAB.PHOTOGRAPHER_DONE}>
+            {RESERVATION_TAB_MAP.PHOTOGRAPHER_DONE}
+          </SectionTabs.Tab>
         </SectionTabs.List>
 
-        <SectionTabs.Contents value={selectedTabValue}>
-          {data.reservations.length === 0 ? (
+        <SectionTabs.Contents value={selectedTab}>
+          {data?.reservations?.length === 0 ? (
             <EmtpyView
               title='상품이 없어요'
-              description='‘탐색’에서 다양한 포트폴리오를 확인해보세요'
+              description='‘예약’에서 다양한 예약을 확인해보세요'
             />
           ) : (
             <div className='flex flex-col'>
-              {data.reservations.map((item, index) => {
-                const { reservation } = item;
-                const { product } = reservation;
+              {data?.reservations?.map((item, index) => {
+                const { product } = item;
                 return (
-                  <div key={reservation.reservationId}>
+                  <div key={index}>
                     <ReservationCard
-                      reservationId={reservation.reservationId}
-                      status={reservation.status as StateCode}
-                      image={{ src: product.imageUrl, alt: product.title }}
-                      name={product.title}
-                      rate={product.rate}
-                      reviewCount={product.reviewCount}
-                      photographer={product.photographer}
-                      price={product.price}
-                      moods={product.moods}
-                      date={reservation.createdAt}
+                      reservationId={item.reservationId ?? 0}
+                      status={item.status as StateCode ?? ''}
+                      image={{ src: product?.imageUrl ?? '', alt: product?.title ?? '' }}
+                      name={product?.title ?? ''}
+                      rate={product?.rate ?? 0}
+                      reviewCount={product?.reviewCount ?? 0}
+                      client={item.client ?? ''}
+                      price={product?.price ?? 0}
+                      photographer={product?.photographer ?? ''}
+                      moods={product?.moods ?? []}
+                      date={item.createdAt ?? ''}
                     />
-                    {index !== data.reservations.length - 1 && (
+                    {index !== (data?.reservations?.length ?? 0) - 1 && (
                       <Divider thickness='large' color='bg-black-3' />
                     )}
                   </div>

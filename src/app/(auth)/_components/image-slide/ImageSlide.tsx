@@ -94,7 +94,7 @@ export default function ImageSlide() {
                     <TagChip key={mood} variant='transparent' label={mood as MoodCode} />
                   ))}
                 </div>
-                <p className='caption-12-md text-black-1'>{center.photographerName}</p>
+                <p className='caption-12-md text-black-1'>{item.photographerName}</p>
               </div>
             </motion.div>
           ))}
