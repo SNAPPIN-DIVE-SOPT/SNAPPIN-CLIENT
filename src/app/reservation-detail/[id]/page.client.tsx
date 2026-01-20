@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ClientNavigation, ClientFooter } from './components';
 import { PaymentDetail, ReservationDetail, ReservationRequested } from './_section';
 import { Divider } from '@/ui';
@@ -34,11 +34,6 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
 
   const toast = useToast();
 
-  useEffect(() => {
-    if (!reservationData?.status || previousStatus) return;
-    setPreviousStatus(reservationData.status as StateCode);
-  }, [previousStatus, reservationData?.status]);
-
   const normalizeStatus = (status?: string): StateCode => {
     const code = status as StateCode;
     const hasTheme = code in STATE_CHIP_THEME_BY_LABEL;
@@ -48,10 +43,14 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
 
   const status = normalizeStatus(reservationStatus ?? reservationData?.status);
 
-  const isCanceledFromEarlyStage =
+  const previousComputedStatus =
+    previousStatus ?? (reservationData?.status as StateCode | undefined);
+
+  // 이전 상태가 예약 요청 또는 작가 확인일 때 취소된 상태인지 확인
+  const isCanceledFrom =
     status === STATE_CODES.RESERVATION_CANCELED &&
-    (previousStatus === STATE_CODES.RESERVATION_REQUESTED ||
-      previousStatus === STATE_CODES.PHOTOGRAPHER_CHECKING);
+    (previousComputedStatus === STATE_CODES.RESERVATION_REQUESTED ||
+      previousComputedStatus === STATE_CODES.PHOTOGRAPHER_CHECKING);
 
   const hasTopActionButtons =
     status === STATE_CODES.RESERVATION_REQUESTED || status === STATE_CODES.PHOTOGRAPHER_CHECKING;
@@ -62,7 +61,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     status === STATE_CODES.RESERVATION_CANCELED ||
     status === STATE_CODES.RESERVATION_REFUSED;
 
-  const hasPaymentDetailSection = !hasTopActionButtons && !isCanceledFromEarlyStage;
+  const hasPaymentDetailSection = !hasTopActionButtons && !isCanceledFrom;
 
   const handleReservationCancelClick = () => {
     setCancelOpen(true);
