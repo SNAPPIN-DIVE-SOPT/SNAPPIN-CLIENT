@@ -34,6 +34,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'snappin-dev-images.s3.ap-northeast-2.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'd2rmq8808ov4o.cloudfront.net',
+        pathname: '/**',
+      },
     ],
   },
 };
