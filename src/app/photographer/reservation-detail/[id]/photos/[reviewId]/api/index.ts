@@ -1,9 +1,9 @@
 'use client';
 
-import { useQuery } from "@tanstack/react-query";
-import { PHOTOGRAPHER_QUERY_KEY } from "@/query-key/photographer";
-import { apiRequest } from "@/api/apiRequest";
-import { GetReviewDetailData, GetReviewDetailResponse } from "@/swagger-api/data-contracts";
+import { useQuery } from '@tanstack/react-query';
+import { PHOTOGRAPHER_QUERY_KEY } from '@/query-key/photographer';
+import { apiRequest } from '@/api/apiRequest';
+import { GetReviewDetailData, GetReviewDetailResponse } from '@/swagger-api/data-contracts';
 
 export const useGetReviewDetail = (reviewId: number) => {
   return useQuery<GetReviewDetailResponse>({
@@ -11,13 +11,13 @@ export const useGetReviewDetail = (reviewId: number) => {
     queryFn: async () => {
       const res = await apiRequest<GetReviewDetailData>({
         endPoint: `/api/v1/reviews/${reviewId}`,
-        method: "GET",
+        method: 'GET',
       });
+
       if (!res.success) {
-        throw new Error(
-          `Failed to fetch /api/v1/reviews/${reviewId}`
-        );
+        throw new Error(`Failed to fetch /api/v1/reviews/${reviewId}`);
       }
+
       return res.data!;
     },
   });

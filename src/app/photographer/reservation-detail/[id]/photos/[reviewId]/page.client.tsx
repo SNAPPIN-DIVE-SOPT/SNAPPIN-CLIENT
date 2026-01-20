@@ -1,19 +1,20 @@
 'use client';
 
-import { ImageSlide } from './components'
-import { ReviewStar } from '@/ui'
-import { formatShortDate } from '@/utils/formatNumberWithComma'
-import { useGetReviewDetail } from './api'
+import { ImageSlide } from './components';
+import { ReviewStar } from '@/ui';
+import { formatShortDate } from '@/utils/formatNumberWithComma';
+import { useGetReviewDetail } from './api';
 
 type PageClientProps = {
   reviewId: number;
-}
+};
 
-export default function PageClient({reviewId}: PageClientProps) {
+export default function PageClient({ reviewId }: PageClientProps) {
   const { data } = useGetReviewDetail(reviewId);
+
   return (
     <>
-    <div className='flex flex-1 items-center'>
+      <div className='flex flex-1 items-center'>
         <ImageSlide images={data?.images?.map((image) => ({ src: image })) ?? []} />
       </div>
       <div className='flex flex-col gap-[1.2rem] px-[2rem] pt-[2rem] pb-[6rem]'>
@@ -32,6 +33,6 @@ export default function PageClient({reviewId}: PageClientProps) {
         </div>
         <p className='caption-14-md text-black-1'>{data?.content ?? ''}</p>
       </div>
-      </>
-  )
+    </>
+  );
 }

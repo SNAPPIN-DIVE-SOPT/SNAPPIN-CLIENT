@@ -39,9 +39,9 @@ export default function ReviewDetail({
             <Link
               key={image}
               href={`/photographer/reservation-detail/${reservationId}/photos/${id}`}
-              className='shrink-0 relative w-[14rem] h-[14rem]'
+              className='relative h-[14rem] w-[14rem] shrink-0'
             >
-              <Image src={image} alt={reviewer} fill className='object-cover'/>
+              <Image src={image} alt={reviewer} fill className='object-cover' />
             </Link>
           ))}
         </div>

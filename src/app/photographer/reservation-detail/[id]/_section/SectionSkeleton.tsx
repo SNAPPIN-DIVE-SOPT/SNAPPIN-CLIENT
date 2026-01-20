@@ -7,7 +7,7 @@ export default function SectionSkeleton() {
       <DetailLayout title='예약 상세'>
         <div className='flex flex-col gap-[1.5rem]'>
           <ProductCardSkeleton />
-          <div className='w-full h-[2.7rem] bg-black-3' />
+          <div className='bg-black-3 h-[2.7rem] w-full' />
         </div>
       </DetailLayout>
       <Divider thickness='large' color='bg-black-3' />
@@ -15,14 +15,14 @@ export default function SectionSkeleton() {
         <div className='flex flex-col gap-[1.5rem]'>
           <div className='flex flex-col gap-[0.4rem]'>
             <div className='flex items-center gap-[0.2rem]'>
-              <div className='w-[6rem] h-[2.4rem] bg-black-3' />
+              <div className='bg-black-3 h-[2.4rem] w-[6rem]' />
             </div>
-            <div className='w-[9rem] h-[1.6rem] bg-black-3' />
+            <div className='bg-black-3 h-[1.6rem] w-[9rem]' />
           </div>
           <Divider thickness='small' color='bg-black-5' />
         </div>
         {Array.from({ length: 5 }).map((_, index) => (
-          <div key={index} className='w-[15rem] h-[1.6rem] bg-black-3' />
+          <div key={index} className='bg-black-3 h-[1.6rem] w-[15rem]' />
         ))}
       </DetailLayout>
     </div>

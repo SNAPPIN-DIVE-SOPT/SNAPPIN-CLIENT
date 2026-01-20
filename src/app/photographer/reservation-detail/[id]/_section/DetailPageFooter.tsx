@@ -18,7 +18,12 @@ type ButtonConfig = {
   onClick?: () => void;
 };
 
-export default function DetailPageFooter({ reservationId, date, startTime, status }: DetailPageFooterProps) {
+export default function DetailPageFooter({
+  reservationId,
+  date,
+  startTime,
+  status,
+}: DetailPageFooterProps) {
   const router = useRouter();
   const now = new Date();
   const start = new Date(`${date}T${startTime}:00`);
@@ -26,7 +31,6 @@ export default function DetailPageFooter({ reservationId, date, startTime, statu
 
   const { mutate: completeReservation } = useCompleteReservation(reservationId);
   const { mutate: confirmReservation } = useConfirmReservation(reservationId);
-
 
   const getButtonConfig = (): ButtonConfig => {
     switch (status) {
@@ -49,7 +53,7 @@ export default function DetailPageFooter({ reservationId, date, startTime, statu
           label: '예약 확정하기',
           disabled: false,
           onClick: () => {
-              confirmReservation(reservationId);
+            confirmReservation(reservationId);
           },
         };
 

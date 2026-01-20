@@ -8,7 +8,7 @@ type ReservationDetailPageProps = {
 
 export default async function Page({ params }: ReservationDetailPageProps) {
   const { id } = await params;
-  
+
   if (!id) {
     return notFound();
   }

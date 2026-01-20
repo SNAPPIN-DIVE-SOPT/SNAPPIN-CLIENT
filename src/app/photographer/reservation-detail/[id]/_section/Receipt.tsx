@@ -18,17 +18,15 @@ export default function Receipt({ basePrice, extraPrice, totalPrice }: ReceiptPr
         className='justify-between'
         valueClassName='caption-14-bd'
       />
-      {
-        extraPrice.map((item) => (
-          <DetailRow
-            key={item.name ?? ''}
-            label={item.name ?? ''}
-            value={`${formatPrice(item.amount ?? 0)}원`}
-            className='justify-between'
-            valueClassName='caption-14-bd'
-          />
-        ))
-      }
+      {extraPrice.map((item) => (
+        <DetailRow
+          key={item.name ?? ''}
+          label={item.name ?? ''}
+          value={`${formatPrice(item.amount ?? 0)}원`}
+          className='justify-between'
+          valueClassName='caption-14-bd'
+        />
+      ))}
       <Divider thickness='small' color='bg-black-3' />
       <div className='flex items-center justify-between'>
         <span className='caption-14-bd'>최종 결제 금액</span>

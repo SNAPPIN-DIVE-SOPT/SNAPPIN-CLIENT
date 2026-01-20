@@ -1,9 +1,6 @@
 import { StateCode } from '@/types/stateCode';
 import { DetailLayout, DetailRow } from '../components/detail-layout/DetailLayout';
-import {
-  formatCreatedAt,
-  formatReservationDateTime,
-} from '@/utils/formatNumberWithComma';
+import { formatCreatedAt, formatReservationDateTime } from '@/utils/formatNumberWithComma';
 import { Divider } from '@/ui';
 
 type ReservationDetailProps = {
