@@ -1,7 +1,10 @@
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
-import { ApiResponseBodyGetMoodFilterListResponseVoid } from '@/swagger-api/data-contracts';
+import {
+  ApiResponseBodyGetMoodFilterListResponseVoid,
+  GetMoodFilterListResponse,
+} from '@/swagger-api/data-contracts';
 
 const BASE_URL = `${process.env.NEXT_PUBLIC_API_SERVER_BASE_URL}`;
 const ENDPOINT = '/api/v1/moods';
@@ -9,7 +12,7 @@ const FULL_URL = BASE_URL + ENDPOINT;
 
 export const useMoodFilters = () => {
   const { isLogIn } = useAuth();
-  return useSuspenseQuery({
+  return useSuspenseQuery<GetMoodFilterListResponse>({
     queryKey: ['explore', 'mood-filters', isLogIn],
     queryFn: async () => {
       // 로그인 상태
@@ -22,7 +25,7 @@ export const useMoodFilters = () => {
         if (!response.data) {
           throw new Error('무드 필터 데이터를 불러오지 못했습니다.');
         }
-        return response.data.moods;
+        return response.data;
       }
 
       // 비 로그인상태
@@ -35,13 +38,13 @@ export const useMoodFilters = () => {
         throw new Error('무드 필터 데이터를 불러오지 못했습니다.');
       }
 
-      const data = (await response.json()) as ApiResponseBodyGetMoodFilterListResponseVoid;
+      const data = await response.json();
 
       if (!data.data) {
         throw new Error('무드 필터 데이터를 불러오지 못했습니다.');
       }
 
-      return data.data.moods;
+      return data.data;
     },
   });
 };
