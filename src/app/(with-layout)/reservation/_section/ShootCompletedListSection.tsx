@@ -5,7 +5,7 @@ import { Divider, ProductCardSkeleton } from '@/ui';
 import { EmptyView, ReservationCard } from '../components';
 import { StateCode } from '@/types/stateCode';
 import { useToast } from '@/ui/toast/hooks/useToast';
-import useGetReservationList from '../api';
+import { useGetReservationList } from '../api';
 import { RESERVATION_TAB } from '../constants/tabs';
 import { ACCESS_TOKEN_COOKIE_NAME } from '@/auth/constant/cookie';
 import { useAuth } from '@/auth/hooks/useAuth';

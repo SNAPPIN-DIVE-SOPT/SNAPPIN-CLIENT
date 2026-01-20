@@ -4,7 +4,7 @@ import { apiRequest } from '@/api/apiRequest';
 import { USER_QUERY_KEY } from '@/query-key/user';
 import { RESERVATION_TAB, type ReservationTab } from '../constants/tabs';
 
-const useGetReservationList = (
+export const useGetReservationList = (
   tab: ReservationTab = RESERVATION_TAB.CLIENT_OVERVIEW,
   isEnabled = true,
 ) => {
@@ -21,5 +21,3 @@ const useGetReservationList = (
     enabled: isEnabled,
   });
 };
-
-export default useGetReservationList;

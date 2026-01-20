@@ -6,7 +6,7 @@ import { EmptyView, ReservationCard } from '../components';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { StateCode } from '@/types/stateCode';
 import { formatCreatedAt } from '@/utils/formatNumberWithComma';
-import useGetReservationList from '../api';
+import { useGetReservationList } from '../api';
 import { RESERVATION_TAB } from '../constants/tabs';
 import { ACCESS_TOKEN_COOKIE_NAME } from '@/auth/constant/cookie';
 import { useAuth } from '@/auth/hooks/useAuth';
