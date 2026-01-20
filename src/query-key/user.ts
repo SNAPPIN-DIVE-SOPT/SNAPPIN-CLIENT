@@ -56,4 +56,14 @@ export const USER_QUERY_KEY = {
   // 장소 관련
   PLACES: ['places'],
   PLACES_SEARCH: (query: string) => [...USER_QUERY_KEY.PLACES, 'search', query],
+
+  // 상품
+  PRODUCT: ['product'],
+  PRODUCT_DETAIL: (id: number, isLogIn: boolean) => [...USER_QUERY_KEY.PRODUCT, id, isLogIn ? 'login' : 'not-login',],
+  PRODUCT_PORTFOLIOS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'portfolios'],
+  PRODUCT_REVIEWS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'reviews'],
+
+  // 리뷰
+  REVIEW: ['review'],
+  REVIEW_DETAIL: (id: number) => [...USER_QUERY_KEY.REVIEW, id],
 } as const;

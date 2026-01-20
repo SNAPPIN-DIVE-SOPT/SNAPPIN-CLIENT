@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { useInView } from 'react-intersection-observer';
 import { Divider, ReviewStar } from '@/ui';
 import { formatDate } from '@/utils/formatNumberWithComma';
 import { padNumber } from '@/utils/padNumber';
-import { REVIEW_LIST_MOCK } from '../mock';
+import { useGetProductReviewList } from '../api';
 
 type ReviewListSectionProps = {
   productId: string;
@@ -21,42 +23,67 @@ type ReviewProps = {
 }
 
 export default function ReviewListSection({ productId, averageRate }: ReviewListSectionProps) {
-  // TODO: 상품 리뷰 목록 조회 API 연동 (request에 productId, cursor 전달)
-  const reviewListMock = REVIEW_LIST_MOCK.data;
-  const isReviewEmpty = reviewListMock.reviews.length === 0;
+  const { data, isFetching, fetchNextPage, hasNextPage } = useGetProductReviewList(Number(productId));
+  const { ref, inView } = useInView();
+
+  const reviewList = data?.pages.flatMap(page => page.data?.reviews ?? []) ?? [];
+  const isEmpty = reviewList?.length === 0;
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  if (isFetching && isEmpty) {
+    return (
+      <section>
+        <ReviewListSectionSkeleton />
+      </section>
+    );
+  };
+
+  if (isEmpty) {
+    return (
+      <section>
+        <div className='flex justify-center items-center py-[8rem]'>
+          <span className='caption-14-rg text-black-6 text-center'>
+            아직 작성된 리뷰가 없어요
+          </span>
+        </div>
+      </section>
+    );
+  };
 
   return (
     <section className='mb-[7.4rem]'>
-      {reviewListMock.reviews.length === 0
-        ?
-          <div className='flex justify-center items-center py-[8rem]'>
-            <span className='caption-14-rg text-black-6 text-center'>
-              아직 작성된 리뷰가 없어요
-            </span>
+      <div className='flex gap-[0.8rem] p-[2rem]'>
+        <ReviewStar rating={isEmpty ? 0 : averageRate} starSize='large' />
+        <span className='title-20-bd text-black-10'>{isEmpty ? '0.0' : averageRate}</span>
+      </div>
+      <Divider thickness='large' color='bg-black-3' className='w-full' />
+      {reviewList?.map((review, idx) => {
+        const isLast = idx === reviewList.length - 1;
+
+        return (
+          <div
+            key={review.id}
+            ref={isLast ? ref : undefined}
+          >
+            <Review
+              id={review.id ?? 0}
+              rate={review.rating ?? 0}
+              createdAt={review.createdAt ?? ''}
+              reviewer={review.reviewer ?? ''}
+              images={review.images ?? []}
+              content={review.content ?? ''}
+            />
+            {!isLast && (
+              <Divider thickness='large' color='bg-black-3' className='w-full' />
+            )}
           </div>
-        :
-          <>
-            <div className='flex gap-[0.8rem] p-[2rem]'>
-              <ReviewStar rating={isReviewEmpty ? 0 : averageRate} starSize='large' />
-              <span className='title-20-bd text-black-10'>{isReviewEmpty ? '0.0' : averageRate}</span>
-            </div>
-            <Divider thickness='large' color='bg-black-3' className='w-full' />
-            {reviewListMock.reviews.map((review, idx) => (
-              <div key={review.id}>
-                <Review
-                  id={review.id}
-                  rate={review.rating}
-                  createdAt={review.createdAt}
-                  reviewer={review.reviewer}
-                  images={review.images}
-                  content={review.content}
-                />
-                {idx < reviewListMock.reviews.length - 1
-                  && (<Divider thickness='large' color='bg-black-3' className='w-full' />)}
-              </div>
-            ))}
-          </>
-      }
+        );
+      })}
     </section>
   );
 }
@@ -74,7 +101,7 @@ function Review({
   const formattedDate = formatDate(createdAt).slice(2).split('.').map((number) => padNumber(Number(number))).join('.');
 
   return (
-    <div className='flex flex-col gap-[1.2rem] py-[2rem] overflow-hidden'>
+    <section className='flex flex-col gap-[1.2rem] py-[2rem] overflow-hidden'>
       {/* 별점, 날짜, 아이디 */}
       <div className='flex flex-col gap-[0.6rem] px-[2rem]'>
         <div className='flex justify-between'>
@@ -101,6 +128,36 @@ function Review({
       </div>
       {/* 리뷰 내용 */}
       <span className='caption-14-md text-black-10 px-[2rem]'>{content}</span>
-    </div>
+    </section>
+  );
+}
+
+const ReviewListSectionSkeleton = () => {
+  return (
+    <section>
+      <div className='flex justify-start gap-[0.8rem] p-[2rem]'>
+        <div className='w-[13.2rem] h-[2rem] bg-black-3 rounded-[0.2rem]' />
+        <div className='w-[3.1rem] h-[2rem] bg-black-3 rounded-[0.2rem]' />
+      </div>
+      <Divider thickness='large' color='bg-black-3' />
+      <div className='flex flex-col gap-[1.2rem] pt-[2rem]'>
+        <div className='flex flex-col gap-[0.6rem] px-[2rem]'>
+          <div className='flex justify-between'>
+            <div className='w-[9.6rem] h-[1.4rem] bg-black-3 rounded-[0.2rem]' />
+            <div className='w-[4.5rem] h-[1.4rem] bg-black-3 rounded-[0.2rem]' />
+          </div>
+          <div className='w-[3.2rem] h-[1.4rem] bg-black-3 rounded-[0.2rem]' />
+        </div>
+        <div className='flex gap-[0.4rem] pl-[2rem] overflow-hidden'>
+          <div className='w-[14rem] h-[14rem] shrink-0 bg-black-3' />
+          <div className='w-[14rem] h-[14rem] shrink-0 bg-black-3' />
+          <div className='w-[14rem] h-[14rem] shrink-0 bg-black-3' />
+        </div>
+        <div className='flex flex-col gap-[0.6rem] px-[2rem]'>
+          <div className='w-[25.1rem] h-[1.7rem] bg-black-3 rounded-[0.2rem]' />
+          <div className='w-[19.4rem] h-[1.7rem] bg-black-3 rounded-[0.2rem]' />
+        </div>
+      </div>
+    </section>
   );
 }
