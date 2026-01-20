@@ -61,7 +61,7 @@ export default function FadeCarousel({ images }: FadeCarouselProps) {
         <Logo className='text-neon-white' width={318} height={67} />
         <div className='flex w-full flex-col items-center gap-[3.2rem]'>
           <div className='flex flex-col items-center gap-[0.4rem]'>
-            <h1 className='title-20-bd text-black-1'>가장 나다운 스냅 촬영</h1>
+            <h1 className='title-20-bd text-black-1'>나만의 무드에서 시작되는 스냅</h1>
             <p className='caption-14-rg text-black-1 text-center'>
               나만의 무드 태그로 내 취향에 딱 맞는
               <br />

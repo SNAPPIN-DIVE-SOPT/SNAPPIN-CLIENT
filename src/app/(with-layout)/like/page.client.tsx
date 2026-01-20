@@ -1,24 +1,25 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { Suspense, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { SectionTabs } from '@/ui';
+import { PortfolioListSkeleton, ProductListSkeleton, SectionTabs } from '@/ui';
 import { LIKE_TAB, LIKE_TAB_MAP } from '@/app/(with-layout)/like/constants/tab';
 import PortfolioListSection from '@/app/(with-layout)/like/_section/PortfolioListSection';
 import ProductListSection from '@/app/(with-layout)/like/_section/ProductListSection';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useToast } from '@/ui/toast/hooks/useToast';
-import Header from '@/app/(with-layout)/like/component/Header';
+import Header from '@/app/(with-layout)/like/component/header/Header';
+import LikeEmpty from '@/app/(with-layout)/like/component/empty/LikeEmpty';
 
 const isLikeTab = (value: string | null) => {
   return value === LIKE_TAB.PORTFOLIO || value === LIKE_TAB.PRODUCT;
 };
 
 export default function PageClient() {
+  const { isLogIn } = useAuth();
+  const { login } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { isLogIn } = useAuth();
-  const toast = useToast();
 
   const currentTab = useMemo(() => {
     const raw = searchParams.get('tab');
@@ -35,9 +36,10 @@ export default function PageClient() {
   };
 
   useEffect(() => {
-    if (isLogIn) return;
-    toast.login('좋아요 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
-  }, [isLogIn, toast]);
+    if (isLogIn === false) {
+      login('좋아요 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
+    }
+  }, [isLogIn, login]);
 
   return (
     <SectionTabs value={currentTab} handleValueChange={handleTabChange} className='h-full min-h-0'>
@@ -55,12 +57,24 @@ export default function PageClient() {
       <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
         <SectionTabs.Contents value={LIKE_TAB.PORTFOLIO} className='min-h-full'>
           {/* 포트폴리오 목록 */}
-          <PortfolioListSection />
+          {!isLogIn ? (
+            <LikeEmpty tab={currentTab} />
+          ) : (
+            <Suspense fallback={<PortfolioListSkeleton className='p-[1rem]' />}>
+              <PortfolioListSection />
+            </Suspense>
+          )}
         </SectionTabs.Contents>
 
         <SectionTabs.Contents value={LIKE_TAB.PRODUCT} className='bg-black-3 min-h-full'>
           {/* 상품 목록 */}
-          <ProductListSection />
+          {!isLogIn ? (
+            <LikeEmpty tab={currentTab} />
+          ) : (
+            <Suspense fallback={<ProductListSkeleton />}>
+              <ProductListSection />
+            </Suspense>
+          )}
         </SectionTabs.Contents>
       </main>
     </SectionTabs>

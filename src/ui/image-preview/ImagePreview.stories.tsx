@@ -49,7 +49,7 @@ const meta: Meta<typeof ImagePreview> = {
     },
   },
   args: {
-    imageSrc: '/product.png',
+    imageSrc: '/imgs/image-default.png',
     imageAlt: '임시 이미지',
     showRemoveButton: true,
     imageClassName: '',

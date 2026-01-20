@@ -104,6 +104,9 @@ type SectionTabContentsProps = HTMLAttributes<HTMLDivElement> & {
 const SectionTabContents = ({ value, className, children, ...props }: SectionTabContentsProps) => {
   const { value: selectedValue, baseId } = useSectionTabsContext('SectionTabs.Contents');
   const isSelected = value === selectedValue;
+  
+  if (!isSelected) return null;
+  
   const tabId = makeId(baseId, value, 'tab');
   const panelId = makeId(baseId, value, 'panel');
 
@@ -112,9 +115,7 @@ const SectionTabContents = ({ value, className, children, ...props }: SectionTab
       id={panelId}
       role='tabpanel'
       aria-labelledby={tabId}
-      aria-hidden={!isSelected}
       tabIndex={isSelected ? 0 : -1}
-      hidden={!isSelected}
       className={cn('w-full', className)}
       {...props}
     >

@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/utils/cn';
+import productPlaceholder from '@/../public/imgs/image-default.png';
 
 type ProductListProps = {
-  portfolioList: { id: number; imageUrl: string }[];
+  portfolioList: { id?: number; imageUrl?: string }[];
 };
 
 export default function PortfolioList({
@@ -12,7 +13,13 @@ export default function PortfolioList({
   ...props
 }: ProductListProps & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('grid shrink-0 grid-cols-3 gap-[0.2rem] overflow-hidden rounded-[0.4rem]', className)} {...props}>
+    <div
+      className={cn(
+        'grid shrink-0 grid-cols-3 gap-[0.2rem] overflow-hidden rounded-[0.4rem]',
+        className,
+      )}
+      {...props}
+    >
       {portfolioList.map((portfolio) => (
         <Link
           href={`/portfolio-detail/${portfolio.id}`}
@@ -20,7 +27,7 @@ export default function PortfolioList({
           className='relative aspect-square'
         >
           <Image
-            src={portfolio.imageUrl}
+            src={portfolio.imageUrl ?? productPlaceholder}
             fill
             alt={`portfolio ${portfolio.id}`}
             sizes='(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw'

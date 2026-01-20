@@ -66,7 +66,7 @@ export default function ImageSlide() {
         <AnimatePresence initial={false}>
           {visible.map(({ pos, index, item }) => (
             <motion.div
-              key={index + item.imageUrl + item.photographerName}
+              key={index + item.imageUrl.toString() + item.photographerName}
               className='absolute top-1/2 -translate-y-1/2'
               variants={CARD_VARIANTS}
               animate={pos}
