@@ -2,12 +2,12 @@ import { ProductInfoSection, ReviewFormSection } from './_section';
 import { ClientHeader } from './components';
 import { Divider } from '@/ui';
 
-type ReviewFormPageProps = {
-  params: { id: string };
-};
+type ReviewFormPageProps = { params: Promise<{ id: string }> };
 
 export default async function Page({ params }: ReviewFormPageProps) {
-  const reservationId = params.id;
+  const { id } = await params;
+  const reservationId = Number(id);
+  if (Number.isNaN(reservationId)) throw new Error('Invalid reservation id');
 
   return (
     <>

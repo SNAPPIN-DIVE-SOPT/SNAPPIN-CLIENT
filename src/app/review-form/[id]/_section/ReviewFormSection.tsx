@@ -14,10 +14,10 @@ import {
 } from '../hooks/useReviewWrite';
 import { REVIEW_PRODUCT } from '../mock/reviewProduct.mock';
 import { IMAGE_ACCEPT } from '@/constants/image-type/imageAccept';
-
 import { StarRating } from '../components';
+
 type ReviewFormSectionProps = {
-  reservationId: string;
+  reservationId: number;
 };
 
 type PreviewItem = { file: File; url: string };

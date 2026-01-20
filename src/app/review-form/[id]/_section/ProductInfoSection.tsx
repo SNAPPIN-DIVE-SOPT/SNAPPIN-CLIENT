@@ -1,26 +1,40 @@
-import { ProductCard } from '@/ui';
-import { REVIEW_PRODUCT } from '../mock/reviewProduct.mock';
+'use client';
 
-type ProductInfoSectionProps = {
-  reservationId: string;
-};
+import { ProductCard, ProductCardSkeleton } from '@/ui';
+import { useGetReservationDetail } from '../api';
+import { useAuth } from '@/auth/hooks/useAuth';
 
-export default function ProductInfoSection({
-  // TODO: API 연동
-  reservationId: _reservationId,
-}: ProductInfoSectionProps) {
-  const data = REVIEW_PRODUCT.reservations.reservation;
+type ProductInfoSectionProps = { reservationId: number };
+
+export default function ProductInfoSection({ reservationId }: ProductInfoSectionProps) {
+  const { isLogIn } = useAuth();
+  const { data: reservationData, isPending } = useGetReservationDetail(
+    reservationId,
+    isLogIn === true,
+  );
+
+  if (isPending || !reservationData?.productInfo) return <ProductCardSkeleton />; // 스켈레톤/로더로 대체 가능
+
+  const {
+    imageUrl = '',
+    title = '',
+    rate = 0,
+    reviewCount = 0,
+    photographer = '',
+    price = 0,
+    moods = [],
+  } = reservationData.productInfo;
 
   return (
     <section className='py-[1.6rem] pr-[4.2rem] pl-[2rem]'>
       <ProductCard
-        image={{ src: data.product.imageUrl, alt: data.product.title }}
-        name={data.product.title}
-        rate={data.product.rate}
-        reviewCount={data.product.reviewCount}
-        photographer={data.product.photographer}
-        price={data.product.price}
-        moods={data.product.moods}
+        image={{ src: imageUrl, alt: title }}
+        name={title}
+        rate={rate}
+        reviewCount={reviewCount}
+        photographer={photographer}
+        price={price}
+        moods={moods}
       />
     </section>
   );
