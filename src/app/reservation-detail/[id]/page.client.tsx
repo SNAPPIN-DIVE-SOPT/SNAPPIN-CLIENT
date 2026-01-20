@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ClientNavigation, ClientFooter } from './components';
 import { PaymentDetail, ReservationDetail, ReservationRequested } from './_section';
 import { Divider } from '@/ui';
@@ -25,17 +25,19 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     isLogIn === true,
   );
 
-  const { mutate: cancelReservation } = useCancelReservation();
-  const { mutate: requestPayment } = useRequestPayment();
+  const { mutate: cancelReservationMutation } = useCancelReservation();
+  const { mutate: requestPaymentMutation } = useRequestPayment();
 
   const [cancelOpen, setCancelOpen] = useState(false);
+  const [reservationStatus, setReservationStatus] = useState<StateCode>();
+  const [previousStatus, setPreviousStatus] = useState<StateCode>();
 
   const toast = useToast();
 
-  // TODO: 예약 상태 변경 API 연동 후 상태 관리 로직 수정 필요
-  const [reservationStatus, setReservationStatus] = useState<StateCode>(
-    reservationData?.status as StateCode,
-  );
+  useEffect(() => {
+    if (!reservationData?.status || previousStatus) return;
+    setPreviousStatus(reservationData.status as StateCode);
+  }, [previousStatus, reservationData?.status]);
 
   const normalizeStatus = (status?: string): StateCode => {
     const code = status as StateCode;
@@ -44,7 +46,12 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     return hasTheme && hasLabel ? code : STATE_CODES.RESERVATION_REQUESTED;
   };
 
-  const status = normalizeStatus(reservationData?.status);
+  const status = normalizeStatus(reservationStatus ?? reservationData?.status);
+
+  const isCanceledFromEarlyStage =
+    status === STATE_CODES.RESERVATION_CANCELED &&
+    (previousStatus === STATE_CODES.RESERVATION_REQUESTED ||
+      previousStatus === STATE_CODES.PHOTOGRAPHER_CHECKING);
 
   const hasTopActionButtons =
     status === STATE_CODES.RESERVATION_REQUESTED || status === STATE_CODES.PHOTOGRAPHER_CHECKING;
@@ -55,27 +62,29 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     status === STATE_CODES.RESERVATION_CANCELED ||
     status === STATE_CODES.RESERVATION_REFUSED;
 
-  const hasPaymentDetailSection = !hasTopActionButtons;
+  const hasPaymentDetailSection = !hasTopActionButtons && !isCanceledFromEarlyStage;
 
   const handleReservationCancelClick = () => {
     setCancelOpen(true);
   };
 
   const handleReservationCancel = () => {
-    cancelReservation(Number(reservationId), {
+    cancelReservationMutation(Number(reservationId), {
       onSuccess: (cancelResponse) => {
+        setPreviousStatus(status);
         setReservationStatus(cancelResponse.status as StateCode);
         setCancelOpen(false);
       },
       onError: () => {
-        toast.error('취소 중 오류가 발생했습니다. 다시 시도해주세요.');
+        toast.error('예약 취소 중 오류가 발생했습니다. 다시 시도해주세요.');
       },
     });
   };
 
   const handlePaymentConfirmClick = () => {
-    requestPayment(Number(reservationId), {
+    requestPaymentMutation(Number(reservationId), {
       onSuccess: (paymentResponse) => {
+        setPreviousStatus(status);
         setReservationStatus(paymentResponse.status as StateCode);
       },
       onError: () => {
@@ -94,7 +103,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
 
   if (isPending) {
     return (
-      <div className='bg-black-3 flex min-h-dvh flex-col'>
+      <div className='bg-black-1 flex min-h-dvh flex-col'>
         <ClientNavigation title='예약 상세' />
         <SectionSkeleton />
       </div>
