@@ -11,8 +11,8 @@ type PageClientProps = {
   reviewId: number;
 };
 
-export default function PageClient({ id, reviewId }: PageClientProps) {
-  const { data, isPending } = useGetReviewDetail(id, reviewId);
+export default function PageClient({ reviewId }: PageClientProps) {
+  const { data, isPending } = useGetReviewDetail(reviewId);
 
   if (isPending) {
     return <Skeleton />;

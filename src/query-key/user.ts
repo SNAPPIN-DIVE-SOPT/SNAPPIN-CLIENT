@@ -52,10 +52,7 @@ export const USER_QUERY_KEY = {
   // 예약 상세 조회
   RESERVATION_DETAILS: () => [...USER_QUERY_KEY.RESERVATION, 'details'],
   RESERVATION_DETAIL: (id: number) => [...USER_QUERY_KEY.RESERVATION_DETAILS(), id],
-  // 리뷰 상세 조회
-  RESERVATION_DETAIL_REVIEWS: (id: number) => [...USER_QUERY_KEY.RESERVATION_DETAIL(id), 'reviews'],
-  RESERVATION_DETAIL_REVIEW: (id: number, reviewId: number) => [...USER_QUERY_KEY.RESERVATION_DETAIL_REVIEWS(id), reviewId],
-
+  
   // 장소 관련
   PLACES: ['places'],
   PLACES_SEARCH: (query: string) => [...USER_QUERY_KEY.PLACES, 'search', query],

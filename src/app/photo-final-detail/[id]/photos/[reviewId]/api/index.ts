@@ -6,9 +6,9 @@ import {
   GetReviewDetailResponse,
 } from '@/swagger-api/data-contracts';
 
-export const useGetReviewDetail = (id: number, reviewId: number) => {
+export const useGetReviewDetail = (reviewId: number) => {
   return useQuery<GetReviewDetailResponse>({
-    queryKey: USER_QUERY_KEY.RESERVATION_DETAIL_REVIEW(id, reviewId),
+    queryKey: USER_QUERY_KEY.REVIEW_DETAIL(reviewId),
     queryFn: async () => {
       const res = await apiRequest<GetReviewDetailData>({
         endPoint: `/api/v1/reviews/${reviewId}`,
