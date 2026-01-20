@@ -4,6 +4,7 @@ import { SnapCategory } from '@/constants/categories/snap-category';
 export const parseInitialDraft = (sp: URLSearchParams) => {
   const snapCategory = sp.get('snapCategory') as SnapCategory;
   const placeId = sp.get('placeId');
+  const placeName = sp.get('placeName');
   const date = sp.get('date');
 
   const peopleRaw = sp.get('peopleCount');
@@ -12,17 +13,28 @@ export const parseInitialDraft = (sp: URLSearchParams) => {
       ? Number(peopleRaw)
       : null;
 
-  return { snapCategory, placeId, date, peopleCount };
+  return { snapCategory, placeId, date, peopleCount, placeName };
 };
 
-export const patchSearchParams = (current: URLSearchParams, draft: SearchDraft) => {
+export const patchSearchParams = (
+  current: URLSearchParams,
+  draft: SearchDraft,
+  placeName: string,
+) => {
   const params = new URLSearchParams(current.toString());
 
   if (draft.snapCategory) params.set('snapCategory', draft.snapCategory);
   else params.delete('snapCategory');
 
-  if (draft.placeId) params.set('placeId', draft.placeId);
-  else params.delete('placeId');
+  if (draft.placeId) {
+    params.set('placeId', draft.placeId);
+
+    if (placeName) params.set('placeName', placeName);
+    else params.delete('placeName');
+  } else {
+    params.delete('placeId');
+    params.delete('placeName');
+  }
 
   if (draft.date) params.set('date', draft.date);
   else params.delete('date');
@@ -33,7 +45,15 @@ export const patchSearchParams = (current: URLSearchParams, draft: SearchDraft) 
   return params;
 };
 
-const ALLOWED_KEYS = new Set(['tab', 'moodIds', 'snapCategory', 'placeId', 'date', 'peopleCount']);
+const ALLOWED_KEYS = new Set([
+  'tab',
+  'moodIds',
+  'snapCategory',
+  'placeId',
+  'placeName',
+  'date',
+  'peopleCount',
+]);
 
 export const pickAllowedParams = (sp: URLSearchParams) => {
   const next = new URLSearchParams();

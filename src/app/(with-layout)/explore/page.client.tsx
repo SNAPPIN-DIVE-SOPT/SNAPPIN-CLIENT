@@ -34,9 +34,9 @@ export default function PageClient() {
   const pathname = usePathname();
   const sp = useSearchParams();
 
-  const { snapCategory, placeId, date, peopleCount } = parseInitialDraft(sp);
+  const { snapCategory, placeName, date, peopleCount } = parseInitialDraft(sp);
   const snapCategoryLabel = SNAP_CATEGORY[snapCategory as keyof typeof SNAP_CATEGORY] ?? null;
-  const placeLabel = placeId ?? null;
+  const placeLabel = placeName ?? null;
 
   const headline = joinOrFallback([snapCategoryLabel, placeLabel], '어떤 스냅 작가를 찾고 있나요?');
 

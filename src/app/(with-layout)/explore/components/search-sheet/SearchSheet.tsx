@@ -16,6 +16,7 @@ import { SearchField } from '@/app/(with-layout)/explore/types/search';
 import { parseInitialDraft, patchSearchParams } from '@/app/(with-layout)/explore/utils/query';
 import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
 import { SearchFooter, SnapCategory } from '@/app/(with-layout)/explore/components';
+import { useSearchPlaces } from '@/app/(with-layout)/explore/api';
 
 type SearchSheetProps = {
   open: boolean;
@@ -24,6 +25,18 @@ type SearchSheetProps = {
 
 const MIN_PARTICIPANT_COUNT = 0;
 const MAX_PARTICIPANT_COUNT = 15;
+
+function useDebouncedValue<T>(value: T, delay = 500) {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedValue(value), delay);
+
+    return () => clearTimeout(id);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
 
 export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   const pathname = usePathname();
@@ -43,15 +56,44 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   const [currentField, setCurrentField] = useState<SearchField>('snapCategory');
   const didInitRef = useRef(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const { snapCategory, peopleCount, placeId, date } = searchDraft;
+
+  const [placeKeyword, setPlaceKeyword] = useState('');
+  const debouncedPlaceKeyword = useDebouncedValue(placeKeyword, 300);
+  const { data: places } = useSearchPlaces(debouncedPlaceKeyword);
+  const placeNameToId = new Map(
+    (places ?? [])
+      .filter((p) => p.name && p.id != null)
+      .map((p) => [p.name as string, p.id as number]),
+  );
+
+  const { snapCategory, peopleCount, date } = searchDraft;
   const formattedCount = `${peopleCount ?? 0}명`;
 
   const handleFieldClick = (category: SearchField) => {
     setCurrentField(category);
   };
 
+  const handlePlaceKeywordChange = (next: string) => {
+    setPlaceKeyword(next);
+
+    const matchedId = placeNameToId.get(next);
+    if (matchedId != null) {
+      setPlaceId(String(matchedId));
+    } else {
+      setPlaceId('');
+    }
+  };
+
   const handleSearch = () => {
-    const nextParams = patchSearchParams(searchParams, searchDraft);
+    const nextParams = patchSearchParams(searchParams, searchDraft, placeKeyword);
+
+    if (searchDraft.placeId) {
+      // id가 있을 때만 (=선택 확정) placeName 저장
+      nextParams.set('placeName', placeKeyword);
+    } else {
+      nextParams.delete('placeName');
+    }
+
     const qs = nextParams.toString();
     const target = qs ? `/explore?${qs}` : '/explore';
 
@@ -122,14 +164,15 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
         {/* 촬영 장소 검색 */}
         <ControlSheet.Field
           label='촬영 장소'
-          selectedValue={placeId}
+          selectedValue={placeKeyword}
           onClick={() => handleFieldClick('placeId')}
           active={currentField === 'placeId'}
         >
           <ComboBox
             placeholder='장소·학교명을 검색 후 선택해 주세요'
-            options={['건국대학교', '이화여자대학교', '연세대학교', '고려대학교']}
-            onChange={setPlaceId}
+            value={placeKeyword}
+            options={(places ?? []).map((item) => item.name ?? '').filter(Boolean)}
+            onChange={handlePlaceKeywordChange}
           />
         </ControlSheet.Field>
 

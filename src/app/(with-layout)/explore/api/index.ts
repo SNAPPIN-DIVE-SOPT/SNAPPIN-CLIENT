@@ -1,5 +1,6 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import {
+  GetPlaceResponse,
   ApiResponseBodyGetMoodFilterListResponseVoid,
   CategoriesResponse,
   GetMoodFilterListResponse,
@@ -13,6 +14,39 @@ const CATEGORY_END_POINT = '/api/v1/categories';
 const CATEGORY_FULL_URL = BASE_URL + CATEGORY_END_POINT;
 const MOODS_ENDPOINT = '/api/v1/moods';
 const MOODS_FULL_URL = BASE_URL + MOODS_ENDPOINT;
+
+const PLACE_ENDPOINT = '/api/v1/places';
+const PLACE_FULL_URL = `${BASE_URL}${PLACE_ENDPOINT}`;
+
+export const useSearchPlaces = (keyword: string) => {
+  const trimmedKeyword = keyword.trim();
+
+  return useQuery<GetPlaceResponse[]>({
+    queryKey: USER_QUERY_KEY.PLACES_SEARCH(keyword),
+    queryFn: async ({ signal }) => {
+      if (keyword === '') return [];
+      const url = `${PLACE_FULL_URL}?keyword=${encodeURIComponent(trimmedKeyword)}`;
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`촬영 장소 조회 API 요청 실패 ${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+
+      if (!data.data) return [];
+      return data.data.places;
+    },
+    staleTime: 30 * 1000, // 30 seconds
+    retry: 0,
+  });
+};
 
 export const useGetCategories = () => {
   return useSuspenseQuery<CategoriesResponse>({
