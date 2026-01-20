@@ -33,6 +33,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "7.62.0",
+    "react-intersection-observer": "^10.0.2",
     "swagger-typescript-api": "^13.2.16",
     "tailwind-merge": "^3.3.1",
     "vaul": "^1.1.2",
