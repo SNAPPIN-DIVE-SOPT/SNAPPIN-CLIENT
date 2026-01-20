@@ -10,14 +10,6 @@ import { RESERVATION_TAB } from '../constants/tabs';
 import { ACCESS_TOKEN_COOKIE_NAME } from '@/auth/constant/cookie';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { formatCreatedAt } from '@/utils/formatNumberWithComma';
-import type { ReservationListItemResponse } from '@/swagger-api/data-contracts';
-
-const hasReservationProduct = (
-  reservationItem: ReservationListItemResponse | undefined,
-): reservationItem is ReservationListItemResponse & {
-  reservationId: number;
-  product: NonNullable<ReservationListItemResponse['product']>;
-} => Boolean(reservationItem && reservationItem.reservationId != null && reservationItem.product);
 
 export default function ShootCompletedListSection() {
   const hasAccessToken =
@@ -27,8 +19,7 @@ export default function ShootCompletedListSection() {
   const toast = useToast();
 
   const reservations = data?.reservations ?? [];
-  const availableReservations = reservations.filter(hasReservationProduct);
-  const isShootCompletedListEmpty = availableReservations.length === 0;
+  const isShootCompletedListEmpty = reservations.length === 0;
 
   useEffect(() => {
     if (isLogIn === null) return;
@@ -54,31 +45,26 @@ export default function ShootCompletedListSection() {
   }
 
   return (
-    <section className='flex flex-col gap-[1.2rem] p-[1.6rem]'>
-      {availableReservations.map((reservationItem, reservationIndex) => {
-        const {
-          reservationId,
-          status,
-          createdAt,
-          product: { imageUrl, title, rate, reviewCount, photographer, price, moods, isReviewed },
-        } = reservationItem;
-
+    <section className='flex flex-col gap-[1.6rem] p-[1.6rem]'>
+      {reservations.map((reservation, reservationIndex) => {
+        const product = reservation.product;
         return (
-          <div key={reservationItem.reservationId}>
+          <div key={reservation.reservationId}>
             <ReservationCard
-              image={{ src: imageUrl ?? '', alt: title }}
-              name={title ?? ''}
-              rate={rate ?? 0}
-              reviewCount={reviewCount ?? 0}
-              photographer={photographer ?? ''}
-              price={price ?? 0}
-              moods={moods ?? []}
-              status={(status ?? '') as StateCode}
-              date={createdAt ? formatCreatedAt(createdAt) : ''}
-              reservationId={reservationId}
-              isReviewed={isReviewed ?? false}
+              image={{ src: product?.imageUrl ?? '', alt: product?.title ?? '상품 이미지' }}
+              name={product?.title ?? ''}
+              rate={product?.rate ?? 0}
+              reviewCount={product?.reviewCount ?? 0}
+              photographer={product?.photographer ?? ''}
+              price={product?.price ?? 0}
+              moods={product?.moods ?? []}
+              status={reservation.status as StateCode}
+              date={reservation.createdAt ? formatCreatedAt(reservation.createdAt) : ''}
+              reservationId={reservation.reservationId ?? 0}
+              isReviewed={product?.isReviewed ?? false}
             />
-            {reservationIndex !== availableReservations.length - 1 && (
+
+            {reservationIndex !== reservations.length - 1 && (
               <Divider thickness='large' color='bg-black-3' className='-mx-[1.6rem] mt-[1.6rem]' />
             )}
           </div>

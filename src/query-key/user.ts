@@ -24,7 +24,12 @@ export const USER_QUERY_KEY = {
   WISHED_PORTFOLIOS: () => [...USER_QUERY_KEY.WISH, 'portfolios'],
   WISHED_PRODUCTS: () => [...USER_QUERY_KEY.WISH, 'products'],
 
+  // 예약 목록 조회
   RESERVATION: ['reservation'],
-  RESERVATION_CLIENT_VIEW: () => [...USER_QUERY_KEY.RESERVATION, 'CLIENT_VIEW'],
-  RESERVATION_CLIENT_DONE: () => [...USER_QUERY_KEY.RESERVATION, 'CLIENT_DONE'],
+  RESERVATION_LISTS: () => [...USER_QUERY_KEY.RESERVATION, 'list'],
+  RESERVATION_LIST: (tab: string) => [...USER_QUERY_KEY.RESERVATION_LISTS(), tab],
+
+  // 예약 상세 조회
+  RESERVATION_DETAILS: () => [...USER_QUERY_KEY.RESERVATION, 'details'],
+  RESERVATION_DETAIL: (id: number) => [...USER_QUERY_KEY.RESERVATION_DETAILS(), id],
 } as const;
