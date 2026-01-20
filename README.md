@@ -5,7 +5,6 @@
 <img width="579" height="140" alt="Swatch" src="https://github.com/user-attachments/assets/91af11f7-70e3-4c94-8903-cbb32e797f19" />
 <img width="1920" height="1080" alt="Slide 16_9 - 76" src="https://github.com/user-attachments/assets/a70b14f1-deee-4046-aa0a-11e107fcf9e1" />
 
-### <a href="https://snappin-client.vercel.app/">View Live Demo</a>
 
 ## 핵심 UX 키워드
 
