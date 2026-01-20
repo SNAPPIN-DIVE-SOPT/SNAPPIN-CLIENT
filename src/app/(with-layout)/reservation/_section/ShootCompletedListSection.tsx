@@ -12,7 +12,7 @@ import { formatCreatedAt } from '@/utils/formatNumberWithComma';
 
 export default function ShootCompletedListSection() {
   const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_DONE);
-
+  // 로그인 여부
   const { isLogIn } = useAuth();
   const toast = useToast();
 

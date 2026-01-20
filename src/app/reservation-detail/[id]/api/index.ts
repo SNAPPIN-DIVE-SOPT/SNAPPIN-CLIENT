@@ -7,6 +7,7 @@ import {
 } from '@/swagger-api/data-contracts';
 
 export const useGetReservationDetail = (reservationId: number, isEnabled = true) => {
+  // reservationId가 null일 때 쿼리가 실행되지 않도록 하기 위함
   const enabled = isEnabled && reservationId != null;
 
   return useQuery<ReservationDetailResponse>({

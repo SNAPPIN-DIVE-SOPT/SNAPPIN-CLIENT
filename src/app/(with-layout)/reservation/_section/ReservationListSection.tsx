@@ -12,7 +12,7 @@ import { useAuth } from '@/auth/hooks/useAuth';
 
 export default function ReservationListSection() {
   const toast = useToast();
-
+  // 로그인 여부
   const { isLogIn } = useAuth();
 
   useEffect(() => {
