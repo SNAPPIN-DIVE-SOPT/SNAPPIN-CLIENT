@@ -45,7 +45,6 @@ export const useCancelReservation = () => {
 
       return response.data;
     },
-    //  뮤테이션이 성공하면 React Query 캐시를 무효화해서 최신 데이터를 다시 받아오게 함
     onSuccess: (_, reservationId) => {
       queryClient.invalidateQueries({ queryKey: USER_QUERY_KEY.RESERVATION_DETAIL(reservationId) });
       queryClient.invalidateQueries({ queryKey: USER_QUERY_KEY.RESERVATION_LISTS() });
