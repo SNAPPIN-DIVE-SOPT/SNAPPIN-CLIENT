@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,24 +29,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build
+      - name: Build (Next server)
         run: pnpm run build
-
-      - name: List build output
-        run: ls -la dist
-
-      - name: Pushes to another repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.MY_TOKEN }}
-        with:
-          source-directory: "dist"
-          destination-github-username: hamxxn
-          destination-repository-name: SNAPPIN-CLIENT
-          user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
-
-      - name: Test get variable exported by push-to-another-repository
-        run: echo $DESTINATION_CLONED_DIRECTORY
