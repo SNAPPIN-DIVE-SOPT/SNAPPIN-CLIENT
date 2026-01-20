@@ -101,7 +101,7 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
           variants={CHIPS_CONTAINER}
           initial='hidden'
           animate='show'
-          className='mt-[8rem] flex flex-col items-center gap-[0.9rem]'
+          className='mt-[4rem] flex flex-col items-center gap-[0.9rem]'
           onAnimationComplete={() => {
             if (phase === 'chips') {
               setTimeout(() => {

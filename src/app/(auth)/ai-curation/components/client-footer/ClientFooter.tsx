@@ -3,12 +3,18 @@
 import { useRouter } from 'next/navigation';
 import { Button, BottomCTAButton } from '@/ui';
 import { useGetAiCurationAllPrefetch } from '../../[step]/api';
+import { useAuth } from '@/auth/hooks/useAuth';
 
 export default function ClientFooter() {
   const router = useRouter();
   const prefetchAiCurationAll = useGetAiCurationAllPrefetch();
-
+  const { isLogIn } = useAuth();
+  
   const handleStartCuration = () => {
+    if (!isLogIn) {
+      router.push('/login');
+      return;
+    }
     prefetchAiCurationAll();
     router.push('/ai-curation/1');
   };
