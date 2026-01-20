@@ -62,7 +62,7 @@ export default function PageClient() {
 
   const handleSheetOpen = () => {
     overlay.open(({ isOpen, close }) => (
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Loading className='h-full w-full self-center' />}>
         <SearchSheet open={isOpen} onOpenChange={close} />
       </Suspense>
     ));

@@ -16,7 +16,6 @@ import { SearchField } from '@/app/(with-layout)/explore/types/search';
 import { parseInitialDraft, patchSearchParams } from '@/app/(with-layout)/explore/utils/query';
 import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
 import { SearchFooter, SnapCategory } from '@/app/(with-layout)/explore/components';
-import { useGetCategories } from '@/app/(with-layout)/explore/api';
 
 type SearchSheetProps = {
   open: boolean;
@@ -27,7 +26,6 @@ const MIN_PARTICIPANT_COUNT = 0;
 const MAX_PARTICIPANT_COUNT = 15;
 
 export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
-  const { data: snapCategories } = useGetCategories();
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -118,11 +116,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
           onClick={() => handleFieldClick('snapCategory')}
           active={currentField === 'snapCategory'}
         >
-          <SnapCategory
-            currentCategory={snapCategory}
-            categories={snapCategories}
-            handleCategoryChange={setCategory}
-          />
+          <SnapCategory currentCategory={snapCategory} handleCategoryChange={setCategory} />
         </ControlSheet.Field>
 
         {/* 촬영 장소 검색 */}
