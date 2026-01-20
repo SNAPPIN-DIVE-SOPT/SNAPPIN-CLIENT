@@ -6,7 +6,7 @@ import type { AiCurationStep } from '../../constants/steps';
 import { useAiCuration } from '../../../hooks/useAiCuration';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { TOTAL_STEP_COUNT } from '../../constants/steps';
-import { usePostAiCuration } from '../../../api';
+import { usePostAiCuration } from '../../api';
 
 type ClientFooterProps = {
   step: AiCurationStep;

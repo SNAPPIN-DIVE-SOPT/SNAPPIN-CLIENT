@@ -2,11 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 import { Button, BottomCTAButton } from '@/ui';
+import { useGetAiCurationAllPrefetch } from '../../[step]/api';
 
 export default function ClientFooter() {
   const router = useRouter();
+  const prefetchAiCurationAll = useGetAiCurationAllPrefetch();
 
   const handleStartCuration = () => {
+    prefetchAiCurationAll();
     router.push('/ai-curation/1');
   };
 
