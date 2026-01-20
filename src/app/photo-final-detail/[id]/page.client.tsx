@@ -1,11 +1,16 @@
 'use client';
 
-import { ProductStatus, Receipt, ReservationDetail, ReviewDetail } from './_section';
+import {
+  ProductStatus,
+  Receipt,
+  ReservationDetail,
+  ReviewDetail,
+  SectionSkeleton,
+} from './_section';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import { StateCode } from '@/types/stateCode';
 import { Divider } from '@/ui';
 import { useGetReservationDetail } from './api';
-import { ACCESS_TOKEN_COOKIE_NAME } from '@/auth/constant/cookie';
 import { useAuth } from '@/auth/hooks/useAuth';
 
 type PhotoFinalDetailPageProps = {
@@ -13,16 +18,23 @@ type PhotoFinalDetailPageProps = {
 };
 
 export default function Page({ reservationId }: PhotoFinalDetailPageProps) {
-  const hasAccessToken =
-    typeof document !== 'undefined' && document.cookie.includes(`${ACCESS_TOKEN_COOKIE_NAME}=`);
   const { isLogIn } = useAuth();
 
-  const { data: reservationData } = useGetReservationDetail(
+  const { data: reservationData, isPending } = useGetReservationDetail(
     Number(reservationId),
-    hasAccessToken && isLogIn === true,
+    isLogIn === true,
   );
 
-  if (!reservationData) return null; // 스켈레톤 넣기
+  if (isPending) {
+    return (
+      <div className='bg-black-3 flex min-h-dvh flex-col'>
+        <NavigationClient />
+        <SectionSkeleton />
+      </div>
+    );
+  }
+
+  if (!reservationData) return null;
 
   return (
     <div className='bg-black-3 flex min-h-dvh flex-col'>
