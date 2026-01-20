@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ConfirmModal } from '@/ui';
 import { cn } from '@/utils/cn';
+import { logoutApi } from '../../apis';
+import { deleteAccessToken } from '@/auth/token';
+import { deleteUserType } from '@/auth/userType';
 
 export default function Menus() {
   const router = useRouter();
@@ -19,10 +22,17 @@ export default function Menus() {
     handleModalOpen(true);
   };
 
-  const handleConfirm = () => {
-    //TODO: 로그아웃 처리
-    router.push('/');
-    handleModalOpen(false);
+  const handleConfirm = async () => {
+    try {
+      await logoutApi();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      deleteAccessToken();
+      deleteUserType();
+      router.push('/');
+      handleModalOpen(false);
+    }
   };
 
   return (
