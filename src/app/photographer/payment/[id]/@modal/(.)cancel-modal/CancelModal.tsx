@@ -1,12 +1,14 @@
 import { ConfirmModal } from '@/ui/modal';
 
 type CancelModalProps = {
+  title?: string;
   open: boolean;
   handleOpenChange: (open: boolean) => void;
   handleClickConfirm: () => void;
 };
 
 export default function CancelModal({
+  title,
   open,
   handleOpenChange,
   handleClickConfirm,
@@ -20,7 +22,7 @@ export default function CancelModal({
       open={open}
       handleOpenChange={handleOpenChange}
       showCloseButton={false}
-      title='추가 비용 작성을 그만둘까요?'
+      title={title ?? '추가 비용 작성을 그만둘까요?'}
       description='작성된 내용은 저장되지 않습니다.'
       buttons={[
         { label: '아니요', size: 'medium', color: 'disabled', onClick: handleClose },

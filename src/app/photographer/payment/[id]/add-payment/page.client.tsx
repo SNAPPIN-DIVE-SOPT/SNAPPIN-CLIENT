@@ -87,7 +87,7 @@ export default function AddPaymentPage() {
         />
       </div>
 
-      <BottomCTAButton className='px-[2rem] pb-[2rem]'>
+      <BottomCTAButton className='bg-black-1 fixed-center bottom-0' hasPadding>
         <BottomCTAButton.Single disabled={!isValid} onClick={handleSubmit}>
           추가하기
         </BottomCTAButton.Single>

@@ -15,5 +15,12 @@ export const useExtraPrices = () => {
     [setExtraPrices],
   );
 
-  return { extraPrices, addExtraPrice };
+  const resetExtraPrices = useCallback(
+    () => {
+      setExtraPrices([]);
+    },
+    [setExtraPrices],
+  );
+
+  return { extraPrices, addExtraPrice, resetExtraPrices };
 };

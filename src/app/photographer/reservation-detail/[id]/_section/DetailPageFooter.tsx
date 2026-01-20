@@ -103,7 +103,7 @@ export default function DetailPageFooter({
   const { label, disabled, onClick } = getButtonConfig();
 
   return (
-    <BottomCTAButton className='bg-black-1 fixed-center bottom-[2rem] px-[2rem]'>
+    <BottomCTAButton className='bg-black-1 fixed-center bottom-0' hasPadding>
       <BottomCTAButton.Single disabled={disabled} onClick={onClick}>
         {label}
       </BottomCTAButton.Single>

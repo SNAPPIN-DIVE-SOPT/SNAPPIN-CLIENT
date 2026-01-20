@@ -10,7 +10,7 @@ export const usePaymentSummary = (reservationId: number, basePrice: number) => {
   const [currentBasePrice, setCurrentBasePrice] = useState(basePrice);
 
   const router = useRouter();
-  const { extraPrices } = useExtraPrices();
+  const { extraPrices, resetExtraPrices } = useExtraPrices();
 
   const totalAmount = useMemo(
     () => extraPrices.reduce((acc, cur) => acc + cur.amount, currentBasePrice),
@@ -23,7 +23,7 @@ export const usePaymentSummary = (reservationId: number, basePrice: number) => {
 
   const requestPaymentMutation = useRequestPayment(reservationId);
   
-  const submitPayment = () => {
+  const handleSubmitPayment = () => {
     requestPaymentMutation.mutate({
         basePrice: currentBasePrice,
         extraPrices: extraPrices.map((extraPrice) => ({
@@ -32,9 +32,10 @@ export const usePaymentSummary = (reservationId: number, basePrice: number) => {
         })),
         totalPrice: totalAmount,
     });
-
+    
+    resetExtraPrices();
     router.replace(`/photographer/reservation-detail/${reservationId}`);
   };
 
-  return { extraPrices, totalAmount, submitPayment };
+  return { extraPrices, totalAmount, handleSubmitPayment, resetExtraPrices };
 };

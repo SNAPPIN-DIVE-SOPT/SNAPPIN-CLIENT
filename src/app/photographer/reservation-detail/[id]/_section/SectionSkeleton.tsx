@@ -6,7 +6,7 @@ export default function SectionSkeleton() {
     <div>
       <DetailLayout title='예약 상세'>
         <div className='flex flex-col gap-[1.5rem]'>
-          <ProductCardSkeleton />
+          <ProductCardSkeleton className='border-none py-0 px-0' />
           <div className='bg-black-3 h-[2.7rem] w-full' />
         </div>
       </DetailLayout>
