@@ -11,6 +11,7 @@ type ReservationCardProps = {
   reservationId: number;
   status: StateCode;
   date: string;
+  client: string;
 } & ProductCardProps;
 
 export default function ReservationCard({
@@ -21,7 +22,8 @@ export default function ReservationCard({
   rate,
   reviewCount,
   photographer,
-  price,
+  price,  
+  client,
   moods,
   date,
 }: ReservationCardProps) {
@@ -40,7 +42,7 @@ export default function ReservationCard({
             <div className='flex items-center gap-[0.8rem]'>
               <StateChip label={status} />
               <div className='flex items-center gap-[0.2rem]'>
-                <span className='font-16-bd'>{photographer}</span>
+                <span className='font-16-bd'>{client}</span>
                 <span className='font-16-md'>님</span>
               </div>
             </div>

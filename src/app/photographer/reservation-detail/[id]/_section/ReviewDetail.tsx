@@ -4,6 +4,7 @@ import { formatShortDate } from '@/utils/formatNumberWithComma';
 import { ReviewStar } from '@/ui';
 
 type ReviewDetailProps = {
+  reservationId: number;
   id: number;
   reviewer: string;
   rating: number;
@@ -13,6 +14,7 @@ type ReviewDetailProps = {
 };
 
 export default function ReviewDetail({
+  reservationId,
   id,
   reviewer,
   rating,
@@ -36,10 +38,10 @@ export default function ReviewDetail({
           {images.map((image) => (
             <Link
               key={image}
-              href={`/photographer/reservation-detail/${id}/photos`}
-              className='shrink-0'
+              href={`/photographer/reservation-detail/${reservationId}/photos/${id}`}
+              className='relative h-[14rem] w-[14rem] shrink-0'
             >
-              <Image src={image} alt={reviewer} width={140} height={140} className='object-cover' />
+              <Image src={image} alt={reviewer} fill className='object-cover' />
             </Link>
           ))}
         </div>

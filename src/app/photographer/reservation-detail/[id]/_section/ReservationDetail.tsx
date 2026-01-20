@@ -1,10 +1,6 @@
 import { StateCode } from '@/types/stateCode';
 import { DetailLayout, DetailRow } from '../components/detail-layout/DetailLayout';
-import {
-  formatCreatedAt,
-  formatDurationTime,
-  formatReservationDateTime,
-} from '@/utils/formatNumberWithComma';
+import { formatCreatedAt, formatReservationDateTime } from '@/utils/formatNumberWithComma';
 import { Divider } from '@/ui';
 
 type ReservationDetailProps = {
@@ -49,7 +45,7 @@ export default function ReservationDetail({
         value={formatReservationDateTime(date, startTime)}
         className='mt-[-0.5rem]'
       />
-      <DetailRow label='촬영 시간' value={formatDurationTime(durationTime)} />
+      <DetailRow label='촬영 시간' value={`${durationTime}시간`} />
       <DetailRow label='촬영 장소' value={place} />
       <DetailRow label='촬영 인원' value={`${peopleCount}인`} />
       <DetailRow label='기타 요청 사항' value={requestNoteText} />

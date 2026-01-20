@@ -2,7 +2,7 @@
 
 import { useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { BottomCTAButton, FieldMessage, Navigation, TextField } from '@/ui';
+import { BottomCTAButton, Navigation, TextField } from '@/ui';
 import { IconArrowBack, IconHome } from '@/assets';
 import { MAX_NAME_LENGTH, useAddPaymentForm } from './hooks/useAddPaymentForm';
 import { useExtraPrices } from '../hooks/useExtraPrices';
