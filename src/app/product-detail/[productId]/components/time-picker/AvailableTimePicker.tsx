@@ -14,18 +14,18 @@ export default function AvailableTimeSection({
   time,
   onChangeTime,
 }: AvailableTimeSectionProps) {
-  const { data: productAvailableTimesResponse } = useAvailableTimes(productId, date);
+  const { data } = useAvailableTimes(productId, date);
 
-  if (productAvailableTimesResponse?.times?.length === 0) return null;
+  if (data.sections?.length === 0) return null;
 
   return (
-    <BottomDrawer.Row className='flex flex-col gap-[1.2rem] px-[2rem] py-[2rem]'>
-      <BottomDrawer.Title>촬영 시작 시간을 선택해 주세요</BottomDrawer.Title>
+    <BottomDrawer.Row className='flex flex-col gap-[1.2rem]'>
       <TimePicker
-        sections={productAvailableTimesResponse?.times ?? []}
+        sections={data.sections ?? []}
         value={time ?? undefined}
         handleChange={onChangeTime}
       />
+      ;
     </BottomDrawer.Row>
   );
 }

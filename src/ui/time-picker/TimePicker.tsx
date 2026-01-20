@@ -1,9 +1,10 @@
 import TimeButton from './TimeButton';
 import type { TimeButtonState } from './constants/buttonState';
+import { ProductAvailableTimeSectionResponse } from '@/swagger-api/data-contracts';
 
 export type TimeSlot = {
   time: string;
-  disabled: boolean;
+  isAvailable: boolean;
 };
 
 export type TimeSlotSection = {
@@ -12,7 +13,7 @@ export type TimeSlotSection = {
 };
 
 type TimePickerProps = {
-  sections: TimeSlotSection[];
+  sections: ProductAvailableTimeSectionResponse[];
   value?: string;
   handleChange?: (time: string) => void;
 };
@@ -25,19 +26,19 @@ export default function TimePicker({ sections, value, handleChange }: TimePicker
   const getState = (time: string): TimeButtonState => (value === time ? 'selected' : 'default');
 
   return (
-    <div className='flex flex-col gap-[1.2rem] bg-black-1'>
+    <div className='bg-black-1 flex flex-col gap-[1.2rem]'>
       {sections.map((section) => (
         <section key={section.label} className='flex flex-col gap-[0.8rem]'>
-          <p className='caption-12-md text-black-8'>{section.label}</p>
+          <p className='caption-12-md text-black-8'>{section.label === 'am' ? '오전' : '오후'}</p>
 
           <div className='grid grid-cols-4 gap-[0.8rem]'>
-            {section.slots.map(({ time, disabled }) => (
+            {section.slots?.map(({ time, isAvailable }) => (
               <TimeButton
                 key={time}
-                time={time}
-                state={getState(time)}
-                disabled={disabled}
-                onClick={() => handleSelect(time)}
+                time={time ?? ''}
+                state={getState(time ?? '')}
+                disabled={isAvailable}
+                onClick={() => handleSelect(time ?? '')}
               />
             ))}
           </div>

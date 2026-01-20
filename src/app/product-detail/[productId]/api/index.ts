@@ -1,4 +1,10 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient, useSuspenseQuery, } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
@@ -11,6 +17,7 @@ import {
   GetProductDetailData,
   GetProductDetailResponse,
   GetProductReviewsData,
+  ProductAvailableTimesResponse,
   UpdateWishProductData,
   WishProductResponse,
 } from '@/swagger-api/data-contracts';
@@ -66,16 +73,41 @@ export const useClosedDates = (productId: string, date: Date) => {
  * @param productId 상품 아이디
  * @param date 조회할 날짜 (YYYY-MM-DD)
  */
+
 export const useAvailableTimes = (productId: string, date: string) => {
   const END_POINT = `/api/v1/products/${productId}/available/times?date=${date}`;
 
-  return useSuspenseQuery({
+  return useSuspenseQuery<ProductAvailableTimesResponse>({
     queryKey: ['productAvailableTimes', productId, date],
     queryFn: async () => {
-      return apiRequest<ApiResponseBodyProductAvailableTimesResponseVoid>({
+      const res = await apiRequest<ApiResponseBodyProductAvailableTimesResponseVoid>({
         endPoint: END_POINT,
         method: 'GET',
-      }).then((res) => res.data);
+      });
+
+      const rawSections = res.data?.sections ?? [];
+
+      const sections = rawSections
+        .filter((s): s is NonNullable<typeof s> => Boolean(s))
+        .map((section) => {
+          const label = section.label ?? '';
+
+          const slots = (section.slots ?? [])
+            .filter((slot): slot is NonNullable<typeof slot> => Boolean(slot))
+            .filter((slot) => Boolean(slot.time))
+            .map((slot) => ({
+              time: slot.time!,
+              disabled: !(slot.isAvailable ?? false),
+            }));
+
+          return { label, slots };
+        })
+        .filter((section) => section.label !== '' && section.slots.length > 0);
+
+      return {
+        date: res.data?.date ?? date,
+        sections,
+      };
     },
   });
 };
