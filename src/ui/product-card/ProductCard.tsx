@@ -3,6 +3,7 @@ import { cn } from '@/utils/cn';
 import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
 import { TagChip } from '@/ui/index';
 import { IconStar } from '@/assets';
+import productPlaceholder from '@/../public/imgs/image-default.png';
 
 export type ProductCardProps = {
   image: { src: string; alt?: string };
@@ -33,7 +34,7 @@ export default function ProductCard({
     >
       <div className='shrink-0 relative w-[10.2rem] h-[10.2rem]'>
         <Image
-          src={image.src}
+          src={image.src==='' ? productPlaceholder : image.src}
           alt={image.alt ?? `${name} 상품 이미지`}
           fill
         />

@@ -8,3 +8,4 @@ export const SNAP_CATEGORY = {
 } as const;
 
 export type SnapCategory = keyof typeof SNAP_CATEGORY;
+export type SnapCategoryLabel = typeof SNAP_CATEGORY[SnapCategory];
