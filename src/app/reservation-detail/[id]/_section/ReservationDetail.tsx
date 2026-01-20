@@ -10,7 +10,7 @@ type ReservationDetailProps = {
   durationTime?: number;
   place: string;
   peopleCount: number;
-  requestNote: string;
+  requestNote: string | null;
   createdAt: string;
 };
 
