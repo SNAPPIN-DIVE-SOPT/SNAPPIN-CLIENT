@@ -24,6 +24,12 @@ export const USER_QUERY_KEY = {
   WISHED_PORTFOLIOS: () => [...USER_QUERY_KEY.WISH, 'portfolios'],
   WISHED_PRODUCTS: () => [...USER_QUERY_KEY.WISH, 'products'],
 
+  // 작가
+  PHOTOGRAPHER: ['photographer'],
+  PHOTOGRAPHER_DETAIL: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id],
+  PHOTOGRAPHER_PRODUCTS: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id, 'products'],
+  PHOTOGRAPHER_PORTFOLIOS: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id, 'portfolios'],
+
   CATEGORIES: ['categories'],
     
   MOODS: ['moods'],
