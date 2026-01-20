@@ -1,6 +1,7 @@
 import { Divider } from '@/ui';
-import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
+import { formatPrice } from '@/utils/price';
 import { DetailRow } from '../components';
+import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
 
 type PaymentDetailProps = {
   basePrice: number;
@@ -24,19 +25,15 @@ export default function PaymentDetail({
             className='justify-between'
             valueClassName='caption-14-bd'
           />
-          {(extraPrices ?? []).length > 0 && (
-            <>
-              {(extraPrices ?? []).map(({ name, amount }, index) => (
-                <DetailRow
-                  key={`${name ?? 'extra'}-${index}`}
-                  label={name ?? `추가 비용 ${index + 1}`}
-                  value={`${formatNumberWithComma(amount ?? 0)}원`}
-                  className='justify-between'
-                  valueClassName='caption-14-bd'
-                />
-              ))}
-            </>
-          )}
+          {extraPrices?.map(({ name, amount }, index) => (
+            <DetailRow
+              key={`${name ?? 'extra'}-${index}`}
+              label={name ?? `추가 비용 ${index + 1}`}
+              value={`${formatPrice(amount ?? 0)}원`}
+              className='justify-between'
+              valueClassName='caption-14-bd'
+            />
+          ))}
           <Divider />
           <div className='flex items-center justify-between'>
             <div className='caption-14-bd'>최종 결제 금액</div>

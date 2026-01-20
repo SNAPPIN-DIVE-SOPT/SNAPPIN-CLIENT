@@ -1,8 +1,28 @@
-import { MOCK_PORTFOLIOS } from '@/app/(with-layout)/explore/mocks/portfolio';
-import { PortfolioList } from '@/ui';
+import dynamic from 'next/dynamic';
+import { useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { PortfolioListSkeleton } from '@/ui';
+import { useGetPortfolioList } from '@/app/(with-layout)/explore/api';
+import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
+
+const PortfolioList = dynamic(() => import('@/ui/portfolio-list/PortfolioList'), { ssr: false });
 
 export default function PortfolioListSection() {
-  const isPortfolioListEmpty = MOCK_PORTFOLIOS.length === 0;
+  const sq = useSearchParams();
+  const query = useGetPortfolioList(new URLSearchParams(sq.toString()));
+
+  const portfolios = useMemo(() => {
+    return query.data.pages.flatMap((page) => page.data?.portfolios ?? []);
+  }, [query.data.pages]);
+
+  const { sentinelRef } = useInfiniteScroll({
+    enabled: true,
+    hasNextPage: query.hasNextPage,
+    isFetchingNextPage: query.isFetchingNextPage,
+    onLoadMore: query.fetchNextPage,
+  });
+
+  const isPortfolioListEmpty = portfolios.length === 0;
 
   if (isPortfolioListEmpty)
     return (
@@ -14,7 +34,13 @@ export default function PortfolioListSection() {
 
   return (
     <section className='px-[1rem] py-[1rem]'>
-      <PortfolioList portfolioList={MOCK_PORTFOLIOS} />
+      <PortfolioList portfolioList={portfolios} />
+
+      {/* 다음 페이지 로딩 트리거 */}
+      <div ref={sentinelRef} className='h-[1px]' />
+
+      {/* 다음 페이지 로딩 중 표시(선택) */}
+      {query.isFetchingNextPage ? <PortfolioListSkeleton length={3} /> : null}
     </section>
   );
 }

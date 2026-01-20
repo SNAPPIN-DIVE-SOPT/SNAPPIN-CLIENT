@@ -5,6 +5,7 @@ import { ReviewStar } from '@/ui/review-star';
 
 type ReviewDetailProps = {
   id: number;
+  reviewId: number;
   reviewer: string;
   rating: number;
   createdAt: string;
@@ -14,6 +15,7 @@ type ReviewDetailProps = {
 
 export default function ReviewDetail({
   id,
+  reviewId,
   reviewer,
   rating,
   createdAt,
@@ -34,7 +36,7 @@ export default function ReviewDetail({
 
         <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
           {images.map((image) => (
-            <Link key={image} href={`/photo-final-detail/${id}/photos`} className='shrink-0'>
+            <Link key={image} href={`/photo-final-detail/${id}/photos/${reviewId}`} className='shrink-0 w-[14rem] h-[14rem]'>
               <Image src={image} alt={reviewer} width={140} height={140} className='object-cover' />
             </Link>
           ))}

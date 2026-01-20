@@ -1,30 +1,33 @@
-name: deploy
+name: Synchronize to forked repo
 
 on:
   push:
-    branches: ["main"]
+    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  sync:
+    name: Sync forked repo
     runs-on: ubuntu-latest
-    container: pandoc/latex
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
-      - name: creates output
-        run: sh ./build.sh
-      - name: Pushes to another repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.MY_TOKEN }}
+      - name: Checkout main
+        uses: actions/checkout@v4
         with:
-          source-directory: "output"
-          destination-github-username: hamxxn
-          destination-repository-name: SNAPPIN-CLIENT
-          user-email: ${{ secrets.EMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
-      - name: Test get variable exported by push-to-another-repository
-        run: echo $DESTINATION_CLONED_DIRECTORY
+          token: ${{ secrets.AUTO_ACTIONS }}
+          fetch-depth: 0
+          ref: main
+
+      - name: Add remote-url
+        run: |
+          git remote add forked-repo https://seunghye-rain:${{ secrets.AUTO_ACTIONS }}@github.com/seunghye-rain/SNAPPIN-CLIENT.git
+          git config user.name "seunghye-rain"
+          git config user.email ${{ secrets.EMAIL }}
+
+      - name: Push changes to forked-repo
+        run: git push -f forked-repo main
+
+      - name: Clean up
+        run: git remote remove forked-repo

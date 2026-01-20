@@ -1,8 +1,47 @@
-import { MOCK_PRODUCTS } from '@/app/(with-layout)/explore/mocks/product';
-import { ProductList } from '@/ui';
+import dynamic from 'next/dynamic';
+import { useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useGetProductList } from '@/app/(with-layout)/explore/api';
+import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
+import { ProductListSkeleton } from '@/ui';
+import { GetProductCardResponse } from '@/swagger-api/data-contracts';
+
+const ProductList = dynamic(() => import('@/ui/product-card/product-list/ProductList'), {
+  ssr: false,
+});
 
 export default function ProductListSection() {
-  const isProductListEmpty = MOCK_PRODUCTS.length === 0;
+  const sp = useSearchParams();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetProductList(
+    new URLSearchParams(sp.toString()),
+  );
+
+  const products = useMemo(
+    () =>
+      data.pages
+        .flatMap((p) => p.data?.products ?? [])
+        .filter((p): p is GetProductCardResponse & { id: number } => p.id != null)
+        .map((p) => ({
+          id: p.id,
+          photographer: p.photographer ?? '',
+          moods: p.moods ?? [],
+          rate: p.rate ?? 0,
+          reviewCount: p.reviewCount ?? 0,
+          price: p.price ?? 0,
+          title: p.title ?? '',
+          imageUrl: p.imageUrl ?? '',
+        })),
+    [data.pages],
+  );
+
+  const { sentinelRef } = useInfiniteScroll({
+    enabled: true,
+    hasNextPage,
+    isFetchingNextPage,
+    onLoadMore: () => fetchNextPage(),
+  });
+
+  const isProductListEmpty = products.length === 0;
 
   if (isProductListEmpty)
     return (
@@ -14,7 +53,9 @@ export default function ProductListSection() {
 
   return (
     <section>
-      <ProductList productList={MOCK_PRODUCTS} />
+      <ProductList productList={products} />
+      <div ref={sentinelRef} className='h-[1px]' />
+      {isFetchingNextPage && <ProductListSkeleton length={3} />}
     </section>
   );
 }

@@ -38,16 +38,17 @@ export default function ProductCarousel({ images, className }: ProductCarouselPr
   if (images.length === 0) return null;
 
   return (
-    <div className={cn('relative w-full aspect-square overflow-hidden', className)}>
+    <div className={cn('relative w-full aspect-[3/4] overflow-hidden', className)}>
       <Carousel setApi={setApi}>
         <CarouselContent>
           {images.map((img, idx) => (
             <CarouselItem key={`image-${img.src}-${idx}`}>
-              <div className={cn('relative w-full aspect-square overflow-hidden', className)}>
+              <div className={cn('relative w-full aspect-[3/4] overflow-hidden', className)}>
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
+                  className='object-cover'
                 />
               </div>
             </CarouselItem>

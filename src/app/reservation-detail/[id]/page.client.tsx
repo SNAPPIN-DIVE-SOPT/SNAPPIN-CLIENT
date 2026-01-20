@@ -9,32 +9,31 @@ import { STATE_LABEL } from '@/ui/chip/state-chip/constants/stateLabel';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
 import CancelModal from './@modal/(.)cancel-modal/CancelModal';
 import { useToast } from '@/ui/toast/hooks/useToast';
-import { ACCESS_TOKEN_COOKIE_NAME } from '@/auth/constant/cookie';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { useGetReservationDetail } from './api';
+import { useGetReservationDetail, useCancelReservation, useRequestPayment } from './api';
+import SectionSkeleton from './_section/SectionSkeleton';
 
 type ReservationDetailPageClientProps = {
   reservationId: string;
 };
 
 export default function PageClient({ reservationId }: ReservationDetailPageClientProps) {
-  const hasAccessToken =
-    typeof document !== 'undefined' && document.cookie.includes(`${ACCESS_TOKEN_COOKIE_NAME}=`);
   const { isLogIn } = useAuth();
+  const parsedReservationId = Number(reservationId);
 
-  const { data: reservationData } = useGetReservationDetail(
-    Number(reservationId),
-    hasAccessToken && isLogIn === true,
+  const { data: reservationData, isPending } = useGetReservationDetail(
+    parsedReservationId,
+    isLogIn === true,
   );
+
+  const { mutate: cancelReservationMutation } = useCancelReservation();
+  const { mutate: requestPaymentMutation } = useRequestPayment();
 
   const [cancelOpen, setCancelOpen] = useState(false);
+  const [reservationStatus, setReservationStatus] = useState<StateCode>();
+  const [previousStatus, setPreviousStatus] = useState<StateCode>();
 
   const toast = useToast();
-
-  // TODO: 예약 상태 변경 API 연동 후 상태 관리 로직 수정 필요
-  const [reservationStatus, setReservationStatus] = useState<StateCode>(
-    reservationData?.status as StateCode,
-  );
 
   const normalizeStatus = (status?: string): StateCode => {
     const code = status as StateCode;
@@ -43,7 +42,16 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     return hasTheme && hasLabel ? code : STATE_CODES.RESERVATION_REQUESTED;
   };
 
-  const status = normalizeStatus(reservationData?.status);
+  const status = normalizeStatus(reservationStatus ?? reservationData?.status);
+
+  const previousComputedStatus =
+    previousStatus ?? (reservationData?.status as StateCode | undefined);
+
+  // 이전 상태가 예약 요청 또는 작가 확인일 때 취소된 상태인지 확인
+  const isCanceledFrom =
+    status === STATE_CODES.RESERVATION_CANCELED &&
+    (previousComputedStatus === STATE_CODES.RESERVATION_REQUESTED ||
+      previousComputedStatus === STATE_CODES.PHOTOGRAPHER_CHECKING);
 
   const hasTopActionButtons =
     status === STATE_CODES.RESERVATION_REQUESTED || status === STATE_CODES.PHOTOGRAPHER_CHECKING;
@@ -54,21 +62,35 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     status === STATE_CODES.RESERVATION_CANCELED ||
     status === STATE_CODES.RESERVATION_REFUSED;
 
-  const hasPaymentDetailSection = !hasTopActionButtons;
+  const hasPaymentDetailSection = !hasTopActionButtons && !isCanceledFrom;
 
   const handleReservationCancelClick = () => {
     setCancelOpen(true);
   };
 
   const handleReservationCancel = () => {
-    setReservationStatus(STATE_CODES.RESERVATION_CANCELED);
-    setCancelOpen(false);
-    // TODO: API 호출 로직 추가
+    cancelReservationMutation(parsedReservationId, {
+      onSuccess: (cancelResponse) => {
+        setPreviousStatus(status);
+        setReservationStatus(cancelResponse.status as StateCode);
+        setCancelOpen(false);
+      },
+      onError: () => {
+        toast.error('예약 취소 중 오류가 발생했습니다. 다시 시도해주세요.');
+      },
+    });
   };
 
   const handlePaymentConfirmClick = () => {
-    setReservationStatus(STATE_CODES.PAYMENT_COMPLETED);
-    // TODO: API 호출 로직 추가
+    requestPaymentMutation(parsedReservationId, {
+      onSuccess: (paymentResponse) => {
+        setPreviousStatus(status);
+        setReservationStatus(paymentResponse.status as StateCode);
+      },
+      onError: () => {
+        toast.error('결제 요청 중 오류가 발생했습니다. 다시 시도해주세요.');
+      },
+    });
   };
 
   const handleInquiryClick = () => {
@@ -78,6 +100,15 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
       hasBottomCta ? 'bottom-[8.4rem]' : 'bottom-[2rem]',
     );
   };
+
+  if (isPending) {
+    return (
+      <div className='bg-black-1 flex min-h-dvh flex-col'>
+        <ClientNavigation title='예약 상세' />
+        <SectionSkeleton />
+      </div>
+    );
+  }
 
   return (
     <>

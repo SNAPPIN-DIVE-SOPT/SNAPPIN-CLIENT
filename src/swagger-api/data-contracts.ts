@@ -419,6 +419,8 @@ export interface CreateKakaoLoginResponse {
   isNew?: boolean;
   /** 인증 시 필요한 accessToken입니다. refreshToken은 쿠키로 내려드립니다. */
   accessToken?: string;
+  /** 현재 로그인한 유저 역할 */
+  role?: string;
 }
 
 /** 공통 응답 DTO */
@@ -447,6 +449,8 @@ export interface ApiResponseBodyGetSwitchedUserProfileResponseVoid {
 export interface GetSwitchedUserProfileResponse {
   /** 새로 발급된 AccessToken */
   accessToken?: string;
+  /** 전환된 유저 역할 */
+  role?: string;
 }
 
 /** 촬영 추가 비용 DTO */
@@ -1433,8 +1437,8 @@ export interface GetProductDetailResponse {
    * @format int32
    */
   price?: number;
-  /** 작가 정보 응답 DTO */
-  photographerInfo?: GetPhotographerInfoResponse;
+  /** 상품 조회 시 작가 응답 DTO */
+  photographerInfo?: GetProductPhotographerInfoResponse;
   /** 상품 안내 정보 응답 DTO */
   productInfo?: GetProductInfoResponse;
 }
@@ -1477,6 +1481,23 @@ export interface GetProductInfoResponse {
   equipment?: string;
   /** 기타 주의 사항 */
   caution?: string;
+}
+
+/** 상품 조회 시 작가 응답 DTO */
+export interface GetProductPhotographerInfoResponse {
+  /**
+   * 작가 ID
+   * @format int64
+   */
+  id?: number;
+  /** 작가 이름 */
+  name?: string;
+  /** 한줄 소개 */
+  bio?: string;
+  /** 촬영 상품 (전문 스냅 유형) */
+  specialties?: string[];
+  /** 활동 지역 */
+  locations?: string[];
 }
 
 /** 공통 응답 DTO */

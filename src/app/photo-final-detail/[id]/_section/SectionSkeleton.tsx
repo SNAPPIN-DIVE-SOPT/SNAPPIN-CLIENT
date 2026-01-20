@@ -4,12 +4,13 @@ import { DetailLayout } from '../components/detail-layout/DetailLayout';
 export default function SectionSkeleton() {
   return (
     <div>
-      <DetailLayout title='예약 상세'>
-        <div className='flex flex-col gap-[1.5rem]'>
-          <ProductCardSkeleton />
+      <div className='bg-black-1 flex flex-col px-[2rem] pt-[1.7rem] pb-[1.2rem]'>
+        <span className='caption-14-md'>예약 요청 상품</span>
+        <div className='flex flex-col'>
+          <ProductCardSkeleton className='-mx-[1.6rem]' />
           <div className='bg-black-3 h-[2.7rem] w-full' />
         </div>
-      </DetailLayout>
+      </div>
       <Divider thickness='large' color='bg-black-3' />
       <DetailLayout title='예약 상세'>
         <div className='flex flex-col gap-[1.5rem]'>
