@@ -26,12 +26,13 @@ import AvailableTimeSection from '@/app/product-detail/[productId]/components/ti
 import { ProductReservationRequest } from '@/swagger-api/data-contracts';
 import { useSearchPlaces } from '@/app/(with-layout)/explore/api';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
-import { useToast } from '@/ui/toast/hooks/useToast';
 
 type ReservationBottomDrawerProps = {
   isOpen: boolean;
   productId: string;
   amount: number;
+  draft: ReservationDraft;
+  setDraftAction: React.Dispatch<React.SetStateAction<ReservationDraft>>;
   handleOpenChangeAction: () => void;
   onSuccessReservationAction?: () => void;
 };
@@ -45,6 +46,8 @@ export default function ReservationBottomDrawer({
   isOpen,
   productId,
   amount,
+  draft: { date, time, durationHours, participantCount, place, request, placeId },
+  setDraftAction,
   handleOpenChangeAction,
   onSuccessReservationAction,
 }: ReservationBottomDrawerProps) {
@@ -58,26 +61,16 @@ export default function ReservationBottomDrawer({
   const { data: closedDates } = useClosedDates(productId, viewMonth);
   const { data: minAvailableTime } = useAvailableTime(productId);
 
-  const [draft, setDraft] = useState<ReservationDraft>({
-    date: null,
-    time: null,
-    durationHours: minAvailableTime,
-    participantCount: 1,
-    placeId: null,
-    place: '',
-    request: '',
-  });
-
-  const { date, time, durationHours, place, participantCount, request } = draft;
-
   const debouncedPlaceKeyword = useDebouncedValue(placeKeyword, 300);
   const { data: places } = useSearchPlaces(debouncedPlaceKeyword ?? '');
 
   const minParticipantCount = peopleRange?.minPeople ?? 1;
   const maxParticipantCount = peopleRange?.maxPeople ?? 10;
-  const isButtonDisabled = !date || !time || !draft.placeId;
+  const isButtonDisabled = !date || !time || !placeId;
 
-  const formattedTime = `${durationHours}시간`;
+  const effectiveDurationHours = durationHours ?? minAvailableTime ?? 1;
+  const formattedTime = `${effectiveDurationHours}시간`;
+
   const formattedCount = `${participantCount}명`;
   const requestLength = request.length;
   const isRequestTextareaError = requestLength > REQUEST_TEXTAREA_MAX_LENGTH;
@@ -98,17 +91,24 @@ export default function ReservationBottomDrawer({
     }
   };
 
+  const handlePlaceBlur = () => {
+    if (!placeId) {
+      setPlaceKeyword('');
+      patch({ place: '', placeId: null });
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!date || !time || !participantCount || !durationHours) return;
-    if (!draft.placeId) return;
+    if (!placeId) return;
 
     const requestBody: ProductReservationRequest = {
       date,
       durationTime: durationHours,
       startTime: time,
       peopleCount: participantCount,
-      placeId: draft.placeId,
+      placeId: placeId,
       requestNote: request,
     };
 
@@ -120,22 +120,22 @@ export default function ReservationBottomDrawer({
     });
   };
 
-  const patch = (p: Partial<ReservationDraft>) => setDraft((prev) => ({ ...prev, ...p }));
+  const patch = (p: Partial<ReservationDraft>) => setDraftAction((prev) => ({ ...prev, ...p }));
 
   const decreaseDurationHours = () =>
-    setDraft((prev) => ({
+    setDraftAction((prev) => ({
       ...prev,
-      durationHours: Math.max(minAvailableTime ?? 1, prev.durationHours - DURATION_HOURS_STEP),
+      durationHours: Math.max(minAvailableTime ?? 1, prev.durationHours! - DURATION_HOURS_STEP),
     }));
 
   const increaseDurationHours = () =>
-    setDraft((prev) => ({
+    setDraftAction((prev) => ({
       ...prev,
-      durationHours: Math.min(MAX_DURATION_HOURS, prev.durationHours + DURATION_HOURS_STEP),
+      durationHours: Math.min(MAX_DURATION_HOURS, prev.durationHours! + DURATION_HOURS_STEP),
     }));
 
   const decreaseParticipant = () =>
-    setDraft((prev) => ({
+    setDraftAction((prev) => ({
       ...prev,
       participantCount: Math.max(
         minParticipantCount,
@@ -144,7 +144,7 @@ export default function ReservationBottomDrawer({
     }));
 
   const increaseParticipant = () =>
-    setDraft((prev) => ({
+    setDraftAction((prev) => ({
       ...prev,
       participantCount: Math.min(
         maxParticipantCount,
@@ -164,6 +164,15 @@ export default function ReservationBottomDrawer({
     return () => cancelAnimationFrame(rafId);
   }, [date]);
 
+  useEffect(() => {
+    if (minAvailableTime == null) return;
+
+    setDraftAction((prev) => {
+      if (prev.durationHours != null) return prev;
+      return { ...prev, durationHours: minAvailableTime };
+    });
+  }, [minAvailableTime, setDraftAction]);
+
   if (isError) {
     return;
   }
@@ -175,7 +184,7 @@ export default function ReservationBottomDrawer({
       className='max-h-[92dvh]!'
     >
       {/* 접근성 위한 title & description (숨김처리) */}
-      <DrawerTitle className='sr-only'>예약 정보 ㅌ입력</DrawerTitle>
+      <DrawerTitle className='sr-only'>예약 정보 입력</DrawerTitle>
       <DrawerDescription className='sr-only'>
         예약 날짜, 시간, 촬영 시간, 촬영 인원, 장소와 요청 사항을 입력하는 화면입니다.
       </DrawerDescription>
@@ -238,8 +247,8 @@ export default function ReservationBottomDrawer({
                 value={formattedTime}
                 handleClickMinus={decreaseDurationHours}
                 handleClickAdd={increaseDurationHours}
-                isDisabledMinus={durationHours <= (minAvailableTime ?? 1)}
-                isDisabledAdd={durationHours >= MAX_DURATION_HOURS}
+                isDisabledMinus={durationHours! <= (minAvailableTime ?? 1)}
+                isDisabledAdd={durationHours! >= MAX_DURATION_HOURS}
               />
             }
           />
@@ -258,6 +267,7 @@ export default function ReservationBottomDrawer({
                 onChange={handlePlaceChange}
                 options={(places ?? []).map((item) => item.name ?? '').filter(Boolean)}
                 placeholder='작가님의 활동 지역 내 장소만 검색할 수 있어요'
+                onBlur={handlePlaceBlur}
               />
             }
           />

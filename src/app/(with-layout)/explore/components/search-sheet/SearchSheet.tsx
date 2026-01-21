@@ -31,6 +31,8 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const initialPlaceName = searchParams.get('placeName') ?? '';
+  const [placeKeyword, setPlaceKeyword] = useState(initialPlaceName);
 
   const {
     searchDraft,
@@ -46,7 +48,6 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   const didInitRef = useRef(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  const [placeKeyword, setPlaceKeyword] = useState('');
   const debouncedPlaceKeyword = useDebouncedValue(placeKeyword, 300);
   const { data: places } = useSearchPlaces(debouncedPlaceKeyword);
   const placeNameToId = new Map(
@@ -60,6 +61,14 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
 
   const handleFieldClick = (category: SearchField) => {
     setCurrentField(category);
+  };
+
+  const handleDateChange = (nextDate: string) => {
+    if (date === nextDate) {
+      setDate(null);
+      return;
+    }
+    setDate(nextDate);
   };
 
   const handlePlaceKeywordChange = (next: string) => {
@@ -96,6 +105,18 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
     onOpenChange();
   };
 
+  const handlePlaceBlur = () => {
+    if (!searchDraft.placeId) {
+      setPlaceKeyword('');
+      setPlaceId('');
+    }
+  };
+
+  useEffect(() => {
+    if (!open) return;
+    setPlaceKeyword(searchParams.get('placeName') ?? '');
+  }, [open]);
+
   useEffect(() => {
     if (!open) {
       didInitRef.current = false;
@@ -112,7 +133,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
     setPlaceId(placeId);
     setDate(date);
     setPeopleCount(peopleCount ?? 0);
-  }, [open, searchParams, setCategory, setDate, setPeopleCount, setPlaceId]);
+  }, [open, searchParams, setCategory, setDate, setPeopleCount, setPlaceId, setPlaceKeyword]);
 
   return (
     <ControlSheet
@@ -162,6 +183,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
             value={placeKeyword}
             options={(places ?? []).map((item) => item.name ?? '').filter(Boolean)}
             onChange={handlePlaceKeywordChange}
+            onBlur={handlePlaceBlur}
           />
         </ControlSheet.Field>
 
@@ -176,7 +198,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
             viewDateMonth={currentMonth}
             handleMonthChangeAction={setCurrentMonth}
             selectedDate={date ?? ''}
-            handleDateChangeAction={setDate}
+            handleDateChangeAction={handleDateChange}
           />
         </ControlSheet.Field>
 
