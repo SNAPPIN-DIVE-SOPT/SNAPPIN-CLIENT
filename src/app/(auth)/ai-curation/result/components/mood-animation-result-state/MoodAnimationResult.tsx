@@ -26,7 +26,7 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
   const [phase, setPhase] = useState<Phase>('intro');
 
   const handleGoToSnap = () => {
-    router.push('/ai-curation');
+    router.push('/explore');
   };
 
   const handleGoHome = () => {
