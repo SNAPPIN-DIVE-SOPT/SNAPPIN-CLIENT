@@ -12,7 +12,7 @@ type StepLayoutProps = {
 
 export default function StepLayout({ question, photos }: StepLayoutProps) {
   return (
-    <div className='flex flex-col gap-[2.2rem]'>
+    <div className='flex flex-col gap-[4.2rem]'>
       <div className='flex flex-col gap-[0.9rem] pt-[3.5rem]'>
         <h1 className='title-20-bd text-neon-black'>
           {question?.step ? padNumber(question.step) : ''}
