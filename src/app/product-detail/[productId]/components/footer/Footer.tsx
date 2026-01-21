@@ -4,6 +4,8 @@ import { useAuth } from '@/auth/hooks/useAuth';
 import { overlay } from 'overlay-kit';
 import ReservationBottomDrawer from '@/app/product-detail/[productId]/components/reservation-bottom-drawer/ReservationBottomDrawer';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { ReservationDraft } from '@/app/product-detail/[productId]/types/reservation';
 
 type FooterProps = {
   productId: string;
@@ -14,6 +16,18 @@ export default function Footer({ productId, amount }: FooterProps) {
   const router = useRouter();
   const { isLogIn } = useAuth();
   const { alert, login } = useToast();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [draft, setDraft] = useState<ReservationDraft>({
+    date: null,
+    time: null,
+    durationHours: null,
+    participantCount: 1,
+    placeId: null,
+    place: '',
+    request: '',
+  });
+
   const toastStyle = 'px-[2rem] bottom-[8.4rem]';
 
   const handleContact = () => {
@@ -24,18 +38,42 @@ export default function Footer({ productId, amount }: FooterProps) {
     }
   };
 
-  const handleReservation = () => {
+  const close = () => setIsOpen(false);
+
+  const handleOpenDrawer = () => {
     if (!isLogIn) {
       login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, toastStyle);
       return;
     }
+    setIsOpen(true);
+  };
 
-    overlay.open(({ isOpen, close }) => (
+  return (
+    <>
+      <BottomCTAButton
+        className='bg-black-1 bottom-0 w-full max-w-[45rem] px-[2rem] pt-[0.8rem] pb-[2.4rem]'
+        fixed={true}
+      >
+        <BottomCTAButton.Double
+          leftButton={
+            <Button color='white' size='medium' onClick={handleContact}>
+              문의하기
+            </Button>
+          }
+          rightButton={
+            <Button color='black' size='medium' onClick={handleOpenDrawer}>
+              예약하기
+            </Button>
+          }
+        />
+      </BottomCTAButton>
       <ReservationBottomDrawer
         isOpen={isOpen}
         productId={productId}
         amount={amount}
-        handleOpenChangeAction={() => close()} // ✅ close를 함수로 넘기기
+        draft={draft}
+        setDraftAction={setDraft}
+        handleOpenChangeAction={() => close()}
         onSuccessReservationAction={() => {
           overlay.open(({ isOpen, close }) => (
             <ResultModal
@@ -63,28 +101,6 @@ export default function Footer({ productId, amount }: FooterProps) {
           ));
         }}
       />
-    ));
-  };
-
-  return (
-    <>
-      <BottomCTAButton
-        className='bg-black-1 bottom-0 w-full max-w-[45rem] px-[2rem] pt-[0.8rem] pb-[2.4rem]'
-        fixed={true}
-      >
-        <BottomCTAButton.Double
-          leftButton={
-            <Button color='white' size='medium' onClick={handleContact}>
-              문의하기
-            </Button>
-          }
-          rightButton={
-            <Button color='black' size='medium' onClick={handleReservation}>
-              예약하기
-            </Button>
-          }
-        />
-      </BottomCTAButton>
     </>
   );
 }
