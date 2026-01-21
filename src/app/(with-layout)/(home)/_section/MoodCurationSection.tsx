@@ -7,11 +7,13 @@ import { SectionHeader } from '../components';
 import { useGetPopularPortfoliosRecommendation, useGetPortfoliosRecommendation } from '../api';
 import { GetPortfolioResponse } from '@/swagger-api/data-contracts';
 import Link from 'next/link';
+import { useGetUserInfo } from '@/auth/apis';
 
 export default function MoodCurationSection() {
   const { isLogIn } = useAuth();
+  const { data: userInfo } = useGetUserInfo();
   //TODO: 로그인 시 사용자 이름 조회 후 사용
-  const userName="gkals"
+  const userName=userInfo?.clientInfo?.name ?? "snappin 고객";
   const { data } = useGetPortfoliosRecommendation(isLogIn ?? false);
   const { data: popularPortfolios } = useGetPopularPortfoliosRecommendation(!isLogIn);
 
