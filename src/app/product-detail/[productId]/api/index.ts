@@ -28,7 +28,7 @@ import { ApiError } from 'next/dist/server/api-utils';
 export const useAvailableTime = (productId: string) => {
   const END_POINT = `/api/v1/products/${productId}/available/duration-time`;
   return useSuspenseQuery({
-    queryKey: ['availableTime', productId],
+    queryKey: USER_QUERY_KEY.PRODUCT_AVAILABLE_DURATION_TIME(productId),
     queryFn: async () => {
       return await apiRequest<ApiResponseBodyProductDurationTimeResponseVoid>({
         endPoint: END_POINT,
@@ -47,7 +47,7 @@ export const useAvailablePeopleRange = (productId: string) => {
   const END_POINT = `/api/v1/products/${productId}/available/people-range`;
 
   return useSuspenseQuery({
-    queryKey: ['availablePeopleRange', productId],
+    queryKey: USER_QUERY_KEY.PRODUCT_AVAILABLE_PEOPLE_RANGE(productId),
     queryFn: async () => {
       return await apiRequest<ApiResponseBodyProductPeopleRangeResponseVoid>({
         endPoint: END_POINT,
@@ -71,7 +71,7 @@ export const useClosedDates = (productId: string, date: Date) => {
   const END_POINT = `/api/v1/products/${productId}/closed-dates?date=${formatDate}`;
 
   return useSuspenseQuery<string[]>({
-    queryKey: ['closedDates', productId, formatDate],
+    queryKey: USER_QUERY_KEY.PRODUCT_CLOSE_DATES(productId, formatDate),
     queryFn: async () => {
       return await apiRequest<ApiResponseBodyProductClosedDatesResponseVoid>({
         endPoint: END_POINT,
@@ -93,7 +93,7 @@ export const useAvailableTimes = (productId: string, date: string) => {
   const END_POINT = `/api/v1/products/${productId}/available/times?date=${date}`;
 
   return useSuspenseQuery({
-    queryKey: ['productAvailableTimes', productId, date],
+    queryKey: USER_QUERY_KEY.PRODUCT_AVAILABLE_TIME(productId, date),
     queryFn: async () => {
       const res = await apiRequest<ApiResponseBodyProductAvailableTimesResponseVoid>({
         endPoint: END_POINT,
@@ -110,7 +110,6 @@ export const useReservation = (productId: string) => {
   const END_POINT = `/api/v1/products/${productId}/reservations`;
 
   return useMutation({
-    mutationKey: ['reservation', productId],
     mutationFn: async (body: ProductReservationRequest) => {
       const res = await apiRequest<ApiResponseBodyProductReservationResponseVoid>({
         endPoint: END_POINT,

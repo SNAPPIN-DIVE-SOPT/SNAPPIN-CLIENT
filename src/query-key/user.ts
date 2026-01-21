@@ -68,6 +68,20 @@ export const USER_QUERY_KEY = {
   PRODUCT_PORTFOLIOS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'portfolios'],
   PRODUCT_REVIEWS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'reviews'],
   PRODUCT_LIST: (query: string) => [...USER_QUERY_KEY.PRODUCT, 'list', query],
+  PRODUCT_AVAILABLE_TIME: (id: string, date: string) => [
+    ...USER_QUERY_KEY.PRODUCT,
+    id,
+    date,
+    'available-time',
+  ],
+  PRODUCT_AVAILABLE_PEOPLE_RANGE: (id: string) => [...USER_QUERY_KEY.PRODUCT, id, 'people-range'],
+  PRODUCT_AVAILABLE_DURATION_TIME: (id: string) => [...USER_QUERY_KEY.PRODUCT, id, 'duration-time'],
+  PRODUCT_CLOSE_DATES: (id: string, formatDate: string) => [
+    ...USER_QUERY_KEY.PRODUCT,
+    id,
+    formatDate,
+    'close-dates',
+  ],
 
   // 리뷰
   REVIEW: ['review'],
