@@ -37,7 +37,7 @@ export default function TimePicker({ sections, value, handleChange }: TimePicker
                 key={time}
                 time={time ?? ''}
                 state={getState(time ?? '')}
-                disabled={isAvailable}
+                isAvailable={isAvailable}
                 onClick={() => handleSelect(time ?? '')}
               />
             ))}
