@@ -13,6 +13,7 @@ type ComboBoxProps = {
   inputClassName?: string;
   optionClassName?: string;
   optionWrapperClassName?: string;
+  onBlur?: () => void;
 };
 
 export default function ComboBox({
@@ -20,6 +21,7 @@ export default function ComboBox({
   placeholder = '검색어를 입력해주세요',
   value,
   onChange,
+  onBlur,
   inputClassName,
   optionClassName,
   optionWrapperClassName,
@@ -59,7 +61,16 @@ export default function ComboBox({
   };
 
   return (
-    <div ref={rootRef} className='relative w-full'>
+    <div
+      ref={rootRef}
+      className='relative w-full'
+      onBlurCapture={(e) => {
+        if (!rootRef.current?.contains(e.relatedTarget as Node)) {
+          setIsOpen(false);
+          onBlur?.();
+        }
+      }}
+    >
       <Command className='h-[4.2rem] w-full'>
         <Input
           placeholder={placeholder}
