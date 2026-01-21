@@ -4,5 +4,6 @@ export type ReservationDraft = {
   participantCount: number;
   durationHours: number;
   place: string;
+  placeId: number | null;
   request: string;
 };
