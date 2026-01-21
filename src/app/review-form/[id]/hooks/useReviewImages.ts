@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useImageUpload } from '../api';
 
 type Image = {
@@ -75,10 +75,27 @@ export const useReviewImages = () => {
     );
   };
 
+  const useAutoScrollReviewImages = (imageCount: number) => {
+    useEffect(() => {
+      if (imageCount < 1) return;
+
+      const element = document.getElementById('review-image-list');
+      if (!element) return;
+
+      requestAnimationFrame(() => {
+        element.scrollTo({ left: element.scrollWidth, behavior: 'smooth' });
+        const { top } = element.getBoundingClientRect();
+        const targetTop = top + window.scrollY - 50;
+        window.scrollTo({ top: targetTop, behavior: 'smooth' });
+      });
+    }, [imageCount]);
+  };
+
   return {
     images,
     updateImage,
     removeImageByPreview,
     uploadImages,
+    useAutoScrollReviewImages,
   };
 };

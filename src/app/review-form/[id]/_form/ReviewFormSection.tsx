@@ -31,10 +31,12 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
     handleSubmitForm,
   } = useReviewWrite();
 
-  const { images, updateImage, removeImageByPreview, uploadImages } = useReviewImages();
+  const { images, updateImage, removeImageByPreview, uploadImages, useAutoScrollReviewImages } =
+    useReviewImages();
 
   const { mutateAsync: submitReview } = useSubmitReview();
   const router = useRouter();
+  useAutoScrollReviewImages(images.length);
 
   // 이미지 등록
   const handleUploadAction = (fileList: FileList) => {
@@ -121,7 +123,10 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
 
         <section className='mt-[1.2rem] flex flex-col gap-[1.2rem] px-[2rem]'>
           {images.length > 0 && (
-            <div className='scrollbar-hide -mr-[1.4rem] flex gap-[0.8rem] overflow-x-auto pr-[2rem]'>
+            <div
+              className='scrollbar-hide -mr-[1.4rem] flex gap-[0.8rem] overflow-x-auto pr-[2rem]'
+              id='review-image-list'
+            >
               {images.map(({ preview }) => (
                 <ImagePreview
                   key={preview}
