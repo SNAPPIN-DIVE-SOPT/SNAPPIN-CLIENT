@@ -34,6 +34,7 @@ import {
   GetProductAvailableTimesData,
   GetProductClosedDatesData,
   GetProductDetailData,
+  GetProductDurationTimeData,
   GetProductListData,
   GetProductListQuery,
   GetProductPeopleRangeData,
@@ -721,6 +722,23 @@ export class Api<
   getProductPeopleRange = (productId: string, params: RequestParams = {}) =>
     this.request<GetProductPeopleRangeData, any>({
       path: `/api/v1/products/${productId}/available/people-range`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 예약 과정에서 상품의 촬영 시간을 조회합니다.
+   *
+   * @tags 06 - Product
+   * @name GetProductDurationTime
+   * @summary 촬영 시간 조회
+   * @request GET:/api/v1/products/{productId}/available/duration-time
+   * @secure
+   * @response `200` `GetProductDurationTimeData` OK
+   */
+  getProductDurationTime = (productId: string, params: RequestParams = {}) =>
+    this.request<GetProductDurationTimeData, any>({
+      path: `/api/v1/products/${productId}/available/duration-time`,
       method: "GET",
       secure: true,
       ...params,

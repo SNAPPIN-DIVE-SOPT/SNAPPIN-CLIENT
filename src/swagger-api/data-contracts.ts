@@ -188,21 +188,6 @@ export interface CreateReservationReviewResponse {
   reservationId?: number;
 }
 
-/**
- * 촬영 시작 시간
- * @example "10:00"
- */
-export interface LocalTime {
-  /** @format int32 */
-  hour?: number;
-  /** @format int32 */
-  minute?: number;
-  /** @format int32 */
-  second?: number;
-  /** @format int32 */
-  nano?: number;
-}
-
 /** 상품 예약 요청 DTO */
 export interface ProductReservationRequest {
   /**
@@ -211,8 +196,12 @@ export interface ProductReservationRequest {
    * @example "2026-03-15"
    */
   date: string;
-  /** 촬영 시작 시간 */
-  startTime: LocalTime;
+  /**
+   * 촬영 시작 시간
+   * @format time
+   * @example "10:00"
+   */
+  startTime: string;
   /**
    * 촬영 시간 (0.5시간 단위)
    * @format double
@@ -419,6 +408,8 @@ export interface CreateKakaoLoginResponse {
   isNew?: boolean;
   /** 인증 시 필요한 accessToken입니다. refreshToken은 쿠키로 내려드립니다. */
   accessToken?: string;
+  /** 현재 로그인한 유저 역할 */
+  role?: string;
 }
 
 /** 공통 응답 DTO */
@@ -447,6 +438,8 @@ export interface ApiResponseBodyGetSwitchedUserProfileResponseVoid {
 export interface GetSwitchedUserProfileResponse {
   /** 새로 발급된 AccessToken */
   accessToken?: string;
+  /** 전환된 유저 역할 */
+  role?: string;
 }
 
 /** 촬영 추가 비용 DTO */
@@ -1433,8 +1426,8 @@ export interface GetProductDetailResponse {
    * @format int32
    */
   price?: number;
-  /** 작가 정보 응답 DTO */
-  photographerInfo?: GetPhotographerInfoResponse;
+  /** 상품 조회 시 작가 응답 DTO */
+  photographerInfo?: GetProductPhotographerInfoResponse;
   /** 상품 안내 정보 응답 DTO */
   productInfo?: GetProductInfoResponse;
 }
@@ -1477,6 +1470,23 @@ export interface GetProductInfoResponse {
   equipment?: string;
   /** 기타 주의 사항 */
   caution?: string;
+}
+
+/** 상품 조회 시 작가 응답 DTO */
+export interface GetProductPhotographerInfoResponse {
+  /**
+   * 작가 ID
+   * @format int64
+   */
+  id?: number;
+  /** 작가 이름 */
+  name?: string;
+  /** 한줄 소개 */
+  bio?: string;
+  /** 촬영 상품 (전문 스냅 유형) */
+  specialties?: string[];
+  /** 활동 지역 */
+  locations?: string[];
 }
 
 /** 공통 응답 DTO */
@@ -1603,7 +1613,7 @@ export interface ApiResponseBodyProductAvailableTimesResponseVoid {
    * @example "TIC_200_001"
    */
   code?: string;
-  /** 상품 예약 가능 시간대 목록 응답 DTO */
+  /** 상품 예약 가능 시간대 응답 DTO */
   data?: ProductAvailableTimesResponse;
   /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
   meta?: object;
@@ -1623,15 +1633,26 @@ export interface ProductAvailableTimeResponse {
   isAvailable?: boolean;
 }
 
-/** 상품 예약 가능 시간대 목록 응답 DTO */
+/** 오전/오후 시간대 섹션 DTO */
+export interface ProductAvailableTimeSectionResponse {
+  /**
+   * 시간대 구분
+   * @example "am"
+   */
+  label?: string;
+  /** 해당 시간대 슬롯 목록 */
+  slots?: ProductAvailableTimeResponse[];
+}
+
+/** 상품 예약 가능 시간대 응답 DTO */
 export interface ProductAvailableTimesResponse {
   /**
    * 조회 기준 날짜
    * @example "2026-03-15"
    */
   date?: string;
-  /** 시간대별 예약 가능 여부 목록 */
-  times?: ProductAvailableTimeResponse[];
+  /** 오전/오후 시간대 목록 */
+  sections?: ProductAvailableTimeSectionResponse[];
 }
 
 /** 공통 응답 DTO */
@@ -1670,6 +1691,38 @@ export interface ProductPeopleRangeResponse {
    * @example 5
    */
   maxPeople?: number;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyProductDurationTimeResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 상품 촬영 시간 조회 응답 DTO */
+  data?: ProductDurationTimeResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 상품 촬영 시간 조회 응답 DTO */
+export interface ProductDurationTimeResponse {
+  /**
+   * 촬영 최소 시간
+   * @format double
+   * @example 1
+   */
+  minDurationTime?: number;
 }
 
 /** 포폴 목록 조회 요청 DTO - 쿼리 파라미터용 */
@@ -2386,6 +2439,9 @@ export type GetProductAvailableTimesData =
 
 export type GetProductPeopleRangeData =
   ApiResponseBodyProductPeopleRangeResponseVoid;
+
+export type GetProductDurationTimeData =
+  ApiResponseBodyProductDurationTimeResponseVoid;
 
 export type GetPortfolioListData =
   ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse;
