@@ -21,6 +21,7 @@ export const USER_QUERY_KEY = {
 
   // 포트폴리오
   PORTFOLIO: ['portfolio'],
+  PORTFOLIO_LIST: (query: string) => [...USER_QUERY_KEY.PORTFOLIO, 'list', query],
   PORTFOLIO_DETAIL: (id: number, isLogIn: boolean) => [
     ...USER_QUERY_KEY.PORTFOLIO,
     id,
@@ -44,16 +45,29 @@ export const USER_QUERY_KEY = {
   MOODS: ['moods'],
   MOODS_FILTER: (scope: 'guest' | 'user') => [...USER_QUERY_KEY.MOODS, 'filter', scope],
 
-  // 예약 목록 조회
+  // 예약 목록 조회, 상세 조회
   RESERVATION: ['reservation'],
   RESERVATION_LISTS: () => [...USER_QUERY_KEY.RESERVATION, 'list'],
   RESERVATION_LIST: (tab: string) => [...USER_QUERY_KEY.RESERVATION_LISTS(), tab],
-
-  // 예약 상세 조회
-  RESERVATION_DETAILS: () => [...USER_QUERY_KEY.RESERVATION, 'details'],
+  RESERVATION_DETAILS: () => [...USER_QUERY_KEY.RESERVATION_LISTS(), 'details'],
   RESERVATION_DETAIL: (id: number) => [...USER_QUERY_KEY.RESERVATION_DETAILS(), id],
 
   // 장소 관련
   PLACES: ['places'],
   PLACES_SEARCH: (query: string) => [...USER_QUERY_KEY.PLACES, 'search', query],
+
+  // 상품
+  PRODUCT: ['product'],
+  PRODUCT_DETAIL: (id: number, isLogIn: boolean) => [
+    ...USER_QUERY_KEY.PRODUCT,
+    id,
+    isLogIn ? 'login' : 'not-login',
+  ],
+  PRODUCT_PORTFOLIOS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'portfolios'],
+  PRODUCT_REVIEWS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'reviews'],
+  PRODUCT_LIST: (query: string) => [...USER_QUERY_KEY.PRODUCT, 'list', query],
+
+  // 리뷰
+  REVIEW: ['review'],
+  REVIEW_DETAIL: (id: number) => [...USER_QUERY_KEY.REVIEW, id],
 } as const;
