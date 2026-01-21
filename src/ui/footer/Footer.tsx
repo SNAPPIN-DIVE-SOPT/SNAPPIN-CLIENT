@@ -98,6 +98,43 @@ const menuAuthorItems: {
     label: '프로필',
   },
 ];
+const menuUserAuthorItems: {
+  href: string;
+  activeIcon: React.ComponentType<SVGProps<SVGSVGElement>>;
+  inactiveIcon: React.ComponentType<SVGProps<SVGSVGElement>>;
+  label: string;
+}[] = [
+  {
+    href: '/',
+    activeIcon: IconHomeFill,
+    inactiveIcon: IconHome,
+    label: '홈',
+  },
+  {
+    href: '/like',
+    activeIcon: IconHeartFill,
+    inactiveIcon: IconHeart,
+    label: '좋아요',
+  },
+  {
+    href: '/explore',
+    activeIcon: IconExploreFill,
+    inactiveIcon: IconExplore,
+    label: '탐색',
+  },
+  {
+    href: '/reservation',
+    activeIcon: IconReservationFill,
+    inactiveIcon: IconReservation,
+    label: '예약',
+  },
+  {
+    href: '/photographer/profile',
+    activeIcon: IconProfileFill,
+    inactiveIcon: IconProfile,
+    label: '프로필',
+  },
+];
 
 export default function Footer() {
   const pathname = usePathname();
@@ -105,7 +142,6 @@ export default function Footer() {
 
   const { isLogIn } = useAuth();
   const { data } = useGetUserInfo();
-  const canSwitch = data?.role === USER_TYPE.PHOTOGRAPHER || data?.hasPhotographerProfile;
 
   useEffect(() => {
     if (isLogIn) {
@@ -113,13 +149,11 @@ export default function Footer() {
     }
   }, [isLogIn, data?.role]);
 
-  const userRole = canSwitch ? USER_TYPE.PHOTOGRAPHER : USER_TYPE.CLIENT;
-
   return (
     <div className='z-20'>
       <div className='bg-black-1 footer-height' />
       <footer className='border-black-6 footer-height fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
-        {userRole === USER_TYPE.CLIENT &&
+        {data?.role === USER_TYPE.CLIENT && !data?.hasPhotographerProfile &&
           menuUserItems.map((item) => (
             <Link
               key={item.label}
@@ -134,8 +168,23 @@ export default function Footer() {
               <span className='caption-10-md'>{item.label}</span>
             </Link>
           ))}
+        {data?.role === USER_TYPE.CLIENT && data?.hasPhotographerProfile &&
+          menuUserAuthorItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className='flex flex-col items-center gap-[0.2rem]'
+            >
+              {isActive(item.href) ? (
+                <item.activeIcon className={cn(isActive(item.href) && 'text-black-10')} />
+              ) : (
+                <item.inactiveIcon />
+              )}
+              <span className='caption-10-md'>{item.label}</span>
+            </Link>
+          ))}
 
-        {userRole === USER_TYPE.PHOTOGRAPHER &&
+        {data?.role === USER_TYPE.PHOTOGRAPHER &&
           menuAuthorItems.map((item) => (
             <Link
               key={item.label}

@@ -4,10 +4,16 @@ import Image from 'next/image';
 import { Button } from '@/ui';
 import { useGetUserInfo } from '@/auth/apis';
 import { useAuth } from '@/auth/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 export default function ClientProfileCard() {
   const { isLogIn } = useAuth();
   const { data, isFetching } = useGetUserInfo();
+  const router = useRouter();
+
+  const handleLoginClick = () => {
+    router.push('/login');
+  };
 
   if (!isLogIn) {
     return (
@@ -23,7 +29,7 @@ export default function ClientProfileCard() {
           <span className='caption-14-bd'>
             로그인이 필요해요
           </span>
-          <Button size='small' color='black'>
+          <Button size='small' color='black' onClick={handleLoginClick}>
             로그인
           </Button>
         </div>

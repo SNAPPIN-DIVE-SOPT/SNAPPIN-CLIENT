@@ -21,11 +21,11 @@ type MenuItem = { label: MenuLabel; icon: React.ReactNode; href: string };
 
 export const MENU: MenuItem[] = [
   { label: MENU_LABEL.AI_MOOD, icon: <IconMenuAiMood />, href: '/ai-curation' },
-  { label: MENU_LABEL.SCHOOL, icon: <IconMenuSchool />, href: '/' },
-  { label: SNAP_CATEGORY.GRADUATION, icon: <IconMenuGraduate />, href: '/' },
-  { label: SNAP_CATEGORY.WEDDING, icon: <IconMenuLove />, href: '/' },
-  { label: MENU_LABEL.JEJU, icon: <IconMenuJeju />, href: '/' },
-  { label: SNAP_CATEGORY.RECITAL, icon: <IconMenuMusic />, href: '/' },
-  { label: SNAP_CATEGORY.COUPLE, icon: <IconMenuLove />, href: '/' },
-  { label: SNAP_CATEGORY.DAILY, icon: <IconMenuDaily />, href: '/' },
+  { label: MENU_LABEL.SCHOOL, icon: <IconMenuSchool />, href: 'https://www.instagram.com/snapping.mag' },
+  { label: SNAP_CATEGORY.GRADUATION, icon: <IconMenuGraduate />, href: '/explore' },
+  { label: SNAP_CATEGORY.WEDDING, icon: <IconMenuLove />, href: '/explore' },
+  { label: MENU_LABEL.JEJU, icon: <IconMenuJeju />, href: '/explore' },
+  { label: SNAP_CATEGORY.RECITAL, icon: <IconMenuMusic />, href: '/explore' },
+  { label: SNAP_CATEGORY.COUPLE, icon: <IconMenuLove />, href: '/explore' },
+  { label: SNAP_CATEGORY.DAILY, icon: <IconMenuDaily />, href: '/explore' },
 ];
