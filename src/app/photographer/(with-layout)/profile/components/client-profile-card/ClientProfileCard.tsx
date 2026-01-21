@@ -5,7 +5,6 @@ import { ProfileCard, Button } from '@/ui';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useGetUserInfo } from '@/auth/apis';
 import { UserType, USER_TYPE } from '@/auth/constant/userType';
-import defaultProfile from '@/../../public/imgs/default-profile.png';
 
 type ClientProfileCardProps = {
   userType: UserType;
@@ -20,7 +19,7 @@ export default function ClientProfileCard({ userType, isSwitching }: ClientProfi
     return (
       <div className='flex items-center gap-[1.2rem] p-[2rem] bg-black-1'>
         <Image
-          src={defaultProfile}
+          src='/imgs/default-profile.png'
           alt='프로필 이미지'
           width={64}
           height={64}

@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { Button } from '@/ui';
 import { useGetUserInfo } from '@/auth/apis';
 import { useAuth } from '@/auth/hooks/useAuth';
-import defaultProfile from '@/../../public/imgs/default-profile.png';
 
 export default function ClientProfileCard() {
   const { isLogIn } = useAuth();
@@ -14,7 +13,7 @@ export default function ClientProfileCard() {
     return (
       <div className='flex items-center gap-[1.2rem] p-[2rem]'>
         <Image
-          src={defaultProfile}
+          src='/imgs/default-profile.png'
           alt='프로필 이미지'
           width={64}
           height={64}
