@@ -7,7 +7,7 @@ import { RESERVATION_TAB, RESERVATION_TAB_MAP, ReservationTab } from '../../cons
 import ReservationCard from '../reservation-card/ReservationCard';
 import EmtpyView from '../emtpy-view/EmtpyView';
 import { useGetReservationList } from '../../api';
-
+import ReservationCardSkeleton from '../reservation-card/ReservationCardSkeleton';
 
 const isReservationTab = (value: string | null) => {
   return value === RESERVATION_TAB.PHOTOGRAPHER_REQUESTED || value === RESERVATION_TAB.PHOTOGRAPHER_ADJUSTING || value === RESERVATION_TAB.PHOTOGRAPHER_CONFIRMED || value === RESERVATION_TAB.PHOTOGRAPHER_DONE;
@@ -19,7 +19,7 @@ export default function ReservationContent() {
   const searchParams = useSearchParams();
   const selectedTab = isReservationTab(searchParams.get('tab')) ? searchParams.get('tab') as ReservationTab : RESERVATION_TAB.PHOTOGRAPHER_REQUESTED;
   
-  const { data } = useGetReservationList(selectedTab);
+  const { data,isPending } = useGetReservationList(selectedTab);
   
   const handleTabChange = (value: string) => {
     const updatedSearchParams = new URLSearchParams(searchParams.toString());
@@ -49,7 +49,9 @@ export default function ReservationContent() {
         </SectionTabs.List>
 
         <SectionTabs.Contents value={selectedTab}>
-          {data?.reservations?.length === 0 ? (
+          {isPending ? (
+            <ReservationCardSkeleton />
+          ) : data?.reservations?.length === 0 ? (
             <EmtpyView
               title='상품이 없어요'
               description='‘예약’에서 다양한 예약을 확인해보세요'

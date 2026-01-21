@@ -11,7 +11,7 @@ type ProductCardSkeletonProps = {
 
 export function ProductCardSkeleton({ className }: ProductCardSkeletonProps) {
   return (
-    <div className={cn('bg-black-1 flex w-full gap-[1.2rem] px-[2rem] py-[1.6rem]', className)}>
+    <div className={cn('bg-black-1 flex w-full gap-[1.2rem]', className)}>
       <div className='bg-black-3 relative h-[10.2rem] w-[10.2rem] shrink-0' />
       <div className='flex flex-col justify-between'>
         <div className='flex w-full flex-col gap-[0.4rem]'>
