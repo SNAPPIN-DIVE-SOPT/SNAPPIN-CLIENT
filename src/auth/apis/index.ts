@@ -1,12 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { AUTH_QUERY_KEY } from '@/query-key/auth';
 import {
   GetUserInfoResponse,
   GetUserInfoData,
+  GetSwitchedUserProfileResponse,
+  PatchUserRoleData,
 } from '@/swagger-api/data-contracts';
 import { useAuth } from '../hooks/useAuth';
+import { setAccessToken } from '../token';
+import { setUserType } from '../userType';
+import { UserType } from '../constant/userType';
 
 export const getRefreshToken = async () => {
   const refreshResponse = await fetch(`${SERVER_API_BASE_URL}/api/v1/auth/reissue`, {
@@ -35,5 +40,39 @@ export const useGetUserInfo = () => {
       return res.data;
     },
     enabled: !!isLogIn,
+  });
+}
+
+// 유저 프로필 전환 API
+export const useGetSwitchedUserProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation<GetSwitchedUserProfileResponse, Error, void>({
+    mutationFn: async () => {
+      const res = await apiRequest<PatchUserRoleData>({
+        endPoint: '/api/v1/users/role',
+        method: 'PATCH',
+      });
+
+      if (!res.data) {
+        throw new Error('/api/v1/users/role 응답에 데이터가 존재하지 않습니다.');
+      }
+      return res.data;
+    },
+
+    onSuccess: (data) => {
+      if (data.accessToken) {
+        setAccessToken(data.accessToken);
+      }
+
+      if (data.role) {
+        setUserType(data.role as UserType);
+      }
+
+      queryClient.invalidateQueries({queryKey: AUTH_QUERY_KEY.AUTH});
+    },
+
+    onError: (err) => {
+      console.error('유저 프로필 전환 실패', err);
+    },
   });
 }
