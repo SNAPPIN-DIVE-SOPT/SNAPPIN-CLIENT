@@ -21,7 +21,7 @@ export default function ReservationListSection() {
     }
   }, [isLogIn, toast]);
 
-  const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_OVERVIEW);
+  const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_OVERVIEW,isLogIn===true);
 
   const reservations = data?.reservations ?? [];
   const hasData = (data?.reservations?.length ?? 0) > 0;

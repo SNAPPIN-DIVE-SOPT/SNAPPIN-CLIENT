@@ -11,11 +11,11 @@ import { useAuth } from '@/auth/hooks/useAuth';
 import { formatCreatedAt } from '@/utils/formatNumberWithComma';
 
 export default function ShootCompletedListSection() {
-  const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_DONE);
-  // 로그인 여부
+ // 로그인 여부
   const { isLogIn } = useAuth();
   const toast = useToast();
-
+  const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_DONE,isLogIn===true);
+ 
   useEffect(() => {
     if (isLogIn === false) {
       toast.login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');

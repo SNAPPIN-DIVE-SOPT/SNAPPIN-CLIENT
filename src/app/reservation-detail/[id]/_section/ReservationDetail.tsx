@@ -41,7 +41,7 @@ export default function ReservationDetail({
           <DetailRow label='촬영 시간' value={`${durationTime}시간`} />
           <DetailRow label='장소' value={place} />
           <DetailRow label='인원' value={`${peopleCount}인`} />
-          <DetailRow label='요청 사항' value={requestNoteText} />
+          <DetailRow label='기타 요청 사항' value={requestNoteText} />
         </div>
       </div>
     </section>

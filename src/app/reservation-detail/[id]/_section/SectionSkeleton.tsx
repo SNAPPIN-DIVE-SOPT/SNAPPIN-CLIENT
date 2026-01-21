@@ -5,7 +5,7 @@ TODO: 스프린트 때  to.. 승혜ㅎㅎㅎㅎ - 동희가
 1. photo-final-detail, reservation-detail 분리할 필요가 있었을까??
 - 왜냐하면 헤더 text 빼고는 사실 똑같은 것 같음(중복된 코드가 많음)
 
-2. 분리한다면 photo-final-detail는 detail-layout , detail-row 를 사용 o, 하지만 reservation-detail는 detail-layout , detail-row 를 사용 x
+2. (분리한다면) 현재는 photo-final-detail는 detail-layout , detail-row 를 사용 o, 하지만 reservation-detail는 detail-layout , detail-row 를 사용 x
 구조를 통일 시켜도 될듯!
 분리한다면 공통 layout으로 만들어서 사용해도 될듯!(현재 넘 중복됨, 스켈레톤도 중복됨 ㅜㅜ) -> 작가뷰애서도 중복이 되서 디자인과 gap 통일해서 공통으로 둬도 좋을 것 같음!
 

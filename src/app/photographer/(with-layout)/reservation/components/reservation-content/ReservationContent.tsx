@@ -53,7 +53,7 @@ export default function ReservationContent() {
             <ReservationCardSkeleton />
           ) : data?.reservations?.length === 0 ? (
             <EmtpyView
-              title='상품이 없어요'
+              title='예약된 상품이 없어요'
               description='‘예약’에서 다양한 예약을 확인해보세요'
             />
           ) : (
