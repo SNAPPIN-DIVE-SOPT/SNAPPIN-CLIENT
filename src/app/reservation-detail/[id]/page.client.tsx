@@ -18,7 +18,7 @@ type ReservationDetailPageClientProps = {
 
 export default function PageClient({ reservationId }: ReservationDetailPageClientProps) {
   const parsedReservationId = Number(reservationId);
-  
+
   const { data: reservationData, isPending } = useGetReservationDetail(parsedReservationId);
 
   const { mutate: cancelReservationMutation } = useCancelReservation();
@@ -37,27 +37,6 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     return hasTheme && hasLabel ? code : STATE_CODES.RESERVATION_REQUESTED;
   };
 
-  const status = normalizeStatus(reservationStatus ?? reservationData?.status);
-
-  const previousComputedStatus =
-    previousStatus ?? (reservationData?.status as StateCode | undefined);
-
-  const isCanceledFrom =
-    status === STATE_CODES.RESERVATION_CANCELED &&
-    (previousComputedStatus === STATE_CODES.RESERVATION_REQUESTED ||
-      previousComputedStatus === STATE_CODES.PHOTOGRAPHER_CHECKING);
-
-  const hasTopActionButtons =
-    status === STATE_CODES.RESERVATION_REQUESTED || status === STATE_CODES.PHOTOGRAPHER_CHECKING;
-
-  const hasBottomCta =
-    status === STATE_CODES.PAYMENT_REQUESTED ||
-    status === STATE_CODES.PAYMENT_COMPLETED ||
-    status === STATE_CODES.RESERVATION_CANCELED ||
-    status === STATE_CODES.RESERVATION_REFUSED;
-
-  const hasPaymentDetailSection = !hasTopActionButtons && !isCanceledFrom;
-
   const handleReservationCancelClick = () => {
     setCancelOpen(true);
   };
@@ -65,7 +44,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   const handleReservationCancel = () => {
     cancelReservationMutation(parsedReservationId, {
       onSuccess: (cancelResponse) => {
-        setPreviousStatus(status);
+        setPreviousStatus(cancelResponse.previousStatus as StateCode);
         setReservationStatus(cancelResponse.status as StateCode);
         setCancelOpen(false);
       },
@@ -86,6 +65,22 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
       },
     });
   };
+
+  const status = normalizeStatus(reservationStatus ?? reservationData?.status);
+
+  const isCanceledAfterPaymentRequested =
+    status === STATE_CODES.RESERVATION_CANCELED && previousStatus === STATE_CODES.PAYMENT_REQUESTED;
+
+  const hasPaymentDetailSection =
+    status === STATE_CODES.PAYMENT_REQUESTED ||
+    status === STATE_CODES.PAYMENT_COMPLETED ||
+    isCanceledAfterPaymentRequested;
+
+  const hasBottomCta =
+    status === STATE_CODES.PAYMENT_REQUESTED ||
+    status === STATE_CODES.PAYMENT_COMPLETED ||
+    status === STATE_CODES.RESERVATION_CANCELED ||
+    status === STATE_CODES.RESERVATION_REFUSED;
 
   const handleInquiryClick = () => {
     toast.alert(
