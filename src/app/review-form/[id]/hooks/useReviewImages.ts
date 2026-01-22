@@ -1,75 +1,60 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useImageUpload } from '../api';
+import validateImage from '@/utils/validateImage';
 
-type Image = {
+type ReviewImage = {
+  id: string;
   file: File;
   preview: string;
 };
 
-export const useReviewImages = ({
-  imageUrls,
-  setImageUrls,
-}: {
-  imageUrls: string[];
-  setImageUrls: (next: string[]) => void;
-}) => {
+const MAX_IMAGE_COUNT = 5;
+
+export const useReviewImages = () => {
   const { mutateAsync: requestPresignedUrl } = useImageUpload();
-  const [images, setImages] = useState<Image[]>([]);
+  const [images, setImages] = useState<ReviewImage[]>([]);
+  const [hasError, setHasError] = useState(false);
 
-  // 이미지 추가 / 제거 (토글)
-  const addImage = useCallback(
-    (file: File) => {
-      setImages((prev) => [
-        ...prev,
-        {
-          file,
-          preview: URL.createObjectURL(file),
-        },
-      ]);
+  /** 파일 추가 */
+  const addUploadImage = useCallback(
+    (files: FileList) => {
+      const nextImages = [...images];
+      let error = false;
 
-      setImageUrls([...imageUrls, 'PENDING']);
-    },
-    [imageUrls, setImageUrls],
-  );
-
-  const removeImageByPreview = useCallback(
-    (preview: string) => {
-      setImages((prev) => {
-        const next = prev.filter((img) => img.preview !== preview);
-        setImageUrls(next.map(() => 'PENDING'));
-        return next;
-      });
-    },
-    [setImageUrls],
-  );
-
-  // S3 업로드
-  const uploadImages = async (): Promise<string[]> => {
-    return Promise.all(
-      images.map(async ({ file }) => {
-        const safeFileName = encodeURIComponent(file.name);
-
-        const { uploadUrl, s3Key } = await requestPresignedUrl({
-          fileName: safeFileName,
-          contentType: file.type,
-        });
-
-        if (!uploadUrl || !s3Key) {
-          throw new Error('Invalid presigned url response');
+      Array.from(files).forEach((file) => {
+        if (nextImages.length >= MAX_IMAGE_COUNT) {
+          error = true;
+          return;
         }
 
-        await fetch(uploadUrl, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': file.type,
-          },
-          body: file,
+        const { ok } = validateImage({
+          file,
+          currentCount: nextImages.length,
+          maxImageCount: MAX_IMAGE_COUNT,
         });
 
-        return s3Key;
-      }),
-    );
-  };
+        if (!ok) {
+          error = true;
+          return;
+        }
+
+        nextImages.push({
+          id: crypto.randomUUID(),
+          file,
+          preview: URL.createObjectURL(file),
+        });
+      });
+
+      setImages(nextImages);
+      setHasError(error);
+    },
+    [images],
+  );
+
+  /** 이미지 제거 */
+  const removeImage = useCallback((id: string) => {
+    setImages((prev) => prev.filter((img) => img.id !== id));
+  }, []);
 
   const useAutoScrollReviewImages = (imageCount: number) => {
     useEffect(() => {
@@ -87,11 +72,38 @@ export const useReviewImages = ({
     }, [imageCount]);
   };
 
+  /** S3 업로드 */
+  const uploadImageUrl = useCallback(async (): Promise<string[]> => {
+    return Promise.all(
+      images.map(async ({ file }) => {
+        const safeFileName = encodeURIComponent(file.name);
+
+        const { uploadUrl, s3Key } = await requestPresignedUrl({
+          fileName: safeFileName,
+          contentType: file.type,
+        });
+
+        if (!uploadUrl || !s3Key) {
+          throw new Error('Invalid presigned url response');
+        }
+
+        await fetch(uploadUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': file.type },
+          body: file,
+        });
+
+        return s3Key;
+      }),
+    );
+  }, [images, requestPresignedUrl]);
+
   return {
     images,
-    addImage,
-    removeImageByPreview,
-    uploadImages,
+    hasError,
+    addUploadImage,
+    removeImage,
+    uploadImageUrl,
     useAutoScrollReviewImages,
   };
 };

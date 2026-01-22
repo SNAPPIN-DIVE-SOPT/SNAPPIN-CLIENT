@@ -1,22 +1,16 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FieldMessage, ImagePreview, TextareaField } from '@/ui';
 import ImageUploadButton from '@/ui/button/upload/ImageUploadButton';
 import { cn } from '@/utils/cn';
 import ClientFooter from '../components/client-footer/ClientFooter';
-import {
-  MAX_IMAGE_COUNT,
-  MAX_RATING,
-  REVIEW_CONTENT_MAX_LENGTH,
-  useReviewWrite,
-} from '../hooks/useReviewWrite';
+import { MAX_RATING, REVIEW_CONTENT_MAX_LENGTH, useReviewWrite } from '../hooks/useReviewWrite';
 import { IMAGE_ACCEPT } from '@/constants/image-type/imageAccept';
 import { StarRating } from '../components';
 import { useSubmitReview } from '../api';
 import { useReviewImages } from '../hooks/useReviewImages';
-import validateImage from '@/utils/validateImage';
+import { useToast } from '@/ui/toast/hooks/useToast';
 
 type ReviewFormSectionProps = {
   reservationId: number;
@@ -30,56 +24,27 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
     updateRating,
     updateContent,
     handleSubmitForm,
-    setValue,
   } = useReviewWrite();
-
-  const imageField = useReviewImages({
-    imageUrls: compatibleFormData.imageUrls,
-    setImageUrls: (next) => setValue('imageUrls', next, { shouldValidate: true }),
-  });
-
-  const { images, useAutoScrollReviewImages } = imageField;
+  const {
+    images,
+    hasError,
+    addUploadImage,
+    removeImage,
+    uploadImageUrl,
+    useAutoScrollReviewImages,
+  } = useReviewImages();
 
   const { mutateAsync: submitReview } = useSubmitReview();
   const router = useRouter();
+  const toast = useToast();
+
   useAutoScrollReviewImages(images.length);
-
-  const [imageLimitError, setImageLimitError] = useState(false);
-
-  // 이미지 등록
-  const handleUploadAction = (fileList: FileList) => {
-    let currentCount = imageField.images.length;
-    let hasError = false;
-
-    Array.from(fileList).forEach((file) => {
-      if (currentCount >= MAX_IMAGE_COUNT) {
-        hasError = true;
-        return;
-      }
-
-      const { ok } = validateImage({
-        file,
-        currentCount,
-        maxImageCount: MAX_IMAGE_COUNT,
-      });
-
-      if (!ok) {
-        hasError = true;
-        return;
-      }
-
-      imageField.addImage(file);
-      currentCount += 1;
-    });
-
-    setImageLimitError(hasError);
-  };
 
   // 리뷰 등록
   const handleSubmit = async () => {
     handleSubmitForm(async (formData) => {
       try {
-        const uploadedUrls = await imageField.uploadImages();
+        const uploadedUrls = await uploadImageUrl();
 
         await submitReview({
           reservationId,
@@ -89,8 +54,9 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
         });
 
         router.replace(`/photo-final-detail/${reservationId}`);
-      } catch (error) {
-        console.error(error);
+      } catch {
+        toast.error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
+        router.back();
       }
     });
   };
@@ -155,19 +121,16 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
                   imageSrc={preview}
                   imageAlt='업로드한 리뷰 이미지'
                   showRemoveButton
-                  handleRemove={() => imageField.removeImageByPreview(preview)}
+                  handleRemove={() => removeImage(preview)}
                   className='shrink-0'
                 />
               ))}
             </div>
           )}
 
-          <ImageUploadButton
-            handleUploadAction={handleUploadAction}
-            accept={IMAGE_ACCEPT.WITH_HEIC}
-          />
+          <ImageUploadButton handleUploadAction={addUploadImage} accept={IMAGE_ACCEPT.WITH_HEIC} />
 
-          <p className={cn('caption-12-md', imageLimitError ? 'text-red-error' : 'text-black-6')}>
+          <p className={cn('caption-12-md', hasError ? 'text-red-error' : 'text-black-6')}>
             20MB 이하의 JPG, PNG, HEIC, WEBP 이미지로 최대 5장까지 업로드가 가능합니다.
           </p>
           <div className='bg-black-1 h-[10rem] w-full' />
