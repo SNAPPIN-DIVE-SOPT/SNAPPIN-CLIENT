@@ -3,7 +3,7 @@ import { Providers } from '@/app/providers';
 import '@/styles/global.css';
 
 const suit = localFont({
-  src: '../../public/fonts/SUIT-Variable.woff2',
+  src: '../../public/fonts/PretendardVariable.ttf',
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
