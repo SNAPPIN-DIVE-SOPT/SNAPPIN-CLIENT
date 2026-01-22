@@ -1,7 +1,7 @@
 import { ProductList } from '@/ui';
 import { useGetLikeProducts } from '@/app/(with-layout)/like/api';
 import LikeEmpty from '@/app/(with-layout)/like/component/empty/LikeEmpty';
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ProductListSection() {
