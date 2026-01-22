@@ -5,8 +5,10 @@ import { Divider } from '@/ui';
 import {  ClientProfileCard, Menus, SwitchProfile } from './components';
 import type { UserType } from '@/auth/constant/userType';
 import { getUserType, setUserType } from '@/auth/userType';
+import Lottie from 'lottie-react';
+import loadingAnimation from '@/assets/lotties/loading.json';
 
-const MIN_DURATION = 800;
+const MIN_DURATION = 1600;
 
 type SwitchControl = {
   startTime: number | null;
@@ -94,7 +96,8 @@ export default function PageClient() {
         onSwitchEnd={endSwitching}
       />
       {isSwitching && (
-        <div className='absolute inset-0 z-50 flex h-dvh items-center justify-center bg-black/30'>
+        <div className='absolute inset-0 z-50 flex flex-col h-dvh items-center justify-center bg-black/30'>
+          <Lottie animationData={loadingAnimation} className='h-[15rem] w-[15rem]' />
           <span className='title-20-bd text-neon-black'>계정 전환 중...</span>
         </div>
       )}
