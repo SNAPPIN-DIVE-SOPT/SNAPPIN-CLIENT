@@ -4,7 +4,7 @@ import { USER_TYPE } from '@/auth/constant/userType';
 
 const LOGIN_RESTRICTED_PATHS = ['/login'];
 // 로그인이 필요한 페이지 (인증이 필요한 페이지)
-const AUTH_REQUIRED_PATHS = ['/photographer/profile', '/photographer/reservation'];
+//const AUTH_REQUIRED_PATHS = ['/photographer/profile', '/photographer/reservation'];
 
 function isPathMatch(pathname: string, basePath: string) {
   return pathname === basePath || pathname.startsWith(`${basePath}/`);
@@ -20,10 +20,10 @@ export function middleware(request: NextRequest) {
   }
 
   // 비로그인이면 보호 페이지 접근 차단
-  const isAuthRequired = AUTH_REQUIRED_PATHS.some((p) => isPathMatch(pathname, p));
-  if (isAuthRequired && !accessToken) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
+  // const isAuthRequired = AUTH_REQUIRED_PATHS.some((p) => isPathMatch(pathname, p));
+  // if (isAuthRequired && !accessToken) {
+  //   return NextResponse.redirect(new URL('/login', request.url));
+  // }
 
   // 권한 체크 (USER가 /author 못 들어가게)
   if (
