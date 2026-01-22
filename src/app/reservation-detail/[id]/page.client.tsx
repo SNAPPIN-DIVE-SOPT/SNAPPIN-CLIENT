@@ -21,7 +21,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
 
   const { data: reservationData, isPending } = useGetReservationDetail(parsedReservationId);
 
-  const { mutate: cancelReservationMutation } = useCancelReservation();
+  const { mutate: cancelReservationMutation } = useCancelReservation(parsedReservationId);
   const { mutate: requestPaymentMutation } = useRequestPayment();
 
   const [cancelOpen, setCancelOpen] = useState(false);
