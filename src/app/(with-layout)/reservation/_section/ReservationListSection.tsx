@@ -11,17 +11,20 @@ import { RESERVATION_TAB } from '../constants/tabs';
 import { useAuth } from '@/auth/hooks/useAuth';
 
 export default function ReservationListSection() {
-  const toast = useToast();
+  const { login } = useToast();
   // 로그인 여부
   const { isLogIn } = useAuth();
 
   useEffect(() => {
     if (isLogIn === false) {
-      toast.login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
     }
-  }, [isLogIn, toast]);
+  }, [isLogIn, login]);
 
-  const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_OVERVIEW,isLogIn===true);
+  const { data, isFetching } = useGetReservationList(
+    RESERVATION_TAB.CLIENT_OVERVIEW,
+    isLogIn === true,
+  );
 
   const reservations = data?.reservations ?? [];
   const hasData = (data?.reservations?.length ?? 0) > 0;
