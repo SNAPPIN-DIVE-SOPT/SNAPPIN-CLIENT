@@ -9,6 +9,7 @@ import { logoutApi } from '../../apis';
 import { deleteAccessToken } from '@/auth/token';
 import { deleteUserType } from '@/auth/userType';
 import { useAuth } from '@/auth/hooks/useAuth';
+import { setLoginStatus } from '@/auth/localStorage';
 
 export default function Menus() {
   const router = useRouter();
@@ -30,7 +31,8 @@ export default function Menus() {
     } finally {
       deleteAccessToken();
       deleteUserType();
-      router.push('/login');
+      setLoginStatus('logged_out');
+      router.push('/');
       handleModalOpen(false);
     }
   };
@@ -40,15 +42,14 @@ export default function Menus() {
       <MenuItem label='공지사항' href='https://pretty-shake-931.notion.site/2efa9c9b4473803f9f46fdb17944d7e0?source=copy_link' />
       <MenuItem label='FAQ' href='https://pretty-shake-931.notion.site/FAQ-2efa9c9b447380b69797cff125db7e5e?source=copy_link' />
       <MenuItem label='고객센터' href='https://pretty-shake-931.notion.site/2efa9c9b447380a59d79ce7cae04a0bc?source=copy_link' />
-      {isLogIn && (
-        <button
-          type='button'
-          className='caption-14-md bg-black-1 text-red-error py-[1.5rem] pl-[2rem] text-left'
-          onClick={handleLogoutClick}
+      <button
+        type='button'
+        disabled={!isLogIn}
+        className='caption-14-md bg-black-1 text-red-error py-[1.5rem] pl-[2rem] text-left'
+        onClick={handleLogoutClick}
         >
-          로그아웃
-        </button>
-      )}
+        로그아웃
+      </button>
       <ConfirmModal
         open={isLogoutModalOpen}
         handleOpenChange={(open) => handleModalOpen(open)}
