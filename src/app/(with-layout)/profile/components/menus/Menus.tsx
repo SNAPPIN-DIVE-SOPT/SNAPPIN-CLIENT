@@ -36,7 +36,6 @@ export default function Menus() {
   };
 
   return (
-    // TODO: 노션 url 삽입
     <section className='bg-black-1 flex flex-col py-[0.8rem]'>
       <MenuItem label='공지사항' href='https://pretty-shake-931.notion.site/2efa9c9b4473803f9f46fdb17944d7e0?source=copy_link' />
       <MenuItem label='FAQ' href='https://pretty-shake-931.notion.site/FAQ-2efa9c9b447380b69797cff125db7e5e?source=copy_link' />
