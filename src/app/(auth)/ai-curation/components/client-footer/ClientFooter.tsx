@@ -21,7 +21,7 @@ export default function ClientFooter() {
 
   return (
     <BottomCTAButton fixed={true} hasPadding={true} className=' flex flex-col gap-[0.7rem] px-[2rem] pb-[3rem] z-100'>
-      <Button color='primary' size='large' onClick={handleStartCuration}>
+      <Button color='primary' size='large' onClick={handleStartCuration} className='font-16-bd'>
         AI 무드 큐레이션 시작하기
       </Button>
     </BottomCTAButton>
