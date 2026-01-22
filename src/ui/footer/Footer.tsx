@@ -23,7 +23,6 @@ import { setUserType } from '@/auth/userType';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { USER_TYPE, UserType } from '@/auth/constant/userType';
 
-//TODO: 메뉴 경로 수정
 const menuUserItems: {
   href: string;
   activeIcon: React.ComponentType<SVGProps<SVGSVGElement>>;
@@ -168,7 +167,7 @@ export default function Footer() {
               <span className='caption-10-md'>{item.label}</span>
             </Link>
           ))}
-        {data?.role === USER_TYPE.CLIENT && data?.hasPhotographerProfile &&
+        {data?.role === USER_TYPE.CLIENT || !isLogIn &&
           menuUserAuthorItems.map((item) => (
             <Link
               key={item.label}
