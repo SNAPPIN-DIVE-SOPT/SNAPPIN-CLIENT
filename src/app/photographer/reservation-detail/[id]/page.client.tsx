@@ -8,7 +8,7 @@ import {
   DetailPageFooter,
   SectionSkeleton,
 } from './_section';
-import { StateCode } from '@/types/stateCode';
+import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { Divider } from '@/ui';
 import { useGetReservationDetail } from './api';
 
@@ -49,7 +49,7 @@ export default function PageClient({ id }: PageClientProps) {
         peopleCount={data?.reservationInfo?.peopleCount ?? 0}
         requestNote={data?.reservationInfo?.requestNote ?? ''}
       />
-      {data?.paymentInfo && (
+      {data?.paymentInfo && data?.status !== STATE_CODES.PHOTOGRAPHER_CHECKING && (
         <>
           <Divider thickness='large' color='bg-black-3' />
           <Receipt

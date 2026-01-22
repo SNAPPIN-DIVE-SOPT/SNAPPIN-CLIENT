@@ -26,8 +26,12 @@ export default function DetailPageFooter({
 }: DetailPageFooterProps) {
   const router = useRouter();
   const now = new Date();
-  const start = new Date(`${date}T${startTime}:00`);
-  const isAfterStart = now >= start;
+  now.setHours(0, 0, 0, 0);
+
+  const [y, m, d] = date.split('-').map(Number);
+  const start = new Date(y, m - 1, d);
+
+  const isAfterStart = now >= start; 
 
   const { mutate: completeReservation } = useCompleteReservation();
   const { mutate: confirmReservation } = useConfirmReservation();
