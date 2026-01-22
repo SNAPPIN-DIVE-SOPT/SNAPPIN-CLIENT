@@ -69,7 +69,9 @@ export default function PageClient() {
             {/* 상품 목록 */}
             <Suspense
               fallback={
-                <div className='bg-black-1 px-[2rem] py-[1.6rem]'>
+                <div className='bg-black-3 flex h-full flex-col gap-[0.6rem]'>
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
                   <ProductCardSkeleton />
                 </div>
               }
