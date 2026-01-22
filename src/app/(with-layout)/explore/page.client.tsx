@@ -2,7 +2,13 @@
 
 import { Suspense, useMemo } from 'react';
 import { overlay } from 'overlay-kit';
-import { ButtonSearchBar, Loading, SectionTabs } from '@/ui';
+import {
+  ButtonSearchBar,
+  Loading,
+  PortfolioListSkeleton,
+  ProductCardSkeleton,
+  SectionTabs,
+} from '@/ui';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { parseInitialDraft, pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
 import { ExploreFilter, SearchSheet } from '@/app/(with-layout)/explore/components';
@@ -34,7 +40,7 @@ export default function PageClient() {
   const pathname = usePathname();
   const sp = useSearchParams();
 
-  const { snapCategory, placeName, date, peopleCount } = parseInitialDraft(sp);
+  const { snapCategory, placeName, date, peopleCount } = useMemo(() => parseInitialDraft(sp), [sp]);
   const snapCategoryLabel = SNAP_CATEGORY[snapCategory as keyof typeof SNAP_CATEGORY] ?? null;
   const placeLabel = placeName ?? null;
 
@@ -111,12 +117,22 @@ export default function PageClient() {
       <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
         <SectionTabs.Contents value={EXPLORE_TAB.PORTFOLIO} className='min-h-full'>
           {/* 포트폴리오 목록 */}
-          <PortfolioListSection />
+          <Suspense fallback={<PortfolioListSkeleton length={15} />}>
+            <PortfolioListSection />
+          </Suspense>
         </SectionTabs.Contents>
 
         <SectionTabs.Contents value={EXPLORE_TAB.PRODUCT} className='min-h-full'>
           {/* 상품 목록 */}
-          <ProductListSection />
+          <Suspense
+            fallback={
+              <div className='bg-black-1 px-[2rem] py-[1.6rem]'>
+                <ProductCardSkeleton />
+              </div>
+            }
+          >
+            <ProductListSection />
+          </Suspense>
         </SectionTabs.Contents>
       </main>
     </SectionTabs>

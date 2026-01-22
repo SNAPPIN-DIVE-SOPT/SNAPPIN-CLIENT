@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { PortfolioListSkeleton, ProductListSkeleton, SectionTabs } from '@/ui';
+import { PortfolioListSkeleton, ProductCardSkeleton, ProductListSkeleton, SectionTabs } from '@/ui';
 import { LIKE_TAB, LIKE_TAB_MAP } from '@/app/(with-layout)/like/constants/tab';
 import PortfolioListSection from '@/app/(with-layout)/like/_section/PortfolioListSection';
 import ProductListSection from '@/app/(with-layout)/like/_section/ProductListSection';
@@ -71,7 +71,13 @@ export default function PageClient() {
           {!isLogIn ? (
             <LikeEmpty tab={currentTab} />
           ) : (
-            <Suspense fallback={<ProductListSkeleton />}>
+            <Suspense
+              fallback={
+                <div className='bg-black-1 px-[2rem] py-[1.6rem]'>
+                  <ProductCardSkeleton />
+                </div>
+              }
+            >
               <ProductListSection />
             </Suspense>
           )}
