@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { Divider } from '@/ui';
 import { EmptyView, ReservationCard, ReservationCardSkeleton } from '../components';
 import { StateCode } from '@/types/stateCode';
@@ -9,27 +9,43 @@ import { useGetReservationList } from '../api';
 import { RESERVATION_TAB } from '../constants/tabs';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { formatCreatedAt } from '@/utils/formatNumberWithComma';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ShootCompletedListSection() {
- // 로그인 여부
+  // 로그인 여부
   const { isLogIn } = useAuth();
-  const toast = useToast();
-  const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_DONE,isLogIn===true);
- 
+  const { login } = useToast();
+  const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_DONE, isLogIn === true);
+
   useEffect(() => {
     if (isLogIn === false) {
-      toast.login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
     }
-  }, [isLogIn, toast]);
+  }, [isLogIn, login]);
 
-  const reservations = data?.reservations ?? [];
   const hasData = (data?.reservations?.length ?? 0) > 0;
 
-  if (isFetching && !hasData) {
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = useMemo(
+    () => `reservation:list:${RESERVATION_TAB.CLIENT_OVERVIEW}:${isLogIn ?? 'unknown'}`,
+    [isLogIn],
+  );
+
+  useScrollRestoreOnParent(anchorRef, scrollKey, [data?.reservations?.length ?? 0], {
+    enabled: isLogIn === true,
+  });
+
+  if (isLogIn === null) return <ReservationCardSkeleton />;
+
+  if (isFetching && !hasData && isLogIn === true) {
     return <ReservationCardSkeleton />;
   }
 
-  if (!hasData || isLogIn === false) {
+  const reservations = data?.reservations ?? [];
+
+  const isEmpty = isLogIn === true && !isFetching && !hasData;
+
+  if (isEmpty) {
     return (
       <EmptyView
         title='촬영 완료된 상품이 없어요'
@@ -39,7 +55,7 @@ export default function ShootCompletedListSection() {
   }
 
   return (
-    <section className='flex flex-col gap-[1.6rem] p-[1.6rem]'>
+    <section className='flex flex-col gap-[1.6rem] p-[1.6rem]' ref={anchorRef}>
       {reservations.map((reservation, reservationIndex) => {
         const product = reservation.product;
         return (
