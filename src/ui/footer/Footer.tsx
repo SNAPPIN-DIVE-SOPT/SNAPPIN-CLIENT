@@ -104,7 +104,7 @@ export default function Footer() {
 
   return (
     <div className="z-20">
-      <div className="bg-black-1 footer-height" />
+      <div className="bg-black-1 footer-height pointer-events-none" aria-hidden />
       <footer className="border-black-6 footer-height fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] px-[2rem] pt-[0.8rem] pb-[1.6rem]">
         {items.map((item) => {
           const active = isActive(item.href);
@@ -116,13 +116,15 @@ export default function Footer() {
                 type="button"
                 onClick={() => handleClickMenuItem(item.href)}
                 className="flex flex-col items-center gap-[0.2rem]"
-                aria-label={`${item.label} (준비 중)`}
+                aria-label={item.label}
               >
                 <Icon className={cn(active && 'text-black-10')} width={26} height={26} />
                 <span className="caption-10-md">{item.label}</span>
               </button>
             );
           
+        
+            
         })}
       </footer>
     </div>

@@ -1,15 +1,24 @@
 import { ProductList } from '@/ui';
 import { useGetLikeProducts } from '@/app/(with-layout)/like/api';
 import LikeEmpty from '@/app/(with-layout)/like/component/empty/LikeEmpty';
+import { useMemo, useRef } from 'react';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ProductListSection() {
   const { data: likedProductResponse } = useGetLikeProducts();
+
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = 'like:product:scroll';
+  useScrollRestoreOnParent(anchorRef, scrollKey, [likedProductResponse.products?.length], {
+    enabled: true,
+  });
 
   if (!likedProductResponse || likedProductResponse.products?.length === 0)
     return <LikeEmpty tab='PRODUCT' />;
 
   return (
     <section>
+      <div ref={anchorRef} />
       <ProductList
         productList={
           likedProductResponse.products?.map((product) => ({
