@@ -35,7 +35,7 @@ export default function ClientHeader() {
             <IconArrowBack />
           </IconButton>
         }
-        center={<span className='caption-14-bd text-black-10'>리뷰 작성</span>}
+        center={<span className='font-16-bd text-black-10'>리뷰 작성</span>}
         right={
           <IconButton onClick={() => handleOpenModal('home')}>
             <IconHome />

@@ -90,7 +90,7 @@ export default function ImageSlide() {
               {/* 오버레이 */}
               <div className='pointer-events-none absolute bottom-[1.3rem] left-[1.2rem] z-40 flex flex-col gap-[0.8rem]'>
                 <div className='flex gap-[0.6rem]'>
-                  {center.moods.map((mood) => (
+                  {item?.moods?.map((mood) => (
                     <TagChip key={mood} variant='transparent' label={mood as MoodCode} />
                   ))}
                 </div>

@@ -18,7 +18,7 @@ export default async function Page({ params }: Props) {
   const progress = getProgress(aiCurationStep);
 
   return (
-    <div className='bg-black-10 flex h-dvh flex-col px-[2rem] pt-[4.7rem] pb-[2.1rem]'>
+    <div className='bg-black-10 flex h-dvh flex-col px-[2rem] pt-[3rem] pb-[2rem]'>
       <ProgressBar progress={progress} />
       <PageClient step={aiCurationStep} />
     </div>

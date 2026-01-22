@@ -36,12 +36,16 @@ export default function ReviewDetail({
 
         <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
           {images.map((image) => (
-            <Link key={image} href={`/photo-final-detail/${id}/photos/${reviewId}`} className='shrink-0 relative w-[14rem] h-[14rem]'>
+            <Link
+              key={image}
+              href={`/photo-final-detail/${id}/photos/${reviewId}`}
+              className='relative h-[14rem] w-[14rem] shrink-0'
+            >
               <Image src={image} alt={reviewer} fill className='object-cover' />
             </Link>
           ))}
         </div>
-        <p className='caption-14-md'>{content}</p>
+        <p className='caption-14-rg'>{content}</p>
       </div>
     </div>
   );

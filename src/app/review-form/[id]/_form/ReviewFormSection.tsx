@@ -61,8 +61,9 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
     });
   };
 
+  const contentLength = compatibleFormData.content.length;
   const hasContentError = Boolean(compatibleErrors.content);
-  const isContentEmpty = compatibleFormData.content.trim().length < 1;
+  const isContentEmpty = contentLength < 1;
 
   return (
     <>
@@ -100,7 +101,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
                 />
                 <FieldMessage
                   id='review-form-help'
-                  message={`(${compatibleFormData.content.length}/${REVIEW_CONTENT_MAX_LENGTH})`}
+                  message={`(${contentLength}/${REVIEW_CONTENT_MAX_LENGTH})`}
                   variant={hasContentError ? 'error' : 'help'}
                 />
               </div>

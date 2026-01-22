@@ -26,7 +26,7 @@ export default function ClientNavigation({ title }: ClientNavigationProps) {
           <IconArrowBack />
         </IconButton>
       }
-      center={<span className='caption-14-bd text-black-10 flex flex-1 text-center'>{title}</span>}
+      center={<span className='font-16-bd text-black-10 flex flex-1 text-center'>{title}</span>}
       right={
         <IconButton onClick={handleHomeClick} className='h-[2.4rem] w-[2.4rem]'>
           <IconHome />

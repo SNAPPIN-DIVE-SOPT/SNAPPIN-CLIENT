@@ -163,11 +163,11 @@ export default function DatePicker({
       {/* 이전, 다음 월 이동 */}
       <header className='flex flex-row items-center justify-between px-[1.6rem] py-[1.4rem]'>
         <IconButton className='text-black-7' onClick={handlePrevMonth} aria-label='이전 달'>
-          <IconKeyboardArrowLeft />
+          <IconKeyboardArrowLeft className='h-[2.8rem] w-[2.8rem]' />
         </IconButton>
-        <span className='text-black-10 font-16-bd'>{headerText}</span>
+        <span className='text-black-10 font-18-bd'>{headerText}</span>
         <IconButton className='text-black-7' onClick={handleNextMonth} aria-label='다음 달'>
-          <IconKeyboardArrowRight />
+          <IconKeyboardArrowRight className='h-[2.8rem] w-[2.8rem]' />
         </IconButton>
       </header>
 
@@ -181,7 +181,7 @@ export default function DatePicker({
             <span
               key={label}
               role='columnheader'
-              className='caption-12-md text-black-7 py-[0.4rem] text-center'
+              className='caption-14-md text-black-7 py-[0.4rem] text-center'
             >
               {label}
             </span>

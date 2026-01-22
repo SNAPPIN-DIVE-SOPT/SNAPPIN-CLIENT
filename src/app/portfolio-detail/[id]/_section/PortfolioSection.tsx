@@ -22,7 +22,7 @@ type PortfolioSectionProps = {
 type DetailRowProps = {
   label: string;
   content: string | MoodCode[];
-}
+};
 
 export default function PortfolioSection({
   id,
@@ -33,7 +33,7 @@ export default function PortfolioSection({
   snapCategory,
   place,
   startsAt,
-  moods
+  moods,
 }: PortfolioSectionProps) {
   const { mutateAsync } = useWishPortfolio();
   const { isLogIn } = useAuth();
@@ -52,20 +52,17 @@ export default function PortfolioSection({
       {/* 포트폴리오 캐러셀 */}
       <PortfolioCarousel images={images} />
       {/* 한줄 설명, 좋아요 */}
-      <div className='flex justify-between items-center px-[2rem] py-[1.6rem]'>
-        <h1 className='font-16-bd text-black-10'>{description}</h1>
-        <div className='flex items-center gap-[0.2rem] w-[4.4rem] h-[3rem]'>
-          <LikeButton
-            isLiked={isLiked}
-            handleClick={handleLike}
-          />
+      <div className='flex items-center justify-between px-[2rem] py-[1.6rem]'>
+        <h1 className='title-20-bd text-black-10'>{description}</h1>
+        <div className='flex h-[3rem] w-[4.4rem] items-center gap-[0.2rem]'>
+          <LikeButton isLiked={isLiked} handleClick={handleLike} />
           <span className='font-18-md text-black-9'>{likeCount}</span>
         </div>
       </div>
       {/* 관련 정보 */}
       <div className='flex flex-col gap-[0.8rem] p-[2rem]'>
-        <h2 className='caption-12-md text-black-10'>관련 정보</h2>
-        <div className='flex flex-col self-stretch gap-[1.2rem] p-[1.6rem] bg-black-1 border-1 border-black-4 rounded-[0.6rem]'>
+        <h2 className='caption-14-md text-black-10'>관련 정보</h2>
+        <div className='bg-black-1 border-black-4 flex flex-col gap-[1.2rem] self-stretch rounded-[0.6rem] border-1 p-[1.6rem]'>
           <DetailRow label='촬영 종류' content={snapCategory} />
           <DetailRow label='촬영 장소' content={place} />
           <DetailRow label='촬영 시각' content={startsAt.slice(0, 5)} />
@@ -76,19 +73,19 @@ export default function PortfolioSection({
   );
 }
 
-function DetailRow({
-  label,
-  content,
-}: DetailRowProps) {
+function DetailRow({ label, content }: DetailRowProps) {
   return (
     <div className='flex gap-[1rem]'>
-      <div className='w-[8rem] self-center caption-12-md text-black-7'>{label}</div>
-      {Array.isArray(content)
-        ? <div className='flex items-center gap-[0.4rem]'>
-            {content.map((mood) => <TagChip key={mood} variant='neon' label={mood} />)}
-          </div>
-        : <span className='caption-12-md text-black-9'>{content}</span>
-      }
+      <div className='caption-14-md text-black-7 w-[8rem] self-center'>{label}</div>
+      {Array.isArray(content) ? (
+        <div className='flex items-center gap-[0.4rem]'>
+          {content.map((mood) => (
+            <TagChip key={mood} variant='neon' label={mood} />
+          ))}
+        </div>
+      ) : (
+        <span className='caption-14-md text-black-9'>{content}</span>
+      )}
     </div>
   );
 }
