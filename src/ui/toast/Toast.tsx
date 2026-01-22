@@ -41,7 +41,7 @@ export default function Toast({ type, message, duration = 3000, className }: Toa
   return (
     <div
       className={cn(
-        'flex items-center justify-center rounded-[0.6rem] bg-black/50 px-[1.2rem] py-[1rem]',
+        'flex items-center justify-center rounded-[0.6rem] bg-black/50 px-[1.2rem] py-[1.3rem]',
         isFadingOut ? 'animate-fade-out' : 'animate-fade-in',
         className,
       )}

@@ -3,16 +3,13 @@
 import { useRouter } from 'next/navigation';
 import { Navigation, IconButton } from '@/ui';
 import { Logo, IconSearch } from '@/assets';
+import { openSearchSheet } from '@/utils/openSearchSheet';
 
 export default function ClientNavigation() {
   const router = useRouter();
 
   const handleClickLogo = () => {
     router.push('/');
-  };
-
-  const handleSearchClick = () => {
-    router.push('/explore');
   };
 
   return (
@@ -23,7 +20,7 @@ export default function ClientNavigation() {
         </IconButton>
       }
       right={
-        <IconButton onClick={handleSearchClick}>
+        <IconButton onClick={openSearchSheet}>
           <IconSearch className='h-[2.4rem] w-[2.4rem]' />
         </IconButton>
       }

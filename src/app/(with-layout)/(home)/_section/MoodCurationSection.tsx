@@ -24,13 +24,13 @@ export default function MoodCurationSection() {
     <section className='scrollbar-hide flex flex-col gap-[1.6rem]'>
       <div className='flex flex-col gap-[0.5rem] w-full'>
         <SectionHeader title={sectionHeaderTitle} />
-        <div className='flex items-end gap-[0.6rem] w-full'>
+        <div className='flex items-center gap-[0.6rem] w-full'>
           <div className='flex gap-[0.5rem]'>
             {moods?.map((mood: string,index: number) => (
               <Chip
                 key={index}
                 label={mood as MoodCode}
-                chipClassName='px-[0.6rem] py-[0.3rem] border-[0.5px] border-black-10 '
+                chipClassName='px-[0.6rem] py-[0.3rem] border-1 border-black-10 '
                 labelClassName='caption-12-md'
               />
             ))}

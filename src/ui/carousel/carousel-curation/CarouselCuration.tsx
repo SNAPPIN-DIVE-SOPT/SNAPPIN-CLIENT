@@ -54,6 +54,7 @@ export default function CarouselCuration({ images, tags, name, className }: Caro
                 imageWidth='36rem'
                 priority={idx === 0}
                 draggable={false}
+                className='rounded-[0.6rem]'
               />
             </CarouselItem>
           ))}

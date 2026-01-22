@@ -5,6 +5,7 @@ import { IconSearch, Logo } from '@/assets';
 import { cn } from '@/utils/cn';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useRouter } from 'next/navigation';
+import { openSearchSheet } from '@/utils/openSearchSheet';
 
 interface ClientHeaderProps {
   isVisible: boolean;
@@ -13,10 +14,6 @@ interface ClientHeaderProps {
 export default function ClientHeader({ isVisible }: ClientHeaderProps) {
   const { isLogIn } = useAuth();
   const router = useRouter();
-
-  const handleSearchClick = () => {
-    router.push('/explore');
-  };
 
   const handleClickLogin = () => {
     router.push('/login');
@@ -42,7 +39,7 @@ export default function ClientHeader({ isVisible }: ClientHeaderProps) {
         left={<Logo width={82} onClick={handleClickLogo} className='cursor-pointer' />}
         right={
           <div className='flex items-center gap-[1.2rem]'>
-            <IconButton onClick={handleSearchClick}>
+            <IconButton onClick={openSearchSheet}>
               <IconSearch />
             </IconButton>
             {isLogIn === false && (
