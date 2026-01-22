@@ -116,13 +116,15 @@ export default function Footer() {
                 type="button"
                 onClick={() => handleClickMenuItem(item.href)}
                 className="flex flex-col items-center gap-[0.2rem]"
-                aria-label={`${item.label} (준비 중)`}
+                aria-label={item.label}
               >
                 <Icon className={cn(active && 'text-black-10')} width={26} height={26} />
                 <span className="caption-10-md">{item.label}</span>
               </button>
             );
           
+        
+            
         })}
       </footer>
     </div>
