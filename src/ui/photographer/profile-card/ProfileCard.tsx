@@ -52,9 +52,9 @@ export default function ProfileCard({
           <span className='caption-14-bd text-black-10'>로그인이 필요해요</span>
         ) : (
           <div className='flex flex-col gap-[0.9rem]'>
-            <div className='flex flex-col gap-[0.4rem]'>
+            <div className='flex flex-col'>
               <span className='caption-14-bd text-black-10'>{name}</span>
-              <span className='caption-12-md text-black-7'>{bio}</span>
+              <span className='caption-14-rg text-black-7'>{bio}</span>
             </div>
             <div className='flex flex-col gap-[0.4rem]'>
               {profileCardInfoRows.map(({ label, value }) => (
@@ -82,7 +82,7 @@ type ProfileCardInfoRowProps = {
 
 const ProfileCardInfoRow = ({ label, value }: ProfileCardInfoRowProps) => (
   <div className='flex items-center gap-[0.8rem]'>
-    <span className='caption-10-md text-black-7'>{label}</span>
-    <span className='caption-10-md text-black-10'>{value}</span>
+    <span className='caption-12-md text-black-7'>{label}</span>
+    <span className='caption-12-md text-black-10'>{value}</span>
   </div>
 );

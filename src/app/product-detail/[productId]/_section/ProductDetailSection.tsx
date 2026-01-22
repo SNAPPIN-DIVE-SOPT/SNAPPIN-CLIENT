@@ -21,18 +21,15 @@ type ProductDetailSectionProps = {
     equipment?: string;
     caution?: string;
   };
-}
+};
 
 type Detail = {
   label: string;
   content?: string;
-}
+};
 
 function removeEmptyDetail(items: Detail[]) {
-  return items.filter(
-    (item): item is { label: string; content: string } =>
-      item.content !== null
-  );
+  return items.filter((item): item is { label: string; content: string } => item.content !== null);
 }
 
 export default function ProductDetailSection({ productInfo }: ProductDetailSectionProps) {
@@ -48,10 +45,10 @@ export default function ProductDetailSection({ productInfo }: ProductDetailSecti
   ]);
 
   return (
-    <section className='flex flex-col gap-[3.2rem] p-[2rem] bg-black-1 mb-[7.4rem]'>
+    <section className='bg-black-1 mb-[7.4rem] flex flex-col gap-[3.2rem] p-[2rem]'>
       <div className='flex flex-col gap-[1.2rem]'>
         {/* 첫번째 박스 - 촬영 종류, 촬영 장소, 스냅 무드 */}
-        <div className='flex flex-col gap-[1.2rem] p-[1.6rem] border-1 border-black-4 rounded-[0.6rem]'>
+        <div className='border-black-4 flex flex-col gap-[1.2rem] rounded-[0.6rem] border-1 p-[1.6rem]'>
           <div className='flex gap-[1rem]'>
             <span className='caption-12-md text-black-7 w-[8rem]'>촬영 종류</span>
             <span className='caption-12-md text-black-10'>{productInfo.snapCategory}</span>
@@ -63,12 +60,14 @@ export default function ProductDetailSection({ productInfo }: ProductDetailSecti
           <div className='flex items-center gap-[1rem]'>
             <span className='caption-12-md text-black-7 w-[8rem]'>스냅 무드</span>
             <div className='flex items-center gap-[0.4rem]'>
-              {productInfo.moods.map((mood) => (<TagChip key={mood} variant='neon' label={mood} />))}
+              {productInfo.moods.map((mood) => (
+                <TagChip key={mood} variant='neon' label={mood} />
+              ))}
             </div>
           </div>
         </div>
         {/* 두번째 박스 - 최대 촬영 인원 ~ 최종 결과물 전달 소요시간 */}
-        <div className='flex flex-col gap-[1rem] p-[2rem] border-1 border-black-4 rounded-[0.6rem]'>
+        <div className='border-black-4 flex flex-col gap-[1rem] rounded-[0.6rem] border-1 p-[2rem]'>
           <div className='flex flex-col gap-[1.2rem]'>
             <DetailLayout
               detailList={[
@@ -94,7 +93,7 @@ export default function ProductDetailSection({ productInfo }: ProductDetailSecti
   );
 }
 
-function DetailLayout({ detailList }: { detailList: Detail[]; }) {
+function DetailLayout({ detailList }: { detailList: Detail[] }) {
   return (
     <div className='flex flex-col gap-[0.8rem]'>
       {detailList.map((detail) => (
@@ -107,7 +106,7 @@ function DetailLayout({ detailList }: { detailList: Detail[]; }) {
   );
 }
 
-function DetailParagraph({ label, content }: { label: string; content: string; }) {
+function DetailParagraph({ label, content }: { label: string; content: string }) {
   return (
     <div className='flex flex-col gap-[0.6rem]'>
       <span className='caption-12-md text-black-7'>{label}</span>

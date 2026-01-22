@@ -28,16 +28,13 @@ export default function ProductCard({
   ...props
 }: ProductCardProps) {
   return (
-    <div
-      className={cn('flex gap-[1.2rem] w-full', className)}
-      {...props}
-    >
-      <div className='shrink-0 relative w-[10.2rem] h-[10.2rem]'>
+    <div className={cn('flex w-full gap-[1.2rem]', className)} {...props}>
+      <div className='relative h-[10.2rem] w-[10.2rem] shrink-0'>
         <Image
-          src={image.src==='' ? productPlaceholder : image.src}
+          src={image.src === '' ? productPlaceholder : image.src}
           alt={image.alt ?? `${name} 상품 이미지`}
           fill
-          className='object-cover rounded-[0.4rem]'
+          className='rounded-[0.4rem] object-cover'
         />
       </div>
       <div className='flex min-w-0 flex-col gap-[0.3rem]'>
@@ -56,7 +53,7 @@ export default function ProductCard({
             <span className='caption-12-md text-black-7 w-[19rem] truncate'>{photographer}</span>
           </div>
         </div>
-        <span className='font-16-bd text-black-10'>{formatNumberWithComma(price)}원~</span>
+        <span className='font-16-md text-black-10'>{formatNumberWithComma(price)}원~</span>
         <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
           {moods.map((tag) => (
             <TagChip key={tag} variant='neon' label={tag} />
