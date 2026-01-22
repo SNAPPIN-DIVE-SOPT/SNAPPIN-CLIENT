@@ -57,7 +57,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   );
 
   const { snapCategory, peopleCount, date } = searchDraft;
-  const formattedCount = `${peopleCount ?? 0}명`;
+  const formattedCount = peopleCount && peopleCount > 0 ? `${peopleCount}명` : '';
 
   const handleFieldClick = (category: SearchField) => {
     setCurrentField(category);
@@ -110,6 +110,11 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
       setPlaceKeyword('');
       setPlaceId('');
     }
+  };
+
+  const handleReset = () => {
+    resetSearchDraft();
+    setPlaceKeyword('');
   };
 
   useEffect(() => {
@@ -221,7 +226,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
           />
         </ControlSheet.Field>
       </div>
-      <SearchFooter handleResetClick={resetSearchDraft} handleConfirmClick={handleSearch} />
+      <SearchFooter handleResetClick={handleReset} handleConfirmClick={handleSearch} />
     </ControlSheet>
   );
 }
