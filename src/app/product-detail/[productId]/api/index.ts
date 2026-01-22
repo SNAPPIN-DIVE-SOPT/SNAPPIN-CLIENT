@@ -23,7 +23,6 @@ import {
   UpdateWishProductData,
   WishProductResponse,
 } from '@/swagger-api/data-contracts';
-import { ApiError } from 'next/dist/server/api-utils';
 
 export const useAvailableTime = (productId: string) => {
   const END_POINT = `/api/v1/products/${productId}/available/duration-time`;
@@ -116,9 +115,6 @@ export const useReservation = (productId: string) => {
         method: 'POST',
         data: body,
       });
-
-      if (res.status === 409) throw new ApiError(409, '예약 시간이 중복됩니다.');
-
       return res.data;
     },
   });
