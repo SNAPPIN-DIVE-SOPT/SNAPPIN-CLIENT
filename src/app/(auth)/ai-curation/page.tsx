@@ -1,10 +1,11 @@
 import { Logo } from '@/assets';
-import { ClientFooter, LottieAnimation } from './components';
+import { ClientFooter, ClientHeader, LottieAnimation } from './components';
 
 export default function Page() {
   return (
     <div className='bg-black-10 flex h-dvh flex-col'>
-      <div className='flex flex-col gap-[4.4rem] mt-[6.4rem]'>
+      <ClientHeader />
+      <div className='flex flex-col gap-[4.4rem] mt-[1rem]'>
         <div className='flex flex-col items-center gap-[1.2rem]'>
           <Logo className='text-neon-black h-[2.6rem] w-[12.9rem]' />
           <div className='flex flex-col items-center gap-[0.8rem]'>

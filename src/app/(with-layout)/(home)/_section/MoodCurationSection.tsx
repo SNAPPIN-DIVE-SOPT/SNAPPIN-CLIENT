@@ -24,7 +24,7 @@ export default function MoodCurationSection() {
     <section className='scrollbar-hide flex flex-col gap-[1.6rem]'>
       <div className='flex flex-col gap-[0.5rem] w-full'>
         <SectionHeader title={sectionHeaderTitle} />
-        <div className='flex items-end gap-[0.6rem] w-full'>
+        <div className='flex items-center gap-[0.6rem] w-full'>
           <div className='flex gap-[0.5rem]'>
             {moods?.map((mood: string,index: number) => (
               <Chip

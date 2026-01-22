@@ -131,7 +131,7 @@ export default function Footer() {
   return (
     <div className='z-20'>
       <div className='bg-black-1 footer-height' />
-      <footer className='border-black-6 footer-height fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
+      <footer className='border-black-6 footer-height fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] px-[2rem] pt-[0.8rem] pb-[1.6rem]'>
         {items.map((item) => {
           const active = isActive(item.href);
           const Icon = active ? item.activeIcon : item.inactiveIcon;
@@ -139,7 +139,7 @@ export default function Footer() {
 
           const content = (
             <>
-              <Icon className={cn(active && 'text-black-10')} />
+              <Icon className={cn(active && 'text-black-10')} width={26} height={26}/>
               <span className='caption-10-md'>{item.label}</span>
             </>
           );

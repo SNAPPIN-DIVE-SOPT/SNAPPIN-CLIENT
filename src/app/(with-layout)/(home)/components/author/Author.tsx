@@ -53,7 +53,7 @@ export default function Author({
             <Chip
               key={specialty}
               label={specialty}
-              chipClassName='px-[0.6rem] py-[0.3rem] border-[0.3px] border-black-10 '
+              chipClassName='px-[0.6rem] py-[0.3rem] border-1 border-black-10 '
               labelClassName='caption-12-md'
             />
           ))}

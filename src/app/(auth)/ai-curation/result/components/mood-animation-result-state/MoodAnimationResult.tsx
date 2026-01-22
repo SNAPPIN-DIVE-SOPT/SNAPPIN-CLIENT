@@ -34,7 +34,7 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
   };
 
   return (
-    <div className='flex flex-col items-center pt-[9rem]'>
+    <div className='flex flex-col items-center pt-[5rem]'>
       <div className='relative min-h-[10rem] w-full'>
         {/*  텍스트 애니메이션 */}
         <AnimatePresence
@@ -139,7 +139,7 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
                 내 무드에 딱 맞는 스냅 보러가기
               </BottomCTAButton.Single>
 
-              <BottomCTAButton.Single color='white' size='large' onClick={handleGoHome}>
+              <BottomCTAButton.Single color='white' size='large' onClick={handleGoHome} className='text-black-10'>
                 홈으로 가기
               </BottomCTAButton.Single>
             </BottomCTAButton>
