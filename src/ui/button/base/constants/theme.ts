@@ -12,8 +12,8 @@ export const BUTTON_DISPLAY: Record<NonNullable<ButtonDisplay>, string> = {
 
 export const BUTTON_SIZE: Record<NonNullable<ButtonSize>, string> = {
   small: 'py-[0.6rem] px-[1.2rem] caption-12-md rounded-[0.4rem]',
-  medium: 'py-[1.25rem] w-full caption-14-bd rounded-[0.6rem]',
-  large: 'py-[1.3rem] w-full font-16-bd rounded-[0.6rem]',
+  medium: 'py-[1.25rem] w-full caption-14-md rounded-[0.6rem]',
+  large: 'py-[1.3rem] w-full font-16-md rounded-[0.6rem]',
   upload: 'py-[1.9rem] w-full caption-14-md rounded-[0.6rem]',
 };
 

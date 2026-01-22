@@ -12,21 +12,23 @@ import { useGetUserInfo } from '@/auth/apis';
 export default function MoodCurationSection() {
   const { isLogIn } = useAuth();
   const { data: userInfo } = useGetUserInfo();
-  const userName=userInfo?.clientInfo?.name ?? "snappin 고객";
+  const userName = userInfo?.clientInfo?.name ?? 'snappin 고객';
   const { data } = useGetPortfoliosRecommendation(isLogIn ?? false);
   const { data: popularPortfolios } = useGetPopularPortfoliosRecommendation(!isLogIn);
 
-  const portfolios = isLogIn ? data?.portfolios ?? [] : popularPortfolios?.portfolios ?? [];
-  const moods = isLogIn ? data?.curatedMoods ?? [] : popularPortfolios?.popularMoods ?? [];
+  const portfolios = isLogIn ? (data?.portfolios ?? []) : (popularPortfolios?.portfolios ?? []);
+  const moods = isLogIn ? (data?.curatedMoods ?? []) : (popularPortfolios?.popularMoods ?? []);
 
-  const sectionHeaderTitle = isLogIn ? `${userName}님을 위한 큐레이션`:"요즘 많이 찾는 무드 큐레이션" ;
+  const sectionHeaderTitle = isLogIn
+    ? `${userName}님을 위한 큐레이션`
+    : '요즘 많이 찾는 무드 큐레이션';
   return (
     <section className='scrollbar-hide flex flex-col gap-[1.6rem]'>
-      <div className='flex flex-col gap-[0.5rem] w-full'>
+      <div className='flex w-full flex-col gap-[0.5rem]'>
         <SectionHeader title={sectionHeaderTitle} />
-        <div className='flex items-center gap-[0.6rem] w-full'>
+        <div className='flex w-full items-center gap-[0.6rem]'>
           <div className='flex gap-[0.5rem]'>
-            {moods?.map((mood: string,index: number) => (
+            {moods?.map((mood: string, index: number) => (
               <Chip
                 key={index}
                 label={mood as MoodCode}
@@ -35,17 +37,19 @@ export default function MoodCurationSection() {
               />
             ))}
           </div>
-          <p className='caption-14-md text-black-8'>스냅사진을 추천할게요</p>
+          <p className='font-16-md text-black-8'>스냅사진을 추천할게요</p>
         </div>
       </div>
       <div className='flex flex-col items-center justify-center gap-[1.6rem]'>
-          {portfolios?.map((portfolio: GetPortfolioResponse) => (
+        {portfolios?.map((portfolio: GetPortfolioResponse) => (
           <Link href={`/portfolio-detail/${portfolio.id}`} key={portfolio.id}>
             <CarouselCuration
-              images={portfolio.images?.map((image) => ({
-                src: image.imageUrl ?? '',
-                alt: portfolio.photographerName ?? '',
-              })) ?? []}
+              images={
+                portfolio.images?.map((image) => ({
+                  src: image.imageUrl ?? '',
+                  alt: portfolio.photographerName ?? '',
+                })) ?? []
+              }
               tags={portfolio.moods ?? []}
               name={portfolio.photographerName ?? ''}
             />
