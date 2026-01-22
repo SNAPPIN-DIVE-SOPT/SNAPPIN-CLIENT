@@ -9,7 +9,6 @@ import { logoutApi } from '../../apis';
 import { deleteAccessToken } from '@/auth/token';
 import { deleteUserType } from '@/auth/userType';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { setLoginStatus } from '@/auth/localStorage';
 
 export default function Menus() {
   const router = useRouter();
@@ -31,7 +30,6 @@ export default function Menus() {
     } finally {
       deleteAccessToken();
       deleteUserType();
-      setLoginStatus('logged_out');
       router.push('/');
       handleModalOpen(false);
     }
