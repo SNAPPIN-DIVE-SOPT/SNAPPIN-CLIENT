@@ -12,6 +12,7 @@ import { useAuth } from '../hooks/useAuth';
 import { setAccessToken } from '../token';
 import { setUserType } from '../userType';
 import { UserType } from '../constant/userType';
+import { useToast } from '@/ui/toast/hooks/useToast';
 
 export const getRefreshToken = async () => {
   const refreshResponse = await fetch(`${SERVER_API_BASE_URL}/api/v1/auth/reissue`, {
@@ -44,8 +45,10 @@ export const useGetUserInfo = () => {
 }
 
 // 유저 프로필 전환 API
-export const useGetSwitchedUserProfile = () => {
+export const useSwitchUserProfile = () => {
   const queryClient = useQueryClient();
+  const { error } = useToast();
+
   return useMutation<GetSwitchedUserProfileResponse, Error, void>({
     mutationFn: async () => {
       const res = await apiRequest<PatchUserRoleData>({
@@ -53,26 +56,19 @@ export const useGetSwitchedUserProfile = () => {
         method: 'PATCH',
       });
 
-      if (!res.data) {
-        throw new Error('/api/v1/users/role 응답에 데이터가 존재하지 않습니다.');
-      }
+      if (!res.data) throw new Error('응답에 데이터가 없습니다.');
       return res.data;
     },
 
     onSuccess: (data) => {
-      if (data.accessToken) {
-        setAccessToken(data.accessToken);
-      }
+      if (data.accessToken) setAccessToken(data.accessToken);
+      if (data.role) setUserType(data.role as UserType);
 
-      if (data.role) {
-        setUserType(data.role as UserType);
-      }
-
-      queryClient.invalidateQueries({queryKey: AUTH_QUERY_KEY.AUTH});
+      queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY.AUTH });
     },
 
-    onError: (err) => {
-      console.error('유저 프로필 전환 실패', err);
+    onError: () => {
+      error('프로필 전환에 실패했습니다. 잠시 후 다시 시도해주세요.', undefined, 'top-[2rem]');
     },
   });
-}
+};

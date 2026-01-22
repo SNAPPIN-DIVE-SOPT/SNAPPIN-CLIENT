@@ -4,16 +4,22 @@ import Image from 'next/image';
 import { Button } from '@/ui';
 import { useGetUserInfo } from '@/auth/apis';
 import { useAuth } from '@/auth/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 export default function ClientProfileCard() {
   const { isLogIn } = useAuth();
   const { data, isFetching } = useGetUserInfo();
+  const router = useRouter();
+
+  const handleLoginClick = () => {
+    router.push('/login');
+  };
 
   if (!isLogIn) {
     return (
       <div className='flex items-center gap-[1.2rem] p-[2rem]'>
         <Image
-          src='/imgs/default-profile.png'
+          src={data?.profileImageUrl ?? '/imgs/default-profile.png'}
           alt='프로필 이미지'
           width={64}
           height={64}
@@ -23,7 +29,7 @@ export default function ClientProfileCard() {
           <span className='caption-14-bd'>
             로그인이 필요해요
           </span>
-          <Button size='small' color='black'>
+          <Button size='small' color='black' onClick={handleLoginClick}>
             로그인
           </Button>
         </div>
@@ -52,7 +58,7 @@ export default function ClientProfileCard() {
   return (
     <div className='flex items-center gap-[1.2rem] p-[2rem]'>
       <Image
-        src={data?.profileImageUrl ?? ''}
+        src={data?.profileImageUrl ?? '/imgs/default-profile.png'}
         alt='프로필 이미지'
         width={64}
         height={64}

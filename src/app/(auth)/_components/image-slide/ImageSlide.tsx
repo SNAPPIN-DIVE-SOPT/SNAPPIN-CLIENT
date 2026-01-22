@@ -73,7 +73,7 @@ export default function ImageSlide() {
               initial={false}
               exit={{ opacity: 0, scale: 0.98 }}
               //애니메이션 속도 조절 : 키울 수록 느리게 이동
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 willChange: 'transform',
                 transform: 'translateZ(0)',

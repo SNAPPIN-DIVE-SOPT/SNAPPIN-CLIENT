@@ -1,13 +1,10 @@
 import { Logo } from '@/assets';
-import { ClientFooter, ClientNavigation } from './components';
-
-import LottieAnimation from './components/lottie-animation/LottieAnimation';
+import { ClientFooter, LottieAnimation } from './components';
 
 export default function Page() {
   return (
     <div className='bg-black-10 flex h-dvh flex-col'>
-      <ClientNavigation />
-      <div className='flex flex-col gap-[4.4rem] mt-[1.6rem]'>
+      <div className='flex flex-col gap-[4.4rem] mt-[6.4rem]'>
         <div className='flex flex-col items-center gap-[1.2rem]'>
           <Logo className='text-neon-black h-[2.6rem] w-[12.9rem]' />
           <div className='flex flex-col items-center gap-[0.8rem]'>

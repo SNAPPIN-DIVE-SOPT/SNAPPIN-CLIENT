@@ -8,11 +8,11 @@ import { cn } from '@/utils/cn';
 import { logoutApi } from '../../apis';
 import { deleteAccessToken } from '@/auth/token';
 import { deleteUserType } from '@/auth/userType';
+import { useAuth } from '@/auth/hooks/useAuth';
 
 export default function Menus() {
   const router = useRouter();
-  //TODO: 메뉴 경로 수정
-  const isLoggedIn = true;
+  const { isLogIn } = useAuth();
 
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
@@ -30,18 +30,17 @@ export default function Menus() {
     } finally {
       deleteAccessToken();
       deleteUserType();
-      router.push('/');
+      router.push('/login');
       handleModalOpen(false);
     }
   };
 
   return (
-    // TODO: 노션 url 삽입
     <section className='bg-black-1 flex flex-col py-[0.8rem]'>
-      <MenuItem label='공지사항' href='/author/profile/notice' />
-      <MenuItem label='FAQ' href='/author/profile/faq' />
-      <MenuItem label='고객센터' href='/author/profile/customer-center' />
-      {isLoggedIn && (
+      <MenuItem label='공지사항' href='https://pretty-shake-931.notion.site/2efa9c9b4473803f9f46fdb17944d7e0?source=copy_link' />
+      <MenuItem label='FAQ' href='https://pretty-shake-931.notion.site/FAQ-2efa9c9b447380b69797cff125db7e5e?source=copy_link' />
+      <MenuItem label='고객센터' href='https://pretty-shake-931.notion.site/2efa9c9b447380a59d79ce7cae04a0bc?source=copy_link' />
+      {isLogIn && (
         <button
           type='button'
           className='caption-14-md bg-black-1 text-red-error py-[1.5rem] pl-[2rem] text-left'

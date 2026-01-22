@@ -6,7 +6,7 @@ export type UserTypeToggleProps = {
   selectedType: UserType;
   className?: string;
   onClick: () => void;
-} & Omit<React.HTMLAttributes<HTMLButtonElement>, 'onClick'>;
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>;
 
 export default function UserTypeToggle({
   selectedType,

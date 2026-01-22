@@ -3,8 +3,8 @@ import type { NextRequest } from 'next/server';
 import { USER_TYPE } from '@/auth/constant/userType';
 
 const LOGIN_RESTRICTED_PATHS = ['/login'];
-// TODO: 로그인이 필요한 페이지 (인증이 필요한 페이지) update
-const AUTH_REQUIRED_PATHS = ['/profile'];
+// 로그인이 필요한 페이지 (인증이 필요한 페이지)
+const AUTH_REQUIRED_PATHS = ['/photographer/profile', '/photographer/reservation'];
 
 function isPathMatch(pathname: string, basePath: string) {
   return pathname === basePath || pathname.startsWith(`${basePath}/`);

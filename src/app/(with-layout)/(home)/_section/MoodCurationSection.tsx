@@ -7,11 +7,12 @@ import { SectionHeader } from '../components';
 import { useGetPopularPortfoliosRecommendation, useGetPortfoliosRecommendation } from '../api';
 import { GetPortfolioResponse } from '@/swagger-api/data-contracts';
 import Link from 'next/link';
+import { useGetUserInfo } from '@/auth/apis';
 
 export default function MoodCurationSection() {
   const { isLogIn } = useAuth();
-  //TODO: 로그인 시 사용자 이름 조회 후 사용
-  const userName="gkals"
+  const { data: userInfo } = useGetUserInfo();
+  const userName=userInfo?.clientInfo?.name ?? "snappin 고객";
   const { data } = useGetPortfoliosRecommendation(isLogIn ?? false);
   const { data: popularPortfolios } = useGetPopularPortfoliosRecommendation(!isLogIn);
 
@@ -21,15 +22,15 @@ export default function MoodCurationSection() {
   const sectionHeaderTitle = isLogIn ? `${userName}님을 위한 큐레이션`:"요즘 많이 찾는 무드 큐레이션" ;
   return (
     <section className='scrollbar-hide flex flex-col gap-[1.6rem]'>
-      <div className='flex flex-col gap-[0.5rem]'>
+      <div className='flex flex-col gap-[0.5rem] w-full'>
         <SectionHeader title={sectionHeaderTitle} />
-        <div className='flex items-end gap-[0.6rem]'>
+        <div className='flex items-end gap-[0.6rem] w-full'>
           <div className='flex gap-[0.5rem]'>
             {moods?.map((mood: string,index: number) => (
               <Chip
                 key={index}
                 label={mood as MoodCode}
-                chipClassName='px-[0.6rem] py-[0.3rem] border-[0.3px] border-black-10 '
+                chipClassName='px-[0.6rem] py-[0.3rem] border-[0.5px] border-black-10 '
                 labelClassName='caption-12-md'
               />
             ))}
