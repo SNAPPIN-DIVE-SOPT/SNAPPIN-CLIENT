@@ -49,9 +49,9 @@ export default function Toast({ type, message, duration = 3000, className }: Toa
       {type !== 'alert' && ANIMATION_DATA[type] && (
         <Lottie animationData={ANIMATION_DATA[type]} className='h-[3rem] w-[3rem]' />
       )}
-      <div className='caption-14-md text-black-1'>{message}</div>
+      <div className='caption-14-rg text-black-1'>{message}</div>
       {type === 'login' && (
-        <Link href='/login' className='caption-12-md text-neon-black ml-[1rem] underline'>
+        <Link href='/login' className='caption-14-md text-neon-black ml-[1rem] underline'>
           로그인하기
         </Link>
       )}

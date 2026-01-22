@@ -21,7 +21,7 @@ export default function LikeEmpty({ tab }: PortfolioEmptyProps) {
   return (
     <section className='bg-black-1 flex min-h-[calc(100dvh-7.2rem-5rem-4.5rem)] flex-col items-center justify-center gap-[0.4rem]'>
       <h3 className='font-18-bd text-black-9'>{heading}</h3>
-      <span className='caption-14-md text-black-6'>{description}</span>
+      <span className='caption-14-rg text-black-7'>{description}</span>
     </section>
   );
 }
