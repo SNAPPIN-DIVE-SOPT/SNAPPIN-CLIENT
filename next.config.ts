@@ -4,7 +4,6 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    unoptimized: true,
     remotePatterns: [
       //TODO: 아래 삭제 및 추가 필요
       {
