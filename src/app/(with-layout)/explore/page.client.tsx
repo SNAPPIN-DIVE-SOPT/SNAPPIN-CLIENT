@@ -38,12 +38,20 @@ export default function PageClient() {
   const snapCategoryLabel = SNAP_CATEGORY[snapCategory as keyof typeof SNAP_CATEGORY] ?? null;
   const placeLabel = placeName ?? null;
 
-  const headline = joinOrFallback([snapCategoryLabel, placeLabel], '어떤 스냅 작가를 찾고 있나요?');
+  const hasHeadline = Boolean(snapCategoryLabel || placeLabel);
+  const hasSupporting = Boolean(date || (peopleCount && peopleCount > 0));
 
-  const supportingText = joinOrFallback(
-    [formatDateDot(date), formatPeople(peopleCount)],
-    '날짜, 스냅 종류, 지역 기반으로 정교한 검색',
-  );
+  const headline = hasHeadline
+    ? joinOrFallback([snapCategoryLabel, placeLabel], '')
+    : hasSupporting
+      ? '-'
+      : '어떤 스냅 작가를 찾고 있나요?';
+
+  const supportingText = hasSupporting
+    ? joinOrFallback([formatDateDot(date), formatPeople(peopleCount)], '')
+    : hasHeadline
+      ? '-'
+      : '날짜, 스냅 종류, 지역 기반으로 정교한 검색';
 
   const currentTab = useMemo(() => {
     const raw = sp.get('tab'); // string | null
