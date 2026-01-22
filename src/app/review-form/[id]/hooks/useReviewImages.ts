@@ -54,6 +54,7 @@ export const useReviewImages = () => {
   /** 이미지 제거 */
   const removeImage = useCallback((id: string) => {
     setImages((prev) => prev.filter((img) => img.id !== id));
+    if (images.length <= 5) return setHasError(false);
   }, []);
 
   const useAutoScrollReviewImages = (imageCount: number) => {
@@ -64,7 +65,7 @@ export const useReviewImages = () => {
       previousCountRef.current = imageCount;
 
       if (imageCount < 1) return;
-      if (imageCount <= previousCount) return; // skip when removing or same size
+      if (imageCount <= previousCount) return;
 
       const element = document.getElementById('review-image-list');
       if (!element) return;
