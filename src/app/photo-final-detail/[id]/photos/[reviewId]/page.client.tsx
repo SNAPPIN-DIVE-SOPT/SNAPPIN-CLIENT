@@ -21,7 +21,7 @@ export default function PageClient({ reviewId }: PageClientProps) {
   return (
     <>
       <ImageSlide images={data?.images?.map((image) => ({ src: image })) ?? []} />
-      <div className='flex w-full flex-col gap-[1.2rem] px-[2rem]'>
+      <div className='mt-[2rem] mb-[5rem] flex w-full flex-col gap-[1.2rem] px-[2rem]'>
         <div className='flex flex-col gap-[0.6rem]'>
           <div className='flex items-center justify-between'>
             <ReviewStar
@@ -33,10 +33,10 @@ export default function PageClient({ reviewId }: PageClientProps) {
               {formatShortDate(data?.createdAt ?? '')}
             </span>
           </div>
-            <span className='caption-12-md text-black-7'>{data?.reviewer ?? ''}</span>
+          <span className='caption-12-md text-black-7'>{data?.reviewer ?? ''}</span>
         </div>
-        <p className='caption-14-bd text-black-1'>{data?.content ?? ''}</p>
+        <p className='caption-14-rg text-black-1'>{data?.content ?? ''}</p>
       </div>
-      </>
-  )
+    </>
+  );
 }

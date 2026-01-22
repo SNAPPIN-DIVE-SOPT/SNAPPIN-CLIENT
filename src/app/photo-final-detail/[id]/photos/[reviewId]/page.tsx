@@ -16,7 +16,7 @@ export default async function Page({ params }: PhotoFinalDetailPageProps) {
   }
 
   return (
-    <div className='bg-black-10 relative flex h-dvh flex-col items-center justify-around'>
+    <div className='bg-black-10 relative flex flex-col items-center justify-around'>
       <NavigationClient />
       <PageClient id={idNumber} reviewId={reviewIdNumber} />
     </div>
