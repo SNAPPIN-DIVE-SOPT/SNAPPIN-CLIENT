@@ -40,7 +40,7 @@ const menuUserItems: MenuItem[] = [
 ];
 
 const menuAuthorItems: MenuItem[] = [
-  { href: '/', activeIcon: IconHomeFill, inactiveIcon: IconHome, label: '홈' },
+  { href: null, activeIcon: IconHomeFill, inactiveIcon: IconHome, label: '홈' },
   { href: null, activeIcon: IconMessageFill, inactiveIcon: IconMessage, label: '상품 관리' },
   { href: '/photographer/reservation', activeIcon: IconReservationFill, inactiveIcon: IconReservation, label: '예약 관리' },
   { href: null, activeIcon: IconMessageFill, inactiveIcon: IconMessage, label: '메시지함' },
@@ -94,11 +94,14 @@ export default function Footer() {
       error('준비 중입니다. 조금만 기다려주세요!', undefined, 'bottom-[8rem]');
       return;
     }
+
+    removeToast();
+
     if (!isLogIn && href === '/profile') {
       router.push('/login');
       return;
     }
-    removeToast();
+
     router.push(href);
   };
 
@@ -121,10 +124,7 @@ export default function Footer() {
                 <Icon className={cn(active && 'text-black-10')} width={26} height={26} />
                 <span className="caption-10-md">{item.label}</span>
               </button>
-            );
-          
-        
-            
+            );           
         })}
       </footer>
     </div>
