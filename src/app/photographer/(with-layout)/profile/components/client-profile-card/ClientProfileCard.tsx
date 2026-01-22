@@ -14,21 +14,11 @@ type ClientProfileCardProps = {
 export default function ClientProfileCard({ userType, isSwitching }: ClientProfileCardProps) {
   const { isLogIn } = useAuth();
   const { data, isFetching } = useGetUserInfo();
-
-  if (isFetching || isSwitching) {
+  if (isFetching || isSwitching || !isLogIn) {
     return (
-      <div className='flex items-center gap-[1.2rem] p-[2rem] py-[2.1rem] bg-black-1'>
+      <div className='flex items-center gap-[1.2rem] p-[2rem] pb-[2.9rem] bg-black-1 h-[11.3rem]'>
         <div className='w-[6.4rem] h-[6.4rem] rounded-full bg-black-3' />
-        <div className='flex flex-col gap-[0.9rem]'>
-          <div className='flex flex-col gap-[0.4rem]'>
-            <div className='w-[3.7rem] h-[1.7rem] bg-black-3 rounded-[0.2rem]' />
-            <div className='w-[9rem] h-[1.2rem] bg-black-3 rounded-[0.2rem]' />
-          </div>
-          <div className='flex flex-col gap-[0.4rem]'>
-            <div className='w-[15.8rem] h-[1.2rem] bg-black-3 rounded-[0.2rem]' />
-            <div className='w-[3.7rem] h-[1.2rem] bg-black-3 rounded-[0.2rem]' />
-          </div>
-        </div>
+        <div className='bg-black-3 w-[4rem] h-[1.7rem] rounded-[0.2rem]'/>
       </div>
     );
   }
@@ -36,12 +26,13 @@ export default function ClientProfileCard({ userType, isSwitching }: ClientProfi
   if (userType === USER_TYPE.PHOTOGRAPHER) {
     return (
       <ProfileCard
-        profileImageUrl={data?.profileImageUrl ?? ''}
+        profileImageUrl={data?.profileImageUrl ?? '/imgs/default-profile.png'}
         name={data?.photographerInfo?.name ?? ''}
         bio={data?.photographerInfo?.bio ?? ''}
         specialties={data?.photographerInfo?.specialties ?? []}
         locations={data?.photographerInfo?.locations ?? []}
         isLoggedIn={!!isLogIn}
+        className='h-[11.3rem]'
       />
     );
   }

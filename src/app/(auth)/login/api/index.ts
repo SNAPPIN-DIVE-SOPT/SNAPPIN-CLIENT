@@ -8,6 +8,7 @@ import { USER_TYPE, UserType } from '@/auth/constant/userType';
 import { setUserType } from '@/auth/userType';
 import { setAccessToken } from '@/auth/token';
 import { useToast } from '@/ui/toast/hooks/useToast';
+import { setLoginStatus } from '@/auth/localStorage';
 
 type KakaoCodePayload = { code: string };
 
@@ -38,7 +39,7 @@ export const useKakaoLoginMutation = () => {
     onSuccess: (data) => {
       setAccessToken(data.data?.accessToken ?? '');
       setUserType(data.data?.role as UserType);
-      console.log(data.data);
+      setLoginStatus('logged_in');
       if(data.data?.isNew){
         router.replace('/ai-curation');
       }else if(data.data?.role === USER_TYPE.PHOTOGRAPHER){

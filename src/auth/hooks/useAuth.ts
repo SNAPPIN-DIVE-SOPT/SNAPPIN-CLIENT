@@ -1,41 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-import { isUserLoggedIn, deleteAccessToken } from '@/auth/token';
-import { useRouter } from 'next/navigation';
-import { deleteUserType } from '../userType';
+import { getLoginStatus } from '../localStorage';
 
 export function useAuth() {
-  const router = useRouter();
-  const [isLogIn, setIsLogIn] = useState<boolean | null>(null);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isLogIn, setIsLogIn] = useState<boolean | null>(() =>
+    getLoginStatus() === 'logged_in',
+  );
+
+  const sync = () => {
+    setIsLogIn(getLoginStatus() === 'logged_in');
+  };
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const loggedInStatus = await isUserLoggedIn();
-        setIsLogIn(loggedInStatus);
-      } catch {
-        setIsLogIn(false);
-      }
-    };
-
-    checkLoginStatus();
+    window.addEventListener('auth:changed', sync);
+    return () => window.removeEventListener('auth:changed', sync);
   }, []);
 
-  const logout = async () => {
-    setIsLoggingOut(true);
-    await deleteAccessToken();
-    await deleteUserType();
-    setIsLogIn(false);
-    setIsLoggingOut(false);
-    router.push('/');
-  };
-
-  return {
-    isLogIn,
-    logout,
-    isLoggingOut,
-  };
+  return { isLogIn };
 }
