@@ -68,8 +68,7 @@ export default function FadeCarousel({ images }: FadeCarouselProps) {
               스냅 촬영을 예약해보세요
             </p>
           </div>
-          {/* TODO: 검색 페이지 연결 */}
-          <Link href='/' className='w-full'>
+          <Link href='/explore' className='w-full'>
             <ButtonSearchBar
               headline='어떤 스냅 작가를 찾고 있나요?'
               supportingText='스냅 종류, 촬영 장소, 촬영 날짜로 정교한 검색'

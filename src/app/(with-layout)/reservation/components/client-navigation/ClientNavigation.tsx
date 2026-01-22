@@ -12,7 +12,7 @@ export default function ClientNavigation() {
   };
 
   const handleSearchClick = () => {
-    //TODO: 검색 페이지
+    router.push('/explore');
   };
 
   return (

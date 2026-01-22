@@ -19,7 +19,7 @@ export default function ClientProfileCard() {
     return (
       <div className='flex items-center gap-[1.2rem] p-[2rem]'>
         <Image
-          src='/imgs/default-profile.png'
+          src={data?.profileImageUrl ?? '/imgs/default-profile.png'}
           alt='프로필 이미지'
           width={64}
           height={64}
@@ -58,7 +58,7 @@ export default function ClientProfileCard() {
   return (
     <div className='flex items-center gap-[1.2rem] p-[2rem]'>
       <Image
-        src={data?.profileImageUrl ?? ''}
+        src={data?.profileImageUrl ?? '/imgs/default-profile.png'}
         alt='프로필 이미지'
         width={64}
         height={64}

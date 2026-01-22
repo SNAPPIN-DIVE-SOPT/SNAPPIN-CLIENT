@@ -2,10 +2,12 @@
 
 import { Navigation } from '@/ui';
 import { Logo, IconSearch } from '@/assets';
+import { useRouter } from 'next/navigation';
 
 export default function NavigationClient() {
+  const router = useRouter();
   const handleSearchClick = () => {
-    //TODO: 검색 페이지로 이동
+    router.push('/explore');
   };
 
   return (

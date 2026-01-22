@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { SVGProps, useEffect } from 'react';
+import type { SVGProps } from 'react';
+import { useEffect } from 'react';
 import {
   IconHomeFill,
   IconHome,
@@ -21,75 +22,39 @@ import { cn } from '@/utils/cn';
 import { useGetUserInfo } from '@/auth/apis';
 import { setUserType } from '@/auth/userType';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { USER_TYPE, UserType } from '@/auth/constant/userType';
+import { USER_TYPE, type UserType } from '@/auth/constant/userType';
+import { useToast } from '../toast/hooks/useToast';
 
-const menuUserItems: {
+type MenuItem = {
   href: string;
   activeIcon: React.ComponentType<SVGProps<SVGSVGElement>>;
   inactiveIcon: React.ComponentType<SVGProps<SVGSVGElement>>;
   label: string;
-}[] = [
-  {
-    href: '/',
-    activeIcon: IconHomeFill,
-    inactiveIcon: IconHome,
-    label: '홈',
-  },
-  {
-    href: '/like',
-    activeIcon: IconHeartFill,
-    inactiveIcon: IconHeart,
-    label: '좋아요',
-  },
-  {
-    href: '/explore',
-    activeIcon: IconExploreFill,
-    inactiveIcon: IconExplore,
-    label: '탐색',
-  },
+};
+
+const menuUserItems: MenuItem[] = [
+  { href: '/', activeIcon: IconHomeFill, inactiveIcon: IconHome, label: '홈' },
+  { href: '/like', activeIcon: IconHeartFill, inactiveIcon: IconHeart, label: '좋아요' },
+  { href: '/explore', activeIcon: IconExploreFill, inactiveIcon: IconExplore, label: '탐색' },
   {
     href: '/reservation',
     activeIcon: IconReservationFill,
     inactiveIcon: IconReservation,
     label: '예약',
   },
-  {
-    href: '/profile',
-    activeIcon: IconProfileFill,
-    inactiveIcon: IconProfile,
-    label: '프로필',
-  },
+  { href: '/profile', activeIcon: IconProfileFill, inactiveIcon: IconProfile, label: '프로필' },
 ];
-const menuAuthorItems: {
-  href: string;
-  activeIcon: React.ComponentType<SVGProps<SVGSVGElement>>;
-  inactiveIcon: React.ComponentType<SVGProps<SVGSVGElement>>;
-  label: string;
-}[] = [
-  {
-    href: '/',
-    activeIcon: IconHomeFill,
-    inactiveIcon: IconHome,
-    label: '홈',
-  },
-  {
-    href: '/empty',
-    activeIcon: IconMessageFill,
-    inactiveIcon: IconMessage,
-    label: '상품 관리',
-  },
+
+const menuAuthorItems: MenuItem[] = [
+  { href: '/', activeIcon: IconHomeFill, inactiveIcon: IconHome, label: '홈' },
+  { href: '/empty', activeIcon: IconMessageFill, inactiveIcon: IconMessage, label: '상품 관리' },
   {
     href: '/photographer/reservation',
     activeIcon: IconReservationFill,
     inactiveIcon: IconReservation,
     label: '예약 관리',
   },
-  {
-    href: '/empty',
-    activeIcon: IconMessageFill,
-    inactiveIcon: IconMessage,
-    label: '메시지함',
-  },
+  { href: '/empty', activeIcon: IconMessageFill, inactiveIcon: IconMessage, label: '메시지함' },
   {
     href: '/photographer/profile',
     activeIcon: IconProfileFill,
@@ -97,30 +62,11 @@ const menuAuthorItems: {
     label: '프로필',
   },
 ];
-const menuUserAuthorItems: {
-  href: string;
-  activeIcon: React.ComponentType<SVGProps<SVGSVGElement>>;
-  inactiveIcon: React.ComponentType<SVGProps<SVGSVGElement>>;
-  label: string;
-}[] = [
-  {
-    href: '/',
-    activeIcon: IconHomeFill,
-    inactiveIcon: IconHome,
-    label: '홈',
-  },
-  {
-    href: '/like',
-    activeIcon: IconHeartFill,
-    inactiveIcon: IconHeart,
-    label: '좋아요',
-  },
-  {
-    href: '/explore',
-    activeIcon: IconExploreFill,
-    inactiveIcon: IconExplore,
-    label: '탐색',
-  },
+
+const menuUserAuthorItems: MenuItem[] = [
+  { href: '/', activeIcon: IconHomeFill, inactiveIcon: IconHome, label: '홈' },
+  { href: '/like', activeIcon: IconHeartFill, inactiveIcon: IconHeart, label: '좋아요' },
+  { href: '/explore', activeIcon: IconExploreFill, inactiveIcon: IconExplore, label: '탐색' },
   {
     href: '/reservation',
     activeIcon: IconReservationFill,
@@ -135,69 +81,89 @@ const menuUserAuthorItems: {
   },
 ];
 
+const getMenuItems = (opts: {
+  isLogIn: boolean;
+  role?: UserType;
+  hasPhotographerProfile?: boolean;
+}): MenuItem[] => {
+  const { isLogIn, role, hasPhotographerProfile } = opts;
+
+  // 비로그인: 유저 메뉴
+  if (!isLogIn) return menuUserItems;
+
+  // 작가 모드
+  if (role === USER_TYPE.PHOTOGRAPHER) return menuAuthorItems;
+
+  // 클라 + 작가 프로필 보유(겸업)
+  if (role === USER_TYPE.CLIENT && hasPhotographerProfile) return menuUserAuthorItems;
+
+  // 일반 클라
+  return menuUserItems;
+};
+
 export default function Footer() {
   const pathname = usePathname();
-  const isActive = (href: string) => pathname === href;
-
   const { isLogIn } = useAuth();
+  const { error } = useToast();
   const { data } = useGetUserInfo();
 
+  // Footer에서 저장 책임을 갖는 게 애매하긴 하지만,
+  // 현재 구조를 유지한다면 최소한 안전하게(로그인+role 있을 때만) 동기화
   useEffect(() => {
-    if (isLogIn) {
-      setUserType(data?.role as UserType);
-    }
+    if (!isLogIn) return;
+    if (!data?.role) return;
+    setUserType(data.role as UserType);
   }, [isLogIn, data?.role]);
+
+  const items = getMenuItems({
+    isLogIn: isLogIn ?? false,
+    role: data?.role as UserType | undefined,
+    hasPhotographerProfile: data?.hasPhotographerProfile,
+  });
+
+  const isActive = (href: string) => {
+    // 홈은 exact match
+    if (href === '/') return pathname === '/';
+    // 하위 경로도 활성 처리
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   return (
     <div className='z-20'>
       <div className='bg-black-1 footer-height' />
       <footer className='border-black-6 footer-height fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] p-[0.8rem_2rem_1.6rem_2rem]'>
-        {data?.role === USER_TYPE.CLIENT && !data?.hasPhotographerProfile &&
-          menuUserItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className='flex flex-col items-center gap-[0.2rem]'
-            >
-              {isActive(item.href) ? (
-                <item.activeIcon className={cn(isActive(item.href) && 'text-black-10')} />
-              ) : (
-                <item.inactiveIcon />
-              )}
-              <span className='caption-10-md'>{item.label}</span>
-            </Link>
-          ))}
-        {data?.role === USER_TYPE.CLIENT || !isLogIn &&
-          menuUserAuthorItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className='flex flex-col items-center gap-[0.2rem]'
-            >
-              {isActive(item.href) ? (
-                <item.activeIcon className={cn(isActive(item.href) && 'text-black-10')} />
-              ) : (
-                <item.inactiveIcon />
-              )}
-              <span className='caption-10-md'>{item.label}</span>
-            </Link>
-          ))}
+        {items.map((item) => {
+          const active = isActive(item.href);
+          const Icon = active ? item.activeIcon : item.inactiveIcon;
+          const isEmpty = item.href === '/empty';
 
-        {data?.role === USER_TYPE.PHOTOGRAPHER &&
-          menuAuthorItems.map((item) => (
+          const content = (
+            <>
+              <Icon className={cn(active && 'text-black-10')} />
+              <span className='caption-10-md'>{item.label}</span>
+            </>
+          );
+
+          return isEmpty ? (
+            <button
+              key={item.label}
+              type='button'
+              onClick={() => error('준비 중입니다. 조금만 기다려주세요!', undefined, 'bottom-[8rem]')}
+              className='flex flex-col items-center gap-[0.2rem]'
+              aria-label={`${item.label} (준비 중)`}
+            >
+              {content}
+            </button>
+          ) : (
             <Link
               key={item.label}
               href={item.href}
               className='flex flex-col items-center gap-[0.2rem]'
             >
-              {isActive(item.href) ? (
-                <item.activeIcon className={cn(isActive(item.href) && 'text-black-10')} />
-              ) : (
-                <item.inactiveIcon />
-              )}
-              <span className='caption-10-md'>{item.label}</span>
+              {content}
             </Link>
-          ))}
+          );
+        })}
       </footer>
     </div>
   );

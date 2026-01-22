@@ -12,7 +12,7 @@ export default function ClientHeader() {
   };
 
   const handleSearchClick = () => {
-    // TODO: 검색 페이지로 이동
+    router.push('/explore');
   };
 
   return (

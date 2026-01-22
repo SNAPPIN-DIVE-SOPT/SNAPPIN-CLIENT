@@ -7,9 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function Header() {
   const router = useRouter();
   const handleNavigateHome = () => router.push('/');
-
-  // todo: 검색창 구현 후 이벤트 핸들링
-  const handleNavigateSearch = () => {};
+  const handleNavigateSearch = () => { router.push('/explore'); };
 
   return (
     <Navigation
