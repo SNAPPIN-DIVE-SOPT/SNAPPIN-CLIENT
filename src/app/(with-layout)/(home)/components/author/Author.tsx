@@ -19,8 +19,8 @@ export default function Author({
   bio,
   specialties,
 }: AuthorProps) {
+  console.log(isNew)
   return (
-   
     <Link
       href={`/photographer-detail/${id}`}
       className='bg-black-3 border-black-4 flex w-[18.4rem] shrink-0 flex-col gap-[0.5rem] rounded-[0.4rem] border-[0.5px] p-[1.2rem]'
@@ -29,7 +29,7 @@ export default function Author({
         {isNew && (
           <Chip
             label='NEW'
-            chipClassName='bg-neon-black absolute top-[0.6rem] left-[0.6rem] px-[0.6rem] py-[0.3rem]'
+            chipClassName='z-10 bg-neon-black absolute top-[0.6rem] left-[0.6rem] px-[0.6rem] py-[0.3rem]'
             labelClassName='caption-12-md'
           />
         )}

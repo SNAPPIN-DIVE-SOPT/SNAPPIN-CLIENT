@@ -30,7 +30,7 @@ export default function MoodCurationSection() {
               <Chip
                 key={index}
                 label={mood as MoodCode}
-                chipClassName='px-[0.6rem] py-[0.3rem] border-[0.5px] border-black-10 '
+                chipClassName='px-[0.6rem] py-[0.3rem] border-1 border-black-10 '
                 labelClassName='caption-12-md'
               />
             ))}
