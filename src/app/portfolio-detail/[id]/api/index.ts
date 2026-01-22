@@ -80,7 +80,7 @@ export const useWishPortfolio = () => {
       queryClient.setQueryData<GetPortfolioDetailResponse>(
         authKey,
         (old) => {
-          if (!old || !old.likeCount) return old;
+          if (!old || old.likeCount === undefined || old.likeCount === null) return old;
 
           const willBeLiked = !old.isLiked;
 
