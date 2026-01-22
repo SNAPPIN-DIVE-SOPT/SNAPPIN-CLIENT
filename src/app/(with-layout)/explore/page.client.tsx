@@ -110,7 +110,9 @@ export default function PageClient() {
         </SectionTabs.List>
 
         {/* 필터 */}
-        <ExploreFilter />
+        <Suspense fallback={<div className='h-[5.6rem]' />}>
+          <ExploreFilter />
+        </Suspense>
       </header>
 
       {/* 탐색 페이지 탭 메인 콘텐츠 영역 */}
