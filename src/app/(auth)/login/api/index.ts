@@ -38,8 +38,11 @@ export const useKakaoLoginMutation = () => {
     onSuccess: (data) => {
       setAccessToken(data.data?.accessToken ?? '');
       setUserType(data.data?.role as UserType);
+      console.log(data.data);
       if(data.data?.isNew){
         router.replace('/ai-curation');
+      }else if(data.data?.role === USER_TYPE.PHOTOGRAPHER){
+        router.replace('/photographer/reservation');
       }else{
         router.replace('/');
       }
