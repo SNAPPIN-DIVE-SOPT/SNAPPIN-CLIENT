@@ -18,7 +18,7 @@ import {
   IconHeart,
 } from '@/assets';
 import { cn } from '@/utils/cn';
-import { useGetUserInfo } from '@/auth/apis';
+import { useGetUserInfo, usePrefetchUserProfile } from '@/auth/apis';
 import { setUserType } from '@/auth/userType';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { USER_TYPE, type UserType } from '@/auth/constant/userType';
@@ -67,6 +67,7 @@ const getMenuItems = (opts: { isLogIn: boolean; role?: UserType; hasPhotographer
 export default function Footer() {
   const pathname = usePathname();
   const router = useRouter();
+  const prefetchUserProfile = usePrefetchUserProfile();
   const { isLogIn } = useAuth();
   const { error, removeToast } = useToast();
   const { data } = useGetUserInfo();
@@ -100,6 +101,9 @@ export default function Footer() {
     if (!isLogIn && href === '/profile') {
       router.push('/login');
       return;
+    }
+    if(href === '/photographer/profile') {
+      prefetchUserProfile();
     }
 
     router.push(href);
