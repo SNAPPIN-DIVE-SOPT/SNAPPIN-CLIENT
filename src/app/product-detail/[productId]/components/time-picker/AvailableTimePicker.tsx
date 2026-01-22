@@ -25,7 +25,6 @@ export default function AvailableTimeSection({
         value={time ?? undefined}
         handleChange={onChangeTime}
       />
-      ;
     </BottomDrawer.Row>
   );
 }
