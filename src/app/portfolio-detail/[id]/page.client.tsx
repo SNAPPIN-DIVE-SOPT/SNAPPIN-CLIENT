@@ -68,7 +68,7 @@ export default function ClientPage({ id }: ClientPageProps) {
 const PortfolioDetailSkeleton = () => {
   return (
     <section>
-      <div className='bg-black-3 aspect-square w-full' />
+      <div className='w-full aspect-[3/4] bg-black-3' />
       <div className='px-[2rem] py-[1.6rem]'>
         <div className='flex h-[3rem] justify-between'>
           <div className='bg-black-3 h-[2.5rem] w-[14.4rem] rounded-[0.2rem]' />
@@ -76,8 +76,8 @@ const PortfolioDetailSkeleton = () => {
         </div>
       </div>
       <div className='flex flex-col gap-[0.8rem] p-[2rem]'>
-        <span className='caption-12-md text-black-10'>관련 정보</span>
-        <div className='border-black-5 flex flex-col gap-[1.2rem] rounded-[0.6rem] border-1 p-[1.6rem]'>
+        <span className='caption-14-md text-black-10'>관련 정보</span>
+        <div className='flex flex-col gap-[1.2rem] p-[1.6rem] border-1 border-black-5 rounded-[0.6rem]'>
           {Array.from({ length: 4 }).map((_, idx) => (
             <div key={idx} className='flex h-[1.4rem] gap-[1rem]'>
               <div className='bg-black-3 flex w-[8rem] rounded-[0.2rem]' />

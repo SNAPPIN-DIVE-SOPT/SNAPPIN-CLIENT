@@ -114,7 +114,10 @@ function Review({
       <div className='flex gap-[0.4rem] w-full ml-[2rem] overflow-x-auto scrollbar-hide'>
         {reviewImages.map((image, idx) => (
           <Link
-            href={`${pathname}/review/${id}`}
+            href={{
+              pathname: `${pathname}/review/${id}`,
+              query: { image: idx },
+            }}
             key={idx}
             className='relative w-[14rem] h-[14rem] shrink-0'
           >

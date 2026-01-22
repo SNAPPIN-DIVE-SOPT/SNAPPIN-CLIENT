@@ -22,7 +22,7 @@ export default function PortfolioListSection({ id }: PortfolioListSectionProps) 
 
   if (isFetching && isEmpty) {
     return (
-      <section>
+      <section className='mt-[4.6rem]'>
         <PortfolioListSkeleton />
       </section>
     );
@@ -31,7 +31,7 @@ export default function PortfolioListSection({ id }: PortfolioListSectionProps) 
   if (isEmpty) {
     return (
       <section>
-        <div className='flex justify-center items-center min-h-[calc(100vh-19.9rem)] '>
+        <div className='flex justify-center items-center min-h-[calc(100dvh-9.5rem-7.2rem)]'>
           <span className='caption-14-rg text-black-6 text-center'>
             아직 작가님이<br/>포트폴리오를 등록하지 않았어요
           </span>
