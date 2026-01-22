@@ -13,7 +13,8 @@ export default function Header() {
 
   const handleGoHome = () => {
     router.push('/');
-  };
+    sessionStorage.removeItem('home-scroll');
+  }
 
   return (
     <Navigation
