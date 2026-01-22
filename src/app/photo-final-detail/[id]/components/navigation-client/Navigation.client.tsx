@@ -19,7 +19,7 @@ export default function NavigationClient() {
     <Navigation
       isFixed={true}
       left={<IconArrowBack onClick={handleBackClick} />}
-      center={<p className='caption-14-bd'>촬영 내역</p>}
+      center={<p className='font-16-bd'>촬영 내역</p>}
       right={<IconHome onClick={handleHomeClick} />}
       className='border-b-black-5 border-b-1'
     />

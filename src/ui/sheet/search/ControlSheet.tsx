@@ -47,10 +47,10 @@ const ControlSheetField = ({
       {...props}
     >
       <div className='flex flex-row justify-between'>
-        <h3 className={active ? 'caption-14-bd text-black-10' : 'caption-12-md text-black-8'}>
+        <h3 className={active ? 'caption-14-bd text-black-10' : 'caption-14-md text-black-8'}>
           {label}
         </h3>
-        {showValue && <span className='caption-12-md text-black-10'>{selectedValue}</span>}
+        {showValue && <span className='caption-14-md text-black-10'>{selectedValue}</span>}
       </div>
       {active && children}
     </div>

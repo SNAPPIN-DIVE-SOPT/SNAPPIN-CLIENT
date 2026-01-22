@@ -41,7 +41,7 @@ export default function Toast({ type, message, duration = 3000, className }: Toa
   return (
     <div
       className={cn(
-        'flex items-center justify-center rounded-[0.6rem] bg-black/50 px-[1.2rem] py-[1.3rem]',
+        'flex items-center justify-center rounded-[0.6rem] bg-black/60 px-[1.2rem] py-[1.3rem]',
         isFadingOut ? 'animate-fade-out' : 'animate-fade-in',
         className,
       )}
@@ -49,7 +49,7 @@ export default function Toast({ type, message, duration = 3000, className }: Toa
       {type !== 'alert' && ANIMATION_DATA[type] && (
         <Lottie animationData={ANIMATION_DATA[type]} className='h-[3rem] w-[3rem]' />
       )}
-      <div className='caption-12-md text-black-1'>{message}</div>
+      <div className='caption-14-md text-black-1'>{message}</div>
       {type === 'login' && (
         <Link href='/login' className='caption-12-md text-neon-black ml-[1rem] underline'>
           로그인하기

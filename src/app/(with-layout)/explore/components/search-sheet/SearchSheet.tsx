@@ -150,7 +150,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
 
       {/* 헤더 */}
       <Navigation
-        center={<h3 className='caption-14-bd whitespace-nowrap'>어떤 스냅 작가를 찾고 있나요?</h3>}
+        center={<h3 className='font-16-bd whitespace-nowrap'>어떤 스냅 작가를 찾고 있나요?</h3>}
         right={
           <IconButton type='button' onClick={onOpenChange}>
             <IconClose />

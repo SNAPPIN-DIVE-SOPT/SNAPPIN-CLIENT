@@ -8,10 +8,7 @@ type SnapCategoryProps = {
   handleCategoryChange: (selectedCategory: string | null) => void;
 };
 
-export default function SnapCategory({
-  currentCategory,
-  handleCategoryChange,
-}: SnapCategoryProps) {
+export default function SnapCategory({ currentCategory, handleCategoryChange }: SnapCategoryProps) {
   const { data } = useGetCategories();
   const snapCategories = data.categories ?? MOCK_SNAP_CATEGORIES;
   const isSelected = (categoryKey: string) => currentCategory === categoryKey;
@@ -22,7 +19,7 @@ export default function SnapCategory({
   };
 
   return (
-    <div className='grid grid-cols-2 gap-x-[0.5rem] gap-y-[0.7rem] rounded-[0.4rem]'>
+    <div className='grid grid-cols-2 gap-x-[0.7rem] gap-y-[0.7rem] rounded-[0.4rem]'>
       {snapCategories.map((category) => (
         <SnapCategoryButton
           key={category.key ?? ''}
