@@ -160,7 +160,7 @@ export const useGetProductDetail = (id: number) => {
   return useQuery<GetProductDetailResponse>({
     queryKey: USER_QUERY_KEY.PRODUCT_DETAIL(id, !!isLogIn),
     queryFn: () => getProductDetail(id, !!isLogIn),
-    enabled: !Number.isNaN(id),
+    enabled: !Number.isNaN(id) || isLogIn !== null,
   });
 };
 
@@ -184,7 +184,6 @@ export const useWishProduct = () => {
     // 낙관적 업데이트 수행
     onMutate: async (id) => {
       const authKey = USER_QUERY_KEY.PRODUCT_DETAIL(id, true);
-      // const authKey = USER_QUERY_KEY.PRODUCT_LIKE(id);
 
       await queryClient.cancelQueries({ queryKey: authKey });
 
