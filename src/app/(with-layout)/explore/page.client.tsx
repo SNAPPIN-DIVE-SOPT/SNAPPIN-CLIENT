@@ -20,11 +20,6 @@ const isExploreTab = (value: string | null | undefined) => {
   return value === EXPLORE_TAB.PORTFOLIO || value === EXPLORE_TAB.PRODUCT;
 };
 
-const joinOrFallback = (items: Array<string | null | undefined>, fallback: string) => {
-  const filtered = items.map((v) => v?.trim()).filter(Boolean) as string[];
-  return filtered.length > 0 ? filtered.join(', ') : fallback;
-};
-
 const formatDateDot = (raw: string | null | undefined) => {
   if (!raw) return null;
   return raw.replaceAll('-', '/');
@@ -42,22 +37,21 @@ export default function PageClient() {
 
   const { snapCategory, placeName, date, peopleCount } = useMemo(() => parseInitialDraft(sp), [sp]);
   const snapCategoryLabel = SNAP_CATEGORY[snapCategory as keyof typeof SNAP_CATEGORY] ?? null;
-  const placeLabel = placeName ?? null;
 
-  const hasHeadline = Boolean(snapCategoryLabel || placeLabel);
-  const hasSupporting = Boolean(date || (peopleCount && peopleCount > 0));
+  const normalizedPlaceName = placeName?.trim() ? placeName.trim() : null;
+  const formattedDate = formatDateDot(date);
+  const formattedPeople = formatPeople(peopleCount);
 
-  const headline = hasHeadline
-    ? joinOrFallback([snapCategoryLabel, placeLabel], '')
-    : hasSupporting
-      ? '-'
-      : '어떤 스냅 작가를 찾고 있나요?';
+  const isAllEmpty =
+    !snapCategoryLabel && !normalizedPlaceName && !formattedDate && !formattedPeople;
 
-  const supportingText = hasSupporting
-    ? joinOrFallback([formatDateDot(date), formatPeople(peopleCount)], '')
-    : hasHeadline
-      ? '-'
-      : '날짜, 스냅 종류, 지역 기반으로 정교한 검색';
+  const headline = isAllEmpty
+    ? '어떤 스냅 작가를 찾고 있나요?'
+    : `${snapCategoryLabel ?? '전체 스냅'}, ${normalizedPlaceName ?? '전체 장소'}`;
+
+  const supportingText = isAllEmpty
+    ? '날짜, 스냅 종류, 지역 기반으로 정교한 검색'
+    : `${formattedDate ?? '전체 날짜'}, ${formattedPeople ?? '전체 인원'}`;
 
   const currentTab = useMemo(() => {
     const raw = sp.get('tab'); // string | null
