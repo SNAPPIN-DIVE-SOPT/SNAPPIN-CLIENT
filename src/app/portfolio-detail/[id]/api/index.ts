@@ -48,7 +48,7 @@ export const useGetPortfolioDetail = (id: number) => {
   return useQuery<GetPortfolioDetailResponse>({
     queryKey: USER_QUERY_KEY.PORTFOLIO_DETAIL(id, !!isLogIn),
     queryFn: () => getPortfolioDetail(id, !!isLogIn),
-    enabled: !Number.isNaN(id) || isLogIn !== null,
+    enabled: !Number.isNaN(id) && isLogIn !== null,
   });
 }
 
