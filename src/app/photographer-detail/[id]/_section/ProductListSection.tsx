@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { ProductList, ProductListSkeleton, ProductCardSkeleton, Divider } from '@/ui';
+import { ProductList, ProductListSkeleton } from '@/ui';
 import { useGetProductList } from '../api';
 
 type ProductListSectionProps = {
