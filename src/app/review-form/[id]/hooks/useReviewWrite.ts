@@ -13,7 +13,6 @@ export const enrollReviewSchema = z.object({
   rating: z.number().min(1, '별점을 선택해 주세요.').max(MAX_RATING),
   content: z
     .string()
-    .trim()
     .min(0)
     .max(REVIEW_CONTENT_MAX_LENGTH, `최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.`),
   imageUrls: z.array(z.string()).max(MAX_IMAGE_COUNT),
@@ -29,6 +28,7 @@ export const useReviewWrite = () => {
     handleSubmit,
     setValue,
     setError,
+    clearErrors,
     trigger,
     formState: { errors, isValid },
   } = useForm<EnrollReviewInput>({
@@ -50,9 +50,16 @@ export const useReviewWrite = () => {
 
   // 리뷰 내용 업데이트 함수
   const updateContent = (value: string) => {
-    const isOverMax = value.length > REVIEW_CONTENT_MAX_LENGTH;
-    if (isOverMax) {
-      setError('content', { message: `최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.` });
+    const contentLength = value.length;
+    const isContentOverMax = contentLength > REVIEW_CONTENT_MAX_LENGTH;
+
+    if (isContentOverMax) {
+      setError('content', {
+        type: 'manual',
+        message: `최대 ${REVIEW_CONTENT_MAX_LENGTH}자까지 입력할 수 있어요.`,
+      });
+    } else {
+      clearErrors('content');
     }
     setValue('content', value, { shouldValidate: true });
   };
