@@ -72,3 +72,11 @@ export const useSwitchUserProfile = () => {
     },
   });
 };
+
+export const usePrefetchUserProfile = () => {
+  const queryClient = useQueryClient();
+
+  return () => {
+    queryClient.prefetchQuery({ queryKey: AUTH_QUERY_KEY.AUTH });
+  };
+};

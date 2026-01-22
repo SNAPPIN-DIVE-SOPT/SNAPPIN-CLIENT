@@ -2,19 +2,17 @@
 
 import Image from 'next/image';
 import { ProfileCard } from '@/ui';
-import { useAuth } from '@/auth/hooks/useAuth';
 import { useGetUserInfo } from '@/auth/apis';
 import { UserType, USER_TYPE } from '@/auth/constant/userType';
 
 type ClientProfileCardProps = {
-  userType: UserType;
+  userType: UserType | null;
   isSwitching: boolean;
 }
 
 export default function ClientProfileCard({ userType, isSwitching }: ClientProfileCardProps) {
-  const { isLogIn } = useAuth();
   const { data, isFetching } = useGetUserInfo();
-  if (isFetching || isSwitching || !isLogIn) {
+  if (isFetching || isSwitching || !userType) {
     return (
       <div className='flex items-center gap-[1.2rem] p-[2rem] pb-[2.9rem] bg-black-1 h-[11.5rem]'>
         <div className='w-[6.4rem] h-[6.4rem] rounded-full bg-black-3' />
@@ -31,7 +29,7 @@ export default function ClientProfileCard({ userType, isSwitching }: ClientProfi
         bio={data?.photographerInfo?.bio ?? ''}
         specialties={data?.photographerInfo?.specialties ?? []}
         locations={data?.photographerInfo?.locations ?? []}
-        isLoggedIn={!!isLogIn}
+        isLoggedIn={true}
         className='h-[11.5rem]'
       />
     );

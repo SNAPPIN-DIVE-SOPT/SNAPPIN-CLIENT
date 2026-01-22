@@ -3,7 +3,7 @@ import { USER_TYPE_LABEL, USER_TYPE, UserType } from '@/auth/constant/userType';
 import { TOGGLE_THEME_BY_TYPE } from './constants/toggleTheme';
 
 export type UserTypeToggleProps = {
-  selectedType: UserType;
+  selectedType: UserType | null;
   className?: string;
   onClick: () => void;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>;
@@ -14,6 +14,8 @@ export default function UserTypeToggle({
   onClick,
   ...props
 }: UserTypeToggleProps) {
+  console.log('selectedType', selectedType);
+  if (!selectedType) return null;
   const { trackClassName, thumbClassName, labelClassName } = TOGGLE_THEME_BY_TYPE[selectedType];
 
   return (
