@@ -22,9 +22,9 @@ export default function MoodCurationSection() {
   const sectionHeaderTitle = isLogIn ? `${userName}님을 위한 큐레이션`:"요즘 많이 찾는 무드 큐레이션" ;
   return (
     <section className='scrollbar-hide flex flex-col gap-[1.6rem]'>
-      <div className='flex flex-col gap-[0.5rem]'>
+      <div className='flex flex-col gap-[0.5rem] w-full'>
         <SectionHeader title={sectionHeaderTitle} />
-        <div className='flex items-end gap-[0.6rem]'>
+        <div className='flex items-end gap-[0.6rem] w-full'>
           <div className='flex gap-[0.5rem]'>
             {moods?.map((mood: string,index: number) => (
               <Chip
