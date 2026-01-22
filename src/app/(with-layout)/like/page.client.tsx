@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { PortfolioListSkeleton, ProductCardSkeleton, ProductListSkeleton, SectionTabs } from '@/ui';
+import { PortfolioListSkeleton, ProductCardSkeleton, SectionTabs } from '@/ui';
 import { LIKE_TAB, LIKE_TAB_MAP } from '@/app/(with-layout)/like/constants/tab';
 import PortfolioListSection from '@/app/(with-layout)/like/_section/PortfolioListSection';
 import ProductListSection from '@/app/(with-layout)/like/_section/ProductListSection';
@@ -54,23 +54,19 @@ export default function PageClient() {
           </SectionTabs.Tab>
         </SectionTabs.List>
       </div>
-      <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
-        <SectionTabs.Contents value={LIKE_TAB.PORTFOLIO} className='min-h-full'>
-          {/* 포트폴리오 목록 */}
-          {!isLogIn ? (
-            <LikeEmpty tab={currentTab} />
-          ) : (
+      {isLogIn !== null && !isLogIn ? (
+        <LikeEmpty tab={currentTab} />
+      ) : (
+        <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
+          <SectionTabs.Contents value={LIKE_TAB.PORTFOLIO} className='min-h-full'>
+            {/* 포트폴리오 목록 */}
             <Suspense fallback={<PortfolioListSkeleton className='p-[1rem]' />}>
               <PortfolioListSection />
             </Suspense>
-          )}
-        </SectionTabs.Contents>
+          </SectionTabs.Contents>
 
-        <SectionTabs.Contents value={LIKE_TAB.PRODUCT} className='bg-black-3 min-h-full'>
-          {/* 상품 목록 */}
-          {!isLogIn ? (
-            <LikeEmpty tab={currentTab} />
-          ) : (
+          <SectionTabs.Contents value={LIKE_TAB.PRODUCT} className='bg-black-3 min-h-full'>
+            {/* 상품 목록 */}
             <Suspense
               fallback={
                 <div className='bg-black-1 px-[2rem] py-[1.6rem]'>
@@ -80,9 +76,9 @@ export default function PageClient() {
             >
               <ProductListSection />
             </Suspense>
-          )}
-        </SectionTabs.Contents>
-      </main>
+          </SectionTabs.Contents>
+        </main>
+      )}
     </SectionTabs>
   );
 }

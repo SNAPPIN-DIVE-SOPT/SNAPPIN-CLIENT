@@ -34,7 +34,7 @@ export default function Stepper({
       >
         <IconRemove />
       </IconButton>
-      <span className='bg-black-1 caption-14-md flex h-[3rem] items-center justify-center px-[1.8rem] py-[0.2rem] text-center rounded-[0.4rem]'>
+      <span className='bg-black-1 caption-14-md flex h-[3rem] w-[6.8rem] items-center justify-center rounded-[0.4rem] py-[0.2rem] text-center'>
         {value}
       </span>
       <IconButton disabled={isDisabledAdd} onClick={isDisabledAdd ? undefined : handleClickAdd}>

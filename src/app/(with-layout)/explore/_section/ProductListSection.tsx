@@ -1,10 +1,11 @@
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useGetProductList } from '@/app/(with-layout)/explore/api';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { ProductListSkeleton } from '@/ui';
 import { GetProductCardResponse } from '@/swagger-api/data-contracts';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 const ProductList = dynamic(() => import('@/ui/product-card/product-list/ProductList'), {
   ssr: false,
@@ -40,6 +41,9 @@ export default function ProductListSection() {
     isFetchingNextPage,
     onLoadMore: () => fetchNextPage(),
   });
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = useMemo(() => `explore:product:scroll?${sp.toString()}`, [sp]);
+  useScrollRestoreOnParent(anchorRef, scrollKey, [products.length], { enabled: true });
 
   const isProductListEmpty = products.length === 0;
 
@@ -53,6 +57,7 @@ export default function ProductListSection() {
 
   return (
     <section>
+      <div ref={anchorRef} />
       <ProductList productList={products} />
       <div ref={sentinelRef} className='h-[1px]' />
       {isFetchingNextPage && <ProductListSkeleton length={3} />}

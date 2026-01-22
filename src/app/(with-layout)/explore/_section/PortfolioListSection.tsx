@@ -1,15 +1,17 @@
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PortfolioListSkeleton } from '@/ui';
 import { useGetPortfolioList } from '@/app/(with-layout)/explore/api';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
+import { pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
 
 const PortfolioList = dynamic(() => import('@/ui/portfolio-list/PortfolioList'), { ssr: false });
 
 export default function PortfolioListSection() {
-  const sq = useSearchParams();
-  const query = useGetPortfolioList(new URLSearchParams(sq.toString()));
+  const sp = useSearchParams();
+  const query = useGetPortfolioList(new URLSearchParams(sp.toString()));
 
   const portfolios = useMemo(() => {
     return query.data.pages.flatMap((page) => page.data?.portfolios ?? []);
@@ -20,6 +22,15 @@ export default function PortfolioListSection() {
     hasNextPage: query.hasNextPage,
     isFetchingNextPage: query.isFetchingNextPage,
     onLoadMore: query.fetchNextPage,
+  });
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = useMemo(() => {
+    const allowed = pickAllowedParams(new URLSearchParams(sp.toString()));
+    allowed.set('tab', 'PORTFOLIO'); // 혹시라도
+    return `explore:portfolio:scroll?${allowed.toString()}`;
+  }, [sp]);
+  useScrollRestoreOnParent(anchorRef, scrollKey, [portfolios.length, query.dataUpdatedAt], {
+    enabled: true,
   });
 
   const isPortfolioListEmpty = portfolios.length === 0;
@@ -34,8 +45,8 @@ export default function PortfolioListSection() {
 
   return (
     <section className='px-[1rem] py-[1rem]'>
+      <div ref={anchorRef} />
       <PortfolioList portfolioList={portfolios} />
-
       {/* 다음 페이지 로딩 트리거 */}
       <div ref={sentinelRef} className='h-[1px]' />
 
