@@ -33,7 +33,7 @@ export default function DateCell({
         disabled={isDisabled}
         onClick={handleSelect}
         className={cn(
-          'font-16-bd text-black-zinc-7 disabled:text-black-zinc-4 w-[3.2rem] rounded-full py-[0.6rem] disabled:cursor-not-allowed',
+          'font-16-md text-black-zinc-7 disabled:text-black-zinc-4 w-[3.2rem] rounded-full py-[0.6rem] disabled:cursor-not-allowed',
           isSelected && 'text-black-10 bg-neon-white',
         )}
       >

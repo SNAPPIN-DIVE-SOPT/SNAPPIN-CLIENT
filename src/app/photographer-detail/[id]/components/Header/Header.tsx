@@ -9,30 +9,26 @@ export default function Header() {
 
   const handleGoBack = () => {
     router.back();
-  }
+  };
 
   const handleGoHome = () => {
     router.push('/');
-  }
+  };
 
   return (
     <Navigation
       left={
-        <IconButton className='w-[2.4rem] h-[2.4rem]' onClick={handleGoBack}>
+        <IconButton className='h-[2.4rem] w-[2.4rem]' onClick={handleGoBack}>
           <IconArrowBack />
         </IconButton>
       }
-      center={
-        <span className='flex flex-1 text-center caption-14-bd text-black-10'>
-          작가 상세
-        </span>
-      }
+      center={<span className='font-16-md text-black-10 flex flex-1 text-center'>작가 상세</span>}
       right={
-        <IconButton className='w-[2.4rem] h-[2.4rem]' onClick={handleGoHome}>
+        <IconButton className='h-[2.4rem] w-[2.4rem]' onClick={handleGoHome}>
           <IconHome />
         </IconButton>
       }
-      className='flex justify-between items-center h-[5rem] px-[2rem] border-b-1 border-b-black-5'
+      className='border-b-black-5 flex h-[5rem] items-center justify-between border-b-1 px-[2rem]'
       isFixed={true}
     />
   );
