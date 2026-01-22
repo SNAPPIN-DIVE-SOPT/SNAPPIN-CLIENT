@@ -8,7 +8,6 @@ export default function ClientHeader() {
   const router = useRouter();
 
   const handleClickLogo = () => {
-    router.push('/');
   };
 
   const handleSearchClick = () => {

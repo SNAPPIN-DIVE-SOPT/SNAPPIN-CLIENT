@@ -8,7 +8,6 @@ export default function NavigationClient() {
   const router = useRouter();
 
   const handleHomeClick = () => {
-    router.push('/');
   };
 
   const handleBackClick = () => {

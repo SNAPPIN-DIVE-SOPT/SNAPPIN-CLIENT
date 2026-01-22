@@ -53,7 +53,7 @@ export default function PageClient({ id }: PageClientProps) {
     setCancelOpen(false);
 
     if (exitTarget === 'back') router.back();
-    if (exitTarget === 'home') router.push('/');
+    if (exitTarget === 'home') return;
 
     setExitTarget(null);
   };
@@ -75,7 +75,7 @@ export default function PageClient({ id }: PageClientProps) {
         isFixed={true}
         left={<IconArrowBack onClick={handleBackClick} />}
         center={<p className='caption-14-bd'>결제 요청</p>}
-        right={<IconHome onClick={handleHomeClick} />}
+        right={<IconHome />}
         className='border-b-black-5 border-b-1'
       />
 
