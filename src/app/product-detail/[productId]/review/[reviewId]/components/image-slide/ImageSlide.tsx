@@ -9,11 +9,15 @@ import {
 
 type ImageSlideProps = {
   images: { src: string; alt?: string }[];
+  initialIndex?: number;
 };
 
-export default function ImageSlide({ images }: ImageSlideProps) {
+export default function ImageSlide({ images, initialIndex }: ImageSlideProps) {
   return (
-    <Carousel>
+    <Carousel
+      opts={{
+        startIndex: initialIndex,
+      }}>
       <CarouselContent>
         {images.map((image) => (
           <CarouselItem key={image.src}>
