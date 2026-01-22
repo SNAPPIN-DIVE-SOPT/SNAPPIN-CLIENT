@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FieldMessage, ImagePreview, TextareaField } from '@/ui';
 import ImageUploadButton from '@/ui/button/upload/ImageUploadButton';
@@ -29,40 +30,62 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
     updateRating,
     updateContent,
     handleSubmitForm,
+    setValue,
   } = useReviewWrite();
 
-  const { images, updateImage, removeImageByPreview, uploadImages, useAutoScrollReviewImages } =
-    useReviewImages();
+  const imageField = useReviewImages({
+    imageUrls: compatibleFormData.imageUrls,
+    setImageUrls: (next) => setValue('imageUrls', next, { shouldValidate: true }),
+  });
+
+  const { images, useAutoScrollReviewImages } = imageField;
 
   const { mutateAsync: submitReview } = useSubmitReview();
   const router = useRouter();
   useAutoScrollReviewImages(images.length);
 
+  const [imageLimitError, setImageLimitError] = useState(false);
+
   // 이미지 등록
   const handleUploadAction = (fileList: FileList) => {
+    let currentCount = imageField.images.length;
+    let hasError = false;
+
     Array.from(fileList).forEach((file) => {
+      if (currentCount >= MAX_IMAGE_COUNT) {
+        hasError = true;
+        return;
+      }
+
       const { ok } = validateImage({
         file,
-        currentCount: images.length,
+        currentCount,
         maxImageCount: MAX_IMAGE_COUNT,
       });
 
-      if (!ok) return;
-      updateImage(file);
+      if (!ok) {
+        hasError = true;
+        return;
+      }
+
+      imageField.addImage(file);
+      currentCount += 1;
     });
+
+    setImageLimitError(hasError);
   };
 
   // 리뷰 등록
   const handleSubmit = async () => {
     handleSubmitForm(async (formData) => {
       try {
-        const imageUrls = await uploadImages();
+        const uploadedUrls = await imageField.uploadImages();
 
         await submitReview({
           reservationId,
           rating: formData.rating,
           content: formData.content,
-          imageUrls,
+          imageUrls: uploadedUrls,
         });
 
         router.replace(`/photo-final-detail/${reservationId}`);
@@ -73,7 +96,6 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
   };
 
   const hasContentError = Boolean(compatibleErrors.content);
-  const hasImageError = Boolean(compatibleErrors.imageUrls);
   const isContentEmpty = compatibleFormData.content.trim().length < 1;
 
   return (
@@ -133,7 +155,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
                   imageSrc={preview}
                   imageAlt='업로드한 리뷰 이미지'
                   showRemoveButton
-                  handleRemove={() => removeImageByPreview(preview)}
+                  handleRemove={() => imageField.removeImageByPreview(preview)}
                   className='shrink-0'
                 />
               ))}
@@ -145,13 +167,12 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
             accept={IMAGE_ACCEPT.WITH_HEIC}
           />
 
-          <p className={cn('caption-12-md', hasImageError ? 'text-red-error' : 'text-black-6')}>
+          <p className={cn('caption-12-md', imageLimitError ? 'text-red-error' : 'text-black-6')}>
             20MB 이하의 JPG, PNG, HEIC, WEBP 이미지로 최대 5장까지 업로드가 가능합니다.
           </p>
           <div className='bg-black-1 h-[10rem] w-full' />
         </section>
       </form>
-
       <ClientFooter disabled={!isValid || isContentEmpty} handleClick={handleSubmit} />
     </>
   );

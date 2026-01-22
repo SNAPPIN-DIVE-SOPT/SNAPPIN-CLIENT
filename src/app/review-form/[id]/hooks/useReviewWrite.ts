@@ -85,5 +85,6 @@ export const useReviewWrite = () => {
     updateRating,
     updateContent,
     compatibleErrors,
+    setValue,
   };
 };

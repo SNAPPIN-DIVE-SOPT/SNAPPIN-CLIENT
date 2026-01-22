@@ -6,46 +6,42 @@ type Image = {
   preview: string;
 };
 
-export const useReviewImages = () => {
+export const useReviewImages = ({
+  imageUrls,
+  setImageUrls,
+}: {
+  imageUrls: string[];
+  setImageUrls: (next: string[]) => void;
+}) => {
   const { mutateAsync: requestPresignedUrl } = useImageUpload();
   const [images, setImages] = useState<Image[]>([]);
 
   // 이미지 추가 / 제거 (토글)
-  const updateImage = useCallback((file: File) => {
-    setImages((prev) => {
-      const exists = prev.find(
-        (img) => img.file.name === file.name && img.file.lastModified === file.lastModified,
-      );
-
-      // 이미 있으면 제거
-      if (exists) {
-        URL.revokeObjectURL(exists.preview);
-        return prev.filter((img) => img !== exists);
-      }
-
-      // 없으면 추가
-      return [
+  const addImage = useCallback(
+    (file: File) => {
+      setImages((prev) => [
         ...prev,
         {
           file,
           preview: URL.createObjectURL(file),
         },
-      ];
-    });
-  }, []);
+      ]);
 
-  // ImagePreview X 버튼 누르는거
-  const removeImageByPreview = useCallback((preview: string) => {
-    setImages((prev) => {
-      const target = prev.find((img) => img.preview === preview);
+      setImageUrls([...imageUrls, 'PENDING']);
+    },
+    [imageUrls, setImageUrls],
+  );
 
-      if (target) {
-        URL.revokeObjectURL(target.preview);
-      }
-
-      return prev.filter((img) => img.preview !== preview);
-    });
-  }, []);
+  const removeImageByPreview = useCallback(
+    (preview: string) => {
+      setImages((prev) => {
+        const next = prev.filter((img) => img.preview !== preview);
+        setImageUrls(next.map(() => 'PENDING'));
+        return next;
+      });
+    },
+    [setImageUrls],
+  );
 
   // S3 업로드
   const uploadImages = async (): Promise<string[]> => {
@@ -93,7 +89,7 @@ export const useReviewImages = () => {
 
   return {
     images,
-    updateImage,
+    addImage,
     removeImageByPreview,
     uploadImages,
     useAutoScrollReviewImages,
