@@ -11,9 +11,15 @@ import { RESERVATION_TAB } from '../constants/tabs';
 import { useAuth } from '@/auth/hooks/useAuth';
 
 export default function ReservationListSection() {
-  const { login } = useToast();
   // 로그인 여부
   const { isLogIn } = useAuth();
+  const { login } = useToast();
+
+  const { data, isFetching } = useGetReservationList(
+    RESERVATION_TAB.CLIENT_OVERVIEW,
+    isLogIn === true,
+  );
+  const hasData = (data?.reservations?.length ?? 0) > 0;
 
   useEffect(() => {
     if (isLogIn === false) {
@@ -21,19 +27,17 @@ export default function ReservationListSection() {
     }
   }, [isLogIn, login]);
 
-  const { data, isFetching } = useGetReservationList(
-    RESERVATION_TAB.CLIENT_OVERVIEW,
-    isLogIn === true,
-  );
+  if (isLogIn === null) return <ReservationCardSkeleton />;
 
-  const reservations = data?.reservations ?? [];
-  const hasData = (data?.reservations?.length ?? 0) > 0;
-
-  if (isFetching && !hasData) {
+  if (isFetching && !hasData && isLogIn === true) {
     return <ReservationCardSkeleton />;
   }
 
-  if (!hasData || isLogIn === false) {
+  const reservations = data?.reservations ?? [];
+
+  const isEmpty = isLogIn === true && !isFetching && !hasData;
+
+  if (isEmpty) {
     return (
       <EmptyView
         title='예약 문의한 상품이 없어요'

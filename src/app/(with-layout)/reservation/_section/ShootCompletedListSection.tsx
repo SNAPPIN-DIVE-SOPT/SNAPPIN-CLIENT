@@ -22,14 +22,18 @@ export default function ShootCompletedListSection() {
     }
   }, [isLogIn, login]);
 
-  const reservations = data?.reservations ?? [];
   const hasData = (data?.reservations?.length ?? 0) > 0;
+  if (isLogIn === null) return <ReservationCardSkeleton />;
 
-  if (isFetching && !hasData) {
+  if (isFetching && !hasData && isLogIn === true) {
     return <ReservationCardSkeleton />;
   }
 
-  if (!hasData || isLogIn === false) {
+  const reservations = data?.reservations ?? [];
+
+  const isEmpty = isLogIn === true && !isFetching && !hasData;
+
+  if (isEmpty) {
     return (
       <EmptyView
         title='촬영 완료된 상품이 없어요'
