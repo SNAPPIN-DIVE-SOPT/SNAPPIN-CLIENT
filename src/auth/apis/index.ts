@@ -8,11 +8,11 @@ import {
   GetSwitchedUserProfileResponse,
   PatchUserRoleData,
 } from '@/swagger-api/data-contracts';
-import { useAuth } from '../hooks/useAuth';
 import { setAccessToken } from '../token';
 import { setUserType } from '../userType';
 import { UserType } from '../constant/userType';
 import { useToast } from '@/ui/toast/hooks/useToast';
+import { useAuth } from '../hooks/useAuth';
 
 export const getRefreshToken = async () => {
   const refreshResponse = await fetch(`${SERVER_API_BASE_URL}/api/v1/auth/reissue`, {

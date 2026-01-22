@@ -23,6 +23,7 @@ export default function ClientProfileCard() {
         width={64}
         height={64}
         className='rounded-full object-cover'
+        priority
       />
       <div className='flex w-full items-center justify-between'>
         <span className='caption-14-bd'>
