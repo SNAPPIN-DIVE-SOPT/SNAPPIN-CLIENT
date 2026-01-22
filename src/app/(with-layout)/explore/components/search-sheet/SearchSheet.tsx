@@ -57,7 +57,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   );
 
   const { snapCategory, peopleCount, date } = searchDraft;
-  const formattedCount = peopleCount && peopleCount > 0 ? `${peopleCount}명` : '';
+  const formattedCount = peopleCount && peopleCount > 0 ? `${peopleCount}명` : '0명';
 
   const handleFieldClick = (category: SearchField) => {
     setCurrentField(category);
@@ -205,7 +205,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
         {/* 촬영 인원 선택 */}
         <ControlSheet.Field
           label='촬영 인원'
-          selectedValue={peopleCount === 0 ? '' : formattedCount}
+          selectedValue={peopleCount === 0 || peopleCount === null ? '' : formattedCount}
           onClick={() => handleFieldClick('peopleCount')}
           active={currentField === 'peopleCount'}
           wrapperClassName={

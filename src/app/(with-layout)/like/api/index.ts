@@ -18,6 +18,7 @@ export const useGetLikePortfolios = () => {
       if (!res.data) throw new Error('No data from /api/v1/wishes/portfolios');
       return res.data;
     },
+    staleTime: 0,
   });
 };
 
@@ -32,5 +33,6 @@ export const useGetLikeProducts = () => {
       if (!res.data) throw new Error('No data from /api/v1/wishes/products');
       return res.data;
     },
+    staleTime: 0,
   });
 };

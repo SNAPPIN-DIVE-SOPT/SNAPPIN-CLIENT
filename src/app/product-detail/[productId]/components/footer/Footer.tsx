@@ -67,40 +67,42 @@ export default function Footer({ productId, amount }: FooterProps) {
           }
         />
       </BottomCTAButton>
-      <ReservationBottomDrawer
-        isOpen={isOpen}
-        productId={productId}
-        amount={amount}
-        draft={draft}
-        setDraftAction={setDraft}
-        handleOpenChangeAction={() => close()}
-        onSuccessReservationAction={() => {
-          overlay.open(({ isOpen, close }) => (
-            <ResultModal
-              open={isOpen}
-              handleOpenChange={close}
-              showCloseButton={false}
-              type='success'
-              title='예약 요청이 완료되었어요!'
-              description="'내 예약'에서 진행 상황을 확인해보세요"
-              buttons={[
-                {
-                  label: '닫기',
-                  size: 'medium',
-                  color: 'disabled',
-                  onClick: close,
-                },
-                {
-                  label: '내 예약 확인',
-                  size: 'medium',
-                  color: 'black',
-                  onClick: () => router.push('/reservation'),
-                },
-              ]}
-            />
-          ));
-        }}
-      />
+      {isOpen && (
+        <ReservationBottomDrawer
+          isOpen={isOpen}
+          productId={productId}
+          amount={amount}
+          draft={draft}
+          setDraftAction={setDraft}
+          handleOpenChangeAction={() => close()}
+          onSuccessReservationAction={() => {
+            overlay.open(({ isOpen, close }) => (
+              <ResultModal
+                open={isOpen}
+                handleOpenChange={close}
+                showCloseButton={false}
+                type='success'
+                title='예약 요청이 완료되었어요!'
+                description="'내 예약'에서 진행 상황을 확인해보세요"
+                buttons={[
+                  {
+                    label: '닫기',
+                    size: 'medium',
+                    color: 'disabled',
+                    onClick: close,
+                  },
+                  {
+                    label: '내 예약 확인',
+                    size: 'medium',
+                    color: 'black',
+                    onClick: () => router.push('/reservation'),
+                  },
+                ]}
+              />
+            ));
+          }}
+        />
+      )}
     </>
   );
 }
