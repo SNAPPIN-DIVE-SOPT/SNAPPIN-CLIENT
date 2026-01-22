@@ -29,7 +29,7 @@ export default function Author({
         {isNew && (
           <Chip
             label='NEW'
-            chipClassName='bg-neon-black absolute top-[0.6rem] left-[0.6rem] px-[0.6rem] py-[0.3rem]'
+            chipClassName='z-10 bg-neon-black absolute top-[0.6rem] left-[0.6rem] px-[0.6rem] py-[0.3rem]'
             labelClassName='caption-12-md'
           />
         )}

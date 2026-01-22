@@ -88,7 +88,7 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
                 <p className='text-black-10'>무드를</p>
               </div>
 
-              <p className='text-black-10'>좋아하시네요</p>
+              <p className='text-black-10'>선호하시네요!</p>
             </motion.div>
           )}
         </AnimatePresence>
