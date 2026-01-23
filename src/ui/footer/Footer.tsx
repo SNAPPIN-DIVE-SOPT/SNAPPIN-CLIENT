@@ -133,7 +133,7 @@ export default function Footer() {
       router.push('/login');
       return;
     }
-    if(href === '/photographer/profile') {
+    if (href === '/photographer/profile') {
       prefetchUserProfile();
     }
 
@@ -166,7 +166,7 @@ export default function Footer() {
   return (
     <div className='z-20'>
       <div className='bg-black-1 footer-height pointer-events-none' aria-hidden />
-      <footer className='border-black-5 footer-height fixed-center bg-black-1 bottom-0 flex justify-between border-t-[0.5px] px-[2rem] pt-[0.8rem] pb-[1.6rem]'>
+      <footer className='border-black-5 footer-height fixed-center bg-black-1 bottom-0 flex items-center justify-between border-t-[0.5px] px-[2rem] pt-[0.2rem] pb-[0.6rem]'>
         {items.map((item) => {
           const active = isActive(item.href);
           const Icon = active ? item.activeIcon : item.inactiveIcon;
@@ -176,7 +176,7 @@ export default function Footer() {
               key={item.label}
               type='button'
               onClick={() => handleClickMenuItem(item.href)}
-              className='flex flex-col items-center gap-[0.2rem] w-[4.8rem] h-[4.8rem] justify-center'
+              className='flex h-[4.8rem] w-[4.8rem] flex-col items-center justify-center gap-[0.2rem]'
               aria-label={item.label}
             >
               <Icon className={cn(active && 'text-black-10')} width={26} height={26} />

@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -12,21 +12,14 @@ import homeBackground1 from '@/../public/imgs/image-main1.png';
 import homeBackground2 from '@/../public/imgs/image-main2.png';
 import homeBackground3 from '@/../public/imgs/image-main3.png';
 import banner from '@/../public/imgs/banner.png';
-import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function PageClient() {
   const { isVisible } = useNavVisibility();
-  const anchorRef = useRef<HTMLDivElement>(null);
-
-  useScrollRestoreOnParent(
-    anchorRef,
-    `home-scroll`,
-  );
 
   return (
     <div className='relative mb-[6rem] flex w-full flex-col'>
       <ClientHeader isVisible={isVisible} />
-      <div ref={anchorRef}>
+      <div>
         <FadeCarousel
           images={[
             { src: homeBackground1.src, alt: 'home-background-1' },
@@ -57,7 +50,7 @@ export default function PageClient() {
           {/*  작가 추천 영역 */}
           <RecommendationAuthor />
           {/*  베너 영역 */}
-          <Link href='https://pretty-shake-931.notion.site/Snappin-2eea9c9b4473802d9d2ddcb2a202bc18'>
+          <Link href='https://picturesque-line-a97.notion.site/2f1b888d8de5808fb2b0c6bc8c541e1f?pvs=105'>
             <Image src={banner} alt='banner' />
           </Link>
           {/*  요즘 많이 찾는 무드 큐레이션  영역 */}
