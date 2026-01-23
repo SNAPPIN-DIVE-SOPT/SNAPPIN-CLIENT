@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { PortfolioListSkeleton, ProductCardSkeleton, SectionTabs } from '@/ui';
+import { PortfolioListSkeleton, ProductCardSkeleton, ProductListSkeleton, SectionTabs } from '@/ui';
 import { LIKE_TAB, LIKE_TAB_MAP } from '@/app/(with-layout)/like/constants/tab';
 import PortfolioListSection from '@/app/(with-layout)/like/_section/PortfolioListSection';
 import ProductListSection from '@/app/(with-layout)/like/_section/ProductListSection';
@@ -70,9 +70,7 @@ export default function PageClient() {
             <Suspense
               fallback={
                 <div className='bg-black-3 flex h-full flex-col gap-[0.6rem]'>
-                  <ProductCardSkeleton />
-                  <ProductCardSkeleton />
-                  <ProductCardSkeleton />
+                  <ProductListSkeleton length={5} />
                 </div>
               }
             >

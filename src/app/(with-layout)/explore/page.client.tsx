@@ -6,7 +6,7 @@ import {
   ButtonSearchBar,
   Loading,
   PortfolioListSkeleton,
-  ProductCardSkeleton,
+  ProductListSkeleton,
   SectionTabs,
 } from '@/ui';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -116,7 +116,7 @@ export default function PageClient() {
           className='min-h-0 flex-1 overflow-y-auto'
         >
           {/* 포트폴리오 목록 */}
-          <Suspense fallback={<PortfolioListSkeleton length={15} />}>
+          <Suspense fallback={<PortfolioListSkeleton length={15} className='p-[1rem]' />}>
             <PortfolioListSection />
           </Suspense>
         </SectionTabs.Contents>
@@ -128,8 +128,8 @@ export default function PageClient() {
           {/* 상품 목록 */}
           <Suspense
             fallback={
-              <div className='bg-black-1 px-[2rem] py-[1.6rem]'>
-                <ProductCardSkeleton />
+              <div className='bg-black-1 border-b-[0.1rem]'>
+                <ProductListSkeleton length={5} thickness='small' />
               </div>
             }
           >
