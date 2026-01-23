@@ -35,7 +35,7 @@ export default function MoodCurationSection() {
                 key={index}
                 label={mood as MoodCode}
                 chipClassName='px-[0.6rem] py-[0.3rem] border-1 border-black-10 '
-                labelClassName='caption-12-md'
+                labelClassName='caption-14-md'
               />
             ))}
           </div>

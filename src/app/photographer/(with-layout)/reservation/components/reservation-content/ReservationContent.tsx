@@ -10,7 +10,12 @@ import { useGetReservationList } from '../../api';
 import ReservationCardSkeleton from '../reservation-card/ReservationCardSkeleton';
 
 const isReservationTab = (value: string | null) => {
-  return value === RESERVATION_TAB.PHOTOGRAPHER_REQUESTED || value === RESERVATION_TAB.PHOTOGRAPHER_ADJUSTING || value === RESERVATION_TAB.PHOTOGRAPHER_CONFIRMED || value === RESERVATION_TAB.PHOTOGRAPHER_DONE;
+  return (
+    value === RESERVATION_TAB.PHOTOGRAPHER_REQUESTED ||
+    value === RESERVATION_TAB.PHOTOGRAPHER_ADJUSTING ||
+    value === RESERVATION_TAB.PHOTOGRAPHER_CONFIRMED ||
+    value === RESERVATION_TAB.PHOTOGRAPHER_DONE
+  );
 };
 
 const getEmptyText = (tab: ReservationTab): string => {
@@ -33,10 +38,12 @@ export default function ReservationContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const selectedTab = isReservationTab(searchParams.get('tab')) ? searchParams.get('tab') as ReservationTab : RESERVATION_TAB.PHOTOGRAPHER_REQUESTED;
-  
-  const { data,isPending } = useGetReservationList(selectedTab);
-  
+  const selectedTab = isReservationTab(searchParams.get('tab'))
+    ? (searchParams.get('tab') as ReservationTab)
+    : RESERVATION_TAB.PHOTOGRAPHER_REQUESTED;
+
+  const { data, isPending } = useGetReservationList(selectedTab);
+
   const handleTabChange = (value: string) => {
     const updatedSearchParams = new URLSearchParams(searchParams.toString());
     updatedSearchParams.set('tab', value);
@@ -45,10 +52,7 @@ export default function ReservationContent() {
 
   return (
     <div className='flex flex-col'>
-      <SectionTabs  
-        value={selectedTab}
-        handleValueChange={handleTabChange}
-      >
+      <SectionTabs value={selectedTab} handleValueChange={handleTabChange}>
         <SectionTabs.List>
           <SectionTabs.Tab value={RESERVATION_TAB.PHOTOGRAPHER_REQUESTED}>
             {RESERVATION_TAB_MAP.PHOTOGRAPHER_REQUESTED}
@@ -80,7 +84,7 @@ export default function ReservationContent() {
                   <div key={index}>
                     <ReservationCard
                       reservationId={item.reservationId ?? 0}
-                      status={item.status as StateCode ?? ''}
+                      status={(item.status as StateCode) ?? ''}
                       image={{ src: product?.imageUrl ?? '', alt: product?.title ?? '' }}
                       name={product?.title ?? ''}
                       rate={product?.rate ?? 0}

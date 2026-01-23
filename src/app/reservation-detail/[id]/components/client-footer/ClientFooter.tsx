@@ -6,9 +6,14 @@ import { STATE_CODES, type StateCode } from '@/types/stateCode';
 type ClientFooterProps = {
   status: StateCode;
   handlePaymentConfirmClick: () => void;
+  isPaymentRequestPending: boolean;
 };
 
-export default function ClientFooter({ status, handlePaymentConfirmClick }: ClientFooterProps) {
+export default function ClientFooter({
+  status,
+  handlePaymentConfirmClick,
+  isPaymentRequestPending,
+}: ClientFooterProps) {
   const BOTTOM_CTA_CONFIG: Partial<
     Record<
       StateCode,
@@ -23,9 +28,9 @@ export default function ClientFooter({ status, handlePaymentConfirmClick }: Clie
     [STATE_CODES.PAYMENT_REQUESTED]: {
       label: '결제하고 예약 확정받기',
       color: 'primary',
+      disabled: isPaymentRequestPending,
       onClick: handlePaymentConfirmClick,
     },
-
     [STATE_CODES.PAYMENT_COMPLETED]: {
       label: '결제 확인중',
       disabled: true,

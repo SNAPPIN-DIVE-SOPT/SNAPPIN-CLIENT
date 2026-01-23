@@ -22,7 +22,7 @@ export default function ReservationCard({
   rate,
   reviewCount,
   photographer,
-  price,  
+  price,
   client,
   moods,
   date,
@@ -34,7 +34,7 @@ export default function ReservationCard({
   };
 
   return (
-    <div className='flex cursor-pointer px-[2rem] py-[1.2rem]' onClick={handleDetailClick}>
+    <div className='flex cursor-pointer p-[1.6rem]' onClick={handleDetailClick}>
       <div className='border-black-5 flex w-full flex-col gap-[0.6rem] rounded-[0.6rem] border border-[0.7px] p-[1.2rem]'>
         <span className='caption-10-md text-black-7'>{formatCreatedAt(date)}</span>
         <div className='flex flex-col gap-[1.2rem]'>

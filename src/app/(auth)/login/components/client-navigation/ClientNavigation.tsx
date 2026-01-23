@@ -16,7 +16,7 @@ export default function ClientNavigation() {
       isFixed={true}
       left={<IconArrowBack onClick={handleBackClick} />}
       className='text-black-1 bg-black-10'
-      center={<span className='text-black-1 caption-14-bd'>로그인</span>}
+      center={<span className='text-black-1 font-16-bd'>로그인</span>}
     />
   );
 }

@@ -22,7 +22,8 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   const { data: reservationData, isPending } = useGetReservationDetail(parsedReservationId);
 
   const { mutate: cancelReservationMutation } = useCancelReservation(parsedReservationId);
-  const { mutate: requestPaymentMutation } = useRequestPayment();
+  const { mutate: requestPaymentMutation, isPending: isPaymentRequestPending } =
+    useRequestPayment();
 
   const [cancelOpen, setCancelOpen] = useState(false);
   const [reservationStatus, setReservationStatus] = useState<StateCode>();
@@ -49,19 +50,28 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
         setCancelOpen(false);
       },
       onError: () => {
-        toast.error('예약 취소 중 오류가 발생했습니다. 다시 시도해주세요.');
+        toast.error(
+          '예약 취소 중 오류가 발생했습니다. 다시 시도해주세요.',
+          undefined,
+          'bottom-[8rem]',
+        );
       },
     });
   };
 
   const handlePaymentConfirmClick = () => {
+    if (isPaymentRequestPending) return;
     requestPaymentMutation(parsedReservationId, {
       onSuccess: (paymentResponse) => {
         setPreviousStatus(status);
         setReservationStatus(paymentResponse.status as StateCode);
       },
       onError: () => {
-        toast.error('결제 요청 중 오류가 발생했습니다. 다시 시도해주세요.');
+        toast.error(
+          '결제 요청 중 오류가 발생했습니다. 다시 시도해주세요.',
+          undefined,
+          'bottom-[8rem]',
+        );
       },
     });
   };
@@ -139,7 +149,12 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
         {hasBottomCta && (
           <>
             <div className='h-[8.4rem]' />
-            <ClientFooter status={status} handlePaymentConfirmClick={handlePaymentConfirmClick} />
+
+            <ClientFooter
+              status={status}
+              handlePaymentConfirmClick={handlePaymentConfirmClick}
+              isPaymentRequestPending={isPaymentRequestPending}
+            />
           </>
         )}
       </div>
