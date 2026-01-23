@@ -35,10 +35,13 @@ export default function ReviewDetail({
         </div>
 
         <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll pr-[2rem]'>
-          {images.map((image) => (
+          {images.map((image, idx) => (
             <Link
               key={image}
-              href={`/photographer/reservation-detail/${reservationId}/photos/${id}`}
+              href={{
+                pathname: `/photographer/reservation-detail/${reservationId}/photos/${id}`,
+                query: { image: idx },
+              }}
               className='relative h-[14rem] w-[14rem] shrink-0'
             >
               <Image src={image} alt={reviewer} fill className='object-cover' />

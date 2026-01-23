@@ -5,12 +5,15 @@ import { ReviewStar } from '@/ui';
 import { formatShortDate } from '@/utils/formatNumberWithComma';
 import { useGetReviewDetail } from './api';
 import Skeleton from './components/skeleton/Skeleton';
+import { useSearchParams } from 'next/navigation';
 
 type PageClientProps = {
   reviewId: number;
 };
 
 export default function PageClient({ reviewId }: PageClientProps) {
+  const searchParams = useSearchParams();
+  const initialIndex = Number(searchParams.get('image') ?? 0);
   const { data ,isPending} = useGetReviewDetail(reviewId);
 
   if (isPending) {
@@ -19,7 +22,10 @@ export default function PageClient({ reviewId }: PageClientProps) {
 
   return (
     <>
-      <ImageSlide images={data?.images?.map((image) => ({ src: image })) ?? []} />
+      <ImageSlide
+        images={data?.images?.map((image) => ({ src: image })) ?? []}
+        initialIndex={initialIndex}
+      />
       <div className='mt-[2rem] mb-[5rem] flex w-full flex-col gap-[1.2rem] px-[2rem]'>
         <div className='flex flex-col gap-[0.6rem]'>
           <div className='flex items-center justify-between'>
