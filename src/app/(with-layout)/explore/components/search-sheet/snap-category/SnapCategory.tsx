@@ -49,7 +49,7 @@ const SnapCategoryButton = ({
       onClick={() => handleCategoryClick(categoryKey)}
       aria-label={`${label} 카테고리`}
       className={cn(
-        'bg-black-3 caption-14-bd text-black-7 active:bg-black-10 active:text-black-1 w-full rounded-[0.4rem] py-[1.1rem]',
+        'bg-black-3 caption-14-md text-black-7 active:bg-black-10 active:text-black-1 w-full rounded-[0.4rem] py-[1.1rem]',
         isSelected && 'bg-black-10 text-black-1',
       )}
       color='disabled'
