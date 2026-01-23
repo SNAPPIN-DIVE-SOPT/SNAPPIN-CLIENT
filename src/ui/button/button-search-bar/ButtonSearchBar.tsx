@@ -34,7 +34,7 @@ export default function ButtonSearchBar({
         aria-hidden='true'
       />
       <span className='flex min-w-0 flex-1 flex-col gap-[0.4rem]'>
-        <span className={cn('font-16-bd text-black-9', headlineClassName)} data-slot='headline'>
+        <span className={cn('font-16-md text-black-9', headlineClassName)} data-slot='headline'>
           {headline}
         </span>
         {supportingText ? (
