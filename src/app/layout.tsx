@@ -15,18 +15,18 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Snappin'",
-  description: "나만의 무드에서 시작되는 스냅",
+  description: "나만의 무드로 연결되는 스냅",
   icons: {
     icon: "/imgs/favicon.ico",
   },
   openGraph: {
     title: "Snappin'",
-    description: "나만의 무드에서 시작되는 스냅",
+    description: "나만의 무드로 연결되는 스냅",
     url: "https://snappin-client.vercel.app/",
     siteName: "Snappin'",
     images: [
       {
-        url: "https://snappin-client.vercel.app/imgs/image-default.png",
+        url: "https://snappin-client.vercel.app/imgs/thumbnail.png",
         width: 1200,
         height: 630,
         alt: "Snappin' 썸네일",
@@ -38,8 +38,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Snappin'",
-    description: "나만의 무드에서 시작되는 스냅",
-    images: ["https://snappin-client.vercel.app/imgs/image-default.png"],
+    description: "나만의 무드로 연결되는 스냅",
+    images: ["https://snappin-client.vercel.app/imgs/thumbnail.png"],
   },
 };
 
