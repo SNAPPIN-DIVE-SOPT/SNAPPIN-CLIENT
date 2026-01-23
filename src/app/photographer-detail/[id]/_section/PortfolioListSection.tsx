@@ -1,10 +1,7 @@
-import { useEffect, useRef, useMemo,  } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { PortfolioList, PortfolioListSkeleton } from '@/ui';
 import { useGetPortfolioList } from '../api';
-import { pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
-import { useSearchParams } from 'next/navigation';
-import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 type PortfolioListSectionProps = {
   id: number;
@@ -16,18 +13,6 @@ export default function PortfolioListSection({ id }: PortfolioListSectionProps) 
 
   const portfolioList = data?.pages.flatMap(page => page.data?.portfolios ?? []) ?? [];
   const isEmpty = portfolioList.length === 0;
-
-  const sp = useSearchParams();
-  const query = useGetPortfolioList(id);
-  const anchorRef = useRef<HTMLDivElement | null>(null);
-  const scrollKey = useMemo(() => {
-    const allowed = pickAllowedParams(new URLSearchParams(sp.toString()));
-    allowed.set('tab', 'PORTFOLIO');
-    return `photographer-detail:scroll?${allowed.toString()}`;
-  }, [sp]);
-  useScrollRestoreOnParent(anchorRef, scrollKey, [portfolioList.length, query.dataUpdatedAt], {
-    enabled: true,
-  });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -57,7 +42,6 @@ export default function PortfolioListSection({ id }: PortfolioListSectionProps) 
 
   return (
     <section className='mt-[17.1rem]'>
-      <div ref={anchorRef} />
       <PortfolioList portfolioList={portfolioList} />
       <div ref={ref} className='h-[0.1rem]' />
     </section>
