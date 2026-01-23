@@ -20,7 +20,6 @@ export default function ReservationListSection() {
     RESERVATION_TAB.CLIENT_OVERVIEW,
     isLogIn === true,
   );
-  const hasData = (data?.reservations?.length ?? 0) > 0;
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const scrollKey = useMemo(
@@ -38,13 +37,14 @@ export default function ReservationListSection() {
     }
   }, [isLogIn, login]);
 
-  if (isLogIn === null) return <ReservationCardSkeleton />;
+  const reservations = data?.reservations ?? [];
+  const hasData = (data?.reservations?.length ?? 0) > 0;
 
-  if (isFetching && !hasData && isLogIn === true) {
+  if (isLogIn === undefined) return <ReservationCardSkeleton />;
+
+  if (isFetching && hasData && isLogIn === true) {
     return <ReservationCardSkeleton />;
   }
-
-  const reservations = data?.reservations ?? [];
 
   const isEmpty = isLogIn === true && !isFetching && !hasData;
 
