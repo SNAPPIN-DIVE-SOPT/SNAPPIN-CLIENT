@@ -54,7 +54,7 @@ export default function PageClient() {
           </SectionTabs.Tab>
         </SectionTabs.List>
       </div>
-      {isLogIn === null || !isLogIn ? (
+      {isLogIn !== null && !isLogIn ? (
         <LikeEmpty tab={currentTab} />
       ) : (
         <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
