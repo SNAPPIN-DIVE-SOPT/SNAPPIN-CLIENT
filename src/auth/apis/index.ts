@@ -7,8 +7,9 @@ import {
   GetUserInfoData,
   GetSwitchedUserProfileResponse,
   PatchUserRoleData,
+  LogoutData,
 } from '@/swagger-api/data-contracts';
-import { setAccessToken } from '../token';
+import { setAccessToken, getAccessToken } from '../token';
 import { setUserType } from '../userType';
 import { UserType } from '../constant/userType';
 import { useToast } from '@/ui/toast/hooks/useToast';
@@ -80,3 +81,48 @@ export const usePrefetchUserProfile = () => {
     queryClient.prefetchQuery({ queryKey: AUTH_QUERY_KEY.AUTH });
   };
 };
+// apiRequest로 수정했는데 !res.data로 와서 주석처리해놓을게요
+// export const logoutApi = async () => {
+//   const res = await apiRequest<LogoutData>({
+//     endPoint: '/api/v1/auth/logout',
+//     method: 'POST',
+//   })
+
+//   if (!res.data) {
+//     throw new Error('/api/v1/auth/logout 응답에 데이터가 존재하지 않습니다.');
+//   }
+//   return res.data;
+// };
+export const logoutApi = async () => {
+  const accessToken = await getAccessToken();
+
+  const res = await fetch(`${SERVER_API_BASE_URL}/api/v1/auth/logout`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw error;
+  }
+
+  return true;
+};
+
+// 로그아웃 API
+export const useLogout = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: logoutApi,
+    onSuccess: () => {
+      queryClient.removeQueries({
+        queryKey: AUTH_QUERY_KEY.AUTH,
+      });
+    },
+  });
+}
