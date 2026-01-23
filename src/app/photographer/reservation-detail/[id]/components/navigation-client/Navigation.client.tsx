@@ -7,8 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function NavigationClient() {
   const router = useRouter();
 
-  const handleHomeClick = () => {
-  };
+  const handleHomeClick = () => {};
 
   const handleBackClick = () => {
     router.back();
@@ -18,7 +17,7 @@ export default function NavigationClient() {
     <Navigation
       isFixed={true}
       left={<IconArrowBack onClick={handleBackClick} />}
-      center={<span className='caption-14-bd'>예약상세</span>}
+      center={<span className='font-16-bd'>예약 상세</span>}
       right={<IconHome onClick={handleHomeClick} />}
       className='border-b-black-5 border-b-1'
     />

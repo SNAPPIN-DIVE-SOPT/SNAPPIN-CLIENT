@@ -24,12 +24,10 @@ export default function PageClient({ id }: PageClientProps) {
   const [cancelOpen, setCancelOpen] = useState(false);
   const [exitTarget, setExitTarget] = useState<ExitTarget>(null);
 
-  const {
-    extraPrices,
-    totalAmount,
-    handleSubmitPayment,
-    resetExtraPrices,
-  } = usePaymentSummary(id, data?.price ?? 0);
+  const { extraPrices, totalAmount, handleSubmitPayment, resetExtraPrices } = usePaymentSummary(
+    id,
+    data?.price ?? 0,
+  );
 
   // 추가 비용 추가 페이지로 이동
   const handleAddPayment = () => {
@@ -74,7 +72,7 @@ export default function PageClient({ id }: PageClientProps) {
       <Navigation
         isFixed={true}
         left={<IconArrowBack onClick={handleBackClick} />}
-        center={<p className='caption-14-bd'>결제 요청</p>}
+        center={<p className='font-16-bd'>결제 요청</p>}
         right={<IconHome />}
         className='border-b-black-5 border-b-1'
       />
