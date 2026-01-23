@@ -51,6 +51,8 @@ export { default as IconMenuSchool } from './components/IconMenuSchool';
 export { default as IconMessage } from './components/IconMessage';
 export { default as IconMessageFill } from './components/IconMessageFill';
 export { default as IconNotFound } from './components/IconNotFound';
+export { default as IconProduct } from './components/IconProduct';
+export { default as IconProductFill } from './components/IconProductFill';
 export { default as IconProfile } from './components/IconProfile';
 export { default as IconProfileFill } from './components/IconProfileFill';
 export { default as IconRemove } from './components/IconRemove';

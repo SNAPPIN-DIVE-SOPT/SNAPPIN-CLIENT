@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ConfirmModal } from '@/ui';
 import { cn } from '@/utils/cn';
-import { logoutApi } from '../../apis';
+import { useLogout } from '@/auth/apis';
 import { deleteAccessToken } from '@/auth/token';
 import { deleteUserType } from '@/auth/userType';
 import { useAuth } from '@/auth/hooks/useAuth';
@@ -13,6 +13,7 @@ import { useAuth } from '@/auth/hooks/useAuth';
 export default function Menus() {
   const router = useRouter();
   const { isLogIn } = useAuth();
+  const { mutate: logout } = useLogout();
 
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
@@ -22,17 +23,33 @@ export default function Menus() {
     handleModalOpen(true);
   };
 
-  const handleConfirm = async () => {
-    try {
-      await logoutApi();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      deleteAccessToken();
-      deleteUserType();
-      router.push('/');
-      handleModalOpen(false);
-    }
+  // 이전 버전
+  // const handleConfirm = async () => {
+  //   try {
+  //     await logoutApi();
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     deleteAccessToken();
+  //     deleteUserType();
+  //     router.push('/');
+  //     handleModalOpen(false);
+  //   }
+  // };
+  const handleConfirm = () => {
+    console.log('로그아웃');
+    logout(undefined, {
+      onSuccess: () => {
+        deleteAccessToken();
+        deleteUserType();
+
+        router.push('/');
+        setIsLogoutModalOpen(false);
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
   };
 
   return (

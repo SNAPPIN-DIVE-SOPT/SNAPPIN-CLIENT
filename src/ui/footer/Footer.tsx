@@ -16,6 +16,8 @@ import {
   IconMessage,
   IconHeartFill,
   IconHeart,
+  IconProduct,
+  IconProductFill
 } from '@/assets';
 import { cn } from '@/utils/cn';
 import { useGetUserInfo, usePrefetchUserProfile } from '@/auth/apis';
@@ -46,13 +48,8 @@ const menuUserItems: MenuItem[] = [
 
 const menuAuthorItems: MenuItem[] = [
   { href: null, activeIcon: IconHomeFill, inactiveIcon: IconHome, label: '홈' },
-  { href: null, activeIcon: IconMessageFill, inactiveIcon: IconMessage, label: '상품 관리' },
-  {
-    href: '/photographer/reservation',
-    activeIcon: IconReservationFill,
-    inactiveIcon: IconReservation,
-    label: '예약 관리',
-  },
+  { href: null, activeIcon: IconProductFill, inactiveIcon: IconProduct, label: '상품 관리' },
+  { href: '/photographer/reservation', activeIcon: IconReservationFill, inactiveIcon: IconReservation, label: '예약 관리' },
   { href: null, activeIcon: IconMessageFill, inactiveIcon: IconMessage, label: '메시지함' },
   {
     href: '/photographer/profile',
