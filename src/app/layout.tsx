@@ -3,7 +3,7 @@ import { Providers } from '@/app/providers';
 import '@/styles/global.css';
 import { Viewport } from 'next';
 
-const suit = localFont({
+const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.ttf',
 });
 
@@ -15,7 +15,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='ko' className={suit.className}>
+    <html lang='ko' className={pretendard.className}>
       <body>
         <Providers>{children}</Providers>
       </body>
