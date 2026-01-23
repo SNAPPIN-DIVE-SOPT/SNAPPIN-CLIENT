@@ -32,7 +32,7 @@ export default function ClientPage({ productId }: { productId: string }) {
   );
 
   const productInfo = {
-    snapCategory: data?.productInfo?.snapCategory ?? 'asdfasdf',
+    snapCategory: data?.productInfo?.snapCategory ?? '-',
     regions: data?.productInfo?.regions ?? [],
     moods: data?.productInfo?.moods ?? [],
     maxPeople: data?.productInfo?.maxPeople ?? '-',
