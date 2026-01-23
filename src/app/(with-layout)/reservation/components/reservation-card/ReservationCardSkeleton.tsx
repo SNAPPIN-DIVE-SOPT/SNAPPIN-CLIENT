@@ -17,7 +17,7 @@ export default function ReservationCardSkeleton({ length = 5 }: ReservationCardS
                 <div className='bg-black-3 h-[1.4rem] w-[5.2rem]' />
               </div>
             </div>
-            <ProductCardSkeleton />
+            <ProductCardSkeleton className='-mx-[0.8rem] -mt-[1.6rem] -mb-[0.4rem] bg-transparent' />
           </div>
 
           {i < length - 1 && (
