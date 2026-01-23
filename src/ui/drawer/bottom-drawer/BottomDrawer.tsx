@@ -26,7 +26,7 @@ const BottomDrawerRoot = ({
         )}
       >
         <div
-          className='bg-gray-4 mx-auto h-[0.4rem] w-[3.8rem] rounded-[2rem]'
+          className='bg-gray-4 mx-auto h-[0.6rem] w-[3.8rem] rounded-[2rem]'
           aria-hidden='true'
         />
         {children}

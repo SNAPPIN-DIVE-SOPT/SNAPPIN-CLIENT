@@ -15,7 +15,7 @@ export default async function Page({ params }: ReservationDetailPageProps) {
   }
 
   return (
-    <div className='bg-black-10 flex h-dvh flex-col'>
+    <div className='bg-black-10 min-h-dvh relative flex flex-col items-center '>
       <NavigationClient />
       <PageClient reviewId={reviewIdNumber} />
     </div>

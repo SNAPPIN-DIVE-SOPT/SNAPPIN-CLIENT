@@ -59,7 +59,7 @@ export default function AddPaymentPage() {
         isFixed
         left={<IconArrowBack onClick={handleClickBack} />}
         center={<p className='caption-14-bd text-black-10'>결제 요청</p>}
-        right={<IconHome onClick={handleClickHome} />}
+        right={<IconHome />}
         className='border-b-black-5 border-b-1'
       />
 

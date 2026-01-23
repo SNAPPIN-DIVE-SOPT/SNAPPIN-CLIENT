@@ -111,7 +111,7 @@ function Review({
         <span className='caption-12-md text-black-7'>{reviewer}</span>
       </div>
       {/* 이미지 캐러셀 */}
-      <div className='flex gap-[0.4rem] w-full ml-[2rem] overflow-x-auto scrollbar-hide'>
+      <div className='flex gap-[0.4rem] w-full px-[2rem] overflow-x-auto scrollbar-hide'>
         {reviewImages.map((image, idx) => (
           <Link
             href={{

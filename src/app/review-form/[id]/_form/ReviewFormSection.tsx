@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FieldMessage, ImagePreview, TextareaField } from '@/ui';
 import ImageUploadButton from '@/ui/button/upload/ImageUploadButton';
@@ -37,12 +38,17 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
   const { mutateAsync: submitReview } = useSubmitReview();
   const router = useRouter();
   const toast = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useAutoScrollReviewImages(images.length);
 
   // 리뷰 등록
   const handleSubmit = async () => {
+    if (isSubmitting) return;
+
     handleSubmitForm(async (formData) => {
+      setIsSubmitting(true);
+
       try {
         const uploadedUrls = await uploadImageUrl();
 
@@ -137,7 +143,10 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
           <div className='bg-black-1 h-[10rem] w-full' />
         </section>
       </form>
-      <ClientFooter disabled={!isValid || isContentEmpty} handleClick={handleSubmit} />
+      <ClientFooter
+        disabled={!isValid || isContentEmpty || isSubmitting || hasError}
+        handleClick={handleSubmit}
+      />
     </>
   );
 }

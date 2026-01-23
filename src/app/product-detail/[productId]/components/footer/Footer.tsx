@@ -31,9 +31,9 @@ export default function Footer({ productId, amount }: FooterProps) {
   const toastStyle = 'px-[2rem] bottom-[8.4rem]';
 
   const handleContact = () => {
-    if (isLogIn) {
+    if (isLogIn===true) {
       alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', undefined, toastStyle);
-    } else {
+    } else if(isLogIn===false) {
       login('문의 기능은 로그인 후에 사용할 수 있어요.', undefined, toastStyle);
     }
   };
@@ -41,7 +41,7 @@ export default function Footer({ productId, amount }: FooterProps) {
   const close = () => setIsOpen(false);
 
   const handleOpenDrawer = () => {
-    if (!isLogIn) {
+    if (isLogIn===false) {
       login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, toastStyle);
       return;
     }

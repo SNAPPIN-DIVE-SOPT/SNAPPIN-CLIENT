@@ -42,7 +42,7 @@ export default function PortfolioSection({
   const handleLike = () => {
     if (isLogIn) {
       mutateAsync(id);
-    } else {
+    } else if(isLogIn===false) {
       toast.login('좋아요 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[2rem]');
     }
   };
@@ -53,7 +53,7 @@ export default function PortfolioSection({
       <PortfolioCarousel images={images} />
       {/* 한줄 설명, 좋아요 */}
       <div className='flex items-center justify-between px-[2rem] py-[1.6rem]'>
-        <h1 className='title-20-bd text-black-10'>{description}</h1>
+        <h1 className='font-18-bd text-black-10'>{description}</h1>
         <div className='flex h-[3rem] w-[4.4rem] items-center gap-[0.2rem]'>
           <LikeButton isLiked={isLiked} handleClick={handleLike} />
           <span className='font-18-md text-black-9'>{likeCount}</span>

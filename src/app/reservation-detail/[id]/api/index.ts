@@ -26,7 +26,7 @@ export const useGetReservationDetail = (reservationId: number) => {
 };
 
 // 예약 취소 API
-export const useCancelReservation = () => {
+export const useCancelReservation = (reservationId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation<CancelReservationResponse, Error, number>({
@@ -44,6 +44,9 @@ export const useCancelReservation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: USER_QUERY_KEY.RESERVATION_LISTS() });
+      queryClient.invalidateQueries({
+        queryKey: USER_QUERY_KEY.RESERVATION_DETAIL(reservationId),
+      });
     },
   });
 };

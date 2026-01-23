@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { Divider } from '@/ui';
 import { EmptyView, ReservationCard, ReservationCardSkeleton } from '../components';
 import { useToast } from '@/ui/toast/hooks/useToast';
@@ -9,38 +9,67 @@ import { formatCreatedAt } from '@/utils/formatNumberWithComma';
 import { useGetReservationList } from '../api';
 import { RESERVATION_TAB } from '../constants/tabs';
 import { useAuth } from '@/auth/hooks/useAuth';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ReservationListSection() {
-  const toast = useToast();
   // 로그인 여부
   const { isLogIn } = useAuth();
+  const { login } = useToast();
+
+  const { data, isFetching } = useGetReservationList(
+    RESERVATION_TAB.CLIENT_OVERVIEW,
+    isLogIn === true,
+  );
+
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = useMemo(
+    () => `reservation:list:${RESERVATION_TAB.CLIENT_OVERVIEW}:${isLogIn ?? 'unknown'}`,
+    [isLogIn],
+  );
+
+  useScrollRestoreOnParent(anchorRef, scrollKey, [data?.reservations?.length ?? 0], {
+    enabled: isLogIn === true,
+  });
 
   useEffect(() => {
     if (isLogIn === false) {
-      toast.login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
     }
-  }, [isLogIn, toast]);
+  }, [isLogIn, login]);
 
-  const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_OVERVIEW,isLogIn===true);
+  if (isLogIn === null) return null;
 
   const reservations = data?.reservations ?? [];
   const hasData = (data?.reservations?.length ?? 0) > 0;
 
-  if (isFetching && !hasData) {
-    return <ReservationCardSkeleton />;
+  if (isFetching && isLogIn === true) {
+    return (
+      <div className='p-[1.6rem]'>
+        <ReservationCardSkeleton />
+      </div>
+    );
   }
 
-  if (!hasData || isLogIn === false) {
+  if (isLogIn === false) {
     return (
       <EmptyView
         title='예약 문의한 상품이 없어요'
-        description='&#39;탐색&#39;에서 다양한 상품을 확인해 보세요'
+        description='&#39;탐색&#39;에서 다양한 포트폴리오를 확인해보세요'
+      />
+    );
+  }
+
+  if (!hasData) {
+    return (
+      <EmptyView
+        title='예약 문의한 상품이 없어요'
+        description='&#39;탐색&#39;에서 다양한 포트폴리오를 확인해보세요'
       />
     );
   }
 
   return (
-    <section className='flex flex-col gap-[1.6rem] p-[1.6rem]'>
+    <section className='flex flex-col gap-[1.6rem] p-[1.6rem]' ref={anchorRef}>
       {reservations.map((reservation, reservationIndex) => {
         const product = reservation.product;
         return (

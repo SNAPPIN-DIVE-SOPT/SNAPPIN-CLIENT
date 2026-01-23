@@ -3,7 +3,7 @@ import { USER_TYPE, UserType } from '@/auth/constant/userType';
 import { useSwitchUserProfile } from '@/auth/apis';
 
 type SwitchProfileProps = {
-  userType: UserType;
+  userType: UserType | null;
   onChange: (type: UserType) => void;
   onSwitchStart: () => void;
   onSwitchEnd: () => void;
@@ -24,11 +24,13 @@ export default function SwitchProfile({ userType, onChange, onSwitchStart, onSwi
     }
   };
 
+  if (isPending || !userType) return null;
+
   return (
     <>
       <Divider color='bg-black-3' className='h-[0.6rem]' />
       <section className='bg-black-1'>
-        <div className='flex items-center justify-between px-[2rem] py-[1.5rem]'>
+        <div className='flex  h-[6.2rem] items-center justify-between px-[2rem] py-[1.5rem]'>
           <p className='caption-14-md text-black-10'>
             {userType === USER_TYPE.PHOTOGRAPHER ? '고객 계정으로 전환하기' : '작가 계정으로 전환하기'}
           </p>

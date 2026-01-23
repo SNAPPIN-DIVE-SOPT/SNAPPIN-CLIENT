@@ -20,12 +20,11 @@ export default function Author({
   specialties,
 }: AuthorProps) {
   return (
-   
     <Link
       href={`/photographer-detail/${id}`}
       className='bg-black-3 border-black-4 flex w-[18.4rem] shrink-0 flex-col gap-[0.5rem] rounded-[0.4rem] border-[0.5px] p-[1.2rem]'
     >
-      <div className='relative w-[16.4rem] h-[16.4rem]'>
+      <div className='relative h-[16.4rem] w-[16.4rem]'>
         {isNew && (
           <Chip
             label='NEW'
@@ -34,7 +33,7 @@ export default function Author({
           />
         )}
         <Image
-          src={profileImageUrl==="" ? '/imgs/image-default.png' : profileImageUrl}
+          src={profileImageUrl === '' ? '/imgs/image-default.png' : profileImageUrl}
           alt={`${name}의 포토폴리오 이미지-${profileImageUrl}`}
           fill
           className='rounded-[0.2rem] object-cover'
@@ -46,7 +45,7 @@ export default function Author({
             <span className='font-16-bd'>{name}</span>
             <span className='caption-12-md'>작가</span>
           </div>
-          <p className='caption-12-md text-black-8 truncate'>{bio}</p>
+          <p className='caption-14-rg text-black-8 truncate'>{bio}</p>
         </div>
         <div className='flex gap-[0.4rem] overflow-hidden'>
           {specialties.map((specialty) => (

@@ -90,7 +90,7 @@ export default function ComboBox({
                 optionWrapperClassName,
               )}
             >
-              <CommandEmpty className='caption-12-md text-black-6 p-[1rem]'>
+              <CommandEmpty className='caption-14-md text-black-6 p-[1rem]'>
                 결과가 없습니다.
               </CommandEmpty>
 
@@ -101,7 +101,7 @@ export default function ComboBox({
                     value={option}
                     onSelect={() => handleOptionSelect(option)}
                     className={cn(
-                      'caption-12-md hover:bg-black-3 rounded-[0.4rem] p-[1rem] hover:cursor-pointer',
+                      'caption-14-md hover:bg-black-3 rounded-[0.4rem] p-[1rem] hover:cursor-pointer',
                       optionClassName,
                     )}
                   >

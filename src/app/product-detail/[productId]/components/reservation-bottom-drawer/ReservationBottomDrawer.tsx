@@ -26,6 +26,8 @@ import AvailableTimeSection from '@/app/product-detail/[productId]/components/ti
 import { ProductReservationRequest } from '@/swagger-api/data-contracts';
 import { useSearchPlaces } from '@/app/(with-layout)/explore/api';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
+import { useToast } from '@/ui/toast/hooks/useToast';
+import { getErrorMessage, getErrorStatus } from '@/utils/error';
 
 type ReservationBottomDrawerProps = {
   isOpen: boolean;
@@ -51,6 +53,7 @@ export default function ReservationBottomDrawer({
   handleOpenChangeAction,
   onSuccessReservationAction,
 }: ReservationBottomDrawerProps) {
+  const toast = useToast();
   const { mutate, isError } = useReservation(productId);
   const timeSectionRef = useRef<HTMLDivElement>(null);
   const [viewMonth, setViewMonth] = useState<Date>(new Date());
@@ -66,7 +69,6 @@ export default function ReservationBottomDrawer({
 
   const minParticipantCount = peopleRange?.minPeople ?? 1;
   const maxParticipantCount = peopleRange?.maxPeople ?? 10;
-  const isButtonDisabled = !date || !time || !placeId;
 
   const effectiveDurationHours = durationHours ?? minAvailableTime ?? 1;
   const formattedTime = `${effectiveDurationHours}시간`;
@@ -74,6 +76,8 @@ export default function ReservationBottomDrawer({
   const formattedCount = `${participantCount}명`;
   const requestLength = request.length;
   const isRequestTextareaError = requestLength > REQUEST_TEXTAREA_MAX_LENGTH;
+
+  const isButtonDisabled = !date || !time || !placeId || isRequestTextareaError;
 
   const placeNameToId = new Map(
     places?.filter((p) => p.name && p.id != null).map((p) => [p.name as string, p.id as number]),
@@ -116,6 +120,11 @@ export default function ReservationBottomDrawer({
       onSuccess: () => {
         handleOpenChangeAction();
         onSuccessReservationAction?.();
+      },
+      onError: (error) => {
+        const message = getErrorMessage(error);
+        toast.error(message, 3000, 'bottom-[8.6rem]');
+        handleOpenChangeAction();
       },
     });
   };

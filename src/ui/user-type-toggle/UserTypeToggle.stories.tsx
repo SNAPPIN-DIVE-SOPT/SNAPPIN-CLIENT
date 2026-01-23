@@ -31,7 +31,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const UserTypeToggleWithState = (args: UserTypeToggleProps) => {
-  const [selectedType, setSelectedType] = useState<UserType>(args.selectedType);
+  const [selectedType, setSelectedType] = useState<UserType | null>(args.selectedType);
 
   const handleClick = () =>
     setSelectedType((prev) =>

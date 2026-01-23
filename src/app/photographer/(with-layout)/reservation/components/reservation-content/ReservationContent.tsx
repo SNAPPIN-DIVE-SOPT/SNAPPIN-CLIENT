@@ -13,6 +13,22 @@ const isReservationTab = (value: string | null) => {
   return value === RESERVATION_TAB.PHOTOGRAPHER_REQUESTED || value === RESERVATION_TAB.PHOTOGRAPHER_ADJUSTING || value === RESERVATION_TAB.PHOTOGRAPHER_CONFIRMED || value === RESERVATION_TAB.PHOTOGRAPHER_DONE;
 };
 
+const getEmptyText = (tab: ReservationTab): string => {
+  if (tab === RESERVATION_TAB.PHOTOGRAPHER_REQUESTED) {
+    return '예약 요청된 상품이 없어요';
+  }
+  if (tab === RESERVATION_TAB.PHOTOGRAPHER_ADJUSTING) {
+    return '조율 중인 상품이 없어요';
+  }
+  if (tab === RESERVATION_TAB.PHOTOGRAPHER_CONFIRMED) {
+    return '예약 확정된 상품이 없어요';
+  }
+  if (tab === RESERVATION_TAB.PHOTOGRAPHER_DONE) {
+    return '촬영 완료된 상품이 없어요';
+  }
+  return '';
+};
+
 export default function ReservationContent() {
   const router = useRouter();
   const pathname = usePathname();
@@ -53,8 +69,8 @@ export default function ReservationContent() {
             <ReservationCardSkeleton />
           ) : data?.reservations?.length === 0 ? (
             <EmtpyView
-              title='예약된 상품이 없어요'
-              description='‘예약’에서 다양한 예약을 확인해보세요'
+              title={getEmptyText(selectedTab)}
+              description='새로운 예약이 생성되면 바로 알려드릴게요'
             />
           ) : (
             <div className='flex flex-col'>

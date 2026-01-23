@@ -39,22 +39,23 @@ export default function ProfileCard({
 
   return (
     <div className={cn('bg-black-1 flex items-center gap-[1.2rem] p-[2rem]', className)} {...props}>
+      <div className='w-[64px] h-[64px] rounded-full overflow-hidden shrink-0'>
       <Image
-        src={isLoggedIn && profileImageUrl ? profileImageUrl : '/imgs/default-profile.png'}
+        src={profileImageUrl ?? '/imgs/default-profile.png'}
         alt='프로필 이미지'
         width={64}
         height={64}
         className='rounded-full'
       />
-
+      </div>
       <div className='flex flex-1 items-center justify-between gap-[1.2rem]'>
         {!isLoggedIn ? (
           <span className='caption-14-bd text-black-10'>로그인이 필요해요</span>
         ) : (
           <div className='flex flex-col gap-[0.9rem]'>
-            <div className='flex flex-col gap-[0.4rem]'>
+            <div className='flex flex-col'>
               <span className='caption-14-bd text-black-10'>{name}</span>
-              <span className='caption-12-md text-black-7'>{bio}</span>
+              <span className='caption-14-rg text-black-7'>{bio}</span>
             </div>
             <div className='flex flex-col gap-[0.4rem]'>
               {profileCardInfoRows.map(({ label, value }) => (
@@ -82,7 +83,7 @@ type ProfileCardInfoRowProps = {
 
 const ProfileCardInfoRow = ({ label, value }: ProfileCardInfoRowProps) => (
   <div className='flex items-center gap-[0.8rem]'>
-    <span className='caption-10-md text-black-7'>{label}</span>
-    <span className='caption-10-md text-black-10'>{value}</span>
+    <span className='caption-12-md text-black-7'>{label}</span>
+    <span className='caption-12-md text-black-10'>{value}</span>
   </div>
 );
