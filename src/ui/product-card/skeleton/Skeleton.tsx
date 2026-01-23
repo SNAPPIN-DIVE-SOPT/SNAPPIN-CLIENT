@@ -1,8 +1,11 @@
 import { Divider } from '@/ui';
 import { cn } from '@/utils/cn';
+import { DividerSize } from '@/ui/divider/type/variant';
 
 type ProductListSkeletonProps = {
   length?: number;
+  className?: string;
+  thickness?: DividerSize;
 };
 
 type ProductCardSkeletonProps = {
@@ -25,13 +28,19 @@ export function ProductCardSkeleton({ className }: ProductCardSkeletonProps) {
   );
 }
 
-export function ProductListSkeleton({ length = 15 }: ProductListSkeletonProps) {
+export function ProductListSkeleton({
+  length = 15,
+  className,
+  thickness = 'large',
+}: ProductListSkeletonProps) {
   return (
-    <div className='flex flex-col'>
+    <div className={cn('flex flex-col', className)}>
       {Array.from({ length: length }).map((_, i) => (
         <div key={i} className='flex flex-col'>
           <ProductCardSkeleton />
-          {i < length - 1 && <Divider thickness='large' color='bg-black-3' className='w-full' />}
+          {i < length - 1 && (
+            <Divider thickness={thickness} color='bg-black-3' className='w-full' />
+          )}
         </div>
       ))}
     </div>
