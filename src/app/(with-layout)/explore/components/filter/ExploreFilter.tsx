@@ -21,7 +21,7 @@ const parseMoodIds = (params: URLSearchParams): number[] => {
 
 export default function ExploreFilter() {
   const [open, setOpen] = useState(false);
-  const { data } = useMoodFilters();
+  const { data, isLoading } = useMoodFilters();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -112,21 +112,22 @@ export default function ExploreFilter() {
           <IconSettingsBackupRestore />
         </IconButton>
 
-        <div className='scrollbar-hide flex flex-1 flex-row gap-[0.4rem] overflow-x-auto'>
-          {selectedMoods.length === 0 ? (
-            <span className='caption-14-rg text-black-6'>무드필터를 이용해서 검색해 보세요</span>
-          ) : (
-            selectedMoods.map((mood) => (
-              <FilterChip
-                key={mood.id}
-                label={mood.name ?? ''}
-                onRemove={() => handleRemoveMood(mood.id ?? 0)}
-                isSelected
-              />
-            ))
-          )}
-        </div>
-
+        {!isLoading ? (
+          <div className='scrollbar-hide flex flex-1 flex-row gap-[0.4rem] overflow-x-auto'>
+            {selectedMoods.length === 0 ? (
+              <span className='caption-14-rg text-black-6'>무드필터를 이용해서 검색해 보세요</span>
+            ) : (
+              selectedMoods.map((mood) => (
+                <FilterChip
+                  key={mood.id}
+                  label={mood.name ?? ''}
+                  onRemove={() => handleRemoveMood(mood.id ?? 0)}
+                  isSelected
+                />
+              ))
+            )}
+          </div>
+        ) : null}
         <IconButton
           className='border-black-3 before:bg-black-4 relative h-[4.4rem] w-[4.4rem] p-[1rem] before:absolute before:top-1/2 before:left-[-0.05rem] before:h-[3.1rem] before:w-[0.1rem] before:-translate-y-1/2 before:content-[""]'
           aria-expanded={open}
