@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useMemo } from 'react';
-import { Divider } from '@/ui';
-import { EmptyView, ReservationCard, ReservationCardSkeleton } from '../components';
+import { useEffect, useRef, useMemo, useState } from 'react';
+import { Divider, ProductListSkeleton } from '@/ui';
+import { EmptyView, ReservationCard } from '../components';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { StateCode } from '@/types/stateCode';
 import { formatCreatedAt } from '@/utils/formatNumberWithComma';
@@ -12,14 +12,32 @@ import { useAuth } from '@/auth/hooks/useAuth';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ReservationListSection() {
-  // 로그인 여부
+  /** 로그인 여부 */
   const { isLogIn } = useAuth();
   const { login } = useToast();
 
-  const { data, isFetching, isPending } = useGetReservationList(
+  /** 예약 리스트 조회 */
+  const { data, isFetching } = useGetReservationList(
     RESERVATION_TAB.CLIENT_OVERVIEW,
     isLogIn === true,
   );
+
+  const reservations = data?.reservations ?? [];
+
+  const [hasEverHadData, setHasEverHadData] = useState(false);
+
+  useEffect(() => {
+    if (reservations.length > 0) {
+      setHasEverHadData(true);
+    }
+  }, [reservations.length]);
+
+  /** 로그인 X 토스트 */
+  useEffect(() => {
+    if (isLogIn === false) {
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
+    }
+  }, [isLogIn, login]);
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const scrollKey = useMemo(
@@ -27,44 +45,47 @@ export default function ReservationListSection() {
     [isLogIn],
   );
 
-  useScrollRestoreOnParent(anchorRef, scrollKey, [data?.reservations?.length ?? 0], {
+  useScrollRestoreOnParent(anchorRef, scrollKey, [reservations.length], {
     enabled: isLogIn === true,
   });
 
-  useEffect(() => {
-    if (isLogIn === false) {
-      login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
-    }
-  }, [isLogIn, login]);
+  /** 로그인 상태 아직 모름 */
+  if (isLogIn == null) return null;
 
-  const reservations = data?.reservations ?? [];
-  const hasData = (data?.reservations?.length ?? 0) > 0;
-
-  if (isLogIn === undefined) return <ReservationCardSkeleton />;
-
-  if (isPending && !hasData && isLogIn === true) {
-    return <ReservationCardSkeleton />;
-  }
-
-  const isEmpty = isLogIn === true && !isFetching && !isPending && !hasData;
-
-  if (isEmpty) {
+  /** 로그인 X */
+  if (isLogIn === false) {
     return (
       <EmptyView
         title='예약 문의한 상품이 없어요'
-        description='&#39;탐색&#39;에서 다양한 상품을 확인해 보세요'
+        description='‘탐색’에서 다양한 포트폴리오를 확인해보세요'
+      />
+    );
+  }
+
+  /** 로그인 O & 데이터 한 번도 없음 */
+  if (!hasEverHadData && !isFetching) {
+    return (
+      <EmptyView
+        title='예약 문의한 상품이 없어요'
+        description='‘탐색’에서 다양한 포트폴리오를 확인해보세요'
       />
     );
   }
 
   return (
     <section className='flex flex-col gap-[1.6rem] p-[1.6rem]' ref={anchorRef}>
-      {reservations.map((reservation, reservationIndex) => {
+      {isFetching && hasEverHadData && <ProductListSkeleton />}
+
+      {reservations.map((reservation, index) => {
         const product = reservation.product;
+
         return (
           <div key={reservation.reservationId}>
             <ReservationCard
-              image={{ src: product?.imageUrl ?? '', alt: product?.title ?? '상품 이미지' }}
+              image={{
+                src: product?.imageUrl ?? '',
+                alt: product?.title ?? '상품 이미지',
+              }}
               name={product?.title ?? ''}
               rate={product?.rate ?? 0}
               reviewCount={product?.reviewCount ?? 0}
@@ -77,7 +98,7 @@ export default function ReservationListSection() {
               isReviewed={product?.isReviewed ?? false}
             />
 
-            {reservationIndex !== reservations.length - 1 && (
+            {index !== reservations.length - 1 && (
               <Divider thickness='large' color='bg-black-3' className='-mx-[1.6rem] mt-[1.6rem]' />
             )}
           </div>
