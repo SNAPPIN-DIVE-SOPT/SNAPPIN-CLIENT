@@ -5,7 +5,7 @@ export default function SectionSkeleton() {
   return (
     <div>
       <div className='bg-black-1 flex flex-col pt-[1.7rem] pb-[1.2rem]'>
-        <span className='caption-14-md px-[2rem]'>예약 요청 상품</span>
+        <span className='caption-14-bd px-[2rem]'>예약 요청 상품</span>
         <ProductCardSkeleton className='pt-[1.2rem]' />
         <div className='px-[2rem]'>
           <div className='bg-black-3 h-[2.7rem] w-full' />
