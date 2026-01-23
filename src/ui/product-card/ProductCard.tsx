@@ -27,6 +27,7 @@ export default function ProductCard({
   className,
   ...props
 }: ProductCardProps) {
+  console.log(rate);
   return (
     <div className={cn('flex w-full gap-[1.2rem]', className)} {...props}>
       <div className='relative h-[10.2rem] w-[10.2rem] shrink-0'>
@@ -44,7 +45,7 @@ export default function ProductCard({
             <div className='flex gap-[0.6rem]'>
               <div className='flex items-center gap-[0.2rem]'>
                 <IconStar className='text-black-8 h-[1rem] w-[1rem]' />
-                <span className='caption-12-md text-black-8'>{rate}</span>
+                <span className='caption-12-md text-black-8'>{Number(rate).toFixed(1)}</span>
               </div>
               <div className='flex items-center gap-[0.3rem]'>
                 <span className='caption-12-md text-black-10 text-right'>리뷰 {reviewCount}</span>

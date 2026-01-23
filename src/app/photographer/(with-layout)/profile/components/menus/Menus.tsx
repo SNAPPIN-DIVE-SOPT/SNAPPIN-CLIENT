@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ConfirmModal } from '@/ui';
-import { cn } from '@/utils/cn';
 import { deleteAccessToken } from '@/auth/token';
 import { deleteUserType } from '@/auth/userType';
 import { logoutApi } from '@/app/(with-layout)/profile/apis';
@@ -69,15 +68,14 @@ export default function Menus() {
 
 type MenuItemProps = {
   label: string;
-  className?: string;
   href: string;
 };
 
-const MenuItem = ({ label, className, href }: MenuItemProps) => {
+const MenuItem = ({ label, href }: MenuItemProps) => {
   return (
     <Link
       href={href}
-      className={cn('caption-14-md bg-black-1 py-[1.5rem] pl-[2rem] text-left', className)}
+      className='caption-14-md bg-black-1 py-[1.5rem] pl-[2rem] text-left'
     >
       {label}
     </Link>

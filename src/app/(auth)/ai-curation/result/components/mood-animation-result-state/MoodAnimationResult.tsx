@@ -26,7 +26,18 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
   const [phase, setPhase] = useState<Phase>('intro');
 
   const handleGoToSnap = () => {
-    router.push('/explore');
+    if (!data?.moods?.length) return;
+  
+    const params = new URLSearchParams();
+    params.set(
+      'moodIds',
+      data.moods
+        .map((mood) => mood.id)
+        .filter((id): id is number => typeof id === 'number')
+        .join(','),
+    );
+  
+    router.push(`/explore?${params.toString()}`);
   };
 
   const handleGoHome = () => {
@@ -34,7 +45,7 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
   };
 
   return (
-    <div className='flex flex-col items-center pt-[5rem]'>
+    <div className='flex h-full flex-col items-center pt-[5rem]'>
       <div className='relative min-h-[10rem] w-full'>
         {/*  텍스트 애니메이션 */}
         <AnimatePresence
@@ -132,7 +143,7 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
             variants={CTA}
             initial='initial'
             animate='animate'
-            className='fixed-center bottom-0 left-0 w-full transform-gpu will-change-transform'
+            className='absolute w-full max-w-[45rem] bottom-0 transform-gpu will-change-transform'
           >
             <BottomCTAButton className='flex w-full flex-col gap-[0.7rem] px-[2rem] pb-[2rem]'>
               <BottomCTAButton.Single color='black' size='large' onClick={handleGoToSnap}>

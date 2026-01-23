@@ -41,7 +41,7 @@ export default function ProductMainSection({
   const handleLike = async () => {
     if (isLogIn) {
       mutateAsync(id);
-    } else {
+    } else if(isLogIn===false) {
       toast.login(
         '좋아요 기능은 로그인 후에 사용할 수 있어요.',
         undefined,
