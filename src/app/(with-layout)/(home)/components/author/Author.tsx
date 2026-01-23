@@ -5,7 +5,7 @@ import { Chip } from '@/ui';
 type AuthorProps = {
   id: number;
   name: string;
-  profileImageUrl: string;
+  profileImageUrl: string | null;
   isNew: boolean;
   bio: string;
   specialties: string[];
@@ -33,7 +33,7 @@ export default function Author({
           />
         )}
         <Image
-          src={profileImageUrl === '' ? '/imgs/image-default.png' : profileImageUrl}
+          src={profileImageUrl ? profileImageUrl : '/imgs/default-photographer.png'}
           alt={`${name}의 포토폴리오 이미지-${profileImageUrl}`}
           fill
           className='rounded-[0.2rem] object-cover'
