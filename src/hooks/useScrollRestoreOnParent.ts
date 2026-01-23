@@ -6,6 +6,8 @@ type Options = {
   restoreScheduleMs?: number[]; // default: [0, 50, 150, 300, 600]
   freezeSaveAfterRestoreMs?: number; // default: 400
   saveThrottleFrame?: boolean; // default: true
+  saveThrottleMs?: number; // default: 200
+  saveOnPageHide?: boolean; // default: true
   enabled?: boolean; // default: true
 };
 
@@ -36,6 +38,8 @@ export const useScrollRestoreOnParent = (
     restoreScheduleMs = [0, 50, 150, 300, 600],
     freezeSaveAfterRestoreMs = 400,
     saveThrottleFrame = true,
+    saveThrottleMs = 200,
+    saveOnPageHide = true,
   } = options;
 
   const key = useMemo(() => storageKey, [storageKey]);
@@ -51,6 +55,7 @@ export const useScrollRestoreOnParent = (
     if (!scrollEl) return;
 
     let raf = 0;
+    let timeoutId: number | null = null;
 
     const save = () => {
       if (Date.now() < freezeUntilRef.current) return;
@@ -62,18 +67,32 @@ export const useScrollRestoreOnParent = (
     };
 
     const onScroll = () => {
+      if (saveThrottleMs > 0) {
+        if (timeoutId) window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(save, saveThrottleMs);
+        return;
+      }
       if (!saveThrottleFrame) return save();
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(save);
     };
 
     scrollEl.addEventListener('scroll', onScroll, { passive: true });
+    if (saveOnPageHide) {
+      window.addEventListener('pagehide', save);
+      document.addEventListener('visibilitychange', save);
+    }
 
     return () => {
       cancelAnimationFrame(raf);
+      if (timeoutId) window.clearTimeout(timeoutId);
       scrollEl.removeEventListener('scroll', onScroll);
+      if (saveOnPageHide) {
+        window.removeEventListener('pagehide', save);
+        document.removeEventListener('visibilitychange', save);
+      }
     };
-  }, [anchorRef, enabled, key, saveThrottleFrame]);
+  }, [anchorRef, enabled, key, saveThrottleFrame, saveThrottleMs, saveOnPageHide]);
 
   useLayoutEffect(() => {
     if (!enabled) return;
