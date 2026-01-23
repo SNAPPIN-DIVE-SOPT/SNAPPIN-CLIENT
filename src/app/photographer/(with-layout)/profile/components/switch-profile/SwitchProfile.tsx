@@ -23,7 +23,8 @@ export default function SwitchProfile({ userType, onChange, onSwitchStart, onSwi
       onSwitchEnd();
     }
   };
-  if (isPending) null;
+
+  if (isPending || !userType) return null;
 
   return (
     <>

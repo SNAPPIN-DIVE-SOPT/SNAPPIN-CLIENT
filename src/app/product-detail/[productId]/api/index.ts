@@ -156,7 +156,7 @@ export const useGetProductDetail = (id: number) => {
   return useQuery<GetProductDetailResponse>({
     queryKey: USER_QUERY_KEY.PRODUCT_DETAIL(id, !!isLogIn),
     queryFn: () => getProductDetail(id, !!isLogIn),
-    enabled: !Number.isNaN(id) || isLogIn !== null,
+    enabled: !Number.isNaN(id) && isLogIn !== null,
   });
 };
 

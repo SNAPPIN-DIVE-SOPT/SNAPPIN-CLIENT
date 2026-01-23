@@ -23,7 +23,7 @@ export default function PageClient({ step }: PageClientProps) {
   const photos = question?.photos;
 
   return (
-    <div className='flex h-full flex-col justify-between'>
+    <div className='flex h-full flex-col'>
       <StepLayout
         question={question?.question ?? { id: 0, contents: '', step: 0 }}
         photos={

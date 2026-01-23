@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
+    minimumCacheTTL: 60 * 60 * 24,
     remotePatterns: [
       //TODO: 아래 삭제 및 추가 필요
       {

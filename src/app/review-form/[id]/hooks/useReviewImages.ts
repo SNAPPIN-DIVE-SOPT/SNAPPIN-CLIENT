@@ -22,10 +22,7 @@ export const useReviewImages = () => {
       let error = false;
 
       Array.from(files).forEach((file) => {
-        if (nextImages.length >= MAX_IMAGE_COUNT) {
-          error = true;
-          return;
-        }
+        const willExceed = nextImages.length >= MAX_IMAGE_COUNT;
 
         const { ok } = validateImage({
           file,
@@ -33,7 +30,8 @@ export const useReviewImages = () => {
           maxImageCount: MAX_IMAGE_COUNT,
         });
 
-        if (!ok) {
+        // 타입/용량 등 다른 문제면 건너뛰고 에러 ON
+        if (!ok && !willExceed) {
           error = true;
           return;
         }
@@ -43,17 +41,30 @@ export const useReviewImages = () => {
           file,
           preview: URL.createObjectURL(file),
         });
+
+        // 개수 초과이면 에러 ON
+        if (willExceed || !ok) {
+          error = true;
+        }
       });
 
       setImages(nextImages);
-      setHasError(error);
+      setHasError(error || nextImages.length > MAX_IMAGE_COUNT);
     },
     [images],
   );
 
   /** 이미지 제거 */
   const removeImage = useCallback((id: string) => {
-    setImages((prev) => prev.filter((img) => img.id !== id));
+    setImages((prev) => {
+      const nextImages = prev.filter((img) => img.id !== id);
+
+      if (nextImages.length <= MAX_IMAGE_COUNT) {
+        setHasError(false);
+      }
+
+      return nextImages;
+    });
   }, []);
 
   const useAutoScrollReviewImages = (imageCount: number) => {
@@ -64,7 +75,7 @@ export const useReviewImages = () => {
       previousCountRef.current = imageCount;
 
       if (imageCount < 1) return;
-      if (imageCount <= previousCount) return; // skip when removing or same size
+      if (imageCount <= previousCount) return;
 
       const element = document.getElementById('review-image-list');
       if (!element) return;

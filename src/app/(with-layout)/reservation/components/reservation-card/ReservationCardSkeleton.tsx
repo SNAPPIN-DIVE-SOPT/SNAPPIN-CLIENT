@@ -6,11 +6,11 @@ type ReservationCardSkeletonProps = {
 
 export default function ReservationCardSkeleton({ length = 5 }: ReservationCardSkeletonProps) {
   return (
-    <div className='flex flex-col gap-[1.2rem] p-[1.6rem]'>
+    <div className='flex flex-col gap-[1.2rem]'>
       {Array.from({ length: length }).map((_, i) => (
         <div key={i}>
-          <div className='border-black-4 w-full gap-[1.2rem] rounded-[0.6rem] border-[0.07rem] bg-transparent p-[1.2rem]'>
-            <div className='flex flex-col gap-[0.6rem]'>
+          <div className='border-black-4 w-full gap-[1.2rem] rounded-[0.6rem] border-[0.07rem] bg-transparent'>
+            <div className='flex flex-col gap-[0.6rem] px-[1.2rem] pt-[1rem]'>
               <div className='bg-black-3 h-[1.2rem] w-[9.1rem]' />
               <div className='mb-[1.2rem] flex justify-between'>
                 <div className='bg-black-3 h-[1.8rem] w-[5.4rem]' />

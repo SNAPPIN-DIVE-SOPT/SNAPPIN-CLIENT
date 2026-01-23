@@ -27,20 +27,20 @@ type PoseKeys = (typeof POSE_KEYS)[number];
 
 const POSES_ANIMATION: Record<PoseKeys, PoseSet> = {
   leftTop: {
-    default: { left: '6vw', top: '4vw', rotate: -12 },
-    animation: { left: '6vw', top: '4vw', rotate: -10 },
+    default: { left: '8%', top: '6%', rotate: -12 },
+    animation: { left: '8%', top: '6%', rotate: -10 },
   },
   rightTop: {
-    default: { right: '7vw', top: '8vw', rotate: 9.6 },
-    animation: { right: '7vw', top: '8vw', rotate: 4.6 },
+    default: { right: '8%', top: '10%', rotate: 9.6 },
+    animation: { right: '8%', top: '10%', rotate: 4.6 },
   },
   leftBottom: {
-    default: { left: '6vw', top: '52vw', rotate: -6 },
-    animation: { left: '6vw', top: '52vw', rotate: -2 },
+    default: { left: '8%', top: '56%', rotate: -6 },
+    animation: { left: '8%', top: '56%', rotate: -2 },
   },
   rightBottom: {
-    default: { right: '10vw', top: '54vw', rotate: 17 },
-    animation: { right: '10vw', top: '54vw', rotate: 14 },
+    default: { right: '8%', top: '60%', rotate: 17 },
+    animation: { right: '8%', top: '60%', rotate: 14 },
   },
 };
 
@@ -81,7 +81,7 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
   };
 
   return (
-    <div className='relative flex w-full justify-center'>
+    <div className='relative flex h-[41.5rem] w-full justify-center'>
       <div className='relative h-[41.5rem] w-full'>
         {sorted.map((img, idx) => {
           const poseKey = POSE_KEYS[idx % POSE_KEYS.length];

@@ -20,13 +20,14 @@ export default function PortfolioList({
       )}
       {...props}
     >
-      {portfolioList.map((portfolio) => (
+      {portfolioList.map((portfolio, idx) => (
         <Link
           href={`/portfolio-detail/${portfolio.id}`}
           key={portfolio.id}
           className='relative aspect-square'
         >
           <Image
+            priority={idx <= 9}
             src={portfolio.imageUrl ?? productPlaceholder}
             fill
             alt={`portfolio ${portfolio.id}`}

@@ -21,7 +21,11 @@ type MenuItem = { label: MenuLabel; icon: React.ReactNode; href: string };
 
 export const MENU: MenuItem[] = [
   { label: MENU_LABEL.AI_MOOD, icon: <IconMenuAiMood />, href: '/ai-curation' },
-  { label: MENU_LABEL.SCHOOL, icon: <IconMenuSchool />, href: 'https://www.instagram.com/snapping.mag' },
+  {
+    label: MENU_LABEL.SCHOOL,
+    icon: <IconMenuSchool />,
+    href: 'https://www.instagram.com/snapping.mag',
+  },
   {
     label: SNAP_CATEGORY.GRADUATION,
     icon: <IconMenuGraduate />,
@@ -32,7 +36,7 @@ export const MENU: MenuItem[] = [
     icon: <IconMenuLove />,
     href: '/explore?snapCategory=WEDDING',
   },
-  { label: MENU_LABEL.JEJU, icon: <IconMenuJeju />, href: '/explore' },
+  { label: MENU_LABEL.JEJU, icon: <IconMenuJeju />, href: '/explore?placeId=104&placeName=제주' },
   { label: SNAP_CATEGORY.RECITAL, icon: <IconMenuMusic />, href: '/explore?snapCategory=RECITAL' },
   { label: SNAP_CATEGORY.COUPLE, icon: <IconMenuLove />, href: '/explore?snapCategory=COUPLE' },
   { label: SNAP_CATEGORY.DAILY, icon: <IconMenuDaily />, href: '/explore?snapCategory=DAILY' },

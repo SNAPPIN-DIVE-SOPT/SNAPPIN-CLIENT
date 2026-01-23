@@ -4,7 +4,7 @@ import { Logo } from '@/assets';
 
 export default function Page() {
   return (
-    <div className='bg-black-10 h-dvh'>
+    <div className='bg-black-10 h-full'>
       <ClientNavigation />
       <div className='mt-[6.4rem] flex flex-col gap-[2.4rem]'>
         <div className='flex flex-col items-center gap-[1.2rem]'>

@@ -54,7 +54,7 @@ export default function PageClient() {
           </SectionTabs.Tab>
         </SectionTabs.List>
       </div>
-      {isLogIn !== null && !isLogIn ? (
+      {isLogIn === null || !isLogIn ? (
         <LikeEmpty tab={currentTab} />
       ) : (
         <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
@@ -69,7 +69,9 @@ export default function PageClient() {
             {/* 상품 목록 */}
             <Suspense
               fallback={
-                <div className='bg-black-1 px-[2rem] py-[1.6rem]'>
+                <div className='bg-black-3 flex h-full flex-col gap-[0.6rem]'>
+                  <ProductCardSkeleton />
+                  <ProductCardSkeleton />
                   <ProductCardSkeleton />
                 </div>
               }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/ui';
+import { BottomCTAButton, Button } from '@/ui';
 import { IconKakao } from '@/assets';
 
 export default function LoginButton() {
@@ -17,14 +17,15 @@ export default function LoginButton() {
   };
 
   return (
-    <Button
-      color='primary'
-      size='large'
-      className='bg-kakao flex items-center gap-[1rem]'
-      onClick={handleLogin}
-    >
-      <IconKakao color='bg-black-10' />
-      <span className='font-16-md text-black-10'>카카오 로그인</span>
-    </Button>
+    <BottomCTAButton fixed={true} hasPadding={true} className='z-100 px-[2rem]'>
+      <BottomCTAButton.Single
+        color='primary'
+        onClick={handleLogin}
+        className='bg-kakao flex items-center gap-[1rem]'
+      >
+        <IconKakao color='bg-black-10' />
+        <span className='font-16-md text-black-10'>카카오 로그인</span>
+      </BottomCTAButton.Single>
+    </BottomCTAButton>
   );
 }
