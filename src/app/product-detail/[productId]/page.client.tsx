@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SectionTabs } from '@/ui';
 import { IconArrowForward } from '@/assets';
@@ -14,6 +14,7 @@ import {
 import { Footer, Header } from './components/index';
 import { PRODUCT_TAB, PRODUCT_TAB_MAP } from './constants/tab';
 import { useGetProductDetail } from './api/index';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ClientPage({ productId }: { productId: string }) {
   const router = useRouter();
@@ -21,7 +22,14 @@ export default function ClientPage({ productId }: { productId: string }) {
   const tabParam = searchParams.get('tab');
   const [selectedTab, setSelectedTab] = useState(tabParam ?? PRODUCT_TAB.PRODUCT_DETAIL);
 
-  const { data, isFetching } = useGetProductDetail(Number(productId));
+  const { data, isPending } = useGetProductDetail(Number(productId));
+
+  const anchorRef = useRef<HTMLDivElement>(null);
+  useScrollRestoreOnParent(
+    anchorRef,
+    `product-detail-scroll:${productId}`,
+    [productId, data?.id, isPending],
+  );
 
   const productInfo = {
     snapCategory: data?.productInfo?.snapCategory ?? '-',
@@ -58,9 +66,9 @@ export default function ClientPage({ productId }: { productId: string }) {
   };
 
   return (
-    <div>
+    <div ref={anchorRef}>
       <Header />
-      {isFetching ? (
+      {isPending ? (
         <ProductDetailSkeleton selectedTab={selectedTab} />
       ) : (
         <>
