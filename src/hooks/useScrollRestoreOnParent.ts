@@ -22,8 +22,6 @@ const getScrollParentOrNull = (el: HTMLElement | null) => {
     if (isScrollableOverflow(overflowY) && isActuallyScrollable(cur)) return cur;
     cur = cur.parentElement;
   }
-
-  // ✅ 탭 독립 스크롤이 목표면 window로 fallback 하면 안 됨
   return null;
 };
 
@@ -57,7 +55,6 @@ export const useScrollRestoreOnParent = (
     const save = () => {
       if (Date.now() < freezeUntilRef.current) return;
 
-      // ✅ 라우트 전환/레이아웃 리셋으로 0이 튀며 덮어쓰기 방지
       const prev = sessionStorage.getItem(key);
       if (scrollEl.scrollTop === 0 && prev && Number(prev) > 0) return;
 
