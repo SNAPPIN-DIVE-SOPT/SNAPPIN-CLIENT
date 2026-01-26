@@ -11,6 +11,7 @@ export default function ProductListSection() {
   const scrollKey = 'like:product:scroll';
   useScrollRestoreOnParent(anchorRef, scrollKey, [likedProductResponse.products?.length], {
     enabled: true,
+    resetOnKeyChange: true,
   });
 
   if (!likedProductResponse || likedProductResponse.products?.length === 0)
