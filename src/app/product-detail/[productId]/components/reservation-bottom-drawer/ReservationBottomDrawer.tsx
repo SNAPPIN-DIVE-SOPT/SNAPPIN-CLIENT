@@ -27,7 +27,7 @@ import { ProductReservationRequest } from '@/swagger-api/data-contracts';
 import { useSearchPlaces } from '@/app/(with-layout)/explore/api';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useToast } from '@/ui/toast/hooks/useToast';
-import { getErrorMessage, getErrorStatus } from '@/utils/error';
+import { getErrorMessage } from '@/utils/error';
 
 type ReservationBottomDrawerProps = {
   isOpen: boolean;
@@ -54,7 +54,7 @@ export default function ReservationBottomDrawer({
   onSuccessReservationAction,
 }: ReservationBottomDrawerProps) {
   const toast = useToast();
-  const { mutate, isError } = useReservation(productId);
+  const { mutate, isError, isPending } = useReservation(productId);
   const timeSectionRef = useRef<HTMLDivElement>(null);
   const [viewMonth, setViewMonth] = useState<Date>(new Date());
   const [isRequestFocused, setIsRequestFocused] = useState(false);
@@ -351,6 +351,7 @@ export default function ReservationBottomDrawer({
               size='medium'
               form='reservation-form'
               type='submit'
+              isLoading={isPending}
               disabled={isButtonDisabled}
             >
               예약하기
