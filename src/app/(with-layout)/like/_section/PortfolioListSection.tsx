@@ -11,6 +11,7 @@ export default function PortfolioListSection() {
   const scrollKey = 'like:portfolio:scroll';
   useScrollRestoreOnParent(anchorRef, scrollKey, [likedPortfolios.portfolios?.length], {
     enabled: true,
+    resetOnKeyChange: true,
   });
 
   if (!likedPortfolios || likedPortfolios.portfolios?.length === 0)
