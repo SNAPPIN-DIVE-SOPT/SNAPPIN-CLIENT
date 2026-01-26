@@ -265,8 +265,8 @@ export interface ProductReservationResponse {
 }
 
 export interface Type무드태그와연결할사진정보DTO {
-  "사진의 S3 key 값": string;
-  "사진의 벡터 변환 값": number[];
+  '사진의 S3 key 값': string;
+  '사진의 벡터 변환 값': number[];
 }
 
 /** 공통 응답 DTO */
@@ -543,14 +543,14 @@ export interface RequestPaymentReservationResponse {
    * @example "PAYMENT_REQUESTED"
    */
   status?:
-    | "RESERVATION_REQUESTED"
-    | "PHOTOGRAPHER_CHECKING"
-    | "PAYMENT_REQUESTED"
-    | "PAYMENT_COMPLETED"
-    | "RESERVATION_CONFIRMED"
-    | "RESERVATION_CANCELED"
-    | "RESERVATION_REFUSED"
-    | "SHOOT_COMPLETED";
+    | 'RESERVATION_REQUESTED'
+    | 'PHOTOGRAPHER_CHECKING'
+    | 'PAYMENT_REQUESTED'
+    | 'PAYMENT_COMPLETED'
+    | 'RESERVATION_CONFIRMED'
+    | 'RESERVATION_CANCELED'
+    | 'RESERVATION_REFUSED'
+    | 'SHOOT_COMPLETED';
   /** 결제 정보 DTO */
   payment?: PaymentResponse;
 }
@@ -787,7 +787,6 @@ export interface WishedProductResponse {
   title?: string;
   /**
    * 평균 별점
-   * @format double
    * @example 4.8
    */
   rate?: number;
@@ -1029,7 +1028,6 @@ export interface ReservationListProductResponse {
   title?: string;
   /**
    * 평균 별점
-   * @format double
    * @example 4.7
    */
   rate?: number;
@@ -1171,7 +1169,6 @@ export interface ReservationDetailProductResponse {
   title?: string;
   /**
    * 평균 별점
-   * @format double
    * @example 4.7
    */
   rate?: number;
@@ -1288,13 +1285,7 @@ export interface GetProductListQuery {
   moodIds?: number[];
   /** @format int64 */
   photographerId?: number;
-  snapCategory?:
-    | "GRADUATION"
-    | "WEDDING"
-    | "COUPLE"
-    | "DAILY"
-    | "FAMILY"
-    | "RECITAL";
+  snapCategory?: 'GRADUATION' | 'WEDDING' | 'COUPLE' | 'DAILY' | 'FAMILY' | 'RECITAL';
   /** @format int64 */
   placeId?: number;
   /** @format date */
@@ -1338,10 +1329,7 @@ export interface GetProductCardResponse {
   imageUrl?: string;
   /** 상품명 */
   title?: string;
-  /**
-   * 평균 별점
-   * @format double
-   */
+  /** 평균 별점 */
   rate?: number;
   /**
    * 리뷰 개수
@@ -1411,10 +1399,7 @@ export interface GetProductDetailResponse {
   title?: string;
   /** 좋아요 여부 */
   isLiked?: boolean;
-  /**
-   * 평균 별점
-   * @format double
-   */
+  /** 평균 별점 */
   averageRate?: number;
   /**
    * 리뷰 개수
@@ -1481,6 +1466,8 @@ export interface GetProductPhotographerInfoResponse {
   id?: number;
   /** 작가 이름 */
   name?: string;
+  /** 프로필 이미지 URL */
+  profileImageUrl?: string;
   /** 한줄 소개 */
   bio?: string;
   /** 촬영 상품 (전문 스냅 유형) */
@@ -1740,13 +1727,7 @@ export interface GetPortfolioListRequest {
    */
   photographerId?: number;
   /** 촬영 상황 (스냅 유형) */
-  snapCategory?:
-    | "GRADUATION"
-    | "WEDDING"
-    | "COUPLE"
-    | "DAILY"
-    | "FAMILY"
-    | "RECITAL";
+  snapCategory?: 'GRADUATION' | 'WEDDING' | 'COUPLE' | 'DAILY' | 'FAMILY' | 'RECITAL';
   /**
    * 장소 ID
    * @format int64
@@ -1872,6 +1853,8 @@ export interface GetPortfolioPhotographerInfoResponse {
   id?: number;
   /** 작가명 */
   name?: string;
+  /** 작가 프로필 이미지 */
+  imageUrl?: string;
   /** 작가 한줄 소개 */
   bio?: string;
   /** 작가 촬영 상품 종류 */
@@ -1891,10 +1874,7 @@ export interface GetPortfolioProductInfoResponse {
   imageUrl?: string;
   /** 상품명 */
   title?: string;
-  /**
-   * 리뷰 별점 평균
-   * @format double
-   */
+  /** 리뷰 평균 별점 */
   rate?: number;
   /**
    * 리뷰 수
@@ -2091,6 +2071,8 @@ export interface GetPhotographerProfileResponse {
    * @example "스윙스냅"
    */
   name?: string;
+  /** 작가 프로필 이미지 URL */
+  profileImageUrl?: string;
   /**
    * 작가 한 줄 소개
    * @example "일상의 아름다움을 포착합니다"
@@ -2359,8 +2341,7 @@ export type GetWishedProductsData = ApiResponseBodyWishedProductsResponseVoid;
 
 export type UpdateWishProductData = ApiResponseBodyWishProductResponseVoid;
 
-export type GetWishedPortfoliosData =
-  ApiResponseBodyWishedPortfoliosResponseVoid;
+export type GetWishedPortfoliosData = ApiResponseBodyWishedPortfoliosResponseVoid;
 
 export type UpdateWishPortfolioData = ApiResponseBodyWishPortfolioResponseVoid;
 
@@ -2369,47 +2350,36 @@ export type PostPresignedUrlData = ApiResponseBodyPostPresignedUrlResponseVoid;
 /** 리뷰 정보 */
 export type CreateReviewPayload = string;
 
-export type CreateReviewData =
-  ApiResponseBodyCreateReservationReviewResponseVoid;
+export type CreateReviewData = ApiResponseBodyCreateReservationReviewResponseVoid;
 
-export type CreateProductReservationData =
-  ApiResponseBodyProductReservationResponseVoid;
+export type CreateProductReservationData = ApiResponseBodyProductReservationResponseVoid;
 
 export type CreatePhotoMoodConnectionData = ApiResponseBodyVoidVoid;
 
-export type GetCurationQuestionData =
-  ApiResponseBodyGetCurationQuestionPhotosResponseVoid;
+export type GetCurationQuestionData = ApiResponseBodyGetCurationQuestionPhotosResponseVoid;
 
-export type CreateMoodCurationData =
-  ApiResponseBodyCreateMoodCurationResponseVoid;
+export type CreateMoodCurationData = ApiResponseBodyCreateMoodCurationResponseVoid;
 
-export type CreateReissuedTokensData =
-  ApiResponseBodyCreateAccessTokenResponseVoid;
+export type CreateReissuedTokensData = ApiResponseBodyCreateAccessTokenResponseVoid;
 
 export type LogoutData = ApiResponseBodyVoidVoid;
 
 export type CreateKakaoLoginData = ApiResponseBodyCreateKakaoLoginResponseVoid;
 
-export type PatchUserRoleData =
-  ApiResponseBodyGetSwitchedUserProfileResponseVoid;
+export type PatchUserRoleData = ApiResponseBodyGetSwitchedUserProfileResponseVoid;
 
 export type UpdateReservationRequestPaymentData =
   ApiResponseBodyRequestPaymentReservationResponseVoid;
 
-export type UpdateReservationRefuseData =
-  ApiResponseBodyRefuseReservationResponseVoid;
+export type UpdateReservationRefuseData = ApiResponseBodyRefuseReservationResponseVoid;
 
-export type UpdateReservationPaymentData =
-  ApiResponseBodyPayReservationResponseVoid;
+export type UpdateReservationPaymentData = ApiResponseBodyPayReservationResponseVoid;
 
-export type UpdateReservationConfirmData =
-  ApiResponseBodyConfirmReservationResponseVoid;
+export type UpdateReservationConfirmData = ApiResponseBodyConfirmReservationResponseVoid;
 
-export type UpdateReservationCompleteData =
-  ApiResponseBodyCompleteReservationResponseVoid;
+export type UpdateReservationCompleteData = ApiResponseBodyCompleteReservationResponseVoid;
 
-export type UpdateReservationCancelData =
-  ApiResponseBodyCancelReservationResponseVoid;
+export type UpdateReservationCancelData = ApiResponseBodyCancelReservationResponseVoid;
 
 export type GetUserInfoData = ApiResponseBodyGetUserInfoResponseVoid;
 
@@ -2417,55 +2387,40 @@ export type GetReviewDetailData = ApiResponseBodyGetReviewDetailResponseVoid;
 
 export type GetReservationsData = ApiResponseBodyReservationListResponseVoid;
 
-export type GetReservationDetailData =
-  ApiResponseBodyReservationDetailResponseVoid;
+export type GetReservationDetailData = ApiResponseBodyReservationDetailResponseVoid;
 
-export type GetReservationPriceData =
-  ApiResponseBodyReservationPriceResponseVoid;
+export type GetReservationPriceData = ApiResponseBodyReservationPriceResponseVoid;
 
-export type GetProductListData =
-  ApiResponseBodyGetProductListResponseGetProductListMeta;
+export type GetProductListData = ApiResponseBodyGetProductListResponseGetProductListMeta;
 
 export type GetProductDetailData = ApiResponseBodyGetProductDetailResponseVoid;
 
-export type GetProductReviewsData =
-  ApiResponseBodyProductReviewsResponseProductReviewsMetaResponse;
+export type GetProductReviewsData = ApiResponseBodyProductReviewsResponseProductReviewsMetaResponse;
 
-export type GetProductClosedDatesData =
-  ApiResponseBodyProductClosedDatesResponseVoid;
+export type GetProductClosedDatesData = ApiResponseBodyProductClosedDatesResponseVoid;
 
-export type GetProductAvailableTimesData =
-  ApiResponseBodyProductAvailableTimesResponseVoid;
+export type GetProductAvailableTimesData = ApiResponseBodyProductAvailableTimesResponseVoid;
 
-export type GetProductPeopleRangeData =
-  ApiResponseBodyProductPeopleRangeResponseVoid;
+export type GetProductPeopleRangeData = ApiResponseBodyProductPeopleRangeResponseVoid;
 
-export type GetProductDurationTimeData =
-  ApiResponseBodyProductDurationTimeResponseVoid;
+export type GetProductDurationTimeData = ApiResponseBodyProductDurationTimeResponseVoid;
 
-export type GetPortfolioListData =
-  ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse;
+export type GetPortfolioListData = ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse;
 
-export type GetPortfolioDetailData =
-  ApiResponseBodyGetPortfolioDetailResponseVoid;
+export type GetPortfolioDetailData = ApiResponseBodyGetPortfolioDetailResponseVoid;
 
 export type GetCuratedPortfoliosData = ApiResponseBodyGetCurationResponseVoid;
 
-export type GetPopularPortfoliosData =
-  ApiResponseBodyGetPopularPortfolioListResponseVoid;
+export type GetPopularPortfoliosData = ApiResponseBodyGetPopularPortfolioListResponseVoid;
 
 export type GetPlacesData = ApiResponseBodyGetPlaceListResponseVoid;
 
-export type GetPhotographerProfileData =
-  ApiResponseBodyGetPhotographerProfileResponseVoid;
+export type GetPhotographerProfileData = ApiResponseBodyGetPhotographerProfileResponseVoid;
 
-export type GetAllMoodFiltersData =
-  ApiResponseBodyGetMoodFilterListResponseVoid;
+export type GetAllMoodFiltersData = ApiResponseBodyGetMoodFilterListResponseVoid;
 
-export type GetRecommendationData =
-  ApiResponseBodyGetPlacePhotographerRecommendationResponseVoid;
+export type GetRecommendationData = ApiResponseBodyGetPlacePhotographerRecommendationResponseVoid;
 
-export type GetAllCurationQuestionsData =
-  ApiResponseBodyGetAllCurationQuestionsResponseVoid;
+export type GetAllCurationQuestionsData = ApiResponseBodyGetAllCurationQuestionsResponseVoid;
 
 export type GetCategoriesData = ApiResponseBodyCategoriesResponseVoid;
