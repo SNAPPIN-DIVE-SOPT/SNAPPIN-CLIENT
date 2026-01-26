@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useMemo } from 'react';
+import { Suspense, useEffect, useMemo, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { PortfolioListSkeleton, ProductCardSkeleton, ProductListSkeleton, SectionTabs } from '@/ui';
 import { LIKE_TAB, LIKE_TAB_MAP } from '@/app/(with-layout)/like/constants/tab';
@@ -20,6 +20,8 @@ export default function PageClient() {
   const { login } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const authResolved = isLogIn !== null;
+  const shownRef = useRef(false);
 
   const currentTab = useMemo(() => {
     const raw = searchParams.get('tab');
@@ -36,10 +38,16 @@ export default function PageClient() {
   };
 
   useEffect(() => {
-    if (isLogIn === false) {
-      login('좋아요 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
-    }
-  }, [isLogIn, login]);
+    if (!authResolved) return;
+    if (isLogIn) return;
+
+    if (shownRef.current) return;
+    shownRef.current = true;
+
+    login('좋아요 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
+  }, [authResolved, isLogIn, login]);
+
+  if (!authResolved) return null;
 
   return (
     <SectionTabs value={currentTab} handleValueChange={handleTabChange} className='h-full min-h-0'>
@@ -54,7 +62,7 @@ export default function PageClient() {
           </SectionTabs.Tab>
         </SectionTabs.List>
       </div>
-      {isLogIn !== null && !isLogIn ? (
+      {!isLogIn ? (
         <LikeEmpty tab={currentTab} />
       ) : (
         <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
