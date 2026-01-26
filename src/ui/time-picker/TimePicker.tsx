@@ -28,7 +28,7 @@ export default function TimePicker({ sections, value, handleChange }: TimePicker
   return (
     <div className='bg-black-1 flex flex-col gap-[1.2rem]'>
       {sections.map((section) =>
-        section.slots?.length && section.slots.length > 0 ? (
+        section.slots && section.slots.length > 0 ? (
           <section key={section.label} className='flex flex-col gap-[0.8rem]'>
             <p className='caption-12-md text-black-8'>{section.label === 'am' ? '오전' : '오후'}</p>
 
