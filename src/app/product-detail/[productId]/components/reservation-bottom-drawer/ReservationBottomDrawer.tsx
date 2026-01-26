@@ -27,7 +27,7 @@ import { ProductReservationRequest } from '@/swagger-api/data-contracts';
 import { useSearchPlaces } from '@/app/(with-layout)/explore/api';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useToast } from '@/ui/toast/hooks/useToast';
-import { getErrorMessage, getErrorStatus } from '@/utils/error';
+import { getErrorMessage } from '@/utils/error';
 
 type ReservationBottomDrawerProps = {
   isOpen: boolean;
