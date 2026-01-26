@@ -31,6 +31,7 @@ export default function PortfolioListSection() {
   }, [sp]);
   useScrollRestoreOnParent(anchorRef, scrollKey, [portfolios.length, query.dataUpdatedAt], {
     enabled: true,
+    resetOnKeyChange: true,
   });
 
   const isPortfolioListEmpty = portfolios.length === 0;
