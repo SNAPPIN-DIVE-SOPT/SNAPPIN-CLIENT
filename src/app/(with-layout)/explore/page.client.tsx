@@ -9,12 +9,13 @@ import {
   ProductListSkeleton,
   SectionTabs,
 } from '@/ui';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { parseInitialDraft, pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
+import { parseInitialDraft } from '@/app/(with-layout)/explore/utils/query';
 import { ExploreFilter, SearchSheet } from '@/app/(with-layout)/explore/components';
 import { PortfolioListSection, ProductListSection } from '@/app/(with-layout)/explore/_section';
 import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
 import { EXPLORE_TAB, EXPLORE_TAB_MAP } from '@/app/(with-layout)/explore/constants/tab';
+import { useQueryParams } from '@/hooks/useSearchQuery';
+import { ALLOWED_KEYS } from '@/app/(with-layout)/explore/constants/query';
 
 const isExploreTab = (value: string | null | undefined) => {
   return value === EXPLORE_TAB.PORTFOLIO || value === EXPLORE_TAB.PRODUCT;
@@ -31,11 +32,11 @@ const formatPeople = (count: number | null | undefined) => {
 };
 
 export default function PageClient() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const sp = useSearchParams();
-
-  const { snapCategory, placeName, date, peopleCount } = useMemo(() => parseInitialDraft(sp), [sp]);
+  const { read, patch, navigate, searchParams, pathname } = useQueryParams(ALLOWED_KEYS);
+  const { snapCategory, placeName, date, peopleCount } = useMemo(
+    () => parseInitialDraft(searchParams),
+    [searchParams],
+  );
   const snapCategoryLabel = SNAP_CATEGORY[snapCategory as keyof typeof SNAP_CATEGORY] ?? null;
 
   const normalizedPlaceName = placeName?.trim() ? placeName.trim() : null;
@@ -54,22 +55,20 @@ export default function PageClient() {
     : `${formattedDate ?? '전체 날짜'}, ${formattedPeople ?? '전체 인원'}`;
 
   const currentTab = useMemo(() => {
-    const raw = sp.get('tab'); // string | null
+    const raw = read.get('tab'); // string | null
     return isExploreTab(raw) ? raw : EXPLORE_TAB.PORTFOLIO;
-  }, [sp]);
+  }, [read]);
 
   const handleTabChange = (nextTab: string) => {
     if (!isExploreTab(nextTab)) return;
 
-    const base = pickAllowedParams(new URLSearchParams(sp.toString()));
-    base.set('tab', nextTab);
-
-    router.push(`${pathname}?${base.toString()}`, { scroll: false });
+    const nextParams = patch({ tab: nextTab });
+    navigate(nextParams, { basePath: pathname, mode: 'replace' }); // scroll:false는 훅에 옵션 없으면 그대로 두거나, 필요하면 훅 확장
   };
 
   const handleSheetOpen = () => {
-    const placeName = sp.get('placeName') ?? '';
-    const key = `search-sheet:${placeName}:${sp.toString()}`;
+    const placeName = read.get('placeName') ?? '';
+    const key = `search-sheet:${placeName}:${searchParams.toString()}`;
     overlay.open(({ isOpen, close }) => (
       <Suspense fallback={<Loading className='h-full w-full self-center' />}>
         <SearchSheet key={key} open={isOpen} onOpenChange={close} />
