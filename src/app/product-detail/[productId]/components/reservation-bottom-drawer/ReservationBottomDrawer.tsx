@@ -24,10 +24,9 @@ import {
 } from '@/app/product-detail/[productId]/api';
 import AvailableTimeSection from '@/app/product-detail/[productId]/components/time-picker/AvailableTimePicker';
 import { ProductReservationRequest } from '@/swagger-api/data-contracts';
-import { useSearchPlaces } from '@/app/(with-layout)/explore/api';
-import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { useToast } from '@/ui/toast/hooks/useToast';
-import { getErrorMessage, getErrorStatus } from '@/utils/error';
+import { getErrorMessage } from '@/utils/error';
+import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
 
 type ReservationBottomDrawerProps = {
   isOpen: boolean;
@@ -58,14 +57,26 @@ export default function ReservationBottomDrawer({
   const timeSectionRef = useRef<HTMLDivElement>(null);
   const [viewMonth, setViewMonth] = useState<Date>(new Date());
   const [isRequestFocused, setIsRequestFocused] = useState(false);
-  const [placeKeyword, setPlaceKeyword] = useState('');
+  const patch = (p: Partial<ReservationDraft>) => setDraftAction((prev) => ({ ...prev, ...p }));
+
+  const {
+    value: placeValue,
+    options: placeOptions,
+    handleChange: handlePlaceChange,
+    handleBlur: handlePlaceBlur,
+  } = usePlaceSearchField<number>({
+    value: place ?? '',
+    onValueChange: (next) => patch({ place: next }),
+    selectedId: placeId ?? null,
+    setSelectedId: (next) => patch({ placeId: next }),
+    initialValue: place ?? '',
+    debounceMs: 300,
+    clearOnBlurWhenNoId: true,
+  });
 
   const { data: peopleRange } = useAvailablePeopleRange(productId);
   const { data: closedDates } = useClosedDates(productId, viewMonth);
   const { data: minAvailableTime } = useAvailableTime(productId);
-
-  const debouncedPlaceKeyword = useDebouncedValue(placeKeyword, 300);
-  const { data: places } = useSearchPlaces(debouncedPlaceKeyword ?? '');
 
   const minParticipantCount = peopleRange?.minPeople ?? 1;
   const maxParticipantCount = peopleRange?.maxPeople ?? 10;
@@ -78,29 +89,6 @@ export default function ReservationBottomDrawer({
   const isRequestTextareaError = requestLength > REQUEST_TEXTAREA_MAX_LENGTH;
 
   const isButtonDisabled = !date || !time || !placeId || isRequestTextareaError;
-
-  const placeNameToId = new Map(
-    places?.filter((p) => p.name && p.id != null).map((p) => [p.name as string, p.id as number]),
-  );
-
-  const handlePlaceChange = (next: string) => {
-    setPlaceKeyword(next);
-
-    const matchedId = placeNameToId.get(next);
-    if (matchedId != null) {
-      patch({ place: next, placeId: matchedId });
-    } else {
-      // “정확히 선택된 값”이 아니면 id 비워두는게 안전
-      patch({ place: next, placeId: null });
-    }
-  };
-
-  const handlePlaceBlur = () => {
-    if (!placeId) {
-      setPlaceKeyword('');
-      patch({ place: '', placeId: null });
-    }
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -128,8 +116,6 @@ export default function ReservationBottomDrawer({
       },
     });
   };
-
-  const patch = (p: Partial<ReservationDraft>) => setDraftAction((prev) => ({ ...prev, ...p }));
 
   const decreaseDurationHours = () =>
     setDraftAction((prev) => ({
@@ -272,9 +258,9 @@ export default function ReservationBottomDrawer({
             }
             rightControl={
               <ComboBox
-                value={place}
+                value={placeValue}
                 onChange={handlePlaceChange}
-                options={(places ?? []).map((item) => item.name ?? '').filter(Boolean)}
+                options={placeOptions}
                 placeholder='작가님의 활동 지역 내 장소만 검색할 수 있어요'
                 onBlur={handlePlaceBlur}
               />
