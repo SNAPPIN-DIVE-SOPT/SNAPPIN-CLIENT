@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import { SearchDraft } from '@/app/(with-layout)/explore/types/search';
+import { SnapCategory } from '@/constants/categories/snap-category';
 
 export const initialState: SearchDraft = {
   snapCategory: null,
@@ -9,7 +10,7 @@ export const initialState: SearchDraft = {
 };
 
 type Action =
-  | { type: 'SET_SNAP_CATEGORY'; payload: string | null }
+  | { type: 'SET_SNAP_CATEGORY'; payload: SnapCategory | null }
   | { type: 'SET_PLACE_ID'; payload: string | null }
   | { type: 'SET_DATE'; payload: string | null }
   | { type: 'SET_PEOPLE_COUNT'; payload: number }
@@ -47,7 +48,7 @@ export const searchReducer = (state: SearchDraft, action: Action): SearchDraft =
 export const useSearchReducer = () => {
   const [searchDraft, dispatch] = useReducer(searchReducer, initialState);
 
-  const setCategory = (category: string | null) => {
+  const setCategory = (category: SnapCategory | null) => {
     dispatch({ type: 'SET_SNAP_CATEGORY', payload: category });
   };
 

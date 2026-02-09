@@ -2,10 +2,11 @@ import { Button } from '@/ui';
 import { cn } from '@/utils/cn';
 import { MOCK_SNAP_CATEGORIES } from '@/app/(with-layout)/explore/mocks/search';
 import { useGetCategories } from '@/app/(with-layout)/explore/api';
+import type { SnapCategory } from '@/constants/categories/snap-category';
 
 type SnapCategoryProps = {
   currentCategory?: string | null;
-  handleCategoryChange: (selectedCategory: string | null) => void;
+  handleCategoryChange: (selectedCategory: SnapCategory | null) => void;
 };
 
 export default function SnapCategory({ currentCategory, handleCategoryChange }: SnapCategoryProps) {
@@ -13,7 +14,7 @@ export default function SnapCategory({ currentCategory, handleCategoryChange }: 
   const snapCategories = data.categories ?? MOCK_SNAP_CATEGORIES;
   const isSelected = (categoryKey: string) => currentCategory === categoryKey;
 
-  const handleCategoryClick = (next: string) => {
+  const handleCategoryClick = (next: SnapCategory) => {
     if (isSelected(next)) return handleCategoryChange(null);
     handleCategoryChange(next);
   };
@@ -23,7 +24,7 @@ export default function SnapCategory({ currentCategory, handleCategoryChange }: 
       {snapCategories.map((category) => (
         <SnapCategoryButton
           key={category.key ?? ''}
-          categoryKey={category.key ?? ''}
+          categoryKey={(category.key as SnapCategory) ?? ''}
           label={category.label ?? ''}
           isSelected={isSelected(category.key ?? '')}
           handleCategoryClick={handleCategoryClick}
@@ -39,10 +40,10 @@ const SnapCategoryButton = ({
   isSelected,
   handleCategoryClick,
 }: {
-  categoryKey: string;
+  categoryKey: SnapCategory;
   label: string;
   isSelected: boolean;
-  handleCategoryClick: (next: string) => void;
+  handleCategoryClick: (next: SnapCategory) => void;
 }) => {
   return (
     <Button
