@@ -3,14 +3,22 @@
 import { RefObject, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 
 type Options = {
-  restoreScheduleMs?: number[]; // default: [0, 50, 150, 300, 600]
-  freezeSaveAfterRestoreMs?: number; // default: 400
-  restoreOnce?: boolean; // default: true
-  resetOnKeyChange?: boolean; // default: false
-  saveThrottleFrame?: boolean; // default: true
-  saveThrottleMs?: number; // default: 200
-  saveOnPageHide?: boolean; // default: true
-  enabled?: boolean; // default: true
+  // default: [0, 50, 150, 300, 600]
+  restoreScheduleMs?: number[];
+  // default: 400
+  freezeSaveAfterRestoreMs?: number;
+  // default: true
+  restoreOnce?: boolean;
+  // default: false
+  resetOnKeyChange?: boolean;
+  // default: true
+  saveThrottleFrame?: boolean;
+  // default: 200
+  saveThrottleMs?: number;
+  // default: true
+  saveOnPageHide?: boolean;
+  // default: true
+  enabled?: boolean;
 };
 
 // SPA에서 "목록 → 상세 → 뒤로가기" 시 원래 위치로 돌아가야 한다.
@@ -59,8 +67,9 @@ export const useScrollRestoreOnParent = (
   const prevKeyRef = useRef<string | null>(null);
 
   useLayoutEffect(() => {
-    if (!enabled) return;
+    const prev = prevKeyRef.current;
     if (!resetOnKeyChange) {
+      if (prev && prev !== key) restoredRef.current = false;
       prevKeyRef.current = key;
       return;
     }
@@ -71,7 +80,6 @@ export const useScrollRestoreOnParent = (
     const scrollEl = getScrollParentOrNull(anchor);
     if (!scrollEl) return;
 
-    const prev = prevKeyRef.current;
     if (prev && prev !== key) {
       // 같은 화면이라도 쿼리/탭이 바뀌면 이전 스크롤을 끌고 오지 않게 초기화.
       sessionStorage.removeItem(prev);
@@ -171,9 +179,9 @@ export const useScrollRestoreOnParent = (
     };
 
     // 렌더 타이밍이 여러 번 바뀌는 상황을 고려해 단계적으로 재시도.
-    for (const ms of restoreScheduleMs) {
+    restoreScheduleMs.forEach((ms) => {
       timers.push(window.setTimeout(apply, ms));
-    }
+    });
     if (restoreScheduleMs.length > 0) {
       const last = Math.max(...restoreScheduleMs);
       timers.push(window.setTimeout(finalizeRestore, last + 50));
