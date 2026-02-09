@@ -1,25 +1,25 @@
 'use client';
 
-import { Suspense, useEffect, useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { PortfolioListSkeleton, ProductCardSkeleton, ProductListSkeleton, SectionTabs } from '@/ui';
+import { PortfolioListSkeleton, ProductListSkeleton, SectionTabs } from '@/ui';
 import { LIKE_TAB, LIKE_TAB_MAP } from '@/app/(with-layout)/like/constants/tab';
 import PortfolioListSection from '@/app/(with-layout)/like/_section/PortfolioListSection';
 import ProductListSection from '@/app/(with-layout)/like/_section/ProductListSection';
-import { useAuth } from '@/auth/hooks/useAuth';
-import { useToast } from '@/ui/toast/hooks/useToast';
 import Header from '@/app/(with-layout)/like/component/header/Header';
 import LikeEmpty from '@/app/(with-layout)/like/component/empty/LikeEmpty';
+import { useLoginToastGuard } from '@/hooks/useLoginToastGuard';
 
 const isLikeTab = (value: string | null) => {
   return value === LIKE_TAB.PORTFOLIO || value === LIKE_TAB.PRODUCT;
 };
 
 export default function PageClient() {
-  const { isLogIn } = useAuth();
-  const { login } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isLoggedIn, authResolved } = useLoginToastGuard({
+    message: '좋아요 기능은 로그인 후에 사용할 수 있어요.',
+  });
 
   const currentTab = useMemo(() => {
     const raw = searchParams.get('tab');
@@ -35,11 +35,7 @@ export default function PageClient() {
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
-  useEffect(() => {
-    if (isLogIn === false) {
-      login('좋아요 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.6rem]');
-    }
-  }, [isLogIn, login]);
+  if (!authResolved) return null;
 
   return (
     <SectionTabs value={currentTab} handleValueChange={handleTabChange} className='h-full min-h-0'>
@@ -54,7 +50,7 @@ export default function PageClient() {
           </SectionTabs.Tab>
         </SectionTabs.List>
       </div>
-      {isLogIn !== null && !isLogIn ? (
+      {!isLoggedIn ? (
         <LikeEmpty tab={currentTab} />
       ) : (
         <main className='scrollbar-hide min-h-0 overflow-y-hidden'>

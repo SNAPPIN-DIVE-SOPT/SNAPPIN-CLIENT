@@ -787,7 +787,6 @@ export interface WishedProductResponse {
   title?: string;
   /**
    * 평균 별점
-   * @format double
    * @example 4.8
    */
   rate?: number;
@@ -1029,7 +1028,6 @@ export interface ReservationListProductResponse {
   title?: string;
   /**
    * 평균 별점
-   * @format double
    * @example 4.7
    */
   rate?: number;
@@ -1171,7 +1169,6 @@ export interface ReservationDetailProductResponse {
   title?: string;
   /**
    * 평균 별점
-   * @format double
    * @example 4.7
    */
   rate?: number;
@@ -1338,10 +1335,7 @@ export interface GetProductCardResponse {
   imageUrl?: string;
   /** 상품명 */
   title?: string;
-  /**
-   * 평균 별점
-   * @format double
-   */
+  /** 평균 별점 */
   rate?: number;
   /**
    * 리뷰 개수
@@ -1411,10 +1405,7 @@ export interface GetProductDetailResponse {
   title?: string;
   /** 좋아요 여부 */
   isLiked?: boolean;
-  /**
-   * 평균 별점
-   * @format double
-   */
+  /** 평균 별점 */
   averageRate?: number;
   /**
    * 리뷰 개수
@@ -1481,6 +1472,8 @@ export interface GetProductPhotographerInfoResponse {
   id?: number;
   /** 작가 이름 */
   name?: string;
+  /** 프로필 이미지 URL */
+  profileImageUrl?: string;
   /** 한줄 소개 */
   bio?: string;
   /** 촬영 상품 (전문 스냅 유형) */
@@ -1872,6 +1865,8 @@ export interface GetPortfolioPhotographerInfoResponse {
   id?: number;
   /** 작가명 */
   name?: string;
+  /** 작가 프로필 이미지 */
+  imageUrl?: string;
   /** 작가 한줄 소개 */
   bio?: string;
   /** 작가 촬영 상품 종류 */
@@ -1891,10 +1886,7 @@ export interface GetPortfolioProductInfoResponse {
   imageUrl?: string;
   /** 상품명 */
   title?: string;
-  /**
-   * 리뷰 별점 평균
-   * @format double
-   */
+  /** 리뷰 평균 별점 */
   rate?: number;
   /**
    * 리뷰 수
@@ -2091,6 +2083,8 @@ export interface GetPhotographerProfileResponse {
    * @example "스윙스냅"
    */
   name?: string;
+  /** 작가 프로필 이미지 URL */
+  profileImageUrl?: string;
   /**
    * 작가 한 줄 소개
    * @example "일상의 아름다움을 포착합니다"

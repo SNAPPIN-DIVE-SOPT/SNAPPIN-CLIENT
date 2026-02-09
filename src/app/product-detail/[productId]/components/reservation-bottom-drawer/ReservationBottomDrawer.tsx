@@ -53,7 +53,7 @@ export default function ReservationBottomDrawer({
   onSuccessReservationAction,
 }: ReservationBottomDrawerProps) {
   const toast = useToast();
-  const { mutate, isError } = useReservation(productId);
+  const { mutate, isError, isPending } = useReservation(productId);
   const timeSectionRef = useRef<HTMLDivElement>(null);
   const [viewMonth, setViewMonth] = useState<Date>(new Date());
   const [isRequestFocused, setIsRequestFocused] = useState(false);
@@ -337,6 +337,7 @@ export default function ReservationBottomDrawer({
               size='medium'
               form='reservation-form'
               type='submit'
+              isLoading={isPending}
               disabled={isButtonDisabled}
             >
               예약하기
