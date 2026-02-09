@@ -13,7 +13,7 @@ const ProductList = dynamic(() => import('@/ui/product-card/product-list/Product
 
 export default function ProductListSection() {
   const sp = useSearchParams();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetProductList(
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, dataUpdatedAt } = useGetProductList(
     new URLSearchParams(sp.toString()),
   );
 
@@ -43,7 +43,10 @@ export default function ProductListSection() {
   });
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const scrollKey = useMemo(() => `explore:product:scroll?${sp.toString()}`, [sp]);
-  useScrollRestoreOnParent(anchorRef, scrollKey, [products.length], { enabled: true });
+  useScrollRestoreOnParent(anchorRef, scrollKey, [products.length, dataUpdatedAt], {
+    enabled: true,
+    resetOnKeyChange: true,
+  });
 
   const isProductListEmpty = products.length === 0;
 
