@@ -16,7 +16,9 @@ export default function MoodCurationSection() {
 
   const isLoginResolved = isLogIn !== null;
   const { data } = useGetPortfoliosRecommendation(isLoginResolved && isLogIn === true);
-  const { data: popularPortfolios } = useGetPopularPortfoliosRecommendation(isLoginResolved && isLogIn === false);
+  const { data: popularPortfolios } = useGetPopularPortfoliosRecommendation(
+    isLoginResolved && isLogIn === false,
+  );
 
   const portfolios = isLogIn ? (data?.portfolios ?? []) : (popularPortfolios?.portfolios ?? []);
   const moods = isLogIn ? (data?.curatedMoods ?? []) : (popularPortfolios?.popularMoods ?? []);
@@ -44,7 +46,7 @@ export default function MoodCurationSection() {
       </div>
       <div className='flex flex-col items-center justify-center gap-[1.6rem]'>
         {portfolios?.map((portfolio: GetPortfolioResponse) => (
-          <Link href={`/portfolio-detail/${portfolio.id}`} key={portfolio.id}>
+          <Link href={`/portfolio/${portfolio.id}`} key={portfolio.id}>
             <CarouselCuration
               images={
                 portfolio.images?.map((image) => ({

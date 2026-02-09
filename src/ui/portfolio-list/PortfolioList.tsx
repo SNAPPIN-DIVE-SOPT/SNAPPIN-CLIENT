@@ -22,7 +22,7 @@ export default function PortfolioList({
     >
       {portfolioList.map((portfolio, idx) => (
         <Link
-          href={`/portfolio-detail/${portfolio.id}`}
+          href={`/portfolio/${portfolio.id}`}
           key={portfolio.id}
           className='relative aspect-square'
         >

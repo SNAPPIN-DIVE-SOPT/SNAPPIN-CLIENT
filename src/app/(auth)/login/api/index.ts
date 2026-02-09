@@ -44,7 +44,7 @@ export const useKakaoLoginMutation = () => {
       if (data.data?.isNew) {
         router.replace('/ai-curation');
       } else if (data.data?.role === USER_TYPE.PHOTOGRAPHER) {
-        router.replace('/photographer/reservation');
+        router.replace('/photographers/reservations');
       } else {
         router.replace('/');
       }

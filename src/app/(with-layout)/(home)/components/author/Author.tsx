@@ -21,7 +21,7 @@ export default function Author({
 }: AuthorProps) {
   return (
     <Link
-      href={`/photographer-detail/${id}`}
+      href={`/photographer/${id}`}
       className='bg-black-3 border-black-4 flex w-[18.4rem] shrink-0 flex-col gap-[0.5rem] rounded-[0.4rem] border-[0.5px] p-[1.2rem]'
     >
       <div className='relative h-[16.4rem] w-[16.4rem]'>

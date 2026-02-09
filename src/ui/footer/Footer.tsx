@@ -17,7 +17,7 @@ import {
   IconHeartFill,
   IconHeart,
   IconProduct,
-  IconProductFill
+  IconProductFill,
 } from '@/assets';
 import { cn } from '@/utils/cn';
 import { useGetUserInfo, usePrefetchUserProfile } from '@/auth/apis';
@@ -38,7 +38,7 @@ const menuUserItems: MenuItem[] = [
   { href: '/like', activeIcon: IconHeartFill, inactiveIcon: IconHeart, label: '좋아요' },
   { href: '/explore', activeIcon: IconExploreFill, inactiveIcon: IconExplore, label: '탐색' },
   {
-    href: '/reservation',
+    href: '/reservations',
     activeIcon: IconReservationFill,
     inactiveIcon: IconReservation,
     label: '예약',
@@ -49,10 +49,15 @@ const menuUserItems: MenuItem[] = [
 const menuAuthorItems: MenuItem[] = [
   { href: null, activeIcon: IconHomeFill, inactiveIcon: IconHome, label: '홈' },
   { href: null, activeIcon: IconProductFill, inactiveIcon: IconProduct, label: '상품 관리' },
-  { href: '/photographer/reservation', activeIcon: IconReservationFill, inactiveIcon: IconReservation, label: '예약 관리' },
+  {
+    href: '/photographers/reservations',
+    activeIcon: IconReservationFill,
+    inactiveIcon: IconReservation,
+    label: '예약 관리',
+  },
   { href: null, activeIcon: IconMessageFill, inactiveIcon: IconMessage, label: '메시지함' },
   {
-    href: '/photographer/profile',
+    href: '/photographers/profile',
     activeIcon: IconProfileFill,
     inactiveIcon: IconProfile,
     label: '프로필',
@@ -64,13 +69,13 @@ const menuUserAuthorItems: MenuItem[] = [
   { href: '/like', activeIcon: IconHeartFill, inactiveIcon: IconHeart, label: '좋아요' },
   { href: '/explore', activeIcon: IconExploreFill, inactiveIcon: IconExplore, label: '탐색' },
   {
-    href: '/reservation',
+    href: '/reservations',
     activeIcon: IconReservationFill,
     inactiveIcon: IconReservation,
     label: '예약',
   },
   {
-    href: '/photographer/profile',
+    href: '/photographers/profile',
     activeIcon: IconProfileFill,
     inactiveIcon: IconProfile,
     label: '프로필',
@@ -130,7 +135,7 @@ export default function Footer() {
       router.push('/login');
       return;
     }
-    if (href === '/photographer/profile') {
+    if (href === '/photographers/profile') {
       prefetchUserProfile();
     }
 
@@ -138,7 +143,7 @@ export default function Footer() {
   };
 
   const isDetailPath = (path: string) =>
-    path.startsWith('/product-detail/') || path.startsWith('/portfolio-detail/');
+    path.startsWith('/product/') || path.startsWith('/portfolio/');
 
   const isExplorePath = (path: string) => path === '/explore';
 
