@@ -1,5 +1,4 @@
 // ⚠️ 자동 생성된 파일입니다. 직접 수정하지 마세요.
-export * from './Image-with-shadow/index';
 export * from './button/index';
 export * from './carousel/index';
 export * from './chip/index';
@@ -9,7 +8,7 @@ export * from './date/index';
 export * from './divider/index';
 export * from './drawer/index';
 export * from './footer/index';
-export * from './image-preview/index';
+export * from './image/index';
 export * from './input/index';
 export * from './loading/index';
 export * from './modal/index';

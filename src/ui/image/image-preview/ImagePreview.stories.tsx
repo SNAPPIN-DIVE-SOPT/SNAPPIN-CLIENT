@@ -5,7 +5,7 @@ const handleRemove = () => {};
 const handleClickImage = () => {};
 
 const meta: Meta<typeof ImagePreview> = {
-  title: 'UI/ImagePreview',
+  title: 'UI/Image/ImagePreview',
   component: ImagePreview,
   tags: ['autodocs'],
   parameters: {

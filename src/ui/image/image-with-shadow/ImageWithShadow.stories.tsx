@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import ImageWithShadow from './ImageWithShadow';
 
 const meta: Meta<typeof ImageWithShadow> = {
-  title: 'UI/ImageWithShadow',
+  title: 'UI/Image/ImageWithShadow',
   component: ImageWithShadow,
   tags: ['autodocs'],
   parameters: {
