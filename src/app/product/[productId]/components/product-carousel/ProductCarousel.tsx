@@ -19,7 +19,7 @@ type ProductCarouselProps = {
 export default function ProductCarousel({ images, className }: ProductCarouselProps) {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const [imageMetaMap, setImageMetaMap] = useState<Record<number, { isReady: boolean; isLong: boolean; }>>({});
+  const [imageMetaMap, setImageMetaMap] = useState<Record<number, { isLong: boolean; }>>({});
 
   useEffect(() => {
     if (!api) return;
@@ -46,37 +46,35 @@ export default function ProductCarousel({ images, className }: ProductCarouselPr
             <CarouselItem key={`image-${img.src}-${idx}`}>
               <div
                 className={cn(
-                  'relative w-full aspect-[3/4] overflow-hidden bg-black-3',
-                  imageMetaMap[idx]?.isLong && 'bg-black'
+                  'relative w-full aspect-[3/4] overflow-hidden',
+                  imageMetaMap[idx]?.isLong ? 'bg-black' : 'bg-black-3'
                 )}
               >
-                {/* 이미지 크기 확인 중 -> 이미지 숨기기 */}
-                {!imageMetaMap[idx] && (
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className='absolute opacity-0 pointer-events-none'
-                    onLoad={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      const isLong = target.naturalWidth > target.naturalHeight;
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className={cn(
+                    // 이미지 크기 확인이 완료되면 이미지 표시
+                    imageMetaMap[idx] ? 'opacity-100' : 'opacity-0',
+                    imageMetaMap[idx]?.isLong ? 'object-contain' : 'object-cover'
+                  )}
+                  onLoad={(e) => {
+                    const target = e.target as HTMLImageElement;
 
-                      setImageMetaMap((prev) => ({
-                        ...prev,
-                        [idx]: { isReady: true, isLong },
-                      }));
-                    }}
-                  />
-                )}
-                {/* 이미지 크기 확인 완료 -> 이미지 표시 */}
-                {imageMetaMap[idx]?.isReady && (
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    className={imageMetaMap[idx].isLong ? 'object-contain' : 'object-cover'}
-                  />
-                )}
+                    target.decode()
+                      .then(() => {
+                        const isLong = target.naturalWidth > target.naturalHeight;
+                        setImageMetaMap((prev) => ({
+                          ...prev,
+                          [idx]: { isLong },
+                        }));
+                      })
+                      .catch((err) => {
+                        console.error(`이미지(${img.src}) 디코딩 실패:`, err);
+                      });
+                  }}
+                />
               </div>
             </CarouselItem>
           ))}
