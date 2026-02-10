@@ -4,19 +4,19 @@ import { cn } from '@/utils/cn';
 
 type RemUnit = `${number}rem`;
 
-type ImageCarouselProps = React.ComponentProps<typeof Image> & {
+type ImageWithShadowProps = React.ComponentProps<typeof Image> & {
   imageHeight: RemUnit;
   imageWidth: RemUnit;
 };
 
-export default function ImageCarousel({
+export default function ImageWithShadow({
   src,
   alt,
   className,
   imageHeight,
   imageWidth,
   ...props
-}: ImageCarouselProps) {
+}: ImageWithShadowProps) {
   return (
     <div
       style={{ height: imageHeight, width: imageWidth }}
