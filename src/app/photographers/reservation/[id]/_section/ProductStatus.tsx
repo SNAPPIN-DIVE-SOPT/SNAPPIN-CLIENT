@@ -6,6 +6,7 @@ import { Button, ProductCard } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { useRefuseReservation } from '../api';
 import RefuseModal from '../@modal/(.)refuse-modal/RefuseModal';
+import { Section } from '@/components/layout/reservation/SectionLayout';
 
 type ProductStatusProps = {
   reservationId: number;
@@ -54,19 +55,17 @@ export default function ProductStatus({
   };
 
   return (
-    <div className='bg-black-1 flex flex-col px-[2rem] pt-[1.7rem] pb-[1.2rem]'>
-      <p className='caption-14-bd'>예약 요청 상품</p>
-      <div className='w-full pt-[1.2rem]'>
-        <ProductCard
-          image={{ src: imageUrl, alt: title }}
-          name={title}
-          rate={rate}
-          reviewCount={reviewCount}
-          photographer={photographer}
-          price={price}
-          moods={moods}
-        />
-      </div>
+    <Section title='예약 요청 상품'>
+      <ProductCard
+        image={{ src: imageUrl, alt: title }}
+        name={title}
+        rate={rate}
+        reviewCount={reviewCount}
+        photographer={photographer}
+        price={price}
+        moods={moods}
+      />
+
       <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
         {isRefusable && (
           <Button
@@ -93,6 +92,6 @@ export default function ProductStatus({
         handleOpenChange={setIsRefuseModalOpen}
         handleClickConfirm={handleConfirmRefuse}
       />
-    </div>
+    </Section>
   );
 }
