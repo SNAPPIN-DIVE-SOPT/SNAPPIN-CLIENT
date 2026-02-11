@@ -1,7 +1,6 @@
-import { DetailRow } from '../components';
-import { StateChip } from '@/ui';
 import type { StateCode } from '@/types/stateCode';
-import { formatCreatedAt, formatReservationDateTime } from '@/utils/formatNumberWithComma';
+import { formatReservationDateTime } from '@/utils/formatNumberWithComma';
+import { Section } from '@/components/layout/reservation/SectionLayout';
 
 type ReservationDetailProps = {
   status: StateCode;
@@ -27,23 +26,17 @@ export default function ReservationDetail({
   const requestNoteText = requestNote === null || requestNote.length === 0 ? '-' : requestNote;
 
   return (
-    <section className='bg-black-1 px-[2rem] pt-[1.7rem] pb-[2.4rem]'>
-      <div className='flex justify-between'>
-        <span className='caption-14-bd text-black-10'>예약 상세</span>
-        <StateChip label={status} />
-      </div>
-      <div className='border-black-5 mt-[1.2rem] rounded-[0.6rem] border-[0.07rem] px-[1.7rem] py-[1.3rem]'>
-        <div className='caption-10-md text-black-7 mb-[2.4rem]'>
-          {createdAt && formatCreatedAt(createdAt)}
-        </div>
-        <div className='flex flex-col gap-[2rem]'>
-          <DetailRow label='날짜 및 시간' value={formatReservationDateTime(date, startTime)} />
-          <DetailRow label='촬영 시간' value={`${durationTime}시간`} />
-          <DetailRow label='장소' value={place} />
-          <DetailRow label='인원' value={`${peopleCount}인`} />
-          <DetailRow label='기타 요청 사항' value={requestNoteText} />
-        </div>
-      </div>
-    </section>
+    <Section title='예약 상세' stateCode={status}>
+      <Section.Card className='gap-[2.4rem]'>
+        <Section.Header createdAt={createdAt} />
+        <Section.Body>
+          <Section.Row label='날짜 및 시간' value={formatReservationDateTime(date, startTime)} />
+          <Section.Row label='촬영 시간' value={`${durationTime}시간`} />
+          <Section.Row label='장소' value={place} />
+          <Section.Row label='인원' value={`${peopleCount}인`} />
+          <Section.Row label='기타 요청 사항' value={requestNoteText} />
+        </Section.Body>
+      </Section.Card>
+    </Section>
   );
 }

@@ -10,7 +10,7 @@ import { STATE_CODES, type StateCode } from '@/types/stateCode';
 import CancelModal from './@modal/(.)cancel-modal/CancelModal';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { useGetReservationDetail, useCancelReservation, useRequestPayment } from './api';
-import SectionSkeleton from './_section/SectionSkeleton';
+import SectionSkeleton from '@/components/layout/reservation/SectionSkeleton';
 
 type ReservationDetailPageClientProps = {
   reservationId: string;
