@@ -6,23 +6,22 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/ui/carousel';
-
-type ImageCarouselWithSideBtnProps = React.ComponentProps<'div'> & {
-  images: { src: string; alt?: string }[];
-  initialIndex?: number;
-};
+import { ImageCarouselProps } from './ImageCarousel';
 
 export default function ImageCarouselWithSideBtn({
   images,
   initialIndex,
   className,
   ...props
-}: ImageCarouselWithSideBtnProps) {
+}: ImageCarouselProps) {
   return (
     <Carousel opts={{ startIndex: initialIndex }} className={className} {...props}>
       <CarouselContent>
         {images.map((image) => (
-          <CarouselItem key={image.src} className='flex h-[480px] w-full items-center'>
+          <CarouselItem
+            key={`${image.src}-${image.alt}`}
+            className='flex h-[480px] w-full items-center'
+          >
             <Image
               src={image.src}
               alt={image.alt ?? `image-${image.src}`}

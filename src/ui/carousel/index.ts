@@ -1,5 +1,4 @@
-export { default as ImageCarouselWithDots } from './image-carousel/ImageCarouselWithDots';
-export { default as ImageCarouselWithSideBtn } from './image-carousel/ImageCarouselWithSideBtn';
+export { default as ImageCarousel } from './image-carousel/ImageCarousel';
 export {
   Carousel,
   CarouselContent,
