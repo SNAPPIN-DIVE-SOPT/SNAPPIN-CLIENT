@@ -7,7 +7,6 @@ import {
   GetUserInfoData,
   GetSwitchedUserProfileResponse,
   PatchUserRoleData,
-  LogoutData,
 } from '@/swagger-api/data-contracts';
 import { setAccessToken, getAccessToken } from '../token';
 import { setUserType } from '../userType';
@@ -43,7 +42,7 @@ export const useGetUserInfo = () => {
     },
     enabled: !!isLogIn,
   });
-}
+};
 
 // 유저 프로필 전환 API
 export const useSwitchUserProfile = () => {
@@ -125,4 +124,4 @@ export const useLogout = () => {
       });
     },
   });
-}
+};

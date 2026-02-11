@@ -1,6 +1,6 @@
 'use client';
 
-import { BottomCTAButton, Button } from '@/ui';
+import { BottomCTAButton } from '@/ui';
 import { IconKakao } from '@/assets';
 
 export default function LoginButton() {

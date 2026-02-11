@@ -58,8 +58,6 @@ export default function ImageSlide() {
     [activeIndex, leftIndex, rightIndex, data],
   );
 
-  const center = data[activeIndex];
-
   return (
     <div className='relative w-full overflow-hidden'>
       <div className='relative mx-auto flex h-[35.7rem] items-center justify-center'>
