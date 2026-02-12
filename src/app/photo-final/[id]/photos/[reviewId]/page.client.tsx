@@ -1,10 +1,10 @@
 'use client';
 
-import { useGetReviewDetail } from '@/app/photo-final/[id]/photos/[reviewId]/api';
-import { Skeleton } from './components';
+import { useSearchParams } from 'next/navigation';
 import { ImageCarousel, ReviewStar } from '@/ui';
 import { formatShortDate } from '@/utils/formatNumberWithComma';
-import { useSearchParams } from 'next/navigation';
+import { useGetReviewDetail } from './api';
+import { Skeleton } from './components';
 
 type PageClientProps = {
   id: number;

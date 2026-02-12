@@ -1,5 +1,5 @@
-import { NavigationClient } from './components';
 import { notFound } from 'next/navigation';
+import { NavigationClient } from './components';
 import PageClient from './page.client';
 
 type PhotoFinalDetailPageProps = {

@@ -1,5 +1,9 @@
 'use client';
 
+import { notFound } from 'next/navigation';
+import { Divider } from '@/ui';
+import { StateCode } from '@/types/stateCode';
+import { useAuth } from '@/auth/hooks/useAuth';
 import {
   ProductStatus,
   Receipt,
@@ -8,11 +12,7 @@ import {
   SectionSkeleton,
 } from './_section';
 import NavigationClient from './components/navigation-client/Navigation.client';
-import { StateCode } from '@/types/stateCode';
-import { Divider } from '@/ui';
 import { useGetReservationDetail } from './api';
-import { useAuth } from '@/auth/hooks/useAuth';
-import { notFound } from 'next/navigation';
 
 type PhotoFinalDetailPageProps = {
   id: string;
