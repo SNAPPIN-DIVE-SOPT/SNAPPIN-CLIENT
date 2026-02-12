@@ -1,10 +1,12 @@
 'use client';
 
+import { useRef } from 'react';
 import { Divider, ProductCardSkeleton } from '@/ui';
 import { MoodCode } from '@/types/moodCode';
 import { PhotographerSection, PortfolioSection, ProductSection } from './_section/index';
 import { Header } from './components/index';
 import { useGetPortfolioDetail } from './api';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 type ClientPageProps = {
   id: string;
@@ -22,8 +24,13 @@ export default function ClientPage({ id }: ClientPageProps) {
     alt: `${data?.productInfo?.title ?? ''} 상품 이미지`,
   };
 
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = 'PORTFOLIO_SCROLL_MAP';
+  useScrollRestoreOnParent(anchorRef, scrollKey, id, [data]);
+
   return (
     <div>
+      <div ref={anchorRef} />
       <Header />
       {isPending ? (
         <PortfolioDetailSkeleton />

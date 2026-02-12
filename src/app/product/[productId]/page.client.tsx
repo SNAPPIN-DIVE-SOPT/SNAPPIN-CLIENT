@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SectionTabs } from '@/ui';
 import { IconArrowForward } from '@/assets';
@@ -14,6 +14,7 @@ import {
 import { Footer, Header } from './components/index';
 import { PRODUCT_TAB, PRODUCT_TAB_MAP } from './constants/tab';
 import { useGetProductDetail } from './api/index';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ClientPage({ productId }: { productId: string }) {
   const router = useRouter();
@@ -43,7 +44,6 @@ export default function ClientPage({ productId }: { productId: string }) {
     equipment: data?.productInfo?.equipment,
     caution: data?.productInfo?.caution,
   };
-
   const photographerInfo = {
     id: data?.photographerInfo?.id ?? 1,
     name: data?.photographerInfo?.name ?? '',
@@ -52,6 +52,10 @@ export default function ClientPage({ productId }: { productId: string }) {
     locations: data?.photographerInfo?.locations ?? [],
   };
 
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = 'PRODUCT_SCROLL_MAP';
+  useScrollRestoreOnParent(anchorRef, scrollKey, productId, [data]);
+
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
     router.replace(`?tab=${value}`, { scroll: false });
@@ -59,6 +63,7 @@ export default function ClientPage({ productId }: { productId: string }) {
 
   return (
     <div>
+      <div ref={anchorRef} />
       <Header />
       {isPending ? (
         <ProductDetailSkeleton selectedTab={selectedTab} />

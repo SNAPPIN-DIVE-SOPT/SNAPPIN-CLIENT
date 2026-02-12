@@ -1,18 +1,26 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { PortfolioList, PortfolioListSkeleton } from '@/ui';
 import { useGetPortfolioList } from '../api';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 type PortfolioListSectionProps = {
   id: number;
 }
 
 export default function PortfolioListSection({ id }: PortfolioListSectionProps) {
-  const { data, isFetching, fetchNextPage, hasNextPage } = useGetPortfolioList(Number(id));
+  const { data, isFetching, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetPortfolioList(Number(id));
   const { ref, inView } = useInView();
 
   const portfolioList = data?.pages.flatMap(page => page.data?.portfolios ?? []) ?? [];
   const isEmpty = portfolioList.length === 0;
+
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = 'PHOTOGRAPHER_SCROLL_MAP';
+  useScrollRestoreOnParent(anchorRef, scrollKey, `${id}?tab=PORTFOLIO`, [portfolioList.length, dataUpdatedAt], {
+    enabled: true,
+    resetOnKeyChange: true,
+  });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -42,6 +50,7 @@ export default function PortfolioListSection({ id }: PortfolioListSectionProps) 
 
   return (
     <section className='mt-[17.1rem]'>
+      <div ref={anchorRef} />
       <PortfolioList portfolioList={portfolioList} />
       <div ref={ref} className='h-[0.1rem]' />
     </section>

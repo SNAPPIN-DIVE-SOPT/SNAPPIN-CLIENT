@@ -61,7 +61,7 @@ function DetailRow({
 
 export const PhotographerSectionSkeleton = () => {
   return (
-    <section className='flex gap-[1.2rem] p-[2rem]'>
+    <section className='fixed flex gap-[1.2rem] w-full max-w-[45rem] top-[5rem] p-[2rem] bg-black-1 z-10'>
       <div className='w-[8.7rem] h-[8.7rem] bg-black-3 rounded-full' />
       <div className='flex flex-col gap-[0.9rem]'>
         <div className='flex flex-col gap-[0.4rem]'>

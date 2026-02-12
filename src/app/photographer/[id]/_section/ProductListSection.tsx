@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { ProductList, ProductListSkeleton } from '@/ui';
 import { useGetProductList } from '../api';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 type ProductListSectionProps = {
   id: number;
 }
 
 export default function ProductListSection({ id }: ProductListSectionProps) {
-  const { data, isFetching, fetchNextPage, hasNextPage } = useGetProductList(Number(id));
+  const { data, isFetching, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(Number(id));
   const { ref, inView } = useInView();
 
   const productList = data?.pages
@@ -24,6 +25,13 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
       imageUrl: p.imageUrl ?? '',
     })) ?? [];
   const isEmpty = productList.length === 0;
+
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = 'PHOTOGRAPHER_SCROLL_MAP';
+  useScrollRestoreOnParent(anchorRef, scrollKey, `${id}?tab=PRODUCT`, [productList.length, dataUpdatedAt], {
+    enabled: true,
+    resetOnKeyChange: true,
+  });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -53,6 +61,7 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
   
   return (
     <section className='mt-[17.1rem]'>
+      <div ref={anchorRef} />
       <ProductList productList={productList} />
       <div ref={ref} className='h-[0.1rem]' />
     </section>
