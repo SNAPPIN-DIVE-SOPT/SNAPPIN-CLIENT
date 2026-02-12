@@ -29,7 +29,7 @@ export default function PortfolioListSection() {
     allowed.set('tab', 'PORTFOLIO'); // 혹시라도
     return `explore:portfolio:scroll?${allowed.toString()}`;
   }, [sp]);
-  useScrollRestoreOnParent(anchorRef, scrollKey, [portfolios.length, query.dataUpdatedAt], {
+  useScrollRestoreOnParent(anchorRef, scrollKey, undefined, [portfolios.length, query.dataUpdatedAt], {
     enabled: true,
     resetOnKeyChange: true,
   });

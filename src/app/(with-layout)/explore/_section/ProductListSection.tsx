@@ -43,7 +43,7 @@ export default function ProductListSection() {
   });
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const scrollKey = useMemo(() => `explore:product:scroll?${sp.toString()}`, [sp]);
-  useScrollRestoreOnParent(anchorRef, scrollKey, [products.length, dataUpdatedAt], {
+  useScrollRestoreOnParent(anchorRef, scrollKey, undefined, [products.length, dataUpdatedAt], {
     enabled: true,
     resetOnKeyChange: true,
   });

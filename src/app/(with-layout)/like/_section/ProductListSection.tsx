@@ -9,7 +9,7 @@ export default function ProductListSection() {
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const scrollKey = 'like:product:scroll';
-  useScrollRestoreOnParent(anchorRef, scrollKey, [likedProductResponse.products?.length], {
+  useScrollRestoreOnParent(anchorRef, scrollKey, undefined, [likedProductResponse.products?.length], {
     enabled: true,
     resetOnKeyChange: true,
   });

@@ -9,7 +9,7 @@ export default function PortfolioListSection() {
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const scrollKey = 'like:portfolio:scroll';
-  useScrollRestoreOnParent(anchorRef, scrollKey, [likedPortfolios.portfolios?.length], {
+  useScrollRestoreOnParent(anchorRef, scrollKey, undefined, [likedPortfolios.portfolios?.length], {
     enabled: true,
     resetOnKeyChange: true,
   });
