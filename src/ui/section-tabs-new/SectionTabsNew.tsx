@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState, useLayoutEffect, useEffect } from 'react';
+import { useMemo, useRef, useState, useLayoutEffect, useEffect, useCallback } from 'react';
 import { cn } from '@/utils/cn';
 
 type SectionTabItem = {
@@ -33,24 +33,26 @@ export default function SectionTabsNew({
     width: 0,
   });
 
-  const updateIndicator = () => {
+  const updateIndicator = useCallback(() => {
     const el = tabRefs.current[activeIndex];
-    if (!el) return;
+    if (!el) {
+      return;
+    }
 
     setIndicatorStyle({
       left: el.offsetLeft,
       width: el.offsetWidth,
     });
-  };
+  }, [activeIndex]);
 
   useLayoutEffect(() => {
     updateIndicator();
-  }, [activeIndex]);
+  }, [updateIndicator]);
 
   useEffect(() => {
     window.addEventListener('resize', updateIndicator);
     return () => window.removeEventListener('resize', updateIndicator);
-  }, [activeIndex]);
+  }, [updateIndicator]);
 
   return (
     <div
@@ -80,7 +82,7 @@ export default function SectionTabsNew({
         );
       })}
 
-      {/* indicator */}
+      {/* indicator 애니메이션 및 적용*/}
       <div
         className='bg-black-10 transition-[left, width] pointer-events-none absolute bottom-0 h-[0.2rem] duration-200 ease-out'
         style={{
