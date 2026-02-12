@@ -7,16 +7,16 @@ import { UserType, USER_TYPE } from '@/auth/constant/userType';
 
 type ClientProfileCardProps = {
   userType: UserType | null;
-  isSwitching: boolean;
-}
+  isSwitching?: boolean;
+};
 
 export default function ClientProfileCard({ userType, isSwitching }: ClientProfileCardProps) {
-  const { data, isFetching } = useGetUserInfo();
-  if (isFetching || isSwitching || !userType) {
+  const { data, isPending } = useGetUserInfo();
+  if (isPending || isSwitching || !userType) {
     return (
-      <div className='flex items-center gap-[1.2rem] p-[2rem] pb-[2.9rem] bg-black-1 h-[11.5rem]'>
-        <div className='w-[6.4rem] h-[6.4rem] rounded-full bg-black-3' />
-        <div className='bg-black-3 w-[4rem] h-[1.7rem] rounded-[0.2rem]'/>
+      <div className='bg-black-1 flex h-[11.5rem] items-center gap-[1.2rem] p-[2rem] pb-[2.9rem]'>
+        <div className='bg-black-3 h-[6.4rem] w-[6.4rem] rounded-full' />
+        <div className='bg-black-3 h-[1.7rem] w-[4rem] rounded-[0.2rem]' />
       </div>
     );
   }
@@ -37,8 +37,8 @@ export default function ClientProfileCard({ userType, isSwitching }: ClientProfi
 
   if (userType === USER_TYPE.CLIENT) {
     return (
-      <div className='flex items-center gap-[1.2rem] p-[2rem] pb-[2.9rem] bg-black-1 h-[11.5rem]'>
-        <div className='w-[64px] h-[64px] rounded-full overflow-hidden shrink-0'>
+      <div className='bg-black-1 flex h-[11.5rem] items-center gap-[1.2rem] p-[2rem] pb-[2.9rem]'>
+        <div className='h-[64px] w-[64px] shrink-0 overflow-hidden rounded-full'>
           <Image
             src={data?.profileImageUrl ?? '/imgs/default-profile.png'}
             alt='프로필 이미지'
@@ -49,9 +49,7 @@ export default function ClientProfileCard({ userType, isSwitching }: ClientProfi
           />
         </div>
         <div className='flex w-full items-center justify-between'>
-          <span className='caption-14-bd'>
-            {data?.clientInfo?.name}
-          </span>
+          <span className='caption-14-bd'>{data?.clientInfo?.name}</span>
         </div>
       </div>
     );

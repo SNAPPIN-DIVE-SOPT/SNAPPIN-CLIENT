@@ -1,7 +1,7 @@
-import { Divider } from '@/ui';
-import { ClientHeader, ClientProfileCard, Menus } from './components';
-import { getHasPhotographerProfile } from '@/auth/userType';
 import { redirect } from 'next/navigation';
+import { getHasPhotographerProfile } from '@/auth/userType';
+import { USER_TYPE } from '@/auth/constant/userType';
+import ProfileLayout from '@/components/layout/profile/ProfileLayout';
 
 export default async function Page() {
   const has = await getHasPhotographerProfile();
@@ -9,12 +9,5 @@ export default async function Page() {
   if (has === 'true') {
     redirect('/photographers/profile');
   }
-  return (
-    <div className='flex flex-col'>
-      <ClientHeader />
-      <ClientProfileCard />
-      <Divider color='bg-black-3' className='h-[0.6rem]' />
-      <Menus />
-    </div>
-  );
+  return <ProfileLayout userType={USER_TYPE.CLIENT} />;
 }

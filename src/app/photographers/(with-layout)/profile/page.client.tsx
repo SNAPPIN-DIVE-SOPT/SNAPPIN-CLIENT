@@ -1,12 +1,12 @@
 'use client';
 
+import Lottie from 'lottie-react';
 import { useState, useEffect, useRef, useCallback, startTransition } from 'react';
-import { Divider } from '@/ui';
-import { ClientProfileCard, Menus, SwitchProfile } from './components';
 import type { UserType } from '@/auth/constant/userType';
 import { getUserType, setAuthUser } from '@/auth/userType';
-import Lottie from 'lottie-react';
 import loadingAnimation from '@/assets/lotties/loading.json';
+import ProfileLayout from '@/components/layout/profile/ProfileLayout';
+import SwitchProfile from './components/switch-profile/SwitchProfile';
 
 const MIN_DURATION = 1600;
 
@@ -85,10 +85,7 @@ export default function PageClient() {
   );
 
   return (
-    <>
-      <ClientProfileCard userType={userType} isSwitching={isSwitching} />
-      <Divider color='bg-black-3' className='h-[0.6rem]' />
-      <Menus />
+    <ProfileLayout userType={userType as UserType}>
       <SwitchProfile
         userType={userType}
         onChange={handleUserTypeChange}
@@ -101,6 +98,6 @@ export default function PageClient() {
           <span className='title-20-bd text-neon-black'>계정 전환 중...</span>
         </div>
       )}
-    </>
+    </ProfileLayout>
   );
 }
