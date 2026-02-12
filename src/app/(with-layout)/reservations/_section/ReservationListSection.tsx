@@ -27,7 +27,7 @@ export default function ReservationListSection() {
     [isLogIn],
   );
 
-  useScrollRestoreOnParent(anchorRef, scrollKey, [data?.reservations?.length ?? 0], {
+  useScrollRestoreOnParent(anchorRef, scrollKey, undefined, [data?.reservations?.length ?? 0], {
     enabled: isLogIn === true,
   });
 
