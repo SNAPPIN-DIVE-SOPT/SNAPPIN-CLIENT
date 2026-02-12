@@ -29,7 +29,15 @@ export default function Receipt({ basePrice, extraPrice, totalPrice }: ReceiptPr
           />
         ))}
         <Divider thickness='small' color='bg-black-3' />
-        <Section.Footer label='최종 결제 금액' value={formatPrice(totalPrice)} />
+        <Section.Footer
+          label='최종 결제 금액'
+          value={
+            <div className='flex items-center gap-[0.2rem]'>
+              <span className='title-23-eb'>{formatPrice(totalPrice)}</span>
+              <span className='caption-14-md'>원</span>
+            </div>
+          }
+        />
       </Section.Card>
     </Section>
   );

@@ -1,6 +1,7 @@
 import type { StateCode } from '@/types/stateCode';
 import { formatReservationDateTime } from '@/utils/formatDate';
 import { Section } from '@/components/layout/reservation/SectionLayout';
+import { StateChip } from '@/ui/chip';
 
 type ReservationDetailProps = {
   status: StateCode;
@@ -26,9 +27,11 @@ export default function ReservationDetail({
   const requestNoteText = requestNote === null || requestNote.length === 0 ? '-' : requestNote;
 
   return (
-    <Section title='예약 상세' stateCode={status}>
+    <Section title='예약 상세' right={<StateChip label={status} />}>
       <Section.Card className='gap-[2.4rem]'>
-        <Section.Header createdAt={createdAt} />
+        <Section.Header>
+          <span className='caption-14-bd'>{createdAt}</span>
+        </Section.Header>
         <Section.Body>
           <Section.Row label='날짜 및 시간' value={formatReservationDateTime(date, startTime)} />
           <Section.Row label='촬영 시간' value={durationTime ? `${durationTime}시간` : '-'} />
