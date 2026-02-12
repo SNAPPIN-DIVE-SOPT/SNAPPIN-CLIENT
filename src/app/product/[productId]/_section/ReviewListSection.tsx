@@ -4,8 +4,7 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useInView } from 'react-intersection-observer';
 import { Divider, ReviewStar } from '@/ui';
-import { formatDate } from '@/utils/formatDate';
-import { formatNumber } from '@/utils/formateNumber';
+import { formatShortDate } from '@/utils/formatDate';
 import { useGetProductReviewList } from '../api';
 
 type ReviewListSectionProps = {
@@ -89,11 +88,6 @@ function Review({ id, rate, createdAt, reviewer, images, content }: ReviewProps)
     src: image,
     alt: `${reviewer}님의 리뷰 이미지 ${idx}`,
   }));
-  const formattedDate = formatDate(createdAt)
-    .slice(2)
-    .split('.')
-    .map((number) => formatNumber(Number(number)))
-    .join('.');
 
   return (
     <section className='flex flex-col gap-[1.2rem] overflow-hidden py-[2rem]'>
@@ -101,19 +95,19 @@ function Review({ id, rate, createdAt, reviewer, images, content }: ReviewProps)
       <div className='flex flex-col gap-[0.6rem] px-[2rem]'>
         <div className='flex justify-between'>
           <ReviewStar rating={rate} starSize='small' />
-          <span className='caption-12-md text-black-7'>{formattedDate}</span>
+          <span className='caption-12-md text-black-7'>{formatShortDate(createdAt)}</span>
         </div>
         <span className='caption-12-md text-black-7'>{reviewer}</span>
       </div>
       {/* 이미지 캐러셀 */}
       <div className='scrollbar-hide flex w-full gap-[0.4rem] overflow-x-auto px-[2rem]'>
-        {reviewImages.map((image, idx) => (
+        {reviewImages.map((image) => (
           <Link
             href={{
               pathname: `${pathname}/review/${id}`,
-              query: { image: idx },
+              query: { image: image.src },
             }}
-            key={idx}
+            key={`image-${image.src}`}
             className='relative h-[14rem] w-[14rem] shrink-0'
           >
             <Image src={image.src} alt={image.alt} fill className='object-cover' />

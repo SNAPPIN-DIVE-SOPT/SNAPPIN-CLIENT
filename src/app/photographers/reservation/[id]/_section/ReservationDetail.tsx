@@ -26,7 +26,7 @@ export default function ReservationDetail({
   client,
   createdAt,
 }: ReservationDetailProps) {
-  const requestNoteText = requestNote === null || requestNote.length === 0 ? '-' : requestNote;
+  const requestNoteText = requestNote.length === 0 ? '-' : requestNote;
 
   return (
     <Section title='예약 상세' right={<StateChip label={status} />}>

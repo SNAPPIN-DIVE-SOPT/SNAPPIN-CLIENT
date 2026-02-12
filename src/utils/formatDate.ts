@@ -1,4 +1,4 @@
-import { formatNumber } from './formateNumber';
+import { formatNumber } from './formatNumber';
 
 /**
  * 날짜를 년.월.일 형식으로 포맷팅하는 함수

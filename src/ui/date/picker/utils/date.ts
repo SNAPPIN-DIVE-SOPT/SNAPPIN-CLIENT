@@ -1,5 +1,5 @@
 import { CalendarCell } from '@/ui/date/picker/types/calendar';
-import { formatNumber } from '@/utils/formateNumber';
+import { formatNumber } from '@/utils/formatNumber';
 
 /**
  * 날짜를 ISO 형식(YYYY-MM-DD)으로 변환합니다.

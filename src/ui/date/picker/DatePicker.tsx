@@ -14,7 +14,7 @@ import {
   toISO,
 } from '@/ui/date/picker/utils/date';
 import { WEEKDAY_LABELS } from '@/ui/date/picker/constants/date';
-import { formatNumber } from '@/utils/formateNumber';
+import { formatNumber } from '@/utils/formatNumber';
 
 const MAX_RESERVATION_MONTHS = 6;
 

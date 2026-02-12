@@ -4,7 +4,7 @@ import { IconButton, ImageCarousel } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { IconHeart, IconHeartFill, IconStar } from '@/assets';
-import { formatPrice } from '@/utils/formatePrice';
+import { formatPrice } from '@/utils/formatPrice';
 import { useWishProduct } from '../api';
 
 type ProductMainSectionProps = {

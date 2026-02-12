@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { cn } from '@/utils/cn';
-import { formatPrice } from '@/utils/formatePrice';
+import { formatPrice } from '@/utils/formatPrice';
 import { TagChip } from '@/ui/index';
 import { IconStar } from '@/assets';
 import productPlaceholder from '@/../public/imgs/image-default.png';

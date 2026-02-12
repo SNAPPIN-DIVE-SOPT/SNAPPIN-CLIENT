@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formatPrice } from '@/utils/formatePrice';
+import { formatPrice } from '@/utils/formatPrice';
 
 export const MAX_AMOUNT = 99_999_999;
 export const MAX_NAME_LENGTH = 20;

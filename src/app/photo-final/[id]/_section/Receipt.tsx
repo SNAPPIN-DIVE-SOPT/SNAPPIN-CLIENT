@@ -1,5 +1,5 @@
 import { Divider } from '@/ui/divider';
-import { formatPrice } from '@/utils/formatePrice';
+import { formatPrice } from '@/utils/formatPrice';
 import { Section } from '@/components/layout/reservation/SectionLayout';
 
 type ReceiptProps = {

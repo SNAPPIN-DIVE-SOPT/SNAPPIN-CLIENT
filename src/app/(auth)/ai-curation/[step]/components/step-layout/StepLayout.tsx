@@ -1,7 +1,7 @@
 'use client';
 
 import ImageAnimation from '../image-animation/ImageAnimation';
-import { formatNumber } from '@/utils/formateNumber';
+import { formatNumber } from '@/utils/formatNumber';
 import type { GetQuestionResponse } from '@/swagger-api/data-contracts';
 import type { GetPhotoResponse } from '@/swagger-api/data-contracts';
 

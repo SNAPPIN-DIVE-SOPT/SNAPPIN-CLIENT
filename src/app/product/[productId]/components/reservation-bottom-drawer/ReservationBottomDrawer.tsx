@@ -13,7 +13,7 @@ import {
   Stepper,
   TextareaField,
 } from '@/ui';
-import { formatPrice } from '@/utils/formatePrice';
+import { formatPrice } from '@/utils/formatPrice';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { ReservationDraft } from '@/app/product/[productId]/types/reservation';
 import {
