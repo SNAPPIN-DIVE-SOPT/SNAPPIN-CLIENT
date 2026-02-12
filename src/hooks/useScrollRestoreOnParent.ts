@@ -46,6 +46,7 @@ const getScrollParentOrNull = (el: HTMLElement | null) => {
 export const useScrollRestoreOnParent = (
   anchorRef: RefObject<HTMLElement | null>,
   storageKey: string,
+  id?: string,
   restoreDeps: unknown[] = [],
   options: Options = {},
 ) => {
@@ -106,7 +107,24 @@ export const useScrollRestoreOnParent = (
     const save = () => {
       if (Date.now() < freezeUntilRef.current) return;
 
-      sessionStorage.setItem(key, String(scrollEl.scrollTop));
+      const raw = sessionStorage.getItem(key);
+
+      // id가 있는 경우 value에 스크롤맵 저장, 없는 경우 value에 스크롤값 저장
+      if (id !== undefined && id !== null) {
+        let scrollMap: Record<string, string> = {};
+        try {
+          scrollMap = JSON.parse(raw || '{}');
+          if (typeof scrollMap !== 'object') {
+            scrollMap = {};
+          }
+        } catch {
+          scrollMap = {};
+        }
+        scrollMap[id] = String(scrollEl.scrollTop);
+        sessionStorage.setItem(key, JSON.stringify(scrollMap));
+      } else {
+        sessionStorage.setItem(key, String(scrollEl.scrollTop));
+      }
     };
 
     const onScroll = () => {
@@ -138,7 +156,7 @@ export const useScrollRestoreOnParent = (
         document.removeEventListener('visibilitychange', save);
       }
     };
-  }, [anchorRef, enabled, key, saveThrottleFrame, saveThrottleMs, saveOnPageHide]);
+  }, [anchorRef, enabled, key, saveThrottleFrame, saveThrottleMs, saveOnPageHide, id]);
 
   useLayoutEffect(() => {
     if (!enabled) return;
@@ -155,7 +173,22 @@ export const useScrollRestoreOnParent = (
     const raw = sessionStorage.getItem(key);
     if (!raw) return;
 
-    const top = Number(raw);
+    let top: number = 0;
+
+    // id가 있는 경우 value 중 scrollMap[id]로, 없는 경우 value로 스크롤 복구
+    if (id !== undefined && id !== null) {
+      try {
+        const scrollMap = JSON.parse(raw);
+        if (scrollMap && typeof scrollMap === 'object') {
+          top = Number(scrollMap[id]);
+        }
+      } catch {
+        return;
+      }
+    } else {
+      top = Number(raw);
+    }
+
     if (Number.isNaN(top)) return;
 
     // 복구 직후 저장이 다시 덮어쓰지 않도록 잠깐 저장을 멈춘다.
@@ -163,6 +196,9 @@ export const useScrollRestoreOnParent = (
 
     const timers: number[] = [];
     const apply = () => {
+      const maxTop = scrollEl.scrollHeight - scrollEl.clientHeight;
+      if (maxTop < top - 1) return;
+
       scrollEl.scrollTop = top;
     };
     const finalizeRestore = () => {
