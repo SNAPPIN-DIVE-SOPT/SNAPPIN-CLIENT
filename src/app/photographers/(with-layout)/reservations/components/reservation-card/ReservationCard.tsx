@@ -5,7 +5,7 @@ import { StateCode } from '@/types/stateCode';
 import { IconKeyboardArrowRight } from '@/assets';
 import { useRouter } from 'next/navigation';
 import { ProductCardProps } from '@/ui/product-card/ProductCard';
-import { formatCreatedAt } from '@/utils/formatNumberWithComma';
+import { formatCreatedAt } from '@/utils/formatDate';
 
 type ReservationCardProps = {
   reservationId: number;

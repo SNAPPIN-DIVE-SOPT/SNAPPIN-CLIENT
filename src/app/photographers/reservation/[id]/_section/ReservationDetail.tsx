@@ -1,5 +1,5 @@
 import { StateCode } from '@/types/stateCode';
-import { formatReservationDateTime } from '@/utils/formatNumberWithComma';
+import { formatReservationDateTime } from '@/utils/formatDate';
 import { Divider } from '@/ui';
 import { Section } from '@/components/layout/reservation/SectionLayout';
 

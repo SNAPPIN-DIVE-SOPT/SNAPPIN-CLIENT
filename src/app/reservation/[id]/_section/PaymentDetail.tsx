@@ -1,6 +1,5 @@
 import { Divider } from '@/ui';
-import { formatPrice } from '@/utils/price';
-import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
+import { formatPrice } from '@/utils/formatePrice';
 import { Section } from '@/components/layout/reservation/SectionLayout';
 
 type PaymentDetailProps = {
@@ -20,7 +19,7 @@ export default function PaymentDetail({
         <Section.Body>
           <Section.Row
             label='기본 촬영 비용'
-            value={`${formatNumberWithComma(basePrice)}원`}
+            value={`${formatPrice(basePrice)}원`}
             className='justify-between'
             valueClassName='caption-14-bd'
           />
@@ -34,7 +33,7 @@ export default function PaymentDetail({
             />
           ))}
           <Divider />
-          <Section.Footer label='최종 결제 금액' value={formatNumberWithComma(totalPrice)} />
+          <Section.Footer label='최종 결제 금액' value={formatPrice(totalPrice)} />
         </Section.Body>
       </Section.Card>
     </Section>

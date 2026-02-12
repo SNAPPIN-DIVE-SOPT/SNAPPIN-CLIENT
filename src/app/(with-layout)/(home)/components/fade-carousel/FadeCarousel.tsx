@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/utils/cn';
 import { openSearchSheet } from '@/utils/openSearchSheet';
-import { Logo } from '@/assets/index';
+import { Logo } from '@/assets';
 import { ButtonSearchBar } from '@/ui';
 
 type FadeCarouselProps = {

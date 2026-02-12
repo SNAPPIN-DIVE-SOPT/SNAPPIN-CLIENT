@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { formatShortDate } from '@/utils/formatNumberWithComma';
+import { formatShortDate } from '@/utils/formatDate';
 import { ReviewStar } from '@/ui';
 import { Section } from '@/components/layout/reservation/SectionLayout';
 

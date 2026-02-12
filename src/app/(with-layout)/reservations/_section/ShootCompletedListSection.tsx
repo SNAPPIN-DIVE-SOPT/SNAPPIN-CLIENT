@@ -8,7 +8,7 @@ import { useToast } from '@/ui/toast/hooks/useToast';
 import { useGetReservationList } from '../api';
 import { RESERVATION_TAB } from '../constants/tabs';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { formatCreatedAt } from '@/utils/formatNumberWithComma';
+import { formatCreatedAt } from '@/utils/formatDate';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ShootCompletedListSection() {

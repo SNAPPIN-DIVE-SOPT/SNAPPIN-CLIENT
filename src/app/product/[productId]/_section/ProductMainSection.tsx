@@ -4,7 +4,7 @@ import { IconButton, ImageCarousel } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { IconHeart, IconHeartFill, IconStar } from '@/assets';
-import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
+import { formatPrice } from '@/utils/formatePrice';
 import { useWishProduct } from '../api';
 
 type ProductMainSectionProps = {
@@ -76,7 +76,7 @@ export default function ProductMainSection({
           </div>
         </div>
         {/* 가격 */}
-        <span className='title-20-bd text-black-10'>{formatNumberWithComma(price)}원~</span>
+        <span className='title-20-bd text-black-10'>{formatPrice(price)}원~</span>
       </div>
     </section>
   );

@@ -5,7 +5,7 @@ import { Divider } from '@/ui';
 import { EmptyView, ReservationCard, ReservationCardSkeleton } from '../components';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { StateCode } from '@/types/stateCode';
-import { formatCreatedAt } from '@/utils/formatNumberWithComma';
+import { formatCreatedAt } from '@/utils/formatDate';
 import { useGetReservationList } from '../api';
 import { RESERVATION_TAB } from '../constants/tabs';
 import { useAuth } from '@/auth/hooks/useAuth';

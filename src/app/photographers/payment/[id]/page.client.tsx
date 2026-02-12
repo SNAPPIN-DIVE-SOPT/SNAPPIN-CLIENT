@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BottomCTAButton, Button, Divider, Navigation } from '@/ui';
-import { formatPrice } from '@/utils/price';
+import { formatPrice } from '@/utils/formatePrice';
 import { IconAdd, IconArrowBack, IconHome } from '@/assets';
 import { usePaymentSummary } from './hooks/usePaymentSummary';
 import CompleteModal from './@modal/(.)complete-modal/CompleteModal';

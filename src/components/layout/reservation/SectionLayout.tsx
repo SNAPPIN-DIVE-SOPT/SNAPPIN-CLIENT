@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '@/utils/cn';
 import { StateChip } from '@/ui/chip';
 import { StateCode } from '@/types/stateCode';
-import { formatCreatedAt } from '@/utils/formatNumberWithComma';
+import { formatCreatedAt } from '@/utils/formatDate';
 
 type SectionFrameProps = React.PropsWithChildren<
   {

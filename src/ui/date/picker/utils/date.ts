@@ -1,5 +1,5 @@
 import { CalendarCell } from '@/ui/date/picker/types/calendar';
-import { padNumber } from '@/utils/padNumber';
+import { formatNumber } from '@/utils/formateNumber';
 
 /**
  * 날짜를 ISO 형식(YYYY-MM-DD)으로 변환합니다.
@@ -9,8 +9,8 @@ import { padNumber } from '@/utils/padNumber';
  */
 export const toISO = (date: Date) => {
   const y = date.getFullYear();
-  const m = padNumber(date.getMonth() + 1);
-  const d = padNumber(date.getDate());
+  const m = formatNumber(date.getMonth() + 1);
+  const d = formatNumber(date.getDate());
   return `${y}-${m}-${d}`;
 };
 

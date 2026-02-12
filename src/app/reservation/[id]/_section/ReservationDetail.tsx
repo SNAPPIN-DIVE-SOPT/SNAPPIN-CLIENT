@@ -1,5 +1,5 @@
 import type { StateCode } from '@/types/stateCode';
-import { formatReservationDateTime } from '@/utils/formatNumberWithComma';
+import { formatReservationDateTime } from '@/utils/formatDate';
 import { Section } from '@/components/layout/reservation/SectionLayout';
 
 type ReservationDetailProps = {

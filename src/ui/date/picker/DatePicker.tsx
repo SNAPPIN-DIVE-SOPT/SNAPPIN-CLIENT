@@ -4,7 +4,7 @@ import { Divider, IconButton } from '@/ui';
 import { IconKeyboardArrowLeft, IconKeyboardArrowRight } from '@/assets';
 import { useMemo, useState } from 'react';
 import DateCell from '../cell/DateCell';
-import { CalendarCell, DayAvailability } from '@/ui/date/picker/types/calendar';
+import { CalendarCell } from '@/ui/date/picker/types/calendar';
 import {
   addMonths,
   buildPrefixCells,
@@ -14,7 +14,7 @@ import {
   toISO,
 } from '@/ui/date/picker/utils/date';
 import { WEEKDAY_LABELS } from '@/ui/date/picker/constants/date';
-import { padNumber } from '@/utils/padNumber';
+import { formatNumber } from '@/utils/formateNumber';
 
 const MAX_RESERVATION_MONTHS = 6;
 
@@ -74,7 +74,7 @@ export default function DatePicker({
   const viewMonth = controlledViewMonth ?? uncontrolledMonth;
   // 오늘 날짜 ISO (YYYY-MM-DD, 비교용)
   const todayISO = toISO(today ?? new Date());
-  const headerText = `${viewMonth.getFullYear()}.${padNumber(viewMonth.getMonth() + 1)}`;
+  const headerText = `${viewMonth.getFullYear()}.${formatNumber(viewMonth.getMonth() + 1)}`;
 
   const setMonth = (next: Date) => {
     if (!controlledViewMonth) setUncontrolledMonth(next);

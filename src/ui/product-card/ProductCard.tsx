@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { cn } from '@/utils/cn';
-import { formatNumberWithComma } from '@/utils/formatNumberWithComma';
+import { formatPrice } from '@/utils/formatePrice';
 import { TagChip } from '@/ui/index';
 import { IconStar } from '@/assets';
 import productPlaceholder from '@/../public/imgs/image-default.png';
@@ -54,7 +54,7 @@ export default function ProductCard({
             <span className='caption-12-md text-black-7 w-[19rem] truncate'>{photographer}</span>
           </div>
         </div>
-        <span className='font-16-md text-black-10'>{formatNumberWithComma(price)}원~</span>
+        <span className='font-16-md text-black-10'>{formatPrice(price)}원~</span>
         <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
           {moods.map((tag) => (
             <TagChip key={tag} variant='neon' label={tag} />

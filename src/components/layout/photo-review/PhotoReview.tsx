@@ -1,7 +1,7 @@
 'use client';
 
 import { ImageCarousel, ReviewStar } from '@/ui';
-import { formatShortDate } from '@/utils/formatNumberWithComma';
+import { formatShortDate } from '@/utils/formatDate';
 import { GetReviewDetailResponse } from '@/swagger-api/data-contracts';
 import Skeleton from './Skeleton';
 
