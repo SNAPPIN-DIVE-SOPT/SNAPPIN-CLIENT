@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useRef, useState, useLayoutEffect, useEffect } from 'react';
 import { cn } from '@/utils/cn';
 
 type SectionTabItem = {
@@ -26,19 +26,48 @@ export default function SectionTabsNew({
     [tabs, activeValue],
   );
 
+  // indicator 위치와 길이 계산
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    left: 0,
+    width: 0,
+  });
+
+  const updateIndicator = () => {
+    const el = tabRefs.current[activeIndex];
+    if (!el) return;
+
+    setIndicatorStyle({
+      left: el.offsetLeft,
+      width: el.offsetWidth,
+    });
+  };
+
+  useLayoutEffect(() => {
+    updateIndicator();
+  }, [activeIndex]);
+
+  useEffect(() => {
+    window.addEventListener('resize', updateIndicator);
+    return () => window.removeEventListener('resize', updateIndicator);
+  }, [activeIndex]);
+
   return (
     <div
       className={cn(
-        'border-b-black-4 bg-black-1 relative flex h-[4.5rem] w-full border-b',
+        'border-b-black-4 bg-black-1 relative flex h-[4.5rem] w-full gap-[0.4rem] border-b px-[2rem]',
         className,
       )}
     >
-      {tabs.map(({ label, value }) => {
+      {tabs.map(({ label, value }, index) => {
         const isActive = value === activeValue;
 
         return (
           <button
             key={value}
+            ref={(el) => {
+              tabRefs.current[index] = el;
+            }}
             type='button'
             onClick={() => onChange(value)}
             className={cn(
@@ -51,11 +80,12 @@ export default function SectionTabsNew({
         );
       })}
 
+      {/* indicator */}
       <div
-        className='bg-black-10 pointer-events-none absolute bottom-0 left-0 h-[0.2rem] transition-transform duration-200 ease-out'
+        className='bg-black-10 transition-[left, width] pointer-events-none absolute bottom-0 h-[0.2rem] duration-200 ease-out'
         style={{
-          width: `${100 / tabs.length}%`,
-          transform: `translateX(${activeIndex * 100}%)`,
+          left: indicatorStyle.left,
+          width: indicatorStyle.width,
         }}
       />
     </div>
