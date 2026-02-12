@@ -7,13 +7,77 @@ import {
   GetUserInfoData,
   GetSwitchedUserProfileResponse,
   PatchUserRoleData,
+  CreateKakaoLoginData,
 } from '@/swagger-api/data-contracts';
-import { setAccessToken, getAccessToken } from '../token';
-import { setAuthUser } from '../userType';
+import { setAccessToken, getAccessToken, deleteAccessToken } from '../token';
+import { deleteAuthUser, setAuthUser } from '../userType';
 import { UserType } from '../constant/userType';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { useAuth } from '../hooks/useAuth';
 
+// 카카오 로그인 API
+type KakaoCodePayload = { code: string };
+
+export const useKakaoLogin = (URL: string) => {
+  return useMutation<CreateKakaoLoginData, Error, KakaoCodePayload>({
+    mutationFn: async ({ code }) => {
+      const res = await fetch(URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text().catch(() => '');
+        throw new Error(`Kakao login failed: ${res.status} ${text}`);
+      }
+
+      return res.json();
+    },
+  });
+};
+
+// 로그아웃 API
+export const useLogout = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: logoutApi,
+    onSuccess: () => {
+      queryClient.removeQueries({
+        queryKey: AUTH_QUERY_KEY.AUTH,
+      });
+    },
+    onError: (e) => {
+      console.error('로그아웃에 실패했습니다. error: ', e);
+    },
+  });
+};
+
+const logoutApi = async () => {
+  const accessToken = await getAccessToken();
+
+  const res = await fetch(`${SERVER_API_BASE_URL}/api/v1/auth/logout`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw error;
+  }
+
+  await deleteAccessToken();
+  await deleteAuthUser();
+
+  return true;
+};
+
+// 리프레시 토큰 발급 API
 export const getRefreshToken = async () => {
   const refreshResponse = await fetch(`${SERVER_API_BASE_URL}/api/v1/auth/reissue`, {
     method: 'POST',
@@ -69,48 +133,6 @@ export const useSwitchUserProfile = () => {
 
     onError: () => {
       error('프로필 전환에 실패했습니다. 잠시 후 다시 시도해주세요.', undefined, 'top-[2rem]');
-    },
-  });
-};
-
-export const usePrefetchUserProfile = () => {
-  const queryClient = useQueryClient();
-
-  return () => {
-    queryClient.prefetchQuery({ queryKey: AUTH_QUERY_KEY.AUTH });
-  };
-};
-
-export const logoutApi = async () => {
-  const accessToken = await getAccessToken();
-
-  const res = await fetch(`${SERVER_API_BASE_URL}/api/v1/auth/logout`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-  });
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw error;
-  }
-
-  return true;
-};
-
-// 로그아웃 API
-export const useLogout = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: logoutApi,
-    onSuccess: () => {
-      queryClient.removeQueries({
-        queryKey: AUTH_QUERY_KEY.AUTH,
-      });
     },
   });
 };

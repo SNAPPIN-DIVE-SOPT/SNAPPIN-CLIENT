@@ -1,27 +1,74 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useKakaoLoginMutation } from '../api';
+import { SERVER_API_BASE_URL } from '@/api/constants/api';
+import { USER_TYPE, type UserType } from '@/auth/constant/userType';
+import { setAuthUser } from '@/auth/userType';
+import { setAccessToken } from '@/auth/token';
+import { useKakaoLogin } from '@/auth/apis';
+
 import { Loading } from '@/ui';
+import { useToast } from '@/ui/toast/hooks/useToast';
 
 export default function KakaoCallbackPage() {
   const router = useRouter();
   const params = useSearchParams();
+  const toast = useToast();
+
   const code = params.get('code');
   const error = params.get('error');
 
-  const { mutate } = useKakaoLoginMutation()!;
+  const startedRef = useRef(false);
+
+  const CLIENT_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL;
+  const url =
+    `${SERVER_API_BASE_URL}/api/v1/auth/login/kakao` +
+    `?redirect_uri=${encodeURIComponent(CLIENT_REDIRECT_URI!)}`;
+
+  const { mutateAsync } = useKakaoLogin(url);
 
   useEffect(() => {
+    if (startedRef.current) return;
+
     if (error) {
+      startedRef.current = true;
       router.replace('/login?error=kakao');
       return;
     }
+
     if (!code) return;
 
-    mutate({ code });
-  }, [code, error, mutate, router]);
+    startedRef.current = true;
+
+    (async () => {
+      try {
+        const data = await mutateAsync({ code });
+
+        setAccessToken(data.data?.accessToken ?? '');
+        // TODO: 서버 응답에 hasPhotographerProfile 있으면 그걸로 교체
+        setAuthUser({
+          role: data.data?.role as UserType,
+          hasPhotographerProfile: true,
+        });
+
+        if (data.data?.isNew) {
+          router.replace('/ai-curation');
+        } else if (data.data?.role === USER_TYPE.PHOTOGRAPHER) {
+          router.replace('/photographers/reservations');
+        } else {
+          router.replace('/');
+        }
+      } catch {
+        router.replace('/login?error=kakao');
+        toast.error(
+          '카카오 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
+          undefined,
+          'top-[2rem]',
+        );
+      }
+    })();
+  }, [code, error, mutateAsync, router, toast]);
 
   return (
     <div className='bg-black-10 flex h-dvh flex-col items-center justify-center gap-[1.5rem]'>
