@@ -15,7 +15,7 @@ type BodyProps = React.PropsWithChildren;
 
 type RowProps = {
   label: string;
-  value: React.ReactNode;
+  value: string;
   className?: string;
   labelClassName?: string;
   valueClassName?: string;
