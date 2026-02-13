@@ -13,20 +13,10 @@ import { openSearchSheet } from '@/utils/openSearchSheet';
 
 const PortfolioListSection = dynamic(
   () => import('@/app/(with-layout)/explore/_section/PortfolioListSection'),
-  {
-    loading: () => <PortfolioListSkeleton length={15} className='p-[1rem]' />,
-  },
 );
 
 const ProductListSection = dynamic(
   () => import('@/app/(with-layout)/explore/_section/ProductListSection'),
-  {
-    loading: () => (
-      <div className='bg-black-1 border-b-[0.1rem]'>
-        <ProductListSkeleton length={5} thickness='small' />
-      </div>
-    ),
-  },
 );
 
 const isExploreTab = (value: string | null | undefined) => {
