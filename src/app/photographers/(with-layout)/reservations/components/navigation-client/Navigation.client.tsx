@@ -9,7 +9,7 @@ export default function NavigationClient() {
     <Navigation
       isFixed={true}
       left={<Logo width={82} />}
-      right={<IconSearch onClick={openSearchSheet} />}
+      right={<IconSearch onClick={() => openSearchSheet()} />}
     />
   );
 }

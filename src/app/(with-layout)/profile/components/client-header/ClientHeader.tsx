@@ -16,7 +16,7 @@ export default function ClientHeader() {
     <Navigation
       left={<Logo width={82} onClick={handleClickLogo} />}
       right={
-        <IconButton onClick={openSearchSheet}>
+        <IconButton onClick={() => openSearchSheet()}>
           <IconSearch className='h-[2.4rem] w-[2.4rem]' />
         </IconButton>
       }
