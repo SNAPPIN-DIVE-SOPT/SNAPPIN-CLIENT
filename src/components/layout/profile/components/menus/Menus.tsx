@@ -6,10 +6,12 @@ import { useRouter } from 'next/navigation';
 import { ConfirmModal } from '@/ui';
 import { useLogout } from '@/auth/apis';
 import { useAuth } from '@/auth/hooks/useAuth';
+import { useToast } from '@/ui/toast/hooks/useToast';
 
 export default function Menus() {
   const router = useRouter();
   const { isLogIn } = useAuth();
+  const { error } = useToast();
   const { mutate: logout } = useLogout();
 
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
@@ -25,6 +27,10 @@ export default function Menus() {
       onSuccess: () => {
         router.push('/');
         setIsLogoutModalOpen(false);
+      },
+      onError: () => {
+        setIsLogoutModalOpen(false);
+        error('로그아웃에 실패했습니다. 잠시 후 다시 시도해주세요.', undefined, 'top-[2rem]');
       },
     });
   };

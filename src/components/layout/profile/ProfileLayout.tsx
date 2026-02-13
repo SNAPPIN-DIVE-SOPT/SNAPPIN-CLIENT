@@ -3,7 +3,7 @@ import { UserType } from '@/auth/constant/userType';
 import { ClientHeader, ProfileCard, Menus } from './components';
 
 type ProfileLayoutProps = {
-  userType: UserType;
+  userType: UserType | null;
   children?: React.ReactNode;
 };
 
