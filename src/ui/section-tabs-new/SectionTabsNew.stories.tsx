@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { useState } from 'react';
-
 import SectionTabsNew from './SectionTabsNew';
 
 const meta: Meta<typeof SectionTabsNew> = {
@@ -19,15 +17,19 @@ const meta: Meta<typeof SectionTabsNew> = {
 export default meta;
 type Story = StoryObj<typeof SectionTabsNew>;
 
-type SectionTabsNewTemplateProps = {
+type SectionTabsNewStoryProps = {
   tabs: { label: string; value: string }[];
+  activeValue?: string;
+  basePath: string;
 };
 
-const SectionTabsNewTemplate = ({ tabs }: SectionTabsNewTemplateProps) => {
-  const [activeValue, setActiveValue] = useState(tabs[0]?.value ?? '');
-
-  return <SectionTabsNew tabs={tabs} activeValue={activeValue} onChange={setActiveValue} />;
-};
+const SectionTabsNewTemplate = ({ tabs, activeValue, basePath }: SectionTabsNewStoryProps) => (
+  <SectionTabsNew
+    tabs={tabs}
+    activeValue={activeValue ?? tabs[0]?.value ?? ''}
+    basePath={basePath}
+  />
+);
 
 const DEFAULT_TABS = [
   { label: '예약 현황', value: 'detail' },
@@ -35,7 +37,12 @@ const DEFAULT_TABS = [
 ];
 
 export const Default: Story = {
-  render: () => <SectionTabsNewTemplate tabs={DEFAULT_TABS} />,
+  args: {
+    tabs: DEFAULT_TABS,
+    activeValue: DEFAULT_TABS[0].value,
+    basePath: '/bookings',
+  },
+  render: (args) => <SectionTabsNewTemplate {...args} />,
 };
 
 const WIDE_TABS = [
@@ -45,6 +52,11 @@ const WIDE_TABS = [
   { label: '예약 현황', value: 'overview3' },
 ];
 
-export const ThreeTabs: Story = {
-  render: () => <SectionTabsNewTemplate tabs={WIDE_TABS} />,
+export const FourTabs: Story = {
+  args: {
+    tabs: WIDE_TABS,
+    activeValue: WIDE_TABS[0].value,
+    basePath: '/bookings',
+  },
+  render: (args) => <SectionTabsNewTemplate {...args} />,
 };
