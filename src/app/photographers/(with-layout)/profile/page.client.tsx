@@ -43,6 +43,7 @@ export default function PageClient() {
       const nextRole = data?.role;
       if (!nextRole || !isValidUserType(nextRole)) return;
 
+      // TODO: 서버 응답에 hasPhotographerProfile 있으면 그걸로 교체
       await setAuthUser({ role: nextRole, hasPhotographerProfile: true });
 
       startTransition(() => {
