@@ -32,6 +32,7 @@ export default function ClientPage({ id }: ClientPageProps) {
         ? <PhotographerSectionSkeleton />
         : <PhotographerSection
             name={data?.name ?? ''}
+            imageUrl={data?.profileImageUrl ?? ''}
             bio={data?.bio ?? ''}
             specialties={data?.specialties ?? []}
             locations={data?.locations ?? []}

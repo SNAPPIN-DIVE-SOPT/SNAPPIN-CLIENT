@@ -51,6 +51,7 @@ export default function ClientPage({ id }: ClientPageProps) {
           <PhotographerSection
             id={data?.photographerInfo?.id ?? 0}
             name={data?.photographerInfo?.name ?? ''}
+            imageUrl={data?.photographerInfo?.imageUrl ?? ''}
             bio={data?.photographerInfo?.bio ?? ''}
             specialties={data?.photographerInfo?.specialties ?? []}
             locations={data?.photographerInfo?.locations ?? []}
@@ -114,7 +115,7 @@ const PortfolioDetailSkeleton = () => {
       <Divider thickness='large' color='bg-black-3' />
       <div className='flex flex-col gap-[1.6rem] px-[2rem] py-[1.6rem]'>
         <span className='font-16-bd'>이 작가님의 상품 살펴보기</span>
-        <div className='border-black-5 rounded-[0.6rem] border-1 p-[1.2rem]'>
+        <div className='border-black-5 rounded-[0.6rem] border-1'>
           <ProductCardSkeleton />
         </div>
       </div>

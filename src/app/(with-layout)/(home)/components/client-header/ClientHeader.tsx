@@ -39,7 +39,7 @@ export default function ClientHeader({ isVisible }: ClientHeaderProps) {
         left={<Logo width={82} onClick={handleClickLogo} className='cursor-pointer' />}
         right={
           <div className='flex items-center gap-[1.2rem]'>
-            <IconButton onClick={openSearchSheet}>
+            <IconButton onClick={() => openSearchSheet()}>
               <IconSearch />
             </IconButton>
             {isLogIn === false && (

@@ -20,7 +20,7 @@ export default function ClientNavigation() {
         </IconButton>
       }
       right={
-        <IconButton onClick={openSearchSheet}>
+        <IconButton onClick={() => openSearchSheet()}>
           <IconSearch className='h-[2.4rem] w-[2.4rem]' />
         </IconButton>
       }

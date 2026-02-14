@@ -8,7 +8,7 @@ export const useGetReviewDetail = (id: number) => {
   return useQuery<GetReviewDetailResponse>({
     queryKey: USER_QUERY_KEY.REVIEW_DETAIL(id),
     queryFn: async () => {
-      const res = await fetch (`${SERVER_API_BASE_URL}/api/v1/reviews/${id}`, { method: 'GET' });
+      const res = await fetch(`${SERVER_API_BASE_URL}/api/v1/reviews/${id}`, { method: 'GET' });
 
       if (!res.ok) {
         throw new Error('리뷰 상세 정보를 불러오는 데 실패했습니다.');
@@ -17,5 +17,5 @@ export const useGetReviewDetail = (id: number) => {
       return data.data;
     },
     enabled: !Number.isNaN(id),
-  })
-}
+  });
+};

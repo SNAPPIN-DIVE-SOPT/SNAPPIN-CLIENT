@@ -39,14 +39,13 @@ export default function ProfileCard({
 
   return (
     <div className={cn('bg-black-1 flex items-center gap-[1.2rem] p-[2rem]', className)} {...props}>
-      <div className='w-[64px] h-[64px] rounded-full overflow-hidden shrink-0'>
-      <Image
-        src={profileImageUrl ?? '/imgs/default-profile.png'}
-        alt='프로필 이미지'
-        width={64}
-        height={64}
-        className='rounded-full'
-      />
+      <div className='relative w-[6.4rem] h-[6.4rem] rounded-full overflow-hidden shrink-0'>
+        <Image
+          src={profileImageUrl ?? '/imgs/default-profile.png'}
+          alt='프로필 이미지'
+          fill
+          className='object-cover rounded-full'
+        />
       </div>
       <div className='flex flex-1 items-center justify-between gap-[1.2rem]'>
         {!isLoggedIn ? (
