@@ -8,7 +8,7 @@ type TabProps = HTMLAttributes<HTMLDivElement> & {
 
 function Tab({ className, children, ...props }: TabProps) {
   return (
-    <div className={cn('w-full', className)} {...props}>
+    <div className={cn('bg-black-1 w-full', className)} {...props}>
       {children}
     </div>
   );
