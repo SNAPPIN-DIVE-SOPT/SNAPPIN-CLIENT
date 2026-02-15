@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 import { useInView } from 'react-intersection-observer';
 import { Divider, ReviewStar } from '@/ui';
 import { formatShortDate } from '@/utils/formatDate';
@@ -83,7 +82,6 @@ export default function ReviewListSection({ productId, averageRate }: ReviewList
 }
 
 function Review({ id, rate, createdAt, reviewer, images, content }: ReviewProps) {
-  const pathname = usePathname();
   const reviewImages = images.map((image, idx) => ({
     src: image,
     alt: `${reviewer}님의 리뷰 이미지 ${idx}`,
@@ -104,7 +102,7 @@ function Review({ id, rate, createdAt, reviewer, images, content }: ReviewProps)
         {reviewImages.map((image) => (
           <Link
             href={{
-              pathname: `${pathname}/review/${id}`,
+              pathname: `/review-photo/${id}`,
               query: { image: image.src },
             }}
             key={`image-${image.src}`}

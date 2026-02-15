@@ -5,7 +5,6 @@ import { ReviewStar } from '@/ui/review-star';
 
 type ReviewDetailProps = {
   id: number;
-  reviewId: number;
   reviewer: string;
   rating: number;
   createdAt: string;
@@ -15,7 +14,6 @@ type ReviewDetailProps = {
 
 export default function ReviewDetail({
   id,
-  reviewId,
   reviewer,
   rating,
   createdAt,
@@ -39,7 +37,7 @@ export default function ReviewDetail({
             <Link
               key={image}
               href={{
-                pathname: `/photo-final/${id}/photos/${reviewId}`,
+                pathname: `/review-photo/${id}`,
                 query: { image: idx },
               }}
               className='relative h-[14rem] w-[14rem] shrink-0'
