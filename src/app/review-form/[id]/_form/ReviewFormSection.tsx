@@ -12,6 +12,7 @@ import { StarRating } from '../components';
 import { useSubmitReview } from '../api';
 import { useReviewImages } from '../hooks/useReviewImages';
 import { useToast } from '@/ui/toast/hooks/useToast';
+import { ROUTES } from '@/constants/routes/routes';
 
 type ReviewFormSectionProps = {
   reservationId: number;
@@ -59,7 +60,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
           imageUrls: uploadedUrls,
         });
 
-        router.replace(`/photo-final/${reservationId}`);
+        router.replace(ROUTES.PHOTO_FINAL(reservationId));
       } catch {
         toast.error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
         router.back();

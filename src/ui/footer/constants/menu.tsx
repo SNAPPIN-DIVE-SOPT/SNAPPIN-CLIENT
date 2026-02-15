@@ -15,6 +15,7 @@ import {
   IconProfileFill,
   IconMessageFill,
 } from '@/assets';
+import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
 export type MenuItem = {
   href: string | null;
   activeIcon: React.ReactNode;
@@ -23,22 +24,27 @@ export type MenuItem = {
 };
 
 const USER_MENU: MenuItem[] = [
-  { href: '/', activeIcon: <IconHomeFill />, inactiveIcon: <IconHome />, label: '홈' },
-  { href: '/like', activeIcon: <IconHeartFill />, inactiveIcon: <IconHeart />, label: '좋아요' },
+  { href: ROUTES.HOME, activeIcon: <IconHomeFill />, inactiveIcon: <IconHome />, label: '홈' },
   {
-    href: '/explore',
+    href: ROUTES.LIKE,
+    activeIcon: <IconHeartFill />,
+    inactiveIcon: <IconHeart />,
+    label: '좋아요',
+  },
+  {
+    href: ROUTES.EXPLORE(),
     activeIcon: <IconExploreFill />,
     inactiveIcon: <IconExplore />,
     label: '탐색',
   },
   {
-    href: '/reservations',
+    href: ROUTES.RESERVATIONS,
     activeIcon: <IconReservationFill />,
     inactiveIcon: <IconReservation />,
     label: '예약',
   },
   {
-    href: '/profile',
+    href: ROUTES.PROFILE,
     activeIcon: <IconProfileFill />,
     inactiveIcon: <IconProfile />,
     label: '프로필',
@@ -46,7 +52,7 @@ const USER_MENU: MenuItem[] = [
 ];
 
 const PHOTOGRAPHER_MENU: MenuItem[] = [
-  { href: '/', activeIcon: <IconHomeFill />, inactiveIcon: <IconHome />, label: '홈' },
+  { href: ROUTES.HOME, activeIcon: <IconHomeFill />, inactiveIcon: <IconHome />, label: '홈' },
   {
     href: null,
     activeIcon: <IconProductFill />,
@@ -54,14 +60,14 @@ const PHOTOGRAPHER_MENU: MenuItem[] = [
     label: '상품 관리',
   },
   {
-    href: '/photographers/reservations',
+    href: PHOTOGRAPHERS_ROUTES.RESERVATIONS(),
     activeIcon: <IconReservationFill />,
     inactiveIcon: <IconReservation />,
     label: '예약 관리',
   },
   { href: null, activeIcon: <IconMessageFill />, inactiveIcon: <IconMessage />, label: '메시지함' },
   {
-    href: '/photographers/profile',
+    href: PHOTOGRAPHERS_ROUTES.PROFILE,
     activeIcon: <IconProfileFill />,
     inactiveIcon: <IconProfile />,
     label: '프로필',

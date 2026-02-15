@@ -9,6 +9,7 @@ import { usePaymentSummary } from './hooks/usePaymentSummary';
 import CompleteModal from './@modal/(.)complete-modal/CompleteModal';
 import { useGetPaymentPrice } from './api';
 import CancelModal from './@modal/(.)cancel-modal/CancelModal';
+import { PHOTOGRAPHERS_ROUTES } from '@/constants/routes/routes';
 
 type PageClientProps = {
   id: number;
@@ -29,19 +30,13 @@ export default function PageClient({ id }: PageClientProps) {
     data?.price ?? 0,
   );
 
-  // 추가 비용 추가 페이지로 이동
   const handleAddPayment = () => {
-    router.push(`/photographers/payment/${id}/add-payment`);
+    router.push(PHOTOGRAPHERS_ROUTES.PAYMENT_ADD_PAYMENT(id));
   };
 
   // 상단 네비게이션 뒤로/홈 클릭 시 모달 오픈
   const handleBackClick = () => {
     setExitTarget('back');
-    setCancelOpen(true);
-  };
-
-  const handleHomeClick = () => {
-    setExitTarget('home');
     setCancelOpen(true);
   };
 

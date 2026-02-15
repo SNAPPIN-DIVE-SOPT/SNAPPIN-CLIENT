@@ -9,6 +9,7 @@ import Lottie from 'lottie-react';
 import successAnimation from '@/assets/lotties/success.json';
 import errorAnimation from '@/assets/lotties/error.json';
 import Link from 'next/link';
+import { ROUTES } from '@/constants/routes/routes';
 
 const FADE_MS = 300;
 const ANIMATION_DATA = {
@@ -51,7 +52,7 @@ export default function Toast({ type, message, duration = 3000, className }: Toa
       )}
       <div className='caption-14-rg text-black-1'>{message}</div>
       {type === 'login' && (
-        <Link href='/login' className='caption-14-md text-neon-black ml-[1rem] underline'>
+        <Link href={ROUTES.LOGIN()} className='caption-14-md text-neon-black ml-[1rem] underline'>
           로그인하기
         </Link>
       )}

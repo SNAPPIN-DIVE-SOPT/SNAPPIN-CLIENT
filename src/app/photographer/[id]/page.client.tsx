@@ -3,14 +3,20 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SectionTabs } from '@/ui';
-import { PhotographerSection, PhotographerSectionSkeleton, PortfolioListSection, ProductListSection } from './_section/index';
+import {
+  PhotographerSection,
+  PhotographerSectionSkeleton,
+  PortfolioListSection,
+  ProductListSection,
+} from './_section/index';
 import { Header, Footer } from './components/index';
 import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TAB_MAP } from './constants/tab';
 import { useGetPhotographerDetail } from './api/index';
+import { ROUTES } from '@/constants/routes/routes';
 
 type ClientPageProps = {
   id: string;
-}
+};
 
 export default function ClientPage({ id }: ClientPageProps) {
   const router = useRouter();
@@ -22,28 +28,26 @@ export default function ClientPage({ id }: ClientPageProps) {
 
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
-    router.replace(`?tab=${value}`, { scroll: false });
-  }
+    router.replace(`${ROUTES.PHOTOGRAPHER(Number(id), `tab=${value}`)}`, { scroll: false });
+  };
 
   return (
     <div className='flex flex-col'>
       <Header />
-      {isPending
-        ? <PhotographerSectionSkeleton />
-        : <PhotographerSection
-            name={data?.name ?? ''}
-            imageUrl={data?.profileImageUrl ?? ''}
-            bio={data?.bio ?? ''}
-            specialties={data?.specialties ?? []}
-            locations={data?.locations ?? []}
-          />
-      }
-      <SectionTabs
-        value={selectedTab}
-        handleValueChange={handleTabChange}
-      >
+      {isPending ? (
+        <PhotographerSectionSkeleton />
+      ) : (
+        <PhotographerSection
+          name={data?.name ?? ''}
+          imageUrl={data?.profileImageUrl ?? ''}
+          bio={data?.bio ?? ''}
+          specialties={data?.specialties ?? []}
+          locations={data?.locations ?? []}
+        />
+      )}
+      <SectionTabs value={selectedTab} handleValueChange={handleTabChange}>
         {/* 탭 영역 */}
-        <SectionTabs.List className='fixed w-full max-w-[45rem] top-[17.6rem] z-10 px-[2rem] bg-black-1'>
+        <SectionTabs.List className='bg-black-1 fixed top-[17.6rem] z-10 w-full max-w-[45rem] px-[2rem]'>
           <SectionTabs.Tab value={PHOTOGRAPHER_TAB.PORTFOLIO}>
             {PHOTOGRAPHER_TAB_MAP[PHOTOGRAPHER_TAB.PORTFOLIO]}
           </SectionTabs.Tab>
@@ -54,15 +58,12 @@ export default function ClientPage({ id }: ClientPageProps) {
         {/* 포트폴리오 목록 */}
         <SectionTabs.Contents
           value={PHOTOGRAPHER_TAB.PORTFOLIO}
-          className='p-[1rem] mb-[7.6rem] bg-black-1'
+          className='bg-black-1 mb-[7.6rem] p-[1rem]'
         >
           <PortfolioListSection id={Number(id)} />
         </SectionTabs.Contents>
         {/* 상품 목록 */}
-        <SectionTabs.Contents
-          value={PHOTOGRAPHER_TAB.PRODUCT}
-          className='mb-[7.6rem]'
-        >
+        <SectionTabs.Contents value={PHOTOGRAPHER_TAB.PRODUCT} className='mb-[7.6rem]'>
           <ProductListSection id={Number(id)} />
         </SectionTabs.Contents>
       </SectionTabs>

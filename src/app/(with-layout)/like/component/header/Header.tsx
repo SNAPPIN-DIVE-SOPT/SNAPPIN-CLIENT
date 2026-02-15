@@ -4,10 +4,11 @@ import { IconSearch, Logo } from '@/assets';
 import { IconButton, Navigation } from '@/ui';
 import { useRouter } from 'next/navigation';
 import { openSearchSheet } from '@/utils/openSearchSheet';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function Header() {
   const router = useRouter();
-  const handleNavigateHome = () => router.push('/');
+  const handleNavigateHome = () => router.push(ROUTES.HOME);
 
   return (
     <Navigation

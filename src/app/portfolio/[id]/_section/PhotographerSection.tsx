@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { IconArrowForward } from '@/assets';
+import { ROUTES } from '@/constants/routes/routes';
 
 type PhotographerSectionProps = {
   id: number;
@@ -24,7 +25,7 @@ export default function PhotographerSection({
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/photographer/${id}`);
+    router.push(ROUTES.PHOTOGRAPHER(id));
   };
 
   return (

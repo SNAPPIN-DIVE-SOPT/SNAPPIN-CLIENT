@@ -10,6 +10,7 @@ import { useKakaoLogin } from '@/auth/apis';
 
 import { Loading } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
+import { ROUTES } from '@/constants/routes/routes';
 
 const CLIENT_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL;
 const KAKAO_LOGIN_URL =
@@ -35,7 +36,7 @@ export default function KakaoCallbackPage() {
 
     if (error) {
       startedRef.current = true;
-      router.replace('/login?error=kakao');
+      router.replace(ROUTES.LOGIN('?error=kakao'));
       return;
     }
 
@@ -62,14 +63,14 @@ export default function KakaoCallbackPage() {
         });
 
         if (data.data.isNew) {
-          router.replace('/ai-curation');
+          router.replace(ROUTES.AI_CURATION);
         } else if (data.data.role === USER_TYPE.PHOTOGRAPHER) {
-          router.replace('/photographers/reservations');
+          router.replace(ROUTES.RESERVATIONS);
         } else {
-          router.replace('/');
+          router.replace(ROUTES.HOME);
         }
       } catch {
-        router.replace('/login?error=kakao');
+        router.replace(ROUTES.LOGIN('?error=kakao'));
         toast.error(
           '카카오 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
           undefined,

@@ -18,6 +18,7 @@ import { SearchFooter, SnapCategory } from '@/app/(with-layout)/explore/componen
 import { useQueryParams } from '@/hooks/useSearchQuery';
 import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
 import { ALLOWED_KEYS } from '@/app/(with-layout)/explore/constants/query';
+import { ROUTES } from '@/constants/routes/routes';
 
 type SearchSheetProps = {
   open: boolean;
@@ -82,7 +83,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
       peopleCount: searchDraft.peopleCount ?? null,
     });
 
-    navigate(nextParams, { basePath: '/explore' });
+    navigate(nextParams, { basePath: ROUTES.EXPLORE() });
     onOpenChange();
   };
 

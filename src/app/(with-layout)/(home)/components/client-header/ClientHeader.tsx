@@ -6,6 +6,7 @@ import { IconSearch, Logo } from '@/assets';
 import { cn } from '@/utils/cn';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { openSearchSheet } from '@/utils/openSearchSheet';
+import { ROUTES } from '@/constants/routes/routes';
 
 interface ClientHeaderProps {
   isVisible: boolean;
@@ -16,7 +17,7 @@ export default function ClientHeader({ isVisible }: ClientHeaderProps) {
   const router = useRouter();
 
   const handleClickLogin = () => {
-    router.push('/login');
+    router.push(ROUTES.LOGIN());
   };
 
   const handleClickLogo = () => {

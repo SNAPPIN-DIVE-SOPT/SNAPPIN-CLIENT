@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { IconArrowBack, IconHome } from '@/assets';
 import { IconButton, Navigation } from '@/ui';
+import { ROUTES } from '@/constants/routes/routes';
 
 type ClientNavigationProps = {
   title: string;
@@ -12,7 +13,7 @@ export default function ClientNavigation({ title }: ClientNavigationProps) {
   const router = useRouter();
 
   const handleHomeClick = () => {
-    router.push('/');
+    router.push(ROUTES.HOME);
   };
 
   const handleBackClick = () => {

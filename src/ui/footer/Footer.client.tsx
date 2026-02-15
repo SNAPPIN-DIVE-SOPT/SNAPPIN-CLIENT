@@ -5,6 +5,7 @@ import { useAuth } from '@/auth/hooks/useAuth';
 import { type UserType } from '@/auth/constant/userType';
 import { useToast } from '../toast/hooks/useToast';
 import { getMenuItems } from './constants/menu';
+import { ROUTES } from '@/constants/routes/routes';
 
 type FooterClientProps = {
   initialUserType: UserType | null;
@@ -36,8 +37,8 @@ export default function FooterClient({ initialUserType }: FooterClientProps) {
 
     removeToast();
 
-    if (!isLogIn && href === '/profile') {
-      router.push('/login');
+    if (!isLogIn && href === ROUTES.PROFILE) {
+      router.push(ROUTES.LOGIN());
       return;
     }
 

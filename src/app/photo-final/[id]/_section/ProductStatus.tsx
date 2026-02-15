@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Button, ProductCard } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { Section } from '@/components/layout/reservation/SectionLayout';
+import { ROUTES } from '@/constants/routes/routes';
 
 type ProductStatusProps = {
   id?: number;
@@ -32,7 +33,7 @@ export default function ProductStatus({
   const router = useRouter();
 
   const handleWriteReview = () => {
-    router.replace(`/review-form/${id}`);
+    router.replace(ROUTES.REVIEW_FORM(id));
   };
 
   const handleSendMessage = () => {

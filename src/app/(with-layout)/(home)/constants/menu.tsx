@@ -8,6 +8,7 @@ import {
   IconMenuMusic,
   IconMenuSchool,
 } from '@/assets';
+import { ROUTES } from '@/constants/routes/routes';
 
 export const MENU_LABEL = {
   AI_MOOD: 'AI 무드<br />큐레이션',
@@ -20,7 +21,7 @@ type MenuLabel = (typeof MENU_LABEL)[MenuLabelKey] | SnapCategoryLabel;
 type MenuItem = { label: MenuLabel; icon: React.ReactNode; href: string };
 
 export const MENU: MenuItem[] = [
-  { label: MENU_LABEL.AI_MOOD, icon: <IconMenuAiMood />, href: '/ai-curation' },
+  { label: MENU_LABEL.AI_MOOD, icon: <IconMenuAiMood />, href: ROUTES.AI_CURATION },
   {
     label: MENU_LABEL.SCHOOL,
     icon: <IconMenuSchool />,
@@ -36,8 +37,24 @@ export const MENU: MenuItem[] = [
     icon: <IconMenuLove />,
     href: '/explore?snapCategory=WEDDING',
   },
-  { label: MENU_LABEL.JEJU, icon: <IconMenuJeju />, href: '/explore?placeId=104&placeName=제주' },
-  { label: SNAP_CATEGORY.RECITAL, icon: <IconMenuMusic />, href: '/explore?snapCategory=RECITAL' },
-  { label: SNAP_CATEGORY.COUPLE, icon: <IconMenuLove />, href: '/explore?snapCategory=COUPLE' },
-  { label: SNAP_CATEGORY.DAILY, icon: <IconMenuDaily />, href: '/explore?snapCategory=DAILY' },
+  {
+    label: MENU_LABEL.JEJU,
+    icon: <IconMenuJeju />,
+    href: ROUTES.EXPLORE('placeId=104&placeName=제주'),
+  },
+  {
+    label: SNAP_CATEGORY.RECITAL,
+    icon: <IconMenuMusic />,
+    href: ROUTES.EXPLORE('snapCategory=RECITAL'),
+  },
+  {
+    label: SNAP_CATEGORY.COUPLE,
+    icon: <IconMenuLove />,
+    href: ROUTES.EXPLORE('snapCategory=COUPLE'),
+  },
+  {
+    label: SNAP_CATEGORY.DAILY,
+    icon: <IconMenuDaily />,
+    href: ROUTES.EXPLORE('snapCategory=DAILY'),
+  },
 ];

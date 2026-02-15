@@ -6,6 +6,7 @@ import { IconKeyboardArrowRight } from '@/assets';
 import { useRouter } from 'next/navigation';
 import { ProductCardProps } from '@/ui/product-card/ProductCard';
 import { formatCreatedAt } from '@/utils/formatDate';
+import { PHOTOGRAPHERS_ROUTES } from '@/constants/routes/routes';
 
 type ReservationCardProps = {
   reservationId: number;
@@ -30,7 +31,7 @@ export default function ReservationCard({
   const router = useRouter();
 
   const handleDetailClick = () => {
-    router.push(`/photographers/reservation/${reservationId}`);
+    router.push(PHOTOGRAPHERS_ROUTES.RESERVATION(reservationId));
   };
 
   return (

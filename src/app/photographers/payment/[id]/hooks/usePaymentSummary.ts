@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useExtraPrices } from './useExtraPrices';
 import { useRouter } from 'next/navigation';
 import { useRequestPayment } from '../api';
+import { PHOTOGRAPHERS_ROUTES } from '@/constants/routes/routes';
 
 // 결제 요약 관리
 export const usePaymentSummary = (reservationId: number, basePrice: number) => {
@@ -34,7 +35,7 @@ export const usePaymentSummary = (reservationId: number, basePrice: number) => {
     });
 
     resetExtraPrices();
-    router.replace(`/photographers/reservation/${reservationId}`);
+    router.replace(PHOTOGRAPHERS_ROUTES.RESERVATION(reservationId));
   };
 
   return { extraPrices, totalAmount, handleSubmitPayment, resetExtraPrices };
