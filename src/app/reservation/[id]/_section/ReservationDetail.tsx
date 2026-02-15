@@ -30,7 +30,7 @@ export default function ReservationDetail({
     <Section title='예약 상세' right={<StateChip label={status} />}>
       <Section.Card className='gap-[2.4rem]'>
         <Section.Header>
-          <span className='caption-14-bd'>{createdAt}</span>
+          <span className='caption-10-md text-black-7'>{createdAt}</span>
         </Section.Header>
         <Section.Body>
           <Section.Row label='날짜 및 시간' value={formatReservationDateTime(date, startTime)} />
