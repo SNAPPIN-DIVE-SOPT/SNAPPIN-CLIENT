@@ -31,6 +31,7 @@ function Tab({ className, children, ...props }: TabProps) {
 function TabsList({ activeValue, tabs, className, children, ...props }: TabsListProps) {
   const selectedTabIndex = tabs.findIndex((tab) => tab.value === activeValue);
   const activeIndex = selectedTabIndex >= 0 ? selectedTabIndex : 0;
+  const tabCount = tabs.length;
 
   return (
     <div
@@ -39,14 +40,16 @@ function TabsList({ activeValue, tabs, className, children, ...props }: TabsList
       {...props}
     >
       {children}
-      <div
-        className='bg-black-10 pointer-events-none absolute bottom-0 h-[0.2rem] transition-transform duration-200 ease-out'
-        style={{
-          left: '2rem',
-          width: `calc((100% - 4rem) / ${tabs.length})`,
-          transform: `translateX(${activeIndex * 100}%)`,
-        }}
-      />
+      {tabCount > 0 && (
+        <div
+          className='bg-black-10 pointer-events-none absolute bottom-0 h-[0.2rem] transition-transform duration-200 ease-out'
+          style={{
+            left: '2rem',
+            width: `calc((100% - 4rem) / ${tabCount})`,
+            transform: `translateX(${activeIndex * 100}%)`,
+          }}
+        />
+      )}
     </div>
   );
 }
