@@ -7,6 +7,7 @@ import { IconArrowForward } from '@/assets';
 type PhotographerSectionProps = {
   id: number;
   name: string;
+  imageUrl: string;
   bio: string;
   specialties: string[];
   locations: string[];
@@ -16,6 +17,7 @@ type PhotographerSectionProps = {
 export default function PhotographerSection({
   id,
   name,
+  imageUrl,
   bio,
   specialties,
   locations,

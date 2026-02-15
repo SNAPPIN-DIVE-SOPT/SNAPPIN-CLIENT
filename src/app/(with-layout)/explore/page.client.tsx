@@ -1,21 +1,23 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { Suspense, useMemo } from 'react';
-import { overlay } from 'overlay-kit';
-import {
-  ButtonSearchBar,
-  Loading,
-  PortfolioListSkeleton,
-  ProductListSkeleton,
-  SectionTabs,
-} from '@/ui';
+import { ButtonSearchBar, PortfolioListSkeleton, ProductListSkeleton, SectionTabs } from '@/ui';
 import { parseInitialDraft } from '@/app/(with-layout)/explore/utils/query';
-import { ExploreFilter, SearchSheet } from '@/app/(with-layout)/explore/components';
-import { PortfolioListSection, ProductListSection } from '@/app/(with-layout)/explore/_section';
+import { ExploreFilter } from '@/app/(with-layout)/explore/components';
 import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
 import { EXPLORE_TAB, EXPLORE_TAB_MAP } from '@/app/(with-layout)/explore/constants/tab';
 import { useQueryParams } from '@/hooks/useSearchQuery';
 import { ALLOWED_KEYS } from '@/app/(with-layout)/explore/constants/query';
+import { openSearchSheet } from '@/utils/openSearchSheet';
+
+const PortfolioListSection = dynamic(
+  () => import('@/app/(with-layout)/explore/_section/PortfolioListSection'),
+);
+
+const ProductListSection = dynamic(
+  () => import('@/app/(with-layout)/explore/_section/ProductListSection'),
+);
 
 const isExploreTab = (value: string | null | undefined) => {
   return value === EXPLORE_TAB.PORTFOLIO || value === EXPLORE_TAB.PRODUCT;
@@ -70,11 +72,7 @@ export default function PageClient() {
   const handleSheetOpen = () => {
     const placeName = read.get('placeName') ?? '';
     const key = `search-sheet:${placeName}:${searchParams.toString()}`;
-    overlay.open(({ isOpen, close }) => (
-      <Suspense fallback={<Loading className='h-full w-full self-center' />}>
-        <SearchSheet key={key} open={isOpen} onOpenChange={close} />
-      </Suspense>
-    ));
+    openSearchSheet(key);
   };
 
   return (
@@ -115,26 +113,28 @@ export default function PageClient() {
           value={EXPLORE_TAB.PORTFOLIO}
           className='min-h-0 flex-1 overflow-y-auto'
         >
-          {/* 포트폴리오 목록 */}
-          <Suspense fallback={<PortfolioListSkeleton length={15} className='p-[1rem]' />}>
-            <PortfolioListSection />
-          </Suspense>
+          {currentTab === EXPLORE_TAB.PORTFOLIO && (
+            <Suspense fallback={<PortfolioListSkeleton length={15} className='p-[1rem]' />}>
+              <PortfolioListSection />
+            </Suspense>
+          )}
         </SectionTabs.Contents>
 
         <SectionTabs.Contents
           value={EXPLORE_TAB.PRODUCT}
           className='min-h-0 flex-1 overflow-y-auto'
         >
-          {/* 상품 목록 */}
-          <Suspense
-            fallback={
-              <div className='bg-black-1 border-b-[0.1rem]'>
-                <ProductListSkeleton length={5} thickness='small' />
-              </div>
-            }
-          >
-            <ProductListSection />
-          </Suspense>
+          {currentTab === EXPLORE_TAB.PRODUCT && (
+            <Suspense
+              fallback={
+                <div className='bg-black-1 border-b-[0.1rem]'>
+                  <ProductListSkeleton length={5} thickness='small' />
+                </div>
+              }
+            >
+              <ProductListSection />
+            </Suspense>
+          )}
         </SectionTabs.Contents>
       </main>
     </SectionTabs>

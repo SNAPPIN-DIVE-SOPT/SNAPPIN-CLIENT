@@ -47,6 +47,7 @@ export default function ClientPage({ productId }: { productId: string }) {
   const photographerInfo = {
     id: data?.photographerInfo?.id ?? 1,
     name: data?.photographerInfo?.name ?? '',
+    imageUrl: data?.photographerInfo?.profileImageUrl ?? '',
     bio: data?.photographerInfo?.bio ?? '',
     specialties: data?.photographerInfo?.specialties ?? [],
     locations: data?.photographerInfo?.locations ?? [],

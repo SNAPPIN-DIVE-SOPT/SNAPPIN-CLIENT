@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import defaultProfile from '@/../public/imgs/default-profile.png';
 
 type PhotographerSectionProps = {
   name: string;
+  imageUrl: string;
   bio: string;
   specialties: string[];
   locations: string[];
@@ -15,6 +15,7 @@ type DetailRowProps = {
 
 export function PhotographerSection({
   name,
+  imageUrl,
   bio,
   specialties,
   locations
@@ -25,10 +26,10 @@ export function PhotographerSection({
         {/* 프로필 이미지 */}
         <div className='relative w-[8.7rem] h-[8.7rem]'>
           <Image
-            src={defaultProfile}
-            alt='기본 프로필 이미지'
+            src={imageUrl ?? '/imgs/default-profile.png'}
+            alt='프로필 이미지'
             fill
-            className='object-fill'
+            className='object-cover rounded-full'
           />
         </div>
         {/* 작가 정보 */}

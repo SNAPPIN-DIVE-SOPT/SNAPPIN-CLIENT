@@ -15,7 +15,7 @@ export default function Header() {
       left={<Logo width={82} className='cursor-pointer' onClick={handleNavigateHome} />}
       right={
         <IconButton aria-label='상품 검색'>
-          <IconSearch onClick={openSearchSheet} />
+          <IconSearch onClick={() => openSearchSheet()} />
         </IconButton>
       }
     />

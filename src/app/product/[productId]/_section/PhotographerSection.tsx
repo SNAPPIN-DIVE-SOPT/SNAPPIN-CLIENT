@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import defaultProfile from '@/../public/imgs/default-profile.png';
 import { IconArrowForward } from '@/assets';
 
 type PhotographerSectionProps = {
   photographerInfo: {
     id: number;
     name: string;
+    imageUrl: string;
     bio: string;
     specialties: string[];
     locations: string[];
@@ -20,8 +20,13 @@ export default function PhotographerSection({ photographerInfo }: PhotographerSe
         <div className='border-black-4 rounded-[0.6rem] border-1 p-[1.2rem]'>
           <div className='flex items-center gap-[1.2rem]'>
             {/* 프로필 이미지 */}
-            <div className='relative h-[6.4rem] w-[6.4rem]'>
-              <Image src={defaultProfile} alt='기본 프로필 이미지' fill className='object-cover' />
+            <div className='relative h-[6.4rem] w-[6.4rem] overflow-hidden rounded-full'>
+              <Image
+                src={photographerInfo.imageUrl || '/imgs/default-profile.png'}
+                alt='프로필 이미지'
+                fill
+                className='object-cover rounded-full'
+              />
             </div>
             {/* 작가명, 한줄 소개, 촬영 상품, 활동 지역 */}
             <div className='flex flex-1 flex-col gap-[0.8rem]'>

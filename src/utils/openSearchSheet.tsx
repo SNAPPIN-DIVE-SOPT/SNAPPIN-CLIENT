@@ -1,6 +1,7 @@
 import { overlay } from 'overlay-kit';
-import { SearchSheet } from '@/app/(with-layout)/explore/components';
 
-export const openSearchSheet = () => {
-  overlay.open(({ isOpen, close }) => <SearchSheet open={isOpen} onOpenChange={close} />);
+export const openSearchSheet = async (key?: string) => {
+  const { SearchSheet } = await import('@/app/(with-layout)/explore/components');
+
+  overlay.open(({ isOpen, close }) => <SearchSheet key={key} open={isOpen} onOpenChange={close} />);
 };
