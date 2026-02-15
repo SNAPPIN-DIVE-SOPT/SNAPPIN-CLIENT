@@ -12,7 +12,6 @@ export default function PortfolioListSection({ productId }: PortfolioListSection
   const { ref, inView } = useInView();
 
   const portfolioList = data?.pages.flatMap(page => page.data?.portfolios ?? []) ?? [];
-  const isEmpty = portfolioList.length === 0;
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -20,7 +19,7 @@ export default function PortfolioListSection({ productId }: PortfolioListSection
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  if (isFetching && isEmpty) {
+  if (isFetching) {
     return (
       <section>
         <PortfolioListSkeleton />
@@ -28,7 +27,7 @@ export default function PortfolioListSection({ productId }: PortfolioListSection
     );
   };
 
-  if (isEmpty) {
+  if (portfolioList.length === 0) {
     return (
       <section>
         <div className='flex justify-center items-center pt-[8rem] pb-[15.8rem]'>

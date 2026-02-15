@@ -23,7 +23,7 @@ export default function PhotographerSection({ photographerInfo }: PhotographerSe
             <div className='relative h-[6.4rem] w-[6.4rem] overflow-hidden rounded-full'>
               <Image
                 src={photographerInfo.imageUrl || '/imgs/default-profile.png'}
-                alt='프로필 이미지'
+                alt='프로필'
                 fill
                 className='object-cover rounded-full'
               />

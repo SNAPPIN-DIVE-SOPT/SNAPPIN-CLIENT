@@ -36,7 +36,7 @@ export default function ReviewListSection({ productId, averageRate }: ReviewList
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (isFetching && isEmpty) {
+  if (isFetching) {
     return (
       <section>
         <ReviewListSectionSkeleton />
@@ -84,10 +84,7 @@ export default function ReviewListSection({ productId, averageRate }: ReviewList
 
 function Review({ id, rate, createdAt, reviewer, images, content }: ReviewProps) {
   const pathname = usePathname();
-  const reviewImages = images.map((image, idx) => ({
-    src: image,
-    alt: `${reviewer}님의 리뷰 이미지 ${idx}`,
-  }));
+  const reviewImages = images.map((image) => ({ src: image, alt: reviewer }));
 
   return (
     <section className='flex flex-col gap-[1.2rem] overflow-hidden py-[2rem]'>
