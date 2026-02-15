@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ClientNavigation, ClientFooter } from './components';
-import { PaymentDetail, ReservationDetail, ReservationRequested } from './_section';
+import { PaymentDetail, ReservationDetail, ReservationProduct } from './_section';
 import { Divider } from '@/ui';
 import { STATE_CHIP_THEME_BY_LABEL } from '@/ui/chip/state-chip/constants/stateChipTheme';
 import { STATE_LABEL } from '@/ui/chip/state-chip/constants/stateLabel';
@@ -113,7 +113,8 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     <>
       <div className='bg-black-1 flex flex-col'>
         <ClientNavigation title='예약 상세' />
-        <ReservationRequested
+        <ReservationProduct
+          id={parsedReservationId}
           reservationStatus={status}
           imageUrl={reservationData?.productInfo?.imageUrl ?? ''}
           title={reservationData?.productInfo?.title ?? ''}
@@ -122,6 +123,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
           photographer={reservationData?.productInfo?.photographer ?? ''}
           price={reservationData?.productInfo?.price ?? 0}
           moods={reservationData?.productInfo?.moods ?? []}
+          hasReview={!!reservationData?.reviewInfo}
           handleReservationCancelClick={handleReservationCancelClick}
           handleInquiryClick={handleInquiryClick}
         />
