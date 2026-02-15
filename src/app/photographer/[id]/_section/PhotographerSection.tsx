@@ -53,10 +53,10 @@ function DetailRow({
   content,
 }: DetailRowProps) {
   return (
-    <div className='flex gap-[0.8rem]'>
+    <dl className='flex gap-[0.8rem]'>
       <dt className='caption-12-md text-black-7'>{label}</dt>
       <dd className='caption-12-md text-black-9'>{content.join(', ')}</dd>
-    </div>
+    </dl>
   );
 }
 
