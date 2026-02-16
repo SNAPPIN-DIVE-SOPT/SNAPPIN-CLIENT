@@ -26,11 +26,7 @@ export default function ReservationCard({
   const hasReviewWriteButton = status === STATE_CODES.SHOOT_COMPLETED && !isReviewed;
 
   const handleDetailClick = () => {
-    if (status === STATE_CODES.SHOOT_COMPLETED) {
-      router.push(`/photo-final/${reservationId}`);
-    } else {
-      router.push(`/reservation/${reservationId}`);
-    }
+    router.push(`/reservation/${reservationId}`);
   };
 
   const handleReviewClick = () => {
