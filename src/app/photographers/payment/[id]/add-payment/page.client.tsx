@@ -38,11 +38,6 @@ export default function AddPaymentPage() {
     router.back();
   };
 
-  const handleClickHome = () => {
-    if (isDirty) return openCancelModal(() => router.push('/'));
-    router.push('/');
-  };
-
   const handleSubmit = () => {
     handleSubmitForm(() => {
       addExtraPrice({

@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { StateCode } from '@/types/stateCode';
 import { Divider, SectionTabs } from '@/ui';
 import { RESERVATION_TAB, RESERVATION_TAB_MAP, ReservationTab } from '../../constants/tabs';
@@ -8,6 +8,7 @@ import ReservationCard from '../reservation-card/ReservationCard';
 import EmtpyView from '../emtpy-view/EmtpyView';
 import { useGetReservationList } from '../../api';
 import ReservationCardSkeleton from '../reservation-card/ReservationCardSkeleton';
+import { PHOTOGRAPHERS_ROUTES } from '@/constants/routes/routes';
 
 const isReservationTab = (value: string | null) => {
   return (
@@ -36,7 +37,6 @@ const getEmptyText = (tab: ReservationTab): string => {
 
 export default function ReservationContent() {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const selectedTab = isReservationTab(searchParams.get('tab'))
     ? (searchParams.get('tab') as ReservationTab)
@@ -45,9 +45,7 @@ export default function ReservationContent() {
   const { data, isPending } = useGetReservationList(selectedTab);
 
   const handleTabChange = (value: string) => {
-    const updatedSearchParams = new URLSearchParams(searchParams.toString());
-    updatedSearchParams.set('tab', value);
-    router.push(`${pathname}?${updatedSearchParams.toString()}`);
+    router.push(PHOTOGRAPHERS_ROUTES.RESERVATIONS({ tab: value }));
   };
 
   return (

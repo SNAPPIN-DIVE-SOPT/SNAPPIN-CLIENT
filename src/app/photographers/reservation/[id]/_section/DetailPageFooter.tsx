@@ -4,6 +4,7 @@ import { STATE_CODES, StateCode } from '@/types/stateCode';
 import { BottomCTAButton } from '@/ui';
 import { useRouter } from 'next/navigation';
 import { useCompleteReservation, useConfirmReservation } from '../api';
+import { PHOTOGRAPHERS_ROUTES } from '@/constants/routes/routes';
 
 type DetailPageFooterProps = {
   reservationId: number;
@@ -38,7 +39,7 @@ export default function DetailPageFooter({ reservationId, date, status }: Detail
           label: '결제 요청하기',
           disabled: false,
           onClick: () => {
-            router.push(`/photographers/payment/${reservationId}`);
+            router.push(PHOTOGRAPHERS_ROUTES.PAYMENT(reservationId));
           },
         };
       case STATE_CODES.PAYMENT_REQUESTED:

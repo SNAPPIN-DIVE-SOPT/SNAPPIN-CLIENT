@@ -17,6 +17,7 @@ import {
 } from './phaseAnimation';
 import { MoodCode } from '@/types/moodCode';
 import type { CreateMoodCurationResponse } from '@/swagger-api/data-contracts';
+import { ROUTES } from '@/constants/routes/routes';
 
 type MoodAnimationResultProps = { data: CreateMoodCurationResponse };
 
@@ -27,21 +28,17 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
 
   const handleGoToSnap = () => {
     if (!data?.moods?.length) return;
-  
-    const params = new URLSearchParams();
-    params.set(
-      'moodIds',
-      data.moods
-        .map((mood) => mood.id)
-        .filter((id): id is number => typeof id === 'number')
-        .join(','),
-    );
-  
-    router.push(`/explore?${params.toString()}`);
+
+    const paramsValue = data.moods
+      .map((mood) => mood.id)
+      .filter((id): id is number => typeof id === 'number')
+      .join(',');
+
+    router.push(ROUTES.EXPLORE({ moodIds: paramsValue }));
   };
 
   const handleGoHome = () => {
-    router.push('/');
+    router.push(ROUTES.HOME);
   };
 
   return (
@@ -143,14 +140,19 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
             variants={CTA}
             initial='initial'
             animate='animate'
-            className='absolute w-full max-w-[45rem] bottom-0 transform-gpu will-change-transform'
+            className='absolute bottom-0 w-full max-w-[45rem] transform-gpu will-change-transform'
           >
             <BottomCTAButton className='flex w-full flex-col gap-[0.7rem] px-[2rem] pb-[2rem]'>
               <BottomCTAButton.Single color='black' size='large' onClick={handleGoToSnap}>
                 내 무드에 딱 맞는 스냅 보러가기
               </BottomCTAButton.Single>
 
-              <BottomCTAButton.Single color='white' size='large' onClick={handleGoHome} className='text-black-10'>
+              <BottomCTAButton.Single
+                color='white'
+                size='large'
+                onClick={handleGoHome}
+                className='text-black-10'
+              >
                 홈으로 가기
               </BottomCTAButton.Single>
             </BottomCTAButton>

@@ -15,6 +15,7 @@ import { Footer, Header } from './components/index';
 import { PRODUCT_TAB, PRODUCT_TAB_MAP } from './constants/tab';
 import { useGetProductDetail } from './api/index';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function ClientPage({ productId }: { productId: string }) {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function ClientPage({ productId }: { productId: string }) {
 
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
-    router.replace(`?tab=${value}`, { scroll: false });
+    router.replace(ROUTES.PRODUCT(Number(productId), { tab: value }), { scroll: false });
   };
 
   return (

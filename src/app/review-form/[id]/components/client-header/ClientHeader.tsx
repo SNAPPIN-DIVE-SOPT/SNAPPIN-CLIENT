@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { IconArrowBack, IconHome } from '@/assets';
 import { IconButton, Navigation } from '@/ui';
 import CancelModal from '../../@modal/(.)cancel-modal/CancelModal';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function ClientHeader() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function ClientHeader() {
 
   const handleConfirm = () => {
     if (pendingAction === 'home') {
-      router.push('/');
+      router.push(ROUTES.HOME);
     }
     if (pendingAction === 'back') {
       router.back();

@@ -3,12 +3,13 @@
 import { Navigation } from '@/ui';
 import { IconArrowBack, IconHome } from '@/assets';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function NavigationClient() {
   const router = useRouter();
 
   const handleHomeClick = () => {
-    router.push('/');
+    router.push(ROUTES.HOME);
   };
 
   const handleBackClick = () => {

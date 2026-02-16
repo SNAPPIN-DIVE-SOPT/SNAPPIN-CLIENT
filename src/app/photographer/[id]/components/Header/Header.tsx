@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Navigation, IconButton } from '@/ui';
 import { IconArrowBack, IconHome } from '@/assets';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function Header() {
   const router = useRouter();
@@ -12,9 +13,9 @@ export default function Header() {
   };
 
   const handleGoHome = () => {
-    router.push('/');
+    router.push(ROUTES.HOME);
     sessionStorage.removeItem('home-scroll');
-  }
+  };
 
   return (
     <Navigation

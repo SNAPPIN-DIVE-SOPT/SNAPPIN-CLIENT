@@ -7,6 +7,7 @@ import { IconFilter, IconSettingsBackupRestore } from '@/assets';
 import { ExploreFilterPanel } from '@/app/(with-layout)/explore/components';
 import { GetMoodFilterResponse } from '@/swagger-api/data-contracts';
 import { useMoodFilters } from '@/app/(with-layout)/explore/api';
+import { ROUTES } from '@/constants/routes/routes';
 
 const EXPLORE_NO_AUTO_APPLY = 'explore_no_auto_apply_v1';
 
@@ -40,12 +41,8 @@ export default function ExploreFilter() {
   }, [data?.moods]);
 
   const replaceMoodIds = (nextIds: number[]) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (nextIds.length === 0) params.delete('moodIds');
-    else params.set('moodIds', nextIds.join(','));
-
-    const qs = params.toString();
-    router.replace(qs ? `${pathname}?${qs}` : pathname);
+    if (nextIds.length === 0) router.replace(ROUTES.EXPLORE());
+    else router.replace(ROUTES.EXPLORE({ moodIds: nextIds.join(',') }));
   };
 
   const moodById = useMemo(() => {
@@ -70,9 +67,8 @@ export default function ExploreFilter() {
   const lockAutoApply = () => localStorage.setItem(EXPLORE_NO_AUTO_APPLY, '1');
 
   useEffect(() => {
-    if (pathname !== '/explore') return;
+    if (pathname !== ROUTES.EXPLORE()) return;
 
-    // ✅ 잠금 상태면 자동 적용 금지
     if (localStorage.getItem(EXPLORE_NO_AUTO_APPLY) === '1') return;
 
     if (moodIds.length > 0) return;
@@ -86,7 +82,8 @@ export default function ExploreFilter() {
 
   const handleReset = () => {
     userResetRef.current = true;
-    lockAutoApply(); // 유저가 비운 의도면 이후 자동적용 금지
+    // 유저가 비운 의도면 이후 자동적용 금지
+    lockAutoApply();
     replaceMoodIds([]);
   };
 
@@ -94,7 +91,8 @@ export default function ExploreFilter() {
     const nextIds = moodIds.filter((id) => id !== removeId);
     if (nextIds.length === 0) {
       userResetRef.current = true;
-      lockAutoApply(); // 마지막 삭제도 “빈 상태 의도”로 본다
+      // 마지막 삭제도 “빈 상태 의도”로 본다
+      lockAutoApply();
       replaceMoodIds([]);
       return;
     }
@@ -112,7 +110,7 @@ export default function ExploreFilter() {
           <IconSettingsBackupRestore />
         </IconButton>
 
-        {!isLoading ? (
+        {!isLoading && (
           <div className='scrollbar-hide flex flex-1 flex-row gap-[0.4rem] overflow-x-auto'>
             {selectedMoods.length === 0 ? (
               <span className='caption-14-rg text-black-6'>무드필터를 이용해서 검색해 보세요</span>
@@ -127,7 +125,7 @@ export default function ExploreFilter() {
               ))
             )}
           </div>
-        ) : null}
+        )}
         <IconButton
           className='border-black-3 before:bg-black-4 relative h-[4.4rem] w-[4.4rem] p-[1rem] before:absolute before:top-1/2 before:left-[-0.05rem] before:h-[3.1rem] before:w-[0.1rem] before:-translate-y-1/2 before:content-[""]'
           aria-expanded={open}

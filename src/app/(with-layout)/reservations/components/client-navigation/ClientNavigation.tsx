@@ -4,12 +4,13 @@ import { useRouter } from 'next/navigation';
 import { Navigation, IconButton } from '@/ui';
 import { Logo, IconSearch } from '@/assets';
 import { openSearchSheet } from '@/utils/openSearchSheet';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function ClientNavigation() {
   const router = useRouter();
 
   const handleClickLogo = () => {
-    router.push('/');
+    router.push(ROUTES.HOME);
   };
 
   return (

@@ -7,6 +7,7 @@ import { useAiCuration } from '../../../hooks/useAiCuration';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { TOTAL_STEP_COUNT } from '../../constants/steps';
 import { usePostAiCuration } from '../../api';
+import { ROUTES } from '@/constants/routes/routes';
 
 type ClientFooterProps = {
   step: AiCurationStep;
@@ -30,7 +31,7 @@ export default function ClientFooter({ step }: ClientFooterProps) {
 
     if (!isLast) {
       removeToast();
-      router.push(`/ai-curation/${step + 1}`);
+      router.push(ROUTES.AI_CURATION_STEP(step + 1));
       return;
     }
 
@@ -39,14 +40,14 @@ export default function ClientFooter({ step }: ClientFooterProps) {
     try {
       await mutateAsync(photoIds);
       removeToast();
-      router.push('/ai-curation/result');
+      router.push(ROUTES.AI_CURATION_RESULT);
     } catch {
       error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
     }
   };
 
   return (
-    <BottomCTAButton fixed className='px-[2rem] pb-[2rem] z-100'>
+    <BottomCTAButton fixed className='z-100 px-[2rem] pb-[2rem]'>
       <BottomCTAButton.Single
         color='primary'
         size='large'

@@ -6,6 +6,7 @@ import ReservationBottomDrawer from '@/app/product/[productId]/components/reserv
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ReservationDraft } from '@/app/product/[productId]/types/reservation';
+import { ROUTES } from '@/constants/routes/routes';
 
 type FooterProps = {
   productId: string;
@@ -95,7 +96,7 @@ export default function Footer({ productId, amount }: FooterProps) {
                     label: '내 예약 확인',
                     size: 'medium',
                     color: 'black',
-                    onClick: () => router.push('/reservation'),
+                    onClick: () => router.push(ROUTES.RESERVATIONS),
                   },
                 ]}
               />

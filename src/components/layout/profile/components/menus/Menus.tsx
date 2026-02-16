@@ -6,6 +6,7 @@ import { ConfirmModal } from '@/ui';
 import { useLogout } from '@/auth/apis';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useToast } from '@/ui/toast/hooks/useToast';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function Menus() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function Menus() {
   const handleConfirm = () => {
     logout(undefined, {
       onSuccess: () => {
-        router.push('/');
+        router.push(ROUTES.HOME);
         setIsLogoutModalOpen(false);
       },
       onError: () => {
