@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Link from 'next/link';
 import { ProductCard } from '@/ui';
 import { cn } from '@/utils/cn';
@@ -17,7 +18,7 @@ type ProductListProps = {
   itemClassName?: string;
 };
 
-export default function ProductList({
+function ProductList({
   productList,
   className,
   itemClassName,
@@ -44,3 +45,5 @@ export default function ProductList({
     </div>
   );
 }
+
+export default memo(ProductList);
