@@ -5,7 +5,6 @@ import { ReviewStar } from '@/ui';
 import { Section } from '@/components/layout/reservation/SectionLayout';
 
 type ReviewDetailProps = {
-  reservationId: number;
   id: number;
   reviewer: string;
   rating: number;
@@ -15,7 +14,6 @@ type ReviewDetailProps = {
 };
 
 export default function ReviewDetail({
-  reservationId,
   id,
   reviewer,
   rating,
@@ -39,7 +37,7 @@ export default function ReviewDetail({
             <Link
               key={image}
               href={{
-                pathname: `/photographers/reservation/${reservationId}/photos/${id}`,
+                pathname: `/review-photo/${id}`,
                 query: { image: idx },
               }}
               className='relative h-[14rem] w-[14rem] shrink-0'
