@@ -10,7 +10,8 @@ type ExploreFilterPanelProps = {
   handlePanelClose: () => void;
 };
 
-const CATEGORIES: MoodCategoryLabel[] = ['분위기', '스타일', '장면구성']
+const CATEGORIES: MoodCategoryLabel[] = ['분위기', '스타일', '장면구성'];
+const EXPLORE_NO_AUTO_APPLY = 'explore_no_auto_apply_v1';
 
 export default function ExploreFilterPanel({
   moodList,
@@ -33,6 +34,10 @@ export default function ExploreFilterPanel({
 
     if (draftMoodIds.length === 0) {
       params.delete('moodIds');
+      // 패널에서 "전체 해제"한 경우도 유저 의도로 간주해 자동 적용 잠금
+      if (selectedMoodIds.length > 0) {
+        sessionStorage.setItem(EXPLORE_NO_AUTO_APPLY, '1');
+      }
     } else {
       params.set('moodIds', draftMoodIds.join(','));
     }
