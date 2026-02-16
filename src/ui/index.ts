@@ -19,5 +19,6 @@ export * from './review-star/index';
 export * from './section-tabs/index';
 export * from './sheet/index';
 export * from './stepper/index';
+export * from './tabs/index';
 export * from './time-picker/index';
 export * from './user-type-toggle/index';

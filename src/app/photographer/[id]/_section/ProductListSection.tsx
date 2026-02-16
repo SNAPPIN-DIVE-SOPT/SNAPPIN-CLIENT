@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
+'use client';
+
+import { useEffect, useRef, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { ProductList, ProductListSkeleton } from '@/ui';
 import { useGetProductList } from '../api';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 type ProductListSectionProps = {
-  id: number;
+  id: string;
 }
 
 export default function ProductListSection({ id }: ProductListSectionProps) {
-  const { data, isFetching, fetchNextPage, hasNextPage } = useGetProductList(Number(id));
+  const { data, isFetching, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(Number(id));
   const { ref, inView } = useInView();
 
   const productList = data?.pages
@@ -23,7 +26,13 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
       title: p.title ?? '',
       imageUrl: p.imageUrl ?? '',
     })) ?? [];
-  const isEmpty = productList.length === 0;
+
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = useMemo(() => `photographer/${id}:scroll?tab=PRODUCT`, [id]);
+  useScrollRestoreOnParent(anchorRef, scrollKey, [productList.length, dataUpdatedAt], {
+    enabled: true,
+    resetOnKeyChange: true,
+  });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -31,15 +40,15 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (isFetching && isEmpty) {
+  if (isFetching) {
     return (
-      <section className='mt-[4.6rem]'>
+      <section className='mt-[17.1rem]'>
         <ProductListSkeleton />
       </section>
     );
   };
 
-  if (isEmpty) {
+  if (productList.length === 0) {
     return (
       <section>
         <div className='flex justify-center items-center min-h-[calc(100dvh-7.5rem-7.2rem)]'>
@@ -53,6 +62,7 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
   
   return (
     <section className='mt-[17.1rem]'>
+      <div ref={anchorRef} />
       <ProductList productList={productList} />
       <div ref={ref} className='h-[0.1rem]' />
     </section>

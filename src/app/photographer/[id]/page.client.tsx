@@ -60,11 +60,11 @@ export default function ClientPage({ id }: ClientPageProps) {
           value={PHOTOGRAPHER_TAB.PORTFOLIO}
           className='bg-black-1 mb-[7.6rem] p-[1rem]'
         >
-          <PortfolioListSection id={Number(id)} />
+          <PortfolioListSection id={id} />
         </SectionTabs.Contents>
         {/* 상품 목록 */}
         <SectionTabs.Contents value={PHOTOGRAPHER_TAB.PRODUCT} className='mb-[7.6rem]'>
-          <ProductListSection id={Number(id)} />
+          <ProductListSection id={id} />
         </SectionTabs.Contents>
       </SectionTabs>
       <Footer />

@@ -32,10 +32,7 @@ export default function ProductMainSection({
   const { isLogIn } = useAuth();
   const toast = useToast();
 
-  const productImages = images.map((image, idx) => ({
-    src: image,
-    alt: `${title} 상품 이미지 ${idx}`,
-  }));
+  const productImages = images.map((image) => ({ src: image, alt: title }));
 
   const handleLike = async () => {
     if (isLogIn) {
