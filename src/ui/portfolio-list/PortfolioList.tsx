@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/utils/cn';
@@ -7,11 +8,21 @@ type ProductListProps = {
   portfolioList: { id?: number; imageUrl?: string }[];
 };
 
-export default function PortfolioList({
+function PortfolioList({
   portfolioList,
   className,
   ...props
 }: ProductListProps & React.HTMLAttributes<HTMLDivElement>) {
+  const uniquePortfolioList = useMemo(() => {
+    const seenPortfolioIds = new Set<number>();
+    return portfolioList.filter((portfolio) => {
+      if (portfolio.id == null) return false;
+      if (seenPortfolioIds.has(portfolio.id)) return false;
+      seenPortfolioIds.add(portfolio.id);
+      return true;
+    });
+  }, [portfolioList]);
+
   return (
     <div
       className={cn(
@@ -20,14 +31,15 @@ export default function PortfolioList({
       )}
       {...props}
     >
-      {portfolioList.map((portfolio, idx) => (
+      {uniquePortfolioList.map((portfolio, idx) => (
         <Link
           href={`/portfolio/${portfolio.id}`}
           key={portfolio.id}
           className='relative aspect-square'
         >
           <Image
-            priority={idx <= 9}
+            fetchPriority={idx < 6 ? 'high' : 'auto'}
+            loading={idx < 6 ? 'eager' : 'lazy'}
             src={portfolio.imageUrl ?? productPlaceholder}
             fill
             alt={`portfolio ${portfolio.id}`}
@@ -39,3 +51,5 @@ export default function PortfolioList({
     </div>
   );
 }
+
+export default memo(PortfolioList);
