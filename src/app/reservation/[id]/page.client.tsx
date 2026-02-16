@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ClientNavigation, ClientFooter } from './components';
-import { PaymentDetail, ReservationDetail, ReservationProduct } from './_section';
+import { PaymentDetail, ReservationDetail, ReservationProduct, ReviewDetail } from './_section';
 import { Divider } from '@/ui';
 import { STATE_CHIP_THEME_BY_LABEL } from '@/ui/chip/state-chip/constants/stateChipTheme';
 import { STATE_LABEL } from '@/ui/chip/state-chip/constants/stateLabel';
@@ -114,7 +114,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   return (
     <>
       <div className='bg-black-1 flex flex-col'>
-        <ClientNavigation title='예약 상세' />
+        <ClientNavigation title={isPhotoFinal ? '촬영 내역' : '예약 상세'} />
         <ReservationProduct
           id={parsedReservationId}
           reservationStatus={status}
@@ -140,7 +140,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
           requestNote={reservationData?.reservationInfo?.requestNote ?? ''}
           createdAt={reservationData?.reservationInfo?.createdAt ?? ''}
         />
-        {hasPaymentDetailSection && (
+        {(hasPaymentDetailSection || isPhotoFinal) && (
           <>
             <Divider thickness='large' className='h-[0.6rem]' />
             <PaymentDetail
@@ -149,6 +149,18 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
               totalPrice={reservationData?.paymentInfo?.totalPrice ?? 0}
             />
           </>
+        )}
+        <Divider color='bg-black-3' thickness='large' />
+        {reservationData?.reviewInfo && (
+          <ReviewDetail
+            id={reservationData.reviewInfo.id ?? 0}
+            reviewId={reservationData.reviewInfo.id ?? 0}
+            reviewer={reservationData.reviewInfo.reviewer ?? ''}
+            rating={reservationData.reviewInfo.rating ?? 0}
+            createdAt={reservationData.reviewInfo.createdAt ?? ''}
+            images={reservationData.reviewInfo.images ?? []}
+            content={reservationData.reviewInfo.content ?? ''}
+          />
         )}
         {hasBottomCta && (
           <>
