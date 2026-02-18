@@ -67,7 +67,7 @@ export default function ClientPage({ productId }: { productId: string }) {
   return (
     <main>
       <div ref={anchorRef} />
-      <DetailHeader title='상품 상세' />
+      <DetailHeader>상품 상세</DetailHeader>
       {isPending ? (
         <ProductDetailSkeleton selectedTab={selectedTab} />
       ) : (

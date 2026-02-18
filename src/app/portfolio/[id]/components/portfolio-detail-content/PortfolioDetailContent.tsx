@@ -27,7 +27,7 @@ export default function PortfolioDetailContent({ id }: { id: string }) {
   }
 
   return (
-    <main>
+    <>
       <div ref={anchorRef} />
       <PortfolioSection
         id={data?.id ?? 0}
@@ -60,7 +60,7 @@ export default function PortfolioDetailContent({ id }: { id: string }) {
         price={data?.productInfo?.price ?? 0}
         moods={data?.productInfo?.moods ?? []}
       />
-    </main>
+    </>
   );
 }
 

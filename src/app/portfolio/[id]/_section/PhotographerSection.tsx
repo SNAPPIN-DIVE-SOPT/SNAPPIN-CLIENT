@@ -23,7 +23,7 @@ export default function PhotographerSection({
   return (
     <Link
       href={ROUTES.PHOTOGRAPHER(id)}
-      aria-label={`${name} 포폴 상세 페이지로 이동`}
+      aria-label={`${name} 작가 상세 페이지로 이동`}
       className='bg-black-1 flex w-full items-center gap-[1.2rem] p-[2rem]'
     >
       <div className='h-[64px] w-[64px] shrink-0 overflow-hidden rounded-full'>

@@ -2,6 +2,16 @@ import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/nextjs-vite';
 import LikeButton from './LikeButton';
 
+const renderLikeButton = (args: React.ComponentProps<typeof LikeButton>) => {
+    const Wrapper = () => {
+      const [liked, setLiked] = useState(args.isLiked);
+
+      return <LikeButton {...args} isLiked={liked} handleClick={() => setLiked((prev) => !prev)} />;
+    };
+
+    return <Wrapper />;
+  }
+
 const meta: Meta<typeof LikeButton> = {
   title: 'Button/LikeButton',
   component: LikeButton,
@@ -23,28 +33,12 @@ export const Default: Story = {
   args: {
     isLiked: false,
   },
-  render: (args) => {
-    const Wrapper = () => {
-      const [liked, setLiked] = useState(args.isLiked);
-
-      return <LikeButton {...args} isLiked={liked} handleClick={() => setLiked((prev) => !prev)} />;
-    };
-
-    return <Wrapper />;
-  },
+  render: renderLikeButton,
 };
 
 export const Liked: Story = {
   args: {
     isLiked: true,
   },
-  render: (args) => {
-    const Wrapper = () => {
-      const [liked, setLiked] = useState(args.isLiked);
-
-      return <LikeButton {...args} isLiked={liked} handleClick={() => setLiked((prev) => !prev)} />;
-    };
-
-    return <Wrapper />;
-  },
+  render: renderLikeButton,
 };

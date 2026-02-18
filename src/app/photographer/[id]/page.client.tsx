@@ -34,7 +34,7 @@ export default function ClientPage({ id }: ClientPageProps) {
 
   return (
     <main className='flex flex-col'>
-      <DetailHeader title='작가 상세' />
+      <DetailHeader>작가 상세</DetailHeader>
       {isPending ? (
         <PhotographerSectionSkeleton />
       ) : (

@@ -6,10 +6,10 @@ import { IconArrowBack, IconHome } from '@/assets';
 import { ROUTES } from '@/constants/routes/routes';
 
 type HeaderProps = {
-  title: string;
+  children: React.ReactNode;
 }
 
-export default function DetailHeader({ title }: HeaderProps) {
+export default function DetailHeader({ children }: HeaderProps) {
   const router = useRouter();
   const handleGoBack = () => router.back();
   const handleGoHome = () => router.push(ROUTES.HOME);
@@ -25,7 +25,7 @@ export default function DetailHeader({ title }: HeaderProps) {
           <IconArrowBack />
         </IconButton>
       }
-      center={<span className='font-16-bd text-black-10 flex flex-1 text-center'>{title}</span>}
+      center={<span className='font-16-bd text-black-10 flex flex-1 text-center'>{children}</span>}
       right={
         <IconButton
           className='h-[2.4rem] w-[2.4rem]'
