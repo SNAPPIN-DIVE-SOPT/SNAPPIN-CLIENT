@@ -76,7 +76,6 @@ export default function PageClient({ id }: PageClientProps) {
           <DetailPageFooter
             reservationId={reservationId}
             date={data?.reservationInfo?.date ?? ''}
-            startTime={data?.reservationInfo?.startTime ?? ''}
             status={(data?.status as StateCode) ?? ''}
           />
           <div className='bg-black-1 h-[6.3rem]' />

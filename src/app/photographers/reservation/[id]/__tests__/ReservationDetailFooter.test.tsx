@@ -26,6 +26,7 @@ jest.mock('../api', () => ({
 }));
 
 jest.mock('@/ui', () => {
+  // eslint-disable-next-line `@typescript-eslint/no-require-imports`
   const React = require('react');
 
   const BottomCTAButton = ({ children }: { children: React.ReactNode }) =>
@@ -51,9 +52,7 @@ const renderFooter = (
   status: (typeof STATE_CODES)[keyof typeof STATE_CODES],
   date = '2099-01-01',
 ) => {
-  return render(
-    <DetailPageFooter reservationId={7} date={date} startTime='10:00' status={status} />,
-  );
+  return render(<DetailPageFooter reservationId={7} date={date} status={status} />);
 };
 
 describe('[작가] 예약 상세 페이지 하단 버튼 컴포넌트 상태 test', () => {

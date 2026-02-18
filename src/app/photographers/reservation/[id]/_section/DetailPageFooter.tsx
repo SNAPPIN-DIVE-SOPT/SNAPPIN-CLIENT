@@ -9,7 +9,6 @@ import { PHOTOGRAPHERS_ROUTES } from '@/constants/routes/routes';
 type DetailPageFooterProps = {
   reservationId: number;
   date: string; // 예약 날짜 (YYYY-MM-DD)
-  startTime: string; // 10:00
   status: StateCode;
 };
 
