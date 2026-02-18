@@ -11,11 +11,12 @@ import {
   ProductMainSection,
   ReviewListSection,
 } from './_section/index';
-import { Footer, Header } from './components/index';
+import Footer from './components/footer/Footer';
 import { PRODUCT_TAB, PRODUCT_TAB_MAP } from './constants/tab';
 import { useGetProductDetail } from './api/index';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { ROUTES } from '@/constants/routes/routes';
+import DetailHeader from '@/components/layout/detail/DetailHeader';
 
 export default function ClientPage({ productId }: { productId: string }) {
   const router = useRouter();
@@ -66,7 +67,7 @@ export default function ClientPage({ productId }: { productId: string }) {
   return (
     <main>
       <div ref={anchorRef} />
-      <Header />
+      <DetailHeader title='상품 상세' />
       {isPending ? (
         <ProductDetailSkeleton selectedTab={selectedTab} />
       ) : (

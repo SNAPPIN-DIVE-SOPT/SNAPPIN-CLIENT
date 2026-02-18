@@ -5,17 +5,14 @@ import { Navigation, IconButton } from '@/ui';
 import { IconArrowBack, IconHome } from '@/assets';
 import { ROUTES } from '@/constants/routes/routes';
 
-export default function Header() {
+type HeaderProps = {
+  title: string;
+}
+
+export default function DetailHeader({ title }: HeaderProps) {
   const router = useRouter();
-
-  const handleGoBack = () => {
-    router.back();
-  };
-
-  const handleGoHome = () => {
-    router.push(ROUTES.HOME);
-    sessionStorage.removeItem('home-scroll');
-  };
+  const handleGoBack = () => router.back();
+  const handleGoHome = () => router.push(ROUTES.HOME);
 
   return (
     <Navigation
@@ -28,7 +25,7 @@ export default function Header() {
           <IconArrowBack />
         </IconButton>
       }
-      center={<span className='font-16-md text-black-10 flex flex-1 text-center'>작가 상세</span>}
+      center={<span className='font-16-bd text-black-10 flex flex-1 text-center'>{title}</span>}
       right={
         <IconButton
           className='h-[2.4rem] w-[2.4rem]'
