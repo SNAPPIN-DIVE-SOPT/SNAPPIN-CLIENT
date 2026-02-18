@@ -36,9 +36,7 @@ jest.mock('../_section', () => ({
     basePrice: number;
     extraPrice: number[];
     totalPrice: number;
-  }) => (
-    <div data-testid='receipt'>{`${basePrice}/${extraPrice.length}/${totalPrice}`}</div>
-  ),
+  }) => <div data-testid='receipt'>{`${basePrice}/${extraPrice.length}/${totalPrice}`}</div>,
   ReviewDetail: ({ reviewer, rating }: { reviewer: string; rating: number }) => (
     <div data-testid='review-detail'>{`${reviewer}/${rating}`}</div>
   ),
@@ -96,7 +94,7 @@ describe('PageClient', () => {
 
     render(<PageClient id='7' />);
 
-    expect(screen.getByTestId('section-skeleton')).toBeTruthy();
+    expect(screen.getByTestId('section-skeleton')).toBeDefined();
     expect(screen.queryByTestId('detail-page-footer')).toBeNull();
   });
 

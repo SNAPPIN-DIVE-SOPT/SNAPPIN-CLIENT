@@ -29,10 +29,15 @@ jest.mock('@/ui', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const React = require('react');
 
-  const BottomCTAButton = ({ children }: { children: React.ReactNode }) =>
-    React.createElement('div', null, children);
+  const BottomCTAButton = function BottomCTAButton({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
+    return React.createElement('div', null, children);
+  };
 
-  BottomCTAButton.Single = ({
+  const BottomCTAButtonSingle = function BottomCTAButtonSingle({
     children,
     disabled,
     onClick,
@@ -40,7 +45,11 @@ jest.mock('@/ui', () => {
     children: React.ReactNode;
     disabled?: boolean;
     onClick?: () => void;
-  }) => React.createElement('button', { disabled, onClick }, children);
+  }) {
+    return React.createElement('button', { disabled, onClick }, children);
+  };
+
+  BottomCTAButton.Single = BottomCTAButtonSingle;
 
   return {
     __esModule: true,

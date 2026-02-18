@@ -18,6 +18,12 @@ type ButtonConfig = {
   onClick?: () => void;
 };
 
+const getCTAConfig = (label: string, disabled: boolean, onClick?: () => void): ButtonConfig => ({
+  label,
+  disabled,
+  onClick,
+});
+
 export default function DetailPageBottomCTA({
   reservationId,
   date,
@@ -33,12 +39,6 @@ export default function DetailPageBottomCTA({
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const isAfterStart = today >= reservationStart;
-
-  const getCTAConfig = (label: string, disabled: boolean, onClick?: () => void): ButtonConfig => ({
-    label,
-    disabled,
-    onClick,
-  });
 
   const getButtonConfig = (): ButtonConfig => {
     switch (status) {
@@ -66,6 +66,8 @@ export default function DetailPageBottomCTA({
         return getCTAConfig('고객님의 예약 취소', true);
       case STATE_CODES.RESERVATION_REFUSED:
         return getCTAConfig('예약 거절 완료', true);
+      case STATE_CODES.RESERVATION_REQUESTED:
+        return getCTAConfig('예약 요청 중', true);
       default:
         return getCTAConfig('', true);
     }
@@ -75,7 +77,7 @@ export default function DetailPageBottomCTA({
 
   return (
     <>
-      <BottomCTAButton className='bg-black-1 fixed-center bottom-0' hasPadding>
+      <BottomCTAButton className='bg-black-1 bottom-0' hasPadding fixed>
         <BottomCTAButton.Single disabled={disabled} onClick={onClick}>
           {label}
         </BottomCTAButton.Single>

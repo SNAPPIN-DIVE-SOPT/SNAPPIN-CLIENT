@@ -1,6 +1,5 @@
-declare const jest: any;
-
-declare function describe(name: string, fn: () => void): void;
-declare function it(name: string, fn: () => void): void;
-declare function beforeEach(fn: () => void): void;
-declare function expect(actual: unknown): any;
+declare const jest: typeof import('@jest/globals').jest;
+declare const describe: typeof import('@jest/globals').describe;
+declare const it: typeof import('@jest/globals').it;
+declare const beforeEach: typeof import('@jest/globals').beforeEach;
+declare const expect: typeof import('@jest/globals').expect;

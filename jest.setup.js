@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 jest.mock('lottie-react', () => {
   const React = require('react');
 
-  const MockLottie = ({ className, animationData, ...props }) =>
+  const MockLottie = ({ className, ...props }) =>
     React.createElement('div', {
       'data-testid': 'lottie-mock',
       className,
