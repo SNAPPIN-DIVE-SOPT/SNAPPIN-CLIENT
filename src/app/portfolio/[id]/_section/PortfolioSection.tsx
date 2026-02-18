@@ -1,10 +1,9 @@
 'use client';
 
-import { TagChip, ImageCarousel } from '@/ui';
+import { TagChip, ImageCarousel, LikeButton } from '@/ui';
 import { MoodCode } from '@/types/moodCode';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useToast } from '@/ui/toast/hooks/useToast';
-import { LikeButton } from '../components/index';
 import { useWishPortfolio } from '../api';
 
 type PortfolioSectionProps = {
