@@ -1,7 +1,5 @@
-'use client';
-
+import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { IconArrowForward } from '@/assets';
 import { ROUTES } from '@/constants/routes/routes';
 
@@ -22,17 +20,11 @@ export default function PhotographerSection({
   locations,
   imageUrl,
 }: PhotographerSectionProps) {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(ROUTES.PHOTOGRAPHER(id));
-  };
-
   return (
-    <button
-      type='button'
+    <Link
+      href={ROUTES.PHOTOGRAPHER(id)}
+      aria-label={`${name} 포폴 상세 페이지로 이동`}
       className='bg-black-1 flex w-full items-center gap-[1.2rem] p-[2rem]'
-      onClick={handleClick}
     >
       <div className='h-[64px] w-[64px] shrink-0 overflow-hidden rounded-full'>
         <Image
@@ -62,6 +54,6 @@ export default function PhotographerSection({
         </div>
       </div>
       <IconArrowForward className='text-black-6 h-[2.4rem] w-[2.4rem]' />
-    </button>
+    </Link>
   );
 }

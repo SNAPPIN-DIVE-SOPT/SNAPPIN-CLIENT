@@ -3,18 +3,12 @@
 import { useRef } from 'react';
 import { Divider, ProductCardSkeleton } from '@/ui';
 import { MoodCode } from '@/types/moodCode';
-import { PhotographerSection, PortfolioSection, ProductSection } from './_section/index';
-import { Header } from './components/index';
-import { useGetPortfolioDetail } from './api';
+import { PhotographerSection, PortfolioSection, ProductSection } from '../../_section/index';
+import { useGetPortfolioDetail } from '../../api';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
-type ClientPageProps = {
-  id: string;
-};
-
-export default function ClientPage({ id }: ClientPageProps) {
+export default function PortfolioDetailContent({ id }: { id: string }) {
   const { data, isPending } = useGetPortfolioDetail(Number(id));
-
   const portfolioImages = data?.images?.map((image) => ({
     src: image,
     alt: data?.description ?? '',
@@ -28,47 +22,44 @@ export default function ClientPage({ id }: ClientPageProps) {
   const scrollKey = `portfolio/${id}:scroll`;
   useScrollRestoreOnParent(anchorRef, scrollKey, [data]);
 
+  if (isPending) {
+    return <PortfolioDetailSkeleton />;
+  }
+
   return (
     <main>
       <div ref={anchorRef} />
-      <Header />
-      {isPending ? (
-        <PortfolioDetailSkeleton />
-      ) : (
-        <>
-          <PortfolioSection
-            id={data?.id ?? 0}
-            description={data?.description ?? ''}
-            images={portfolioImages ?? []}
-            isLiked={data?.isLiked ?? false}
-            likeCount={data?.likeCount ?? 0}
-            snapCategory={data?.snapCategory ?? ''}
-            place={data?.place ?? ''}
-            startsAt={data?.startsAt ?? ''}
-            moods={data?.moods as MoodCode[]}
-          />
-          <Divider thickness='large' color='bg-black-3' />
-          <PhotographerSection
-            id={data?.photographerInfo?.id ?? 0}
-            name={data?.photographerInfo?.name ?? ''}
-            imageUrl={data?.photographerInfo?.imageUrl ?? ''}
-            bio={data?.photographerInfo?.bio ?? ''}
-            specialties={data?.photographerInfo?.specialties ?? []}
-            locations={data?.photographerInfo?.locations ?? []}
-          />
-          <Divider thickness='large' color='bg-black-3' />
-          <ProductSection
-            id={data?.productInfo?.id ?? 0}
-            image={productImage}
-            name={data?.productInfo?.title ?? ''}
-            rate={data?.productInfo?.rate ?? 0}
-            reviewCount={data?.productInfo?.reviewCount ?? 0}
-            photographer={data?.productInfo?.photographer ?? ''}
-            price={data?.productInfo?.price ?? 0}
-            moods={data?.productInfo?.moods ?? []}
-          />
-        </>
-      )}
+      <PortfolioSection
+        id={data?.id ?? 0}
+        description={data?.description ?? ''}
+        images={portfolioImages ?? []}
+        isLiked={data?.isLiked ?? false}
+        likeCount={data?.likeCount ?? 0}
+        snapCategory={data?.snapCategory ?? ''}
+        place={data?.place ?? ''}
+        startsAt={data?.startsAt ?? ''}
+        moods={data?.moods as MoodCode[]}
+      />
+      <Divider thickness='large' color='bg-black-3' />
+      <PhotographerSection
+        id={data?.photographerInfo?.id ?? 0}
+        name={data?.photographerInfo?.name ?? ''}
+        imageUrl={data?.photographerInfo?.imageUrl ?? ''}
+        bio={data?.photographerInfo?.bio ?? ''}
+        specialties={data?.photographerInfo?.specialties ?? []}
+        locations={data?.photographerInfo?.locations ?? []}
+      />
+      <Divider thickness='large' color='bg-black-3' />
+      <ProductSection
+        id={data?.productInfo?.id ?? 0}
+        image={productImage}
+        name={data?.productInfo?.title ?? ''}
+        rate={data?.productInfo?.rate ?? 0}
+        reviewCount={data?.productInfo?.reviewCount ?? 0}
+        photographer={data?.productInfo?.photographer ?? ''}
+        price={data?.productInfo?.price ?? 0}
+        moods={data?.productInfo?.moods ?? []}
+      />
     </main>
   );
 }
