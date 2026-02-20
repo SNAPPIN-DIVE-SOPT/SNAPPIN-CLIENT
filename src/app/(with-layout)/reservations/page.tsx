@@ -2,19 +2,13 @@ import Tabs from '@/ui/tabs/Tabs';
 import { ROUTES } from '@/constants/routes/routes';
 import { ClientNavigation } from './components';
 import { ReservationListSection, ShootCompletedListSection } from './_section';
-import { RESERVATION_TAB, RESERVATION_TAB_MAP, type ReservationTab } from './constants/tabs';
+import { RESERVATION_TAB, RESERVATION_TAB_ITEMS, type ReservationTab } from './constants/tabs';
 
 type ReservationsPageProps = {
   searchParams: Promise<{ tab?: string }>;
 };
 
-const RESERVATIONS_BASE_PATH = ROUTES.RESERVATIONS;
-const createTabHref = (tabValue: ReservationTab) => `${RESERVATIONS_BASE_PATH}?tab=${tabValue}`;
-
-const RESERVATION_TAB_ITEMS: { value: ReservationTab; label: string }[] = [
-  { value: RESERVATION_TAB.CLIENT_OVERVIEW, label: RESERVATION_TAB_MAP.CLIENT_OVERVIEW },
-  { value: RESERVATION_TAB.CLIENT_DONE, label: RESERVATION_TAB_MAP.CLIENT_DONE },
-];
+const createTabHref = (tabValue: ReservationTab) => `${ROUTES.RESERVATIONS}?tab=${tabValue}`;
 
 const hasReservationTab = (value?: string): value is ReservationTab =>
   value === RESERVATION_TAB.CLIENT_OVERVIEW || value === RESERVATION_TAB.CLIENT_DONE;
