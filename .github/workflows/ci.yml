@@ -43,14 +43,21 @@ jobs:
         run: pnpm run build
         continue-on-error: true
 
-      - name: Evaluate lint and build status
+      - name: Run tests
+        id: test
+        run: pnpm run test
+        continue-on-error: true
+
+      - name: Evaluate lint, build, and test status
         id: status
         run: |
           lint_result="${{ steps.lint.outcome }}"
           build_result="${{ steps.build.outcome }}"
+          test_result="${{ steps.test.outcome }}"
 
           lint_message=""
           build_message=""
+          test_message=""
           overall_result="success"
 
           if [ "$lint_result" == "success" ]; then
@@ -67,10 +74,17 @@ jobs:
             overall_result="failed"
           fi
 
-          if [ "$overall_result" == "success" ]; then
-            message="모든 검사 통과 🎉\n- $lint_message\n- $build_message"
+          if [ "$test_result" == "success" ]; then
+            test_message="테스트 통과 ✅"
           else
-            message="일부 검사 실패 ⚠️\n- $lint_message\n- $build_message"
+            test_message="테스트 실패 ❌"
+            overall_result="failed"
+          fi
+
+          if [ "$overall_result" == "success" ]; then
+            message="모든 검사 통과 🎉\n- $lint_message\n- $build_message\n- $test_message"
+          else
+            message="일부 검사 실패 ⚠️\n- $lint_message\n- $build_message\n- $test_message"
           fi
 
           echo "result=$overall_result" >> $GITHUB_OUTPUT
@@ -87,7 +101,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber,
-              body: `### 빌드 및 린트 결과\n${message}`
+              body: `### 빌드, 린트, 테스트 결과\n${message}`
             });
 
       - name: Fail job if any step failed

@@ -1,13 +1,20 @@
-import { Suspense } from 'react';
-import { ReservationContent, NavigationClient } from './components';
+import dynamic from 'next/dynamic';
+import { NavigationClient } from './components';
+import ReservationCardSkeleton from './components/reservation-card/ReservationCardSkeleton';
+
+const ReservationContent = dynamic(
+  () =>
+    import('@/app/photographers/(with-layout)/reservations/components/reservation-content/ReservationContent'),
+  {
+    loading: () => <ReservationCardSkeleton />,
+  },
+);
 
 export default function Page() {
   return (
     <div className='flex flex-col'>
       <NavigationClient />
-      <Suspense fallback={null}>
-        <ReservationContent />
-      </Suspense>
+      <ReservationContent />
     </div>
   );
 }
