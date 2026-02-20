@@ -23,7 +23,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   // 촬영 완료
   const isPhotoFinal = status === STATE_CODES.SHOOT_COMPLETED;
 
-  // 하단 CTA 버튼 노출 조건 : 예약 요청, 작가 확인 중, 결제 요청, 예약 취소
+  // 하단 CTA 버튼 노출 조건 : 결제 요청, 결제 완료, 예약 취소, 예약 거절
   const hasBottomCta =
     status === STATE_CODES.PAYMENT_REQUESTED ||
     status === STATE_CODES.PAYMENT_COMPLETED ||
@@ -52,8 +52,9 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
 
   // 결제 상세 노출 조건
   const hasPaymentDetailSection =
-    status !== STATE_CODES.RESERVATION_REQUESTED &&
-    status !== STATE_CODES.PHOTOGRAPHER_CHECKING &&
+    status === STATE_CODES.PAYMENT_REQUESTED ||
+    status === STATE_CODES.PAYMENT_COMPLETED ||
+    status === STATE_CODES.RESERVATION_CONFIRMED ||
     hasCanceledWithPayment;
 
   if (isPending) {

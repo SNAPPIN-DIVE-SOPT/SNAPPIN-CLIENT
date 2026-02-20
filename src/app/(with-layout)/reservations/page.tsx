@@ -11,7 +11,7 @@ type ReservationsPageProps = {
 const createTabHref = (tabValue: ReservationTab) => `${ROUTES.RESERVATIONS}?tab=${tabValue}`;
 
 const hasReservationTab = (value?: string): value is ReservationTab =>
-  value === RESERVATION_TAB.CLIENT_OVERVIEW || value === RESERVATION_TAB.CLIENT_DONE;
+  Object.values(RESERVATION_TAB).some((tabValue) => tabValue === value);
 
 export default async function Page({ searchParams }: ReservationsPageProps) {
   const currentSearchParams = await searchParams;
