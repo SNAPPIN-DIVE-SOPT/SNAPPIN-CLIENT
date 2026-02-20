@@ -49,11 +49,8 @@ export default async function Page({ searchParams }: ReservationsPageProps) {
       </Tabs>
 
       <div className='mt-[4.5rem]'>
-        {selectedTabValue === RESERVATION_TAB.CLIENT_OVERVIEW ? (
-          <ReservationListSection />
-        ) : (
-          <ShootCompletedListSection />
-        )}
+        {selectedTabValue === RESERVATION_TAB.CLIENT_OVERVIEW && <ReservationListSection />}
+        {selectedTabValue === RESERVATION_TAB.CLIENT_DONE && <ShootCompletedListSection />}
       </div>
     </div>
   );
