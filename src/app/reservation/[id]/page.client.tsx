@@ -1,14 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import { ClientNavigation, ClientFooter } from './components';
 import { PaymentDetail, ReservationDetail, ReservationProduct, ReviewDetail } from './_section';
 import { Divider } from '@/ui';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
 import CancelModal from './@modal/(.)cancel-modal/CancelModal';
-import { useToast } from '@/ui/toast/hooks/useToast';
-import { useGetReservationDetail, useCancelReservation, useRequestPayment } from './api';
+import { useGetReservationDetail } from './api';
 import SectionSkeleton from '@/components/layout/reservation/SectionSkeleton';
+import { useReservationActions } from './hooks/useReservationActions';
 
 type ReservationDetailPageClientProps = {
   reservationId: string;
@@ -18,55 +17,6 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   const parsedReservationId = Number(reservationId);
 
   const { data: reservationData, isPending } = useGetReservationDetail(parsedReservationId);
-
-  const { mutate: cancelReservationMutation } = useCancelReservation(parsedReservationId);
-  const { mutate: requestPaymentMutation, isPending: isPaymentRequestPending } =
-    useRequestPayment(parsedReservationId);
-
-  const [cancelOpen, setCancelOpen] = useState(false);
-
-  const toast = useToast();
-
-  const handleReservationCancelClick = () => {
-    setCancelOpen(true);
-  };
-
-  const handleReservationCancel = () => {
-    cancelReservationMutation(parsedReservationId, {
-      onSuccess: () => {
-        setCancelOpen(false);
-      },
-      onError: () => {
-        toast.error(
-          '예약 취소 중 오류가 발생했습니다. 다시 시도해주세요.',
-          undefined,
-          'bottom-[8rem]',
-        );
-      },
-    });
-  };
-
-  const handlePaymentConfirmClick = () => {
-    if (isPaymentRequestPending) return;
-
-    requestPaymentMutation(parsedReservationId, {
-      onError: () => {
-        toast.error(
-          '결제 요청 중 오류가 발생했습니다. 다시 시도해주세요.',
-          undefined,
-          'bottom-[8rem]',
-        );
-      },
-    });
-  };
-
-  const handleInquiryClick = () => {
-    toast.alert(
-      '메시지 기능은 준비 중이에요. 조금만 기다려주세요!',
-      undefined,
-      hasBottomCta ? 'bottom-[8.4rem]' : 'bottom-[2rem]',
-    );
-  };
 
   const status = reservationData?.status as StateCode;
   const isPhotoFinal = status === STATE_CODES.SHOOT_COMPLETED;
@@ -83,6 +33,19 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     status === STATE_CODES.PAYMENT_COMPLETED ||
     status === STATE_CODES.RESERVATION_CANCELED ||
     status === STATE_CODES.RESERVATION_REFUSED;
+
+  const {
+    cancelOpen,
+    setCancelOpen,
+    isPaymentRequestPending,
+    handleReservationCancelClick,
+    handleReservationCancel,
+    handlePaymentConfirmClick,
+    handleInquiryClick,
+  } = useReservationActions({
+    reservationId: parsedReservationId,
+    hasBottomCta,
+  });
 
   if (isPending) {
     return (
@@ -148,17 +111,11 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
           </>
         )}
 
-        {hasBottomCta && (
-          <>
-            <div className='h-[8.4rem]' />
-
-            <ClientFooter
-              status={status}
-              handlePaymentConfirmClick={handlePaymentConfirmClick}
-              isPaymentRequestPending={isPaymentRequestPending}
-            />
-          </>
-        )}
+        <ClientFooter
+          status={status}
+          handlePaymentConfirmClick={handlePaymentConfirmClick}
+          isPaymentRequestPending={isPaymentRequestPending}
+        />
       </div>
 
       <CancelModal

@@ -57,7 +57,8 @@ export default function ClientFooter({
   const { label, color, disabled, onClick } = config;
 
   return (
-    <footer>
+    <>
+      <div className='h-[8.4rem]' />
       <BottomCTAButton background='white' hasPadding fixed>
         <BottomCTAButton.Single
           size='large'
@@ -69,6 +70,6 @@ export default function ClientFooter({
           {label}
         </BottomCTAButton.Single>
       </BottomCTAButton>
-    </footer>
+    </>
   );
 }
