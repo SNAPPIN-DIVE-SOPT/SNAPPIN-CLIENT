@@ -1,6 +1,6 @@
 'use client';
 
-import { ClientNavigation, ClientFooter } from './components';
+import { ClientNavigation, ClientFooter, getClientFooterConfig } from './components';
 import { PaymentDetail, ReservationDetail, ReservationProduct, ReviewDetail } from './_section';
 import { Divider } from '@/ui';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
@@ -23,13 +23,6 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   // 촬영 완료
   const isPhotoFinal = status === STATE_CODES.SHOOT_COMPLETED;
 
-  // 하단 CTA 버튼 노출 조건 : 결제 요청, 결제 완료, 예약 취소, 예약 거절
-  const hasBottomCta =
-    status === STATE_CODES.PAYMENT_REQUESTED ||
-    status === STATE_CODES.PAYMENT_COMPLETED ||
-    status === STATE_CODES.RESERVATION_CANCELED ||
-    status === STATE_CODES.RESERVATION_REFUSED;
-
   const {
     cancelOpen,
     setCancelOpen,
@@ -38,11 +31,20 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     handleReservationCancelClick,
     handleReservationCancel,
     handlePaymentConfirmClick,
-    handleInquiryClick,
+    handleInquiryClick: handleInquiryClickAction,
   } = useReservationActions({
     reservationId: parsedReservationId,
-    hasBottomCta,
   });
+
+  const clientFooterConfig = getClientFooterConfig({
+    status,
+    isPaymentRequestPending,
+    handlePaymentConfirmClick,
+  });
+
+  // 하단 CTA 버튼 조건
+  const hasBottomCta = clientFooterConfig !== null;
+  const handleInquiryClick = () => handleInquiryClickAction(hasBottomCta);
 
   // 예약 취소 시 결제 상세 노출되는 조건
   const hasCanceledWithPayment =
@@ -121,11 +123,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
           </>
         )}
 
-        <ClientFooter
-          status={status}
-          handlePaymentConfirmClick={handlePaymentConfirmClick}
-          isPaymentRequestPending={isPaymentRequestPending}
-        />
+        {clientFooterConfig && <ClientFooter config={clientFooterConfig} />}
       </div>
 
       <CancelModal

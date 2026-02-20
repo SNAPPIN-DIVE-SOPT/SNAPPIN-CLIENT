@@ -5,13 +5,9 @@ import { type StateCode } from '@/types/stateCode';
 
 type UseReservationActionsProps = {
   reservationId: number;
-  hasBottomCta: boolean;
 };
 
-export const useReservationActions = ({
-  reservationId,
-  hasBottomCta,
-}: UseReservationActionsProps) => {
+export const useReservationActions = ({ reservationId }: UseReservationActionsProps) => {
   const [cancelOpen, setCancelOpen] = useState(false);
   const [canceledPreviousStatus, setCanceledPreviousStatus] = useState<StateCode>();
   const toast = useToast();
@@ -53,7 +49,7 @@ export const useReservationActions = ({
   };
 
   // 문의 버튼 클릭
-  const handleInquiryClick = () => {
+  const handleInquiryClick = (hasBottomCta: boolean) => {
     toast.alert(
       '메시지 기능은 준비 중이에요. 조금만 기다려주세요!',
       undefined,
