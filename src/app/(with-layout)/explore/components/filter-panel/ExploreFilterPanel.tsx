@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button, FilterChip } from '@/ui';
