@@ -20,6 +20,14 @@ export default function PageClient({ id }: PageClientProps) {
   const reservationId = Number(id);
   const { data, isPending } = useGetReservationDetail(reservationId);
 
+  const productInfo = data?.productInfo;
+  const reservationInfo = data?.reservationInfo;
+  const paymentInfo = data?.paymentInfo;
+  const reviewInfo = data?.reviewInfo;
+  const status = data?.status as StateCode;
+
+  const shouldShowReceipt = status !== STATE_CODES.PHOTOGRAPHER_CHECKING;
+
   if (isPending) {
     return <SectionSkeleton />;
   }
@@ -28,59 +36,55 @@ export default function PageClient({ id }: PageClientProps) {
     <div className='flex flex-col'>
       <ProductStatus
         reservationId={reservationId}
-        status={(data?.status as StateCode) ?? ''}
-        imageUrl={data?.productInfo?.imageUrl ?? ''}
-        title={data?.productInfo?.title ?? ''}
-        rate={data?.productInfo?.rate ?? 0}
-        reviewCount={data?.productInfo?.reviewCount ?? 0}
-        photographer={data?.productInfo?.photographer ?? ''}
-        price={data?.productInfo?.price ?? 0}
-        moods={data?.productInfo?.moods ?? []}
+        status={status}
+        imageUrl={productInfo?.imageUrl ?? ''}
+        title={productInfo?.title ?? ''}
+        rate={productInfo?.rate ?? 0}
+        reviewCount={productInfo?.reviewCount ?? 0}
+        photographer={productInfo?.photographer ?? ''}
+        price={productInfo?.price ?? 0}
+        moods={productInfo?.moods ?? []}
       />
       <Divider thickness='large' color='bg-black-3' />
       <ReservationDetail
-        client={data?.reservationInfo?.client ?? ''}
-        createdAt={data?.reservationInfo?.createdAt ?? ''}
-        status={(data?.status as StateCode) ?? ''}
-        date={data?.reservationInfo?.date ?? ''}
-        startTime={data?.reservationInfo?.startTime ?? ''}
-        durationTime={data?.reservationInfo?.durationTime ?? 0}
-        place={data?.reservationInfo?.place ?? ''}
-        peopleCount={data?.reservationInfo?.peopleCount ?? 0}
-        requestNote={data?.reservationInfo?.requestNote ?? ''}
+        client={reservationInfo?.client ?? ''}
+        createdAt={reservationInfo?.createdAt ?? ''}
+        status={status}
+        date={reservationInfo?.date ?? ''}
+        startTime={reservationInfo?.startTime ?? ''}
+        durationTime={reservationInfo?.durationTime ?? 0}
+        place={reservationInfo?.place ?? ''}
+        peopleCount={reservationInfo?.peopleCount ?? 0}
+        requestNote={reservationInfo?.requestNote ?? ''}
       />
-      {data?.paymentInfo && data?.status !== STATE_CODES.PHOTOGRAPHER_CHECKING && (
+      {shouldShowReceipt && (
         <>
           <Divider thickness='large' color='bg-black-3' />
           <Receipt
-            basePrice={data?.paymentInfo?.basePrice ?? 0}
-            extraPrice={data?.paymentInfo?.extraPrices ?? []}
-            totalPrice={data?.paymentInfo?.totalPrice ?? 0}
+            basePrice={paymentInfo?.basePrice ?? 0}
+            extraPrice={paymentInfo?.extraPrices ?? []}
+            totalPrice={paymentInfo?.totalPrice ?? 0}
           />
         </>
       )}
-      {data?.reviewInfo ? (
+      {reviewInfo ? (
         <>
           <Divider thickness='large' color='bg-black-3' />
           <ReviewDetail
-            id={data?.reviewInfo?.id ?? 0}
-            reviewer={data?.reviewInfo?.reviewer ?? ''}
-            rating={data?.reviewInfo?.rating ?? 0}
-            createdAt={data?.reviewInfo?.createdAt ?? ''}
-            images={data?.reviewInfo?.images ?? []}
-            content={data?.reviewInfo?.content ?? ''}
+            id={reviewInfo.id ?? 0}
+            reviewer={reviewInfo.reviewer ?? ''}
+            rating={reviewInfo.rating ?? 0}
+            createdAt={reviewInfo.createdAt ?? ''}
+            images={reviewInfo.images ?? []}
+            content={reviewInfo.content ?? ''}
           />
         </>
       ) : (
-        <>
-          <DetailPageFooter
-            reservationId={reservationId}
-            date={data?.reservationInfo?.date ?? ''}
-            startTime={data?.reservationInfo?.startTime ?? ''}
-            status={(data?.status as StateCode) ?? ''}
-          />
-          <div className='bg-black-1 h-[6.3rem]' />
-        </>
+        <DetailPageFooter
+          reservationId={reservationId}
+          date={reservationInfo?.date ?? ''}
+          status={status}
+        />
       )}
     </div>
   );

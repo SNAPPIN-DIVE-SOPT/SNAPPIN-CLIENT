@@ -16,6 +16,7 @@ type ReservationCardProps = {
 } & ProductCardProps;
 
 export default function ReservationCard({
+  preload = false,
   reservationId,
   status,
   image,
@@ -53,6 +54,7 @@ export default function ReservationCard({
             </IconButton>
           </div>
           <ProductCard
+            preload={preload}
             image={image}
             name={name}
             rate={rate}

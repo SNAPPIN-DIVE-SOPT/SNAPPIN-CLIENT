@@ -6,6 +6,7 @@ import { IconStar } from '@/assets';
 import productPlaceholder from '@/../public/imgs/image-default.png';
 
 export type ProductCardProps = {
+  preload?: boolean;
   image: { src: string; alt?: string };
   name: string;
   rate: number;
@@ -17,6 +18,7 @@ export type ProductCardProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export default function ProductCard({
+  preload = false,
   image,
   name,
   rate,
@@ -27,7 +29,6 @@ export default function ProductCard({
   className,
   ...props
 }: ProductCardProps) {
-  console.log(rate);
   return (
     <div className={cn('flex w-full gap-[1.2rem]', className)} {...props}>
       <div className='relative h-[10.2rem] w-[10.2rem] shrink-0'>
@@ -36,6 +37,7 @@ export default function ProductCard({
           alt={image.alt ?? `${name} 상품 이미지`}
           fill
           className='rounded-[0.4rem] object-cover'
+          preload={preload}
         />
       </div>
       <div className='flex min-w-0 flex-col gap-[0.3rem]'>
