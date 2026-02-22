@@ -6,5 +6,5 @@ type ReservationDetailPageProps = {
 
 export default async function Page({ params }: ReservationDetailPageProps) {
   const { id } = await params;
-  return <PageClient reservationId={id} />;
+  return <PageClient reservationId={Number(id)} />;
 }

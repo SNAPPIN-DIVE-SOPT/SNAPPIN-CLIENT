@@ -1,4 +1,4 @@
-import Tabs from '@/ui/tabs/Tabs';
+import { Tabs } from '@/ui';
 import { ROUTES } from '@/constants/routes/routes';
 import { ClientNavigation } from './components';
 import { ReservationListSection, ShootCompletedListSection } from './_section';

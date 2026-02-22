@@ -10,13 +10,11 @@ import SectionSkeleton from '@/components/layout/reservation/SectionSkeleton';
 import { useReservationActions } from './hooks/useReservationActions';
 
 type ReservationDetailPageClientProps = {
-  reservationId: string;
+  reservationId: number;
 };
 
 export default function PageClient({ reservationId }: ReservationDetailPageClientProps) {
-  const parsedReservationId = Number(reservationId);
-
-  const { data: reservationData, isPending } = useGetReservationDetail(parsedReservationId);
+  const { data: reservationData, isPending } = useGetReservationDetail(reservationId);
 
   const status = reservationData?.status as StateCode;
 
@@ -33,7 +31,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
     handlePaymentConfirmClick,
     handleInquiryClick: handleInquiryClickAction,
   } = useReservationActions({
-    reservationId: parsedReservationId,
+    reservationId,
   });
 
   const clientFooterConfig = getClientFooterConfig({
@@ -73,7 +71,7 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
       <div className='bg-black-1 flex flex-col'>
         <ClientNavigation title={isPhotoFinal ? '촬영 내역' : '예약 상세'} />
         <ReservationProduct
-          id={parsedReservationId}
+          id={reservationId}
           reservationStatus={status}
           imageUrl={reservationData?.productInfo?.imageUrl ?? ''}
           title={reservationData?.productInfo?.title ?? ''}
