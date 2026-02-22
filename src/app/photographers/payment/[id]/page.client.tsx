@@ -2,15 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BottomCTAButton, Button, Divider } from '@/ui';
+import { BottomCTAButton, Button, Divider, Navigation } from '@/ui';
 import { formatPrice } from '@/utils/formatPrice';
-import { IconAdd } from '@/assets';
+import { IconAdd, IconArrowBack, IconHome } from '@/assets';
 import { usePaymentSummary } from './hooks/usePaymentSummary';
 import CompleteModal from './@modal/(.)complete-modal/CompleteModal';
 import { useGetPaymentPrice } from './api';
 import CancelModal from './@modal/(.)cancel-modal/CancelModal';
 import { PHOTOGRAPHERS_ROUTES } from '@/constants/routes/routes';
-import DetailHeader from '@/components/layout/detail/DetailHeader';
 
 type PageClientProps = {
   id: number;
@@ -65,7 +64,13 @@ export default function PageClient({ id }: PageClientProps) {
 
   return (
     <>
-      <DetailHeader handleBackClick={handleBackClick}>결제 요청</DetailHeader>
+      <Navigation
+        isFixed={true}
+        left={<IconArrowBack onClick={handleBackClick} />}
+        center={<p className='font-16-bd'>결제 요청</p>}
+        right={<IconHome />}
+        className='border-b-black-5 border-b-1'
+      />
 
       <section className='bg-black-1 flex flex-col gap-[1.2rem] px-[2rem] pt-[1.7rem] pb-[2.4rem]'>
         <h2 className='caption-14-bd'>결제 요청</h2>

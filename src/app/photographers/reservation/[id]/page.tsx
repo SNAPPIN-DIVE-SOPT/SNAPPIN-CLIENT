@@ -1,6 +1,6 @@
+import NavigationClient from './components/navigation-client/Navigation.client';
 import PageClient from './page.client';
 import { notFound } from 'next/navigation';
-import DetailHeader from '@/components/layout/detail/DetailHeader';
 
 type ReservationDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -15,7 +15,7 @@ export default async function Page({ params }: ReservationDetailPageProps) {
 
   return (
     <div className='bg-black-3 flex flex-col'>
-      <DetailHeader>예약 상세</DetailHeader>
+      <NavigationClient />
       <PageClient id={id} />
     </div>
   );
