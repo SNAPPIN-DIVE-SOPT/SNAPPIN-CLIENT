@@ -37,7 +37,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       <Header />
       <Suspense fallback={<PortfolioDetailSkeleton />}>
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <PortfolioDetailContent id={id} isLogIn={isLogIn} />
+          <PortfolioDetailContent id={Number(id)} isLogIn={isLogIn} />
         </HydrationBoundary>
       </Suspense>
     </main>

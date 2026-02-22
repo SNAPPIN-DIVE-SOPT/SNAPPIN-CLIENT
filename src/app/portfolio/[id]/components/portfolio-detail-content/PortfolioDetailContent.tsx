@@ -8,8 +8,8 @@ import { PhotographerSection, PortfolioSection, ProductSection } from '../../_se
 import { useGetPortfolioDetail } from '../../api';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
-export default function PortfolioDetailContent({ id, isLogIn }: { id: string, isLogIn: boolean }) {
-  const { data, isPending } = useGetPortfolioDetail(Number(id), isLogIn);
+export default function PortfolioDetailContent({ id, isLogIn }: { id: number, isLogIn: boolean }) {
+  const { data, isPending } = useGetPortfolioDetail(id, isLogIn);
   const portfolioImages = data?.images?.map((image) => ({
     src: image,
     alt: data?.description ?? '',
