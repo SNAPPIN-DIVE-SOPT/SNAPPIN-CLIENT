@@ -38,7 +38,7 @@ export default function DetailHeader({
           <IconHome />
         </IconButton>
       }
-      className='border-b-black-5 flex h-[5rem] items-center justify-between border-b-1 px-[2rem] z-20'
+      className='border-b-black-5 flex h-[5rem] items-center justify-between border-b-1 px-[2rem]'
       isFixed={true}
     />
   );
