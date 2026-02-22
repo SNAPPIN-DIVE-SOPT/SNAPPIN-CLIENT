@@ -157,6 +157,11 @@ export const useGetPortfolioList = (sp: URLSearchParams) => {
 
   return useSuspenseInfiniteQuery<ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse>({
     queryKey: USER_QUERY_KEY.PORTFOLIO_LIST(baseQuery.toString()),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
     initialPageParam: undefined,
     queryFn: async ({ pageParam }) => {
       const url = new URL(PORTFOLIO_FULL_URL);
@@ -185,6 +190,11 @@ export const useGetProductList = (sq: URLSearchParams) => {
 
   return useSuspenseInfiniteQuery<GetProductListData>({
     queryKey: USER_QUERY_KEY.PRODUCT_LIST(baseQuery.toString()),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
     initialPageParam: undefined,
     queryFn: async ({ pageParam }) => {
       const url = new URL(PRODUCT_FULL_URL);
