@@ -2,7 +2,10 @@ import ExploreHeader from '@/app/(with-layout)/explore/components/header/Explore
 import ExploreTabPanels from '@/app/(with-layout)/explore/components/client/ExploreTabPanels';
 import { EXPLORE_TAB } from '@/app/(with-layout)/explore/constants/tab';
 import { parseInitialDraft, pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
-import { getExploreSearchBarText, resolveExploreTab } from '@/app/(with-layout)/explore/utils/view-model';
+import {
+  getExploreSearchBarText,
+  resolveExploreTab,
+} from '@/app/(with-layout)/explore/utils/view-model';
 
 type ExplorePageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -38,17 +41,19 @@ export default async function Explore({ searchParams }: ExplorePageProps) {
   };
 
   return (
-    <div className='bg-black-1 flex h-full min-h-0 flex-col overflow-hidden'>
-      <ExploreHeader
-        currentTab={initialTab}
-        headline={headline}
-        supportingText={supportingText}
-        searchSheetKey={searchSheetKey}
-        portfolioTabHref={getTabHref(EXPLORE_TAB.PORTFOLIO)}
-        productTabHref={getTabHref(EXPLORE_TAB.PRODUCT)}
-      />
+    <div className='min-h-0 flex-1 overflow-hidden'>
+      <div className='bg-black-1 flex h-full min-h-0 flex-col overflow-hidden'>
+        <ExploreHeader
+          currentTab={initialTab}
+          headline={headline}
+          supportingText={supportingText}
+          searchSheetKey={searchSheetKey}
+          portfolioTabHref={getTabHref(EXPLORE_TAB.PORTFOLIO)}
+          productTabHref={getTabHref(EXPLORE_TAB.PRODUCT)}
+        />
 
-      <ExploreTabPanels currentTab={initialTab} />
+        <ExploreTabPanels currentTab={initialTab} />
+      </div>
     </div>
   );
 }
