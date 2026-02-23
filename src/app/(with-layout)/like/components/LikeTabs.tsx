@@ -1,5 +1,3 @@
-'use client';
-
 import { Tabs } from '@/ui';
 import { LIKE_TAB, LIKE_TAB_MAP, type LikeTab } from '@/app/(with-layout)/like/constants/tab';
 import { ROUTES } from '@/constants/routes/routes';
@@ -15,7 +13,7 @@ type LikeTabsProps = {
 
 export default function LikeTabs({ currentTab }: LikeTabsProps) {
   return (
-    <Tabs.List activeValue={currentTab}>
+    <Tabs.List activeValue={currentTab} tabs={LIKE_TABS}>
       {LIKE_TABS.map(({ value, label }) => (
         <Tabs.Item
           key={value}
