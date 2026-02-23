@@ -1,12 +1,16 @@
 import { Tabs } from '@/ui';
 import ExploreFilter from '@/app/(with-layout)/explore/components/filter/ExploreFilter';
-import { EXPLORE_TAB, EXPLORE_TAB_MAP } from '@/app/(with-layout)/explore/constants/tab';
+import {
+  EXPLORE_TAB,
+  EXPLORE_TAB_MAP,
+  ExploreTab,
+} from '@/app/(with-layout)/explore/constants/tab';
 import ExploreSearchButton from '@/app/(with-layout)/explore/components/header/ExploreSearchButton';
 
 const TABS = [{ value: EXPLORE_TAB.PORTFOLIO }, { value: EXPLORE_TAB.PRODUCT }];
 
 type ExploreHeaderProps = {
-  currentTab: typeof EXPLORE_TAB.PORTFOLIO | typeof EXPLORE_TAB.PRODUCT;
+  currentTab: ExploreTab;
   headline: string;
   supportingText: string;
   searchSheetKey: string;
@@ -14,7 +18,7 @@ type ExploreHeaderProps = {
   productTabHref: string;
 };
 
-function ExploreHeader({
+export default function ExploreHeader({
   currentTab,
   headline,
   supportingText,
@@ -46,5 +50,3 @@ function ExploreHeader({
     </header>
   );
 }
-
-export default ExploreHeader;

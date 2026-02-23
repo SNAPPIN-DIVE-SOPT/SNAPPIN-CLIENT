@@ -4,16 +4,16 @@ import { Suspense } from 'react';
 import { PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
 import PortfolioListSection from '@/app/(with-layout)/explore/_section/PortfolioListSection';
 import ProductListSection from '@/app/(with-layout)/explore/_section/ProductListSection';
-import { EXPLORE_TAB } from '@/app/(with-layout)/explore/constants/tab';
+import { EXPLORE_TAB, ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
 import ExploreDetailBackBoundary from '@/app/(with-layout)/explore/components/client/ExploreDetailBackBoundary';
 
 type ExploreTabPanelsProps = {
-  currentTab: typeof EXPLORE_TAB.PORTFOLIO | typeof EXPLORE_TAB.PRODUCT;
+  currentTab: ExploreTab;
 };
 
 export default function ExploreTabPanels({ currentTab }: ExploreTabPanelsProps) {
   return (
-    <ExploreDetailBackBoundary className='scrollbar-hide flex h-full min-h-0 flex-1 flex-col overflow-hidden'>
+    <ExploreDetailBackBoundary className='scrollbar-hide flex h-full min-h-0 flex-1 flex-col overflow-y-auto'>
       {currentTab === EXPLORE_TAB.PORTFOLIO && (
         <div
           id='explore-portfolio-scroll'
