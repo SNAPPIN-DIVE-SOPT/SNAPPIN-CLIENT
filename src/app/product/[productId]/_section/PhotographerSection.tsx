@@ -1,6 +1,3 @@
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { IconArrowForward } from '@/assets';
@@ -17,8 +14,6 @@ type PhotographerSectionProps = {
 };
 
 export default function PhotographerSection({ photographerInfo }: PhotographerSectionProps) {
-  const [imgSrc, setImgSrc] = useState(photographerInfo.imageUrl || '/imgs/default-profile.png');
-  
   return (
     <section className='px-[2rem] pb-[2rem]'>
       <Link href={`/photographer/${photographerInfo.id}`}>
@@ -27,11 +22,10 @@ export default function PhotographerSection({ photographerInfo }: PhotographerSe
             {/* 프로필 이미지 */}
             <div className='relative h-[6.4rem] w-[6.4rem] overflow-hidden rounded-full'>
               <Image
-                src={imgSrc}
+                src={photographerInfo.imageUrl || '/imgs/default-profile.png'}
                 alt='프로필'
                 fill
                 className='object-cover rounded-full'
-                onError={() => setImgSrc('/imgs/default-profile.png')}            
               />
             </div>
             {/* 작가명, 한줄 소개, 촬영 상품, 활동 지역 */}

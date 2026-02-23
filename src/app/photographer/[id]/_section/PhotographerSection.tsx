@@ -1,6 +1,3 @@
-'use client';
-
-import { useState } from 'react';
 import Image from 'next/image';
 
 type PhotographerSectionProps = {
@@ -23,19 +20,16 @@ export function PhotographerSection({
   specialties,
   locations
 }: PhotographerSectionProps) {
-  const [imgSrc, setImgSrc] = useState(imageUrl || '/imgs/default-profile.png');
-
   return (
     <section className='fixed w-full max-w-[45rem] top-[5rem] p-[2rem] bg-black-1 z-10'>
       <div className='flex gap-[1.2rem]'>
         {/* 프로필 이미지 */}
         <div className='relative w-[8.7rem] h-[8.7rem]'>
           <Image
-            src={imgSrc}
-            alt='프로필'
+            src={imageUrl || '/imgs/default-profile.png'}
+            alt='프로필 이미지'
             fill
             className='object-cover rounded-full'
-            onError={() => setImgSrc('/imgs/default-profile.png')}
           />
         </div>
         {/* 작가 정보 */}
