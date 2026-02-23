@@ -7,7 +7,7 @@ import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinit
 import { ProductList, ProductListSkeleton } from '@/ui';
 import { GetProductCardResponse } from '@/swagger-api/data-contracts';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import { pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
+import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
 
 export default function ProductListSection() {
   const sp = useSearchParams();
@@ -41,7 +41,7 @@ export default function ProductListSection() {
   });
 
   const scrollKey = useMemo(() => {
-    const allowed = pickAllowedParams(new URLSearchParams(sp.toString()));
+    const allowed = toExploreSearchParams(new URLSearchParams(sp.toString()));
     allowed.delete('tab');
     const normalized = new URLSearchParams();
     normalized.set('tab', 'PRODUCT');
