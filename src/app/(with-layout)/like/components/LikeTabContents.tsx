@@ -1,5 +1,3 @@
-'use client';
-
 import { Suspense } from 'react';
 import { PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
 import PortfolioListSection from '@/app/(with-layout)/like/_section/PortfolioListSection';
@@ -12,7 +10,7 @@ type LikeTabContentsProps = {
 
 export default function LikeTabContents({ currentTab }: LikeTabContentsProps) {
   return (
-    <main className='scrollbar-hide min-h-0 overflow-y-hidden'>
+    <div className='scrollbar-hide min-h-0 overflow-y-hidden'>
       {currentTab === LIKE_TAB.PORTFOLIO && (
         <section className='min-h-full'>
           <Suspense fallback={<PortfolioListSkeleton className='p-[1rem]' />}>
@@ -33,6 +31,6 @@ export default function LikeTabContents({ currentTab }: LikeTabContentsProps) {
           </Suspense>
         </section>
       )}
-    </main>
+    </div>
   );
 }
