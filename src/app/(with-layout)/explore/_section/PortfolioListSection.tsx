@@ -6,12 +6,12 @@ import { PortfolioList, PortfolioListSkeleton } from '@/ui';
 import { useGetPortfolioList } from '@/app/(with-layout)/explore/api';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import { pickAllowedParams } from '@/app/(with-layout)/explore/utils/query';
+import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
 
 export default function PortfolioListSection() {
   const sp = useSearchParams();
   const scrollKey = useMemo(() => {
-    const allowed = pickAllowedParams(new URLSearchParams(sp.toString()));
+    const allowed = toExploreSearchParams(new URLSearchParams(sp.toString()));
     // 키 순서를 완전히 고정해 같은 조건이면 항상 동일한 storage key를 만든다.
     allowed.delete('tab');
     const normalized = new URLSearchParams();
