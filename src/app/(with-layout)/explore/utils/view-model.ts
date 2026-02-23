@@ -1,8 +1,6 @@
 import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
-import { EXPLORE_TAB } from '@/app/(with-layout)/explore/constants/tab';
+import { EXPLORE_TAB, ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
 import { parseInitialDraft } from '@/app/(with-layout)/explore/utils/query';
-
-type ExploreTabValue = (typeof EXPLORE_TAB)[keyof typeof EXPLORE_TAB];
 
 const formatDateDot = (raw: string | null | undefined) => {
   if (!raw) return null;
@@ -16,8 +14,8 @@ const formatPeople = (count: number | null | undefined) => {
 
 export const resolveExploreTab = (
   value: string | null | undefined,
-  fallback: ExploreTabValue = EXPLORE_TAB.PORTFOLIO,
-): ExploreTabValue => {
+  fallback: ExploreTab = EXPLORE_TAB.PORTFOLIO,
+): ExploreTab => {
   if (value === EXPLORE_TAB.PORTFOLIO || value === EXPLORE_TAB.PRODUCT) return value;
   return fallback;
 };
