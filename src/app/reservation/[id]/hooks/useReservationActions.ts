@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
 import { useCancelReservation, useRequestPayment } from '../api';
+import { type ClientFooterConfig } from '../components/client-footer/ClientFooter';
 
 type UseReservationActionsProps = {
   reservationId: number;
@@ -18,40 +19,39 @@ const createClientFooterConfig = ({
   status,
   isPaymentRequestPending,
   handlePaymentConfirmClick,
-}: CreateClientFooterConfigProps) => {
-  if (status === STATE_CODES.PAYMENT_REQUESTED) {
-    return {
-      label: '결제하고 예약 확정받기',
-      color: 'primary' as const,
-      disabled: isPaymentRequestPending,
-      onClick: handlePaymentConfirmClick,
-    };
-  }
+}: CreateClientFooterConfigProps): ClientFooterConfig | null => {
+  switch (status) {
+    case STATE_CODES.PAYMENT_REQUESTED:
+      return {
+        label: '결제하고 예약 확정받기',
+        color: 'primary' as const,
+        disabled: isPaymentRequestPending,
+        onClick: handlePaymentConfirmClick,
+      };
 
-  if (status === STATE_CODES.PAYMENT_COMPLETED) {
-    return {
-      label: '결제 확인중',
-      disabled: true,
-    };
-  }
+    case STATE_CODES.PAYMENT_COMPLETED:
+      return {
+        label: '결제 확인중',
+        disabled: true,
+      };
 
-  if (status === STATE_CODES.RESERVATION_CANCELED) {
-    return {
-      label: '예약 취소 완료',
-      color: 'black' as const,
-      disabled: true,
-    };
-  }
+    case STATE_CODES.RESERVATION_CANCELED:
+      return {
+        label: '예약 취소 완료',
+        color: 'black' as const,
+        disabled: true,
+      };
 
-  if (status === STATE_CODES.RESERVATION_REFUSED) {
-    return {
-      label: '작가님의 예약 거절',
-      color: 'black' as const,
-      disabled: true,
-    };
-  }
+    case STATE_CODES.RESERVATION_REFUSED:
+      return {
+        label: '작가님의 예약 거절',
+        color: 'black' as const,
+        disabled: true,
+      };
 
-  return null;
+    default:
+      return null;
+  }
 };
 
 export const useReservationActions = ({ reservationId, status }: UseReservationActionsProps) => {

@@ -2,7 +2,7 @@
 
 import { BottomCTAButton } from '@/ui';
 
-type ClientFooterConfig = {
+export type ClientFooterConfig = {
   label: string;
   color?: 'primary' | 'black';
   disabled?: boolean;
