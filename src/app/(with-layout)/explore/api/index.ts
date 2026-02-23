@@ -32,9 +32,9 @@ export const useSearchPlaces = (keyword: string) => {
   const trimmedKeyword = keyword.trim();
 
   return useQuery<GetPlaceResponse[]>({
-    queryKey: USER_QUERY_KEY.PLACES_SEARCH(keyword),
+    queryKey: USER_QUERY_KEY.PLACES_SEARCH(trimmedKeyword),
     queryFn: async ({ signal }) => {
-      if (keyword === '') return [];
+      if (trimmedKeyword === '') return [];
       const url = `${PLACE_FULL_URL}?keyword=${encodeURIComponent(trimmedKeyword)}`;
 
       const response = await fetch(url, {
