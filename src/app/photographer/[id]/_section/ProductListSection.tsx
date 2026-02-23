@@ -8,7 +8,7 @@ import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { ROUTES } from '@/constants/routes/routes';
 
 type ProductListSectionProps = {
-  id: string;
+  id: number;
 }
 
 export default function ProductListSection({ id }: ProductListSectionProps) {

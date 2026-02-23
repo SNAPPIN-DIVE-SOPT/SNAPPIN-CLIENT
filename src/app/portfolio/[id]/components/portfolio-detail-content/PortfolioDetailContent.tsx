@@ -9,7 +9,12 @@ import { useGetPortfolioDetail } from '../../api';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { ROUTES } from '@/constants/routes/routes';
 
-export default function PortfolioDetailContent({ id, isLogIn }: { id: number, isLogIn: boolean }) {
+type PortfolioDetailContentProps = {
+  id: number;
+  isLogIn: boolean;
+}
+
+export default function PortfolioDetailContent({ id, isLogIn }: PortfolioDetailContentProps) {
   const { data, isPending } = useGetPortfolioDetail(id, isLogIn);
   const portfolioImages = data?.images?.map((image) => ({
     src: image,

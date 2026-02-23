@@ -13,8 +13,13 @@ import {
 } from './components/index';
 import { prefetchPortfolioDetail } from './api';
 
-export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+type PageProps = {
+  params: Promise<{ id: string }>;
+}
+
+export default async function Page({ params }: PageProps) {
   const { id } = await params;
+  const portfolioId = Number(id);
 
   const cookieStore = await cookies();
   const isLogIn = cookieStore.has('AccessToken');
@@ -28,8 +33,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       },
     },
   });
-  if (!Number.isNaN(Number(id))) {
-    prefetchPortfolioDetail(queryClient, Number(id), isLogIn);
+  if (!Number.isNaN(portfolioId)) {
+    prefetchPortfolioDetail(queryClient, portfolioId, isLogIn);
   }
 
   return (
@@ -37,7 +42,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       <Header />
       <Suspense fallback={<PortfolioDetailSkeleton />}>
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <PortfolioDetailContent id={Number(id)} isLogIn={isLogIn} />
+          <PortfolioDetailContent id={portfolioId} isLogIn={isLogIn} />
         </HydrationBoundary>
       </Suspense>
     </main>
