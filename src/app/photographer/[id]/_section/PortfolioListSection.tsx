@@ -12,7 +12,7 @@ type PortfolioListSectionProps = {
 }
 
 export default function PortfolioListSection({ id }: PortfolioListSectionProps) {
-  const { data, isFetching, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetPortfolioList(Number(id));
+  const { data, isPending, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetPortfolioList(id);
   const { ref, inView } = useInView();
 
   const portfolioList = useMemo(() => {
@@ -37,7 +37,7 @@ export default function PortfolioListSection({ id }: PortfolioListSectionProps) 
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (isFetching) {
+  if (isPending) {
     return (
       <section className='mt-[17.1rem]'>
         <PortfolioListSkeleton />

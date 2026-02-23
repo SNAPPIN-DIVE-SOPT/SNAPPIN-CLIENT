@@ -11,7 +11,7 @@ type ProductListSectionProps = {
 }
 
 export default function ProductListSection({ id }: ProductListSectionProps) {
-  const { data, isFetching, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(Number(id));
+  const { data, isPending, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(id);
   const { ref, inView } = useInView();
 
   const productList = data?.pages
@@ -40,7 +40,7 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (isFetching) {
+  if (isPending) {
     return (
       <section className='mt-[17.1rem]'>
         <ProductListSkeleton />
