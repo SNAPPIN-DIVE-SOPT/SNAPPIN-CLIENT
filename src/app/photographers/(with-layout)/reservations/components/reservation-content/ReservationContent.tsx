@@ -4,10 +4,8 @@ import { useSearchParams } from 'next/navigation';
 import { StateCode } from '@/types/stateCode';
 import { Divider, Tabs } from '@/ui';
 import { RESERVATION_TABS, TAB, getSelectedTab } from '../../constants/tabs';
-import ReservationCard from '../reservation-card/ReservationCard';
-import EmtpyView from '../emtpy-view/EmtpyView';
+import { ReservationCard, ReservationCardSkeleton, EmptyView } from '../index';
 import { useGetReservationList } from '../../api';
-import ReservationCardSkeleton from '../reservation-card/ReservationCardSkeleton';
 import { PHOTOGRAPHERS_ROUTES } from '@/constants/routes/routes';
 
 const getEmptyText = (tab: string): string => {
@@ -50,7 +48,7 @@ export default function ReservationContent() {
         {isPending ? (
           <ReservationCardSkeleton />
         ) : data?.reservations?.length === 0 ? (
-          <EmtpyView
+          <EmptyView
             title={getEmptyText(selectedTab)}
             description='새로운 예약이 생성되면 바로 알려드릴게요'
           />

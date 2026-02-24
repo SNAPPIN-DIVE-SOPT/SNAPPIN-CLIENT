@@ -1,9 +1,9 @@
-type EmtpyViewProps = {
+type EmptyViewProps = {
   title: string;
   description: string;
 };
 
-export default function EmtpyView({ title, description }: EmtpyViewProps) {
+export default function EmptyView({ title, description }: EmptyViewProps) {
   return (
     <div className='flex min-h-[calc(100dvh-9.5rem-7.2rem)] flex-col items-center justify-center gap-[0.4rem]'>
       <p className='font-18-bd'>{title}</p>
