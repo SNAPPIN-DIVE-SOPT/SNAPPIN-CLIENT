@@ -63,8 +63,8 @@ export const useAddPaymentForm = () => {
   };
 
   const compatibleFormData = {
-    name: formData.name,
-    amount: formData.amount ? formatPrice(Number(formData.amount)) : '',
+    name: formData?.name ?? '',
+    amount: formData?.amount ? formatPrice(Number(formData.amount)) : '',
   };
 
   const compatibleErrors = {
