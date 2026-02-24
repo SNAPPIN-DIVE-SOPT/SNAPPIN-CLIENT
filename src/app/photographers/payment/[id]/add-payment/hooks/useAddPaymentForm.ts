@@ -1,7 +1,7 @@
 'use client';
 
 import { z } from 'zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatPrice } from '@/utils/formatPrice';
 import { ADD_PAYMENT_LIMITS, ADD_PAYMENT_TEXT } from './payment.schema';
@@ -33,14 +33,14 @@ export const useAddPaymentForm = () => {
     trigger,
     setError,
     formState: { errors, isValid },
-    watch,
+    control,
   } = useForm<AddPaymentInput>({
     resolver: zodResolver(addPaymentSchema),
     defaultValues: { name: '', amount: '' },
     mode: 'onChange',
   });
 
-  const formData = watch();
+  const formData = useWatch({ control });
 
   const updateName = (value: string) => {
     if (value.length > ADD_PAYMENT_LIMITS.MAX_NAME_LENGTH) {
