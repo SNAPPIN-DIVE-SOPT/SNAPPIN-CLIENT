@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode, Children, isValidElement } from 'react';
 import Link from 'next/link';
 import { cn } from '@/utils/cn';
 
@@ -8,7 +8,7 @@ type TabProps = HTMLAttributes<HTMLDivElement> & {
 
 type TabsListProps = HTMLAttributes<HTMLDivElement> & {
   activeValue: string;
-  tabs: { value: string }[];
+  tabs?: { value: string }[];
   children: ReactNode;
 };
 
@@ -29,9 +29,19 @@ function Tab({ className, children, ...props }: TabProps) {
 }
 
 function TabsList({ activeValue, tabs, className, children, ...props }: TabsListProps) {
-  const selectedTabIndex = tabs.findIndex((tab) => tab.value === activeValue);
+  const fallbackTabs = Children.toArray(children)
+    .map((child) => {
+      if (!isValidElement<{ value?: unknown }>(child)) return null;
+      const value = child.props?.value;
+      if (typeof value !== 'string') return null;
+      return { value };
+    })
+    .filter((tab): tab is { value: string } => tab !== null);
+
+  const resolvedTabs = tabs ?? fallbackTabs;
+  const selectedTabIndex = resolvedTabs.findIndex((tab) => tab.value === activeValue);
   const activeIndex = selectedTabIndex >= 0 ? selectedTabIndex : 0;
-  const tabCount = tabs.length;
+  const tabCount = resolvedTabs.length;
 
   return (
     <div

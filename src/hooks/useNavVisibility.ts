@@ -6,19 +6,30 @@ export function useNavVisibility() {
   const [isVisible, setIsVisible] = useState(false);
 
   const compute = useCallback((scrollTop: number) => {
-    setIsVisible(scrollTop > 8);
+    const nextVisible = scrollTop > 8;
+    setIsVisible(nextVisible);
   }, []);
 
   useEffect(() => {
     const el = document.getElementById('app-scroll');
     if (!el) return;
 
-    const onScroll = () => compute(el.scrollTop);
+    let rafId = 0;
+    const scheduleCompute = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        compute(el.scrollTop);
+      });
+    };
 
-    requestAnimationFrame(onScroll);
-    el.addEventListener('scroll', onScroll, { passive: true });
+    scheduleCompute();
+    el.addEventListener('scroll', scheduleCompute, { passive: true });
 
-    return () => el.removeEventListener('scroll', onScroll);
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      el.removeEventListener('scroll', scheduleCompute);
+    };
   }, [compute]);
 
   return { isVisible };
