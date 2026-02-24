@@ -14,7 +14,6 @@ export default function Header() {
 
   const handleGoHome = () => {
     router.push(ROUTES.HOME);
-    sessionStorage.removeItem('home-scroll');
   };
 
   return (

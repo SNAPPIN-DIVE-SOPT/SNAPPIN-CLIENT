@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, QueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { USER_QUERY_KEY } from '@/query-key/user';
@@ -8,7 +8,6 @@ import {
   WishPortfolioResponse,
   UpdateWishPortfolioData,
 } from '@/swagger-api/data-contracts';
-import { useAuth } from '@/auth/hooks/useAuth';
 
 type WishPortfolioContext = {
   previousData?: GetPortfolioDetailResponse;
@@ -41,10 +40,15 @@ const getPortfolioDetail = async (
   return data.data;
 }
 
-// 포트폴리오 상세 조회 API
-export const useGetPortfolioDetail = (id: number) => {
-  const { isLogIn } = useAuth();
+export const prefetchPortfolioDetail = (queryClient: QueryClient, id: number, isLogIn: boolean) => {
+  return queryClient.prefetchQuery({
+    queryKey: USER_QUERY_KEY.PORTFOLIO_DETAIL(id, isLogIn),
+    queryFn: () => getPortfolioDetail(id, isLogIn),
+  });
+};
 
+// 포트폴리오 상세 조회 API
+export const useGetPortfolioDetail = (id: number, isLogIn: boolean) => {
   return useQuery<GetPortfolioDetailResponse>({
     queryKey: USER_QUERY_KEY.PORTFOLIO_DETAIL(id, !!isLogIn),
     queryFn: () => getPortfolioDetail(id, !!isLogIn),

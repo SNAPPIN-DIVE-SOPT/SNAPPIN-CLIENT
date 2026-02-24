@@ -26,8 +26,8 @@ export function PhotographerSection({
         {/* 프로필 이미지 */}
         <div className='relative w-[8.7rem] h-[8.7rem]'>
           <Image
-            src={imageUrl ?? '/imgs/default-profile.png'}
-            alt='프로필'
+            src={imageUrl || '/imgs/default-profile.png'}
+            alt='프로필 이미지'
             fill
             className='object-cover rounded-full'
           />

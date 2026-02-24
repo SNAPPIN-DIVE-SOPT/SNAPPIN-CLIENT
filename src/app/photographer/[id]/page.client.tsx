@@ -15,7 +15,7 @@ import { useGetPhotographerDetail } from './api/index';
 import { ROUTES } from '@/constants/routes/routes';
 
 type ClientPageProps = {
-  id: string;
+  id: number;
 };
 
 export default function ClientPage({ id }: ClientPageProps) {
@@ -24,11 +24,11 @@ export default function ClientPage({ id }: ClientPageProps) {
   const tabParam = searchParams.get('tab');
   const [selectedTab, setSelectedTab] = useState(tabParam ?? PHOTOGRAPHER_TAB.PORTFOLIO);
 
-  const { data, isPending } = useGetPhotographerDetail(Number(id));
+  const { data, isPending } = useGetPhotographerDetail(id);
 
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
-    router.replace(ROUTES.PHOTOGRAPHER(Number(id), { tab: value }), { scroll: false });
+    router.replace(ROUTES.PHOTOGRAPHER(id, { tab: value }), { scroll: false });
   };
 
   return (

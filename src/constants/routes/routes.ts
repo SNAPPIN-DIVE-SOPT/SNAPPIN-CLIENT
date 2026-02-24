@@ -15,10 +15,10 @@ export const ROUTES = {
   PHOTO_FINAL_PHOTOS_REVIEW: (id: number, reviewId: number) =>
     `/photo-final/${id}/photos/${reviewId}`,
   PHOTOGRAPHER: (id: number, params?: Params) =>
-    `/photographer/${id}${params && getQueryParams(params)}`,
+    `/photographer/${id}${params && getQueryParams(params) || ''}`,
   PORTFOLIO: (id: number) => `/portfolio/${id}`,
   PRODUCT: (productId: number, params?: Params) =>
-    `/product/${productId}${params && getQueryParams(params)}`,
+    `/product/${productId}${params && getQueryParams(params) || ''}`,
   PRODUCT_REVIEW: (productId: number, reviewId: number) =>
     `/product/${productId}/review/${reviewId}`,
   RESERVATION: (id: number) => `/reservation/${id}`,

@@ -5,13 +5,14 @@ import { useInView } from 'react-intersection-observer';
 import { ProductList, ProductListSkeleton } from '@/ui';
 import { useGetProductList } from '../api';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
+import { ROUTES } from '@/constants/routes/routes';
 
 type ProductListSectionProps = {
-  id: string;
+  id: number;
 }
 
 export default function ProductListSection({ id }: ProductListSectionProps) {
-  const { data, isFetching, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(Number(id));
+  const { data, isPending, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(id);
   const { ref, inView } = useInView();
 
   const productList = data?.pages
@@ -28,9 +29,13 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
     })) ?? [];
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
-  const scrollKey = useMemo(() => `photographer/${id}:scroll?tab=PRODUCT`, [id]);
+  const scrollKey = useMemo(() => {
+    return ROUTES.PHOTOGRAPHER(id, { tab: 'PRODUCT' })
+      .replace(/^\//, '')
+      .replace('?', ':scroll?');
+}, [id]);
   useScrollRestoreOnParent(anchorRef, scrollKey, [productList.length, dataUpdatedAt], {
-    enabled: true,
+    enabled: !!data,
     resetOnKeyChange: true,
   });
 
@@ -40,7 +45,7 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (isFetching) {
+  if (isPending) {
     return (
       <section className='mt-[17.1rem]'>
         <ProductListSkeleton />

@@ -8,7 +8,7 @@ type PortfolioListSectionProps = {
 }
 
 export default function PortfolioListSection({ productId }: PortfolioListSectionProps) {
-  const { data, isFetching, fetchNextPage, hasNextPage } = useGetPortfolioList(Number(productId));
+  const { data, isPending, fetchNextPage, hasNextPage } = useGetPortfolioList(Number(productId));
   const { ref, inView } = useInView();
 
   const portfolioList = data?.pages.flatMap(page => page.data?.portfolios ?? []) ?? [];
@@ -19,7 +19,7 @@ export default function PortfolioListSection({ productId }: PortfolioListSection
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  if (isFetching) {
+  if (isPending) {
     return (
       <section>
         <PortfolioListSkeleton />

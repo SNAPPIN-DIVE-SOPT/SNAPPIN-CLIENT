@@ -1,12 +1,11 @@
 'use client';
 
-import { ImageCarousel } from '@/ui';
+import { ImageCarousel, LikeButton } from '@/ui';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { IconStar } from '@/assets';
 import { formatPrice } from '@/utils/formatPrice';
 import { useWishProduct } from '../api';
-import { LikeButton } from '../components';
 
 type ProductMainSectionProps = {
   id: number;
