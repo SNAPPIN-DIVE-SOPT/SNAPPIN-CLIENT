@@ -35,9 +35,8 @@ export const toExploreSearchParams = (input: URLSearchParams | QueryParamRecord)
         })();
 
   const next = new URLSearchParams();
-  for (const key of ALLOWED_KEYS) {
-    const values = source.getAll(key);
-    for (const value of values) next.append(key, value);
-  }
+  ALLOWED_KEYS.forEach((key) => {
+    source.getAll(key).forEach((value) => next.append(key, value));
+  });
   return next;
 };

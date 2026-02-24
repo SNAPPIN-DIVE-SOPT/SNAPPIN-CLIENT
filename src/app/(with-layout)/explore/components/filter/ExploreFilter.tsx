@@ -23,6 +23,10 @@ const parseMoodIds = (params: URLSearchParams): number[] => {
     .filter((num) => !Number.isNaN(num));
 };
 
+const lockAutoApply = () => {
+  sessionStorage.setItem(EXPLORE_NO_AUTO_APPLY, '1');
+};
+
 export default function ExploreFilter() {
   const [open, setOpen] = useState(false);
   const { data, isLoading } = useMoodFilters();
@@ -76,10 +80,6 @@ export default function ExploreFilter() {
       .filter((m): m is GetMoodFilterResponse => Boolean(m));
   }, [moodIds, moodById]);
 
-  const lockAutoApply = () => {
-    sessionStorage.setItem(EXPLORE_NO_AUTO_APPLY, '1');
-  };
-
   useEffect(() => {
     const isReturningFromDetail = sessionStorage.getItem(EXPLORE_FROM_DETAIL_BACK) === '1';
 
@@ -96,12 +96,11 @@ export default function ExploreFilter() {
     const justHandledDetailBack = sessionStorage.getItem(EXPLORE_DETAIL_BACK_HANDLED) === '1';
     if (justHandledDetailBack) {
       sessionStorage.removeItem(EXPLORE_DETAIL_BACK_HANDLED);
+      return;
     }
 
-    // 상세 복귀가 아니면 이전 잠금은 stale로 보고 해제.
-    if (isReturningFromDetail) {
-      sessionStorage.removeItem(EXPLORE_NO_AUTO_APPLY);
-    }
+    // 일반 진입: 이전 잠금은 stale로 보고 해제
+    sessionStorage.removeItem(EXPLORE_NO_AUTO_APPLY);
   }, []);
 
   useEffect(() => {
