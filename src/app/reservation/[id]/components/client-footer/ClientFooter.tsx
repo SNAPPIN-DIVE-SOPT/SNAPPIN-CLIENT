@@ -1,13 +1,7 @@
 'use client';
 
 import { BottomCTAButton } from '@/ui';
-
-export type ClientFooterConfig = {
-  label: string;
-  color?: 'primary' | 'black';
-  disabled?: boolean;
-  onClick?: () => void;
-};
+import { type ClientFooterConfig } from './clientFooterConfig';
 
 type ClientFooterProps = {
   config: ClientFooterConfig;

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
 import { useCancelReservation, useRequestPayment } from '../api';
-import { type ClientFooterConfig } from '../components/client-footer/ClientFooter';
+import { type ClientFooterConfig } from '../components/client-footer/clientFooterConfig';
 
 type UseReservationActionsProps = {
   reservationId: number;
