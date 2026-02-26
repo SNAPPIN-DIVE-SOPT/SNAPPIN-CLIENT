@@ -4,10 +4,8 @@ export const PRODUCT_TAB = {
   REVIEW: 'REVIEW',
 } as const;
 
-export type ProductTab = keyof typeof PRODUCT_TAB;
-
-export const PRODUCT_TAB_MAP: Record<ProductTab, string> = {
-  PRODUCT_DETAIL: '상품 안내',
-  PORTFOLIO: '포트폴리오',
-  REVIEW: '리뷰',
-} as const;
+export const PRODUCT_TABS = [
+  { value: PRODUCT_TAB.PRODUCT_DETAIL, label: '상품 안내' },
+  { value: PRODUCT_TAB.PORTFOLIO, label: '포트폴리오' },
+  { value: PRODUCT_TAB.REVIEW, label: '리뷰' },
+];

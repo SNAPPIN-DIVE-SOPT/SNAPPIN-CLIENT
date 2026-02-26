@@ -1,6 +1,5 @@
 import {
   useMutation,
-  useQuery,
   useQueryClient,
   useSuspenseQuery,
   useSuspenseInfiniteQuery
@@ -153,10 +152,9 @@ export const getProductDetail = async (
 export const useGetProductDetail = (id: number) => {
   const { isLogIn } = useAuth();
 
-  return useQuery<GetProductDetailResponse>({
+  return useSuspenseQuery<GetProductDetailResponse>({
     queryKey: USER_QUERY_KEY.PRODUCT_DETAIL(id, !!isLogIn),
     queryFn: () => getProductDetail(id, !!isLogIn),
-    enabled: !Number.isNaN(id) && isLogIn !== null,
   });
 };
 
