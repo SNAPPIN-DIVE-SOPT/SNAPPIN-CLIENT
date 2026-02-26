@@ -1,11 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { BottomCTAButton, Navigation } from '@/ui';
 import { IconArrowBack, IconHome } from '@/assets';
 import CompleteModal from './@modal/(.)complete-modal/CompleteModal';
 import CancelModal from './@modal/(.)cancel-modal/CancelModal';
-import { PHOTOGRAPHERS_ROUTES } from '@/constants/routes/routes';
 import PaymentSummaryCard from './components/PaymentSummaryCard';
 import { usePaymentSummary } from './hooks/usePaymentSummary';
 import { usePaymentPageActions } from './hooks/usePaymentPageActions';
@@ -16,16 +14,10 @@ type PageClientProps = {
 };
 
 export default function PageClient({ id, basePrice }: PageClientProps) {
-  const router = useRouter();
-
   const { extraPrices, totalAmount, handleSubmitPayment, resetExtraPrices } = usePaymentSummary(
     id,
     basePrice,
   );
-
-  const handleAddPayment = () => {
-    router.push(PHOTOGRAPHERS_ROUTES.PAYMENT_ADD_PAYMENT(id));
-  };
 
   const {
     completeOpen,
@@ -38,6 +30,7 @@ export default function PageClient({ id, basePrice }: PageClientProps) {
     handleOpenPaymentModal,
     handlePaymentConfirm,
   } = usePaymentPageActions({
+    id,
     onSubmitPayment: handleSubmitPayment,
     onResetExtraPrices: resetExtraPrices,
   });

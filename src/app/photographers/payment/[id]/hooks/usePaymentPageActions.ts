@@ -2,16 +2,18 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ROUTES } from '@/constants/routes/routes';
+import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
 
 type ExitTarget = 'back' | 'home' | null;
 
 type UsePaymentPageActionsProps = {
+  id: number;
   onSubmitPayment: () => void;
   onResetExtraPrices: () => void;
 };
 
 export const usePaymentPageActions = ({
+  id,
   onSubmitPayment,
   onResetExtraPrices,
 }: UsePaymentPageActionsProps) => {
@@ -49,6 +51,10 @@ export const usePaymentPageActions = ({
     onSubmitPayment();
   };
 
+  const handleAddPayment = () => {
+    router.push(PHOTOGRAPHERS_ROUTES.PAYMENT_ADD_PAYMENT(id));
+  };
+
   return {
     completeOpen,
     cancelOpen,
@@ -59,5 +65,6 @@ export const usePaymentPageActions = ({
     handleExitConfirm,
     handleOpenPaymentModal,
     handlePaymentConfirm,
+    handleAddPayment,
   };
 };
