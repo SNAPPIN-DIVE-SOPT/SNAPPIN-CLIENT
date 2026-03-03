@@ -78,7 +78,7 @@ export default function KakaoCallbackPage() {
         );
       }
     })();
-  }, [code, error, mutateAsync, router]);
+  }, [code, error, mutateAsync, router, toast]);
 
   return (
     <div className='bg-black-10 flex h-dvh flex-col items-center justify-center gap-[1.5rem]'>

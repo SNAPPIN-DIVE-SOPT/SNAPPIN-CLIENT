@@ -29,6 +29,7 @@ export default function PageClient({ id, basePrice }: PageClientProps) {
     handleExitConfirm,
     handleOpenPaymentModal,
     handlePaymentConfirm,
+    handleAddPayment,
   } = usePaymentPageActions({
     id,
     onSubmitPayment: handleSubmitPayment,

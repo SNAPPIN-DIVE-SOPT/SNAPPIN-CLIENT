@@ -33,13 +33,11 @@ export const useGetReservationDetail = (reservationId: number) => {
   });
 };
 
-export const prefetchReservationDetail = (
-  queryClient: QueryClient,
-  reservationId: number,
-) => {
+export const prefetchReservationDetail = (queryClient: QueryClient, reservationId: number) => {
   return queryClient.prefetchQuery({
     queryKey: PHOTOGRAPHER_QUERY_KEY.RESERVATION_DETAIL(reservationId),
     queryFn: () => getReservationDetail(reservationId),
+    staleTime: 10 * 1000,
   });
 };
 
