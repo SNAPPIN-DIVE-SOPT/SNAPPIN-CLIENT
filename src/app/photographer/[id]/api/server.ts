@@ -11,7 +11,7 @@ export const prefetchPhotographerDetail = (queryClient: QueryClient, id: number)
 }
 
 // 포폴 목록 조회 prefetch
-export const prefetchPortfolioList = async (queryClient: QueryClient, id: number) => {
+export const prefetchPortfolioList = (queryClient: QueryClient, id: number) => {
   return queryClient.prefetchInfiniteQuery({
     ...photographerPortfoliosOptions(id),
     pages: 1,

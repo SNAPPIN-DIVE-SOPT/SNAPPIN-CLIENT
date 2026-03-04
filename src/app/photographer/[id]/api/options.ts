@@ -32,7 +32,7 @@ export const photographerPortfoliosOptions = (id: number) =>
       const res = await fetch(url.toString(), { method: 'GET' });
 
       if (!res.ok) {
-        throw new Error('/api/v1/portfolios 응답에 데이터가 존재하지 않습니다.');
+        throw new Error('포트폴리오 목록 정보를 불러오는 데 실패했습니다.');
       }
       const data = await res.json();
       return data;
@@ -58,7 +58,7 @@ export const photographerProductsOptions = (id: number) =>
       const res = await fetch(url.toString(), { method: 'GET' });
 
       if (!res.ok) {
-        throw new Error('/api/v1/products 응답에 데이터가 존재하지 않습니다.')
+        throw new Error('상품 목록 정보를 불러오는 데 실패했습니다.');
       }
       const data = await res.json();
       return data;
