@@ -1,30 +1,18 @@
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import {
-  QueryClient,
-  defaultShouldDehydrateQuery,
-  HydrationBoundary,
-  dehydrate
-} from '@tanstack/react-query';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { ROUTES } from '@/constants/routes/routes';
+import { getQueryClient } from '@/app/get-query-client';
+import { Tabs, PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
 import {
-  Tabs,
-  PortfolioListSkeleton,
-  ProductListSkeleton
-} from '@/ui';
-import {
+  PhotographerSectionSkeleton,
   PhotographerSection,
   PortfolioListSection,
-  ProductListSection,
+  ProductListSection
 } from './_section/index';
 import { Header, Footer } from './components/index';
 import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TABS } from './constants/tab';
-import { PhotographerSectionSkeleton } from './_section/index';
-import {
-  prefetchPhotographerDetail,
-  prefetchPortfolioList,
-  prefetchProductList
-} from './api/server';
+import { prefetchPhotographerDetail, prefetchPortfolioList, prefetchProductList } from './api/server';
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -42,15 +30,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   }
 
   const promises = [];
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      dehydrate: {
-        shouldDehydrateQuery: (query) =>
-          defaultShouldDehydrateQuery(query) ||
-          query.state.status === 'pending',
-      }
-    }
-  })
+  const queryClient = getQueryClient();
 
   promises.push(prefetchPhotographerDetail(queryClient, photographerId));
   if (selectedTab === PHOTOGRAPHER_TAB.PORTFOLIO) {
@@ -69,7 +49,7 @@ export default async function Page({ params, searchParams }: PageProps) {
           <PhotographerSection id={photographerId} />
         </Suspense>
         <Tabs>
-          <Tabs.List activeValue={selectedTab} tabs={PHOTOGRAPHER_TABS} className='bg-black-1 fixed top-[17.6rem] z-10 w-full max-w-[45rem] px-[2rem]'>
+          <Tabs.List activeValue={selectedTab} tabs={PHOTOGRAPHER_TABS} className='bg-black-1 fixed fixed-center top-[17.6rem] z-10 px-[2rem]'>
             {PHOTOGRAPHER_TABS.map(({ value, label }) => (
               <Tabs.Item
                 key={value}
@@ -84,22 +64,14 @@ export default async function Page({ params, searchParams }: PageProps) {
           <div>
             {selectedTab === PHOTOGRAPHER_TAB.PORTFOLIO && (
               <div className='bg-black-1 mb-[7.6rem] p-[1rem]'>
-                <Suspense fallback={
-                  <div className='mt-[17.1rem]'>
-                    <PortfolioListSkeleton />
-                  </div>
-                }>
+                <Suspense fallback={<PortfolioListSkeleton className='mt-[17.1rem]' />}>
                   <PortfolioListSection id={photographerId} />
                 </Suspense>
               </div>
             )}
             {selectedTab === PHOTOGRAPHER_TAB.PRODUCT && (
               <div className='mb-[7.6rem]'>
-                <Suspense fallback={
-                  <div className='mt-[17.1rem]'>
-                    <ProductListSkeleton />
-                  </div>
-                }>
+                <Suspense fallback={<ProductListSkeleton className='mt-[17.1rem]' />}>
                   <ProductListSection id={photographerId} />
                 </Suspense>
               </div>
