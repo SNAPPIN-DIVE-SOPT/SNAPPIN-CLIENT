@@ -16,14 +16,18 @@ import { prefetchPhotographerDetail, prefetchPortfolioList, prefetchProductList 
 
 type PageProps = {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ tab: string }>;
+  searchParams: Promise<{ tab: string | string[] | undefined }>;
 }
 
 export default async function Page({ params, searchParams }: PageProps) {
   const { id } = await params;
   const { tab } = await searchParams;
   const photographerId = Number(id);
-  const selectedTab = tab ?? PHOTOGRAPHER_TAB.PORTFOLIO;
+  const resolvedTab = Array.isArray(tab) ? tab[0] : tab;
+  const selectedTab =
+    resolvedTab === PHOTOGRAPHER_TAB.PORTFOLIO || resolvedTab === PHOTOGRAPHER_TAB.PRODUCT
+      ? resolvedTab
+      : PHOTOGRAPHER_TAB.PORTFOLIO;
 
   if (Number.isNaN(photographerId)) {
     return notFound();

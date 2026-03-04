@@ -7,13 +7,24 @@ export const photographerDetailOptions = (id: number) =>
   queryOptions({
     queryKey: USER_QUERY_KEY.PHOTOGRAPHER_DETAIL(id),
     queryFn: async () => {
-      const res = await fetch(`${SERVER_API_BASE_URL}/api/v1/photographers/${id}`, { method: 'GET' });
+      try {
+        const res = await fetch(`${SERVER_API_BASE_URL}/api/v1/photographers/${id}`, { method: 'GET' });
 
-      if (!res.ok) {
-        throw new Error('작가 상세 정보를 불러오는 데 실패했습니다.');
+        if (!res.ok) {
+          throw new Error('작가 상세 정보를 불러오는 데 실패했습니다.');
+        }
+
+        const data = await res.json();
+
+        if (!data?.data) {
+          throw new Error('작가 상세 응답 데이터가 비어 있습니다.');
+        }
+
+        return data.data;
+      } catch (error) {
+        if (error instanceof Error) throw error;
+        throw new Error('알 수 없는 에러가 발생했습니다.');
       }
-      const data = await res.json();
-      return data.data;
     },
   });
 
@@ -23,19 +34,30 @@ export const photographerPortfoliosOptions = (id: number) =>
     queryKey: USER_QUERY_KEY.PHOTOGRAPHER_PORTFOLIOS(id),
     initialPageParam: undefined,
     queryFn: async ({ pageParam }) => {
-      const url = new URL(`${SERVER_API_BASE_URL}/api/v1/portfolios`);
-      url.searchParams.append('photographerId', String(id));
-      if (pageParam) {
-        url.searchParams.append('cursor', String(pageParam));
-      }
+      try {
+        const url = new URL(`${SERVER_API_BASE_URL}/api/v1/portfolios`);
+        url.searchParams.append('photographerId', String(id));
+        if (pageParam) {
+          url.searchParams.append('cursor', String(pageParam));
+        }
 
-      const res = await fetch(url.toString(), { method: 'GET' });
+        const res = await fetch(url.toString(), { method: 'GET' });
 
-      if (!res.ok) {
-        throw new Error('포트폴리오 목록 정보를 불러오는 데 실패했습니다.');
+        if (!res.ok) {
+          throw new Error('포트폴리오 목록 정보를 불러오는 데 실패했습니다.');
+        }
+
+        const data = await res.json();
+
+        if (!data?.data) {
+          throw new Error('포폴 목록 응답 데이터가 비어 있습니다.');
+        }
+
+        return data;
+      } catch (error) {
+        if (error instanceof Error) throw error;
+        throw new Error('알 수 없는 에러가 발생했습니다.');
       }
-      const data = await res.json();
-      return data;
     },
     getNextPageParam: (lastPage) => {
       return lastPage.meta?.hasNext ? lastPage.meta.nextCursor : undefined;
@@ -49,19 +71,30 @@ export const photographerProductsOptions = (id: number) =>
     queryKey: USER_QUERY_KEY.PHOTOGRAPHER_PRODUCTS(id),
     initialPageParam: undefined,
     queryFn: async ({ pageParam }) => {
-      const url = new URL(`${SERVER_API_BASE_URL}/api/v1/products`);
-      url.searchParams.append('photographerId', String(id));
-      if (pageParam) {
-        url.searchParams.append('cursor', String(pageParam));
-      }
+      try {
+        const url = new URL(`${SERVER_API_BASE_URL}/api/v1/products`);
+        url.searchParams.append('photographerId', String(id));
+        if (pageParam) {
+          url.searchParams.append('cursor', String(pageParam));
+        }
 
-      const res = await fetch(url.toString(), { method: 'GET' });
+        const res = await fetch(url.toString(), { method: 'GET' });
 
-      if (!res.ok) {
-        throw new Error('상품 목록 정보를 불러오는 데 실패했습니다.');
+        if (!res.ok) {
+          throw new Error('상품 목록 정보를 불러오는 데 실패했습니다.');
+        }
+
+        const data = await res.json();
+
+        if (!data?.data) {
+          throw new Error('상품 목록 응답 데이터가 비어 있습니다.');
+        }
+
+        return data;
+      } catch (error) {
+        if (error instanceof Error) throw error;
+        throw new Error('알 수 없는 에러가 발생했습니다.');
       }
-      const data = await res.json();
-      return data;
     },
     getNextPageParam: (lastPage) => {
       return lastPage.meta?.hasNext ? lastPage.meta.nextCursor : undefined;
