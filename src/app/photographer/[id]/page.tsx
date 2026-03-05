@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { ROUTES } from '@/constants/routes/routes';
-import { getQueryClient } from '@/app/get-query-client';
+import { getQueryClient } from '@/utils/getQueryClient';
 import { Tabs, PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
 import {
   PhotographerSectionSkeleton,
