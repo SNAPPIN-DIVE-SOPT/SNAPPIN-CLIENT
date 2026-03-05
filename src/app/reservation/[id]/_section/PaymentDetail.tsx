@@ -20,7 +20,7 @@ export default function PaymentDetail({
           <Section.Row
             label='기본 촬영 비용'
             value={`${formatPrice(basePrice)}원`}
-            className='justify-between'
+            className='items-center justify-between'
             valueClassName='caption-14-bd'
           />
           {extraPrices?.map(({ name, amount }, index) => (
@@ -28,7 +28,7 @@ export default function PaymentDetail({
               key={`${name ?? 'extra'}-${index}`}
               label={name ?? `추가 비용 ${index + 1}`}
               value={`${formatPrice(amount ?? 0)}원`}
-              className='justify-between'
+              className='items-center justify-between'
               valueClassName='caption-14-bd'
             />
           ))}

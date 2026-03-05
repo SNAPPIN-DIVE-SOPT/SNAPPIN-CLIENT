@@ -2,11 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import { Button, ProductCard } from '@/ui';
+import { STATE_CODES, type StateCode } from '@/types/stateCode';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { Section } from '@/components/layout/reservation/SectionLayout';
 import { ROUTES } from '@/constants/routes/routes';
 
-type ProductStatusProps = {
+type ReservationProductProps = {
   id?: number;
   imageUrl?: string;
   title?: string;
@@ -15,10 +16,13 @@ type ProductStatusProps = {
   photographer?: string;
   price?: number;
   moods?: string[];
-  hasReview: boolean;
+  reservationStatus: StateCode;
+  hasReview?: boolean;
+  handleReservationCancelClick?: () => void;
+  handleInquiryClick?: () => void;
 };
 
-export default function ProductStatus({
+export default function ReservationProduct({
   id = 0,
   imageUrl = '',
   title = '',
@@ -27,10 +31,17 @@ export default function ProductStatus({
   photographer = '',
   price = 0,
   moods = [],
+  reservationStatus,
   hasReview,
-}: ProductStatusProps) {
+  handleReservationCancelClick,
+  handleInquiryClick,
+}: ReservationProductProps) {
   const toast = useToast();
   const router = useRouter();
+
+  const hasCancelButton =
+    reservationStatus !== STATE_CODES.RESERVATION_REFUSED &&
+    reservationStatus !== STATE_CODES.RESERVATION_CANCELED;
 
   const handleWriteReview = () => {
     router.replace(ROUTES.REVIEW_FORM(id));
@@ -40,8 +51,16 @@ export default function ProductStatus({
     toast.alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', undefined, 'bottom-[2rem]');
   };
 
+  // 촬영 완료 상태 정의
+  const isPhotoFinal = reservationStatus === STATE_CODES.SHOOT_COMPLETED;
+  const hasWrittenReview = hasReview === true;
+
+  const shouldShowReviewActionButtons = isPhotoFinal && !hasWrittenReview;
+  const shouldShowInquiryOnlyActionButton = isPhotoFinal && hasWrittenReview;
+  const shouldShowReservationActionButtons = !isPhotoFinal;
+
   return (
-    <Section title='예약 요청 상품'>
+    <Section title={isPhotoFinal ? '촬영 완료' : '예약 요청 상품'}>
       <ProductCard
         image={{ src: imageUrl, alt: title }}
         name={title}
@@ -52,7 +71,33 @@ export default function ProductStatus({
         moods={moods}
       />
 
-      {!hasReview ? (
+      {shouldShowReservationActionButtons && (
+        <div className='mt-[1.7rem] flex flex-row gap-[0.6rem]'>
+          {hasCancelButton && (
+            <Button
+              size='small'
+              color='white'
+              display='inline'
+              className='w-full'
+              onClick={handleReservationCancelClick}
+            >
+              예약 취소
+            </Button>
+          )}
+
+          <Button
+            size='small'
+            color='black'
+            display='inline'
+            className='w-full'
+            onClick={handleInquiryClick}
+          >
+            문의하기
+          </Button>
+        </div>
+      )}
+
+      {shouldShowReviewActionButtons && (
         <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
           <Button
             size='small'
@@ -71,7 +116,9 @@ export default function ProductStatus({
             리뷰 작성
           </Button>
         </div>
-      ) : (
+      )}
+
+      {shouldShowInquiryOnlyActionButton && (
         <div className='flex w-full items-center gap-[0.6rem] pt-[1.7rem]'>
           <Button
             size='small'

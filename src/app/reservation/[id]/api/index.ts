@@ -52,7 +52,7 @@ export const useCancelReservation = (reservationId: number) => {
 };
 
 // 결제 요청 API
-export const useRequestPayment = () => {
+export const useRequestPayment = (reservationId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation<RequestPaymentReservationResponse, Error, number>({
@@ -70,6 +70,9 @@ export const useRequestPayment = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: USER_QUERY_KEY.RESERVATION_LISTS() });
+      queryClient.invalidateQueries({
+        queryKey: USER_QUERY_KEY.RESERVATION_DETAIL(reservationId),
+      });
     },
   });
 };

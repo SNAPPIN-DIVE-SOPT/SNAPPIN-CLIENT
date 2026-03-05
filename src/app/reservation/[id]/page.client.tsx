@@ -1,109 +1,56 @@
 'use client';
 
-import { useState } from 'react';
 import { ClientNavigation, ClientFooter } from './components';
-import { PaymentDetail, ReservationDetail, ReservationRequested } from './_section';
+import { PaymentDetail, ReservationDetail, ReservationProduct, ReviewDetail } from './_section';
 import { Divider } from '@/ui';
-import { STATE_CHIP_THEME_BY_LABEL } from '@/ui/chip/state-chip/constants/stateChipTheme';
-import { STATE_LABEL } from '@/ui/chip/state-chip/constants/stateLabel';
 import { STATE_CODES, type StateCode } from '@/types/stateCode';
 import CancelModal from './@modal/(.)cancel-modal/CancelModal';
-import { useToast } from '@/ui/toast/hooks/useToast';
-import { useGetReservationDetail, useCancelReservation, useRequestPayment } from './api';
+import { useGetReservationDetail } from './api';
 import SectionSkeleton from '@/components/layout/reservation/SectionSkeleton';
+import { useReservationActions } from './hooks/useReservationActions';
 
 type ReservationDetailPageClientProps = {
-  reservationId: string;
+  reservationId: number;
 };
 
 export default function PageClient({ reservationId }: ReservationDetailPageClientProps) {
-  const parsedReservationId = Number(reservationId);
+  const { data: reservationData, isPending } = useGetReservationDetail(reservationId);
 
-  const { data: reservationData, isPending } = useGetReservationDetail(parsedReservationId);
+  const status = reservationData?.status as StateCode;
 
-  const { mutate: cancelReservationMutation } = useCancelReservation(parsedReservationId);
-  const { mutate: requestPaymentMutation, isPending: isPaymentRequestPending } =
-    useRequestPayment();
+  // 촬영 완료
+  const isPhotoFinal = status === STATE_CODES.SHOOT_COMPLETED;
 
-  const [cancelOpen, setCancelOpen] = useState(false);
-  const [reservationStatus, setReservationStatus] = useState<StateCode>();
-  const [previousStatus, setPreviousStatus] = useState<StateCode>();
+  const {
+    cancelOpen,
+    setCancelOpen,
+    canceledPreviousStatus,
+    handleReservationCancelClick,
+    handleReservationCancel,
+    handleInquiryClick,
+    clientFooterConfig,
+  } = useReservationActions({
+    reservationId,
+    status,
+  });
 
-  const toast = useToast();
+  // 예약 취소 시 결제 상세 노출되는 조건
+  const hasCanceledWithPayment =
+    status === STATE_CODES.RESERVATION_CANCELED &&
+    (canceledPreviousStatus === STATE_CODES.PAYMENT_REQUESTED ||
+      canceledPreviousStatus === STATE_CODES.PAYMENT_COMPLETED);
 
-  const normalizeStatus = (status?: string): StateCode => {
-    const code = status as StateCode;
-    const hasTheme = code in STATE_CHIP_THEME_BY_LABEL;
-    const hasLabel = code in STATE_LABEL;
-    return hasTheme && hasLabel ? code : STATE_CODES.RESERVATION_REQUESTED;
-  };
-
-  const handleReservationCancelClick = () => {
-    setCancelOpen(true);
-  };
-
-  const handleReservationCancel = () => {
-    cancelReservationMutation(parsedReservationId, {
-      onSuccess: (cancelResponse) => {
-        setPreviousStatus(cancelResponse.previousStatus as StateCode);
-        setReservationStatus(cancelResponse.status as StateCode);
-        setCancelOpen(false);
-      },
-      onError: () => {
-        toast.error(
-          '예약 취소 중 오류가 발생했습니다. 다시 시도해주세요.',
-          undefined,
-          'bottom-[8rem]',
-        );
-      },
-    });
-  };
-
-  const handlePaymentConfirmClick = () => {
-    if (isPaymentRequestPending) return;
-    requestPaymentMutation(parsedReservationId, {
-      onSuccess: (paymentResponse) => {
-        setPreviousStatus(status);
-        setReservationStatus(paymentResponse.status as StateCode);
-      },
-      onError: () => {
-        toast.error(
-          '결제 요청 중 오류가 발생했습니다. 다시 시도해주세요.',
-          undefined,
-          'bottom-[8rem]',
-        );
-      },
-    });
-  };
-
-  const status = normalizeStatus(reservationStatus ?? reservationData?.status);
-
-  const isCanceledAfterPaymentRequested =
-    status === STATE_CODES.RESERVATION_CANCELED && previousStatus === STATE_CODES.PAYMENT_REQUESTED;
-
+  // 결제 상세 노출 조건
   const hasPaymentDetailSection =
     status === STATE_CODES.PAYMENT_REQUESTED ||
     status === STATE_CODES.PAYMENT_COMPLETED ||
-    isCanceledAfterPaymentRequested;
-
-  const hasBottomCta =
-    status === STATE_CODES.PAYMENT_REQUESTED ||
-    status === STATE_CODES.PAYMENT_COMPLETED ||
-    status === STATE_CODES.RESERVATION_CANCELED ||
-    status === STATE_CODES.RESERVATION_REFUSED;
-
-  const handleInquiryClick = () => {
-    toast.alert(
-      '메시지 기능은 준비 중이에요. 조금만 기다려주세요!',
-      undefined,
-      hasBottomCta ? 'bottom-[8.4rem]' : 'bottom-[2rem]',
-    );
-  };
+    status === STATE_CODES.RESERVATION_CONFIRMED ||
+    hasCanceledWithPayment;
 
   if (isPending) {
     return (
       <div className='bg-black-1 flex min-h-dvh flex-col'>
-        <ClientNavigation title='예약 상세' />
+        <ClientNavigation title={isPhotoFinal ? '촬영 내역' : '예약 상세'} />
         <SectionSkeleton />
       </div>
     );
@@ -112,8 +59,9 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
   return (
     <>
       <div className='bg-black-1 flex flex-col'>
-        <ClientNavigation title='예약 상세' />
-        <ReservationRequested
+        <ClientNavigation title={isPhotoFinal ? '촬영 내역' : '예약 상세'} />
+        <ReservationProduct
+          id={reservationId}
           reservationStatus={status}
           imageUrl={reservationData?.productInfo?.imageUrl ?? ''}
           title={reservationData?.productInfo?.title ?? ''}
@@ -122,12 +70,13 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
           photographer={reservationData?.productInfo?.photographer ?? ''}
           price={reservationData?.productInfo?.price ?? 0}
           moods={reservationData?.productInfo?.moods ?? []}
+          hasReview={!!reservationData?.reviewInfo}
           handleReservationCancelClick={handleReservationCancelClick}
           handleInquiryClick={handleInquiryClick}
         />
         <Divider thickness='large' className='h-[0.6rem]' />
         <ReservationDetail
-          status={status as StateCode}
+          status={status}
           date={reservationData?.reservationInfo?.date ?? ''}
           startTime={reservationData?.reservationInfo?.startTime ?? ''}
           durationTime={reservationData?.reservationInfo?.durationTime ?? 0}
@@ -136,7 +85,8 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
           requestNote={reservationData?.reservationInfo?.requestNote ?? ''}
           createdAt={reservationData?.reservationInfo?.createdAt ?? ''}
         />
-        {hasPaymentDetailSection && (
+
+        {(hasPaymentDetailSection || isPhotoFinal) && (
           <>
             <Divider thickness='large' className='h-[0.6rem]' />
             <PaymentDetail
@@ -146,18 +96,24 @@ export default function PageClient({ reservationId }: ReservationDetailPageClien
             />
           </>
         )}
-        {hasBottomCta && (
-          <>
-            <div className='h-[8.4rem]' />
 
-            <ClientFooter
-              status={status}
-              handlePaymentConfirmClick={handlePaymentConfirmClick}
-              isPaymentRequestPending={isPaymentRequestPending}
+        {reservationData?.reviewInfo && (
+          <>
+            <Divider color='bg-black-3' thickness='large' />
+            <ReviewDetail
+              id={reservationData.reviewInfo.id ?? 0}
+              reviewer={reservationData.reviewInfo.reviewer ?? ''}
+              rating={reservationData.reviewInfo.rating ?? 0}
+              createdAt={reservationData.reviewInfo.createdAt ?? ''}
+              images={reservationData.reviewInfo.images ?? []}
+              content={reservationData.reviewInfo.content ?? ''}
             />
           </>
         )}
+
+        {clientFooterConfig && <ClientFooter config={clientFooterConfig} />}
       </div>
+
       <CancelModal
         open={cancelOpen}
         handleOpenChange={setCancelOpen}

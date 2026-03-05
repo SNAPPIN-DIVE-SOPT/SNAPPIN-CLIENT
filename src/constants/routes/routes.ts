@@ -11,9 +11,6 @@ export const ROUTES = {
   LIKE: '/like',
   PROFILE: '/profile',
   RESERVATIONS: '/reservations',
-  PHOTO_FINAL: (id: number) => `/photo-final/${id}`,
-  PHOTO_FINAL_PHOTOS_REVIEW: (id: number, reviewId: number) =>
-    `/photo-final/${id}/photos/${reviewId}`,
   PHOTOGRAPHER: (id: number, params?: Params) =>
     `/photographer/${id}${params ? getQueryParams(params) : ''}`,
   PORTFOLIO: (id: number) => `/portfolio/${id}`,

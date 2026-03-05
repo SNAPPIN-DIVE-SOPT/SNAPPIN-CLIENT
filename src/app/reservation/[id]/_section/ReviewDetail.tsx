@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { formatShortDate } from '@/utils/formatDate';
 import { ReviewStar } from '@/ui/review-star';
+import { Section } from '@/components/layout/reservation/SectionLayout';
 
 type ReviewDetailProps = {
   id: number;
@@ -21,8 +22,7 @@ export default function ReviewDetail({
   content,
 }: ReviewDetailProps) {
   return (
-    <div className='bg-black-1 flex flex-col gap-[2rem] px-[2rem] pt-[1.7rem] pb-[2rem]'>
-      <p className='caption-14-bd'>리뷰 상세</p>
+    <Section title='리뷰 상세'>
       <div className='flex flex-col gap-[1.2rem]'>
         <div className='flex flex-col items-start gap-[0.6rem]'>
           <div className='flex w-full items-center justify-between'>
@@ -46,8 +46,9 @@ export default function ReviewDetail({
             </Link>
           ))}
         </div>
+
         <p className='caption-14-rg'>{content}</p>
       </div>
-    </div>
+    </Section>
   );
 }

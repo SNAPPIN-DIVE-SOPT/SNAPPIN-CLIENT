@@ -60,7 +60,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
           imageUrls: uploadedUrls,
         });
 
-        router.replace(ROUTES.PHOTO_FINAL(reservationId));
+        router.replace(ROUTES.RESERVATION(reservationId));
       } catch {
         toast.error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
         router.back();

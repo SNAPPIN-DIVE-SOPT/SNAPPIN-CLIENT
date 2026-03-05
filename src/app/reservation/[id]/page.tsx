@@ -1,4 +1,5 @@
 import PageClient from './page.client';
+import { notFound } from 'next/navigation';
 
 type ReservationDetailPageProps = {
   params: Promise<{ id: string }>;
@@ -6,5 +7,11 @@ type ReservationDetailPageProps = {
 
 export default async function Page({ params }: ReservationDetailPageProps) {
   const { id } = await params;
-  return <PageClient reservationId={id} />;
+  const reservationIdNumber = Number(id);
+
+  if (!reservationIdNumber) {
+    return notFound();
+  }
+
+  return <PageClient reservationId={reservationIdNumber} />;
 }

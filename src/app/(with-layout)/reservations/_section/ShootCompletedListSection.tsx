@@ -12,7 +12,6 @@ import { formatCreatedAt } from '@/utils/formatDate';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ShootCompletedListSection() {
-  // 로그인 여부
   const { isLogIn } = useAuth();
   const { login } = useToast();
   const { data, isFetching } = useGetReservationList(RESERVATION_TAB.CLIENT_DONE, isLogIn === true);
