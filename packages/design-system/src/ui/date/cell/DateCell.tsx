@@ -1,0 +1,45 @@
+﻿import { cn } from '@snappin/design-system/lib/cn';
+
+type DateCellProps = {
+  value: string;
+  iso: string;
+  isSelected: boolean;
+  isDisabled: boolean;
+  isToday?: boolean;
+  handleSelect?: () => void;
+};
+
+export default function DateCell({
+  value,
+  iso,
+  isDisabled,
+  isSelected,
+  isToday,
+  handleSelect,
+}: DateCellProps) {
+  const [y, m, d] = iso.split('-');
+  const srLabel = `${y}-${Number(m)}-${Number(d)}`;
+  return (
+    <div
+      role='gridcell'
+      aria-selected={isSelected}
+      aria-disabled={isDisabled}
+      aria-current={isToday ? 'date' : undefined}
+      className='flex min-w-[3.2rem] justify-center py-[0.4rem]'
+    >
+      <button
+        type='button'
+        aria-label={srLabel}
+        disabled={isDisabled}
+        onClick={handleSelect}
+        className={cn(
+          'font-16-md text-black-zinc-7 disabled:text-black-zinc-4 w-[3.2rem] rounded-full py-[0.6rem] disabled:cursor-not-allowed',
+          isSelected && 'text-black-10 bg-neon-white',
+        )}
+      >
+        {value}
+      </button>
+    </div>
+  );
+}
+

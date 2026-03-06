@@ -1,0 +1,13 @@
+{
+  "extends": "../typescript-config/base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@snappin/design-system": ["./src/index.ts"],
+      "@snappin/design-system/*": ["./src/*"]
+    },
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts"],
+  "exclude": ["node_modules", "dist", ".storybook", "src/**/*.stories.tsx"]
+}

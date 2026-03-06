@@ -1,0 +1,70 @@
+﻿import Image from 'next/image';
+import { cn } from '@snappin/design-system/lib/cn';
+import { formatPrice } from '@snappin/design-system/lib/formatPrice';
+import TagChip from '@snappin/design-system/ui/chip/tag-chip/TagChip';
+import { IconStar } from '../../assets';
+
+const PRODUCT_PLACEHOLDER = '/imgs/image-default.png';
+
+export type ProductCardProps = {
+  preload?: boolean;
+  image: { src: string; alt?: string };
+  name: string;
+  rate: number;
+  reviewCount: number;
+  photographer: string;
+  price: number;
+  moods: string[];
+  className?: string;
+} & React.HTMLAttributes<HTMLDivElement>;
+
+export default function ProductCard({
+  preload = false,
+  image,
+  name,
+  rate,
+  reviewCount,
+  photographer,
+  price,
+  moods,
+  className,
+  ...props
+}: ProductCardProps) {
+  return (
+    <div className={cn('flex w-full gap-[1.2rem]', className)} {...props}>
+      <div className='relative h-[10.2rem] w-[10.2rem] shrink-0'>
+        <Image
+          src={image.src === '' ? PRODUCT_PLACEHOLDER : image.src}
+          alt={image.alt ?? `${name} ?곹뭹 ?대?吏`}
+          fill
+          className='rounded-[0.4rem] object-cover'
+          preload={preload}
+        />
+      </div>
+      <div className='flex min-w-0 flex-col gap-[0.3rem]'>
+        <div className='flex flex-col gap-[0.5rem]'>
+          <span className='caption-14-bd text-black-10 truncate'>{name}</span>
+          <div className='flex flex-col gap-[0.3rem]'>
+            <div className='flex gap-[0.6rem]'>
+              <div className='flex items-center gap-[0.2rem]'>
+                <IconStar className='text-black-8 h-[1rem] w-[1rem]' />
+                <span className='caption-12-md text-black-8'>{Number(rate).toFixed(1)}</span>
+              </div>
+              <div className='flex items-center gap-[0.3rem]'>
+                <span className='caption-12-md text-black-10 text-right'>由щ럭 {reviewCount}</span>
+              </div>
+            </div>
+            <span className='caption-12-md text-black-7 w-[19rem] truncate'>{photographer}</span>
+          </div>
+        </div>
+        <span className='font-16-md text-black-10'>{formatPrice(price)}??</span>
+        <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
+          {moods.map((tag) => (
+            <TagChip key={tag} variant='neon' label={tag} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+

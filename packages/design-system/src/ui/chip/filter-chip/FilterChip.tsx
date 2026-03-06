@@ -1,0 +1,71 @@
+﻿import { cn } from '@snappin/design-system/lib/cn';
+import { IconButton } from '../../button';
+import { IconClose } from '../../../assets';
+import { MoodCode } from '../../../types/moodCode';
+import { FilterChipVariant } from './types/filterChipVariant';
+import { FILTER_CHIP_THEME } from './constants/filterChipTheme';
+
+const getVariant = (isSelected: boolean, onRemove?: (tag: MoodCode) => void): FilterChipVariant => {
+  if (onRemove) {
+    return 'selectedRemovable';
+  } else if (isSelected) {
+    return 'selected';
+  } else {
+    return 'default';
+  }
+};
+
+export type FilterChipProps = {
+  label: string;
+  isSelected: boolean;
+  onClick?: (tag: string) => void;
+  onRemove?: (tag: string) => void;
+} & Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>;
+
+export default function FilterChip({
+  label,
+  isSelected,
+  onClick,
+  onRemove,
+  ...props
+}: FilterChipProps) {
+  if (!isSelected && onRemove) {
+    console.error('FilterChip??寃쎌슦 onRemove??isSelected媛 true???뚮쭔 ?ъ슜?????덉뒿?덈떎.');
+    return null;
+  }
+
+  const variant = getVariant(isSelected, onRemove);
+  const { buttonClassName, labelClassName } = FILTER_CHIP_THEME[variant];
+
+  return (
+    <div
+      className={cn(
+        'bg-black-10 inline-flex items-center justify-center rounded-[0.4rem] py-[0.6rem] transition-[background-color] duration-500 ease-in-out',
+        buttonClassName,
+      )}
+      {...props}
+    >
+      <button
+        type='button'
+        aria-label={`${label} ?꾪꽣`}
+        aria-pressed={isSelected}
+        onClick={onClick ? () => onClick(label) : undefined}
+      >
+        <span
+          className={cn(
+            'caption-12-md transition-[color] duration-500 ease-in-out',
+            labelClassName,
+          )}
+        >
+          {label}
+        </span>
+      </button>
+      {onRemove && (
+        <IconButton onClick={() => onRemove(label)}>
+          <IconClose className='text-black-7 m-[0.4rem] h-[1.5rem] w-[1.5rem]' />
+        </IconButton>
+      )}
+    </div>
+  );
+}
+
