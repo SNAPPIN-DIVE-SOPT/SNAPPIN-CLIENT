@@ -42,7 +42,7 @@ export default function ReservationCard({
           <div className='mb-[1.2rem] flex justify-between'>
             <StateChip label={status} />
             <div className='flex items-center'>
-              <span className='text-black-7 caption-12-md'>?덉빟?곸꽭</span>
+              <span className='text-black-7 caption-12-md'>예약상세</span>
               <IconKeyboardArrowRight className='text-black-7 h-[2.4rem] w-[2.4rem]' />
             </div>
           </div>
@@ -52,11 +52,10 @@ export default function ReservationCard({
       {hasReviewWriteButton && (
         <div className='mt-[1.2rem] flex justify-end'>
           <Button size='small' color='black' display='inline' onClick={handleReviewClick}>
-            由щ럭 ?묒꽦
+            리뷰 작성
           </Button>
         </div>
       )}
     </div>
   );
 }
-

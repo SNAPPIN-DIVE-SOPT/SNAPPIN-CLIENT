@@ -18,7 +18,7 @@ type ComboBoxProps = {
 
 export default function ComboBox({
   options,
-  placeholder = '寃?됱뼱瑜??낅젰?댁＜?몄슂',
+  placeholder = '검색어를 입력해주세요',
   value,
   onChange,
   onBlur,
@@ -40,7 +40,7 @@ export default function ComboBox({
     onChange?.(next);
   };
 
-  // 諛붽묑 ?대┃ ???リ린
+  // 바깥 클릭 시 닫기
   useEffect(() => {
     const onDown = (e: MouseEvent | TouchEvent) => {
       const el = rootRef.current;
@@ -91,7 +91,7 @@ export default function ComboBox({
               )}
             >
               <CommandEmpty className='caption-14-md text-black-6 p-[1rem]'>
-                寃곌낵媛 ?놁뒿?덈떎.
+                결과가 없습니다.
               </CommandEmpty>
 
               <CommandGroup>
@@ -116,4 +116,3 @@ export default function ComboBox({
     </div>
   );
 }
-

@@ -35,7 +35,7 @@ export default function ProductCard({
       <div className='relative h-[10.2rem] w-[10.2rem] shrink-0'>
         <Image
           src={image.src === '' ? PRODUCT_PLACEHOLDER : image.src}
-          alt={image.alt ?? `${name} ?곹뭹 ?대?吏`}
+          alt={image.alt ?? `${name} 상품 이미지`}
           fill
           className='rounded-[0.4rem] object-cover'
           preload={preload}
@@ -51,13 +51,13 @@ export default function ProductCard({
                 <span className='caption-12-md text-black-8'>{Number(rate).toFixed(1)}</span>
               </div>
               <div className='flex items-center gap-[0.3rem]'>
-                <span className='caption-12-md text-black-10 text-right'>由щ럭 {reviewCount}</span>
+                <span className='caption-12-md text-black-10 text-right'>리뷰 {reviewCount}</span>
               </div>
             </div>
             <span className='caption-12-md text-black-7 w-[19rem] truncate'>{photographer}</span>
           </div>
         </div>
-        <span className='font-16-md text-black-10'>{formatPrice(price)}??</span>
+        <span className='font-16-md text-black-10'>{formatPrice(price)}원</span>
         <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
           {moods.map((tag) => (
             <TagChip key={tag} variant='neon' label={tag} />
@@ -67,4 +67,3 @@ export default function ProductCard({
     </div>
   );
 }
-
