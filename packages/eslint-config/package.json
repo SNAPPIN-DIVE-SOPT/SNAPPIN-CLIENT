@@ -1,0 +1,12 @@
+{
+  "name": "@snappin/eslint-config",
+  "private": true,
+  "type": "module",
+  "peerDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1"
+  },
+  "exports": {
+    "./next": "./next.mjs"
+  }
+}
