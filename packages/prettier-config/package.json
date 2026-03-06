@@ -1,0 +1,8 @@
+{
+  "name": "@snappin/prettier-config",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.mjs"
+  }
+}
