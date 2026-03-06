@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedValue } from './useDebouncedValue';
-import { useSearchPlaces } from '../app/(with-layout)/explore/api';
+import { useSearchPlaces } from '@/app/(with-layout)/explore/api';
 
 type PlaceId = string;
 

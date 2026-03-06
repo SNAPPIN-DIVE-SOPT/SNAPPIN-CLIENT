@@ -1,5 +1,5 @@
-import { useAuth } from '../auth/hooks/useAuth';
-import { useToast } from '../ui/toast/hooks/useToast';
+import { useAuth } from '@/auth/hooks/useAuth';
+import { useToast } from '@/ui';
 import { useEffect, useRef } from 'react';
 
 type UseLoginToastGuardOptions = {
