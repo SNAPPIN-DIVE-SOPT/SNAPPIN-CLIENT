@@ -6,6 +6,7 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "generate:component": "turbo gen react-component && pnpm --filter @snappin/design-system run barrels:ui",
     "barrels:ui": "tsx scripts/generate-ui-root-index.ts",
     "build:icons": "tsx scripts/generate-icon-exports.ts",
     "lint": "eslint .",
@@ -16,7 +17,10 @@
   "exports": {
     ".": "./src/index.ts",
     "./styles.css": "./styles.css",
-    "./*": "./src/*"
+    "./assets": "./src/assets/index.ts",
+    "./assets/*": "./src/assets/*",
+    "./lib/*": "./src/lib/*",
+    "./ui/*": "./src/ui/*"
   },
   "prettier": "@snappin/prettier-config",
   "peerDependencies": {
