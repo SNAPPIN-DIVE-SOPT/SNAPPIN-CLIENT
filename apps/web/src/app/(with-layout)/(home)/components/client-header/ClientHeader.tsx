@@ -8,9 +8,9 @@ import { useAuth } from '@/auth/hooks/useAuth';
 import { openSearchSheet } from '@/utils/openSearchSheet';
 import { ROUTES } from '@/constants/routes/routes';
 
-interface ClientHeaderProps {
+type ClientHeaderProps = {
   isVisible: boolean;
-}
+};
 
 export default function ClientHeader({ isVisible }: ClientHeaderProps) {
   const { isLogIn } = useAuth();

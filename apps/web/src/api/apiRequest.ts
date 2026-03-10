@@ -2,13 +2,13 @@ import { getAccessToken } from '@/auth/token';
 import { SERVER_API_BASE_URL, type RequestMethod } from './constants/api';
 import { getRefreshToken } from '@/auth/apis';
 
-interface ApiRequestProps {
+type ApiRequestProps = {
   endPoint: string;
   method?: RequestMethod;
   data?: unknown;
   headers?: Record<string, string>;
   params?: Record<string, string>;
-}
+};
 
 const responseInterceptor = async <T>(
   response: Response,
