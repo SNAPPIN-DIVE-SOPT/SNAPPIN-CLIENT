@@ -8,6 +8,8 @@
     "build-storybook": "storybook build",
     "barrels:ui": "tsx scripts/generate-ui-root-index.ts",
     "build:icons": "tsx scripts/generate-icon-exports.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "typecheck:storybook": "tsc -p tsconfig.storybook.json --noEmit"
   },
@@ -15,6 +17,7 @@
     ".": "./src/index.ts",
     "./*": "./src/*"
   },
+  "prettier": "@snappin/prettier-config",
   "peerDependencies": {
     "next": "^16.1.1",
     "react": "^19.0.0",
@@ -32,6 +35,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.3",
+    "@snappin/eslint-config": "workspace:*",
     "@snappin/prettier-config": "workspace:*",
     "@snappin/tailwind-config": "workspace:*",
     "@snappin/typescript-config": "workspace:*",
@@ -44,6 +48,8 @@
     "@tailwindcss/postcss": "^4.1.16",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "storybook": "^10.2.15",
