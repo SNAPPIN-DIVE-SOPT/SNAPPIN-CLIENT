@@ -1,0 +1,14 @@
+{
+  "name": "@snappin/shared",
+  "private": true,
+  "version": "0.0.0",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types/moodCode": "./src/types/moodCode.ts",
+    "./types/stateCode": "./src/types/stateCode.ts",
+    "./lib/formatNumber": "./src/lib/formatNumber.ts",
+    "./lib/formatPrice": "./src/lib/formatPrice.ts",
+    "./constants/imageAccept": "./src/constants/imageAccept.ts"
+  }
+}
