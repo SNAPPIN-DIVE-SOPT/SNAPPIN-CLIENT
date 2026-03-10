@@ -7,7 +7,7 @@ import {
   GetPortfolioDetailData,
   WishPortfolioResponse,
   UpdateWishPortfolioData,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 
 type WishPortfolioContext = {
   previousData?: GetPortfolioDetailResponse;

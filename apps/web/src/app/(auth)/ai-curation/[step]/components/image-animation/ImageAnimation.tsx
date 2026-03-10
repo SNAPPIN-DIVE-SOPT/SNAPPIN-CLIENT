@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState, startTransition } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@snappin/design-system/lib/cn';
 import { useAiCuration } from '../../../hooks/useAiCuration';
-import type { GetPhotoResponse } from '@snappin/api-types';
+import type { GetPhotoResponse } from '@/swagger-api';
 import { useToast } from '@/ui';
 
 type ImageAnimationProps = {

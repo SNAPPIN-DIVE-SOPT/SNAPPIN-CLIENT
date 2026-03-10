@@ -5,7 +5,7 @@ import {
   PostPresignedUrlResponse,
   ReservationDetailResponse,
   GetReservationDetailData,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 import { USER_QUERY_KEY } from '@/query-key/user';
 
 export const useGetReservationDetail = (reservationId: number, isEnabled = true) => {

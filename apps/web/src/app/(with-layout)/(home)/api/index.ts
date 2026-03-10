@@ -4,7 +4,7 @@ import {
   GetCurationResponse,
   GetPlacePhotographerRecommendationResponse,
   GetPopularPortfolioListResponse,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 import { useQuery } from '@tanstack/react-query';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { USER_QUERY_KEY } from '@/query-key/user';

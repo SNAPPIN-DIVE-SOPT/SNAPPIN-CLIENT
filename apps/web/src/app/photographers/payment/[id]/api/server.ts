@@ -1,5 +1,5 @@
 import { apiRequest } from '@/api/apiRequest';
-import { ApiResponseBodyReservationPriceResponseVoid } from '@snappin/api-types';
+import { ApiResponseBodyReservationPriceResponseVoid } from '@/swagger-api';
 
 export const getPaymentBasePrice = async (reservationId: number) => {
   try {

@@ -5,7 +5,7 @@ import { USER_QUERY_KEY } from '@/query-key/user';
 import { PHOTOGRAPHER_QUERY_KEY } from '@/query-key/photographer';
 import { apiRequest } from '@/api/apiRequest';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
-import { GetReviewDetailData, GetReviewDetailResponse } from '@snappin/api-types';
+import { GetReviewDetailData, GetReviewDetailResponse } from '@/swagger-api';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { USER_TYPE, UserType } from '@/auth/constant/userType';
 

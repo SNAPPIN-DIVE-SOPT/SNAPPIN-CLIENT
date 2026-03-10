@@ -7,7 +7,7 @@ import {
   MoodCategoryLabel,
   MoodCode,
 } from '@snappin/shared/types/moodCode';
-import { GetMoodFilterResponse } from '@snappin/api-types';
+import { GetMoodFilterResponse } from '@/swagger-api';
 import { EXPLORE_NO_AUTO_APPLY } from '../../constants/storage-key';
 
 type ExploreFilterPanelProps = {

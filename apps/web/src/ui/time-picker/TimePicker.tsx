@@ -1,6 +1,6 @@
 import TimeButton from './TimeButton';
 import type { TimeButtonState } from './constants/buttonState';
-import { ProductAvailableTimeSectionResponse } from '@snappin/api-types';
+import { ProductAvailableTimeSectionResponse } from '@/swagger-api';
 
 export type TimeSlot = {
   time: string;

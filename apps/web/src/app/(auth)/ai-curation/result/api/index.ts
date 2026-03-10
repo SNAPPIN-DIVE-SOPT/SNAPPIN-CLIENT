@@ -3,7 +3,7 @@ import { apiRequest } from '@/api/apiRequest';
 import type {
   ApiResponseBodyCreateMoodCurationResponseVoid,
   CreateMoodCurationResponse,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 import { USER_QUERY_KEY } from '@/query-key/user';
 
 export const useGetAiCurationResult = () => {

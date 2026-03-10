@@ -8,7 +8,7 @@ import {
   GetCurationQuestionPhotosResponse,
   CreateMoodCurationResponse,
   ApiResponseBodyCreateMoodCurationResponseVoid,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 
 export const useGetAiCurationAll = () => {
   return useQuery<GetCurationQuestionPhotosResponse[]>({

@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FilterChip, IconButton } from '@snappin/design-system';
 import { IconFilter, IconSettingsBackupRestore } from '@snappin/design-system/assets';
 import { ExploreFilterPanel } from '../index';
-import { GetMoodFilterResponse } from '@snappin/api-types';
+import { GetMoodFilterResponse } from '@/swagger-api';
 import { useMoodFilters } from '../../api';
 import { ROUTES } from '@/constants/routes/routes';
 import {

@@ -3,7 +3,7 @@ import {
   ApiResponseBodyWishedProductsResponseVoid,
   WishedPortfoliosResponse,
   WishedProductsResponse,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { apiRequest } from '../../../../api/apiRequest';
 import { USER_QUERY_KEY } from '../../../../query-key/user';

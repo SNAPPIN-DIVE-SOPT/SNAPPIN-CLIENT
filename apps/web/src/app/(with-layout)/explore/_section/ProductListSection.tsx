@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { useGetProductList } from '../api';
 import { useInfiniteScroll } from '../hooks/use-infinite-scroll';
 import { ProductList, ProductListSkeleton } from '@snappin/design-system';
-import { GetProductCardResponse } from '@snappin/api-types';
+import { GetProductCardResponse } from '@/swagger-api';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { toExploreSearchParams } from '../utils/query';
 

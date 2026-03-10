@@ -17,7 +17,7 @@ import {
   ProductReservationRequest,
   UpdateWishProductData,
   WishProductResponse,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 import { productDetailOptions, productPortfoliosOptions, productReviewsOptions } from './options';
 
 export const useAvailableTime = (productId: string) => {

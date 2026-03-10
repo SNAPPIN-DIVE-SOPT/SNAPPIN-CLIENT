@@ -16,7 +16,7 @@ import {
   Phase,
 } from './phaseAnimation';
 import { MoodCode } from '@snappin/shared/types/moodCode';
-import type { CreateMoodCurationResponse } from '@snappin/api-types';
+import type { CreateMoodCurationResponse } from '@/swagger-api';
 import { ROUTES } from '@/constants/routes/routes';
 
 type MoodAnimationResultProps = { data: CreateMoodCurationResponse };

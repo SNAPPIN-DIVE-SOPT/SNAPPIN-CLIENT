@@ -10,7 +10,7 @@ import {
   GetReservationDetailData,
   RefuseReservationResponse,
   ReservationDetailResponse,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 
 const getReservationDetail = async (reservationId: number) => {
   const res = await apiRequest<GetReservationDetailData>({

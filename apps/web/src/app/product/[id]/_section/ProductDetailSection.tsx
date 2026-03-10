@@ -1,5 +1,5 @@
 import { TagChip, Divider } from '@snappin/design-system';
-import { GetProductInfoResponse } from '@snappin/api-types';
+import { GetProductInfoResponse } from '@/swagger-api';
 
 type ProductDetailSectionProps = {
   productInfo: GetProductInfoResponse | undefined;

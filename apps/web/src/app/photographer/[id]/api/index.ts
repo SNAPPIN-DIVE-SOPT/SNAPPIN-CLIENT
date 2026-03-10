@@ -5,7 +5,7 @@ import {
   GetPhotographerProfileResponse,
   GetPortfolioListData,
   GetProductListData
-} from '@snappin/api-types';
+} from '@/swagger-api';
 
 // 작가 상세 조회 API
 export const useGetPhotographerDetail = (id: number) => {

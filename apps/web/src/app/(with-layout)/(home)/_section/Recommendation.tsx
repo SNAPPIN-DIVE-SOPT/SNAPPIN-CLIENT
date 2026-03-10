@@ -1,6 +1,6 @@
 import { Author, InfiniteBanner, SectionHeader } from '../components';
 import { useGetRecommendation } from '../api';
-import { GetRecommendationPhotographerInfoResponse } from '@snappin/api-types';
+import { GetRecommendationPhotographerInfoResponse } from '@/swagger-api';
 
 const RecommendationSnapPlace = () => {
   const { data: places, isPending } = useGetRecommendation();

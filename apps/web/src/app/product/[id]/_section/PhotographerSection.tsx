@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { IconArrowForward } from '@snappin/design-system/assets';
-import { GetProductPhotographerInfoResponse } from '@snappin/api-types';
+import { GetProductPhotographerInfoResponse } from '@/swagger-api';
 import { ROUTES } from '@/constants/routes/routes';
 
 type PhotographerSectionProps = {

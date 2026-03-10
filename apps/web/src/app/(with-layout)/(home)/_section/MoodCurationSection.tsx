@@ -7,7 +7,7 @@ import { useAuth } from '@/auth/hooks/useAuth';
 import { SectionHeader, CarouselCuration } from '../components';
 
 import { useGetUserInfo } from '@/auth/apis';
-import { GetPortfolioResponse } from '@snappin/api-types';
+import { GetPortfolioResponse } from '@/swagger-api';
 import { useGetPopularPortfoliosRecommendation, useGetPortfoliosRecommendation } from '../api';
 
 export default function MoodCurationSection() {

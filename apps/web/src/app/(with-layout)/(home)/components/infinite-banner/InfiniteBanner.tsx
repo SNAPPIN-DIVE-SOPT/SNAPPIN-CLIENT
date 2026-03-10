@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { ImageWithShadow } from '@snappin/design-system';
 import imageEmpty from '../../../../../../public/imgs/image-empty.png';
-import { GetPlaceInfoResponse } from '@snappin/api-types';
+import { GetPlaceInfoResponse } from '@/swagger-api';
 
 type InfiniteBannerProps = {
   items: GetPlaceInfoResponse[];

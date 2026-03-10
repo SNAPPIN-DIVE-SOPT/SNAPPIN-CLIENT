@@ -6,7 +6,7 @@ import { UserType, USER_TYPE } from '../../../../../auth/constant/userType';
 import type {
   GetClientInfoResponse,
   GetPhotographerProfileResponse,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 
 type ProfileCardProps = {
   userType: UserType | null;

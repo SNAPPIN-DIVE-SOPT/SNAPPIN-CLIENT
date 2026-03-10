@@ -1,7 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PHOTOGRAPHER_QUERY_KEY } from '@/query-key/photographer';
 import { apiRequest } from '@/api/apiRequest';
-import {  ApiResponseBodyReservationPriceResponseVoid, ReservationPriceResponse, RequestPaymentReservationRequest } from '@snappin/api-types';
+import {
+  ApiResponseBodyReservationPriceResponseVoid,
+  ReservationPriceResponse,
+  RequestPaymentReservationRequest,
+} from '@/swagger-api';
 
 export const useGetPaymentPrice = (reservationId: number) => {
   return useQuery<ReservationPriceResponse>({

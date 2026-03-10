@@ -2,7 +2,7 @@ import { queryOptions, infiniteQueryOptions } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { USER_QUERY_KEY } from '@/query-key/user';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
-import { GetProductDetailData } from '@snappin/api-types';
+import { GetProductDetailData } from '@/swagger-api';
 
 // 상품 상세 정보 및 상품 안내 조회 옵션
 export const productDetailOptions = (id: number, isLogIn: boolean) =>

@@ -8,7 +8,7 @@ import {
   UpdateReservationCancelData,
   UpdateReservationRequestPaymentData,
   RequestPaymentReservationResponse,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 
 // 예약 상세 조회 API
 export const useGetReservationDetail = (reservationId: number) => {

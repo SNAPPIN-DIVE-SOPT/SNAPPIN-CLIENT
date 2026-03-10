@@ -1,4 +1,4 @@
-import { ReservationListResponse, GetReservationsData } from '@snappin/api-types';
+import { ReservationListResponse, GetReservationsData } from '@/swagger-api';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { USER_QUERY_KEY } from '@/query-key/user';

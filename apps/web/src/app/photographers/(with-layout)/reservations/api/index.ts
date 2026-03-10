@@ -1,5 +1,5 @@
 import { apiRequest } from '@/api/apiRequest';
-import { ApiResponseBodyReservationListResponseVoid, ReservationListResponse } from '@snappin/api-types';
+import { ApiResponseBodyReservationListResponseVoid, ReservationListResponse } from '@/swagger-api';
 import { useQuery } from "@tanstack/react-query";   
 import { ReservationTab } from "../constants/tabs";
 import { PHOTOGRAPHER_QUERY_KEY } from '@/query-key/photographer';

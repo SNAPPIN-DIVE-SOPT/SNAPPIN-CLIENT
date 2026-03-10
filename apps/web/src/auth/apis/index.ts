@@ -8,7 +8,7 @@ import {
   GetSwitchedUserProfileResponse,
   PatchUserRoleData,
   CreateKakaoLoginData,
-} from '@snappin/api-types';
+} from '@/swagger-api';
 import { setAccessToken, getAccessToken, deleteAccessToken } from '../token';
 import { deleteAuthUser, setAuthUser } from '../userType';
 import { isValidUserType } from '../constant/userType';
