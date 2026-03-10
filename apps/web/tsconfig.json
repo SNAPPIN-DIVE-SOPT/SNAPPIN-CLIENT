@@ -2,6 +2,7 @@
   "extends": "@snappin/typescript-config/nextjs",
   "compilerOptions": {
     "allowJs": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@snappin/design-system": ["../../packages/design-system/src/index.ts"],
