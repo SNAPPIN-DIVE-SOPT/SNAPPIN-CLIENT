@@ -15,6 +15,7 @@
   },
   "exports": {
     ".": "./src/index.ts",
+    "./styles.css": "./styles.css",
     "./*": "./src/*"
   },
   "prettier": "@snappin/prettier-config",

@@ -3,8 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "style": "./shared-styles.css",
   "exports": {
+    ".": "./shared-styles.css",
     "./postcss": "./postcss.config.mjs",
+    "./shared-styles.css": "./shared-styles.css",
+    "./styles/reset.css": "./styles/reset.css",
+    "./styles/layout.css": "./styles/layout.css",
     "./tokens/color.css": "./tokens/color.css",
     "./tokens/typography.css": "./tokens/typography.css",
     "./tokens/animation.css": "./tokens/animation.css"
