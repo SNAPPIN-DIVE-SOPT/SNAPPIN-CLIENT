@@ -13,7 +13,6 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@snappin/api-types": "workspace:*",
     "@snappin/design-system": "workspace:*",
     "@snappin/shared": "workspace:*",
     "@hookform/resolvers": "5.2.1",
