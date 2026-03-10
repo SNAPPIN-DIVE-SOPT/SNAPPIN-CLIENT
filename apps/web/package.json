@@ -15,6 +15,7 @@
   "dependencies": {
     "@snappin/api-types": "workspace:*",
     "@snappin/design-system": "workspace:*",
+    "@snappin/shared": "workspace:*",
     "@hookform/resolvers": "5.2.1",
     "axios": "^1.13.2",
     "@radix-ui/react-dialog": "^1.1.15",

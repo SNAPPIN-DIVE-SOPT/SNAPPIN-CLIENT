@@ -6,6 +6,8 @@
       "@/*": ["./src/*"],
       "@/ui": ["./src/ui/index.ts"],
       "@/ui/*": ["./src/ui/*"],
+      "@snappin/shared": ["../shared/src/index.ts"],
+      "@snappin/shared/*": ["../shared/src/*"],
       "@snappin/design-system": ["./src/index.ts"],
       "@snappin/design-system/*": ["./src/*"]
     },
