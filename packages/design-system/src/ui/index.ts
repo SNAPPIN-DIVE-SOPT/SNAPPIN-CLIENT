@@ -1,4 +1,4 @@
-// This file is auto-generated. Do not edit manually.
+// Keep this barrel in sync with generated components.
 export * from './button/index';
 export * from './carousel/index';
 export * from './chip/index';

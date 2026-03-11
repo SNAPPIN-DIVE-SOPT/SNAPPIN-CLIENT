@@ -13,6 +13,6 @@
     },
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts", "turbo/**/*.ts"],
   "exclude": ["node_modules", "dist", ".storybook", "src/**/*.stories.tsx"]
 }

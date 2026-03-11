@@ -10,7 +10,6 @@
     "test": "turbo run test"
   },
   "devDependencies": {
-    "@turbo/gen": "^2.0.0",
     "turbo": "^2.0.0"
   }
 }
