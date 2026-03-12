@@ -3,9 +3,7 @@ export const PHOTOGRAPHER_TAB = {
   PRODUCT: 'PRODUCT',
 } as const;
 
-export type PhotographerTab = keyof typeof PHOTOGRAPHER_TAB;
-
-export const PHOTOGRAPHER_TAB_MAP: Record<PhotographerTab, string> = {
-  PORTFOLIO: '포트폴리오',
-  PRODUCT: '상품',
-} as const;
+export const PHOTOGRAPHER_TABS = [
+  { value: PHOTOGRAPHER_TAB.PORTFOLIO, label: '포트폴리오' },
+  { value: PHOTOGRAPHER_TAB.PRODUCT, label: '상품' },
+];

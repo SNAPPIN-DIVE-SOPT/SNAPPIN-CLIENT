@@ -1,11 +1,10 @@
+'use client';
+
 import Image from 'next/image';
+import { useGetPhotographerDetail } from '../api';
 
 type PhotographerSectionProps = {
-  name: string;
-  imageUrl: string;
-  bio: string;
-  specialties: string[];
-  locations: string[];
+  id: number;
 };
 
 type DetailRowProps = {
@@ -13,20 +12,16 @@ type DetailRowProps = {
   content: string[];
 }
 
-export function PhotographerSection({
-  name,
-  imageUrl,
-  bio,
-  specialties,
-  locations
-}: PhotographerSectionProps) {
+export function PhotographerSection({ id }: PhotographerSectionProps) {
+  const { data } = useGetPhotographerDetail(id);
+  
   return (
-    <section className='fixed w-full max-w-[45rem] top-[5rem] p-[2rem] bg-black-1 z-10'>
+    <section className='fixed-center top-[5rem] p-[2rem] bg-black-1 z-10'>
       <div className='flex gap-[1.2rem]'>
         {/* 프로필 이미지 */}
         <div className='relative w-[8.7rem] h-[8.7rem]'>
           <Image
-            src={imageUrl || '/imgs/default-profile.png'}
+            src={data.profileImageUrl || '/imgs/default-profile.png'}
             alt='프로필 이미지'
             fill
             className='object-cover rounded-full'
@@ -35,12 +30,12 @@ export function PhotographerSection({
         {/* 작가 정보 */}
         <div className='flex flex-col flex-1 gap-[0.9rem]'>
           <div className='flex flex-col gap-[0.2rem]'>
-            <h2 className='font-16-bd text-black-10'>{name}</h2>
-            <p className='caption-14-rg text-black-8'>{bio}</p>
+            <h2 className='font-16-bd text-black-10'>{data.name ?? ''}</h2>
+            <p className='caption-14-rg text-black-8'>{data.bio ?? ''}</p>
           </div>
           <dl className='flex flex-col gap-[0.4rem]'>
-            <DetailRow label='촬영 상품' content={specialties} />
-            <DetailRow label='활동 지역' content={locations} />
+            <DetailRow label='촬영 상품' content={data.specialties ?? []} />
+            <DetailRow label='활동 지역' content={data.locations ?? []} />
           </dl>
         </div>
       </div>

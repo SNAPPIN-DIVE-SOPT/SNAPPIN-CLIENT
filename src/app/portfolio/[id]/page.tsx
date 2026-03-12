@@ -1,12 +1,8 @@
 import { Suspense } from 'react';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
-import {
-  QueryClient,
-  HydrationBoundary,
-  dehydrate,
-  defaultShouldDehydrateQuery
-} from '@tanstack/react-query';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { getQueryClient } from '@/utils/getQueryClient';
 import {
   Header,
   PortfolioDetailContent,
@@ -28,15 +24,7 @@ export default async function Page({ params }: PageProps) {
 
   const cookieStore = await cookies();
   const isLogIn = cookieStore.has('AccessToken');
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      dehydrate: {
-        shouldDehydrateQuery: (query) => 
-          query.state.status === 'pending' ||
-          defaultShouldDehydrateQuery(query),
-      },
-    },
-  });
+  const queryClient = getQueryClient();
 
   prefetchPortfolioDetail(queryClient, portfolioId, isLogIn);
 

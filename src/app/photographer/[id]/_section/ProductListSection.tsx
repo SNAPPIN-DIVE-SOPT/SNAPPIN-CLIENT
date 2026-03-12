@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { ProductList, ProductListSkeleton } from '@/ui';
+import { ProductList } from '@/ui';
 import { useGetProductList } from '../api';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { ROUTES } from '@/constants/routes/routes';
@@ -12,7 +12,7 @@ type ProductListSectionProps = {
 }
 
 export default function ProductListSection({ id }: ProductListSectionProps) {
-  const { data, isPending, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(id);
+  const { data, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(id);
   const { ref, inView } = useInView();
 
   const productList = data?.pages
@@ -44,14 +44,6 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
-
-  if (isPending) {
-    return (
-      <section className='mt-[17.1rem]'>
-        <ProductListSkeleton />
-      </section>
-    );
-  };
 
   if (productList.length === 0) {
     return (

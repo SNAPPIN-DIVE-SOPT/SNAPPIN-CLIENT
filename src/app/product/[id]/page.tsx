@@ -1,12 +1,8 @@
-import {
-  QueryClient,
-  HydrationBoundary,
-  dehydrate,
-  defaultShouldDehydrateQuery
-} from '@tanstack/react-query';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Suspense } from 'react';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
+import { getQueryClient } from '@/utils/getQueryClient';
 import { PRODUCT_TAB } from './constants/tab';
 import { Header, ProductDetailContent, ProductDetailSkeleton } from './components/index';
 import { prefetchProductDetail, prefetchPortfolioList, prefetchProductReviewList } from './api/server';
@@ -29,15 +25,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const promises = [];
   const cookieStore = await cookies();
   const isLogIn = cookieStore.has('AccessToken');
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      dehydrate: {
-        shouldDehydrateQuery: (query) =>
-          defaultShouldDehydrateQuery(query) ||
-          query.state.status === 'pending',
-      }
-    }
-  });
+  const queryClient = getQueryClient();
 
   promises.push(prefetchProductDetail(queryClient, productId, isLogIn));
   if (tab === PRODUCT_TAB.PORTFOLIO) {

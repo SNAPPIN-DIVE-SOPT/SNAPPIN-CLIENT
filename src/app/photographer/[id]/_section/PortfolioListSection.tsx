@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { PortfolioList, PortfolioListSkeleton } from '@/ui';
+import { PortfolioList } from '@/ui';
 import { useGetPortfolioList } from '../api';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { ROUTES } from '@/constants/routes/routes';
@@ -12,7 +12,7 @@ type PortfolioListSectionProps = {
 }
 
 export default function PortfolioListSection({ id }: PortfolioListSectionProps) {
-  const { data, isPending, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetPortfolioList(id);
+  const { data, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetPortfolioList(id);
   const { ref, inView } = useInView();
 
   const portfolioList = useMemo(() => {
@@ -35,14 +35,6 @@ export default function PortfolioListSection({ id }: PortfolioListSectionProps) 
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
-
-  if (isPending) {
-    return (
-      <section className='mt-[17.1rem]'>
-        <PortfolioListSkeleton />
-      </section>
-    );
-  };
 
   if (portfolioList.length === 0) {
     return (
