@@ -29,15 +29,10 @@ jest.mock('@/ui', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const React = require('react');
 
-  const BottomCTAButton = function BottomCTAButton({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) {
-    return React.createElement('div', null, children);
-  };
+  const BottomCTAButton = ({ children }: { children: React.ReactNode }) =>
+    React.createElement('div', null, children);
 
-  const BottomCTAButtonSingle = function BottomCTAButtonSingle({
+  const BottomCTAButtonSingle = ({
     children,
     disabled,
     onClick,
@@ -45,9 +40,7 @@ jest.mock('@/ui', () => {
     children: React.ReactNode;
     disabled?: boolean;
     onClick?: () => void;
-  }) {
-    return React.createElement('button', { disabled, onClick }, children);
-  };
+  }) => React.createElement('button', { disabled, onClick }, children);
 
   BottomCTAButton.Single = BottomCTAButtonSingle;
 
@@ -66,17 +59,18 @@ const renderBottomCTA = (
 
 describe('[작가] 예약 상세 페이지 하단 CTA 버튼 상태', () => {
   beforeEach(() => {
-    pushMock.mockClear();
-    completeReservationMock.mockClear();
-    confirmReservationMock.mockClear();
+    jest.clearAllMocks();
   });
 
   it('PHOTOGRAPHER_CHECKING 상태: 라벨/활성화/라우팅이 동작한다', () => {
     renderBottomCTA(STATE_CODES.PHOTOGRAPHER_CHECKING);
 
-    const button = screen.getByRole('button', { name: '결제 요청하기' }) as HTMLButtonElement;
+    const button = screen.getByRole('button', {
+      name: '결제 요청하기',
+    }) as HTMLButtonElement;
 
     expect(button.disabled).toBe(false);
+
     fireEvent.click(button);
 
     expect(pushMock).toHaveBeenCalledWith(PHOTOGRAPHERS_ROUTES.PAYMENT(7));
@@ -87,10 +81,14 @@ describe('[작가] 예약 상세 페이지 하단 CTA 버튼 상태', () => {
   it('PAYMENT_REQUESTED 상태: 라벨이 맞고 비활성화되어 아무 동작도 하지 않는다', () => {
     renderBottomCTA(STATE_CODES.PAYMENT_REQUESTED);
 
-    const button = screen.getByRole('button', { name: '결제 요청 중' }) as HTMLButtonElement;
+    const button = screen.getByRole('button', {
+      name: '결제 요청 중',
+    }) as HTMLButtonElement;
 
     expect(button.disabled).toBe(true);
+
     fireEvent.click(button);
+
     expect(pushMock).not.toHaveBeenCalled();
     expect(confirmReservationMock).not.toHaveBeenCalled();
     expect(completeReservationMock).not.toHaveBeenCalled();
@@ -99,9 +97,12 @@ describe('[작가] 예약 상세 페이지 하단 CTA 버튼 상태', () => {
   it('PAYMENT_COMPLETED 상태: 라벨/활성화/예약 확정 mutate 호출이 동작한다', () => {
     renderBottomCTA(STATE_CODES.PAYMENT_COMPLETED);
 
-    const button = screen.getByRole('button', { name: '예약 확정하기' }) as HTMLButtonElement;
+    const button = screen.getByRole('button', {
+      name: '예약 확정하기',
+    }) as HTMLButtonElement;
 
     expect(button.disabled).toBe(false);
+
     fireEvent.click(button);
 
     expect(confirmReservationMock).toHaveBeenCalledWith(7);
@@ -112,10 +113,14 @@ describe('[작가] 예약 상세 페이지 하단 CTA 버튼 상태', () => {
   it('RESERVATION_CONFIRMED 상태 + 예약일 이전: 라벨이 맞고 비활성화된다', () => {
     renderBottomCTA(STATE_CODES.RESERVATION_CONFIRMED, '2099-01-01');
 
-    const button = screen.getByRole('button', { name: '예약 확정' }) as HTMLButtonElement;
+    const button = screen.getByRole('button', {
+      name: '예약 확정',
+    }) as HTMLButtonElement;
 
     expect(button.disabled).toBe(true);
+
     fireEvent.click(button);
+
     expect(pushMock).not.toHaveBeenCalled();
     expect(confirmReservationMock).not.toHaveBeenCalled();
     expect(completeReservationMock).not.toHaveBeenCalled();
@@ -129,6 +134,7 @@ describe('[작가] 예약 상세 페이지 하단 CTA 버튼 상태', () => {
     }) as HTMLButtonElement;
 
     expect(button.disabled).toBe(false);
+
     fireEvent.click(button);
 
     expect(completeReservationMock).toHaveBeenCalledWith(7);
@@ -139,10 +145,14 @@ describe('[작가] 예약 상세 페이지 하단 CTA 버튼 상태', () => {
   it('SHOOT_COMPLETED 상태: 라벨이 맞고 비활성화되어 아무 동작도 하지 않는다', () => {
     renderBottomCTA(STATE_CODES.SHOOT_COMPLETED);
 
-    const button = screen.getByRole('button', { name: '리뷰 요청 완료' }) as HTMLButtonElement;
+    const button = screen.getByRole('button', {
+      name: '리뷰 요청 완료',
+    }) as HTMLButtonElement;
 
     expect(button.disabled).toBe(true);
+
     fireEvent.click(button);
+
     expect(pushMock).not.toHaveBeenCalled();
     expect(confirmReservationMock).not.toHaveBeenCalled();
     expect(completeReservationMock).not.toHaveBeenCalled();
@@ -151,10 +161,14 @@ describe('[작가] 예약 상세 페이지 하단 CTA 버튼 상태', () => {
   it('RESERVATION_CANCELED 상태: 라벨이 맞고 비활성화되어 아무 동작도 하지 않는다', () => {
     renderBottomCTA(STATE_CODES.RESERVATION_CANCELED);
 
-    const button = screen.getByRole('button', { name: '고객님의 예약 취소' }) as HTMLButtonElement;
+    const button = screen.getByRole('button', {
+      name: '고객님의 예약 취소',
+    }) as HTMLButtonElement;
 
     expect(button.disabled).toBe(true);
+
     fireEvent.click(button);
+
     expect(pushMock).not.toHaveBeenCalled();
     expect(confirmReservationMock).not.toHaveBeenCalled();
     expect(completeReservationMock).not.toHaveBeenCalled();
@@ -163,10 +177,30 @@ describe('[작가] 예약 상세 페이지 하단 CTA 버튼 상태', () => {
   it('RESERVATION_REFUSED 상태: 라벨이 맞고 비활성화되어 아무 동작도 하지 않는다', () => {
     renderBottomCTA(STATE_CODES.RESERVATION_REFUSED);
 
-    const button = screen.getByRole('button', { name: '예약 거절 완료' }) as HTMLButtonElement;
+    const button = screen.getByRole('button', {
+      name: '예약 거절 완료',
+    }) as HTMLButtonElement;
 
     expect(button.disabled).toBe(true);
+
     fireEvent.click(button);
+
+    expect(pushMock).not.toHaveBeenCalled();
+    expect(confirmReservationMock).not.toHaveBeenCalled();
+    expect(completeReservationMock).not.toHaveBeenCalled();
+  });
+
+  it('RESERVATION_REQUESTED 상태: 라벨이 맞고 비활성화되어 아무 동작도 하지 않는다', () => {
+    renderBottomCTA(STATE_CODES.RESERVATION_REQUESTED);
+
+    const button = screen.getByRole('button', {
+      name: '예약 요청 중',
+    }) as HTMLButtonElement;
+
+    expect(button.disabled).toBe(true);
+
+    fireEvent.click(button);
+
     expect(pushMock).not.toHaveBeenCalled();
     expect(confirmReservationMock).not.toHaveBeenCalled();
     expect(completeReservationMock).not.toHaveBeenCalled();
