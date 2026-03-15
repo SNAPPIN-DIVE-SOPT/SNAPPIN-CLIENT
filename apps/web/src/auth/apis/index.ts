@@ -11,9 +11,9 @@ import {
 } from '@/swagger-api';
 import { setAccessToken, getAccessToken, deleteAccessToken } from '../token';
 import { deleteAuthUser, setAuthUser } from '../userType';
-import { isValidUserType } from '../constant/userType';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { useAuth } from '../hooks/useAuth';
+import { isValidUserType } from '@snappin/shared/types/userType';
 
 // 카카오 로그인 API
 type KakaoCodePayload = { code: string };

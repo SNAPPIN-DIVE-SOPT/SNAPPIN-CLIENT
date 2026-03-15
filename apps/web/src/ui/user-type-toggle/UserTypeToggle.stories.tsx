@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import UserTypeToggle, { UserTypeToggleProps } from './UserTypeToggle';
-import { USER_TYPE, UserType } from '../../auth/constant/userType';
+import { USER_TYPE, UserType } from '@snappin/shared/types/userType';
 
 const meta: Meta<typeof UserTypeToggle> = {
   title: 'UI/UserTypeToggle',

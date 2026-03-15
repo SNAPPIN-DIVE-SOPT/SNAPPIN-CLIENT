@@ -1,5 +1,4 @@
-﻿import { USER_TYPE, UserType } from '@/auth/constant/userType';
-import {
+﻿import {
   IconHome,
   IconExplore,
   IconReservation,
@@ -16,6 +15,7 @@ import {
   IconMessageFill,
 } from '@snappin/design-system/assets';
 import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
+import { USER_TYPE, UserType } from '@snappin/shared/types/userType';
 export type MenuItem = {
   href: string | null;
   activeIcon: React.ReactNode;

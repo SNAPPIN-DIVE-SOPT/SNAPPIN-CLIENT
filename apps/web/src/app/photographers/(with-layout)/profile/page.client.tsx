@@ -1,11 +1,11 @@
 ﻿'use client';
 
 import Lottie from 'lottie-react';
-import { isValidUserType, type UserType } from '@/auth/constant/userType';
 import { useSwitchUserProfile } from '@/auth/apis';
 import loadingAnimation from '@snappin/design-system/assets/lotties/loading.json';
 import SwitchProfile from './components/switch-profile/SwitchProfile';
 import { useMinDurationLoading } from './hooks/useMinDurationLoading';
+import { isValidUserType, UserType } from '@snappin/shared/types/userType';
 
 const MIN_DURATION = 1600;
 

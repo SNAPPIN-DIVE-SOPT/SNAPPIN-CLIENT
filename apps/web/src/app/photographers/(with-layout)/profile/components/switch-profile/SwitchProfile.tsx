@@ -1,6 +1,6 @@
 import { Divider } from '@snappin/design-system';
 import { UserTypeToggle } from '@/ui/user-type-toggle';
-import { USER_TYPE, type UserType } from '@/auth/constant/userType';
+import { USER_TYPE, UserType } from '@snappin/shared/types/userType';
 
 type SwitchProfileProps = {
   userType: UserType;

@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
-import { isValidUserType, USER_TYPE, type UserType } from '@/auth/constant/userType';
 import { setAuthUser } from '@/auth/userType';
 import { setAccessToken } from '@/auth/token';
 import { useKakaoLogin } from '@/auth/apis';
@@ -11,6 +10,7 @@ import { useKakaoLogin } from '@/auth/apis';
 import { Loading } from '@snappin/design-system';
 import { useToast } from '@/ui';
 import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
+import { isValidUserType, USER_TYPE, UserType } from '@snappin/shared/types/userType';
 
 const CLIENT_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL;
 const KAKAO_LOGIN_URL =

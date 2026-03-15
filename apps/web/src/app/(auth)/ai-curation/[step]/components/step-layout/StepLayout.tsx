@@ -2,7 +2,7 @@
 
 import ImageAnimation from '../image-animation/ImageAnimation';
 import type { GetPhotoResponse, GetQuestionResponse } from '@/swagger-api';
-import { formatNumber } from '@snappin/shared';
+import { formatNumber } from '@snappin/shared/lib/formatNumber';
 
 type StepLayoutProps = {
   question: GetQuestionResponse;

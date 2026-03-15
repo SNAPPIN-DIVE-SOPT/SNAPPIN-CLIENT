@@ -3,8 +3,8 @@
 import { IconButton, Navigation } from '@snappin/design-system';
 import { useRouter } from 'next/navigation';
 import { IconSearch, Logo } from '@snappin/design-system/assets';
-import { openSearchSheet } from '../../../../../utils/openSearchSheet';
-import { ROUTES } from '../../../../../constants/routes/routes';
+import { openSearchSheet } from '@/utils/openSearchSheet';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function ClientHeader() {
   const router = useRouter();

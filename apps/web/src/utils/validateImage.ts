@@ -1,4 +1,4 @@
-import { IMAGE_ACCEPT, MAX_IMAGE_SIZE } from '@snappin/shared';
+import { IMAGE_ACCEPT, MAX_IMAGE_SIZE } from '@snappin/shared/constants/imageAccept';
 
 type ValidateImageParams = {
   file: File;

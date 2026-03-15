@@ -1,6 +1,6 @@
 import FooterClient from './Footer.client';
 import { getUserType } from '@/auth/userType';
-import { isValidUserType } from '@/auth/constant/userType';
+import { isValidUserType } from '@snappin/shared/types/userType';
 
 export default async function Footer() {
   const userType = await getUserType();

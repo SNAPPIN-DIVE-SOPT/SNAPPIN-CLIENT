@@ -1,4 +1,4 @@
-import { USER_TYPE, UserType } from '@/auth/constant/userType';
+import { USER_TYPE, UserType } from '@snappin/shared/types/userType';
 
 type UserTypeToggleTheme = {
   trackClassName: string;

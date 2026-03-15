@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useGetUserInfo } from '../../../../../auth/apis';
-import { UserType, USER_TYPE } from '../../../../../auth/constant/userType';
+import { useGetUserInfo } from '@/auth/apis';
 import type { GetClientInfoResponse, GetPhotographerProfileResponse } from '@/swagger-api';
+import { USER_TYPE, UserType } from '@snappin/shared/types/userType';
 
 type ProfileCardProps = {
   userType: UserType | null;

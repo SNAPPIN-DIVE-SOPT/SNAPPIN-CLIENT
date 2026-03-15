@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ConfirmModal } from '@snappin/design-system';
-import { useLogout } from '../../../../../auth/apis';
-import { useAuth } from '../../../../../auth/hooks/useAuth';
-import { useToast } from '../../../../../ui/toast/hooks/useToast';
-import { ROUTES } from '../../../../../constants/routes/routes';
+import { useLogout } from '@/auth/apis';
+import { useAuth } from '@/auth/hooks/useAuth';
+import { useToast } from '@/ui';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function Menus() {
   const router = useRouter();

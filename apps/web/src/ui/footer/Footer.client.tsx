@@ -2,10 +2,10 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { type UserType } from '@/auth/constant/userType';
 import { useToast } from '@/ui';
 import { getMenuItems } from './constants/menu';
 import { ROUTES } from '@/constants/routes/routes';
+import { UserType } from '@snappin/shared/types/userType';
 
 type FooterClientProps = {
   initialUserType: UserType | null;

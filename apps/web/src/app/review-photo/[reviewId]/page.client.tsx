@@ -6,7 +6,7 @@ import { ImageCarousel, ReviewStar } from '@snappin/design-system';
 import { formatShortDate } from '@/utils/formatDate';
 import Skeleton from './components/skeleton/Skeleton';
 import { useGetReviewDetail } from './api';
-import { UserType } from '@/auth/constant/userType';
+import { UserType } from '@snappin/shared/types/userType';
 
 type PageClientProps = {
   reviewId: number;
