@@ -1,14 +1,17 @@
+import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import pluginReact from 'eslint-plugin-react';
 import pluginReactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
-
 import baseConfig from './base.mjs';
 
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const projectRoot = process.cwd();
 const toPosixPath = (value) => value.replaceAll('\\', '/');
+const tsconfigCandidates = ['tsconfig.json', 'tsconfig.storybook.json']
+  .map((file) => path.join(projectRoot, file))
+  .filter((file) => fs.existsSync(file))
+  .map(toPosixPath);
 
 export default [
   ...baseConfig,
@@ -30,10 +33,7 @@ export default [
         },
         typescript: {
           alwaysTryTypes: true,
-          project: [
-            toPosixPath(path.join(repoRoot, 'apps/*/tsconfig.json')),
-            toPosixPath(path.join(repoRoot, 'packages/*/tsconfig.json')),
-          ],
+          project: tsconfigCandidates,
         },
       },
     },
