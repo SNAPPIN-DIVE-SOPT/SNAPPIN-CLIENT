@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { ROUTES } from '@/constants/routes/routes';
 import { getQueryClient } from '@/utils/getQueryClient';
-import { Tabs, PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
 import {
   PhotographerSectionSkeleton,
   PhotographerSection,
@@ -17,6 +16,7 @@ import {
   prefetchProductList,
 } from './api/server';
 import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TABS } from '@/app/photographer/[id]/constants/tab';
+import { PortfolioListSkeleton, ProductListSkeleton, Tabs } from '@snappin/design-system/ui';
 
 type PageProps = {
   params: Promise<{ id: string }>;
