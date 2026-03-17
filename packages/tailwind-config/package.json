@@ -6,8 +6,7 @@
   "style": "./styles.css",
   "exports": {
     ".": "./styles.css",
-    "./postcss": "./postcss.config.mjs",
-    "./styles.css": "./styles.css"
+    "./postcss": "./postcss.config.mjs"
   },
   "dependencies": {
     "tailwindcss": "^4.1.16"
