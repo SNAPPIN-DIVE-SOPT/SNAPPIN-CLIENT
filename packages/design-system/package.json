@@ -16,7 +16,6 @@
   "exports": {
     ".": "./src/ui/index.ts",
     "./ui/*": "./src/ui/*",
-    "./styles.css": "./styles.css",
     "./assets": "./src/assets/index.ts",
     "./assets/*": "./src/assets/*",
     "./lib/*": "./src/lib/*"
