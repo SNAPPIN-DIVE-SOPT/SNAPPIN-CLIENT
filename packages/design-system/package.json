@@ -82,6 +82,7 @@
     "storybook": "^10.2.15",
     "tailwindcss": "^4.1.16",
     "turbo": "^2.0.0",
+    "tsx": "^4.20.6",
     "typescript": "^5",
     "vite": "^8.0.0"
   }
