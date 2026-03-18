@@ -1,5 +1,5 @@
-﻿import { cn } from '@ds/lib/cn';
-import { IconStar, IconStarHalf } from '@ds/assets';
+﻿import { cn } from '../../lib/cn';
+import { IconStar, IconStarHalf } from '../../assets';
 
 type ReviewStarProps = {
   //4.5

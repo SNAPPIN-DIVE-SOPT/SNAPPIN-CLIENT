@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
-import { cn } from '@ds/lib/cn';
-import { IconArrowBack, IconArrowForward } from '@ds/assets';
+import { cn } from '../../../lib/cn';
+import { IconArrowBack, IconArrowForward } from '../../../assets';
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;

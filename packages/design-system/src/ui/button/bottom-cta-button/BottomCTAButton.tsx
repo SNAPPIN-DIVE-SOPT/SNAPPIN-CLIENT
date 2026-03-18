@@ -1,5 +1,5 @@
-﻿import { Button } from '@ds/ui';
-import { cn } from '@ds/lib/cn';
+﻿import { Button } from '../..';
+import { cn } from '../../../lib/cn';
 
 type BottomCTAButtonRootProps = React.HTMLAttributes<HTMLDivElement> & {
   children: React.ReactNode;

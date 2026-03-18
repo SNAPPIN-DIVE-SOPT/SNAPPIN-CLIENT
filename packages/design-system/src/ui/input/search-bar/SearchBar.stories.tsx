@@ -1,6 +1,6 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { type ChangeEvent, type ComponentProps, useState } from 'react';
-import { SearchBar } from '@ds/ui';
+import { SearchBar } from '../..';
 
 const meta: Meta<typeof SearchBar> = {
   title: 'input/SearchBar',

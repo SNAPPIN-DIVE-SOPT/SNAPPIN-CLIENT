@@ -1,5 +1,5 @@
-﻿import { Modal, ModalButtonProps } from '@ds/ui/modal/base/Modal';
-import { cn } from '@ds/lib/cn';
+﻿import { Modal, ModalButtonProps } from '../base/Modal';
+import { cn } from '../../../lib/cn';
 
 type ConfirmModalProps = {
   open: boolean;

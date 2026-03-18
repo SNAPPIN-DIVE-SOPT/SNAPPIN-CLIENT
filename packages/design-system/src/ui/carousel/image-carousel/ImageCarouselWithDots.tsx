@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { ImageCarouselProps } from '@ds/ui/carousel/image-carousel/ImageCarousel';
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@ds/ui';
-import { cn } from '@ds/lib/cn';
-import { IconEllipse } from '@ds/assets';
+import { ImageCarouselProps } from './ImageCarousel';
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '../..';
+import { cn } from '../../../lib/cn';
+import { IconEllipse } from '../../../assets';
 
 export default function ImageCarouselWithDots({
   images,

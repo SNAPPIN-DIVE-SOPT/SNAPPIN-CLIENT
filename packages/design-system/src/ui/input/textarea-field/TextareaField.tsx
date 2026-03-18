@@ -1,4 +1,4 @@
-import { Textarea } from '@ds/ui';
+import { Textarea } from '../..';
 
 type TextareaFieldProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   id: string;

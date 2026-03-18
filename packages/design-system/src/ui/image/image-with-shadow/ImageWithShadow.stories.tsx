@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ImageWithShadow } from '@ds/ui';
+import { ImageWithShadow } from '../..';
 
 const meta: Meta<typeof ImageWithShadow> = {
   title: 'UI/Image/ImageWithShadow',

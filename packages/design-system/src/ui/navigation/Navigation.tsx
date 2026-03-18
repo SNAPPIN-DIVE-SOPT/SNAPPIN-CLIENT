@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { cn } from '@ds/lib/cn';
+import { cn } from '../../lib/cn';
 
 type NavigationProps = React.HTMLAttributes<HTMLElement> & {
   left?: React.ReactNode;

@@ -1,6 +1,6 @@
 ﻿import React from 'react';
-import { IconSearch } from '@ds/assets';
-import { cn } from '@ds/lib/cn';
+import { IconSearch } from '../../../assets';
+import { cn } from '../../../lib/cn';
 
 type SearchBarProps = React.InputHTMLAttributes<HTMLInputElement> & {
   containerClassName?: string;

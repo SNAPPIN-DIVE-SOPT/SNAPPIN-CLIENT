@@ -1,4 +1,4 @@
-﻿import { cn } from '@ds/lib/cn';
+﻿import { cn } from '../../lib/cn';
 
 type ControlRowProps = {
   leftLabel: React.ReactNode;

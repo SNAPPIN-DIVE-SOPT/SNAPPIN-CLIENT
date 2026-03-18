@@ -1,7 +1,7 @@
 ﻿import Image from 'next/image';
-import { cn } from '@ds/lib/cn';
-import { IconButton } from '@ds/ui';
-import { IconClose } from '@ds/assets';
+import { cn } from '../../../lib/cn';
+import { IconButton } from '../..';
+import { IconClose } from '../../../assets';
 
 type ImagePreviewProps = React.ComponentProps<'div'> & {
   imageSrc: string;

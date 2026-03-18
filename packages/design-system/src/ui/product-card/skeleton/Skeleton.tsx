@@ -1,6 +1,6 @@
-import { DividerSize } from '@ds/ui/divider/type/variant';
-import { cn } from '@ds/lib/cn';
-import { Divider } from '@ds/ui';
+import { DividerSize } from '../../divider/type/variant';
+import { cn } from '../../../lib/cn';
+import { Divider } from '../..';
 
 type ProductListSkeletonProps = {
   length?: number;

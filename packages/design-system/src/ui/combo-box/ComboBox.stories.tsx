@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ComboBox } from '@ds/ui';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { ComboBox } from '..';
 
 const meta: Meta<typeof ComboBox> = {
   title: 'combo-box/ComboBox',

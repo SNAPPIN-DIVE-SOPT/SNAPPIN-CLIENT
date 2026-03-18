@@ -1,6 +1,6 @@
 ﻿import { HTMLAttributes, ReactNode, Children, isValidElement } from 'react';
 import Link from 'next/link';
-import { cn } from '@ds/lib/cn';
+import { cn } from '../../lib/cn';
 
 type TabProps = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;

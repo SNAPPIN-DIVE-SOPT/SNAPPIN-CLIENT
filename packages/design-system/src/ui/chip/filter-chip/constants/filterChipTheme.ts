@@ -1,4 +1,4 @@
-import { FilterChipVariant } from '@ds/ui/chip/filter-chip/types/filterChipVariant';
+import { FilterChipVariant } from '../types/filterChipVariant';
 
 type FilterChipTheme = { buttonClassName: string; labelClassName: string };
 

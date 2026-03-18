@@ -1,9 +1,9 @@
-﻿import { cn } from '@ds/lib/cn';
-import { IconButton } from '@ds/ui';
-import { IconClose } from '@ds/assets';
+﻿import { cn } from '../../../lib/cn';
+import { IconButton } from '../..';
+import { IconClose } from '../../../assets';
 import { MoodCode } from '@snappin/shared/types';
-import { FilterChipVariant } from '@ds/ui/chip/filter-chip/types/filterChipVariant';
-import { FILTER_CHIP_THEME } from '@ds/ui/chip/filter-chip/constants/filterChipTheme';
+import { FilterChipVariant } from './types/filterChipVariant';
+import { FILTER_CHIP_THEME } from './constants/filterChipTheme';
 
 const getVariant = (isSelected: boolean, onRemove?: (tag: MoodCode) => void): FilterChipVariant => {
   if (onRemove) {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import type { ComponentProps } from 'react';
-import { Tabs } from '@ds/ui';
+import { Tabs } from '..';
 
 const meta: Meta<typeof Tabs> = {
   title: 'UI/Tabs',

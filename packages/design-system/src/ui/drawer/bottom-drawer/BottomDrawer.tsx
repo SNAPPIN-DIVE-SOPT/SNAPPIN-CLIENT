@@ -1,5 +1,5 @@
-﻿import { Drawer, DrawerContent } from '@ds/ui';
-import { cn } from '@ds/lib/cn';
+﻿import { Drawer, DrawerContent } from '../..';
+import { cn } from '../../../lib/cn';
 
 type BottomDrawerCommonProps = {
   children?: React.ReactNode;

@@ -1,5 +1,5 @@
-﻿import { cn } from '@ds/lib/cn';
-import { FieldMessage, Input } from '@ds/ui';
+﻿import { cn } from '../../../lib/cn';
+import { FieldMessage, Input } from '../..';
 
 type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   id: string;

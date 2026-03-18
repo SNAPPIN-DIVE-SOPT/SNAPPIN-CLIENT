@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ImageCarousel } from '@ds/ui';
+import { ImageCarousel } from '../..';
 
 const IMAGES = [
   { src: '@/../public/imgs/image-banner1.png', alt: 'carousel 1' },

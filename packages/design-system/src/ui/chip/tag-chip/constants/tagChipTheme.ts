@@ -1,5 +1,5 @@
-import { TagChipVariant } from '@ds/ui/chip/tag-chip/types/tagChipVariant';
-import { ChipTheme } from '@ds/ui/chip/types/chipTheme';
+import { TagChipVariant } from '../types/tagChipVariant';
+import { ChipTheme } from '../../types/chipTheme';
 
 export const TAG_CHIP_THEME_BY_VARIANT: Record<TagChipVariant, ChipTheme> = {
   neon: { chipClassName: 'bg-neon-black', labelClassName: 'text-black-9' },

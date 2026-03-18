@@ -1,8 +1,8 @@
 ﻿import { StateCode } from '@snappin/shared/types';
-import { STATE_CHIP_THEME_BY_LABEL } from '@ds/ui/chip/state-chip/constants/stateChipTheme';
-import { Chip } from '@ds/ui';
-import { STATE_LABEL } from '@ds/ui/chip/state-chip/constants/stateLabel';
-import { cn } from '@ds/lib/cn';
+import { STATE_CHIP_THEME_BY_LABEL } from './constants/stateChipTheme';
+import { Chip } from '../..';
+import { STATE_LABEL } from './constants/stateLabel';
+import { cn } from '../../../lib/cn';
 
 type StateChipProps = {
   label: StateCode;

@@ -2,8 +2,8 @@
 
 import { useRef } from 'react';
 import { IMAGE_ACCEPT } from '@snappin/shared/constants';
-import { Button } from '@ds/ui';
-import { IconAddPhotoAlternate } from '@ds/assets';
+import { Button } from '../..';
+import { IconAddPhotoAlternate } from '../../../assets';
 
 type ImageUploadButtonProps = {
   handleUploadAction: (files: FileList) => void;

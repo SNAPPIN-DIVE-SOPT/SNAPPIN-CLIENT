@@ -1,7 +1,7 @@
-﻿import { TagChipVariant } from '@ds/ui/chip/tag-chip/types/tagChipVariant';
-import { TAG_CHIP_THEME_BY_VARIANT } from '@ds/ui/chip/tag-chip/constants/tagChipTheme';
-import { Chip } from '@ds/ui';
-import { cn } from '@ds/lib/cn';
+﻿import { TagChipVariant } from './types/tagChipVariant';
+import { TAG_CHIP_THEME_BY_VARIANT } from './constants/tagChipTheme';
+import { Chip } from '../..';
+import { cn } from '../../../lib/cn';
 
 type TagChipProps = {
   variant: TagChipVariant;

@@ -1,4 +1,4 @@
-import { DividerColor, DividerSize } from '@ds/ui/divider/type/variant';
+import { DividerColor, DividerSize } from '../type/variant';
 
 export const DIVIDER_THICKNESS: Record<NonNullable<DividerSize>, string> = {
   small: 'h-[0.1rem]',

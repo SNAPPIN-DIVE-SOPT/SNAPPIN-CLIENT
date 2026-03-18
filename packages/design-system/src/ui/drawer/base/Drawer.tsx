@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
-import { cn } from '@ds/lib/cn';
+import { cn } from '../../../lib/cn';
 
 function Drawer({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
   return <DrawerPrimitive.Root data-slot='drawer' {...props} />;

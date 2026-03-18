@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import Image from 'next/image';
-import { cn } from '@ds/lib/cn';
+import { cn } from '../../../lib/cn';
 type RemUnit = `${number}rem`;
 
 type ImageWithShadowProps = React.ComponentProps<typeof Image> & {

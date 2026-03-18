@@ -1,8 +1,8 @@
 ﻿'use client';
 
-import { IconButton } from '@ds/ui';
-import { IconHeart, IconHeartFill } from '@ds/assets';
-import { cn } from '@ds/lib/cn';
+import { IconButton } from '../..';
+import { IconHeart, IconHeartFill } from '../../../assets';
+import { cn } from '../../../lib/cn';
 
 type LikeButtonProps = {
   isLiked: boolean;

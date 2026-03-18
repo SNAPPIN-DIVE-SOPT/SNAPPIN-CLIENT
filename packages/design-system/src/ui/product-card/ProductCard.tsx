@@ -1,9 +1,9 @@
 ﻿import Image from 'next/image';
 import { ProductCardProps } from '@snappin/shared/types';
-import { cn } from '@ds/lib/cn';
-import { IconStar } from '@ds/assets';
+import { cn } from '../../lib/cn';
+import { IconStar } from '../../assets';
 import { formatPrice } from '@snappin/shared/lib';
-import { TagChip } from '@ds/ui';
+import { TagChip } from '..';
 
 const PRODUCT_PLACEHOLDER = '/imgs/image-default.png';
 

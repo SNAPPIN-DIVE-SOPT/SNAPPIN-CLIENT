@@ -1,8 +1,8 @@
 ﻿'use client';
 
-import { cn } from '@ds/lib/cn';
-import { IconButton } from '@ds/ui';
-import { IconAdd, IconRemove } from '@ds/assets';
+import { cn } from '../../lib/cn';
+import { IconButton } from '..';
+import { IconAdd, IconRemove } from '../../assets';
 
 type ButtonAddMinusProps = {
   value: string | number;

@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react';
-import { Sheet, SheetContent } from '@ds/ui';
-import { cn } from '@ds/lib/cn';
+import { Sheet, SheetContent } from '../..';
+import { cn } from '../../../lib/cn';
 
 type ControlSheetProps = {
   open: boolean;

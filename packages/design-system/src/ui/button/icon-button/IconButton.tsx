@@ -1,5 +1,5 @@
 ﻿import { ButtonHTMLAttributes } from 'react';
-import { cn } from '@ds/lib/cn';
+import { cn } from '../../../lib/cn';
 
 type IconButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 

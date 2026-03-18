@@ -8,13 +8,13 @@ import {
   daysInMonth,
   startOfMonth,
   toISO,
-} from '@ds/ui/date/picker/utils/date';
+} from './utils/date';
 import { formatNumber } from '@snappin/shared/lib';
-import { CalendarCell } from '@ds/ui/date/picker/types/calendar';
-import { Divider, IconButton } from '@ds/ui';
-import { IconKeyboardArrowLeft, IconKeyboardArrowRight } from '@ds/assets';
-import { WEEKDAY_LABELS } from '@ds/ui/date/picker/constants/date';
-import DateCell from '@ds/ui/date/cell/DateCell';
+import { CalendarCell } from './types/calendar';
+import { Divider, IconButton } from '../..';
+import { IconKeyboardArrowLeft, IconKeyboardArrowRight } from '../../../assets';
+import { WEEKDAY_LABELS } from './constants/date';
+import DateCell from '../cell/DateCell';
 
 const MAX_RESERVATION_MONTHS = 6;
 

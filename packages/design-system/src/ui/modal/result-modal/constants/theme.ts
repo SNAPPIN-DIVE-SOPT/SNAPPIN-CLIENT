@@ -1,4 +1,4 @@
-import { ResultModalType } from '@ds/ui/modal/result-modal/types/type';
+import { ResultModalType } from '../types/type';
 
 type Theme = { contentTheme: string; headerTheme: string };
 

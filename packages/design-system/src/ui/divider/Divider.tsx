@@ -1,6 +1,6 @@
-﻿import { DividerColor, DividerSize } from '@ds/ui/divider/type/variant';
-import { cn } from '@ds/lib/cn';
-import { DIVIDER_COLOR, DIVIDER_THICKNESS } from '@ds/ui/divider/constants/theme';
+﻿import { DividerColor, DividerSize } from './type/variant';
+import { cn } from '../../lib/cn';
+import { DIVIDER_COLOR, DIVIDER_THICKNESS } from './constants/theme';
 
 type DividerProps = {
   thickness?: DividerSize;

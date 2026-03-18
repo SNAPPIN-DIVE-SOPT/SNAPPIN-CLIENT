@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { TagChip } from '@ds/ui';
+import { TagChip } from '../index';
 
 const meta: Meta<typeof TagChip> = {
   title: 'Chip/TagChip',

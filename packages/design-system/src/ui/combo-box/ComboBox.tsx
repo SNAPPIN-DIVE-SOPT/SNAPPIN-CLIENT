@@ -7,9 +7,9 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
-} from '@ds/ui/combo-box/base/command';
-import { Input } from '@ds/ui';
-import { cn } from '@ds/lib/cn';
+} from './base/command';
+import { Input } from '..';
+import { cn } from '../../lib/cn';
 
 type ComboBoxProps = {
   options: string[];

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ConfirmModal } from '@ds/ui';
-import { ModalButtonProps } from '@ds/ui/modal/base/Modal';
+import { ConfirmModal } from '../..';
+import { ModalButtonProps } from '../base/Modal';
 
 const meta: Meta<typeof ConfirmModal> = {
   title: 'Modal/ConfirmModal',

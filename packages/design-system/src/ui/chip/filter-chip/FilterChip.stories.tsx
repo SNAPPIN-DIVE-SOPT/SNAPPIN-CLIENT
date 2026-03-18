@@ -1,8 +1,8 @@
 ﻿import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { MOOD_CODE } from '@snappin/shared/types';
-import { FilterChip } from '@ds/ui';
-import { FilterChipProps } from '@ds/ui/chip/filter-chip/FilterChip';
+import { FilterChip } from '../..';
+import { FilterChipProps } from './FilterChip';
 
 const meta: Meta<typeof FilterChip> = {
   title: 'chip/FilterChip',

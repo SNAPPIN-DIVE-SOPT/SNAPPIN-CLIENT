@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { Loading } from '@ds/ui';
+import { Loading } from '..';
 
 const meta: Meta<typeof Loading> = {
   title: 'UI/Loading',

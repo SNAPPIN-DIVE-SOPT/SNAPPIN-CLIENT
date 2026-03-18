@@ -1,7 +1,7 @@
 ﻿import { memo } from 'react';
 import Link from 'next/link';
-import { ProductCard } from '@ds/ui';
-import { cn } from '@ds/lib/cn';
+import { ProductCard } from '../..';
+import { cn } from '../../../lib/cn';
 
 type ProductListProps = {
   productList: {
