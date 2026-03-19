@@ -1,6 +1,11 @@
+type ProductCardImage = {
+  src: string;
+  alt?: string;
+};
+
 export type ProductCardProps = {
   preload?: boolean;
-  image: { src: string; alt?: string };
+  image: ProductCardImage;
   name: string;
   rate: number;
   reviewCount: number;
@@ -8,4 +13,4 @@ export type ProductCardProps = {
   price: number;
   moods: string[];
   className?: string;
-} & React.HTMLAttributes<HTMLDivElement>;
+};
