@@ -1,3 +1,5 @@
+/* global console, process */
+
 import { readdir, readFile, writeFile } from 'fs/promises';
 import { dirname, extname, join, relative } from 'path';
 
