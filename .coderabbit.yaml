@@ -165,7 +165,7 @@ reviews:
         PR 제목은 아래 형식을 따르고 50자 이내로 작성해요.
 
         형식:
-        [이모지] [Type] : [이슈번호] 제목
+        [이모지] [Type] (작업범위) : #이슈번호 제목
 
         허용 이모지 / Type:
         🐾 Init
@@ -175,14 +175,14 @@ reviews:
         🔧 Refactor
 
         예시:
-        🎀 Feat : #123 로그인 버튼 추가
+        🎀 Feat (design-system) : #123 로그인 버튼 추가
 
     description:
       mode: 'warning'
       requirements: |
         PR 본문은 반드시 아래 형식으로 시작해요.
 
-        🎀 Feat : #
+        [이모지] [Type] (작업범위) : #이슈번호
 
     issue_assessment:
       mode: 'off'
