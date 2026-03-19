@@ -1,0 +1,76 @@
+'use client';
+
+import { useMemo, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useGetProductList } from '../api';
+import { useInfiniteScroll } from '../hooks/use-infinite-scroll';
+import { ProductList, ProductListSkeleton } from '@snappin/design-system';
+import { GetProductCardResponse } from '@/swagger-api';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
+import { toExploreSearchParams } from '../utils/query';
+
+export default function ProductListSection() {
+  const sp = useSearchParams();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, dataUpdatedAt } = useGetProductList(
+    new URLSearchParams(sp.toString()),
+  );
+
+  const products = useMemo(
+    () =>
+      data.pages
+        .flatMap((p) => p.data?.products ?? [])
+        .filter((p): p is GetProductCardResponse & { id: number } => p.id != null)
+        .map((p) => ({
+          id: p.id,
+          photographer: p.photographer ?? '',
+          moods: p.moods ?? [],
+          rate: p.rate ?? 0,
+          reviewCount: p.reviewCount ?? 0,
+          price: p.price ?? 0,
+          title: p.title ?? '',
+          imageUrl: p.imageUrl ?? '',
+        })),
+    [data.pages],
+  );
+
+  const { sentinelRef } = useInfiniteScroll({
+    enabled: true,
+    hasNextPage,
+    isFetchingNextPage,
+    onLoadMore: () => fetchNextPage(),
+  });
+
+  const scrollKey = useMemo(() => {
+    const allowed = toExploreSearchParams(new URLSearchParams(sp.toString()));
+    allowed.delete('tab');
+    const normalized = new URLSearchParams();
+    normalized.set('tab', 'PRODUCT');
+    allowed.forEach((value, key) => normalized.append(key, value));
+    return `explore:product:scroll?${normalized.toString()}`;
+  }, [sp]);
+
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  useScrollRestoreOnParent(anchorRef, scrollKey, [products.length, dataUpdatedAt], {
+    enabled: true,
+    resetOnKeyChange: true,
+  });
+
+  const isProductListEmpty = products.length === 0;
+
+  if (isProductListEmpty)
+    return (
+      <section className='flex min-h-[calc(100vh-29.9rem)] flex-col items-center justify-center gap-[0.4rem]'>
+        <h3 className='font-18-bd text-black-9'>검색 결과가 없어요</h3>
+        <span className='caption-14-md text-black-6 mt-[0.8rem]'>다른 키워드로 검색해보세요</span>
+      </section>
+    );
+
+  return (
+    <section>
+      <div ref={anchorRef} />
+      <ProductList productList={products} />
+      <div ref={sentinelRef} className='h-[1px]' />
+      {isFetchingNextPage && <ProductListSkeleton length={3} />}
+    </section>
+  );
+}

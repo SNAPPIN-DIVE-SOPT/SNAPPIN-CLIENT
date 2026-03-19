@@ -1,0 +1,22 @@
+{
+  "name": "@snappin/shared",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
+  },
+  "types": "src/index.ts",
+  "exports": {
+    "./types": "./src/types/index.ts",
+    "./lib": "./src/lib/index.ts",
+    "./constants": "./src/constants/index.ts"
+  },
+  "devDependencies": {
+    "@snappin/eslint-config": "workspace:*",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
+    "prettier": "^3.7.4"
+  }
+}

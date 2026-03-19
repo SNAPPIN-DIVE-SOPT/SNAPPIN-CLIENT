@@ -1,4 +1,4 @@
-name: ci
+﻿name: ci
 
 on:
   pull_request:
@@ -8,12 +8,14 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
-  build:
+  apps-ci:
     if: github.event_name == 'pull_request' || (github.event_name == 'push' && !contains(github.event.head_commit.message, '[skip ci]'))
-    runs-on: ubuntu-latest # 24.04(Ubuntu LTS)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [web]
 
     steps:
       - name: Checkout repository
@@ -21,89 +23,50 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10.13.1
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22.x"
-          cache: "pnpm"
+          node-version: '22.x'
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run lint
-        id: lint
-        run: pnpm run lint
-        continue-on-error: true
+      - name: Run lint (${{ matrix.app }})
+        run: pnpm turbo run lint --filter=${{ matrix.app }}
 
-      - name: Build project with Vite
-        id: build
-        run: pnpm run build
-        continue-on-error: true
+      - name: Run build (${{ matrix.app }})
+        run: pnpm turbo run build --filter=${{ matrix.app }}
 
-      - name: Run tests
-        id: test
-        run: pnpm run test
-        continue-on-error: true
+      - name: Run tests (${{ matrix.app }})
+        run: pnpm turbo run test --filter=${{ matrix.app }}
 
-      - name: Evaluate lint, build, and test status
-        id: status
-        run: |
-          lint_result="${{ steps.lint.outcome }}"
-          build_result="${{ steps.build.outcome }}"
-          test_result="${{ steps.test.outcome }}"
+  packages-ci:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && !contains(github.event.head_commit.message, '[skip ci]'))
+    runs-on: ubuntu-latest
 
-          lint_message=""
-          build_message=""
-          test_message=""
-          overall_result="success"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-          if [ "$lint_result" == "success" ]; then
-            lint_message="린트 통과 ✅"
-          else
-            lint_message="린트 실패 ❌"
-            overall_result="failed"
-          fi
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
-          if [ "$build_result" == "success" ]; then
-            build_message="빌드 성공 🎊"
-          else
-            build_message="빌드 실패 ❌"
-            overall_result="failed"
-          fi
-
-          if [ "$test_result" == "success" ]; then
-            test_message="테스트 통과 ✅"
-          else
-            test_message="테스트 실패 ❌"
-            overall_result="failed"
-          fi
-
-          if [ "$overall_result" == "success" ]; then
-            message="모든 검사 통과 🎉\n- $lint_message\n- $build_message\n- $test_message"
-          else
-            message="일부 검사 실패 ⚠️\n- $lint_message\n- $build_message\n- $test_message"
-          fi
-
-          echo "result=$overall_result" >> $GITHUB_OUTPUT
-          echo "message=$message" >> $GITHUB_OUTPUT
-
-      - name: Add comment to PR with status
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          script: |
-            const prNumber = context.payload.pull_request.number;
-            const message = `${{ steps.status.outputs.message }}`;
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-              body: `### 빌드, 린트, 테스트 결과\n${message}`
-            });
+          node-version: '22.x'
+          cache: 'pnpm'
 
-      - name: Fail job if any step failed
-        if: ${{ steps.status.outputs.result == 'failed' }}
-        run: exit 1
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run lint (packages)
+        run: pnpm turbo run lint --filter=./packages/*
+
+      - name: Run build (packages)
+        run: pnpm turbo run build --filter=./packages/*
+
+      - name: Run tests (packages)
+        run: pnpm turbo run test --filter=./packages/*

@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -16,6 +17,8 @@
 # next.js
 /.next/
 /out/
+.next
+dist
 
 # production
 /build
@@ -40,9 +43,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+apps/web/next-env.d.ts
 
 *storybook.log
 storybook-static
+.turbo
+.swc
 
 docs/
 AGENTS.md
