@@ -12,6 +12,7 @@ export { default as IconAdd2 } from './components/IconAdd2';
 export { default as IconAddPhotoAlternate } from './components/IconAddPhotoAlternate';
 export { default as IconArrowBack } from './components/IconArrowBack';
 export { default as IconArrowForward } from './components/IconArrowForward';
+export { default as IconCheck } from './components/IconCheck';
 export { default as IconChipY2k } from './components/IconChipY2k';
 export { default as IconChip내추럴 } from './components/IconChip내추럴';
 export { default as IconChip디지털 } from './components/IconChip디지털';
