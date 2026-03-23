@@ -1,4 +1,5 @@
-﻿import Image from 'next/image';
+﻿import type { HTMLAttributes } from 'react';
+import Image from 'next/image';
 import { ProductCardProps } from '@snappin/shared/types';
 import { cn } from '../../lib/cn';
 import { IconStar } from '../../assets';
@@ -6,6 +7,7 @@ import { formatPrice } from '@snappin/shared/lib';
 import { TagChip } from '..';
 
 const PRODUCT_PLACEHOLDER = '/imgs/image-default.png';
+type ProductCardRootProps = ProductCardProps & HTMLAttributes<HTMLDivElement>;
 
 export default function ProductCard({
   preload = false,
@@ -18,7 +20,7 @@ export default function ProductCard({
   moods,
   className,
   ...props
-}: ProductCardProps) {
+}: ProductCardRootProps) {
   return (
     <div className={cn('flex w-full gap-[1.2rem]', className)} {...props}>
       <div className='relative h-[10.2rem] w-[10.2rem] shrink-0'>

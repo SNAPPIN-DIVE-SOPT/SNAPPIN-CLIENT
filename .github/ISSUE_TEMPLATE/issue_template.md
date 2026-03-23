@@ -6,11 +6,6 @@ labels: ''
 assignees: ''
 ---
 
-## 📌 작업 범위
-
-<!-- 이번 이슈에서 다룰 범위를 작성해주세요 -->
-<!-- EX) @snappin-client/design-system, @snappin-client/apps/web -->
-
 ## 🛠 Task Description
 
 <!-- 여기에 작업에 대한 설명을 작성 -->
