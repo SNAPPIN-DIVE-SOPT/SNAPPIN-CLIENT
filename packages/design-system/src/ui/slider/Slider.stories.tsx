@@ -39,7 +39,7 @@ export const Default: StorySlider = {
         <div className='font-16-md text-black-10'>{value[0]} ~ {value[1]}</div>
         <Slider 
           min={args?.min ?? 10000}
-          max={args?.max! ?? 400000}
+          max={args?.max ?? 400000}
           step={args?.step ?? 10000}
           value={value} 
           onChange={(val) => {
