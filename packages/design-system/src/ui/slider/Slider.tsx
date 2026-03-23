@@ -26,10 +26,26 @@ export default function Slider({
     onChange?.([startValue, Math.max(newValue, startValue)]);
   };
 
-  const inputStyle = `absolute top-1/2 -translate-y-1/2 z-20 w-full
-    appearance-none pointer-events-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:pointer-events-auto
-    [&::-webkit-slider-thumb]:w-[2rem] [&::-webkit-slider-thumb]:h-[2rem] [&::-webkit-slider-thumb]:rounded-full
-    [&::-webkit-slider-thumb]:border-[0.3rem] [&::-webkit-slider-thumb]:border-black-10 [&::-webkit-slider-thumb]:bg-neon-black`;
+  const inputStyle = `
+    absolute top-1/2 -translate-y-1/2 z-20 w-full
+    appearance-none pointer-events-none bg-transparent
+    [&::-webkit-slider-thumb]:appearance-none
+    [&::-webkit-slider-thumb]:pointer-events-auto
+    [&::-webkit-slider-thumb]:w-[2rem]
+    [&::-webkit-slider-thumb]:h-[2rem]
+    [&::-webkit-slider-thumb]:border-[0.3rem]
+    [&::-webkit-slider-thumb]:border-black-10
+    [&::-webkit-slider-thumb]:rounded-full
+    [&::-webkit-slider-thumb]:bg-neon-black
+    [&::-moz-range-thumb]:appearance-none
+    [&::-moz-range-thumb]:pointer-events-auto
+    [&::-moz-range-thumb]:w-[2rem]
+    [&::-moz-range-thumb]:h-[2rem] 
+    [&::-moz-range-thumb]:border-[0.3rem]
+    [&::-moz-range-thumb]:border-black-10
+    [&::-moz-range-thumb]:rounded-full
+    [&::-moz-range-thumb]:bg-neon-black
+  `;
 
   return (
     <div className='relative w-full h-[2rem]'>
