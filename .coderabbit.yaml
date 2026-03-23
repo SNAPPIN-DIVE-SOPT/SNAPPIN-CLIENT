@@ -2,7 +2,7 @@
 language: 'ko-KR'
 early_access: true
 
-# ✅ 250자 이내 — 톤/스타일만 유지
+#  250자 이내
 tone_instructions: |
   한국어로 간결하고 건설적인 코드 리뷰를 제공합니다.
   리뷰 우선순위는 유지보수성 > 성능 > 보안입니다.
@@ -32,9 +32,11 @@ reviews:
   # =====================
   path_filters:
     # 허용 경로
-    - 'src/**'
-    - '.storybook/**'
+    - 'apps/**'
+    - 'packages/**'
     - '.github/**'
+    - 'pnpm-workspace.yaml'
+    - 'turbo.json'
     - 'next.config.*'
     - 'tailwind.config.*'
     - 'postcss.config.*'
@@ -49,10 +51,19 @@ reviews:
     # 제외 경로
     - '!node_modules/**'
     - '!.next/**'
+    - '!apps/**/.next/**'
+    - '!apps/**/node_modules/**'
+    - '!apps/**/.turbo/**'
+    - '!apps/**/.swc/**'
+    - '!packages/**/.next/**'
+    - '!packages/**/dist/**'
+    - '!packages/**/node_modules/**'
+    - '!packages/**/.turbo/**'
+    - '!packages/**/.storybook-static/**'
     - '!dist/**'
     - '!storybook-static/**'
     - '!build/**'
-    - '!src/assets/**'
+    - '!packages/design-system/src/assets/**'
     - '!coverage/**'
     - '!**/*.snap'
     - '!**/*.png'
@@ -89,51 +100,117 @@ reviews:
         - Next.js 환경 호환성 확인
         - 불필요한 addon 제거로 런타임 이슈 방지
 
-    - path: 'src/**/*.stories.@(ts|tsx)'
+    - path: 'apps/**/package.json'
+      instructions: |
+        앱 워크스페이스 package.json 리뷰 시:
+        - 루트 turbo/pnpm 스크립트와 충돌 없는지
+        - workspace 의존성 참조(workspace:*) 일관성 확인
+        - 앱 로컬 스크립트가 실제 디렉터리 구조와 맞는지 검토
+
+    - path: 'packages/**/package.json'
+      instructions: |
+        패키지 워크스페이스 package.json 리뷰 시:
+        - exports / types / main 경로가 실제 빌드 산출물과 일치하는지
+        - peerDependencies / dependencies 경계가 맞는지
+        - workspace 패키지 버전 참조가 일관적인지 확인
+
+    - path: 'packages/design-system/.storybook/**'
+      instructions: |
+        디자인 시스템 Storybook 설정 리뷰 시:
+        - stories glob이 packages/design-system/src 하위 구조와 일치하는지
+        - Vite/Next 통합 설정 충돌 여부 확인
+        - 빌드 산출물(dist) 대신 소스 기준으로 참조하는지 점검
+
+    - path: '**/*.stories.@(ts|tsx)'
       instructions: |
         Storybook 스토리 리뷰 시:
         - 주요 props 변형에 대한 스토리 커버
         - interaction test 사용 시 사용자 플로우/접근성 중심 검토
 
-    - path: 'src/app/**'
+    - path: 'apps/web/src/app/**'
       instructions: |
         Next.js App Router 리뷰 시:
         - Server / Client 컴포넌트 경계 최소화
         - window/document 접근의 SSR 안전성 확인
         - loading.tsx / error.tsx / not-found.tsx 활용 여부 점검
 
-    - path: 'src/ui/**'
+    - path: 'apps/web/src/ui/**'
       instructions: |
         UI 컴포넌트 리뷰 시:
         - 재사용성 중심 설계 여부
         - common 컴포넌트에서 children 활용 여부
         - className 조합 시 cn 유틸 사용 일관성
 
-    - path: 'src/hooks/**'
+    - path: 'apps/web/src/hooks/**'
       instructions: |
         커스텀 훅 리뷰 시:
         - use* 접두사 및 역할 명확성
         - 의존성 배열(exhaustive-deps) 준수
         - 브라우저 API 사용의 SSR 안전성 확인
 
-    - path: 'src/**/utils/**'
+    - path: 'apps/web/src/**/utils/**'
       instructions: |
         유틸 함수 리뷰 시:
         - 반환값 기준 네이밍(has*/is*/can*)
         - 중복 로직의 공통화 여부
 
-    - path: 'src/lib/**'
+    - path: 'apps/web/src/lib/**'
       instructions: |
         lib 레이어 리뷰 시:
         - 재사용 가능한 공통 로직 분리 여부
         - 서버/클라이언트 의존성 혼입 여부
 
-    - path: 'src/types/**'
+    - path: 'apps/web/src/types/**'
       instructions: |
         타입 정의 리뷰 시:
         - PascalCase 사용 여부
         - any 최소화
         - export type 우선 사용
+
+    - path: 'packages/design-system/src/ui/**'
+      instructions: |
+        디자인 시스템 UI 컴포넌트 리뷰 시:
+        - 공개 API 변경이 하위 호환성을 깨지 않는지
+        - 스타일/행동이 앱 전용 구현에 과도하게 결합되지 않았는지
+        - 공용 컴포넌트는 접근성과 조합 가능성을 우선 검토
+
+    - path: 'packages/design-system/src/lib/**'
+      instructions: |
+        디자인 시스템 유틸/헬퍼 리뷰 시:
+        - UI 레이어와 순환 의존성이 없는지
+        - 브라우저 전용 API 사용 시 소비 앱 환경을 고려하는지 확인
+
+    - path: 'packages/shared/src/**'
+      instructions: |
+        shared 패키지 리뷰 시:
+        - 앱/디자인 시스템 양쪽에서 안전하게 재사용 가능한지
+        - 런타임 의존성 없이 타입/상수/유틸 책임이 명확한지
+        - export 경로와 실제 파일 구조가 일치하는지 점검
+
+    - path: 'packages/eslint-config/**'
+      instructions: |
+        ESLint 설정 패키지 리뷰 시:
+        - flat config / plugin 버전 호환성 확인
+        - 모노레포 전역 규칙이 앱/패키지 모두에 안전한지 검토
+
+    - path: 'packages/tailwind-config/**'
+      instructions: |
+        Tailwind 설정 패키지 리뷰 시:
+        - 공유 스타일 엔트리와 postcss export 경로가 맞는지
+        - 소비 앱에서 바로 사용할 수 있는 구성인지 검토
+
+    - path: 'packages/typescript-config/**'
+      instructions: |
+        TypeScript 설정 패키지 리뷰 시:
+        - base/nextjs preset이 현재 워크스페이스 구조와 맞는지
+        - 경로 alias, module resolution, JSX 옵션 회귀 여부 확인
+
+    - path: '.github/workflows/**'
+      instructions: |
+        GitHub Actions 리뷰 시:
+        - 모노레포에서 변경된 워크스페이스만 효율적으로 검사하는지
+        - pnpm workspace / turbo 캐시 사용이 일관적인지
+        - 루트 기준 경로와 앱/패키지 기준 경로를 혼동하지 않는지 확인
 
   # =====================
   # Auto Review
