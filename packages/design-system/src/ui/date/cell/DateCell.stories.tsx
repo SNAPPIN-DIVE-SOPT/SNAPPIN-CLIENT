@@ -6,9 +6,11 @@ const meta: Meta<typeof DateCell> = {
   component: DateCell,
   tags: ['autodocs'],
   args: {
-    value: '2025-01-01',
+    value: '1',
+    iso: '2025-01-01',
     isSelected: false,
     isDisabled: false,
+    isToday: false,
   },
 };
 
@@ -20,6 +22,7 @@ export const Default: Story = {};
 
 export const Selected: Story = {
   args: {
+    value: '15',
     isSelected: true,
   },
 };
