@@ -40,7 +40,7 @@ export default function FilterChip({
   return (
     <div
       className={cn(
-        'bg-black-10 inline-flex items-center justify-center rounded-[0.4rem] py-[0.6rem] transition-[background-color] duration-500 ease-in-out',
+        'bg-black-10 inline-flex items-center justify-center rounded-[3.4rem] py-[0.8rem] transition-[background-color] duration-500 ease-in-out',
         buttonClassName,
       )}
       {...props}
