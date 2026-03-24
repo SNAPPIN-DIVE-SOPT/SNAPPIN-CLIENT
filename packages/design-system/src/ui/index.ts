@@ -18,3 +18,4 @@ export * from './review-star/index';
 export * from './sheet/index';
 export * from './stepper/index';
 export * from './tabs/index';
+export * from './profile-item/index';
