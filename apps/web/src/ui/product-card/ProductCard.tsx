@@ -16,7 +16,7 @@ export default function ProductCard({
   reviewCount,
   photographer,
   price,
-  moods,
+  moods = [],
   className,
   ...props
 }: ProductCardRootProps) {

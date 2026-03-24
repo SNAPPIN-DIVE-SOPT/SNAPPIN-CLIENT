@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
-import CurationLoading from '@snappin/design-system/assets/lotties/curationLoading.json';
+import CurationLoading from '@snappin/design-system/lotties/curationLoading.json';
 
 const LOADING_EXIT = {
   opacity: 0,

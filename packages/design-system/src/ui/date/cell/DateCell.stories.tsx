@@ -6,7 +6,7 @@ const meta: Meta<typeof DateCell> = {
   component: DateCell,
   tags: ['autodocs'],
   args: {
-    value: '15',
+    value: '2025-01-01',
     isSelected: false,
     isDisabled: false,
   },

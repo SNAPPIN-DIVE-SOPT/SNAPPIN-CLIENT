@@ -9,7 +9,6 @@ export * from './divider/index';
 export * from './drawer/index';
 export * from './image/index';
 export * from './input/index';
-export * from './loading/index';
 export * from './modal/index';
 export * from './navigation/index';
 export * from './review-star/index';

@@ -18,7 +18,7 @@ import {
 import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TABS } from '@/app/photographer/[id]/constants/tab';
 import { Tabs } from '@snappin/design-system';
 import { PortfolioListSkeleton } from '@/ui/portfolio-list';
-import { ProductListSkeleton } from '@/components/product-card';
+import { ProductListSkeleton } from '@/ui/product-card';
 
 type PageProps = {
   params: Promise<{ id: string }>;

@@ -6,8 +6,8 @@ import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { setAuthUser } from '@/auth/userType';
 import { setAccessToken } from '@/auth/token';
 import { useKakaoLogin } from '@/auth/apis';
-
-import { Loading } from '@snappin/design-system';
+import Lottie from 'lottie-react';
+import { loadingAnimation } from '@snappin/design-system/lotties';
 import { useToast } from '@/ui';
 import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
 import { isValidUserType, USER_TYPE, UserType } from '@snappin/shared/types';
@@ -82,7 +82,7 @@ export default function KakaoCallbackPage() {
 
   return (
     <div className='bg-black-10 flex h-dvh flex-col items-center justify-center gap-[1.5rem]'>
-      <Loading />
+      <Lottie animationData={loadingAnimation} className='h-[7rem] w-[7rem]' />
       <p className='caption-14-md text-neon-black'>로그인 중...</p>
     </div>
   );

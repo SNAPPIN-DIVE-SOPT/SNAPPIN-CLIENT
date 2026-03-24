@@ -2,7 +2,7 @@
 
 import Lottie from 'lottie-react';
 import { useSwitchUserProfile } from '@/auth/apis';
-import loadingAnimation from '@snappin/design-system/assets/lotties/loading.json';
+import loadingAnimation from '@snappin/design-system/lotties/loading.json';
 import SwitchProfile from './components/switch-profile/SwitchProfile';
 import { useMinDurationLoading } from './hooks/useMinDurationLoading';
 import { isValidUserType, UserType } from '@snappin/shared/types';
