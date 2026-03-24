@@ -1,12 +1,13 @@
 ﻿import type { HTMLAttributes } from 'react';
 import Image from 'next/image';
 import { ProductCardProps } from '@snappin/shared/types';
-import { cn } from '../../lib/cn';
-import { IconStar } from '../../assets';
+import { TagChip } from '@snappin/design-system';
+import { cn } from '@snappin/design-system/lib';
+import { IconStar } from '@snappin/design-system/assets';
 import { formatPrice } from '@snappin/shared/lib';
-import { TagChip } from '..';
 
-const PRODUCT_PLACEHOLDER = '/imgs/image-default.png';
+import homeBackground1 from '../../../public/imgs/image-main1.png';
+
 type ProductCardRootProps = ProductCardProps & HTMLAttributes<HTMLDivElement>;
 
 export default function ProductCard({
@@ -25,7 +26,7 @@ export default function ProductCard({
     <div className={cn('flex w-full gap-[1.2rem]', className)} {...props}>
       <div className='relative h-[10.2rem] w-[10.2rem] shrink-0'>
         <Image
-          src={image.src === '' ? PRODUCT_PLACEHOLDER : image.src}
+          src={image.src === '' ? homeBackground1 : image.src}
           alt={image.alt ?? `${name} 상품 이미지`}
           fill
           className='rounded-[0.4rem] object-cover'

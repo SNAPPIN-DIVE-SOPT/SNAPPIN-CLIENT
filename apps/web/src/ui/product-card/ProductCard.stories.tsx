@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ProductCard } from '..';
+import ProductCard from './ProductCard';
+import defaultProfile from '../../../public/imgs/default-profile.png';
 
 const meta: Meta<typeof ProductCard> = {
   title: 'UI/ProductCard',
@@ -55,7 +56,7 @@ const meta: Meta<typeof ProductCard> = {
   },
   args: {
     image: {
-      src: '/imgs/image-default.png',
+      src: defaultProfile,
       alt: '임시 이미지',
     },
     name: '잊지 못 할 졸업스냅',
@@ -75,7 +76,7 @@ export const Default: Story = {};
 export const LongProductName: Story = {
   args: {
     image: {
-      src: '/imgs/image-default.png',
+      src: defaultProfile,
       alt: '임시 이미지',
     },
     name: '찰나의 순간을 기억으로 남기는 소중한 촬영',
@@ -90,7 +91,7 @@ export const LongProductName: Story = {
 export const LongAuthorName: Story = {
   args: {
     image: {
-      src: '/imgs/image-default.png',
+      src: defaultProfile,
       alt: '임시 이미지',
     },
     name: '잊지 못 할 졸업스냅',

@@ -1,7 +1,7 @@
 ﻿import { memo } from 'react';
 import Link from 'next/link';
-import { ProductCard } from '../..';
-import { cn } from '../../../lib/cn';
+import ProductCard from '../ProductCard';
+import { cn } from '@snappin/design-system/lib';
 
 type ProductListProps = {
   productList: {
