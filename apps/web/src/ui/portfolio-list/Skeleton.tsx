@@ -1,4 +1,4 @@
-﻿import { cn } from '../../lib/cn';
+﻿import { cn } from '@snappin/design-system/lib';
 
 type PortfolioSkeletonProps = {
   length?: number;
