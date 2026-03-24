@@ -13,6 +13,7 @@
   IconProductFill,
   IconProfileFill,
   IconMessageFill,
+  IconMoodtest,
 } from '@snappin/design-system/assets';
 import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
 import { USER_TYPE, UserType } from '@snappin/shared/types';
@@ -22,6 +23,7 @@ export type MenuItem = {
   activeIcon: React.ReactNode;
   inactiveIcon: React.ReactNode;
   label: string;
+  isCenterRaised?: boolean;
 };
 
 const USER_MENU: MenuItem[] = [
@@ -33,16 +35,17 @@ const USER_MENU: MenuItem[] = [
     label: '좋아요',
   },
   {
+    href: ROUTES.AI_CURATION,
+    activeIcon: <IconMoodtest width={48} height={48} />,
+    inactiveIcon: <IconMoodtest width={48} height={48} />,
+    label: '무드 테스트',
+    isCenterRaised: true,
+  },
+  {
     href: ROUTES.EXPLORE(),
     activeIcon: <IconExploreFill />,
     inactiveIcon: <IconExplore />,
     label: '탐색',
-  },
-  {
-    href: ROUTES.RESERVATIONS,
-    activeIcon: <IconReservationFill />,
-    inactiveIcon: <IconReservation />,
-    label: '예약',
   },
   {
     href: ROUTES.PROFILE,
