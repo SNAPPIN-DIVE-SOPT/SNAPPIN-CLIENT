@@ -1,9 +1,10 @@
 'use client';
 
 import { useRef, useMemo, Suspense } from 'react';
-import { Tabs, PortfolioListSkeleton } from '@snappin/design-system';
+import { Tabs } from '@snappin/design-system';
 import { ROUTES } from '../../../../../constants/routes/routes';
 import { useScrollRestoreOnParent } from '../../../../../hooks/useScrollRestoreOnParent';
+import { PortfolioListSkeleton } from '@/ui/portfolio-list';
 import {
   PhotographerSection,
   PortfolioListSection,

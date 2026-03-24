@@ -1,8 +1,8 @@
-import { PortfolioList } from '@snappin/design-system';
 import { useGetLikePortfolios } from '../api';
 import LikeEmpty from '../component/empty/LikeEmpty';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { useRef } from 'react';
+import { PortfolioList } from '@/ui/portfolio-list';
 
 export default function PortfolioListSection() {
   const { data: likedPortfolios } = useGetLikePortfolios();

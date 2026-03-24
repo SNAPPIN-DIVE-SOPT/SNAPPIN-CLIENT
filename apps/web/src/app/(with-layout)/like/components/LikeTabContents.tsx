@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import { PortfolioListSkeleton } from '@snappin/design-system';
-import { ProductListSkeleton } from '@/ui/product-card';
+import { PortfolioListSkeleton } from '@/ui/portfolio-list';
+import { ProductListSkeleton } from '@/components/product-card';
 import PortfolioListSection from '../_section/PortfolioListSection';
 import ProductListSection from '../_section/ProductListSection';
 import { LIKE_TAB, type LikeTab } from '../constants/tab';
