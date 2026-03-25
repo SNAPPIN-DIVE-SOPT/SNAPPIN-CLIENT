@@ -43,11 +43,11 @@ const meta: Meta<typeof ProductInformationFrame> = {
       action: 'clicked',
       description: '좋아요 버튼 클릭 핸들러',
     },
-    imageWidth: {
+    width: {
       control: 'text',
       description: '이미지 너비',
     },
-    imageHeight: {
+    height: {
       control: 'text',
       description: '이미지 높이',
     },
@@ -68,7 +68,6 @@ const meta: Meta<typeof ProductInformationFrame> = {
     },
   },
   args: {
-    id: 1,
     image: {
       src: '/imgs/default-image.png',
       alt: '임시 이미지',
@@ -79,8 +78,8 @@ const meta: Meta<typeof ProductInformationFrame> = {
     photographer: '김작가',
     price: 80000,
     isLiked: false,
-    imageWidth: '18.65rem',
-    imageHeight: '26.6rem',
+    width: '18.65rem',
+    height: '26.6rem',
   },
 };
 

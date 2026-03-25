@@ -9,7 +9,8 @@ const meta: Meta<typeof ProductFrame> = {
     layout: 'centered',
     docs: {
       description: {
-        component: '상품 대표 이미지와 좋아요 버튼, 상품 메타 정보를 함께 보여주는 프레임 컴포넌트입니다.',
+        component:
+          '상품 대표 이미지와 좋아요 버튼, 상품 메타 정보를 함께 보여주는 프레임 컴포넌트입니다.',
       },
     },
   },
@@ -43,7 +44,7 @@ const meta: Meta<typeof ProductFrame> = {
       control: 'boolean',
       description: '좋아요 여부',
     },
-    imageWidth: {
+    width: {
       control: 'text',
       description: '이미지 너비',
     },
@@ -53,7 +54,6 @@ const meta: Meta<typeof ProductFrame> = {
     },
   },
   args: {
-    id: 1,
     image: {
       src: '/imgs/default-image.png',
       alt: '임시 이미지',
@@ -65,7 +65,7 @@ const meta: Meta<typeof ProductFrame> = {
     price: 80000,
     moods: ['따스한', '아날로그', '연출된'],
     isLiked: false,
-    imageWidth: '18.6rem',
+    width: '18.6rem',
     imageHeight: '18.4rem',
   },
 };

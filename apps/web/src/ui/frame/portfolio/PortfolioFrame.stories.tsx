@@ -9,8 +9,8 @@ const meta: Meta<typeof PortfolioFrame> = {
     layout: 'centered',
   },
   argTypes: {
-    imageUrl: {
-      control: 'text',
+    image: {
+      control: 'object',
     },
     isLiked: {
       control: 'boolean',
@@ -20,7 +20,10 @@ const meta: Meta<typeof PortfolioFrame> = {
     },
   },
   args: {
-    imageUrl: '/imgs/default-image.png',
+    image: {
+      src: '/imgs/default-image.png',
+      alt: '포트폴리오 이미지',
+    },
     isLiked: false,
     likesCount: 128,
   },

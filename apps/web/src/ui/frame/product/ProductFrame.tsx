@@ -2,21 +2,18 @@
 
 import { cn } from '@snappin/design-system/lib';
 import { IconStar } from '@snappin/design-system/assets';
-import { TagChip, LikeButton } from '@snappin/design-system';
-import { ProductCardProps } from '@snappin/shared/types';
-import ImageWithShadow from '../image-with-shadow/ImageWithShadow';
-import { RemUnit } from '../types/remUnit';
+import { TagChip, LikeButton, ImageWithShadow } from '@snappin/design-system';
+import { ProductCardProps, RemUnit } from '@snappin/shared/types';
 
 type ProductFrameProps = ProductCardProps & {
-  id: number;
   isLiked: boolean;
+  handleClickLike: () => void;
   imageHeight?: RemUnit;
   width?: RemUnit;
-  handleClickLike: () => void;
 };
 
 export default function ProductFrame({
-  image: { src: imageUrl, alt = '제품 이미지' },
+  image,
   name,
   rate,
   reviewCount,
@@ -31,7 +28,12 @@ export default function ProductFrame({
   return (
     <div className='flex flex-col overflow-hidden' style={{ width: width }}>
       <div className='relative overflow-hidden'>
-        <ImageWithShadow src={imageUrl} alt={alt} imageHeight={imageHeight} imageWidth={width} />
+        <ImageWithShadow
+          src={image.src}
+          alt={image.alt ?? '제품 이미지'}
+          imageHeight={imageHeight}
+          imageWidth={width}
+        />
         <div className='absolute right-0 bottom-0 flex items-center p-[1rem]'>
           <LikeButton
             isLiked={isLiked}

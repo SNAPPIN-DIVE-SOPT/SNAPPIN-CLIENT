@@ -1,22 +1,23 @@
 'use client';
 
-import { LikeButton } from '@snappin/design-system';
+import { LikeButton, ImageWithShadow } from '@snappin/design-system';
 import { cn } from '@snappin/design-system/lib';
-import ImageWithShadow from '../image-with-shadow/ImageWithShadow';
-import { RemUnit } from '../types/remUnit';
+import { RemUnit } from '@snappin/shared/types';
 
 type PortfolioFrameProps = {
-  imageUrl: string;
-  alt?: string;
+  image: {
+    src: string;
+    alt?: string;
+  };
   isLiked: boolean;
   likesCount: number;
+  handleClickLike: () => void;
   height?: RemUnit;
   width?: RemUnit;
-  handleClickLike: () => void;
 };
+
 export default function PortfolioFrame({
-  imageUrl,
-  alt = '포트폴리오 이미지',
+  image,
   isLiked,
   likesCount,
   width = '18.65rem',
@@ -25,7 +26,12 @@ export default function PortfolioFrame({
 }: PortfolioFrameProps) {
   return (
     <div className='relative w-fit overflow-hidden'>
-      <ImageWithShadow src={imageUrl} alt={alt} imageHeight={height} imageWidth={width} />
+      <ImageWithShadow
+        src={image.src}
+        alt={image.alt ?? '포트폴리오 이미지'}
+        imageHeight={height}
+        imageWidth={width}
+      />
       <div className='absolute right-0 bottom-0 flex items-center gap-[0.5rem] p-[1.2rem]'>
         <LikeButton
           isLiked={isLiked}
