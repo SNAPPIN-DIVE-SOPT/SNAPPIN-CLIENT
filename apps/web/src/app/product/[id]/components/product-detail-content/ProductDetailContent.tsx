@@ -2,8 +2,8 @@
 
 import { useRef, useMemo, Suspense } from 'react';
 import { Tabs } from '@snappin/design-system';
-import { ROUTES } from '../../../../../constants/routes/routes';
-import { useScrollRestoreOnParent } from '../../../../../hooks/useScrollRestoreOnParent';
+import { ROUTES } from '@/constants/routes/routes';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { PortfolioListSkeleton } from '@/ui';
 import {
   PhotographerSection,

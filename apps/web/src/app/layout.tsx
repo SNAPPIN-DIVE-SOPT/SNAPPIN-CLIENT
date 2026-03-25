@@ -1,7 +1,7 @@
-import { Providers } from './providers';
-import '../styles/global.css';
 import { Metadata, Viewport } from 'next';
 import { preconnect, preload } from 'react-dom';
+import '@/styles/global.css';
+import { Providers } from './providers';
 
 export const viewport: Viewport = {
   width: 'device-width',
