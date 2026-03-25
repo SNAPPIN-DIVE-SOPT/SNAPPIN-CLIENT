@@ -7,7 +7,7 @@ type NextImageMockProps = React.ImgHTMLAttributes<HTMLImageElement> & {
 };
 
 const NextImageMock = React.forwardRef<HTMLImageElement, NextImageMockProps>(function NextImageMock(
-  { src, alt = '', fill, style, ...props },
+  { src, alt = '', fill, priority: _priority, style, ...props },
   ref,
 ) {
   return (

@@ -44,8 +44,8 @@ export default function ProductFrame({
         </div>
       </div>
       {/* 제품 정보 */}
-      <div className='flex w-full flex-col items-center items-start overflow-hidden p-[1.2rem]'>
-        <div className='mb-[0.8em] flex w-full flex-col overflow-hidden'>
+      <div className='flex w-full flex-col items-start overflow-hidden p-[1.2rem]'>
+        <div className='mb-[0.8rem] flex w-full flex-col overflow-hidden'>
           <p className='caption-11-md truncate'>{name}</p>
           <span className='caption-14-bd'>{price}원~</span>
         </div>

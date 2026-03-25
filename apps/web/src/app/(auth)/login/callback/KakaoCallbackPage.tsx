@@ -2,15 +2,14 @@
 
 import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+
+import { isValidUserType, USER_TYPE, UserType } from '@snappin/shared/types';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { setAuthUser } from '@/auth/userType';
 import { setAccessToken } from '@/auth/token';
 import { useKakaoLogin } from '@/auth/apis';
-import Lottie from 'lottie-react';
-import { loadingAnimation } from '@snappin/design-system/lotties';
-import { useToast } from '@/ui';
+import { useToast, Loading } from '@/ui';
 import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
-import { isValidUserType, USER_TYPE, UserType } from '@snappin/shared/types';
 
 const CLIENT_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL;
 const KAKAO_LOGIN_URL =
@@ -82,7 +81,7 @@ export default function KakaoCallbackPage() {
 
   return (
     <div className='bg-black-10 flex h-dvh flex-col items-center justify-center gap-[1.5rem]'>
-      <Lottie animationData={loadingAnimation} className='h-[7rem] w-[7rem]' />
+      <Loading />
       <p className='caption-14-md text-neon-black'>로그인 중...</p>
     </div>
   );

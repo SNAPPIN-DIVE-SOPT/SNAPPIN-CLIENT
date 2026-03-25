@@ -18,6 +18,10 @@ const meta: Meta<typeof PortfolioFrame> = {
     likesCount: {
       control: { type: 'number', min: 0 },
     },
+    handleClickLike: {
+      action: 'clicked',
+      description: '좋아요 버튼 클릭 시 호출되는 함수',
+    },
   },
   args: {
     image: {

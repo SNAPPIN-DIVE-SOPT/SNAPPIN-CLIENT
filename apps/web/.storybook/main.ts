@@ -9,10 +9,10 @@ const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(ts|tsx)'],
   viteFinal: async (config) => {
     config.resolve ??= {};
-    config.resolve.alias = {
-      ...(config.resolve.alias ?? {}),
-      '@': path.resolve(dirname, '../src'),
-    };
+    const srcAlias = { '@': path.resolve(dirname, '../src') };
+    config.resolve.alias = Array.isArray(config.resolve.alias)
+      ? [...config.resolve.alias, srcAlias]
+      : { ...(config.resolve.alias ?? {}), ...srcAlias };
 
     return config;
   },

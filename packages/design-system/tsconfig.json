@@ -3,6 +3,12 @@
   "compilerOptions": {
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts", "turbo/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/lotties/**/*.json",
+    "scripts/**/*.ts",
+    "turbo/**/*.ts"
+  ],
   "exclude": ["node_modules", "dist", ".storybook"]
 }

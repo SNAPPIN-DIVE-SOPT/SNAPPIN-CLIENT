@@ -52,6 +52,10 @@ const meta: Meta<typeof ProductFrame> = {
       control: 'text',
       description: '이미지 높이',
     },
+    handleClickLike: {
+      action: 'clicked',
+      description: '좋아요 버튼 클릭 시 호출되는 함수',
+    },
   },
   args: {
     image: {
