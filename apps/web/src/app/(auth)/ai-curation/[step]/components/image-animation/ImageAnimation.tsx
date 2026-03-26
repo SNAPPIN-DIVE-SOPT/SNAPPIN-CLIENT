@@ -70,7 +70,9 @@ export default function ImageAnimation({ step }: ImageAnimationProps) {
               )}
               onClick={() => handleSelect(img.id ?? 0, isLoading)}
             >
-              {isLoading && <div className='bg-black-8 absolute inset-0 animate-pulse' />}
+              {isLoading && (
+                <div className='bg-black-8 absolute inset-0 animate-pulse rounded-[0.4rem]' />
+              )}
               <Image
                 priority
                 unoptimized
@@ -78,7 +80,7 @@ export default function ImageAnimation({ step }: ImageAnimationProps) {
                 alt='큐레이션 선택 이미지'
                 fill
                 className={cn(
-                  'object-cover transition-opacity duration-300',
+                  'rounded-[0.4rem] object-cover transition-opacity duration-300',
                   isLoading && 'opacity-0',
                 )}
                 draggable={false}
