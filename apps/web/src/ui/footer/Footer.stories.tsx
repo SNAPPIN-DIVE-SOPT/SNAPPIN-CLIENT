@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import FooterClient from './Footer.client';
 import { USER_TYPE } from '@snappin/shared/types';
+import FooterClient from './Footer.client';
+import { getMenuItems } from './constants/menu';
 
 const meta: Meta<typeof FooterClient> = {
   title: 'UI/Footer',
@@ -40,6 +41,31 @@ export default meta;
 
 type StoryFooter = StoryObj<typeof FooterClient>;
 
+const FooterPhotographerStory = () => {
+  const menuItems = getMenuItems(true, USER_TYPE.PHOTOGRAPHER);
+
+  return (
+    <>
+      {menuItems.map((menuItem) => {
+        const isActive = menuItem.href === '/';
+        const Icon = isActive ? menuItem.activeIcon : menuItem.inactiveIcon;
+
+        return (
+          <button
+            key={menuItem.label}
+            type='button'
+            className='relative flex h-[4.8rem] w-[4.8rem] flex-col items-center justify-center gap-[0.2rem]'
+            aria-label={menuItem.label}
+          >
+            {Icon}
+            <span className='caption-10-md'>{menuItem.label}</span>
+          </button>
+        );
+      })}
+    </>
+  );
+};
+
 export const Default: StoryFooter = {
   args: {
     initialUserType: USER_TYPE.CLIENT,
@@ -53,10 +79,8 @@ export const Default: StoryFooter = {
   },
 };
 
-export const AuthorDefault: StoryFooter = {
-  args: {
-    initialUserType: USER_TYPE.PHOTOGRAPHER,
-  },
+export const PhotographerDefault: StoryFooter = {
+  render: () => <FooterPhotographerStory />,
   parameters: {
     nextjs: {
       navigation: {
