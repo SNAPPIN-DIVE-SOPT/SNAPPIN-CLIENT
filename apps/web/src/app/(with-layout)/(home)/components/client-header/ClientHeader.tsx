@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Navigation, Button, IconButton } from '@snappin/design-system';
 import { IconSearch, Logo } from '@snappin/design-system/assets';
-import { cn } from '@snappin/design-system/lib/cn';
+import { cn } from '@snappin/design-system/lib';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { openSearchSheet } from '@/utils/openSearchSheet';
 import { ROUTES } from '@/constants/routes/routes';

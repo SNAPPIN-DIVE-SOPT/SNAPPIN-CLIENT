@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { ProductList } from '@snappin/design-system';
 import { useGetProductList } from '../api';
+import { ProductList } from '@/ui/product-card';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { ROUTES } from '@/constants/routes/routes';
 

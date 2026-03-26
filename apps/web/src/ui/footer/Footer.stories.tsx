@@ -1,13 +1,13 @@
-import { Meta, StoryObj } from '@storybook/nextjs-vite';
-import Footer from './Footer';
-import { USER_TYPE } from '@snappin/shared/types/userType';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import FooterClient from './Footer.client';
+import { USER_TYPE } from '@snappin/shared/types';
 
-const meta: Meta<typeof Footer> = {
+const meta: Meta<typeof FooterClient> = {
   title: 'UI/Footer',
-  component: Footer,
+  component: FooterClient,
   tags: ['autodocs'],
   args: {
-    userRole: USER_TYPE.CLIENT,
+    initialUserType: USER_TYPE.CLIENT,
   },
   parameters: {
     docs: {
@@ -25,7 +25,12 @@ const meta: Meta<typeof Footer> = {
   decorators: [
     (Story) => (
       <div className='relative h-screen w-full max-w-180'>
-        <Story />
+        <div className='z-20'>
+          <div className='bg-black-1 footer-height pointer-events-none' aria-hidden />
+          <footer className='border-black-5 footer-height fixed-center bg-black-1 bottom-0 flex items-center justify-between border-t-[0.5px] px-[2rem] pt-[0.2rem] pb-[0.6rem]'>
+            <Story />
+          </footer>
+        </div>
       </div>
     ),
   ],
@@ -33,11 +38,11 @@ const meta: Meta<typeof Footer> = {
 
 export default meta;
 
-type StoryFooter = StoryObj<typeof Footer>;
+type StoryFooter = StoryObj<typeof FooterClient>;
 
 export const Default: StoryFooter = {
   args: {
-    userRole: USER_TYPE.CLIENT,
+    initialUserType: USER_TYPE.CLIENT,
   },
   parameters: {
     nextjs: {
@@ -50,7 +55,7 @@ export const Default: StoryFooter = {
 
 export const AuthorDefault: StoryFooter = {
   args: {
-    userRole: USER_TYPE.PHOTOGRAPHER,
+    initialUserType: USER_TYPE.PHOTOGRAPHER,
   },
   parameters: {
     nextjs: {

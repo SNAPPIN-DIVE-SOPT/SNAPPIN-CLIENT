@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductCard, ProductCardSkeleton } from '@snappin/design-system';
+import { ProductCard, ProductCardSkeleton } from '@/ui/product-card';
 import { useGetReservationDetail } from '../api';
 import { useAuth } from '@/auth/hooks/useAuth';
 

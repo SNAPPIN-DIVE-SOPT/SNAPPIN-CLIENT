@@ -1,7 +1,7 @@
 ﻿import { memo, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { cn } from '../../lib/cn';
+import { cn } from '@snappin/design-system/lib';
 
 const PRODUCT_PLACEHOLDER = '/imgs/image-default.png';
 

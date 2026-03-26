@@ -6,7 +6,7 @@ import { useGetPortfolioList } from '../api';
 import { useInfiniteScroll } from '../hooks/use-infinite-scroll';
 import { toExploreSearchParams } from '../utils/query';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import { PortfolioList, PortfolioListSkeleton } from '@snappin/design-system';
+import { PortfolioList, PortfolioListSkeleton } from '@/ui';
 
 export default function PortfolioListSection() {
   const sp = useSearchParams();

@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import { dehydrate, QueryClient, HydrationBoundary } from '@tanstack/react-query';
-import SectionSkeleton from '../../../../components/layout/reservation/SectionSkeleton';
+import { Suspense } from 'react';
+import SectionSkeleton from '@/components/layout/reservation/SectionSkeleton';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import PageClient from './page.client';
 import { prefetchReservationDetail } from './api';
-import { Suspense } from 'react';
 
 type ReservationDetailPageProps = {
   params: Promise<{ id: string }>;

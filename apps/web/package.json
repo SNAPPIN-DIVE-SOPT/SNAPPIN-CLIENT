@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -44,6 +46,8 @@
     "@snappin/eslint-config": "workspace:*",
     "@snappin/tailwind-config": "workspace:*",
     "@snappin/typescript-config": "workspace:*",
+    "@storybook/addon-a11y": "^10.2.15",
+    "@storybook/addon-docs": "^10.2.15",
     "@storybook/nextjs-vite": "^10.2.15",
     "@tailwindcss/postcss": "^4.1.16",
     "@tanstack/react-query-devtools": "^5.91.2",
@@ -63,6 +67,7 @@
     "jest-environment-jsdom": "^30.2.0",
     "postcss": "^8",
     "prettier": "^3.7.4",
+    "storybook": "^10.2.15",
     "tailwindcss": "^4.1.16",
     "tsx": "^4.19.0",
     "typescript": "^5"

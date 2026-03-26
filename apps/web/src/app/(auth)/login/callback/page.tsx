@@ -2,8 +2,8 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 import { Suspense } from 'react';
-import { Loading } from '@snappin/design-system';
 import KakaoCallbackPage from './KakaoCallbackPage';
+import Loading from '@/ui/loading/Loading';
 
 export default function Page() {
   return (

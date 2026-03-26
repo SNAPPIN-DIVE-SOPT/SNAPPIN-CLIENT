@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { PortfolioListSkeleton, ProductListSkeleton } from '@snappin/design-system';
+import { PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
 import PortfolioListSection from '../../_section/PortfolioListSection';
 import ProductListSection from '../../_section/ProductListSection';
 import { EXPLORE_TAB, ExploreTab } from '../../constants/tab';

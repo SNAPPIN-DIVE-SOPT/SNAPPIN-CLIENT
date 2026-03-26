@@ -1,12 +1,12 @@
 'use client';
 
-import { ClientNavigation, ClientFooter } from './components';
-import { PaymentDetail, ReservationDetail, ReservationProduct, ReviewDetail } from './_section';
 import { Divider } from '@snappin/design-system';
 import { STATE_CODES, type StateCode } from '@snappin/shared/types';
+import SectionSkeleton from '@/components/layout/reservation/SectionSkeleton';
+import { ClientNavigation, ClientFooter } from './components';
 import CancelModal from './@modal/(.)cancel-modal/CancelModal';
+import { PaymentDetail, ReservationDetail, ReservationProduct, ReviewDetail } from './_section';
 import { useGetReservationDetail } from './api';
-import SectionSkeleton from '../../../components/layout/reservation/SectionSkeleton';
 import { useReservationActions } from './hooks/useReservationActions';
 
 type ReservationDetailPageClientProps = {

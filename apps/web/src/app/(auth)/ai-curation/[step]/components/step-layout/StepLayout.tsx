@@ -1,8 +1,8 @@
 ﻿'use client';
 
-import ImageAnimation from '../image-animation/ImageAnimation';
-import type { GetPhotoResponse, GetQuestionResponse } from '@/swagger-api';
 import { formatNumber } from '@snappin/shared/lib';
+import type { GetPhotoResponse, GetQuestionResponse } from '@/swagger-api';
+import ImageAnimation from '../image-animation/ImageAnimation';
 
 type StepLayoutProps = {
   question: GetQuestionResponse;

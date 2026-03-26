@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { cn } from '@snappin/design-system/lib/cn';
+import { cn } from '@snappin/design-system/lib';
 import { openSearchSheet } from '@/utils/openSearchSheet';
 import { Logo } from '@snappin/design-system/assets';
 import { ButtonSearchBar } from '@snappin/design-system';

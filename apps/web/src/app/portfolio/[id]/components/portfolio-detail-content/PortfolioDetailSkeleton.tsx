@@ -1,4 +1,5 @@
-import { Divider, ProductCardSkeleton } from '@snappin/design-system';
+import { Divider } from '@snappin/design-system';
+import { ProductCardSkeleton } from '@/ui/product-card';
 
 export default function PortfolioDetailSkeleton() {
   return (

@@ -26,12 +26,6 @@ function getExportTargetPath(filePath, indexPath) {
   return withoutExtension.startsWith('.') ? withoutExtension : `./${withoutExtension}`;
 }
 
-// index.ts 안에서 이미 export 중인 모듈 경로를 수집한다.
-function getReferencedModules(indexSource) {
-  const matches = indexSource.matchAll(/from\s+['"]([^'"]+)['"]/g);
-  return new Set(Array.from(matches, ([, modulePath]) => modulePath));
-}
-
 // 같은 디렉터리의 소스 파일만 가져오되 index.ts는 제외한다.
 async function getSiblingSourceFiles(dirPath) {
   const entries = await readdir(dirPath, { withFileTypes: true });
@@ -44,11 +38,10 @@ async function getSiblingSourceFiles(dirPath) {
     .sort((left, right) => left.localeCompare(right));
 }
 
-// 같은 디렉터리 파일들 중 아직 export 되지 않은 라인만 생성한다.
-function createExportLines(filePaths, indexPath, referencedModules) {
+// 같은 디렉터리 파일들 기준으로 index.ts 전체 export 라인을 생성한다.
+function createExportLines(filePaths, indexPath) {
   return filePaths
     .map((filePath) => getExportTargetPath(filePath, indexPath))
-    .filter((modulePath) => !referencedModules.has(modulePath))
     .map((modulePath) => `export * from '${modulePath}';`);
 }
 
@@ -59,6 +52,20 @@ function normalizeIndexSource(indexSource) {
     .replace(`${HEADER_COMMENT}\n`, '');
 
   return withoutComment.trim();
+}
+
+function createIndexSource(filePaths, indexPath) {
+  const exportLines = createExportLines(filePaths, indexPath);
+  const body = exportLines.join('\n');
+
+  return body.length > 0 ? `${HEADER_COMMENT}\n\n${body}\n` : `${HEADER_COMMENT}\n`;
+}
+
+function countExportLines(indexSource) {
+  return normalizeIndexSource(indexSource)
+    .split('\n')
+    .filter((line) => line.startsWith('export * from '))
+    .length;
 }
 
 // 디렉터리의 index.ts를 생성하거나 누락된 export를 추가한다.
@@ -79,26 +86,19 @@ async function syncIndexFile(dirPath) {
   });
   const normalizedSource = normalizeIndexSource(indexSource);
   const hasHeaderComment = indexSource.startsWith(HEADER_COMMENT);
-  const referencedModules = getReferencedModules(normalizedSource);
-  const missingExportLines = createExportLines(siblingSourceFiles, indexPath, referencedModules);
+  const nextSource = createIndexSource(siblingSourceFiles, indexPath);
+  const nextNormalizedSource = normalizeIndexSource(nextSource);
   const isNewIndexFile = indexSource.length === 0;
 
-  if (missingExportLines.length === 0 && hasHeaderComment) {
+  if (normalizedSource === nextNormalizedSource && hasHeaderComment) {
     return { indexPath, addedCount: 0, created: false, changed: false };
   }
-
-  const trimmedSource = normalizedSource.trimEnd();
-  const body =
-    trimmedSource.length > 0
-      ? `${trimmedSource}\n\n${missingExportLines.join('\n')}`.trimEnd()
-      : missingExportLines.join('\n');
-  const nextSource = body.length > 0 ? `${HEADER_COMMENT}\n\n${body}\n` : `${HEADER_COMMENT}\n`;
 
   await writeFile(indexPath, nextSource, 'utf-8');
 
   return {
     indexPath,
-    addedCount: missingExportLines.length,
+    addedCount: Math.max(countExportLines(nextSource) - countExportLines(indexSource), 0),
     created: isNewIndexFile,
     changed: true,
   };
@@ -137,35 +137,32 @@ function createPackageExportEntry(dirPath) {
   return [`./${relativeDirPath}`, `./src/${relativeDirPath}/${INDEX_FILE_NAME}`];
 }
 
+function isTopLevelExportKey(exportKey) {
+  return /^\.\/[^/]+$/u.test(exportKey);
+}
+
 // package.json exports를 현재 src 공개 디렉터리 구조에 맞게 동기화한다.
 async function syncPackageExports(sourceDirectories) {
   const packageJsonSource = await readFile(PACKAGE_JSON_PATH, 'utf-8');
   const packageJson = JSON.parse(packageJsonSource);
-  const nextExports = { ...(packageJson.exports ?? {}) };
-  let hasChanges = false;
+  const preservedExports = Object.entries(packageJson.exports ?? {}).filter(
+    ([exportKey]) => !isTopLevelExportKey(exportKey),
+  );
+  const generatedExports = sourceDirectories
+    .filter((dirPath) => dirname(dirPath) === SRC_DIR)
+    .map(createPackageExportEntry);
+  const nextExports = Object.fromEntries(
+    [...preservedExports, ...generatedExports].sort(([left], [right]) => left.localeCompare(right)),
+  );
+  const previousExports = Object.fromEntries(
+    Object.entries(packageJson.exports ?? {}).sort(([left], [right]) => left.localeCompare(right)),
+  );
 
-  for (const dirPath of sourceDirectories) {
-    if (dirname(dirPath) !== SRC_DIR) {
-      continue;
-    }
-
-    const [exportKey, exportValue] = createPackageExportEntry(dirPath);
-
-    if (nextExports[exportKey] === exportValue) {
-      continue;
-    }
-
-    nextExports[exportKey] = exportValue;
-    hasChanges = true;
-  }
-
-  if (!hasChanges) {
+  if (JSON.stringify(previousExports) === JSON.stringify(nextExports)) {
     return;
   }
 
-  packageJson.exports = Object.fromEntries(
-    Object.entries(nextExports).sort(([left], [right]) => left.localeCompare(right)),
-  );
+  packageJson.exports = nextExports;
 
   await writeFile(PACKAGE_JSON_PATH, `${JSON.stringify(packageJson, null, 2)}\n`, 'utf-8');
 }

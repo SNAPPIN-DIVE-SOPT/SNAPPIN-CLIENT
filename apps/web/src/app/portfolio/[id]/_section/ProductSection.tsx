@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ProductCard } from '@snappin/design-system';
+import { ProductCard } from '@/ui/product-card';
 import { ROUTES } from '@/constants/routes/routes';
 
 type ProductSectionProps = {

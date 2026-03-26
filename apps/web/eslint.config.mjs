@@ -1,3 +1,8 @@
 import config from '@snappin/eslint-config/next';
 
-export default config;
+export default [
+  ...config,
+  {
+    ignores: ['storybook-static/**'],
+  },
+];

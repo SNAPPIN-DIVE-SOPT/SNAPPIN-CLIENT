@@ -7,7 +7,7 @@ import {
   PhotographerSectionSkeleton,
   PhotographerSection,
   PortfolioListSection,
-  ProductListSection
+  ProductListSection,
 } from './_section/index';
 import { Header, Footer } from './components/index';
 import {
@@ -16,7 +16,8 @@ import {
   prefetchProductList,
 } from './api/server';
 import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TABS } from '@/app/photographer/[id]/constants/tab';
-import { PortfolioListSkeleton, ProductListSkeleton, Tabs } from '@snappin/design-system';
+import { Tabs } from '@snappin/design-system';
+import { PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -57,7 +58,11 @@ export default async function Page({ params, searchParams }: PageProps) {
           <PhotographerSection id={photographerId} />
         </Suspense>
         <Tabs>
-          <Tabs.List activeValue={selectedTab} tabs={PHOTOGRAPHER_TABS} className='bg-black-1 fixed fixed-center top-[17.6rem] z-10 px-[2rem]'>
+          <Tabs.List
+            activeValue={selectedTab}
+            tabs={PHOTOGRAPHER_TABS}
+            className='bg-black-1 fixed-center fixed top-[17.6rem] z-10 px-[2rem]'
+          >
             {PHOTOGRAPHER_TABS.map(({ value, label }) => (
               <Tabs.Item
                 key={value}
