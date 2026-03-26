@@ -24,7 +24,7 @@ export default function ImageAnimation({ step }: ImageAnimationProps) {
   );
 
   const [loadingImages, setLoadingImages] = useState<Set<number>>(new Set());
-  const { selectedByStep, currentStep, toggleImageId } = useAiCuration();
+  const { selectedByStep, toggleImageId } = useAiCuration();
 
   // 이미지가 변경될 때마다 모든 이미지를 로딩 중 상태로 설정
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function ImageAnimation({ step }: ImageAnimationProps) {
       error('이미지 로딩 중입니다. 잠시 후 다시 시도해주세요.', undefined, 'top-[2rem]');
       return;
     }
-    toggleImageId(id);
+    toggleImageId(step, id);
   };
 
   const handleImageLoad = (id: number) => {
@@ -63,9 +63,9 @@ export default function ImageAnimation({ step }: ImageAnimationProps) {
               type='button'
               className={cn(
                 'relative aspect-[3/4] w-full overflow-hidden rounded-[0.4rem] border-[3px] border-transparent',
-                selectedByStep[currentStep] === img.id && 'border-neon-black z-10',
-                selectedByStep[currentStep] &&
-                  selectedByStep[currentStep] !== img.id &&
+                selectedByStep[step] === img.id && 'border-neon-black z-10',
+                selectedByStep[step] &&
+                  selectedByStep[step] !== img.id &&
                   'opacity-80 brightness-[0.6]',
               )}
               onClick={() => handleSelect(img.id ?? 0, isLoading)}
