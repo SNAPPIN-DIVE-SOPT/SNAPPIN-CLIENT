@@ -5,17 +5,22 @@ import { useEffect, useMemo, useState, startTransition } from 'react';
 import { cn } from '@snappin/design-system/lib/cn';
 import type { GetPhotoResponse } from '@/swagger-api';
 import { useToast } from '@/ui';
+import { useGetAiCurationAll } from '../../api';
+import { type STEP } from '../../constants/steps';
 import { useAiCuration } from '../../../hooks/useAiCuration';
 
 type ImageAnimationProps = {
-  images: GetPhotoResponse[];
+  step: STEP;
 };
-
-export default function ImageAnimation({ images }: ImageAnimationProps) {
+export default function ImageAnimation({ step }: ImageAnimationProps) {
+  const { data } = useGetAiCurationAll();
+  //TODO: API 명세 확정되면 question은 목업으로 변경
+  const question = data?.[step - 1];
+  const photos = question?.photos;
   const { error } = useToast();
   const sorted = useMemo(
-    () => images.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
-    [images],
+    () => photos?.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) || [],
+    [photos],
   );
 
   const [loadingImages, setLoadingImages] = useState<Set<number>>(new Set());
@@ -46,7 +51,7 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
   };
 
   return (
-    <div className='flex w-full justify-center'>
+    <div className='mt-[3.6rem] flex w-full justify-center'>
       <div className='grid w-full grid-cols-2 gap-[0.4rem]'>
         {sorted.map((img) => {
           const imageId = img.id ?? 0;
