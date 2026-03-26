@@ -20,7 +20,9 @@ export const ShortcutCard: Story = {
         <Profile.Content lines={1}>
           <Profile.Item>
             <Profile.Title>나작가</Profile.Title>
-            <Profile.Value>서울</Profile.Value>
+            <Profile.Description typography='caption-12-rg' color='black-8'>
+              서울
+            </Profile.Description>
           </Profile.Item>
         </Profile.Content>
       </Profile>
@@ -36,16 +38,22 @@ export const CompoundInline: Story = {
         <Profile.Content lines={2}>
           <Profile.Item>
             <Profile.Title>나작가</Profile.Title>
-            <Profile.Description>내일의 나를 기록합니다</Profile.Description>
+            <Profile.Description typography='caption-12-rg' color='black-8'>
+              내일의 나를 기록합니다
+            </Profile.Description>
           </Profile.Item>
           <Profile.Item>
             <Profile.Row>
               <Profile.Meta className='shrink-0'>촬영 상품</Profile.Meta>
-              <Profile.Meta>졸업스냅, 웨딩스냅, 일상스냅</Profile.Meta>
+              <Profile.Meta typography='caption-12-rg' color='black-8'>
+                졸업스냅, 웨딩스냅, 일상스냅
+              </Profile.Meta>
             </Profile.Row>
             <Profile.Row>
               <Profile.Meta className='shrink-0'>활동 지역</Profile.Meta>
-              <Profile.Meta>서울</Profile.Meta>
+              <Profile.Meta typography='caption-12-rg' color='black-8'>
+                서울
+              </Profile.Meta>
             </Profile.Row>
           </Profile.Item>
         </Profile.Content>
@@ -62,19 +70,21 @@ export const CompoundCard: Story = {
         <Profile.Avatar src='/imgs/default-profile.png' />
         <Profile.Content lines={2}>
           <Profile.Item>
-            <Profile.Title>나작가</Profile.Title>
-            <Profile.Description>내일의 나를 기록합니다</Profile.Description>
+            <Profile.Title typography='font-16-sb'>나작가</Profile.Title>
+            <Profile.Description typography='caption-14-rg'>내일의 나를 기록합니다</Profile.Description>
           </Profile.Item>
           <Profile.Item>
             <Profile.Row>
               <Profile.Meta className='shrink-0'>촬영 상품</Profile.Meta>
-              <Profile.Meta className='text-black-9'>
+              <Profile.Meta typography='caption-12-rg' color='black-8'>
                 졸업스냅, 웨딩스냅, 일상스냅
               </Profile.Meta>
             </Profile.Row>
             <Profile.Row>
               <Profile.Meta className='shrink-0'>활동 지역</Profile.Meta>
-              <Profile.Meta>서울</Profile.Meta>
+              <Profile.Meta typography='caption-12-rg' color='black-8'>
+                서울
+              </Profile.Meta>
             </Profile.Row>
           </Profile.Item>
         </Profile.Content>
@@ -92,7 +102,9 @@ export const ShortcutSingleLine: Story = {
         <Profile.Content lines={1}>
           <Profile.Item>
             <Profile.Title>나작가</Profile.Title>
-            <Profile.Value>서울</Profile.Value>
+            <Profile.Description typography='caption-12-rg' color='black-8'>
+              서울
+            </Profile.Description>
           </Profile.Item>
         </Profile.Content>
       </Profile>
@@ -109,7 +121,9 @@ export const AsChildAnchor: Story = {
           <Profile.Content lines={1}>
             <Profile.Item>
               <Profile.Title>링크형 프로필</Profile.Title>
-              <Profile.Value>바로가기</Profile.Value>
+              <Profile.Description typography='caption-12-rg' color='black-8'>
+                바로가기
+              </Profile.Description>
             </Profile.Item>
           </Profile.Content>
           <Profile.Trailing />
@@ -127,7 +141,9 @@ export const CustomTrailingIcon: Story = {
         <Profile.Content lines={1}>
           <Profile.Item>
             <Profile.Title>나작가</Profile.Title>
-            <Profile.Value>서울</Profile.Value>
+            <Profile.Description typography='caption-12-rg' color='black-8'>
+              서울
+            </Profile.Description>
           </Profile.Item>
         </Profile.Content>
         <Profile.Trailing>
@@ -146,7 +162,9 @@ export const TrailingButton: Story = {
         <Profile.Content lines={1}>
           <Profile.Item>
             <Profile.Title>나작가</Profile.Title>
-            <Profile.Value>서울</Profile.Value>
+            <Profile.Description typography='caption-12-rg' color='black-8'>
+              서울
+            </Profile.Description>
           </Profile.Item>
         </Profile.Content>
         <Profile.Trailing>
@@ -158,6 +176,33 @@ export const TrailingButton: Story = {
           </button>
         </Profile.Trailing>
       </Profile>
+    </div>
+  ),
+};
+
+export const TypographyAndColorVariants: Story = {
+  render: () => (
+    <div className='border-black-9 flex w-[36rem] flex-col gap-[1.6rem] border-[0.1rem] p-[2rem]'>
+      <div className='flex flex-col gap-[0.8rem]'>
+        <Profile.Title typography='font-16-sb'>font-16-sb / black-10</Profile.Title>
+        <Profile.Title typography='caption-14-bd'>caption-14-bd / black-10</Profile.Title>
+      </div>
+      <div className='flex flex-col gap-[0.8rem]'>
+        <Profile.Description typography='caption-14-rg' color='black-7'>
+          caption-14-rg / black-7
+        </Profile.Description>
+        <Profile.Description typography='caption-12-rg' color='black-8'>
+          caption-12-rg / black-8
+        </Profile.Description>
+      </div>
+      <div className='flex flex-col gap-[0.8rem]'>
+        <Profile.Meta typography='caption-11-md' color='black-7'>
+          caption-11-md / black-7
+        </Profile.Meta>
+        <Profile.Meta typography='caption-12-rg' color='black-8'>
+          caption-12-rg / black-8
+        </Profile.Meta>
+      </div>
     </div>
   ),
 };

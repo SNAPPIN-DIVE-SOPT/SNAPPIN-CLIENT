@@ -1,6 +1,13 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { PROFILE_BASE, PROFILE_SIZE_THEME } from './constants/theme';
+import {
+  PROFILE_BASE,
+  PROFILE_DESCRIPTION_TYPOGRAPHY_MAP,
+  PROFILE_META_TYPOGRAPHY_MAP,
+  PROFILE_SIZE_THEME,
+  PROFILE_TEXT_COLOR_MAP,
+  PROFILE_TITLE_TYPOGRAPHY_MAP,
+} from './constants/theme';
 import { ProfileContentLines, ProfileSize } from './types/variant';
 import { cn } from '@snappin/design-system/lib';
 import { IconKeyboardArrowRight } from '@snappin/design-system/assets';
@@ -22,7 +29,18 @@ type ProfileContentProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 type ProfileItemProps = React.HTMLAttributes<HTMLDivElement>;
 type ProfileRowProps = React.HTMLAttributes<HTMLDivElement>;
-type ProfileTextProps = React.HTMLAttributes<HTMLParagraphElement>;
+type ProfileTitleProps = React.HTMLAttributes<HTMLParagraphElement> & {
+  typography?: keyof typeof PROFILE_TITLE_TYPOGRAPHY_MAP;
+  color?: 'black-10';
+};
+type ProfileDescriptionProps = React.HTMLAttributes<HTMLParagraphElement> & {
+  typography?: keyof typeof PROFILE_DESCRIPTION_TYPOGRAPHY_MAP;
+  color?: 'black-7' | 'black-8';
+};
+type ProfileMetaProps = React.HTMLAttributes<HTMLParagraphElement> & {
+  typography?: keyof typeof PROFILE_META_TYPOGRAPHY_MAP;
+  color?: 'black-7' | 'black-8';
+};
 type ProfileTrailingProps = React.HTMLAttributes<HTMLDivElement> & {
   children?: React.ReactNode;
 };
@@ -60,7 +78,13 @@ function ProfileAvatar({
       ) : fallback ? (
         fallback
       ) : (
-        <Image src='/imgs/default-profile.png' alt={alt} className='h-full w-full object-cover' />
+        <Image
+          width={PROFILE_SIZE_THEME[size].avatar}
+          height={PROFILE_SIZE_THEME[size].avatar}
+          src='/imgs/default-profile.png'
+          alt={alt}
+          className='h-full w-full object-cover'
+        />
       )}
     </div>
   );
@@ -92,20 +116,61 @@ function ProfileRow({ className, ...props }: ProfileRowProps) {
   return <div className={cn('flex min-w-0 items-start gap-[0.8rem]', className)} {...props} />;
 }
 
-function ProfileTitle({ className, ...props }: ProfileTextProps) {
-  return <p className={cn('caption-14-bd text-black-10 min-w-0 truncate', className)} {...props} />;
+function ProfileTitle({
+  typography = 'caption-14-bd',
+  color = 'black-10',
+  className,
+  ...props
+}: ProfileTitleProps) {
+  return (
+    <p
+      className={cn(
+        'min-w-0 truncate',
+        PROFILE_TITLE_TYPOGRAPHY_MAP[typography],
+        PROFILE_TEXT_COLOR_MAP[color],
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
-function ProfileValue({ className, ...props }: ProfileTextProps) {
-  return <p className={cn('caption-14-md text-black-7 min-w-0 truncate', className)} {...props} />;
+function ProfileDescription({
+  typography = 'caption-12-rg',
+  color = 'black-7',
+  className,
+  ...props
+}: ProfileDescriptionProps) {
+  return (
+    <p
+      className={cn(
+        'min-w-0 truncate',
+        PROFILE_DESCRIPTION_TYPOGRAPHY_MAP[typography],
+        PROFILE_TEXT_COLOR_MAP[color],
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
-function ProfileDescription({ className, ...props }: ProfileTextProps) {
-  return <p className={cn('caption-12-md text-black-7 min-w-0 truncate', className)} {...props} />;
-}
-
-function ProfileMeta({ className, ...props }: ProfileTextProps) {
-  return <p className={cn('caption-10-md text-black-7 min-w-0', className)} {...props} />;
+function ProfileMeta({
+  typography = 'caption-11-md',
+  color = 'black-7',
+  className,
+  ...props
+}: ProfileMetaProps) {
+  return (
+    <p
+      className={cn(
+        'min-w-0',
+        PROFILE_META_TYPOGRAPHY_MAP[typography],
+        PROFILE_TEXT_COLOR_MAP[color],
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 function ProfileTrailing({ className, children, ...props }: ProfileTrailingProps) {
@@ -125,7 +190,6 @@ type ProfileItemComponent = ((props: ProfileProps) => React.JSX.Element) & {
   Item: typeof ProfileItem;
   Row: typeof ProfileRow;
   Title: typeof ProfileTitle;
-  Value: typeof ProfileValue;
   Description: typeof ProfileDescription;
   Meta: typeof ProfileMeta;
   Trailing: typeof ProfileTrailing;
@@ -175,7 +239,6 @@ const Profile = Object.assign(ProfileRoot, {
   Item: ProfileItem,
   Row: ProfileRow,
   Title: ProfileTitle,
-  Value: ProfileValue,
   Description: ProfileDescription,
   Meta: ProfileMeta,
   Trailing: ProfileTrailing,
