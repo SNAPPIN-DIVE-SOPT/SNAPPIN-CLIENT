@@ -4,8 +4,8 @@ import { useMemo, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useGetProductList } from '../api';
 import { useInfiniteScroll } from '../hooks/use-infinite-scroll';
-import { ProductList, ProductListSkeleton } from '@snappin/design-system';
 import { GetProductCardResponse } from '@/swagger-api';
+import { ProductList, ProductListSkeleton } from '@/ui/product-card';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { toExploreSearchParams } from '../utils/query';
 

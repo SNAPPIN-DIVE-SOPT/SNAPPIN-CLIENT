@@ -14,6 +14,7 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           '@': path.resolve(dirname, '../src'),
+          'next/image': path.resolve(dirname, './NextImageMock.tsx'),
         },
       },
     }),

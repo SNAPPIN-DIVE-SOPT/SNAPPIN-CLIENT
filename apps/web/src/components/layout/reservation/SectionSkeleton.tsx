@@ -1,4 +1,5 @@
-import { ProductCardSkeleton, Divider } from '@snappin/design-system';
+import { Divider } from '@snappin/design-system';
+import { ProductCardSkeleton } from '@/ui/product-card';
 import { Section } from './SectionLayout';
 
 export default function SectionSkeleton() {

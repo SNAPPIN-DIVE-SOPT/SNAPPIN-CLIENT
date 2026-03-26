@@ -2,8 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { IconKeyboardArrowRight } from '@snappin/design-system/assets';
-import { StateChip, Button, ProductCard } from '@snappin/design-system';
+import { StateChip, Button } from '@snappin/design-system';
 import { ROUTES } from '@/constants/routes/routes';
+import { ProductCard } from '@/ui/product-card';
 import { ProductCardProps, STATE_CODES, StateCode } from '@snappin/shared/types';
 
 export type ReservationCardProps = {

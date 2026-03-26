@@ -11,6 +11,6 @@ export type ProductCardProps = {
   reviewCount: number;
   photographer: string;
   price: number;
-  moods: string[];
+  moods?: string[];
   className?: string;
 };

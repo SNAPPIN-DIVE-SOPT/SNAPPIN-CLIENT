@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { ImageCarouselProps } from './ImageCarousel';
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '../..';
+import type { ImageCarouselProps } from './ImageCarousel';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '../base/Carousel';
 import { cn } from '../../../lib/cn';
 import { IconEllipse } from '../../../assets';
 

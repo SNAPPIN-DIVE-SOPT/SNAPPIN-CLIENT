@@ -6,7 +6,7 @@
   "main": "./dist/ui/index.js",
   "types": "./dist/ui/index.d.ts",
   "scripts": {
-    "build": "pnpm run build:icons && tsc -p tsconfig.build.json && node scripts/copy-static-assets.mjs",
+    "build": "pnpm run build:icons && tsc -p tsconfig.build.json",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "generate:component": "turbo gen --config ./turbo/generators/config.ts react-component",
@@ -18,10 +18,11 @@
   },
   "exports": {
     ".": "./dist/ui/index.js",
-    "./ui": "./dist/ui/index.js",
     "./ui/*": "./dist/ui/*.js",
     "./assets": "./dist/assets/index.js",
     "./assets/*": "./dist/assets/*",
+    "./lotties": "./dist/lotties/index.js",
+    "./lotties/*": "./dist/lotties/*",
     "./lib": "./dist/lib/index.js",
     "./lib/*": "./dist/lib/*.js",
     "./styles.css": "./styles.css"

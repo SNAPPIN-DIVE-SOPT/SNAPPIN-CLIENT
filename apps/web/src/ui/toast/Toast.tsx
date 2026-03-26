@@ -5,8 +5,8 @@ import { RemoveToastAtom, ToastProps } from '@/ui';
 import { cn } from '@snappin/design-system/lib/cn';
 import { useSetAtom } from 'jotai';
 import Lottie from 'lottie-react';
-import successAnimation from '@snappin/design-system/assets/lotties/success.json';
-import errorAnimation from '@snappin/design-system/assets/lotties/error.json';
+import { successAnimation, errorAnimation } from '@snappin/design-system/lotties';
+
 import Link from 'next/link';
 import { ROUTES } from '@/constants/routes/routes';
 

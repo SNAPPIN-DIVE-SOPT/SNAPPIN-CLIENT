@@ -19,6 +19,7 @@ export default function DateCell({
 }: DateCellProps) {
   const [y, m, d] = iso.split('-');
   const srLabel = `${y}-${Number(m)}-${Number(d)}`;
+
   return (
     <div
       role='gridcell'

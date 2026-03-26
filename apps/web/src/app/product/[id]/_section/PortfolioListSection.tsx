@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { PortfolioList } from '@snappin/design-system';
 import { useGetPortfolioList } from '../api';
+import { PortfolioList } from '@/ui/portfolio-list';
 
 type PortfolioListSectionProps = {
   productId: number;

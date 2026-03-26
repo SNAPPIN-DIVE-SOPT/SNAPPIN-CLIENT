@@ -1,6 +1,6 @@
 import { useState, ComponentProps } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { LikeButton } from '../..';
+import LikeButton from './LikeButton';
 
 const renderLikeButton = (args: ComponentProps<typeof LikeButton>) => {
   const Wrapper = () => {
