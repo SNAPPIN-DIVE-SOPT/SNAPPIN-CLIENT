@@ -1,4 +1,5 @@
 "use client";
+
 import Button from "@/src/components/Button";
 
 export default function ClientFooter() {

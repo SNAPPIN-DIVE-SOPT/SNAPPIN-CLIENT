@@ -1,6 +1,6 @@
 import { LogoFull } from "@snappin/design-system/assets";
-import ImageSlide from "./components/ImageSlide";
-import ClientFooter from "./components/ClientFooter";
+import ImageSlide from "../../components/ImageSlide";
+import ClientFooter from "../../components/ClientFooter";
 
 export default function Page() {
   return (

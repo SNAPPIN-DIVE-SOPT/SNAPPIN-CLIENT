@@ -1,15 +1,16 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import ImageCarousel from '@/src/components/ImageCarousel'
-import { IMAGE_SLIDE_MOCK } from './ImageSlide.mock';
+import { IMAGE_SLIDE_MOCK } from '../mock/ImageSlide.mock';
 
 const SIDE_OFFSET = 110;
 
 const CARD_VARIANTS = {
   left: {
     x: `-${SIDE_OFFSET}%`,
+    y: '-50%',
     scale: 0.92,
     opacity: 0.8,
     zIndex: 0,
@@ -17,6 +18,7 @@ const CARD_VARIANTS = {
   },
   center: {
     x: '0%',
+    y: '-50%',
     scale: 1,
     opacity: 1,
     zIndex: 10,
@@ -24,6 +26,7 @@ const CARD_VARIANTS = {
   },
   right: {
     x: `${SIDE_OFFSET}%`,
+    y: '-50%',
     scale: 0.92,
     opacity: 0.8,
     zIndex: 0,
@@ -62,21 +65,16 @@ export default function ImageSlide() {
   return (
     <div className='relative w-full overflow-hidden'>
       <div className='relative mx-auto flex h-[35.7rem] items-center justify-center'>
-        <AnimatePresence initial={false}>
-          {visible.map(({ pos, index, item }) => (
+          {visible.map(({ pos, item }) => (
             <motion.div
-              key={index + item.imageUrl.toString() + item.photographerName}
-              className='absolute top-1/2 -translate-y-1/2'
+              key={item.photographerName}
+              className='absolute top-1/2'
               variants={CARD_VARIANTS}
               animate={pos}
-              initial={false}
-              exit={{ opacity: 0, scale: 0.98 }}
+              initial={pos}
               //애니메이션 속도 조절 : 키울 수록 느리게 이동
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              style={{
-                willChange: 'transform',
-                transform: 'translateZ(0)',
-              }}
+              style={{ willChange: 'transform' }}
             >
               <ImageCarousel
                 src={item.imageUrl}
@@ -97,7 +95,6 @@ export default function ImageSlide() {
               </div>
             </motion.div>
           ))}
-        </AnimatePresence>
       </div>
     </div>
   );
