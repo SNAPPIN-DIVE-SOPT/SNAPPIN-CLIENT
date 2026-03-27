@@ -13,9 +13,9 @@ export { default as IconAddPhotoAlternate } from './components/IconAddPhotoAlter
 export { default as IconArrowBack } from './components/IconArrowBack';
 export { default as IconArrowForward } from './components/IconArrowForward';
 export { default as IconArrows } from './components/IconArrows';
+export { default as IconCheck } from './components/IconCheck';
 export { default as IconChips } from './components/IconChips';
 export { default as IconChipY2k } from './components/IconChipY2k';
-export { default as IconCheck } from './components/IconCheck';
 export { default as IconChip내추럴 } from './components/IconChip내추럴';
 export { default as IconChip디지털 } from './components/IconChip디지털';
 export { default as IconChip따스한 } from './components/IconChip따스한';
@@ -27,7 +27,6 @@ export { default as IconChip연출된 } from './components/IconChip연출된';
 export { default as IconChip차가운 } from './components/IconChip차가운';
 export { default as IconChip청량한 } from './components/IconChip청량한';
 export { default as IconChip투명한 } from './components/IconChip투명한';
-export { default as IconChipY2k } from './components/IconChipY2k';
 export { default as IconClose } from './components/IconClose';
 export { default as IconCloseSmall } from './components/IconCloseSmall';
 export { default as IconEllipse } from './components/IconEllipse';
