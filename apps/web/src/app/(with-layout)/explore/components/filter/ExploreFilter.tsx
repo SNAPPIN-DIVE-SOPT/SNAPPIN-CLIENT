@@ -113,10 +113,10 @@ export default function ExploreFilter() {
   };
 
   const handleClickFilterChip = (id: number) => {
-    if (moodIds.includes(id ?? 0)) {
-      removeMood(id ?? 0);
+    if (moodIds.includes(id)) {
+      removeMood(id);
     } else {
-      replaceMoodIds([...moodIds, id ?? 0]);
+      replaceMoodIds([...moodIds, id]);
     }
   };
 
@@ -126,7 +126,7 @@ export default function ExploreFilter() {
         <div className='scrollbar-hide flex w-full gap-[0.4rem] overflow-x-auto px-[2rem]'>
           {data?.moods?.map((mood) => (
             <FilterChip
-              key={mood.id}
+              key={mood.id ?? `mood-${mood.name}`}
               label={mood.name ?? ''}
               isSelected={moodIds.includes(mood.id ?? 0)}
               onClick={() => handleClickFilterChip(mood.id ?? 0)}

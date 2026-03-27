@@ -21,10 +21,8 @@ export const resolveExploreSort = (
   value: string | null | undefined,
   fallback: ExploreSort = EXPLORE_SORT.RECOMMENDED,
 ): ExploreSort => {
-  if (value === EXPLORE_SORT.RECOMMENDED) return value;
-  if (value === EXPLORE_SORT.POPULAR) return value;
-  if (value === EXPLORE_SORT.LATEST) return value;
-  return fallback;
+  const validSorts = Object.values(EXPLORE_SORT) as string[];
+  return validSorts.includes(value ?? '') ? (value as ExploreSort) : fallback;
 };
 
 type QueryParamRecord = Record<string, string | string[] | undefined>;

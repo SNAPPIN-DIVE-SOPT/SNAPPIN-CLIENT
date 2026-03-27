@@ -1,6 +1,6 @@
 'use client';
 
-import { EXPLORE_TAB, ExploreTab } from '../../constants/tab';
+import { EXPLORE_SCROLL_TARGET_ID, ExploreTab } from '../../constants/tab';
 import { useExploreOptionVisibility } from '../../hooks/useExploreOptionVisibility';
 import ExploreSearchButton from './ExploreSearchButton';
 import OptionSection from '@/app/(with-layout)/explore/_section/OptionSection';
@@ -22,8 +22,7 @@ export default function ExploreHeader({
   portfolioTabHref,
   productTabHref,
 }: ExploreHeaderProps) {
-  const scrollTargetId =
-    currentTab === EXPLORE_TAB.PORTFOLIO ? 'explore-portfolio-scroll' : 'explore-product-scroll';
+  const scrollTargetId = EXPLORE_SCROLL_TARGET_ID[currentTab];
   const { isVisible } = useExploreOptionVisibility(scrollTargetId);
 
   return (

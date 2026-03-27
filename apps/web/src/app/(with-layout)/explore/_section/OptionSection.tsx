@@ -23,7 +23,7 @@ export default function OptionSection({
   currentTab,
   portfolioTabHref,
   productTabHref,
-  isVisible,
+  isVisible = true,
 }: OptionSectionProps) {
   return (
     <div className='border-black-3 bg-black-1 border-b-[0.1rem]'>

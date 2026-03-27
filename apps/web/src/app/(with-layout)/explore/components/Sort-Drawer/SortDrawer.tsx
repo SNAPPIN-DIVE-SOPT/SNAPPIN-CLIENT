@@ -6,15 +6,42 @@ import { IconCheck } from '@snappin/design-system/assets';
 import { EXPLORE_SORT_LABEL, EXPLORE_SORT_OPTIONS, ExploreSort } from '../../constants/sort';
 import { resolveExploreSort } from '../../utils/query';
 
-type ReservationBottomDrawerProps = {
+type SortDrawerProps = {
   isOpen: boolean;
   handleOpenChangeAction: () => void;
 };
 
-export default function SortDrawer({
-  isOpen,
-  handleOpenChangeAction,
-}: ReservationBottomDrawerProps) {
+const SortOption = ({
+  label,
+  isSelected,
+  onClick,
+}: {
+  label: string;
+  isSelected: boolean;
+  onClick: () => void;
+}) => {
+  return (
+    <button
+      type='button'
+      aria-label={label}
+      aria-pressed={isSelected}
+      onClick={onClick}
+      className='text-black-9 font-16-md relative h-[6.1rem] w-full py-[2rem] text-center'
+    >
+      <span className='pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap'>
+        {isSelected && (
+          <IconCheck
+            aria-hidden='true'
+            className='text-black-10 absolute top-1/2 right-[calc(100%+2.4rem)] h-[1.1rem] w-[1.5rem] -translate-y-1/2'
+          />
+        )}
+        {label}
+      </span>
+    </button>
+  );
+};
+
+export default function SortDrawer({ isOpen, handleOpenChangeAction }: SortDrawerProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -49,33 +76,3 @@ export default function SortDrawer({
     </BottomDrawer>
   );
 }
-
-const SortOption = ({
-  label,
-  isSelected,
-  onClick,
-}: {
-  label: string;
-  isSelected: boolean;
-  onClick: () => void;
-}) => {
-  return (
-    <button
-      type='button'
-      aria-label={label}
-      aria-pressed={isSelected}
-      onClick={onClick}
-      className='text-black-9 font-16-md relative h-[6.1rem] w-full py-[2rem] text-center'
-    >
-      <span className='pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap'>
-        {isSelected && (
-          <IconCheck
-            aria-hidden='true'
-            className='text-black-10 absolute top-1/2 right-[calc(100%+2.4rem)] h-[1.1rem] w-[1.5rem] -translate-y-1/2'
-          />
-        )}
-        {label}
-      </span>
-    </button>
-  );
-};
