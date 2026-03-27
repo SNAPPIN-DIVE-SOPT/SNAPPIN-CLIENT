@@ -1,7 +1,7 @@
-import { ProductList } from '@snappin/design-system';
 import { useGetLikeProducts } from '../api';
 import LikeEmpty from '../component/empty/LikeEmpty';
 import { useRef } from 'react';
+import { ProductList } from '@/ui/product-card';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 
 export default function ProductListSection() {

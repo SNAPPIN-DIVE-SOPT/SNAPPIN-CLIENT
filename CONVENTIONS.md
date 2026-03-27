@@ -9,7 +9,6 @@
 - early return(암시적 반환)으로 분기 단순화 권장
 - for 지양, forEach/map 사용
 - 조건 분기는 기본적으로 삼항 연산자 사용(단, 가독성/중첩 심하면 early return을 우선)
-- 주석은 대상 바로 위(또는 한 줄이면 끝에) / 아래에 쓰는 주석 금지
+- 주석은 대상 바로 위 / 아래에 쓰는 주석 금지
 - button 태그에는 type 반드시 명시
-- axios then/catch 사용 시 then&catch 짝 맞추기, async/await 사용 시 try/catch 사용
 - common component(버튼/헤더 등)는 children 적극 활용

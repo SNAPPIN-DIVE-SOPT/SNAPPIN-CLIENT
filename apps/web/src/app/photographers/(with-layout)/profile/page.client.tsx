@@ -1,11 +1,10 @@
 ﻿'use client';
 
-import Lottie from 'lottie-react';
 import { useSwitchUserProfile } from '@/auth/apis';
-import loadingAnimation from '@snappin/design-system/assets/lotties/loading.json';
 import SwitchProfile from './components/switch-profile/SwitchProfile';
 import { useMinDurationLoading } from './hooks/useMinDurationLoading';
 import { isValidUserType, UserType } from '@snappin/shared/types';
+import { Loading } from '@/ui';
 
 const MIN_DURATION = 1600;
 
@@ -39,7 +38,7 @@ export default function PageClient({ initialUserType }: PageClientProps) {
       />
       {isSwitching && (
         <div className='fixed-center top-0 z-50 flex h-dvh flex-col items-center justify-center bg-black/30'>
-          <Lottie animationData={loadingAnimation} className='h-[15rem] w-[15rem]' />
+          <Loading />
           <span className='title-20-bd text-neon-black'>怨꾩젙 ?꾪솚 以?..</span>
         </div>
       )}

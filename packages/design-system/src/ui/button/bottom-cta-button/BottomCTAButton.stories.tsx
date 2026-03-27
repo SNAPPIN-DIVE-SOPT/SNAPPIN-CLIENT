@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import BottomCTAButton from './BottomCTAButton';
-import { Button } from '../..';
+import { Button } from '../index';
 
 const meta: Meta<typeof BottomCTAButton.Single> = {
   title: 'button/BottomCTAButton',

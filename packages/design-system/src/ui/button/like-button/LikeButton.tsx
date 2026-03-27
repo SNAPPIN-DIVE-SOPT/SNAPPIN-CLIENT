@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { IconButton } from '../..';
+import IconButton from '../icon-button/IconButton';
 import { IconHeart, IconHeartFill } from '../../../assets';
 import { cn } from '../../../lib/cn';
 

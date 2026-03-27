@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 import { Button, BottomCTAButton } from '@snappin/design-system';
-import { useGetAiCurationAllPrefetch } from '../../[step]/api';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { ROUTES } from '@/constants/routes/routes';
+import { useGetAiCurationAllPrefetch } from '../../[step]/api';
 
 export default function ClientFooter() {
   const router = useRouter();

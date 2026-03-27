@@ -1,6 +1,12 @@
 import Image from 'next/image';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../..';
-import { ImageCarouselProps } from './ImageCarousel';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '../base/Carousel';
+import type { ImageCarouselProps } from './ImageCarousel';
 
 export default function ImageCarouselWithSideBtn({
   images,

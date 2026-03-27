@@ -1,7 +1,7 @@
 import { getUserType } from '@/auth/userType';
-import PageClient from './page.client';
-import ProfileLayout from '../../../../components/layout/profile/ProfileLayout';
+import ProfileLayout from '@/components/layout/profile/ProfileLayout';
 import { isValidUserType, USER_TYPE } from '@snappin/shared/types';
+import PageClient from './page.client';
 
 export default async function Page() {
   const sessionUserType = await getUserType();

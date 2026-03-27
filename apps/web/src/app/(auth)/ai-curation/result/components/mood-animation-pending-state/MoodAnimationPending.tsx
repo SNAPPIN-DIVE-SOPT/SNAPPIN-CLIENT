@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
-import CurationLoading from '@snappin/design-system/assets/lotties/curationLoading.json';
+import { curationLoadingAnimation } from '@snappin/design-system/lotties';
 
 const LOADING_EXIT = {
   opacity: 0,
@@ -20,7 +20,7 @@ export default function MoodAnimationPending() {
       animate={{ opacity: 1, y: 0, transition: { duration: 0.25, ease: 'easeOut' } }}
       exit={LOADING_EXIT}
     >
-      <Lottie animationData={CurationLoading} className='h-[7rem] w-[7rem]' />
+      <Lottie animationData={curationLoadingAnimation} className='h-[7rem] w-[7rem]' />
       <div className='mt-[3rem] flex flex-col items-center gap-[0.3rem]'>
         <span className='caption-12-md text-black-7'>?먭뎄?먭뎄</span>
         <h1 className='title-23-eb text-black-10'>臾대뱶 ?먮젅?댁뀡 寃곌낵??..</h1>

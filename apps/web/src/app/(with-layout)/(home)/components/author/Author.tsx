@@ -33,7 +33,7 @@ export default function Author({
           />
         )}
         <Image
-          src={profileImageUrl ? profileImageUrl : '/imgs/default-photographer.png'}
+          src={profileImageUrl ? profileImageUrl : '/imgs/default-image.png'}
           alt={`${name}의 포토폴리오 이미지-${profileImageUrl}`}
           fill
           className='rounded-[0.2rem] object-cover'

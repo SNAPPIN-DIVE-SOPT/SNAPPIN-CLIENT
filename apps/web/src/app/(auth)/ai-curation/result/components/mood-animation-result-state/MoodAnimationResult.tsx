@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-
-import MoodChip from '../mood-chip/MoodChip';
 import { BottomCTAButton } from '@snappin/design-system';
 import {
   INTRO_TEXT,
@@ -18,6 +16,7 @@ import {
 import type { CreateMoodCurationResponse } from '@/swagger-api';
 import { ROUTES } from '@/constants/routes/routes';
 import { MoodCode } from '@snappin/shared/types';
+import MoodChip from '../mood-chip/MoodChip';
 
 type MoodAnimationResultProps = { data: CreateMoodCurationResponse };
 

@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
+import validateImage from '@/utils/validateImage';
 import { useImageUpload } from '../api';
-import validateImage from '../../../../utils/validateImage';
 
 type ReviewImage = {
   id: string;

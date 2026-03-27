@@ -1,6 +1,6 @@
 ﻿import { cn } from '@snappin/design-system/lib/cn';
 import { TOGGLE_THEME_BY_TYPE } from './constants/toggleTheme';
-import { USER_TYPE, USER_TYPE_LABEL, UserType } from '@snappin/shared/types';
+import { USER_TYPE, USER_TYPE_LABEL, type UserType } from '@snappin/shared/types';
 
 export type UserTypeToggleProps = {
   selectedType: UserType | null;

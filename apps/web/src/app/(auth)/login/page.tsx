@@ -1,6 +1,6 @@
-﻿import { ClientNavigation, LoginButton } from './components';
+﻿import { Logo } from '@snappin/design-system/assets';
+import { ClientNavigation, LoginButton } from './components';
 import ImageSlide from '../_components/image-slide/ImageSlide';
-import { Logo } from '@snappin/design-system/assets';
 
 export default function Page() {
   return (

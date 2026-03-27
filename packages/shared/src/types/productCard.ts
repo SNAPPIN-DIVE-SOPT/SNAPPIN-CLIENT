@@ -1,11 +1,16 @@
+type ProductCardImage = {
+  src: string;
+  alt?: string;
+};
+
 export type ProductCardProps = {
   preload?: boolean;
-  image: { src: string; alt?: string };
+  image: ProductCardImage;
   name: string;
   rate: number;
   reviewCount: number;
   photographer: string;
   price: number;
-  moods: string[];
+  moods?: string[];
   className?: string;
-} & React.HTMLAttributes<HTMLDivElement>;
+};
