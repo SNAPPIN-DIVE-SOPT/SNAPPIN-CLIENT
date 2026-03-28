@@ -30,8 +30,11 @@ export default function MarketingCTAButton({
       button_name: gtagButtonName,
       page_path: pagePath,
     });
-    if (href) window.open(href, "_blank", "noopener,noreferrer");
-    else if (route) router.push(route);
+    if (href) {
+      window.open(href, "_blank", "noopener,noreferrer");
+      return;
+    }
+    if (route) router.push(route);
   };
 
   return (

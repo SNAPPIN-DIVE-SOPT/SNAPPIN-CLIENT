@@ -30,7 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <p className="text-center caption-14-rg text-black-1">
               무드 태그로 내 취향에 딱 맞는
               <br />
-              맞는 스냅 촬영을 예약해보세요
+              스냅 촬영을 예약해보세요
             </p>
           </div>
         </div>

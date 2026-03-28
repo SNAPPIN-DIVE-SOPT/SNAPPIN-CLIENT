@@ -1,7 +1,7 @@
 import { preconnect, preload } from 'react-dom';
-import { Providers } from '@/src/app/providers';
 import '@/src/styles/global.css';
-import GoogleAnalytics from '../lib/GoogleAnalytics';
+import { Providers } from '@/src/app/providers';
+import GoogleAnalytics from '@/src/lib/GoogleAnalytics';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   preconnect('https://cdn.jsdelivr.net', { crossOrigin: 'anonymous' });

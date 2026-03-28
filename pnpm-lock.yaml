@@ -20,6 +20,9 @@ importers:
 
   apps/ad:
     dependencies:
+      '@snappin/design-system':
+        specifier: workspace:*
+        version: link:../../packages/design-system
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -39,9 +42,6 @@ importers:
         specifier: ^3.4.0
         version: 3.4.0
     devDependencies:
-      '@snappin/design-system':
-        specifier: workspace:*
-        version: link:../../packages/design-system
       '@snappin/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -265,6 +265,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.3)
+      framer-motion:
+        specifier: ^12.27.1
+        version: 12.38.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       lottie-react:
         specifier: ^2.4.1
         version: 2.4.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
