@@ -11,6 +11,7 @@ export default function ClientFooter() {
     window.open(
       "https://pretty-shake-931.notion.site/Snappin-2eea9c9b4473802d9d2ddcb2a202bc18?source=copy_link",
       "_blank",
+      "noopener,noreferrer"
     );
   };
   return (

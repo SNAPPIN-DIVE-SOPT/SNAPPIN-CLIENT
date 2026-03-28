@@ -64,7 +64,7 @@ export default function ImageSlide() {
       <div className='relative mx-auto flex h-[35.7rem] items-center justify-center'>
         {visible.map(({ pos, index, item }) => (
           <motion.div
-            key={index + item.imageUrl.toString() + item.photographerName}
+            key={item.imageUrl.toString() + item.photographerName}
             className='absolute top-1/2 -translate-y-1/2'
             variants={CARD_VARIANTS}
             animate={pos}
@@ -87,7 +87,7 @@ export default function ImageSlide() {
             {/* 오버레이 */}
             <div className='pointer-events-none absolute bottom-[1.3rem] left-[1.2rem] z-40 flex flex-col gap-[0.8rem]'>
               <div className='flex gap-[0.6rem]'>
-                {center.moods.map((mood) => (
+                {item.moods.map((mood) => (
                   <TagChip key={mood} mood={mood} />
                 ))}
               </div>

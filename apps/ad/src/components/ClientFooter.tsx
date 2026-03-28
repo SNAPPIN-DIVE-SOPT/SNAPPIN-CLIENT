@@ -7,6 +7,7 @@ export default function ClientFooter() {
     window.open(
       "https://www.instagram.com/snapping.mag/",
       "_blank",
+      "noopener,noreferrer"
     );
   };
   return (
