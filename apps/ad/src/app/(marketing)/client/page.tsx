@@ -2,8 +2,8 @@ import Image from "next/image";
 import ImageClientMoodTest from "@/public/imgs/image-client-mood.png";
 import ImageClientProduct from "@/public/imgs/image-client-product.png";
 import ImageClientReserve from "@/public/imgs/image-client-reserve.png";
+import MarketingCTAButton from "@/src/components/MarketingCTAButton";
 import MoodAnimation from "../_components/MoodAnimation";
-import ClientButton from "./components/ClientButton";
 
 export default function Page() {
   return (
@@ -24,7 +24,12 @@ export default function Page() {
         <Image src={ImageClientMoodTest} alt="클라이언트 무드 테스트 이미지" />
       </div>
       <MoodAnimation />
-      <ClientButton buttonText="AI 무드 큐레이션 받아보기" route="/login-ai-curation" />
+      <MarketingCTAButton
+        label="AI 무드 큐레이션 받아보기"
+        gtagButtonName="AI 무드 큐레이션 받아보기_click"
+        pagePath="/client"
+        route="/login-ai-curation"
+      />
       <div className="flex flex-col gap-[3.8rem] mt-[8rem]">
         <div className="flex flex-col gap-[0.7rem] text-center">
           <h2 className="text-black-1  title-23-eb">
@@ -40,7 +45,12 @@ export default function Page() {
         </div>
         <Image src={ImageClientProduct} alt="클라이언트 스냅 상품 이미지" />
       </div>
-      <ClientButton buttonText="무드 스냅 상품 둘러보기" route="/login-mood-snap" />
+      <MarketingCTAButton
+        label="무드 스냅 상품 둘러보기"
+        gtagButtonName="무드 스냅 상품 둘러보기_click"
+        pagePath="/client"
+        route="/login-mood-snap"
+      />
       <div className="flex flex-col gap-[3.8rem] mt-[8rem]">
         <div className="flex flex-col gap-[0.7rem] text-center">
           <h2 className="text-black-1  title-23-eb">
@@ -58,7 +68,12 @@ export default function Page() {
           alt="클라이언트 스냅 예약 정보 이미지"
         />
       </div>
-      <ClientButton buttonText="무드 스냅 예약하기" route="/login-mood-snap-reserve" />
+      <MarketingCTAButton
+        label="무드 스냅 예약하기"
+        gtagButtonName="무드 스냅 예약하기_click"
+        pagePath="/client"
+        route="/login-mood-snap-reserve"
+      />
     </main>
   );
 }

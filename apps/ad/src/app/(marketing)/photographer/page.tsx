@@ -1,8 +1,8 @@
 import Image from "next/image";
 import ImagePhotographerAi from "@/public/imgs/image-photographer-ai.png";
 import ImagePhotographerRegister from "@/public/imgs/image-photographer-register.png";
+import MarketingCTAButton from "@/src/components/MarketingCTAButton";
 import MoodAnimation from "../_components/MoodAnimation";
-import ClientFooter from "./components/ClientFooter";
 
 export default function Page() {
   return (
@@ -36,7 +36,12 @@ export default function Page() {
         </div>
         <Image src={ImagePhotographerRegister} alt="작가 포트폴리오 이미지" />
       </div>
-      <ClientFooter />
+      <MarketingCTAButton
+        label="작가 입점 방법 알아보기"
+        gtagButtonName="photographer_join"
+        pagePath="/photographer"
+        href="https://pretty-shake-931.notion.site/Snappin-2eea9c9b4473802d9d2ddcb2a202bc18?source=copy_link"
+      />
     </main>
   );
 }

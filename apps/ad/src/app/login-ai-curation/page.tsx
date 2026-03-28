@@ -1,6 +1,6 @@
 import { LogoFull } from "@snappin/design-system/assets";
 import ImageSlide from "../../components/ImageSlide";
-import ClientFooter from "../../components/ClientFooter";
+import AnnouncementButton from "@/src/components/AnnouncementButton";
 
 export default function Page() {
   return (
@@ -13,7 +13,7 @@ export default function Page() {
 
       <div className="flex flex-col items-center gap-[2.1rem] absolute bottom-[2rem]">
         <h2 className="title-20-bd">26.01.24 오픈 예정</h2>
-        <ClientFooter />
+        <AnnouncementButton />
       </div>
     </main>
   );
