@@ -3,7 +3,7 @@ import ImageClientMoodTest from "@/public/imgs/image-client-mood.png";
 import ImageClientProduct from "@/public/imgs/image-client-product.png";
 import ImageClientReserve from "@/public/imgs/image-client-reserve.png";
 import MarketingCTAButton from "@/src/components/MarketingCTAButton";
-import MoodAnimation from "../_components/MoodAnimation";
+import MovingChips from "@/src/components/MovingChips";
 
 export default function Page() {
   return (
@@ -23,7 +23,7 @@ export default function Page() {
         </div>
         <Image src={ImageClientMoodTest} alt="클라이언트 무드 테스트 이미지" />
       </div>
-      <MoodAnimation />
+      <MovingChips />
       <MarketingCTAButton
         label="AI 무드 큐레이션 받아보기"
         gtagButtonName="AI 무드 큐레이션 받아보기_click"

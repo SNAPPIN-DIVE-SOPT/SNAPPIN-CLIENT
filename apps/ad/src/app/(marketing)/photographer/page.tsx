@@ -2,7 +2,7 @@ import Image from "next/image";
 import ImagePhotographerAi from "@/public/imgs/image-photographer-ai.png";
 import ImagePhotographerRegister from "@/public/imgs/image-photographer-register.png";
 import MarketingCTAButton from "@/src/components/MarketingCTAButton";
-import MoodAnimation from "../_components/MoodAnimation";
+import MovingChips from "@/src/components/MovingChips";
 
 export default function Page() {
   return (
@@ -21,7 +21,7 @@ export default function Page() {
         </div>
         <Image src={ImagePhotographerAi} alt="작가 ai 이미지" />
       </div>
-      <MoodAnimation />
+      <MovingChips />
       <div className="flex flex-col gap-[3.8rem] mt-[12.6rem]">
         <div className="flex flex-col gap-[0.7rem] text-center">
           <h2 className="text-black-1  title-23-eb">
