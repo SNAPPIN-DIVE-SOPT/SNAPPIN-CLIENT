@@ -69,4 +69,4 @@ export { default as IconStarHalf } from './components/IconStarHalf';
 export { default as IconSuccess } from './components/IconSuccess';
 export { default as Logo } from './components/Logo';
 export { default as LogoFull } from './components/LogoFull';
-export { default as SmallLogo } from './components/SmallLogo';
+export { default as LogoSmall } from './components/LogoSmall';

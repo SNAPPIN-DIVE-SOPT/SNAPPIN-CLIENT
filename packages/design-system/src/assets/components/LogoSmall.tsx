@@ -4,7 +4,7 @@
 
 import type { SVGProps } from 'react';
 
-const SmallLogo = (props: SVGProps<SVGSVGElement>) => (
+const LogoSmall = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -34,4 +34,4 @@ const SmallLogo = (props: SVGProps<SVGSVGElement>) => (
     </defs>
   </svg>
 );
-export default SmallLogo;
+export default LogoSmall;

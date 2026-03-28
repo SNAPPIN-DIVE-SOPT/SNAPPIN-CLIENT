@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import BackgroundImage from "@/public/imgs/image-background.png";
-import { Logo, SmallLogo } from "@snappin/design-system/assets";
+import { Logo, LogoSmall } from "@snappin/design-system/assets";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* 하단 로고 */}
-      <SmallLogo className="mt-[4.7rem] mb-[2.7rem]" />
+      <LogoSmall className="mt-[4.7rem] mb-[2.7rem]" />
 
       {children}
 
