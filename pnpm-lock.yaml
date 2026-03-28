@@ -27,7 +27,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       framer-motion:
-        specifier: ^12.27.1
+        specifier: ^12.25.0
         version: 12.38.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       next:
         specifier: 16.1.1
@@ -266,7 +266,7 @@ importers:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.3)
       framer-motion:
-        specifier: ^12.27.1
+        specifier: ^12.25.0
         version: 12.38.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       lottie-react:
         specifier: ^2.4.1
