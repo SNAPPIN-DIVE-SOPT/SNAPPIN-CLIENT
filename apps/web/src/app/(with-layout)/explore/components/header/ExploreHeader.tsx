@@ -1,7 +1,4 @@
-'use client';
-
-import { EXPLORE_SCROLL_TARGET_ID, ExploreTab } from '../../constants/tab';
-import { useExploreOptionVisibility } from '../../hooks/useExploreOptionVisibility';
+import { ExploreTab } from '../../constants/tab';
 import ExploreSearchButton from './ExploreSearchButton';
 import OptionSection from '@/app/(with-layout)/explore/_section/OptionSection';
 
@@ -22,8 +19,6 @@ export default function ExploreHeader({
   portfolioTabHref,
   productTabHref,
 }: ExploreHeaderProps) {
-  const scrollTargetId = EXPLORE_SCROLL_TARGET_ID[currentTab];
-  const { isVisible } = useExploreOptionVisibility(scrollTargetId);
 
   return (
     <header className='bg-black-1'>
@@ -39,7 +34,6 @@ export default function ExploreHeader({
         currentTab={currentTab}
         portfolioTabHref={portfolioTabHref}
         productTabHref={productTabHref}
-        isVisible={isVisible}
       />
     </header>
   );

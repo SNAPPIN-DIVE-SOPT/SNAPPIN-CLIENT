@@ -2,12 +2,17 @@
 
 import { useSearchParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
-import SortDrawer from '@/app/(with-layout)/explore/components/Sort-Drawer/SortDrawer';
+import SortDrawer from '@/app/(with-layout)/explore/components/sort-drawer/SortDrawer';
 import { EXPLORE_SORT_LABEL } from '../../constants/sort';
 import { resolveExploreSort } from '../../utils/query';
 import { IconSortArrowDown } from '@snappin/design-system/assets';
+import { ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
 
-export default function ExploreResultToolbar() {
+type ExploreResultToolbarProps = {
+  currentTab: ExploreTab;
+};
+
+export default function ExploreResultToolbar({ currentTab }: ExploreResultToolbarProps) {
   const count = 100;
   const searchParams = useSearchParams();
   const currentSort = resolveExploreSort(searchParams.get('sort'));
@@ -21,7 +26,7 @@ export default function ExploreResultToolbar() {
         className='bg-black-1 border-black-4 flex w-[6.1rem] flex-row items-center gap-[0.4rem] rounded-[0.4rem] border-[0.1rem] px-[1rem] py-[0.6rem]'
         onClick={() =>
           overlay.open(({ isOpen, close }) => (
-            <SortDrawer isOpen={isOpen} handleOpenChangeAction={close} />
+            <SortDrawer isOpen={isOpen} handleOpenChangeAction={close} currentTab={currentTab} />
           ))
         }
       >

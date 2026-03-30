@@ -1,9 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { EXPLORE_FROM_DETAIL_BACK, EXPLORE_OPTION_VISIBLE } from '../constants/storage-key';
+
+const getInitialVisibility = () => {
+  if (typeof window === 'undefined') return true;
+
+  const isReturningFromDetail = sessionStorage.getItem(EXPLORE_FROM_DETAIL_BACK) === '1';
+  if (!isReturningFromDetail) return true;
+
+  return sessionStorage.getItem(EXPLORE_OPTION_VISIBLE) !== '0';
+};
 
 export function useExploreOptionVisibility(targetId: string) {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(getInitialVisibility);
 
   useEffect(() => {
     const el = document.getElementById(targetId);
@@ -32,7 +42,6 @@ export function useExploreOptionVisibility(targetId: string) {
       });
     };
 
-    scheduleCompute();
     el.addEventListener('scroll', scheduleCompute, { passive: true });
 
     return () => {
@@ -40,6 +49,10 @@ export function useExploreOptionVisibility(targetId: string) {
       el.removeEventListener('scroll', scheduleCompute);
     };
   }, [targetId]);
+
+  useEffect(() => {
+    sessionStorage.setItem(EXPLORE_OPTION_VISIBLE, isVisible ? '1' : '0');
+  }, [isVisible]);
 
   return { isVisible };
 }
