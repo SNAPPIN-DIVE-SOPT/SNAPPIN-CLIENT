@@ -2,12 +2,12 @@
 
 import { useMemo, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useGetProductList } from '../api';
-import { useInfiniteScroll } from '../hooks/use-infinite-scroll';
 import { GetProductCardResponse } from '@/swagger-api';
 import { ProductList, ProductListSkeleton } from '@/ui/product-card';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import { toExploreSearchParams } from '../utils/query';
+import { useGetProductList } from '@/app/(with-layout)/explore/api';
+import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
+import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
 
 export default function ProductListSection() {
   const sp = useSearchParams();

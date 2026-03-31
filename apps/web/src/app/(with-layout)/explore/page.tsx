@@ -1,10 +1,13 @@
-import ExploreHeader from './components/header/ExploreHeader';
-import ExploreTabPanels from './components/tab-panel/ExploreTabPanels';
-import { EXPLORE_TAB } from './constants/tab';
-import { parseInitialDraft, toExploreSearchParams } from './utils/query';
-import { getExploreSearchBarText, resolveExploreTab } from './utils/view-model';
-import { SEARCH_SHEET_KEY } from './constants/storage-key';
 import { ROUTES } from '@/constants/routes/routes';
+import { parseInitialDraft, toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
+import { SEARCH_SHEET_KEY } from '@/app/(with-layout)/explore/constants/storage-key';
+import { EXPLORE_TAB } from '@/app/(with-layout)/explore/constants/tab';
+import ExploreHeader from '@/app/(with-layout)/explore/components/header/ExploreHeader';
+import ExploreTabPanels from '@/app/(with-layout)/explore/components/tab-panel/ExploreTabPanels';
+import {
+  getExploreSearchBarText,
+  resolveExploreTab,
+} from '@/app/(with-layout)/explore/utils/view-model';
 
 type ExplorePageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;

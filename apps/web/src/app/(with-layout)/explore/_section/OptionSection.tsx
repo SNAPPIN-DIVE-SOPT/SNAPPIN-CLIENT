@@ -1,16 +1,16 @@
 'use client';
 
+import { Tabs } from '@snappin/design-system';
+import { cn } from '@snappin/design-system/lib';
+import ExploreFilter from '@/app/(with-layout)/explore/components/filter/ExploreFilter';
+import { useExploreOptionVisibility } from '@/app/(with-layout)/explore/hooks/useExploreOptionVisibility';
+import { ExploreResultToolbar } from '@/app/(with-layout)/explore/components';
 import {
   EXPLORE_SCROLL_TARGET_ID,
   EXPLORE_TAB,
   EXPLORE_TAB_MAP,
   ExploreTab,
 } from '@/app/(with-layout)/explore/constants/tab';
-import ExploreFilter from '@/app/(with-layout)/explore/components/filter/ExploreFilter';
-import { Tabs } from '@snappin/design-system';
-import { cn } from '@snappin/design-system/lib';
-import ExploreResultToolbar from '../components/result-toolbar/ExploreResultToolbar';
-import { useExploreOptionVisibility } from '@/app/(with-layout)/explore/hooks/useExploreOptionVisibility';
 
 const TABS = [{ value: EXPLORE_TAB.PORTFOLIO }, { value: EXPLORE_TAB.PRODUCT }];
 

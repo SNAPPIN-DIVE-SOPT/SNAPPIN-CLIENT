@@ -3,13 +3,13 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FilterChip } from '@snappin/design-system';
-import { useMoodFilters } from '../../api';
 import { ROUTES } from '@/constants/routes/routes';
+import { useMoodFilters } from '@/app/(with-layout)/explore/api';
 import {
   EXPLORE_DETAIL_BACK_HANDLED,
   EXPLORE_FROM_DETAIL_BACK,
   EXPLORE_NO_AUTO_APPLY,
-} from '../../constants/storage-key';
+} from '@/app/(with-layout)/explore/constants/storage-key';
 
 const parseMoodIds = (params: URLSearchParams): number[] => {
   const rawMoodIds = params.get('moodIds');

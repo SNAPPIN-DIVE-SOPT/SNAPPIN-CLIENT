@@ -2,10 +2,10 @@
 
 import { Suspense } from 'react';
 import { PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
-import PortfolioListSection from '../../_section/PortfolioListSection';
-import ProductListSection from '../../_section/ProductListSection';
-import { EXPLORE_TAB, ExploreTab } from '../../constants/tab';
-import ExploreDetailBackBoundary from './ExploreDetailBackBoundary';
+import { EXPLORE_TAB, ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
+import ExploreDetailBackBoundary from '@/app/(with-layout)/explore/components/tab-panel/ExploreDetailBackBoundary';
+import PortfolioListSection from '@/app/(with-layout)/explore/_section/PortfolioListSection';
+import ProductListSection from '@/app/(with-layout)/explore/_section/ProductListSection';
 
 type ExploreTabPanelsProps = {
   currentTab: ExploreTab;

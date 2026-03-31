@@ -1,8 +1,8 @@
 ﻿import { Button } from '@snappin/design-system';
 import { cn } from '@snappin/design-system/lib/cn';
-import { MOCK_SNAP_CATEGORIES } from '../../../mocks/search';
-import { useGetCategories } from '../../../api';
 import type { SnapCategory } from '@/constants/categories/snap-category';
+import { useGetCategories } from '@/app/(with-layout)/explore/api';
+import { MOCK_SNAP_CATEGORIES } from '@/app/(with-layout)/explore/mocks/search';
 
 type SnapCategoryProps = {
   currentCategory?: string | null;

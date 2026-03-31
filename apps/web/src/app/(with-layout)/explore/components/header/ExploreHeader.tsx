@@ -1,6 +1,6 @@
-import { ExploreTab } from '../../constants/tab';
-import ExploreSearchButton from './ExploreSearchButton';
 import OptionSection from '@/app/(with-layout)/explore/_section/OptionSection';
+import { ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
+import ExploreSearchButton from '@/app/(with-layout)/explore/components/header/ExploreSearchButton';
 
 type ExploreHeaderProps = {
   currentTab: ExploreTab;
@@ -19,7 +19,6 @@ export default function ExploreHeader({
   portfolioTabHref,
   productTabHref,
 }: ExploreHeaderProps) {
-
   return (
     <header className='bg-black-1'>
       <div className='px-[2rem] py-[1.6rem]'>

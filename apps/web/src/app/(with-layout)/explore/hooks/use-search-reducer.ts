@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { SnapCategory } from '@/constants/categories/snap-category';
-import { SearchDraft } from '../types/search';
+import { SearchDraft } from '@/app/(with-layout)/explore/types/search';
 
 export const initialState: SearchDraft = {
   snapCategory: null,

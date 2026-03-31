@@ -1,6 +1,6 @@
 import { SnapCategory } from '@/constants/categories/snap-category';
-import { ALLOWED_KEYS } from '../constants/query';
-import { EXPLORE_SORT, ExploreSort } from '../constants/sort';
+import { EXPLORE_SORT, ExploreSort } from '@/app/(with-layout)/explore/constants/sort';
+import { ALLOWED_KEYS } from '@/app/(with-layout)/explore/constants/query';
 
 export const parseInitialDraft = (sp: URLSearchParams) => {
   const snapCategory = sp.get('snapCategory') as SnapCategory;

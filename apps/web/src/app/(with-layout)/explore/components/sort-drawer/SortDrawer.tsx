@@ -3,9 +3,13 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { BottomDrawer, DrawerDescription, DrawerTitle } from '@snappin/design-system';
 import { IconCheck } from '@snappin/design-system/assets';
-import { EXPLORE_SORT_LABEL, EXPLORE_SORT_OPTIONS, ExploreSort } from '../../constants/sort';
-import { resolveExploreSort } from '../../utils/query';
 import { EXPLORE_TAB_MAP, ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
+import { resolveExploreSort } from '@/app/(with-layout)/explore/utils/query';
+import {
+  EXPLORE_SORT_LABEL,
+  EXPLORE_SORT_OPTIONS,
+  ExploreSort,
+} from '@/app/(with-layout)/explore/constants/sort';
 
 type SortDrawerProps = {
   isOpen: boolean;
