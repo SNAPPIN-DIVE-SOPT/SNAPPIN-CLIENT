@@ -1,1 +1,1 @@
-export type TagChipVariant = 'neon' | 'gray' | 'transparent';
+export type TagChipVariant = 'neon' | 'gray' | 'transparent' | 'neon-outline';

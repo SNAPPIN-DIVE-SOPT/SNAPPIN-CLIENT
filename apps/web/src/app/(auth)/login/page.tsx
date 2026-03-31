@@ -1,6 +1,7 @@
-﻿import { Logo } from '@snappin/design-system/assets';
+﻿import { ImageSlide } from '@snappin/design-system';
+import { Logo } from '@snappin/design-system/assets';
+import { IMAGE_SLIDE_MOCK } from '@snappin/shared/mocks';
 import { ClientNavigation, LoginButton } from './components';
-import ImageSlide from '../_components/image-slide/ImageSlide';
 
 export default function Page() {
   return (
@@ -11,7 +12,7 @@ export default function Page() {
           <Logo className='text-neon-black h-[2.8rem] w-[15.8rem]' />
           <p className='title-20-md text-black-1'>나만의 무드에서 시작되는 스냅</p>
         </div>
-        <ImageSlide />
+        <ImageSlide data={IMAGE_SLIDE_MOCK.portfolios} />
         <div className='flex justify-center px-[2rem]'>
           <LoginButton />
         </div>
