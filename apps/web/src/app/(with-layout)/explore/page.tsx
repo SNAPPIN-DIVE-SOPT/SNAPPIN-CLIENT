@@ -4,6 +4,7 @@ import { EXPLORE_TAB } from './constants/tab';
 import { parseInitialDraft, toExploreSearchParams } from './utils/query';
 import { getExploreSearchBarText, resolveExploreTab } from './utils/view-model';
 import { SEARCH_SHEET_KEY } from './constants/storage-key';
+import { ROUTES } from '@/constants/routes/routes';
 
 type ExplorePageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -21,7 +22,7 @@ export default async function Explore({ searchParams }: ExplorePageProps) {
     const nextParams = toExploreSearchParams(initialSearchParams);
     nextParams.set('tab', tab);
     const query = nextParams.toString();
-    return query ? `/explore?${query}` : '/explore';
+    return query ? `${ROUTES.EXPLORE()}?${query}` : ROUTES.EXPLORE();
   };
 
   return (
