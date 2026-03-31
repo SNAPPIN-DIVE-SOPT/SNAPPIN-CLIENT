@@ -3,7 +3,7 @@
 import { MOOD_CODE } from '@snappin/shared/types';
 import { FilterChip } from '@snappin/design-system';
 import { useNavVisibility } from '@/hooks/useNavVisibility';
-import { useSelectedMoodCode } from '@/hooks/useSelectedMoodCode';
+import { useSelectedMoodCode } from '@/app/(with-layout)/(home)/hooks/useSelectedMoodCode';
 import { ProductInformationFrameList } from '@/ui';
 import { ClientHeader, AiCurationButton } from './components';
 import { MOCK } from './mock/mock';
