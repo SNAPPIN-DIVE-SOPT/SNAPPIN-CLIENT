@@ -1,18 +1,23 @@
 'use client';
 
-import { cn } from '@snappin/design-system/lib';
+import Link from 'next/link';
+import { type CSSProperties } from 'react';
 import { IconStar } from '@snappin/design-system/assets';
-import { TagChip, LikeButton, ImageWithShadow } from '@snappin/design-system';
-import { ProductCardProps, RemUnit } from '@snappin/shared/types';
+import { TagChip, ImageWithShadow } from '@snappin/design-system';
+import { ProductCardProps } from '@snappin/shared/types';
+import ProductClient from '../components/Product.client';
 
-type ProductFrameProps = ProductCardProps & {
+type CssSize = CSSProperties['width'];
+
+export type ProductFrameProps = ProductCardProps & {
+  id: number;
   isLiked: boolean;
-  handleClickLike: () => void;
-  imageHeight?: RemUnit;
-  width?: RemUnit;
+  imageHeight?: CssSize;
+  width?: CssSize;
 };
 
 export default function ProductFrame({
+  id,
   image,
   name,
   rate,
@@ -21,12 +26,15 @@ export default function ProductFrame({
   price,
   moods = [],
   isLiked,
-  width = '18.6rem',
+  width = '100%',
   imageHeight = '18.4rem',
-  handleClickLike,
 }: ProductFrameProps) {
   return (
-    <div className='flex flex-col overflow-hidden' style={{ width: width }}>
+    <Link
+      href={`/product/${id}`}
+      className='flex w-full flex-col overflow-hidden'
+      style={{ width: width }}
+    >
       <div className='relative overflow-hidden'>
         <ImageWithShadow
           src={image.src}
@@ -34,16 +42,11 @@ export default function ProductFrame({
           imageHeight={imageHeight}
           imageWidth={width}
         />
-        <div className='absolute right-0 bottom-0 flex items-center p-[1rem]'>
-          <LikeButton
-            isLiked={isLiked}
-            handleClick={handleClickLike}
-            aria-label={isLiked ? '좋아요 취소' : '좋아요'}
-            className={cn('h-[1.4rem] w-[1.4rem]', isLiked ? 'text-neon-black' : 'text-black-1')}
-          />
+
+        <div className='absolute right-0 bottom-0 z-10 flex items-center p-[1rem]'>
+          <ProductClient id={id} isLiked={isLiked} />
         </div>
       </div>
-      {/* 제품 정보 */}
       <div className='flex w-full flex-col items-start overflow-hidden p-[1.2rem]'>
         <div className='mb-[0.8rem] flex w-full flex-col overflow-hidden'>
           <p className='caption-11-md truncate'>{name}</p>
@@ -67,6 +70,6 @@ export default function ProductFrame({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
