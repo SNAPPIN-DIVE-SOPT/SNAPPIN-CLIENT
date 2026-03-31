@@ -2,11 +2,11 @@
 
 import { useSearchParams } from 'next/navigation';
 import { overlay } from 'overlay-kit';
-import SortDrawer from '@/app/(with-layout)/explore/components/sort-drawer/SortDrawer';
-import { EXPLORE_SORT_LABEL } from '../../constants/sort';
-import { resolveExploreSort } from '../../utils/query';
 import { IconSortArrowDown } from '@snappin/design-system/assets';
+import SortDrawer from '@/app/(with-layout)/explore/components/sort-drawer/SortDrawer';
 import { ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
+import { EXPLORE_SORT_LABEL } from '@/app/(with-layout)/explore/constants/sort';
+import { resolveExploreSort } from '@/app/(with-layout)/explore/utils/query';
 
 type ExploreResultToolbarProps = {
   currentTab: ExploreTab;
