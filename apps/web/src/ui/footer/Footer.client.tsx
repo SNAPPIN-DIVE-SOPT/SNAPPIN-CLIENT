@@ -50,16 +50,26 @@ export default function FooterClient({ initialUserType }: FooterClientProps) {
       {items.map((item) => {
         const active = isActive(item.href);
         const Icon = active ? item.activeIcon : item.inactiveIcon;
+        const isCenterRaised = item.isCenterRaised === true;
 
         return (
           <button
             key={item.label}
             type='button'
             onClick={() => handleClickMenuItem(item.href)}
-            className='flex h-[4.8rem] w-[4.8rem] flex-col items-center justify-center gap-[0.2rem]'
+            className='relative flex h-[4.8rem] w-[4.8rem] flex-col items-center justify-center gap-[0.2rem] overflow-visible'
             aria-label={item.label}
           >
-            {Icon}
+            {isCenterRaised ? (
+              <>
+                <span className='absolute top-0 left-1/2 z-[2] flex h-[4.8rem] w-[4.8rem] -translate-x-1/2 -translate-y-[2.4rem] items-center justify-center'>
+                  {Icon}
+                </span>
+                <span className='h-[2.4rem] w-[2.4rem]' aria-hidden='true' />
+              </>
+            ) : (
+              Icon
+            )}
             <span className='caption-10-md'>{item.label}</span>
           </button>
         );

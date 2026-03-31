@@ -9,3 +9,4 @@ export * from './frame/index';
 export * from './portfolio-list/index';
 export * from './product-card/index';
 export * from './loading/index';
+export * from './profile';

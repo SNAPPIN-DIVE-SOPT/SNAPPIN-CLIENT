@@ -30,7 +30,8 @@
   "peerDependencies": {
     "next": "^16.1.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "framer-motion": "^12.25.0"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

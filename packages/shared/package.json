@@ -12,7 +12,8 @@
   "exports": {
     "./constants": "./src/constants/index.ts",
     "./lib": "./src/lib/index.ts",
-    "./types": "./src/types/index.ts"
+    "./types": "./src/types/index.ts",
+    "./mocks": "./src/mocks/index.ts"
   },
   "devDependencies": {
     "@snappin/eslint-config": "workspace:*",

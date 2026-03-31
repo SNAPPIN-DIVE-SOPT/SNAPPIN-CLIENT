@@ -69,7 +69,7 @@
   }
 
   .footer-height {
-    height: 5.6rem;
+    height: var(--footer-height, 5.6rem);
   }
 
   .nav-height {

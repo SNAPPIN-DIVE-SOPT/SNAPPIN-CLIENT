@@ -11,7 +11,7 @@ const meta: Meta<typeof TagChip> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['neon', 'gray', 'transparent'],
+      options: ['neon', 'gray', 'transparent', 'neon-outline'],
       description: '태그칩 종류',
     },
     label: {
