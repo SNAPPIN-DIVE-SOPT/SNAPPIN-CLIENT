@@ -11,13 +11,19 @@ import {
 } from '@snappin/design-system';
 import { IconClose } from '@snappin/design-system/assets';
 import { useSearchReducer } from '@/app/(with-layout)/explore/hooks/use-search-reducer';
-import { SearchField } from '@/app/(with-layout)/explore/types/search';
-import { parseInitialDraft } from '@/app/(with-layout)/explore/utils/query';
+import {
+  parseInitialDraft,
+  parseMoodIds,
+  parsePriceRange,
+} from '@/app/(with-layout)/explore/utils/query';
 import { SearchFooter } from '@/app/(with-layout)/explore/components';
 import { useQueryParams } from '@/hooks/useSearchQuery';
 import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
 import { ALLOWED_KEYS } from '@/app/(with-layout)/explore/constants/query';
 import { ROUTES } from '@/constants/routes/routes';
+import MoodFilter from '@/app/(with-layout)/explore/components/search-sheet/mood-filter/MoodFilter';
+import PriceSlider from '@/app/(with-layout)/explore/components/search-sheet/price-silder/PriceSlider';
+import { MAX_PRICE, MIN_PRICE } from '@/app/(with-layout)/explore/constants/price';
 
 type SearchSheetProps = {
   open: boolean;
@@ -27,16 +33,57 @@ type SearchSheetProps = {
 export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   const { read, patch, navigate, searchParams } = useQueryParams(ALLOWED_KEYS);
   const initialPlaceName = read.get('placeName');
-  const [currentField, setCurrentField] = useState<SearchField>('snapCategory');
-  const didInitRef = useRef(false);
   const placeFieldKey = `${open}-${initialPlaceName}`;
+  const initialMoodIds = parseMoodIds(searchParams);
+  const initialPrices = parsePriceRange(searchParams);
+  const formKey = `${open}-${searchParams.toString()}`;
+
+  return (
+    <SearchSheetContent
+      key={formKey}
+      open={open}
+      onOpenChange={onOpenChange}
+      searchParams={searchParams}
+      patch={patch}
+      navigate={navigate}
+      initialPlaceName={initialPlaceName}
+      placeFieldKey={placeFieldKey}
+      initialMoodIds={initialMoodIds}
+      initialPrices={initialPrices}
+    />
+  );
+}
+
+type SearchSheetContentProps = SearchSheetProps & {
+  searchParams: URLSearchParams;
+  patch: ReturnType<typeof useQueryParams>['patch'];
+  navigate: ReturnType<typeof useQueryParams>['navigate'];
+  initialPlaceName: string;
+  placeFieldKey: string;
+  initialMoodIds: number[];
+  initialPrices: [number, number];
+};
+
+function SearchSheetContent({
+  open,
+  onOpenChange,
+  searchParams,
+  patch,
+  navigate,
+  initialPlaceName,
+  placeFieldKey,
+  initialMoodIds,
+  initialPrices,
+}: SearchSheetContentProps) {
+  const didInitRef = useRef(false);
+  const [selectedMoodIds, setSelectedMoodIds] = useState<number[]>(initialMoodIds);
+  const [prices, setPrices] = useState<[number, number]>(initialPrices);
 
   const { searchDraft, setDate, resetSearchDraft, setPlaceId, setCategory, setPeopleCount } =
     useSearchReducer();
 
   const {
     value: placeKeyword,
-    setValue: setPlaceKeyword,
     options: placeOptions,
     handleChange: handlePlaceKeywordChange,
     handleBlur: handlePlaceBlur,
@@ -47,14 +94,19 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
     setSelectedId: setPlaceId,
   });
 
-  const { snapCategory } = searchDraft;
-
-  const handleFieldClick = (category: SearchField) => {
-    setCurrentField(category);
+  const handleToggleMood = (moodId: number) => {
+    setSelectedMoodIds((prevMoodIds) =>
+      prevMoodIds.includes(moodId)
+        ? prevMoodIds.filter((selectedMoodId) => selectedMoodId !== moodId)
+        : [...prevMoodIds, moodId],
+    );
   };
 
   const handleSearch = () => {
     const nextParams = patch({
+      moodIds: selectedMoodIds.length > 0 ? selectedMoodIds.join(',') : null,
+      minPrice: prices[0] === MIN_PRICE ? null : prices[0],
+      maxPrice: prices[1] === MAX_PRICE ? null : prices[1],
       snapCategory: searchDraft.snapCategory ?? null,
       placeId: searchDraft.placeId || null,
       placeName: searchDraft.placeId ? placeKeyword : null,
@@ -69,6 +121,8 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   const handleReset = () => {
     resetSearchDraft();
     resetPlaceField();
+    setSelectedMoodIds([]);
+    setPrices([MIN_PRICE, MAX_PRICE]);
   };
 
   useEffect(() => {
@@ -87,7 +141,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
     setPlaceId(placeId);
     setDate(date);
     setPeopleCount(peopleCount ?? 0);
-  }, [open, searchParams, setCategory, setDate, setPeopleCount, setPlaceId, setPlaceKeyword]);
+  }, [open, searchParams, setCategory, setDate, setPeopleCount, setPlaceId]);
 
   return (
     <ControlSheet
@@ -128,6 +182,8 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
           />
         </ControlSheet.Field>
       </div>
+      <MoodFilter selectedMoodIds={selectedMoodIds} onToggleMoodAction={handleToggleMood} />
+      <PriceSlider value={prices} onChange={(values) => setPrices(values)} />
       <SearchFooter handleResetClick={handleReset} handleConfirmClick={handleSearch} />
     </ControlSheet>
   );
