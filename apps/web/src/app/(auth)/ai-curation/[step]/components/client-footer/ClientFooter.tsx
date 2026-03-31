@@ -4,12 +4,12 @@ import { useRouter } from 'next/navigation';
 import { BottomCTAButton } from '@snappin/design-system';
 import { useToast } from '@/ui';
 import { ROUTES } from '@/constants/routes/routes';
-import { AiCurationStep, TOTAL_STEP_COUNT } from '../../constants/steps';
+import { type STEP, TOTAL_STEP_COUNT } from '../../constants/steps';
 import { useAiCuration } from '../../../hooks/useAiCuration';
 import { usePostAiCuration } from '../../api';
 
 type ClientFooterProps = {
-  step: AiCurationStep;
+  step: STEP;
 };
 
 export default function ClientFooter({ step }: ClientFooterProps) {
