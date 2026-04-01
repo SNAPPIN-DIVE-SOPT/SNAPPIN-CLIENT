@@ -1,24 +1,35 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { BottomCTAButton } from '@snappin/design-system';
+import { ROUTES } from '@/constants/routes/routes';
 import CopyModal from '../../@modal/(.)copy-modal/CopyModal';
 
 type ClientFooterProps = {
+  photographerId: number;
   disabled?: boolean;
-  handleClick?: () => void;
+  handleClick?: () => Promise<boolean>;
 };
 
-export default function ClientFooter({ disabled = false, handleClick }: ClientFooterProps) {
+export default function ClientFooter({
+  photographerId,
+  disabled = false,
+  handleClick,
+}: ClientFooterProps) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const handleCopyButtonClick = () => {
-    handleClick?.();
-    setOpen(true);
+  const handleCopyButtonClick = async () => {
+    const isCopied = handleClick ? await handleClick() : false;
+    if (isCopied) {
+      setOpen(true);
+    }
   };
 
-  const handleCopyModalConfirm = () => {
+  const handleMovePhotographer = () => {
     setOpen(false);
+    router.push(ROUTES.PHOTOGRAPHER(photographerId));
   };
 
   return (
@@ -35,7 +46,11 @@ export default function ClientFooter({ disabled = false, handleClick }: ClientFo
           </BottomCTAButton.Single>
         </BottomCTAButton>
       </div>
-      <CopyModal open={open} handleOpenChange={setOpen} handleClickConfirm={handleCopyModalConfirm} />
+      <CopyModal
+        open={open}
+        handleOpenChange={setOpen}
+        handleClickConfirm={handleMovePhotographer}
+      />
     </>
   );
 }
