@@ -18,8 +18,8 @@ export default function MoodFilter({ selectedMoodIds, onToggleMoodAction }: Mood
     .slice(0, MAX_VISIBLE_MOODS);
 
   return (
-    <div className='py-[1.5rem]'>
-      <span className='font-16-md text-black-10'>무드 선택</span>
+    <div>
+      <span className='font-16-md text-black-10 mb-[1rem]'>무드 선택</span>
       <div className='mt-[1rem] grid grid-cols-3 gap-x-[0.6rem] gap-y-[1rem]'>
         {moods.map((mood) => (
           <FilterChip
@@ -27,6 +27,7 @@ export default function MoodFilter({ selectedMoodIds, onToggleMoodAction }: Mood
             label={mood.name ?? ''}
             isSelected={selectedMoodIds.includes(mood.id)}
             onClick={() => onToggleMoodAction(mood.id)}
+            className='w-full'
           />
         ))}
       </div>
