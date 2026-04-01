@@ -3,7 +3,8 @@
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { MoodCode } from '@snappin/shared/types';
-import { TagChip, ImageWithShadow } from '@snappin/design-system';
+import { TagChip } from '../../chip';
+import ImageWithShadow from '../image-with-shadow/ImageWithShadow';
 import { TagChipVariant } from '../../chip/tag-chip/types/tagChipVariant';
 
 type Image = {

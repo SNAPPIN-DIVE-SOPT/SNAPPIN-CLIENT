@@ -1,6 +1,6 @@
-﻿import { ImageSlide } from '@snappin/design-system';
-import { Logo } from '@snappin/design-system/assets';
-import { IMAGE_SLIDE_MOCK } from '@snappin/shared/mocks';
+﻿import { Logo } from '@snappin/design-system/assets';
+import { ImageSlide } from '@snappin/design-system';
+import { IMAGE_SLIDE_MOCK } from '@snappin/design-system/ui/image/image-slide/imageSlideMock';
 import { ClientNavigation, LoginButton } from './components';
 
 export default function Page() {

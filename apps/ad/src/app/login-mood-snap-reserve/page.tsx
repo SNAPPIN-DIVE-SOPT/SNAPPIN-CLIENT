@@ -1,6 +1,6 @@
-import { ImageSlide } from "@snappin/design-system";
-import { IMAGE_SLIDE_MOCK } from "@snappin/shared/mocks";
+import { ImageSlide } from '@snappin/design-system';
 import { LogoFull } from "@snappin/design-system/assets";
+import { IMAGE_SLIDE_MOCK } from '@snappin/design-system/ui/image/image-slide/imageSlideMock';
 import AnnouncementButton from "@/src/components/AnnouncementButton";
 
 export default function Page() {

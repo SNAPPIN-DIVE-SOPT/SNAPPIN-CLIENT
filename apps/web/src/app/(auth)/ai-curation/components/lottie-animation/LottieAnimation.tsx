@@ -2,8 +2,8 @@
 
 import Lottie from 'lottie-react';
 import { ImageSlide } from '@snappin/design-system';
-import { IMAGE_SLIDE_MOCK } from '@snappin/shared/mocks';
 import { curationCoverAnimation } from '@snappin/design-system/lotties';
+import { IMAGE_SLIDE_MOCK } from '@snappin/design-system/ui/image/image-slide/imageSlideMock';
 
 export default function LottieAnimation() {
   return (
