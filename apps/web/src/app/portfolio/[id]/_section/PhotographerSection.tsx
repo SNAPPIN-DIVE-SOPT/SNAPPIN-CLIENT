@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import { IconArrowForward } from '@snappin/design-system/assets';
+import { Profile } from '@/ui';
 import { ROUTES } from '@/constants/routes/routes';
 
 type PhotographerSectionProps = {
@@ -24,35 +23,28 @@ export default function PhotographerSection({
     <Link
       href={ROUTES.PHOTOGRAPHER(id)}
       aria-label={`${name} 작가 상세 페이지로 이동`}
-      className='bg-black-1 flex w-full items-center gap-[1.2rem] p-[2rem]'
+      className='bg-black-1 flex w-full items-center gap-[1.2rem] px-[2rem] pb-[2rem]'
     >
-      <div className='relative h-[6.4rem] w-[6.4rem] shrink-0 overflow-hidden rounded-full'>
-        <Image
-          src={imageUrl || '/imgs/default-profile.png'}
-          alt='프로필 이미지'
-          fill
-          className='rounded-full object-cover'
-        />
-      </div>
-      <div className='flex flex-1 items-center justify-between gap-[1.2rem]'>
-        <div className='flex flex-col gap-[0.9rem]'>
-          <div className='flex flex-col items-start'>
-            <span className='caption-14-bd text-black-10'>{name}</span>
-            <span className='caption-14-rg text-black-7'>{bio}</span>
-          </div>
-          <div className='flex flex-col gap-[0.4rem]'>
-            <div className='flex items-center gap-[0.8rem]'>
-              <span className='caption-12-md text-black-7'>촬영 상품</span>
-              <span className='caption-12-md text-black-10'>{specialties.join(', ')}</span>
-            </div>
-            <div className='flex items-center gap-[0.8rem]'>
-              <span className='caption-12-md text-black-7'>활동 지역</span>
-              <span className='caption-12-md text-black-10'>{locations.join(', ')}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <IconArrowForward className='text-black-6 h-[2.4rem] w-[2.4rem]' />
+      <Profile size='sm' className='border-1 border-black-4 rounded-[0.6rem]'>
+        <Profile.Avatar src={imageUrl} />
+        <Profile.Content lines={2}>
+          <Profile.Item>
+            <Profile.Title>{name}</Profile.Title>
+            <Profile.Description>{bio}</Profile.Description>
+          </Profile.Item>
+          <Profile.Item>
+            <Profile.Row>
+              <Profile.Meta>촬영 상품</Profile.Meta>
+              <Profile.Meta>{specialties.join(', ')}</Profile.Meta>
+            </Profile.Row>
+            <Profile.Row>
+              <Profile.Meta>활동 지역</Profile.Meta>
+              <Profile.Meta>{locations.join(', ')}</Profile.Meta>
+            </Profile.Row>
+          </Profile.Item>
+        </Profile.Content>
+        <Profile.Trailing />
+      </Profile>
     </Link>
   );
 }
