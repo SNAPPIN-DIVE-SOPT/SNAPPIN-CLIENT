@@ -17,5 +17,6 @@
 export const EXPLORE_DETAIL_BACK_HANDLED = 'explore_detail_back_handled_v1';
 export const EXPLORE_FROM_DETAIL_BACK = 'explore_from_detail_back_v1';
 export const EXPLORE_NO_AUTO_APPLY = 'explore_no_auto_apply_v1';
+export const EXPLORE_OPTION_VISIBLE = 'explore_option_visible_v1';
 export const SEARCH_SHEET_KEY = (placeName: string, initialParams: string) =>
   `search-sheet:${placeName.trim()}:${initialParams}`;

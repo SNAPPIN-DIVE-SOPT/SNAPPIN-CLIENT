@@ -1,9 +1,6 @@
-import { Tabs } from '@snappin/design-system';
-import ExploreFilter from '../filter/ExploreFilter';
-import { EXPLORE_TAB, EXPLORE_TAB_MAP, ExploreTab } from '../../constants/tab';
-import ExploreSearchButton from './ExploreSearchButton';
-
-const TABS = [{ value: EXPLORE_TAB.PORTFOLIO }, { value: EXPLORE_TAB.PRODUCT }];
+import OptionSection from '@/app/(with-layout)/explore/_section/OptionSection';
+import { ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
+import ExploreSearchButton from '@/app/(with-layout)/explore/components/header/ExploreSearchButton';
 
 type ExploreHeaderProps = {
   currentTab: ExploreTab;
@@ -23,7 +20,7 @@ export default function ExploreHeader({
   productTabHref,
 }: ExploreHeaderProps) {
   return (
-    <header className='border-black-3 bg-black-1 sticky top-0 z-100 shrink-0 border-b-[0.1rem]'>
+    <header className='bg-black-1'>
       <div className='px-[2rem] py-[1.6rem]'>
         <ExploreSearchButton
           headline={headline}
@@ -32,17 +29,11 @@ export default function ExploreHeader({
           supportingTextClassName='text-black-7'
         />
       </div>
-
-      <Tabs.List activeValue={currentTab} tabs={TABS}>
-        <Tabs.Item value={EXPLORE_TAB.PORTFOLIO} activeValue={currentTab} href={portfolioTabHref}>
-          {EXPLORE_TAB_MAP[EXPLORE_TAB.PORTFOLIO]}
-        </Tabs.Item>
-        <Tabs.Item value={EXPLORE_TAB.PRODUCT} activeValue={currentTab} href={productTabHref}>
-          {EXPLORE_TAB_MAP[EXPLORE_TAB.PRODUCT]}
-        </Tabs.Item>
-      </Tabs.List>
-
-      <ExploreFilter />
+      <OptionSection
+        currentTab={currentTab}
+        portfolioTabHref={portfolioTabHref}
+        productTabHref={productTabHref}
+      />
     </header>
   );
 }

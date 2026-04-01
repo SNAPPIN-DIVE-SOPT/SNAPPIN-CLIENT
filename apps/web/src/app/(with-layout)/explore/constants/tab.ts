@@ -9,3 +9,8 @@ export const EXPLORE_TAB_MAP: Record<ExploreTab, string> = {
   PORTFOLIO: '포트폴리오',
   PRODUCT: '상품',
 } as const;
+
+export const EXPLORE_SCROLL_TARGET_ID = {
+  PORTFOLIO: 'explore-portfolio-scroll',
+  PRODUCT: 'explore-product-scroll',
+} as const;
