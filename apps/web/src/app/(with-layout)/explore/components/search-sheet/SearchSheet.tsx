@@ -18,7 +18,7 @@ import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
 import { ALLOWED_KEYS } from '@/app/(with-layout)/explore/constants/query';
 import { ROUTES } from '@/constants/routes/routes';
 import MoodFilter from '@/app/(with-layout)/explore/components/search-sheet/mood-filter/MoodFilter';
-import PriceSlider from '@/app/(with-layout)/explore/components/search-sheet/price-silder/PriceSlider';
+import PriceSlider from '@/app/(with-layout)/explore/components/search-sheet/price-slider/PriceSlider';
 import {
   parseInitialDraft,
   parseMoodIds,
@@ -179,7 +179,7 @@ function SearchSheetContent({
           <ControlSheet.Field label='촬영 장소' active={true} className='border-none'>
             <ComboBox
               key={placeFieldKey}
-              placeholder='장소 이름을 검새하세요'
+              placeholder='장소 이름을 검색하세요'
               value={placeKeyword}
               options={placeOptions}
               onChange={handlePlaceKeywordChange}

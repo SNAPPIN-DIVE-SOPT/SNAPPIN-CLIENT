@@ -36,19 +36,19 @@ export default function PriceSlider({
       <div className='flex flex-row justify-between gap-[0.6rem] py-[0.75rem]'>
         <FilterChip
           label={`${to만원(QUICK_MIN_PRICE)}만 원 미만`}
-          isSelected={false}
-          onClick={() => onChange([0, QUICK_MIN_PRICE])}
+          isSelected={value[0] === MIN_PRICE && value[1] === QUICK_MIN_PRICE}
+          onClick={() => onChange([MIN_PRICE, QUICK_MIN_PRICE])}
           className='w-full'
         />
         <FilterChip
           label={`${to만원(QUICK_MIN_PRICE)} ~ ${to만원(QUICK_MAX_PRICE)}만 원`}
-          isSelected={false}
+          isSelected={value[0] === QUICK_MIN_PRICE && value[1] === QUICK_MAX_PRICE}
           onClick={() => onChange([QUICK_MIN_PRICE, QUICK_MAX_PRICE])}
           className='w-full'
         />
         <FilterChip
           label={`${to만원(QUICK_MAX_PRICE)}만 원 이상`}
-          isSelected={false}
+          isSelected={value[0] === QUICK_MAX_PRICE && value[1] === MAX_PRICE}
           onClick={() => onChange([QUICK_MAX_PRICE, MAX_PRICE])}
           className='w-full'
         />

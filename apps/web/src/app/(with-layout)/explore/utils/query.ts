@@ -1,13 +1,18 @@
 import { SnapCategory } from '@/constants/categories/snap-category';
 import { EXPLORE_SORT, ExploreSort } from '@/app/(with-layout)/explore/constants/sort';
 import { ALLOWED_KEYS } from '@/app/(with-layout)/explore/constants/query';
-import { INITIAL_MAX_PRICE, INITIAL_MIN_PRICE } from '@/app/(with-layout)/explore/constants/price';
+import {
+  INITIAL_MAX_PRICE,
+  INITIAL_MIN_PRICE,
+  MAX_PRICE,
+  MIN_PRICE,
+} from '@/app/(with-layout)/explore/constants/price';
 
 const parseNumberParam = (value: string | null) => {
-  if (value === null || value === '') return null;
+  if (value === null || value.trim() === '') return null;
 
   const parsedNumber = Number(value);
-  return Number.isNaN(parsedNumber) ? null : parsedNumber;
+  return Number.isFinite(parsedNumber) ? parsedNumber : null;
 };
 
 export const parseMoodIds = (sp: URLSearchParams) => {
@@ -21,8 +26,11 @@ export const parseMoodIds = (sp: URLSearchParams) => {
 };
 
 export const parsePriceRange = (sp: URLSearchParams): [number, number] => {
-  const minPrice = parseNumberParam(sp.get('minPrice')) ?? INITIAL_MIN_PRICE;
-  const maxPrice = parseNumberParam(sp.get('maxPrice')) ?? INITIAL_MAX_PRICE;
+  const minCandidate = parseNumberParam(sp.get('minPrice')) ?? INITIAL_MIN_PRICE;
+  const maxCandidate = parseNumberParam(sp.get('maxPrice')) ?? INITIAL_MAX_PRICE;
+
+  const minPrice = Math.min(Math.max(minCandidate, MIN_PRICE), MAX_PRICE);
+  const maxPrice = Math.min(Math.max(maxCandidate, MIN_PRICE), MAX_PRICE);
 
   if (minPrice > maxPrice) return [INITIAL_MIN_PRICE, INITIAL_MAX_PRICE];
 
