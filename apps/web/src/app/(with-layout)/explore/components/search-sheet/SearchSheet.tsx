@@ -8,14 +8,10 @@ import {
   Navigation,
   SheetDescription,
   SheetTitle,
+  Divider,
 } from '@snappin/design-system';
 import { IconClose } from '@snappin/design-system/assets';
 import { useSearchReducer } from '@/app/(with-layout)/explore/hooks/use-search-reducer';
-import {
-  parseInitialDraft,
-  parseMoodIds,
-  parsePriceRange,
-} from '@/app/(with-layout)/explore/utils/query';
 import { SearchFooter } from '@/app/(with-layout)/explore/components';
 import { useQueryParams } from '@/hooks/useSearchQuery';
 import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
@@ -23,7 +19,17 @@ import { ALLOWED_KEYS } from '@/app/(with-layout)/explore/constants/query';
 import { ROUTES } from '@/constants/routes/routes';
 import MoodFilter from '@/app/(with-layout)/explore/components/search-sheet/mood-filter/MoodFilter';
 import PriceSlider from '@/app/(with-layout)/explore/components/search-sheet/price-silder/PriceSlider';
-import { MAX_PRICE, MIN_PRICE } from '@/app/(with-layout)/explore/constants/price';
+import {
+  parseInitialDraft,
+  parseMoodIds,
+  parsePriceRange,
+} from '@/app/(with-layout)/explore/utils/query';
+import {
+  INITIAL_MAX_PRICE,
+  INITIAL_MIN_PRICE,
+  MAX_PRICE,
+  MIN_PRICE,
+} from '@/app/(with-layout)/explore/constants/price';
 
 type SearchSheetProps = {
   open: boolean;
@@ -122,7 +128,7 @@ function SearchSheetContent({
     resetSearchDraft();
     resetPlaceField();
     setSelectedMoodIds([]);
-    setPrices([MIN_PRICE, MAX_PRICE]);
+    setPrices([INITIAL_MIN_PRICE, INITIAL_MAX_PRICE]);
   };
 
   useEffect(() => {
@@ -158,7 +164,7 @@ function SearchSheetContent({
 
       {/* 헤더 */}
       <Navigation
-        center={<h3 className='font-16-bd whitespace-nowrap'>어떤 스냅 작가를 찾고 있나요?</h3>}
+        center={<h3 className='caption-14-bd whitespace-nowrap'>어떤 스냅 작가를 찾고 있나요?</h3>}
         right={
           <IconButton type='button' onClick={onOpenChange}>
             <IconClose />
@@ -166,24 +172,36 @@ function SearchSheetContent({
         }
         className='px-[2rem] py-[1.3rem]'
       />
+      <div className='mt-[2.1rem] flex flex-col gap-[3.5rem]'>
+        {/* 검색 필드 */}
+        <div className='px-[2.5rem]'>
+          {/* 촬영 장소 검색 */}
+          <ControlSheet.Field label='촬영 장소' active={true} className='border-none'>
+            <ComboBox
+              key={placeFieldKey}
+              placeholder='장소 이름을 검새하세요'
+              value={placeKeyword}
+              options={placeOptions}
+              onChange={handlePlaceKeywordChange}
+              onBlur={handlePlaceBlur}
+              inputClassName='border-b-[0.1rem] px-[0.7rem] py-[1.2rem] border-black-6 focus:border-black-10'
+            />
+          </ControlSheet.Field>
+        </div>
 
-      {/* 검색 필드 */}
-      <div className='flex flex-col gap-[1.5rem] p-[1.5rem] px-[2rem]'>
-        {/* 촬영 장소 검색 */}
-        <ControlSheet.Field label='촬영 장소' active={true} className='border-none'>
-          <ComboBox
-            key={placeFieldKey}
-            placeholder='장소 이름을 검새하세요'
-            value={placeKeyword}
-            options={placeOptions}
-            onChange={handlePlaceKeywordChange}
-            onBlur={handlePlaceBlur}
-            inputClassName='border-b-[0.1rem] px-[0.7rem] py-[1.2rem]'
-          />
-        </ControlSheet.Field>
+        <Divider color='bg-black-4' />
+
+        {/* 무드 선택 */}
+        <div className='flex flex-col gap-[1.5rem] px-[2.5rem]'>
+          <MoodFilter selectedMoodIds={selectedMoodIds} onToggleMoodAction={handleToggleMood} />
+        </div>
+        <Divider color='bg-black-4' />
+
+        {/* 가격 설정 */}
+        <div className='flex flex-col gap-[1.5rem] px-[2.5rem]'>
+          <PriceSlider value={prices} onChange={(values) => setPrices(values)} />
+        </div>
       </div>
-      <MoodFilter selectedMoodIds={selectedMoodIds} onToggleMoodAction={handleToggleMood} />
-      <PriceSlider value={prices} onChange={(values) => setPrices(values)} />
       <SearchFooter handleResetClick={handleReset} handleConfirmClick={handleSearch} />
     </ControlSheet>
   );
