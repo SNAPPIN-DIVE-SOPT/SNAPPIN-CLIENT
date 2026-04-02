@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Divider, ReviewStar } from '@snappin/design-system';
+import { Button, Divider, ReviewStar } from '@snappin/design-system';
 import { formatShortDate } from '@/utils/formatDate';
 import { useGetProductReviewList } from '../api';
 
@@ -47,9 +47,12 @@ export default function ReviewListSection({ productId, averageRate }: ReviewList
 
   return (
     <section className='mb-[7.4rem]'>
-      <div className='flex gap-[0.8rem] p-[2rem]'>
-        <ReviewStar rating={isEmpty ? 0 : averageRate} starSize='large' />
-        <span className='title-20-bd text-black-10'>{isEmpty ? '0.0' : averageRate}</span>
+      <div className='flex justify-between p-[2rem]'>
+        <div className='flex gap-[0.8rem]'>
+          <ReviewStar rating={isEmpty ? 0 : averageRate} starSize='large' />
+          <span className='title-20-bd text-black-10'>{isEmpty ? '0.0' : averageRate}</span>
+        </div>
+        <Button size='small' color='transparent' className='pr-0 border-none'>리뷰 작성하기</Button>
       </div>
       <Divider thickness='large' color='bg-black-3' className='w-full' />
       {reviewList?.map((review, idx) => {

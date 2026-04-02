@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useGetPortfolioList } from '../api';
 import { PortfolioList } from '@/ui/portfolio-list';
+import { useGetPortfolioList } from '../api';
 
 type PortfolioListSectionProps = {
   productId: number;
@@ -35,6 +35,7 @@ export default function PortfolioListSection({ productId }: PortfolioListSection
     );
   }
 
+  // TODO: PortfolioFrameList로 교체
   return (
     <section>
       <PortfolioList portfolioList={portfolioList} />
