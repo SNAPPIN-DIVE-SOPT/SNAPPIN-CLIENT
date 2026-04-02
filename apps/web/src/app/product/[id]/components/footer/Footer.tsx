@@ -12,15 +12,17 @@ import ReservationBottomDrawer from '../reservation-bottom-drawer/ReservationBot
 
 type FooterProps = {
   productId: number;
+  contact: string;
   amount: number;
 };
 
-export default function Footer({ productId, amount }: FooterProps) {
+const TOAST_STYLE = 'px-[2rem] bottom-[8.4rem]';
+
+export default function Footer({ productId, contact, amount }: FooterProps) {
   const router = useRouter();
   const { isLogIn } = useAuth();
-  const { alert, login } = useToast();
+  const { login } = useToast();
   const [isOpen, setIsOpen] = useState(false);
-
   const [draft, setDraft] = useState<ReservationDraft>({
     date: null,
     time: null,
@@ -31,21 +33,11 @@ export default function Footer({ productId, amount }: FooterProps) {
     request: '',
   });
 
-  const toastStyle = 'px-[2rem] bottom-[8.4rem]';
-
-  const handleContact = () => {
-    if (isLogIn === true) {
-      alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', undefined, toastStyle);
-    } else if (isLogIn === false) {
-      login('문의 기능은 로그인 후에 사용할 수 있어요.', undefined, toastStyle);
-    }
-  };
-
   const close = () => setIsOpen(false);
-
+  const handleContact = () => window.open(contact, '_blank', 'noopener,noreferrer');
   const handleOpenDrawer = () => {
     if (isLogIn === false) {
-      login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, toastStyle);
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, TOAST_STYLE);
       return;
     }
     setIsOpen(true);
@@ -59,13 +51,22 @@ export default function Footer({ productId, amount }: FooterProps) {
       >
         <BottomCTAButton.Double
           leftButton={
-            <Button color='white' size='medium' onClick={handleContact}>
-              문의하기
+            <Button
+              color='white'
+              size='medium'
+              onClick={handleContact}
+              className='border-black-10 text-black-10'
+            >
+              문의하러 가기
             </Button>
           }
           rightButton={
-            <Button color='black' size='medium' onClick={handleOpenDrawer}>
-              예약하기
+            <Button
+              color='black'
+              size='medium'
+              onClick={handleOpenDrawer}
+            >
+              예약 문의 작성
             </Button>
           }
         />

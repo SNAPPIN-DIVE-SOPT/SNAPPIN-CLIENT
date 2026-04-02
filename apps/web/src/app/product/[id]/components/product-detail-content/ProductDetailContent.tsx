@@ -87,7 +87,7 @@ export default function ProductDetailContent({ productId, tab }: ProductDetailCo
           )}
         </div>
       </Tabs>
-      <Footer productId={productId} amount={data?.price ?? 0} />
+      <Footer productId={productId} contact={data?.photographerInfo.contact} amount={data?.price ?? 0} />
     </>
   );
 }
