@@ -82,11 +82,7 @@ export default function ProductDetailContent({ productId, tab }: ProductDetailCo
           )}
         </div>
       </Tabs>
-      <Footer
-        productId={productId}
-        photographerId={data?.photographerInfo?.id ?? null}
-        amount={data?.price ?? 0}
-      />
+      <Footer productId={productId} amount={data?.price ?? 0} />
     </>
   );
 }

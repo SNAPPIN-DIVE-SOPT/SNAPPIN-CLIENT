@@ -12,14 +12,13 @@ import ReservationBottomDrawer from '../reservation-bottom-drawer/ReservationBot
 
 type FooterProps = {
   productId: number;
-  photographerId?: number | null;
   amount: number;
 };
 
-export default function Footer({ productId, photographerId, amount }: FooterProps) {
+export default function Footer({ productId, amount }: FooterProps) {
   const router = useRouter();
   const { isLogIn } = useAuth();
-  const { login } = useToast();
+  const { alert, login } = useToast();
   const [isOpen, setIsOpen] = useState(false);
 
   const [draft, setDraft] = useState<ReservationDraft>({
@@ -36,12 +35,7 @@ export default function Footer({ productId, photographerId, amount }: FooterProp
 
   const handleContact = () => {
     if (isLogIn === true) {
-      router.push(
-        ROUTES.RESERVATION_FORM(
-          productId,
-          photographerId ? { photographerId: String(photographerId) } : undefined,
-        ),
-      );
+      alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', undefined, toastStyle);
     } else if (isLogIn === false) {
       login('문의 기능은 로그인 후에 사용할 수 있어요.', undefined, toastStyle);
     }
