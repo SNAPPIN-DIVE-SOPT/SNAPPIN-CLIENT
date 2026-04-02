@@ -1,5 +1,6 @@
 'use client';
 
+// TODO: API 구현 완료되면 주석 풀기
 import { useRef, useMemo, Suspense } from 'react';
 import { Tabs } from '@snappin/design-system';
 import { ROUTES } from '@/constants/routes/routes';
@@ -13,9 +14,10 @@ import {
   ReviewListSection,
 } from '../../_section';
 import Footer from '../footer/Footer';
-import { useGetProductDetail } from '../../api';
+// import { useGetProductDetail } from '../../api';
 import { PRODUCT_TAB, PRODUCT_TABS } from '../../constants/tab';
 import { ReviewListSectionSkeleton } from '../../_section/ReviewListSection';
+import { MOCK } from '../../mocks/mock';
 
 type ProductDetailContentProps = {
   productId: number;
@@ -27,7 +29,8 @@ export default function ProductDetailContent({ productId, tab }: ProductDetailCo
     ? tab
     : PRODUCT_TAB.PRODUCT_DETAIL;
 
-  const { data } = useGetProductDetail(productId);
+  // const { data } = useGetProductDetail(productId);
+  const data = MOCK;
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const scrollKey = useMemo(
