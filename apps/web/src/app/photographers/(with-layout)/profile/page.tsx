@@ -8,9 +8,5 @@ export default async function Page() {
   const userType =
     sessionUserType && isValidUserType(sessionUserType) ? sessionUserType : USER_TYPE.PHOTOGRAPHER;
 
-  return (
-    <ProfileLayout userType={userType}>
-      <PageClient initialUserType={userType} />
-    </ProfileLayout>
-  );
+  return <PageClient initialUserType={userType} />;
 }

@@ -46,7 +46,7 @@ const PhotographerProfileCard = ({ data, imageUrl }: PhotographerProfileCardProp
 
   return (
     <Profile>
-      <Profile.Avatar src={imageUrl} />
+      <Profile.Avatar src={imageUrl} size='sm' />
       <Profile.Content lines={2}>
         <Profile.Item>
           <Profile.Title typography='font-16-sb'>{data.name}</Profile.Title>
@@ -75,8 +75,8 @@ const ClientProfileCard = ({ data, imageUrl }: ClientProfileCardProps) => {
   if (!data) return null;
 
   return (
-    <Profile size='sm'>
-      <Profile.Avatar src={imageUrl} />
+    <Profile>
+      <Profile.Avatar src={imageUrl} size='sm' />
       <Profile.Content lines={1}>
         <Profile.Item>
           <Profile.Title>{data.name}</Profile.Title>
