@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { useGetUserInfo } from '@/auth/apis';
 import type { GetClientInfoResponse, GetPhotographerProfileResponse } from '@/swagger-api';
 import { USER_TYPE, UserType } from '@snappin/shared/types';
+import { Profile, ProfileSkeleton } from '@/ui';
 
 type ProfileCardProps = {
   userType: UserType | null;
@@ -24,7 +24,7 @@ export default function ProfileCard({ userType, isSwitching }: ProfileCardProps)
   const { data, isFetching } = useGetUserInfo();
 
   if (isFetching || isSwitching || !userType) {
-    return <ProfileCardSkeleton />;
+    return <ProfileSkeleton />;
   }
 
   if (userType === USER_TYPE.PHOTOGRAPHER) {
@@ -41,51 +41,33 @@ export default function ProfileCard({ userType, isSwitching }: ProfileCardProps)
   }
 }
 
-const ProfileCardSkeleton = () => {
-  return (
-    <div className='bg-black-1 flex h-[11.5rem] items-center gap-[1.2rem] p-[2rem] pb-[2.9rem]'>
-      <div className='bg-black-3 h-[6.4rem] w-[6.4rem] rounded-full' />
-      <div className='bg-black-3 h-[1.7rem] w-[4rem] rounded-[0.2rem]' />
-    </div>
-  );
-};
-
 const PhotographerProfileCard = ({ data, imageUrl }: PhotographerProfileCardProps) => {
   if (!data) return null;
 
-  const profileCardInfoRows = [
-    { label: '촬영 상품', value: data?.specialties?.join(', ') ?? '' },
-    { label: '활동 지역', value: data?.locations?.join(', ') ?? '' },
-  ];
-
   return (
-    <div className='bg-black-1 flex h-[11.5rem] items-center gap-[1.2rem] p-[2rem]'>
-      <div className='h-[64px] w-[64px] shrink-0 overflow-hidden rounded-full'>
-        <Image
-          src={imageUrl ?? '/imgs/default-profile.png'}
-          alt='프로필 이미지'
-          width={64}
-          height={64}
-          className='object-cover'
-          priority
-        />
-      </div>
-
-      <div className='flex h-full flex-col gap-[0.9rem]'>
-        <div className='flex flex-col gap-[0.4rem]'>
-          <span className='caption-14-bd text-black-10'>{data.name ?? ''}</span>
-          <span className='caption-14-rg text-black-7'>{data.bio ?? ''}</span>
-        </div>
-        <div className='flex flex-col gap-[0.4rem]'>
-          {profileCardInfoRows.map(({ label, value }) => (
-            <div className='flex items-center gap-[0.8rem]' key={label}>
-              <span className='caption-12-md text-black-7'>{label}</span>
-              <span className='caption-12-md text-black-10'>{value}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <Profile>
+      <Profile.Avatar src={imageUrl} size='sm' />
+      <Profile.Content lines={2}>
+        <Profile.Item>
+          <Profile.Title typography='font-16-sb'>{data.name}</Profile.Title>
+          <Profile.Description typography='caption-14-rg'>{data.bio}</Profile.Description>
+        </Profile.Item>
+        <Profile.Item>
+          <Profile.Row>
+            <Profile.Meta className='shrink-0'>촬영 상품</Profile.Meta>
+            <Profile.Meta typography='caption-12-rg' color='black-8'>
+              {data?.specialties?.join(', ') ?? '-'}
+            </Profile.Meta>
+          </Profile.Row>
+          <Profile.Row>
+            <Profile.Meta className='shrink-0'>활동 지역</Profile.Meta>
+            <Profile.Meta typography='caption-12-rg' color='black-8'>
+              {data?.locations?.join(', ') ?? '-'}
+            </Profile.Meta>
+          </Profile.Row>
+        </Profile.Item>
+      </Profile.Content>
+    </Profile>
   );
 };
 
@@ -93,20 +75,16 @@ const ClientProfileCard = ({ data, imageUrl }: ClientProfileCardProps) => {
   if (!data) return null;
 
   return (
-    <div className='bg-black-1 flex h-[11.5rem] items-center gap-[1.2rem] p-[2rem]'>
-      <div className='h-[64px] w-[64px] shrink-0 overflow-hidden rounded-full'>
-        <Image
-          src={imageUrl ?? '/imgs/default-profile.png'}
-          alt='프로필 이미지'
-          width={64}
-          height={64}
-          className='object-cover'
-          priority
-        />
-      </div>
-      <div className='flex w-full items-center justify-between'>
-        <span className='caption-14-bd'>{data?.name}</span>
-      </div>
-    </div>
+    <Profile>
+      <Profile.Avatar src={imageUrl} size='sm' />
+      <Profile.Content lines={1}>
+        <Profile.Item>
+          <Profile.Title>{data.name}</Profile.Title>
+          <Profile.Description typography='caption-12-rg' color='black-8'>
+            {data.curatedMoods}
+          </Profile.Description>
+        </Profile.Item>
+      </Profile.Content>
+    </Profile>
   );
 };

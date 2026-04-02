@@ -14,7 +14,6 @@ import { ProfileContentLines, ProfileSize } from './types/variant';
 
 type ProfileProps = React.HTMLAttributes<HTMLElement> & {
   children?: React.ReactNode;
-  size?: ProfileSize;
 };
 
 type ProfileItemAvatarProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -45,6 +44,11 @@ type ProfileTrailingProps = React.HTMLAttributes<HTMLDivElement> & {
   children?: React.ReactNode;
 };
 
+const PROFILE_AVATAR_SIZE_CLASS_MAP: Record<ProfileSize, string> = {
+  sm: 'size-[6.4rem]',
+  md: 'size-[8.7rem]',
+};
+
 function hasChildOfType(children: React.ReactNode, type: React.ElementType) {
   return React.Children.toArray(children).some((child) => {
     return React.isValidElement(child) && child.type === type;
@@ -60,18 +64,24 @@ function ProfileAvatar({
   children,
   ...props
 }: ProfileItemAvatarProps) {
+  const avatarSize = PROFILE_SIZE_THEME[size].avatar;
+
   return (
     <div
-      className={cn('bg-black-3 relative shrink-0 overflow-hidden rounded-full', className)}
+      className={cn(
+        'bg-black-3 relative shrink-0 overflow-hidden rounded-full',
+        PROFILE_AVATAR_SIZE_CLASS_MAP[size],
+        className,
+      )}
       {...props}
     >
       {src ? (
         <Image
           src={src}
-          width={PROFILE_SIZE_THEME[size].avatar}
-          height={PROFILE_SIZE_THEME[size].avatar}
+          width={avatarSize}
+          height={avatarSize}
           alt={alt}
-          className='object-cover'
+          className='h-full w-full object-cover'
         />
       ) : children ? (
         children
@@ -79,8 +89,8 @@ function ProfileAvatar({
         fallback
       ) : (
         <Image
-          width={PROFILE_SIZE_THEME[size].avatar}
-          height={PROFILE_SIZE_THEME[size].avatar}
+          width={avatarSize}
+          height={avatarSize}
           src='/imgs/default-profile.png'
           alt={alt}
           className='h-full w-full object-cover'
@@ -195,7 +205,7 @@ type ProfileItemComponent = ((props: ProfileProps) => React.JSX.Element) & {
   Trailing: typeof ProfileTrailing;
 };
 
-function ProfileRoot({ size = 'md', className, children, ...props }: ProfileProps) {
+function ProfileRoot({ className, children, ...props }: ProfileProps) {
   const hasTrailing = hasChildOfType(children, ProfileTrailing);
 
   return (
@@ -206,11 +216,8 @@ function ProfileRoot({ size = 'md', className, children, ...props }: ProfileProp
         const element = child as React.ReactElement<{ className?: string }>;
 
         if (element.type === ProfileAvatar) {
-          const avatarElement = element as React.ReactElement<ProfileItemAvatarProps>;
-
-          return React.cloneElement(avatarElement, {
+          return React.cloneElement(element, {
             className: cn(hasTrailing ? 'mr-[1.95rem]' : 'mr-[1.2rem]', element.props.className),
-            size: avatarElement.props.size ?? size,
           });
         }
 
