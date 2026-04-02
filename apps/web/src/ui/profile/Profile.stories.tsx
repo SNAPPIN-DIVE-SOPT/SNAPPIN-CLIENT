@@ -11,11 +11,18 @@ export default meta;
 
 type Story = StoryObj<typeof Profile>;
 
+const profileStoryData = {
+  name: '작가명',
+  bio: '라이프스타일과 인물 중심의 촬영을 진행합니다.',
+  specialties: ['졸업스냅', '웨딩스냅', '일상스냅'],
+  locations: ['서울', '경기'],
+};
+
 export const Default: Story = {
   render: () => (
     <div className='border-black-9 w-[32rem] border-[0.1rem]'>
-      <Profile size='sm'>
-        <Profile.Avatar src='/imgs/default-profile.png' />
+      <Profile>
+        <Profile.Avatar size='sm' src='/imgs/default-profile.png' />
         <Profile.Content lines={1}>
           <Profile.Item>
             <Profile.Title>나작가</Profile.Title>
@@ -111,4 +118,39 @@ export const TypographyAndColorVariants: Story = {
       </div>
     </div>
   ),
+};
+
+export const PhotographerProfileCard: Story = {
+  render: () => {
+    const imageUrl = '/imgs/default-profile.png';
+    const data = profileStoryData;
+
+    return (
+      <div className='border-black-9 w-[36rem] border-[0.1rem]'>
+        <Profile>
+          <Profile.Avatar src={imageUrl} size='md' />
+          <Profile.Content lines={2}>
+            <Profile.Item>
+              <Profile.Title typography='font-16-sb'>{data.name}</Profile.Title>
+              <Profile.Description typography='caption-14-rg'>{data.bio}</Profile.Description>
+            </Profile.Item>
+            <Profile.Item>
+              <Profile.Row>
+                <Profile.Meta className='shrink-0'>촬영 상품</Profile.Meta>
+                <Profile.Meta typography='caption-12-rg' color='black-8'>
+                  {data.specialties.join(', ')}
+                </Profile.Meta>
+              </Profile.Row>
+              <Profile.Row>
+                <Profile.Meta className='shrink-0'>활동 지역</Profile.Meta>
+                <Profile.Meta typography='caption-12-rg' color='black-8'>
+                  {data.locations.join(', ')}
+                </Profile.Meta>
+              </Profile.Row>
+            </Profile.Item>
+          </Profile.Content>
+        </Profile>
+      </div>
+    );
+  },
 };
