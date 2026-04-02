@@ -20,8 +20,8 @@ const TOAST_STYLE = 'px-[2rem] bottom-[8.4rem]';
 
 export default function Footer({ productId, contact, amount }: FooterProps) {
   const router = useRouter();
-  const { isLogIn } = useAuth();
   const { login } = useToast();
+  const { isLogIn } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [draft, setDraft] = useState<ReservationDraft>({
     date: null,
@@ -40,6 +40,8 @@ export default function Footer({ productId, contact, amount }: FooterProps) {
       login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, TOAST_STYLE);
       return;
     }
+    // TODO: 온보딩 미완 -> 모달 띄우기 (온보딩 이동 모달 디자인 기다리는 중)
+    // TODO: 온보딩 완료 -> 예약 양식 페이지로 이동
     setIsOpen(true);
   };
 

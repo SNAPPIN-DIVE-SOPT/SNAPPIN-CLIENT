@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Button, Divider, ReviewStar } from '@snappin/design-system';
 import { formatShortDate } from '@/utils/formatDate';
+import { useAuth } from '@/auth/hooks/useAuth';
 import { useGetProductReviewList } from '../api';
 
 type ReviewListSectionProps = {
@@ -25,9 +26,14 @@ type ReviewProps = {
 export default function ReviewListSection({ productId, averageRate }: ReviewListSectionProps) {
   const { data, fetchNextPage, hasNextPage } = useGetProductReviewList(productId);
   const { ref, inView } = useInView();
+  const { isLogIn } = useAuth();
 
   const reviewList = data?.pages.flatMap((page) => page.data?.reviews ?? []) ?? [];
   const isEmpty = reviewList?.length === 0;
+
+  const handleReviewClick = () => {
+    // TODO: API 연동
+  };
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -52,7 +58,19 @@ export default function ReviewListSection({ productId, averageRate }: ReviewList
           <ReviewStar rating={isEmpty ? 0 : averageRate} starSize='large' />
           <span className='title-20-bd text-black-10'>{isEmpty ? '0.0' : averageRate}</span>
         </div>
-        <Button size='small' color='transparent' className='pr-0 border-none'>리뷰 작성하기</Button>
+        {
+          // TODO: 해당 상품에 대해 아직 작성하지 않은 리뷰가 없다면 버튼 렌더링 X
+          isLogIn && (
+            <Button
+              size='small'
+              color='transparent'
+              className='pr-0 border-none'
+              onClick={handleReviewClick}  
+            >
+              리뷰 작성하기
+            </Button>
+          )
+        }
       </div>
       <Divider thickness='large' color='bg-black-3' className='w-full' />
       {reviewList?.map((review, idx) => {
