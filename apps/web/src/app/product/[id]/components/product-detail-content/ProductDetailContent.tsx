@@ -3,6 +3,7 @@
 // TODO: API 구현 완료되면 주석 풀기
 import { useRef, useMemo, Suspense } from 'react';
 import { Tabs } from '@snappin/design-system';
+import { MoodCode } from '@snappin/shared/types';
 import { ROUTES } from '@/constants/routes/routes';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { PortfolioListSkeleton } from '@/ui';
@@ -47,10 +48,11 @@ export default function ProductDetailContent({ productId, tab }: ProductDetailCo
         images={data?.images ?? []}
         title={data?.title ?? ''}
         isLiked={data?.isLiked ?? false}
+        likeCount={data?.likeCount ?? 0}
         averageRate={data?.averageRate ?? 0}
         reviewCount={data?.reviewCount ?? 0}
         price={data?.price ?? 0}
-        photographer={data?.photographerInfo?.name ?? ''}
+        moods={data?.productInfo?.moods as MoodCode[] ?? []}
       />
       <PhotographerSection photographerInfo={data?.photographerInfo} />
       <Tabs>

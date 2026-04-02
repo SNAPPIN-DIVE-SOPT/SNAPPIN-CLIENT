@@ -1,21 +1,23 @@
 'use client';
 
-import { ImageCarousel, LikeButton } from '@snappin/design-system';
-import { useToast } from '@/ui';
-import { useAuth } from '@/auth/hooks/useAuth';
+import { ImageCarousel, LikeButton, TagChip } from '@snappin/design-system';
 import { IconStar } from '@snappin/design-system/assets';
-import { useWishProduct } from '../api';
 import { formatPrice } from '@snappin/shared/lib';
+import { MoodCode } from '@snappin/shared/types';
+import { useAuth } from '@/auth/hooks/useAuth';
+import { useToast } from '@/ui';
+import { useWishProduct } from '../api';
 
 type ProductMainSectionProps = {
   id: number;
   images: string[];
   title: string;
   isLiked: boolean;
+  likeCount: number;
   averageRate: number;
   reviewCount: number;
   price: number;
-  photographer: string;
+  moods: MoodCode[];
 };
 
 export default function ProductMainSection({
@@ -23,10 +25,11 @@ export default function ProductMainSection({
   images,
   title,
   isLiked,
+  likeCount,
   averageRate,
   reviewCount,
   price,
-  photographer,
+  moods,
 }: ProductMainSectionProps) {
   const { mutateAsync } = useWishProduct();
   const { isLogIn } = useAuth();
@@ -39,7 +42,7 @@ export default function ProductMainSection({
       mutateAsync(id);
     } else if (isLogIn === false) {
       toast.login(
-        '醫뗭븘??湲곕뒫? 濡쒓렇???꾩뿉 ?ъ슜?????덉뼱??',
+        '좋아요 기능은 로그인 후에 사용할 수 있어요.',
         undefined,
         'px-[2rem] bottom-[8.4rem]',
       );
@@ -48,30 +51,32 @@ export default function ProductMainSection({
 
   return (
     <section className='bg-black-1'>
+      {/* 상품 캐러셀 */}
       <ImageCarousel variant='dots' images={productImages} />
       <div className='flex flex-col gap-[0.8rem] px-[2rem] py-[1.6rem]'>
+        {/* 설명, 가격, 좋아요 */}
         <div className='flex flex-col'>
-          {/* 상품명, 좋아요 */}
-          <div className='flex items-center justify-between'>
-            <span className='font-18-bd text-black-10'>{title}</span>
-            <div className='flex h-[3rem] w-[4.4rem] items-center justify-end gap-[1rem]'>
-              <LikeButton isLiked={isLiked} handleClick={handleLike} />
+          <div className='flex justify-between'>
+            <h1 className='font-16-md text-black-10'>{title}</h1>
+            <div className='flex items-start h-[2.4rem]'>
+              <LikeButton isLiked={isLiked} handleClick={handleLike} className='h-[2rem]' />
+              <span className='font-16-md text-black-8'>{likeCount}</span>
             </div>
           </div>
-          {/* 별점, 리뷰 수, 작가명*/}
-          <div className='flex flex-col gap-[0.4rem]'>
-            <div className='flex items-center gap-[0.6rem]'>
-              <div className='flex items-center gap-[0.1rem]'>
-                <IconStar className='text-black-8 h-[1.2rem] w-[1.2rem]' />
-                <span className='caption-14-rg text-black-8'>{averageRate}</span>
-              </div>
-              <span className='caption-14-rg text-black-10'>리뷰 {reviewCount}</span>
-            </div>
-            <span className='caption-14-md text-black-7'>{photographer}</span>
-          </div>
+          <span className='title-20-md text-black-10'>{formatPrice(price)}원~</span>
         </div>
-        {/* 가격 */}
-        <span className='title-20-bd text-black-10'>{formatPrice(price)}원~</span>
+        {/* 무드 */}
+        <div className='flex gap-[0.4rem]'>
+          {moods.map((mood) => <TagChip key={mood} variant='gray' label={mood} />)}
+        </div>
+        {/* 별점, 리뷰 수 */}
+        <div className='flex gap-[0.6rem] caption-12-rg text-black-7'>
+          <div className='flex items-center gap-[0.1rem]'>
+            <IconStar className='w-[1rem] h-[1rem]' />
+            <span>{averageRate}</span>
+          </div>
+          <span>리뷰 {reviewCount}</span>
+        </div>
       </div>
     </section>
   );
