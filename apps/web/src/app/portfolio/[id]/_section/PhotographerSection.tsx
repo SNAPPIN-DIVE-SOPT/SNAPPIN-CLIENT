@@ -25,8 +25,8 @@ export default function PhotographerSection({
       aria-label={`${name} 작가 상세 페이지로 이동`}
       className='bg-black-1 flex w-full items-center gap-[1.2rem] px-[2rem] pb-[2rem]'
     >
-      <Profile size='sm' className='border-1 border-black-4 rounded-[0.6rem]'>
-        <Profile.Avatar src={imageUrl} />
+      <Profile className='border-1 border-black-4 rounded-[0.6rem]'>
+        <Profile.Avatar size='sm' src={imageUrl} />
         <Profile.Content lines={2}>
           <Profile.Item>
             <Profile.Title>{name}</Profile.Title>
