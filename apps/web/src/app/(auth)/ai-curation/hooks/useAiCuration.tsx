@@ -1,17 +1,17 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { AiCurationStep, TOTAL_STEP_COUNT } from '../[step]/constants/steps';
+import { STEP_QUESTIONS, type STEP } from '../[step]/constants/steps';
+
+type SelectedImage = Record<STEP, number | null>;
 
 type AiCurationState = {
-  selectedByStep: Record<AiCurationStep, number | null>;
-  currentStep: AiCurationStep;
+  selectedByStep: SelectedImage;
 };
 
 type AiCurationActions = {
-  setCurrentStep: (step: AiCurationStep) => void;
-  selectImageId: (id: number) => void;
-  toggleImageId: (id: number) => void;
+  selectImageId: (step: STEP, id: number) => void;
+  toggleImageId: (step: STEP, id: number) => void;
 };
 
 type AiCurationContextValue = AiCurationState & AiCurationActions;
@@ -22,44 +22,34 @@ type AiCurationProviderProps = {
 
 const AiCurationContext = createContext<AiCurationContextValue | null>(null);
 
-const EMPTY_SELECTED_BY_STEP: Record<AiCurationStep, number | null> = Object.fromEntries(
-  Array.from({ length: TOTAL_STEP_COUNT }, (_, i) => [i + 1, null]),
-) as Record<AiCurationStep, number | null>;
+const EMPTY_SELECTED_BY_STEP: SelectedImage = Object.fromEntries(
+  STEP_QUESTIONS.map(({ step }) => [step, null]),
+) as SelectedImage;
 
 export function AiCurationProvider({ children }: AiCurationProviderProps) {
-  const [currentStep, setCurrentStep] = useState<AiCurationStep>(1);
-  const [selectedByStep, setSelectedByStep] =
-    useState<Record<AiCurationStep, number | null>>(EMPTY_SELECTED_BY_STEP);
+  const [selectedByStep, setSelectedByStep] = useState<SelectedImage>(EMPTY_SELECTED_BY_STEP);
 
-  const selectImageId = useCallback(
-    (id: number) => {
-      setSelectedByStep((prev) => ({
-        ...prev,
-        [currentStep]: id,
-      }));
-    },
-    [currentStep],
-  );
+  const selectImageId = useCallback((step: STEP, id: number) => {
+    setSelectedByStep((prev) => ({
+      ...prev,
+      [step]: id,
+    }));
+  }, []);
 
-  const toggleImageId = useCallback(
-    (id: number) => {
-      setSelectedByStep((prev) => ({
-        ...prev,
-        [currentStep]: prev[currentStep] === id ? null : id,
-      }));
-    },
-    [currentStep],
-  );
+  const toggleImageId = useCallback((step: STEP, id: number) => {
+    setSelectedByStep((prev) => ({
+      ...prev,
+      [step]: prev[step] === id ? null : id,
+    }));
+  }, []);
 
   const value = useMemo(
     () => ({
-      currentStep,
       selectedByStep,
-      setCurrentStep,
       selectImageId,
       toggleImageId,
     }),
-    [currentStep, selectedByStep, selectImageId, toggleImageId],
+    [selectedByStep, selectImageId, toggleImageId],
   );
 
   return <AiCurationContext.Provider value={value}>{children}</AiCurationContext.Provider>;
