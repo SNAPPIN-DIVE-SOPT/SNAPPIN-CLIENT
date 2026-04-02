@@ -1,5 +1,4 @@
 import { getUserType } from '@/auth/userType';
-import ProfileLayout from '@/components/layout/profile/ProfileLayout';
 import { isValidUserType, USER_TYPE } from '@snappin/shared/types';
 import PageClient from './page.client';
 
