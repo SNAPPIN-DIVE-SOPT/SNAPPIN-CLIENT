@@ -29,9 +29,9 @@ export default function TextField({
   ...props
 }: InputFieldProps) {
   return (
-    <div className={cn('flex w-full flex-col', className)}>
+    <div className={cn('flex w-full flex-col gap-[0.2rem]', className)}>
       {label && (
-        <label htmlFor={id} className='caption-14-md mb-[1rem] inline-block'>
+        <label htmlFor={id} className='font-16-md inline-block'>
           {label}
           {required && <span className='ml-2 text-red-500'>*</span>}
         </label>
