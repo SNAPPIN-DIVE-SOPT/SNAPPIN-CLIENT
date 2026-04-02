@@ -1,95 +1,81 @@
+// TODO: API 구현 완료되면 주석 풀기
+import { Fragment } from 'react';
 import { TagChip, Divider } from '@snappin/design-system';
-import { GetProductInfoResponse } from '@/swagger-api';
+// import { GetProductInfoResponse } from '@/swagger-api';
 
 type ProductDetailSectionProps = {
-  productInfo: GetProductInfoResponse | undefined;
+  // productInfo: GetProductInfoResponse | undefined;
+  productInfo: any;
 };
 
-function removeEmptyDetail(items: { label: string; content?: string }[]) {
-  return items.filter((item): item is { label: string; content: string } => item.content !== null);
-}
+const OPTIONAL_INFO_CONFIG = [
+  { key: 'provideRaw', label: 'RAW 파일' },
+  { key: 'provideOriginalJpg', label: '원본 JPG' },
+  { key: 'originalJpgCount', label: '원본 JPG 제공 수량' },
+  { key: 'originalDeliveryTime', label: '원본 제공 시점' },
+  { key: 'provideVideo', label: '동영상 제공 여부' },
+  { key: 'freeRevisionCount', label: '무료 수정 횟수' },
+  { key: 'finalCutCount', label: '최종 결과물 제공 장수' },
+  { key: 'addCount', label: '장수 추가 가능 여부' },
+  { key: 'finalDeliveryTime', label: '최종 결과물 전달 소요시간' },
+] as const;
 
 export default function ProductDetailSection({ productInfo }: ProductDetailSectionProps) {
-  const optionalDetailList = removeEmptyDetail([
-    { label: 'RAW 파일 제공 여부', content: productInfo?.provideRaw },
-    { label: '원본 JPG 제공 여부', content: productInfo?.provideOriginalJpg },
-    { label: '원본 JPG 제공 장수', content: productInfo?.originalJpgCount },
-    { label: '원본 제공 시점', content: productInfo?.originalDeliveryTime },
-    { label: '동영상 제공 여부', content: productInfo?.provideVideo },
-    { label: '무료 수정 횟수', content: productInfo?.freeRevisionCount },
-    { label: '최종 결과물 제공 장수', content: productInfo?.finalCutCount },
-    { label: '최종 결과물 전달 소요시간', content: productInfo?.finalDeliveryTime },
-  ]);
+  const requiredInfoList = [
+    { label: '최대 촬영 인원', content: productInfo?.maxPeople },
+    { label: '촬영 작가 인원', content: productInfo?.photographerCount },
+    { label: '촬영 시간', content: productInfo?.durationTime },
+  ];
+  
+  const optionalInfoList = OPTIONAL_INFO_CONFIG
+    .filter(({ key }) => productInfo?.[key] !== null)
+    .map(({ key, label }) => (
+      { label: label, content: productInfo?.[key], isPaid: productInfo?.paidOptions.includes(key) }
+    ));
 
   return (
-    <section className='bg-black-1 mb-[7.4rem] flex flex-col gap-[3.2rem] p-[2rem]'>
-      <div className='flex flex-col gap-[1.2rem]'>
-        {/* 첫번째 박스 - 촬영 종류, 촬영 장소, 스냅 무드 */}
-        <div className='border-black-4 flex flex-col gap-[1.2rem] rounded-[0.6rem] border-1 p-[1.6rem]'>
-          <div className='flex gap-[1rem]'>
-            <span className='caption-12-md text-black-7 w-[8rem]'>촬영 종류</span>
-            <span className='caption-12-md text-black-10'>{productInfo?.snapCategory}</span>
+    <section className='bg-black-1 mb-[7.6rem] flex flex-col gap-[3.2rem] p-[2rem]'>
+      {/* 상품 정보 */}
+      <div className='flex flex-col gap-[0.6rem]'>
+        <span className='caption-12-rg text-black-8'>상품 정보</span>
+        <div className='flex flex-col gap-[0.8rem] p-[1.6rem] border-1 border-black-4 rounded-[0.6rem]'>
+          {/* 필수 - 최대 촬영 인원, 촬영 작가 인원, 촬영 시간 */}
+          <div className='flex gap-[0.4rem]'>
+            {
+              requiredInfoList.map((info) => (
+                <div key={info.label} className='bg-black-3 flex flex-col gap-[1rem] w-full p-[1rem] rounded-[0.4rem]'>
+                  <span className='caption-10-md text-black-7'>{info.label}</span>
+                  <span className='caption-14-md text-black-10'>{info.content}</span>
+                </div>
+              ))
+            }
           </div>
-          <div className='flex gap-[1rem]'>
-            <span className='caption-12-md text-black-7 w-[8rem]'>촬영 장소</span>
-            <span className='caption-12-md text-black-10'>{productInfo?.regions?.join(', ')}</span>
-          </div>
-          <div className='flex items-center gap-[1rem]'>
-            <span className='caption-12-md text-black-7 w-[8rem]'>스냅 무드</span>
-            <div className='flex items-center gap-[0.4rem]'>
-              {productInfo?.moods?.map((mood) => (
-                <TagChip key={mood} variant='neon' label={mood} />
-              ))}
-            </div>
-          </div>
-        </div>
-        {/* 두번째 박스 - 최대 촬영 인원 ~ 최종 결과물 전달 소요시간 */}
-        <div className='border-black-4 flex flex-col gap-[1rem] rounded-[0.6rem] border-1 p-[2rem]'>
-          <div className='flex flex-col gap-[1.2rem]'>
-            {/* 필수 항목 */}
-            <DetailLayout
-              detailList={[
-                { label: '최대 촬영 인원', content: `${productInfo?.maxPeople}` },
-                { label: '촬영 작가 인원', content: `${productInfo?.photographerCount}` },
-                { label: '촬영 시간', content: `${productInfo?.durationTime}` },
-              ]}
-            />
-            {/* 선택 항목 */}
-            {optionalDetailList.length > 0 && (
-              <>
-                <Divider thickness='small' color='bg-black-5' className='w-full' />
-                <DetailLayout detailList={optionalDetailList} />
-              </>
-            )}
-          </div>
+          {/* 선택 - RAW 파일 ~ 최종 결과물 전달 소요시간 */}
+          {
+            optionalInfoList.length > 0 && optionalInfoList.map((info) => (
+              <Fragment key={info.label}>
+                <Divider thickness='small' />
+                <div className='flex justify-between items-center'>
+                  <span className='caption-11-md text-black-8'>{info.label}</span>
+                  <div className='flex gap-[0.6rem] items-center'>
+                    <span className='caption-12-rg text-black-10'>{info.content}</span>
+                    { info.isPaid && <TagChip variant='gray' label='유료' /> }
+                  </div>
+                </div>
+              </Fragment>
+            ))
+          }
         </div>
       </div>
-      <DetailParagraph label='상품 소개' content={productInfo?.description ?? '-'} />
-      <DetailParagraph label='촬영 진행 순서' content={productInfo?.processDescription ?? '-'} />
-      <DetailParagraph label='사용장비' content={productInfo?.equipment ?? '-'} />
-      <DetailParagraph label='기타 주의 사항' content={productInfo?.caution ?? '-'} />
+      {/* 상품 소개 */}
+      {
+        productInfo?.description && (
+          <div className='flex flex-col gap-[0.6rem]'>
+            <span className='caption-12-md text-black-7'>상품 소개</span>
+            <p className='caption-14-rg text-black-10 whitespace-pre-line'>{productInfo.description}</p>
+          </div>
+        )
+      }
     </section>
-  );
-}
-
-function DetailLayout({ detailList }: { detailList: { label: string; content?: string }[] }) {
-  return (
-    <div className='flex flex-col gap-[0.8rem]'>
-      {detailList.map((detail) => (
-        <div key={detail.label} className='flex gap-[4rem]'>
-          <span className='caption-12-md text-black-7 w-[12.2rem]'>{detail.label}</span>
-          <span className='caption-12-md text-black-10'>{detail.content}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DetailParagraph({ label, content }: { label: string; content: string }) {
-  return (
-    <div className='flex flex-col gap-[0.6rem]'>
-      <span className='caption-12-md text-black-7'>{label}</span>
-      <p className='caption-14-rg text-black-10 whitespace-pre-line'>{content}</p>
-    </div>
   );
 }
