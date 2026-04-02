@@ -4,6 +4,7 @@ export const SCHEMA = {
   NAME_MAX: 4,
   NICKNAME_MIN: 2,
   NICKNAME_MAX: 10,
+  PHONE_NUMBER_LENGTH: 11,
 } as const;
 
 export const GENDER_VALUES = ['girl', 'boy'] as const;
@@ -27,6 +28,7 @@ export const ERROR_MESSAGES = {
   NAME_REQUIRED: '이름을 입력해주세요.',
   NAME_MAX: `이름을 ${SCHEMA.NAME_MAX}글자 이내로 입력해주세요.`,
   NAME_NO_WHITESPACE: '띄어쓰기 없이 작성해주세요.',
+  NAME_KOREAN_ONLY: '한글로 작성해주세요.',
   GENDER_REQUIRED: '성별을 선택해주세요.',
   NICKNAME_TEXT: `한글, 영문, 숫자 ${SCHEMA.NICKNAME_MIN}-${SCHEMA.NICKNAME_MAX}자 이내로 입력해주세요.`,
   NICKNAME_NO_WHITESPACE: '띄어쓰기 없이 작성해주세요.',
@@ -35,7 +37,10 @@ export const ERROR_MESSAGES = {
   INTERESTS_REQUIRED: '관심 있는 스냅 촬영을 1개 이상 선택해주세요.',
 } as const;
 
-export const PHONE_NUMBER_REGEX = /^01[0-9]\d{7,8}$/;
+const PHONE_NUMBER_REGEX = /^01[0-9]\d{8}$/;
+const NAME_REGEX = /^[가-힣]+$/;
+const NICKNAME_TEXT_REGEX = /^[가-힣a-zA-Z0-9]+$/;
+const NICKNAME_WHITESPACE_REGEX = /\s/;
 
 export const onBoardingSchema = z.object({
   name: z
@@ -44,6 +49,9 @@ export const onBoardingSchema = z.object({
     .max(SCHEMA.NAME_MAX, ERROR_MESSAGES.NAME_MAX)
     .refine((value) => !/\s/.test(value), {
       message: ERROR_MESSAGES.NAME_NO_WHITESPACE,
+    })
+    .refine((value) => NAME_REGEX.test(value), {
+      message: ERROR_MESSAGES.NAME_KOREAN_ONLY,
     }),
 
   gender: z.enum(GENDER_VALUES, {
@@ -54,8 +62,11 @@ export const onBoardingSchema = z.object({
     .string()
     .min(SCHEMA.NICKNAME_MIN, ERROR_MESSAGES.NICKNAME_TEXT)
     .max(SCHEMA.NICKNAME_MAX, ERROR_MESSAGES.NICKNAME_TEXT)
-    .refine((value) => !/\s/.test(value), {
+    .refine((value) => !NICKNAME_WHITESPACE_REGEX.test(value), {
       message: ERROR_MESSAGES.NICKNAME_NO_WHITESPACE,
+    })
+    .refine((value) => NICKNAME_TEXT_REGEX.test(value), {
+      message: ERROR_MESSAGES.NICKNAME_TEXT,
     }),
 
   phoneNumber: z.string().refine((value) => PHONE_NUMBER_REGEX.test(value.replace(/-/g, '')), {
