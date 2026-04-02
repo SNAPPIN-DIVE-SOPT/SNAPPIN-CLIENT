@@ -6,7 +6,7 @@ const meta: Meta<typeof ProductFrame> = {
   component: ProductFrame,
   tags: ['autodocs'],
   parameters: {
-    layout: 'centered',
+    layout: 'padded',
     docs: {
       description: {
         component:
@@ -14,7 +14,16 @@ const meta: Meta<typeof ProductFrame> = {
       },
     },
   },
+  render: (args) => (
+    <div style={{ width: '18.65rem' }}>
+      <ProductFrame {...args} />
+    </div>
+  ),
   argTypes: {
+    id: {
+      control: { type: 'number', min: 0 },
+      description: '상품 식별자',
+    },
     name: {
       control: 'text',
       description: '상품명',
@@ -46,18 +55,15 @@ const meta: Meta<typeof ProductFrame> = {
     },
     width: {
       control: 'text',
-      description: '이미지 너비',
+      description: '카드 너비 (예: 100%, 18.6rem)',
     },
     imageHeight: {
       control: 'text',
-      description: '이미지 높이',
-    },
-    handleClickLike: {
-      action: 'clicked',
-      description: '좋아요 버튼 클릭 시 호출되는 함수',
+      description: '이미지 높이 (예: 18.4rem)',
     },
   },
   args: {
+    id: 1,
     image: {
       src: '/imgs/default-image.png',
       alt: '임시 이미지',
@@ -69,7 +75,7 @@ const meta: Meta<typeof ProductFrame> = {
     price: 80000,
     moods: ['따스한', '아날로그', '연출된'],
     isLiked: false,
-    width: '18.6rem',
+    width: '100%',
     imageHeight: '18.4rem',
   },
 };
