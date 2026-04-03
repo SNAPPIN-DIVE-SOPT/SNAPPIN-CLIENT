@@ -181,7 +181,7 @@ export default function SearchSheetOld({ open, onOpenChange }: SearchSheetProps)
           selectedValue={peopleCount === 0 || peopleCount === null ? '' : formattedCount}
           onClick={() => handleFieldClick('peopleCount')}
           active={currentField === 'peopleCount'}
-          wrapperClassName={
+          className={
             currentField === 'peopleCount' ? 'flex-row items-center justify-between' : '' // && 사용 시 타입 에러
           }
         >
