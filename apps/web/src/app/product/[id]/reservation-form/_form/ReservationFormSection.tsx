@@ -88,11 +88,6 @@ export default function ReservationFormSection({ photographerId }: ReservationFo
     handleRequestContentChange(event.target.value);
   };
 
-  const formattedTime = createDurationLabel(durationHours);
-  const formattedCount = `${peopleCount}명`;
-  const requestContentLength = requestContent.length;
-  const hasRequestContentError = requestContentErrorMessage.length > 0;
-
   return (
     <>
       <form onSubmit={handleFormSubmit}>
@@ -126,7 +121,7 @@ export default function ReservationFormSection({ photographerId }: ReservationFo
               }
               rightControl={
                 <Stepper
-                  value={formattedTime}
+                  value={createDurationLabel(durationHours)}
                   handleClickMinus={() => handleDurationHoursStep('decrease')}
                   handleClickAdd={() => handleDurationHoursStep('increase')}
                   isDisabledMinus={durationHours <= minimumDurationHours}
@@ -144,7 +139,7 @@ export default function ReservationFormSection({ photographerId }: ReservationFo
               }
               rightControl={
                 <Stepper
-                  value={formattedCount}
+                  value={`${peopleCount}명`}
                   handleClickMinus={() => handlePeopleCountStep('decrease')}
                   handleClickAdd={() => handlePeopleCountStep('increase')}
                   isDisabledMinus={peopleCount <= minPeople}
@@ -228,19 +223,19 @@ export default function ReservationFormSection({ photographerId }: ReservationFo
               label='요청 사항 작성하기'
               placeholder='요청 사항이 있을 경우 자유롭게 작성해 주세요.'
               value={requestContent}
-              hasError={hasRequestContentError}
+              hasError={Boolean(requestContentErrorMessage)}
               className='min-h-[11rem]'
               helpText={
                 <div className='flex justify-between'>
                   <FieldMessage
                     id='reservation-request-content-error'
-                    message={hasRequestContentError ? requestContentErrorMessage : ' '}
-                    variant={hasRequestContentError ? 'error' : 'help'}
+                    message={requestContentErrorMessage || ' '}
+                    variant={requestContentErrorMessage ? 'error' : 'help'}
                   />
                   <FieldMessage
                     id='reservation-request-content-help'
-                    message={`(${requestContentLength}/500)`}
-                    variant={hasRequestContentError ? 'error' : 'help'}
+                    message={`(${requestContent.length}/500)`}
+                    variant={requestContentErrorMessage ? 'error' : 'help'}
                   />
                 </div>
               }
