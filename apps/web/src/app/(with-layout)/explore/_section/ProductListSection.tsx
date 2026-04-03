@@ -68,7 +68,10 @@ export default function ProductListSection() {
   return (
     <section>
       <div ref={anchorRef} />
-      <ProductList productList={products} />
+      <ProductList
+        productList={products}
+        className='bg-black-1 grid grid-cols-2 gap-x-[0.3rem] gap-y-[1.2rem]'
+      />
       <div ref={sentinelRef} className='h-[1px]' />
       {isFetchingNextPage && <ProductListSkeleton length={3} />}
     </section>

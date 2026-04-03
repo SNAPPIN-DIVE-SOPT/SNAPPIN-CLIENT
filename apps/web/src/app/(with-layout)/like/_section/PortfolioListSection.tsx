@@ -18,7 +18,7 @@ export default function PortfolioListSection() {
     return <LikeEmpty tab='PORTFOLIO' />;
 
   return (
-    <section className='px-[1rem] py-[1rem]'>
+    <section>
       <div ref={anchorRef} />
       <PortfolioList portfolioList={likedPortfolios.portfolios ?? []} />
     </section>

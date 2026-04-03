@@ -33,8 +33,7 @@ export default function ProductListSection() {
             imageUrl: product.imageUrl ?? '',
           })) ?? []
         }
-        className='bg-black-3 flex flex-col gap-[0.6rem]'
-        itemClassName='bg-black-1'
+        className='bg-black-1 grid grid-cols-2 gap-x-[0.3rem] gap-y-[1.2rem]'
       />
     </section>
   );
