@@ -20,7 +20,7 @@ export default function Footer({ id }: FooterProps) {
     }
   };
   const handleReservationClick = () => {
-    if (isLogIn === false) {
+    if (!isLogIn) {
       login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, 'bottom-[8.4rem] px-[2rem]');
       return;
     }

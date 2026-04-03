@@ -219,6 +219,6 @@ export const PRODUCT_MOCK = {
     },
     "meta": {
         "nextCursor": null,
-        "hasNext": true
+        "hasNext": false
     }
 };

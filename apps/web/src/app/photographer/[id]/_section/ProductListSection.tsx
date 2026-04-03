@@ -28,7 +28,7 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
         price: p.price ?? 0,
         name: p.title ?? '',
         image: { src: p.imageUrl, alt: '' },
-        isLiked: p.isLiked ?? true,
+        isLiked: p.isLiked ?? false,
       })) ?? [];
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
