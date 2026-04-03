@@ -38,7 +38,7 @@ export default function ProductDetailSection({ productInfo }: ProductDetailSecti
     <section className='bg-black-1 mb-[7.6rem] flex flex-col gap-[3.2rem] p-[2rem]'>
       {/* 상품 정보 */}
       <div className='flex flex-col gap-[0.6rem]'>
-        <span className='caption-12-rg text-black-8'>상품 정보</span>
+        <span className='caption-12-rg text-black-7'>상품 정보</span>
         <div className='flex flex-col gap-[0.8rem] p-[1.6rem] border-1 border-black-4 rounded-[0.6rem]'>
           {/* 필수 - 최대 촬영 인원, 촬영 작가 인원, 촬영 시간 */}
           <div className='flex gap-[0.4rem]'>
