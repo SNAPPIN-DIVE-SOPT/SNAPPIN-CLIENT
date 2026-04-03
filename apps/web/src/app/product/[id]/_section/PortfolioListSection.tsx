@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
-import { PORTFOLIO_MOCK } from '@/app/product/[id]//mocks/mock';
+import { PORTFOLIO_MOCK } from '@/app/product/[id]/mocks/mock';
 import { useGetPortfolioList } from '@/app/product/[id]/api';
 
 type PortfolioListSectionProps = {
