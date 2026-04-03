@@ -2,7 +2,8 @@
 export {};
 
 declare global {
-  type Window = {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface Window {
     gtag?: (
       command: 'event' | 'config' | 'js',
       eventName: string,
