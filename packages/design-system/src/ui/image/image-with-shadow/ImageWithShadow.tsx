@@ -1,11 +1,12 @@
-﻿import React from 'react';
+﻿import type { CSSProperties } from 'react';
 import Image from 'next/image';
 import { cn } from '../../../lib/cn';
-type RemUnit = `${number}rem`;
+
+type CssSize = CSSProperties['width'];
 
 type ImageWithShadowProps = React.ComponentProps<typeof Image> & {
-  imageHeight: RemUnit;
-  imageWidth: RemUnit;
+  imageHeight: CssSize;
+  imageWidth: CssSize;
 };
 
 export default function ImageWithShadow({
