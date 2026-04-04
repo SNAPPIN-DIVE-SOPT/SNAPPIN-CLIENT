@@ -5,6 +5,7 @@ import SwitchProfile from './components/switch-profile/SwitchProfile';
 import { useMinDurationLoading } from './hooks/useMinDurationLoading';
 import { isValidUserType, UserType } from '@snappin/shared/types';
 import { Loading } from '@/ui';
+import ProfileLayout from '@/components/layout/profile/ProfileLayout';
 
 const MIN_DURATION = 1600;
 
@@ -30,7 +31,7 @@ export default function PageClient({ initialUserType }: PageClientProps) {
   };
 
   return (
-    <>
+    <ProfileLayout userType={initialUserType} isSwitching={isSwitching}>
       <SwitchProfile
         userType={initialUserType}
         onClick={handleSwitchClick}
@@ -39,9 +40,9 @@ export default function PageClient({ initialUserType }: PageClientProps) {
       {isSwitching && (
         <div className='fixed-center top-0 z-50 flex h-dvh flex-col items-center justify-center bg-black/30'>
           <Loading />
-          <span className='title-20-bd text-neon-black'>怨꾩젙 ?꾪솚 以?..</span>
+          <span className='title-20-bd text-neon-black'>계정 전환 중...</span>
         </div>
       )}
-    </>
+    </ProfileLayout>
   );
 }

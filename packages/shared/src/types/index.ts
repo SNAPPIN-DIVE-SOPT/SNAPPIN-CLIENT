@@ -4,6 +4,5 @@
 
 export * from './moodCode';
 export * from './productCard';
-export * from './remUnit';
 export * from './stateCode';
 export * from './userType';

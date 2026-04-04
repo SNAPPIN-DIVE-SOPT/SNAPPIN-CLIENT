@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
-import { productDetailOptions, productPortfoliosOptions, productReviewsOptions } from './options';
+import { productDetailOptions, productPortfoliosOptions, productReviewsOptions } from '@/app/product/[id]/api/options';
 
 // 상품 상세 정보 및 상품 안내 조회 prefetch
 export const prefetchProductDetail = async (

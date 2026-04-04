@@ -28,7 +28,7 @@ export default function Header() {
           <IconArrowBack />
         </IconButton>
       }
-      center={<h1 className='font-16-bd text-black-10 flex-1 text-center'>상품 상세</h1>}
+      center={<h1 className='font-16-sb text-black-10 flex-1 text-center'>상품 상세</h1>}
       right={
         <IconButton
           className='flex h-[4.4rem] w-[4.4rem] items-center justify-end gap-[1rem]'

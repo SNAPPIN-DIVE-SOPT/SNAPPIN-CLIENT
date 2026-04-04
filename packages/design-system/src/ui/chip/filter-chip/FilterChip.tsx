@@ -27,6 +27,7 @@ export default function FilterChip({
   isSelected,
   onClick,
   onRemove,
+  className,
   ...props
 }: FilterChipProps) {
   if (!isSelected && onRemove) {
@@ -40,8 +41,9 @@ export default function FilterChip({
   return (
     <div
       className={cn(
-        'bg-black-10 inline-flex items-center justify-center rounded-[0.4rem] py-[0.6rem] transition-[background-color] duration-500 ease-in-out',
+        'bg-black-10 inline-flex items-stretch rounded-[2.4rem] border-[0.1rem] transition-[background-color] duration-500 ease-in-out',
         buttonClassName,
+        className,
       )}
       {...props}
     >
@@ -50,10 +52,11 @@ export default function FilterChip({
         aria-label={`${label} 필터`}
         aria-pressed={isSelected}
         onClick={onClick ? () => onClick(label) : undefined}
+        className='flex min-w-0 flex-1 items-center justify-center self-stretch py-[0.8rem]'
       >
         <span
           className={cn(
-            'caption-12-md transition-[color] duration-500 ease-in-out',
+            'caption-12-md block transition-[color] duration-500 ease-in-out',
             labelClassName,
           )}
         >

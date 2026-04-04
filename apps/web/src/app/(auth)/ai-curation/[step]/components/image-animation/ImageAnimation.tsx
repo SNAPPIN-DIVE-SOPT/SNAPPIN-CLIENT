@@ -2,58 +2,28 @@
 
 import Image from 'next/image';
 import { useEffect, useMemo, useState, startTransition } from 'react';
-import { motion } from 'framer-motion';
-import type { GetPhotoResponse } from '@/swagger-api';
-import { useToast } from '@/ui';
 import { cn } from '@snappin/design-system/lib/cn';
+import { useToast } from '@/ui';
+import { useGetAiCurationAll } from '../../api';
+import { type STEP } from '../../constants/steps';
 import { useAiCuration } from '../../../hooks/useAiCuration';
 
 type ImageAnimationProps = {
-  images: GetPhotoResponse[];
+  step: STEP;
 };
-
-type Pose = {
-  left?: string;
-  top?: string;
-  right?: string;
-  bottom?: string;
-  rotate: number;
-};
-
-type PoseSet = { default: Pose; animation: Pose };
-
-const POSE_KEYS = ['leftTop', 'rightTop', 'leftBottom', 'rightBottom'] as const;
-type PoseKeys = (typeof POSE_KEYS)[number];
-
-const POSES_ANIMATION: Record<PoseKeys, PoseSet> = {
-  leftTop: {
-    default: { left: '8%', top: '6%', rotate: -12 },
-    animation: { left: '8%', top: '6%', rotate: -10 },
-  },
-  rightTop: {
-    default: { right: '8%', top: '10%', rotate: 9.6 },
-    animation: { right: '8%', top: '10%', rotate: 4.6 },
-  },
-  leftBottom: {
-    default: { left: '8%', top: '56%', rotate: -6 },
-    animation: { left: '8%', top: '56%', rotate: -2 },
-  },
-  rightBottom: {
-    default: { right: '8%', top: '60%', rotate: 17 },
-    animation: { right: '8%', top: '60%', rotate: 14 },
-  },
-};
-
-export default function ImageAnimation({ images }: ImageAnimationProps) {
+export default function ImageAnimation({ step }: ImageAnimationProps) {
+  const { data } = useGetAiCurationAll();
+  //TODO: API 명세 확정되면 question은 목업으로 변경
+  const question = data?.[step - 1];
+  const photos = question?.photos;
   const { error } = useToast();
   const sorted = useMemo(
-    () => images.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
-    [images],
+    () => photos?.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) || [],
+    [photos],
   );
 
-  const [isAnimating, setIsAnimating] = useState(false);
   const [loadingImages, setLoadingImages] = useState<Set<number>>(new Set());
-  const { selectedByStep, currentStep, toggleImageId } = useAiCuration();
+  const { selectedByStep, toggleImageId } = useAiCuration();
 
   // 이미지가 변경될 때마다 모든 이미지를 로딩 중 상태로 설정
   useEffect(() => {
@@ -68,8 +38,7 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
       error('이미지 로딩 중입니다. 잠시 후 다시 시도해주세요.', undefined, 'top-[2rem]');
       return;
     }
-    toggleImageId(id);
-    setIsAnimating((prev) => !prev);
+    toggleImageId(step, id);
   };
 
   const handleImageLoad = (id: number) => {
@@ -81,30 +50,30 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
   };
 
   return (
-    <div className='relative flex h-[41.5rem] w-full justify-center'>
-      <div className='relative h-[41.5rem] w-full'>
-        {sorted.map((img, idx) => {
-          const poseKey = POSE_KEYS[idx % POSE_KEYS.length];
-          const pose = POSES_ANIMATION[poseKey];
+    <div className='mt-[3.6rem] flex w-full justify-center'>
+      <div className='grid w-full grid-cols-2 gap-[0.4rem]'>
+        {sorted.map((img) => {
           const imageId = img.id ?? 0;
           const isLoading = loadingImages.has(imageId);
 
           return (
-            <motion.button
+            <button
               key={img.id}
               type='button'
               className={cn(
-                'absolute h-[19.3rem] w-[14.5rem] overflow-hidden rounded-[0.6rem]',
-                selectedByStep[currentStep] === img.id && 'border-neon-black z-10 border-[3px]',
-                selectedByStep[currentStep] &&
-                  selectedByStep[currentStep] !== img.id &&
+                'relative aspect-[3/4] w-full overflow-hidden rounded-[0.4rem] border-[3px] border-transparent',
+                selectedByStep[step] === img.id && 'border-neon-black z-10',
+                selectedByStep[step] &&
+                  selectedByStep[step] !== img.id &&
                   'opacity-80 brightness-[0.6]',
               )}
+              aria-label={`질문 ${step} 선택지 ${img.order ?? imageId}`}
+              aria-pressed={selectedByStep[step] === img.id}
               onClick={() => handleSelect(img.id ?? 0, isLoading)}
-              initial={false}
-              animate={isAnimating ? pose.animation : pose.default}
             >
-              {isLoading && <div className='bg-black-8 absolute inset-0 animate-pulse' />}
+              {isLoading && (
+                <div className='bg-black-8 absolute inset-0 animate-pulse rounded-[0.4rem]' />
+              )}
               <Image
                 priority
                 unoptimized
@@ -112,14 +81,14 @@ export default function ImageAnimation({ images }: ImageAnimationProps) {
                 alt='큐레이션 선택 이미지'
                 fill
                 className={cn(
-                  'object-cover transition-opacity duration-300',
+                  'rounded-[0.4rem] object-cover transition-opacity duration-300',
                   isLoading && 'opacity-0',
                 )}
                 draggable={false}
                 onLoadingComplete={() => handleImageLoad(imageId)}
                 onError={() => handleImageLoad(imageId)}
               />
-            </motion.button>
+            </button>
           );
         })}
       </div>

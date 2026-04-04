@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react';
 import { Sheet, SheetContent } from '../..';
-import { cn } from '../../../lib/cn';
+import { cn } from '../../../lib';
 
 type ControlSheetProps = {
   open: boolean;
@@ -24,7 +24,7 @@ type ControlSheetFieldProps = HTMLAttributes<HTMLDivElement> & {
   selectedValue?: string | null;
   children?: React.ReactNode;
   active?: boolean;
-  wrapperClassName?: string;
+  variant?: 'default' | 'plain';
 };
 
 const ControlSheetField = ({
@@ -32,7 +32,8 @@ const ControlSheetField = ({
   selectedValue,
   children,
   active,
-  wrapperClassName,
+  className,
+  variant = 'default',
   ...props
 }: ControlSheetFieldProps) => {
   const showValue = Boolean(selectedValue) && !active;
@@ -40,14 +41,16 @@ const ControlSheetField = ({
   return (
     <div
       className={cn(
-        'bg-black-3 flex w-full flex-col rounded-[0.6rem] border-[0.1rem] border-solid border-transparent p-[1.5rem]',
-        active && 'border-black-10 bg-black-1 gap-[1rem]',
-        wrapperClassName,
+        'flex w-full flex-col',
+        variant === 'default' && 'bg-black-3 p-[1.5rem]',
+        variant === 'default' && active && 'bg-black-1 gap-[1rem]',
+        variant === 'plain' && active && 'gap-[1rem]',
+        className,
       )}
       {...props}
     >
       <div className='flex flex-row justify-between'>
-        <h3 className={active ? 'caption-14-bd text-black-10' : 'caption-14-md text-black-8'}>
+        <h3 className={active ? 'font-16-md text-black-10' : 'caption-14-md text-black-8'}>
           {label}
         </h3>
         {showValue && <span className='caption-14-md text-black-10'>{selectedValue}</span>}

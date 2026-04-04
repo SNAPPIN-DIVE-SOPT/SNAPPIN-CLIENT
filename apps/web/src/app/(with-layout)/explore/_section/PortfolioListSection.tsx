@@ -2,11 +2,11 @@
 
 import { useMemo, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useGetPortfolioList } from '../api';
-import { useInfiniteScroll } from '../hooks/use-infinite-scroll';
-import { toExploreSearchParams } from '../utils/query';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { PortfolioList, PortfolioListSkeleton } from '@/ui';
+import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
+import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
+import { useGetPortfolioList } from '@/app/(with-layout)/explore/api';
 
 export default function PortfolioListSection() {
   const sp = useSearchParams();

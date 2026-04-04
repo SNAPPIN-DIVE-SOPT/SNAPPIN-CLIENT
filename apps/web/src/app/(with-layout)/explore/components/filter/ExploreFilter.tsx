@@ -1,18 +1,15 @@
 ﻿'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FilterChip, IconButton } from '@snappin/design-system';
-import { IconFilter, IconSettingsBackupRestore } from '@snappin/design-system/assets';
-import { ExploreFilterPanel } from '../index';
-import { GetMoodFilterResponse } from '@/swagger-api';
-import { useMoodFilters } from '../../api';
+import { FilterChip } from '@snappin/design-system';
 import { ROUTES } from '@/constants/routes/routes';
+import { useMoodFilters } from '@/app/(with-layout)/explore/api';
 import {
   EXPLORE_DETAIL_BACK_HANDLED,
   EXPLORE_FROM_DETAIL_BACK,
   EXPLORE_NO_AUTO_APPLY,
-} from '../../constants/storage-key';
+} from '@/app/(with-layout)/explore/constants/storage-key';
 
 const parseMoodIds = (params: URLSearchParams): number[] => {
   const rawMoodIds = params.get('moodIds');
@@ -28,7 +25,6 @@ const lockAutoApply = () => {
 };
 
 export default function ExploreFilter() {
-  const [open, setOpen] = useState(false);
   const { data, isLoading } = useMoodFilters();
 
   const router = useRouter();
@@ -61,24 +57,11 @@ export default function ExploreFilter() {
     [pathname, router, searchParamsString],
   );
 
-  const moodById = useMemo(() => {
-    const map = new Map<number, GetMoodFilterResponse>();
-    data?.moods?.forEach((m) =>
-      map.set(m.id!, {
-        name: m.name ?? '',
-        id: m.id ?? 0,
-        category: m.category ?? '스타일',
-        isCurated: m.isCurated ?? false,
-      }),
-    );
-    return map;
-  }, [data]);
-
-  const selectedMoods = useMemo(() => {
+  /*  const selectedMoods = useMemo(() => {
     return moodIds
       .map((id) => moodById.get(id))
       .filter((m): m is GetMoodFilterResponse => Boolean(m));
-  }, [moodIds, moodById]);
+  }, [moodIds, moodById]);*/
 
   useEffect(() => {
     const isReturningFromDetail = sessionStorage.getItem(EXPLORE_FROM_DETAIL_BACK) === '1';
@@ -117,14 +100,7 @@ export default function ExploreFilter() {
     replaceMoodIds(curatedIds);
   }, [pathname, moodIds, curatedIds, replaceMoodIds]);
 
-  const handleReset = () => {
-    userResetRef.current = true;
-    // 유저가 비운 의도면 이후 자동적용 금지
-    lockAutoApply();
-    replaceMoodIds([]);
-  };
-
-  const handleRemoveMood = (removeId: number) => {
+  const removeMood = (removeId: number) => {
     const nextIds = moodIds.filter((id) => id !== removeId);
     if (nextIds.length === 0) {
       userResetRef.current = true;
@@ -136,53 +112,28 @@ export default function ExploreFilter() {
     replaceMoodIds(nextIds);
   };
 
+  const handleClickFilterChip = (id: number) => {
+    if (moodIds.includes(id)) {
+      removeMood(id);
+    } else {
+      replaceMoodIds([...moodIds, id]);
+    }
+  };
+
   return (
-    <>
-      <div className='relative flex flex-row items-center justify-between gap-[0.3rem] px-[0.4rem] py-[0.6rem]'>
-        <IconButton
-          className='h-[4.4rem] w-[4.4rem] px-[1.05rem] py-[1rem]'
-          onClick={handleReset}
-          aria-label='무드 필터 초기화'
-        >
-          <IconSettingsBackupRestore />
-        </IconButton>
-
-        {!isLoading && (
-          <div className='scrollbar-hide flex flex-1 flex-row gap-[0.4rem] overflow-x-auto'>
-            {selectedMoods.length === 0 ? (
-              <span className='caption-14-rg text-black-6'>무드필터를 이용해서 검색해 보세요</span>
-            ) : (
-              selectedMoods.map((mood) => (
-                <FilterChip
-                  key={mood.id}
-                  label={mood.name ?? ''}
-                  onRemove={() => handleRemoveMood(mood.id ?? 0)}
-                  isSelected
-                />
-              ))
-            )}
-          </div>
-        )}
-        <IconButton
-          className='border-black-3 before:bg-black-4 relative h-[4.4rem] w-[4.4rem] p-[1rem] before:absolute before:top-1/2 before:left-[-0.05rem] before:h-[3.1rem] before:w-[0.1rem] before:-translate-y-1/2 before:content-[""]'
-          aria-expanded={open}
-          aria-label='무드 필터 패널 열기'
-          onClick={() => setOpen(!open)}
-        >
-          <IconFilter />
-        </IconButton>
-      </div>
-
-      {open && (
-        <div className='bg-black-1 absolute top-full right-0 left-0 z-100'>
-          <ExploreFilterPanel
-            key={moodIds.join(',')}
-            moodList={data?.moods}
-            selectedMoodIds={moodIds}
-            handlePanelCloseAction={() => setOpen(false)}
-          />
+    <div className='flex h-[5.5rem] items-center'>
+      {!isLoading && (
+        <div className='scrollbar-hide flex w-full gap-[0.4rem] overflow-x-auto px-[2rem]'>
+          {data?.moods?.map((mood) => (
+            <FilterChip
+              key={mood.id ?? `mood-${mood.name}`}
+              label={mood.name ?? ''}
+              isSelected={moodIds.includes(mood.id ?? 0)}
+              onClick={() => handleClickFilterChip(mood.id ?? 0)}
+            />
+          ))}
         </div>
       )}
-    </>
+    </div>
   );
 }
