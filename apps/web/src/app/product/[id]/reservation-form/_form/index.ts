@@ -1,2 +1,2 @@
-export { default as ReservationFormSection } from './ReservationFormSection';
+export { default as ReservationFormContent } from './ReservationFormContent';
 export { default as ReservationInfoSection } from './ReservationInfoSection';
