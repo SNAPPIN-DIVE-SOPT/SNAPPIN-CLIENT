@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { CSSProperties } from 'react';
 import { ImageWithShadow } from '@snappin/design-system';
+import { ROUTES } from '@/constants/routes/routes';
 import PortfolioClient from '../components/Portfolio.client';
 
 type CssSize = CSSProperties['width'];
@@ -28,21 +29,19 @@ export default function PortfolioFrame({
 }: PortfolioFrameProps) {
   return (
     <Link
-      href={`/portfolio/${id}`}
-      className='flex flex-col overflow-hidden'
+      href={ROUTES.PORTFOLIO(id)}
+      className='relative flex flex-col overflow-hidden'
       style={{ width: width }}
     >
-      <div className='relative overflow-hidden' style={{ width }}>
-        <ImageWithShadow
-          src={image.src}
-          alt={image.alt ?? '포트폴리오 이미지'}
-          imageHeight={height}
-          imageWidth={width}
-        />
-        <div className='absolute right-0 bottom-0 flex items-center gap-[0.5rem] p-[1.2rem]'>
-          <PortfolioClient id={id} isLiked={isLiked} />
-          <span className='caption-11-md text-black-1'>{likesCount}</span>
-        </div>
+      <ImageWithShadow
+        src={image.src}
+        alt={image.alt ?? '포트폴리오 이미지'}
+        imageHeight={height}
+        imageWidth={width}
+      />
+      <div className='absolute right-0 bottom-0 flex items-center gap-[0.5rem] p-[1.2rem]'>
+        <PortfolioClient id={id} isLiked={isLiked} />
+        <span className='caption-11-md text-black-1'>{likesCount}</span>
       </div>
     </Link>
   );

@@ -11,27 +11,25 @@ export default function PhotographerSection({ id }: PhotographerSectionProps) {
   const { data } = useGetPhotographerDetail(id);
 
   return (
-    <section className='fixed-center bg-black-1 top-[5rem] z-10'>
-      <Profile>
-        <Profile.Avatar size='md' src={data.profileImageUrl} />
-        <Profile.Content lines={2}>
-          <Profile.Item>
-            <Profile.Title>{data.name}</Profile.Title>
-            <Profile.Description>{data.bio}</Profile.Description>
-          </Profile.Item>
-          <Profile.Item>
-            <Profile.Row>
-              <Profile.Meta>촬영 상품</Profile.Meta>
-              <Profile.Meta className='text-black-9'>{data.specialties?.join(', ')}</Profile.Meta>
-            </Profile.Row>
-            <Profile.Row>
-              <Profile.Meta>활동 지역</Profile.Meta>
-              <Profile.Meta className='text-black-9'>{data.locations?.join(', ')}</Profile.Meta>
-            </Profile.Row>
-          </Profile.Item>
-        </Profile.Content>
-      </Profile>
-    </section>
+    <Profile className='fixed-center bg-black-1 top-[5rem] z-10'>
+      <Profile.Avatar size='md' src={data.profileImageUrl} />
+      <Profile.Content lines={2}>
+        <Profile.Item>
+          <Profile.Title>{data.name}</Profile.Title>
+          <Profile.Description>{data.bio}</Profile.Description>
+        </Profile.Item>
+        <Profile.Item>
+          <Profile.Row>
+            <Profile.Meta>촬영 상품</Profile.Meta>
+            <Profile.Meta className='text-black-9'>{data.specialties?.join(', ')}</Profile.Meta>
+          </Profile.Row>
+          <Profile.Row>
+            <Profile.Meta>활동 지역</Profile.Meta>
+            <Profile.Meta className='text-black-9'>{data.locations?.join(', ')}</Profile.Meta>
+          </Profile.Row>
+        </Profile.Item>
+      </Profile.Content>
+    </Profile>
   );
 };
 
