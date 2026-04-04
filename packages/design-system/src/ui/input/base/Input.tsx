@@ -9,7 +9,7 @@ export default function Input({ hasError, hasBorder = true, className, ...props 
   return (
     <input
       className={cn(
-        'bg-black-1 caption-14-md placeholder:text-black-6 w-full px-[0.7rem] py-[1.2rem]',
+        'bg-black-1 caption-14-md border-black-10 placeholder:text-black-6 w-full border-b px-[0.7rem] py-[1.2rem]',
         hasBorder && 'border-black-5 focus:border-black-10 rounded-[0.6rem] border',
         hasError &&
           (hasBorder

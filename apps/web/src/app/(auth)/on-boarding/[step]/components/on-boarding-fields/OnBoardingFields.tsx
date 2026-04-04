@@ -57,6 +57,7 @@ export default function OnBoardingFields({ fields }: Props) {
               }}
               hasError={Boolean(errorText)}
               helpText={errorText}
+              hasBorder={false}
             />
           );
         }

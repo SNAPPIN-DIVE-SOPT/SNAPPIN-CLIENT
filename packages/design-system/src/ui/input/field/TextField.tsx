@@ -12,6 +12,7 @@ type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   maxLength?: number;
   showMaxLength?: boolean;
+  hasBorder?: boolean;
 };
 
 export default function TextField({
@@ -26,6 +27,7 @@ export default function TextField({
   maxLength,
   showMaxLength = false,
   className,
+  hasBorder = true,
   ...props
 }: InputFieldProps) {
   return (
@@ -47,6 +49,7 @@ export default function TextField({
         required={required}
         onChange={onChange}
         placeholder={placeholder}
+        hasBorder={hasBorder}
         {...props}
       />
       <div className='flex items-center justify-between'>
