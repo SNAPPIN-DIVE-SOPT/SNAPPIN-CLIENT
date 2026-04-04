@@ -1,13 +1,7 @@
 ﻿'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from './base/command';
+import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from './base/command';
 import { Input } from '..';
 import { cn } from '../../lib/cn';
 
@@ -80,6 +74,7 @@ export default function ComboBox({
       <Command className='h-[4.2rem] w-full'>
         <Input
           placeholder={placeholder}
+          hasBorder={false}
           onChange={(e) => {
             setQuery(e.target.value);
             setIsOpen(true);

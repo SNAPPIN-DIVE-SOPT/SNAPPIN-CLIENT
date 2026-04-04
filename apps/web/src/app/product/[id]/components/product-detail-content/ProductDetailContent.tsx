@@ -1,7 +1,9 @@
 'use client';
 
+// TODO: API 구현 완료되면 주석 풀기
 import { useRef, useMemo, Suspense } from 'react';
 import { Tabs } from '@snappin/design-system';
+import { MoodCode } from '@snappin/shared/types';
 import { ROUTES } from '@/constants/routes/routes';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { PortfolioListSkeleton } from '@/ui';
@@ -11,11 +13,12 @@ import {
   ProductDetailSection,
   ProductMainSection,
   ReviewListSection,
-} from '../../_section';
-import Footer from '../footer/Footer';
-import { useGetProductDetail } from '../../api';
-import { PRODUCT_TAB, PRODUCT_TABS } from '../../constants/tab';
-import { ReviewListSectionSkeleton } from '../../_section/ReviewListSection';
+} from '@/app/product/[id]/_section';
+import { Footer } from '@/app/product/[id]/components';
+// import { useGetProductDetail } from '@/app/product/[id]/api';
+import { PRODUCT_TAB, PRODUCT_TABS } from '@/app/product/[id]/constants/tab';
+import { ReviewListSectionSkeleton } from '@/app/product/[id]/_section/ReviewListSection';
+import { PRODUCT_MOCK } from '@/app/product/[id]/mocks/mock';
 
 type ProductDetailContentProps = {
   productId: number;
@@ -27,7 +30,8 @@ export default function ProductDetailContent({ productId, tab }: ProductDetailCo
     ? tab
     : PRODUCT_TAB.PRODUCT_DETAIL;
 
-  const { data } = useGetProductDetail(productId);
+  // const { data } = useGetProductDetail(productId);
+  const data = PRODUCT_MOCK;
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
   const scrollKey = useMemo(
@@ -44,10 +48,11 @@ export default function ProductDetailContent({ productId, tab }: ProductDetailCo
         images={data?.images ?? []}
         title={data?.title ?? ''}
         isLiked={data?.isLiked ?? false}
+        likeCount={data?.likeCount ?? 0}
         averageRate={data?.averageRate ?? 0}
         reviewCount={data?.reviewCount ?? 0}
         price={data?.price ?? 0}
-        photographer={data?.photographerInfo?.name ?? ''}
+        moods={data?.productInfo?.moods as MoodCode[] ?? []}
       />
       <PhotographerSection photographerInfo={data?.photographerInfo} />
       <Tabs>
@@ -82,7 +87,7 @@ export default function ProductDetailContent({ productId, tab }: ProductDetailCo
           )}
         </div>
       </Tabs>
-      <Footer productId={productId} amount={data?.price ?? 0} />
+      <Footer productId={productId} contact={data?.photographerInfo?.contact} amount={data?.price ?? 0} />
     </>
   );
 }

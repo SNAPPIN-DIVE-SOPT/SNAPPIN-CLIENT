@@ -3,13 +3,13 @@ import { Suspense } from 'react';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { getQueryClient } from '@/utils/getQueryClient';
-import { PRODUCT_TAB } from './constants/tab';
-import { Header, ProductDetailContent, ProductDetailSkeleton } from './components/index';
+import { PRODUCT_TAB } from '@/app/product/[id]/constants/tab';
+import { Header, ProductDetailContent, ProductDetailSkeleton } from '@/app/product/[id]/components';
 import {
   prefetchProductDetail,
   prefetchPortfolioList,
   prefetchProductReviewList,
-} from './api/server';
+} from '@/app/product/[id]/api/server';
 
 type PageProps = {
   params: Promise<{ id: string }>;

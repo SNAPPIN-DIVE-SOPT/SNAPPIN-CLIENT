@@ -7,20 +7,22 @@ import { useAuth } from '@/auth/hooks/useAuth';
 import { ROUTES } from '@/constants/routes/routes';
 import { useToast } from '@/ui';
 import { Button, BottomCTAButton, ResultModal } from '@snappin/design-system';
-import { ReservationDraft } from '../../types/reservation';
-import ReservationBottomDrawer from '../reservation-bottom-drawer/ReservationBottomDrawer';
+import { ReservationDraft } from '@/app/product/[id]/types/reservation';
+import ReservationBottomDrawer from '@/app/product/[id]/components/reservation-bottom-drawer/ReservationBottomDrawer';
 
 type FooterProps = {
   productId: number;
+  contact: string;
   amount: number;
 };
 
-export default function Footer({ productId, amount }: FooterProps) {
-  const router = useRouter();
-  const { isLogIn } = useAuth();
-  const { alert, login } = useToast();
-  const [isOpen, setIsOpen] = useState(false);
+const TOAST_STYLE = 'px-[2rem] bottom-[8.4rem]';
 
+export default function Footer({ productId, contact, amount }: FooterProps) {
+  const router = useRouter();
+  const { login } = useToast();
+  const { isLogIn } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
   const [draft, setDraft] = useState<ReservationDraft>({
     date: null,
     time: null,
@@ -31,23 +33,19 @@ export default function Footer({ productId, amount }: FooterProps) {
     request: '',
   });
 
-  const toastStyle = 'px-[2rem] bottom-[8.4rem]';
-
+  const close = () => setIsOpen(false);
   const handleContact = () => {
-    if (isLogIn === true) {
-      alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', undefined, toastStyle);
-    } else if (isLogIn === false) {
-      login('문의 기능은 로그인 후에 사용할 수 있어요.', undefined, toastStyle);
+    if (contact) {
+      window.open(contact, '_blank', 'noopener,noreferrer');
     }
   };
-
-  const close = () => setIsOpen(false);
-
   const handleOpenDrawer = () => {
     if (isLogIn === false) {
-      login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, toastStyle);
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, TOAST_STYLE);
       return;
     }
+    // TODO: 온보딩 미완 -> 모달 띄우기 (온보딩 이동 모달 디자인 기다리는 중)
+    // TODO: 온보딩 완료 -> 예약 양식 페이지로 이동
     setIsOpen(true);
   };
 
@@ -59,13 +57,22 @@ export default function Footer({ productId, amount }: FooterProps) {
       >
         <BottomCTAButton.Double
           leftButton={
-            <Button color='white' size='medium' onClick={handleContact}>
-              문의하기
+            <Button
+              color='white'
+              size='medium'
+              onClick={handleContact}
+              className='border-black-10 text-black-10'
+            >
+              문의하러 가기
             </Button>
           }
           rightButton={
-            <Button color='black' size='medium' onClick={handleOpenDrawer}>
-              예약하기
+            <Button
+              color='black'
+              size='medium'
+              onClick={handleOpenDrawer}
+            >
+              예약 문의 작성
             </Button>
           }
         />
