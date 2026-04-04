@@ -3,17 +3,12 @@
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { MoodCode } from '@snappin/shared/types';
-import { TagChip, ImageWithShadow } from '@snappin/design-system';
+import { TagChip } from '../../chip';
+import { IMAGE_SLIDE_MOCK } from './imageSlideMock';
+import ImageWithShadow from '../image-with-shadow/ImageWithShadow';
 import { TagChipVariant } from '../../chip/tag-chip/types/tagChipVariant';
 
-type Image = {
-  imageUrl: string;
-  moods: string[],
-  photographerName: string,
-}
-
 type ImageSlideProps = {
-  data: Image[];
   tagChipVariant?: TagChipVariant;
 }
 
@@ -43,9 +38,9 @@ const CARD_VARIANTS = {
   },
 } as const;
 
-export default function ImageSlide({ data, tagChipVariant = 'transparent' }: ImageSlideProps) {
+export default function ImageSlide({ tagChipVariant = 'transparent' }: ImageSlideProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const len = data.length;
+  const len = IMAGE_SLIDE_MOCK.length;
 
   useEffect(() => {
     if (len === 0) return;
@@ -64,8 +59,8 @@ export default function ImageSlide({ data, tagChipVariant = 'transparent' }: Ima
         { pos: 'left', index: leftIndex },
         { pos: 'center', index: activeIndex },
         { pos: 'right', index: rightIndex },
-      ].map((v) => ({ ...v, item: data[v.index] })),
-    [activeIndex, leftIndex, rightIndex, data],
+      ].map((v) => ({ ...v, item: IMAGE_SLIDE_MOCK[v.index] })),
+    [activeIndex, leftIndex, rightIndex, IMAGE_SLIDE_MOCK],
   );
 
   if (len === 0) return null;
