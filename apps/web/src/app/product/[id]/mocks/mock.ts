@@ -1,3 +1,5 @@
+import { ProductFrameProps } from '@/ui/frame/product/ProductFrame';
+
 export const PRODUCT_MOCK = {
     "id": 25,
     "images": [
@@ -86,3 +88,48 @@ export const PORTFOLIO_MOCK = {
         },
     ]
 };
+
+export const PRODUCT_LIST_MOCK: ProductFrameProps[] = [
+    {
+        id: 25,
+        isLiked: false,
+        photographer: '하루필름',
+        moods: ['청량한', 'Y2K', '몽환적인'],
+        rate: 3.0,
+        reviewCount: 5,
+        price: 150000,
+        name: '졸업스냅, 특별한 한 순간을 남겨드려요',
+        image: {
+            src: 'https://picsum.photos/900/1200?random=10',
+            alt: '졸업스냅, 특별한 한 순간을 남겨드려요 상품 이미지',
+        },
+    },
+    {
+        id: 26,
+        isLiked: true,
+        photographer: '스냅모먼트',
+        moods: ['따뜻한', '자연스러운'],
+        rate: 4.8,
+        reviewCount: 18,
+        price: 190000,
+        name: '캠퍼스에서 남기는 자연스러운 졸업 스냅',
+        image: {
+            src: 'https://picsum.photos/900/1200?random=11',
+            alt: '캠퍼스에서 남기는 자연스러운 졸업 스냅 상품 이미지',
+        },
+    },
+    {
+        id: 27,
+        isLiked: false,
+        photographer: '어반스튜디오',
+        moods: ['시크한', '도시적인'],
+        rate: 4.5,
+        reviewCount: 9,
+        price: 170000,
+        name: '도시 무드로 담아내는 프리미엄 스냅',
+        image: {
+            src: 'https://picsum.photos/900/1200?random=12',
+            alt: '도시 무드로 담아내는 프리미엄 스냅 상품 이미지',
+        },
+    },
+];

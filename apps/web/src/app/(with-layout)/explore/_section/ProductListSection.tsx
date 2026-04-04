@@ -1,21 +1,15 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { GetProductCardResponse } from '@/swagger-api';
-import { ProductList, ProductListSkeleton } from '@/ui/product-card';
-import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import { useGetProductList } from '@/app/(with-layout)/explore/api';
-import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
-import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
+import FrameProductList from '@/ui/frame/product/ProductList';
+import { PRODUCT_LIST_MOCK } from '@/app/product/[id]/mocks/mock';
 
 export default function ProductListSection() {
-  const sp = useSearchParams();
+  /* const sp = useSearchParams();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, dataUpdatedAt } = useGetProductList(
     new URLSearchParams(sp.toString()),
-  );
+  );*/
 
-  const products = useMemo(
+  /* const products = useMemo(
     () =>
       data.pages
         .flatMap((p) => p.data?.products ?? [])
@@ -28,32 +22,33 @@ export default function ProductListSection() {
           reviewCount: p.reviewCount ?? 0,
           price: p.price ?? 0,
           title: p.title ?? '',
-          imageUrl: p.imageUrl ?? '',
+            imageUrl: p.imageUrl ?? '',
         })),
     [data.pages],
-  );
+  );*/
+  const products = PRODUCT_LIST_MOCK;
 
-  const { sentinelRef } = useInfiniteScroll({
+  /* const { sentinelRef } = useInfiniteScroll({
     enabled: true,
     hasNextPage,
     isFetchingNextPage,
     onLoadMore: () => fetchNextPage(),
-  });
+  });*/
 
-  const scrollKey = useMemo(() => {
+  /* const scrollKey = useMemo(() => {
     const allowed = toExploreSearchParams(new URLSearchParams(sp.toString()));
     allowed.delete('tab');
     const normalized = new URLSearchParams();
     normalized.set('tab', 'PRODUCT');
     allowed.forEach((value, key) => normalized.append(key, value));
     return `explore:product:scroll?${normalized.toString()}`;
-  }, [sp]);
+  }, [sp]);*/
 
-  const anchorRef = useRef<HTMLDivElement | null>(null);
+  /* const anchorRef = useRef<HTMLDivElement | null>(null);
   useScrollRestoreOnParent(anchorRef, scrollKey, [products.length, dataUpdatedAt], {
     enabled: true,
     resetOnKeyChange: true,
-  });
+  });*/
 
   const isProductListEmpty = products.length === 0;
 
@@ -67,13 +62,14 @@ export default function ProductListSection() {
 
   return (
     <section>
-      <div ref={anchorRef} />
+      {/*<div ref={anchorRef} />
       <ProductList
         productList={products}
         className='bg-black-1 grid grid-cols-2 gap-x-[0.3rem] gap-y-[1.2rem]'
       />
       <div ref={sentinelRef} className='h-[1px]' />
-      {isFetchingNextPage && <ProductListSkeleton length={3} />}
+      {isFetchingNextPage && <ProductListSkeleton length={3} />}*/}
+      <FrameProductList products={products} />
     </section>
   );
 }
