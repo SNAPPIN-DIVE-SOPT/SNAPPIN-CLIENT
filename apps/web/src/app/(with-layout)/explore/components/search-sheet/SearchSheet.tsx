@@ -1,25 +1,33 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import {
   ComboBox,
   ControlSheet,
-  DatePicker,
+  Divider,
   IconButton,
   Navigation,
   SheetDescription,
   SheetTitle,
-  Stepper,
 } from '@snappin/design-system';
 import { IconClose } from '@snappin/design-system/assets';
-import { useSearchReducer } from '@/app/(with-layout)/explore/hooks/use-search-reducer';
-import { SearchField } from '@/app/(with-layout)/explore/types/search';
-import { parseInitialDraft } from '@/app/(with-layout)/explore/utils/query';
-import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
-import { SearchFooter, SnapCategory } from '@/app/(with-layout)/explore/components';
-import { useQueryParams } from '@/hooks/useSearchQuery';
-import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
+import { SearchFooter } from '@/app/(with-layout)/explore/components';
 import { ALLOWED_KEYS } from '@/app/(with-layout)/explore/constants/query';
+import {
+  INITIAL_MAX_PRICE,
+  INITIAL_MIN_PRICE,
+  MIN_PRICE,
+} from '@/app/(with-layout)/explore/constants/price';
+import { useSearchReducer } from '@/app/(with-layout)/explore/hooks/use-search-reducer';
+import MoodFilter from '@/app/(with-layout)/explore/components/search-sheet/mood-filter/MoodFilter';
+import PriceSlider from '@/app/(with-layout)/explore/components/search-sheet/price-slider/PriceSlider';
+import {
+  parseInitialDraft,
+  parseMoodIds,
+  parsePriceRange,
+} from '@/app/(with-layout)/explore/utils/query';
+import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
+import { useQueryParams } from '@/hooks/useSearchQuery';
 import { ROUTES } from '@/constants/routes/routes';
 
 type SearchSheetProps = {
@@ -27,30 +35,60 @@ type SearchSheetProps = {
   onOpenChange: () => void;
 };
 
-const MIN_PARTICIPANT_COUNT = 0;
-const MAX_PARTICIPANT_COUNT = 15;
-
 export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   const { read, patch, navigate, searchParams } = useQueryParams(ALLOWED_KEYS);
   const initialPlaceName = read.get('placeName');
-  const [currentField, setCurrentField] = useState<SearchField>('snapCategory');
-  const didInitRef = useRef(false);
   const placeFieldKey = `${open}-${initialPlaceName}`;
+  const initialMoodIds = parseMoodIds(searchParams);
+  const initialPrices = parsePriceRange(searchParams);
+  const formKey = `${open}-${searchParams.toString()}`;
 
-  const {
-    searchDraft,
-    setDate,
-    resetSearchDraft,
-    increasePeopleCount,
-    decreasePeopleCount,
-    setPlaceId,
-    setCategory,
-    setPeopleCount,
-  } = useSearchReducer();
+  return (
+    <SearchSheetContent
+      key={formKey}
+      open={open}
+      onOpenChange={onOpenChange}
+      searchParams={searchParams}
+      patch={patch}
+      navigate={navigate}
+      initialPlaceName={initialPlaceName}
+      placeFieldKey={placeFieldKey}
+      initialMoodIds={initialMoodIds}
+      initialPrices={initialPrices}
+    />
+  );
+}
+
+type SearchSheetContentProps = SearchSheetProps & {
+  searchParams: URLSearchParams;
+  patch: ReturnType<typeof useQueryParams>['patch'];
+  navigate: ReturnType<typeof useQueryParams>['navigate'];
+  initialPlaceName: string;
+  placeFieldKey: string;
+  initialMoodIds: number[];
+  initialPrices: [number, number];
+};
+
+function SearchSheetContent({
+  open,
+  onOpenChange,
+  searchParams,
+  patch,
+  navigate,
+  initialPlaceName,
+  placeFieldKey,
+  initialMoodIds,
+  initialPrices,
+}: SearchSheetContentProps) {
+  const didInitRef = useRef(false);
+  const [selectedMoodIds, setSelectedMoodIds] = useState<number[]>(initialMoodIds);
+  const [prices, setPrices] = useState<[number, number]>(initialPrices);
+
+  const { searchDraft, setDate, resetSearchDraft, setPlaceId, setCategory, setPeopleCount } =
+    useSearchReducer();
 
   const {
     value: placeKeyword,
-    setValue: setPlaceKeyword,
     options: placeOptions,
     handleChange: handlePlaceKeywordChange,
     handleBlur: handlePlaceBlur,
@@ -61,23 +99,19 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
     setSelectedId: setPlaceId,
   });
 
-  const { snapCategory, peopleCount, date } = searchDraft;
-  const formattedCount = peopleCount && peopleCount > 0 ? `${peopleCount}명` : '0명';
-
-  const handleFieldClick = (category: SearchField) => {
-    setCurrentField(category);
-  };
-
-  const handleDateChange = (nextDate: string) => {
-    if (date === nextDate) {
-      setDate(null);
-      return;
-    }
-    setDate(nextDate);
+  const handleToggleMood = (moodId: number) => {
+    setSelectedMoodIds((prevMoodIds) =>
+      prevMoodIds.includes(moodId)
+        ? prevMoodIds.filter((selectedMoodId) => selectedMoodId !== moodId)
+        : [...prevMoodIds, moodId],
+    );
   };
 
   const handleSearch = () => {
     const nextParams = patch({
+      moodIds: selectedMoodIds.length > 0 ? selectedMoodIds.join(',') : null,
+      minPrice: prices[0] === MIN_PRICE ? null : prices[0],
+      maxPrice: prices[1],
       snapCategory: searchDraft.snapCategory ?? null,
       placeId: searchDraft.placeId || null,
       placeName: searchDraft.placeId ? placeKeyword : null,
@@ -92,6 +126,8 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
   const handleReset = () => {
     resetSearchDraft();
     resetPlaceField();
+    setSelectedMoodIds([]);
+    setPrices([INITIAL_MIN_PRICE, INITIAL_MAX_PRICE]);
   };
 
   useEffect(() => {
@@ -99,7 +135,9 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
       didInitRef.current = false;
       return;
     }
+
     if (didInitRef.current) return;
+
     didInitRef.current = true;
 
     const { snapCategory, placeId, date, peopleCount } = parseInitialDraft(
@@ -110,7 +148,7 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
     setPlaceId(placeId);
     setDate(date);
     setPeopleCount(peopleCount ?? 0);
-  }, [open, searchParams, setCategory, setDate, setPeopleCount, setPlaceId, setPlaceKeyword]);
+  }, [open, searchParams, setCategory, setDate, setPeopleCount, setPlaceId]);
 
   return (
     <ControlSheet
@@ -125,73 +163,47 @@ export default function SearchSheet({ open, onOpenChange }: SearchSheetProps) {
         스냅 작가 탐색 검색 화면
       </SheetDescription>
 
-      {/* 헤더 */}
       <Navigation
-        center={<h3 className='font-16-bd whitespace-nowrap'>어떤 스냅 작가를 찾고 있나요?</h3>}
+        center={<h3 className='caption-14-bd whitespace-nowrap'>어떤 스냅 작가를 찾고 있나요?</h3>}
         right={
           <IconButton type='button' onClick={onOpenChange}>
             <IconClose />
           </IconButton>
         }
-        className='border-black-5 border-b-[0.1rem] px-[2rem] py-[1.3rem]'
+        className='px-[2rem] py-[1.3rem]'
       />
-
-      {/* 검색 필드 */}
-      <div className='flex flex-col gap-[1.5rem] px-[2rem] pt-[1.5rem]'>
-        {/* 촬영 상황 선택 */}
-        <ControlSheet.Field
-          label='촬영 상황'
-          selectedValue={SNAP_CATEGORY[snapCategory as keyof typeof SNAP_CATEGORY] ?? ''}
-          onClick={() => handleFieldClick('snapCategory')}
-          active={currentField === 'snapCategory'}
-        >
-          <SnapCategory currentCategory={snapCategory} handleCategoryChange={setCategory} />
-        </ControlSheet.Field>
-
-        {/* 촬영 장소 검색 */}
+      <div className='mt-[2.1rem] flex flex-col gap-[3.5rem]'>
         <ControlSheet.Field
           label='촬영 장소'
-          selectedValue={placeKeyword}
-          onClick={() => handleFieldClick('placeId')}
-          active={currentField === 'placeId'}
+          active={true}
+          className='gap-[0.3rem] border-none px-[2.5rem]'
         >
           <ComboBox
             key={placeFieldKey}
-            placeholder='장소·학교명을 검색 후 선택해 주세요'
+            placeholder='장소 이름을 검색해 주세요'
             value={placeKeyword}
             options={placeOptions}
             onChange={handlePlaceKeywordChange}
             onBlur={handlePlaceBlur}
+            inputClassName='border-b-[0.1rem] px-[0.7rem] py-[1.2rem] border-black-6 focus:border-black-10'
           />
         </ControlSheet.Field>
 
-        {/* 촬영 일정 선택 */}
-        <ControlSheet.Field
-          label='촬영 일정'
-          selectedValue={searchDraft.date?.replaceAll('-', '.') ?? ''}
-          onClick={() => handleFieldClick('date')}
-          active={currentField === 'date'}
-        >
-          <DatePicker selectedDate={date ?? ''} handleDateChangeAction={handleDateChange} />
+        <Divider color='bg-black-4' />
+
+        <ControlSheet.Field label='무드 선택' active={true} variant='plain' className='px-[2.5rem]'>
+          <MoodFilter selectedMoodIds={selectedMoodIds} onToggleMoodAction={handleToggleMood} />
         </ControlSheet.Field>
 
-        {/* 촬영 인원 선택 */}
+        <Divider color='bg-black-4' />
+
         <ControlSheet.Field
-          label='촬영 인원'
-          selectedValue={peopleCount === 0 || peopleCount === null ? '' : formattedCount}
-          onClick={() => handleFieldClick('peopleCount')}
-          active={currentField === 'peopleCount'}
-          wrapperClassName={
-            currentField === 'peopleCount' ? 'flex-row items-center justify-between' : '' // && 사용 시 타입 에러
-          }
+          label='촬영 가격'
+          active={true}
+          variant='plain'
+          className='gap-[2.4rem] px-[2.5rem]'
         >
-          <Stepper
-            value={formattedCount}
-            handleClickMinus={decreasePeopleCount}
-            handleClickAdd={increasePeopleCount}
-            isDisabledMinus={(peopleCount ?? 0) <= MIN_PARTICIPANT_COUNT}
-            isDisabledAdd={(peopleCount ?? 0) >= MAX_PARTICIPANT_COUNT}
-          />
+          <PriceSlider value={prices} onChange={setPrices} />
         </ControlSheet.Field>
       </div>
       <SearchFooter handleResetClick={handleReset} handleConfirmClick={handleSearch} />
