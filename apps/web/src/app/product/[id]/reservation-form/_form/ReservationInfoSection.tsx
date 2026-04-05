@@ -1,4 +1,4 @@
-import RESERVATION_FORM_MOCK from '../mock/reservationForm.mock';
+import { type ReservationApplicant } from '../hooks';
 
 type ReservationInfoItem = {
   id: 'name' | 'phoneNumber' | 'email';
@@ -6,8 +6,12 @@ type ReservationInfoItem = {
   value: string;
 };
 
-export default function ReservationInfoSection() {
-  const data = RESERVATION_FORM_MOCK;
+type ReservationInfoSectionProps = {
+  applicant: ReservationApplicant;
+};
+
+export default function ReservationInfoSection({ applicant }: ReservationInfoSectionProps) {
+  const data = applicant;
 
   const reservationInfoItems: ReservationInfoItem[] = [
     { id: 'name', label: '이름', value: data.name },

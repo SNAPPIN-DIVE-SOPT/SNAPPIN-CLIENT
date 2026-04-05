@@ -3,6 +3,7 @@
 import { type FormEvent } from 'react';
 import { ClientFooter, SchedulePickerDrawers } from '../components';
 import { useReservationCopyForm } from '../hooks';
+import RESERVATION_FORM_MOCK from '../mock/reservationForm.mock';
 import AdditionalRequestSection from './AdditionalRequestSection';
 import ReservationDetailsSection from './ReservationDetailsSection';
 import ReservationInfoSection from './ReservationInfoSection';
@@ -18,11 +19,15 @@ export default function ReservationFormContent({
   handleCopySuccess,
 }: ReservationFormContentProps) {
   const reservationCopyFormModel = useReservationCopyForm({
+    applicant: RESERVATION_FORM_MOCK,
     minimumDurationHours: DEFAULT_MINIMUM_DURATION_HOURS,
     maxPeople: DEFAULT_MAX_PEOPLE,
   });
 
-  const { isCopyDisabled, handleCopyReservationForm } = reservationCopyFormModel;
+  const {
+    viewState: { isCopyPending },
+    actions: { handleCopyReservationForm },
+  } = reservationCopyFormModel;
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,7 +37,7 @@ export default function ReservationFormContent({
     <>
       <form onSubmit={handleFormSubmit}>
         <div className='flex flex-col gap-[3rem] p-[2rem]'>
-          <ReservationInfoSection />
+          <ReservationInfoSection applicant={RESERVATION_FORM_MOCK} />
           <ReservationDetailsSection reservationCopyFormModel={reservationCopyFormModel} />
           <AdditionalRequestSection reservationCopyFormModel={reservationCopyFormModel} />
         </div>
@@ -40,7 +45,7 @@ export default function ReservationFormContent({
 
       {/* 하단 버튼 */}
       <ClientFooter
-        disabled={isCopyDisabled}
+        disabled={isCopyPending}
         handleClick={handleCopyReservationForm}
         handleCopySuccess={handleCopySuccess}
       />

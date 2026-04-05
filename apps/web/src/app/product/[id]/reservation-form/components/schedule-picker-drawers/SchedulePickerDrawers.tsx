@@ -9,27 +9,20 @@ import { type ReservationCopyFormModel } from '../../hooks';
 import RESERVATION_TIME_PICKER_MOCK from '../../mock/reservationTimePicker.mock';
 
 type SchedulePickerDrawersProps = {
-  reservationCopyFormModel: Pick<
-    ReservationCopyFormModel,
-    | 'isDatePickerBottomDrawerOpen'
-    | 'isTimePickerBottomDrawerOpen'
-    | 'handleSchedulePickerOpenChange'
-    | 'activeScheduleChoiceKey'
-    | 'scheduleSelections'
-    | 'handleScheduleSelection'
-  >;
+  reservationCopyFormModel: Pick<ReservationCopyFormModel, 'values' | 'viewState' | 'actions'>;
 };
 
 export default function SchedulePickerDrawers({
   reservationCopyFormModel,
 }: SchedulePickerDrawersProps) {
   const {
-    isDatePickerBottomDrawerOpen,
-    isTimePickerBottomDrawerOpen,
-    handleSchedulePickerOpenChange,
-    activeScheduleChoiceKey,
-    scheduleSelections,
-    handleScheduleSelection,
+    values: { scheduleSelections },
+    viewState: {
+      isDatePickerBottomDrawerOpen,
+      isTimePickerBottomDrawerOpen,
+      activeScheduleChoiceKey,
+    },
+    actions: { handleSchedulePickerOpenChange, handleScheduleSelection },
   } = reservationCopyFormModel;
 
   return (
