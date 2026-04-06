@@ -1,23 +1,23 @@
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
+import { Tabs } from '@snappin/design-system';
 import { ROUTES } from '@/constants/routes/routes';
 import { getQueryClient } from '@/utils/getQueryClient';
+import { PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
+import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TABS } from '@/app/photographer/[id]/constants/tab';
+import { Header, Footer, FooterSkeleton } from '@/app/photographer/[id]/components';
 import {
   PhotographerSectionSkeleton,
   PhotographerSection,
   PortfolioListSection,
   ProductListSection,
-} from './_section/index';
-import { Header, Footer } from './components/index';
+} from '@/app/photographer/[id]/_section';
 import {
   prefetchPhotographerDetail,
   prefetchPortfolioList,
   prefetchProductList,
-} from './api/server';
-import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TABS } from '@/app/photographer/[id]/constants/tab';
-import { Tabs } from '@snappin/design-system';
-import { PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
+} from '@/app/photographer/[id]/api/server';
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -76,7 +76,7 @@ export default async function Page({ params, searchParams }: PageProps) {
           </Tabs.List>
           <div>
             {selectedTab === PHOTOGRAPHER_TAB.PORTFOLIO && (
-              <div className='bg-black-1 mb-[7.6rem] p-[1rem]'>
+              <div className='bg-black-1 mb-[7.6rem]'>
                 <Suspense fallback={<PortfolioListSkeleton className='mt-[17.1rem]' />}>
                   <PortfolioListSection id={photographerId} />
                 </Suspense>
@@ -91,8 +91,10 @@ export default async function Page({ params, searchParams }: PageProps) {
             )}
           </div>
         </Tabs>
+        <Suspense fallback={<FooterSkeleton />}>
+          <Footer id={photographerId} />
+        </Suspense>
       </HydrationBoundary>
-      <Footer />
     </main>
   );
 }

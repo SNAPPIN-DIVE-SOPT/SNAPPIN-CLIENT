@@ -1,17 +1,20 @@
 'use client';
 
 import { BottomCTAButton } from '@snappin/design-system';
-import { useToast } from '@/ui';
+import { useGetPhotographerDetail } from '@/app/photographer/[id]/api';
 
-export default function Footer() {
-  const { alert } = useToast();
+type FooterProps = {
+  id: number;
+}
 
-  const handleContact = () =>
-    alert(
-      '메시지 기능은 준비 중이에요. 조금만 기다려주세요!',
-      undefined,
-      'bottom-[8.4rem] px-[2rem]',
-    );
+export default function Footer({ id }: FooterProps) {
+  const { data } = useGetPhotographerDetail(id);
+
+  const handleContactClick = () => {
+    if (data.contact) {
+      window.open(data.contact, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <BottomCTAButton
@@ -19,8 +22,31 @@ export default function Footer() {
       fixed
       hasPadding
     >
-      <BottomCTAButton.Single color='black' onClick={handleContact}>
-        문의하기
+      <BottomCTAButton.Single
+        color='white'
+        size='medium'
+        onClick={handleContactClick}
+        className='border-black-10 text-black-10'
+      >
+        문의하러 가기
+      </BottomCTAButton.Single>
+    </BottomCTAButton>
+  );
+}
+
+export const FooterSkeleton = () => {
+  return (
+    <BottomCTAButton
+      className='bg-black-1 bottom-0 w-full max-w-[45rem] px-[2rem] pt-[0.8rem] pb-[2.4rem]'
+      fixed
+      hasPadding
+    >
+      <BottomCTAButton.Single
+        color='white'
+        size='medium'
+        className='border-black-10 text-black-10'
+      >
+        문의하러 가기
       </BottomCTAButton.Single>
     </BottomCTAButton>
   );

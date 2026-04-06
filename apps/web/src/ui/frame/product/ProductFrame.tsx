@@ -6,6 +6,7 @@ import { IconStar } from '@snappin/design-system/assets';
 import { TagChip, ImageWithShadow } from '@snappin/design-system';
 import { ProductCardProps } from '@snappin/shared/types';
 import ProductClient from '../components/Product.client';
+import { formatPrice } from '@snappin/shared/lib';
 
 type CssSize = CSSProperties['width'];
 
@@ -50,7 +51,7 @@ export default function ProductFrame({
       <div className='flex w-full flex-col items-start overflow-hidden p-[1.2rem]'>
         <div className='mb-[0.8rem] flex w-full flex-col overflow-hidden'>
           <p className='caption-11-md truncate'>{name}</p>
-          <span className='caption-14-bd'>{price}원~</span>
+          <span className='caption-14-bd'>{formatPrice(price)}원~</span>
         </div>
 
         <div className='mb-[0.7rem] flex w-full items-center gap-[0.2rem] overflow-hidden'>

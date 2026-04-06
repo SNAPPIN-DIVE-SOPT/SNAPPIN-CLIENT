@@ -21,17 +21,17 @@ export default function Header() {
       left={
         <IconButton
           className='h-[2.4rem] w-[2.4rem]'
-          aria-label='?댁쟾 ?섏씠吏濡??대룞'
+          aria-label='이전 페이지로 이동'
           onClick={handleGoBack}
         >
           <IconArrowBack />
         </IconButton>
       }
-      center={<span className='font-16-md text-black-10 flex flex-1 text-center'>?묎? ?곸꽭</span>}
+      center={<span className='font-16-bd text-black-10 flex flex-1 text-center'>작가 상세</span>}
       right={
         <IconButton
           className='h-[2.4rem] w-[2.4rem]'
-          aria-label='?덉쑝濡??대룞'
+          aria-label='홈으로 이동'
           onClick={handleGoHome}
         >
           <IconHome />
