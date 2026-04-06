@@ -1,16 +1,30 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { PORTFOLIO_MOCK } from '@/app/product/[id]/mocks/mock';
+import type { PortfolioFrameProps } from '@/ui/frame/portfolio/PortfolioFrame';
+import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
+/*import { useSearchParams } from 'next/navigation';*/
+/*import { useMemo, useRef } from 'react';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import { PortfolioList, PortfolioListSkeleton } from '@/ui';
 import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
-import { useGetPortfolioList } from '@/app/(with-layout)/explore/api';
+import { useGetPortfolioList } from '@/app/(with-layout)/explore/api';*/
+
+const toPortfolioFrameProps = (
+  portfolios: typeof PORTFOLIO_MOCK.portfolios = [],
+): PortfolioFrameProps[] => {
+  return portfolios.map(({ imageUrl, ...portfolio }) => ({
+    ...portfolio,
+    image: {
+      src: imageUrl,
+      alt: `포트폴리오 이미지 ${portfolio.id}`,
+    },
+  }));
+};
 
 export default function PortfolioListSection() {
-  const sp = useSearchParams();
-  const scrollKey = useMemo(() => {
+  /*const sp = useSearchParams();*/
+  /*const scrollKey = useMemo(() => {
     const allowed = toExploreSearchParams(new URLSearchParams(sp.toString()));
     // 키 순서를 완전히 고정해 같은 조건이면 항상 동일한 storage key를 만든다.
     allowed.delete('tab');
@@ -18,8 +32,10 @@ export default function PortfolioListSection() {
     normalized.set('tab', 'PORTFOLIO');
     allowed.forEach((value, key) => normalized.append(key, value));
     return `explore:portfolio:scroll?${normalized.toString()}`;
-  }, [sp]);
-  const query = useGetPortfolioList(new URLSearchParams(sp.toString()));
+  }, [sp]);*/
+  const portfolioList = toPortfolioFrameProps(PORTFOLIO_MOCK.portfolios);
+
+  /*const query = useGetPortfolioList(new URLSearchParams(sp.toString()));
 
   const portfolios = useMemo(() => {
     return query.data.pages.flatMap((page) => page.data?.portfolios ?? []);
@@ -36,8 +52,9 @@ export default function PortfolioListSection() {
     enabled: true,
     resetOnKeyChange: true,
   });
-
-  const isPortfolioListEmpty = portfolios.length === 0;
+*/
+  const isPortfolioListEmpty = portfolioList.length === 0;
+  console.log('portfolioList', portfolioList);
 
   if (isPortfolioListEmpty)
     return (
@@ -48,13 +65,13 @@ export default function PortfolioListSection() {
     );
 
   return (
-    <section className='px-[1rem] py-[1rem]'>
-      <div ref={anchorRef} />
-      <PortfolioList portfolioList={portfolios} />
+    <section className='py-[0.2rem]'>
+      {/*<div ref={anchorRef} />*/}
+      <PortfolioList portfolios={portfolioList} />
 
-      <div ref={sentinelRef} className='h-[1px]' />
+      {/*<div ref={sentinelRef} className='h-[1px]' />*/}
 
-      {query.isFetchingNextPage ? <PortfolioListSkeleton length={3} /> : null}
+      {/*{query.isFetchingNextPage ? <PortfolioListSkeleton length={3} /> : null}*/}
     </section>
   );
 }

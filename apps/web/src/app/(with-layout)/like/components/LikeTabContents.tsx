@@ -10,7 +10,7 @@ type LikeTabContentsProps = {
 
 export default function LikeTabContents({ currentTab }: LikeTabContentsProps) {
   return (
-    <div className='scrollbar-hide min-h-0 overflow-y-hidden'>
+    <div className='scrollbar-hide bg-black-1 min-h-0 overflow-y-hidden'>
       {currentTab === LIKE_TAB.PORTFOLIO && (
         <section className='min-h-full'>
           <Suspense fallback={<PortfolioListSkeleton className='p-[1rem]' />}>
