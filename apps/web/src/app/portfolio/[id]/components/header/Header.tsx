@@ -28,7 +28,7 @@ export default function Header() {
         </IconButton>
       }
       center={
-        <span className='font-16-bd text-black-10 flex flex-1 text-center'>포트폴리오 상세</span>
+        <span className='font-16-sb text-black-10 flex flex-1 text-center'>포트폴리오 상세</span>
       }
       right={
         <IconButton

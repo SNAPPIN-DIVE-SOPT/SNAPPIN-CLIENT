@@ -1,7 +1,5 @@
 ﻿import { memo } from 'react';
-import Link from 'next/link';
-import ProductCard from './ProductCard';
-import { cn } from '@snappin/design-system/lib';
+import { ProductFrame } from '@/ui';
 
 type ProductListProps = {
   productList: {
@@ -21,26 +19,22 @@ type ProductListProps = {
 function ProductList({
   productList,
   className,
-  itemClassName,
 }: ProductListProps & React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div className={className}>
       {productList.map((product) => (
-        <Link key={product.id} href={`/product/${product.id}`}>
-          <ProductCard
-            photographer={product.photographer}
-            moods={product.moods}
-            rate={product.rate}
-            reviewCount={product.reviewCount}
-            price={product.price}
-            name={product.title}
-            image={{ src: product.imageUrl, alt: `${product.title} ?대?吏` }}
-            className={cn(
-              'border-black-3 w-full border-b-[0.1rem] px-[2rem] py-[1.6rem] text-left',
-              itemClassName,
-            )}
-          />
-        </Link>
+        <ProductFrame
+          key={product.id}
+          id={product.id}
+          isLiked={false} // api 연동 시 수정
+          photographer={product.photographer}
+          moods={product.moods}
+          rate={product.rate}
+          reviewCount={product.reviewCount}
+          price={product.price}
+          name={product.title}
+          image={{ src: product.imageUrl, alt: `${product.title} 상품` }}
+        />
       ))}
     </div>
   );

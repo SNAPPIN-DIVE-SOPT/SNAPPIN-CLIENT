@@ -29,7 +29,7 @@ export default function OptionSection({
   const { isVisible } = useExploreOptionVisibility(scrollTargetId);
 
   return (
-    <div className='border-black-3 bg-black-1 border-b-[0.1rem]'>
+    <div className='bg-black-1'>
       <div
         className={cn(
           'overflow-hidden transition-[max-height,opacity,transform] duration-300 ease-out will-change-transform',

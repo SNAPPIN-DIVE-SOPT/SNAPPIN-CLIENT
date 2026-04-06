@@ -133,6 +133,12 @@ export const buildExploreQuery = (sp: URLSearchParams) => {
   const moodIds = sp.get('moodIds');
   if (moodIds) query.set('moodIds', moodIds);
 
+  const minPrice = sp.get('minPrice');
+  if (minPrice) query.set('minPrice', minPrice);
+
+  const maxPrice = sp.get('maxPrice');
+  if (maxPrice) query.set('maxPrice', maxPrice);
+
   const photographerId = sp.get('photographerId');
   if (photographerId) query.set('photographerId', photographerId);
 

@@ -1,7 +1,7 @@
 ﻿import { memo, useMemo } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { cn } from '@snappin/design-system/lib';
+import { PortfolioFrame } from '@/ui';
 
 const PRODUCT_PLACEHOLDER = '/imgs/image-default.png';
 
@@ -26,26 +26,23 @@ function PortfolioList({
 
   return (
     <div
-      className={cn(
-        'grid shrink-0 grid-cols-3 gap-[0.2rem] overflow-hidden rounded-[0.4rem]',
-        className,
-      )}
+      className={cn('grid shrink-0 grid-cols-2 gap-[0.2rem] overflow-hidden', className)}
       {...props}
     >
-      {uniquePortfolioList.map((portfolio, idx) => (
+      {uniquePortfolioList.map((portfolio) => (
         <Link
           href={`/portfolio/${portfolio.id}`}
           key={portfolio.id}
           className='relative aspect-square'
         >
-          <Image
-            fetchPriority={idx === 0 ? 'high' : 'auto'}
-            loading={idx === 0 ? 'eager' : 'lazy'}
-            src={portfolio.imageUrl ?? PRODUCT_PLACEHOLDER}
-            fill
-            alt={`portfolio ${portfolio.id}`}
-            sizes='(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw'
-            className='object-cover'
+          <PortfolioFrame
+            id={portfolio.id ?? 0}
+            image={{
+              src: portfolio.imageUrl ?? PRODUCT_PLACEHOLDER,
+              alt: `portfolio ${portfolio.id}`,
+            }}
+            isLiked={false} // api 연동 시 수정
+            likesCount={160}
           />
         </Link>
       ))}

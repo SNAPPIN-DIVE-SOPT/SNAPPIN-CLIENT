@@ -12,6 +12,7 @@ type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   maxLength?: number;
   showMaxLength?: boolean;
+  hasBorder?: boolean;
 };
 
 export default function TextField({
@@ -26,12 +27,13 @@ export default function TextField({
   maxLength,
   showMaxLength = false,
   className,
+  hasBorder = true,
   ...props
 }: InputFieldProps) {
   return (
-    <div className={cn('flex w-full flex-col', className)}>
+    <div className={cn('flex w-full flex-col gap-[0.2rem]', className)}>
       {label && (
-        <label htmlFor={id} className='caption-14-md mb-[1rem] inline-block'>
+        <label htmlFor={id} className='font-16-md inline-block'>
           {label}
           {required && <span className='ml-2 text-red-500'>*</span>}
         </label>
@@ -47,6 +49,7 @@ export default function TextField({
         required={required}
         onChange={onChange}
         placeholder={placeholder}
+        hasBorder={hasBorder}
         {...props}
       />
       <div className='flex items-center justify-between'>

@@ -1,61 +1,52 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
-
+import { MOOD_CODE } from '@snappin/shared/types';
+import { FilterChip } from '@snappin/design-system';
 import { useNavVisibility } from '@/hooks/useNavVisibility';
-import { ClientHeader, FadeCarousel } from './components';
-import { MENU } from './constants/menu';
-import { RecommendationSnapPlace, RecommendationAuthor, MoodCurationSection } from './_section';
-
-import homeBackground1 from '../../../../public/imgs/image-main1.png';
-import homeBackground2 from '../../../../public/imgs/image-main2.png';
-import homeBackground3 from '../../../../public/imgs/image-main3.png';
-import banner from '../../../../public/imgs/banner.png';
+import { useSelectedMoodCode } from '@/app/(with-layout)/(home)/hooks/useSelectedMoodCode';
+import { ProductInformationFrameList } from '@/ui';
+import { ClientHeader, AiCurationButton } from './components';
+import { MOCK } from './mock/mock';
 
 export default function PageClient() {
   const { isVisible } = useNavVisibility();
+  const { isSelectedMoodCode, toggleMoodCode } = useSelectedMoodCode();
 
   return (
-    <div className='relative mb-[6rem] flex w-full flex-col'>
+    <div className='relative flex w-full flex-col'>
       <ClientHeader isVisible={isVisible} />
       <div>
-        <FadeCarousel
-          images={[
-            { src: homeBackground1.src, alt: 'home-background-1' },
-            { src: homeBackground2.src, alt: 'home-background-2' },
-            { src: homeBackground3.src, alt: 'home-background-3' },
-          ]}
-        />
-        {/*  메뉴 영역 */}
-        <nav className='grid grid-cols-4 gap-x-[2.8rem] gap-y-[2rem] px-[3.5rem] py-[4rem]'>
-          {MENU.map((menu) => (
-            <Link
-              key={menu.label}
-              href={menu.href}
-              className='flex flex-col items-center gap-[0.6rem]'
-            >
-              {menu.icon}
-              <span
-                className='caption-12-md text-center'
-                dangerouslySetInnerHTML={{ __html: menu.label }}
-              />
-            </Link>
-          ))}
-        </nav>
-
-        <div className='flex flex-col gap-[5.2rem] px-[2rem]'>
-          {/*  스냅 명소 추천 영역 */}
-          <RecommendationSnapPlace />
-          {/*  작가 추천 영역 */}
-          <RecommendationAuthor />
-          {/*  베너 영역 */}
-          <Link href='https://picturesque-line-a97.notion.site/2f1b888d8de5808fb2b0c6bc8c541e1f?pvs=105'>
-            <Image src={banner} alt='banner' />
-          </Link>
-          {/*  요즘 많이 찾는 무드 큐레이션  영역 */}
-          <MoodCurationSection />
-        </div>
+        {/*  배너 영역 */}
+        {/*  포폴 추천 영역 */}
+        <section className='flex w-full flex-col items-start gap-[0.4rem] pt-[3rem]'>
+          <h2 className='font-16-bd px-[2rem]'>인기 무드의 사진을 빠르게 검색</h2>
+          <div className='w-full'>
+            <div className='scrollbar-hide w-full overflow-x-auto'>
+              <div className='flex gap-[0.4rem] px-[2rem] py-[1.2rem]'>
+                {MOOD_CODE.map((mood) => (
+                  <FilterChip
+                    key={mood}
+                    label={mood}
+                    isSelected={isSelectedMoodCode(mood)}
+                    onClick={toggleMoodCode}
+                  />
+                ))}
+                <div className='w-[2rem] shrink-0' />
+              </div>
+            </div>
+            <ProductInformationFrameList products={MOCK} />
+          </div>
+        </section>
+        {/*  무드 큐레이션 영역 */}
+        <section className='flex w-full flex-col items-start gap-[3.2rem] px-[2rem] pt-[3.9rem] pb-[3.3rem]'>
+          <h1 className='title-24-md'>
+            1분만에
+            <br />내 무드에 딱 맞는
+            <br />
+            스냅작가 발견
+          </h1>
+          <AiCurationButton />
+        </section>
       </div>
     </div>
   );

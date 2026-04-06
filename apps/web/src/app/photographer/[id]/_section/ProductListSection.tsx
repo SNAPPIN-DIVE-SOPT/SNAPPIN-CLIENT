@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useGetProductList } from '../api';
-import { ProductList } from '@/ui/product-card';
-import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { ROUTES } from '@/constants/routes/routes';
+import ProductList from '@/ui/frame/product/ProductList';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
+import { useGetProductList } from '@/app/photographer/[id]/api';
+
 
 type ProductListSectionProps = {
   id: number;
@@ -25,8 +26,9 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
         rate: p.rate ?? 0,
         reviewCount: p.reviewCount ?? 0,
         price: p.price ?? 0,
-        title: p.title ?? '',
-        imageUrl: p.imageUrl ?? '',
+        name: p.title ?? '',
+        image: { src: p.imageUrl, alt: '' },
+        isLiked: p.isLiked ?? false,
       })) ?? [];
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
@@ -61,7 +63,7 @@ export default function ProductListSection({ id }: ProductListSectionProps) {
   return (
     <section className='mt-[17.1rem]'>
       <div ref={anchorRef} />
-      <ProductList productList={productList} />
+      <ProductList products={productList} />
       <div ref={ref} className='h-[0.1rem]' />
     </section>
   );
