@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { FilterChip } from '@snappin/design-system';
 import { MOOD_CODE, MOOD_CODE_INDEX } from '@snappin/shared/types';
 import { useNavVisibility } from '@/hooks/useNavVisibility';
@@ -8,6 +9,8 @@ import { useGetMoodIdList } from '@/queries/mood';
 import { useSelectedMoodCode } from '@/app/(with-layout)/(home)/hooks/useSelectedMoodCode';
 import { ClientHeader, AiCurationButton } from '@/app/(with-layout)/(home)/components';
 import { useGetPopularProducts } from '@/app/(with-layout)/(home)/api';
+
+import Banner from '../../../../public/imgs/image-home-banner.png';
 
 export default function PageClient() {
   const { isVisible } = useNavVisibility();
@@ -25,25 +28,29 @@ export default function PageClient() {
       <ClientHeader isVisible={isVisible} />
       <div>
         {/*  배너 영역 */}
+        <section className='relative w-full'>
+          <Image src={Banner} alt='home-banner' priority />
+          <div className='absolute bottom-[3rem] left-[2rem]'>
+            <AiCurationButton />
+          </div>
+        </section>
+
         {/*  포폴 추천 영역 */}
         <section className='flex w-full flex-col items-start gap-[0.4rem] pt-[3rem]'>
           <h2 className='font-16-bd px-[2rem]'>인기 무드의 사진을 빠르게 검색</h2>
           <div className='w-full'>
-            <div className='scrollbar-hide w-full overflow-x-auto'>
+            <div className='scrollbar-hide min-h-[5.6rem] w-full overflow-x-auto'>
               <div className='flex gap-[0.4rem] px-[2rem] py-[1.2rem]'>
                 {moods.map((mood) => {
-                  if (mood.id === 0 || !mood.name) return null;
-
                   return (
                     <FilterChip
                       key={mood.id}
-                      label={mood.name}
+                      label={mood.name || ''}
                       isSelected={selectedMoodCodeId === mood.id}
                       onClick={() => toggleMoodCode(mood.id)}
                     />
                   );
                 })}
-
                 <div className='w-[2rem] shrink-0' />
               </div>
             </div>
