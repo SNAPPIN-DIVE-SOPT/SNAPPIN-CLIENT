@@ -1,16 +1,23 @@
 'use client';
 
-import { MOOD_CODE } from '@snappin/shared/types';
 import { FilterChip } from '@snappin/design-system';
 import { useNavVisibility } from '@/hooks/useNavVisibility';
 import { useSelectedMoodCode } from '@/app/(with-layout)/(home)/hooks/useSelectedMoodCode';
-import { ProductInformationFrameList } from '@/ui';
+import { ProductInformationFrameList, ProductInformationFrameListSkeleton } from '@/ui';
 import { ClientHeader, AiCurationButton } from './components';
-import { MOCK } from './mock/mock';
+import { useGetMoodIdList, useGetPopularProducts } from './api';
+import { MOOD_CODE, MOOD_CODE_INDEX } from '@snappin/shared/types';
 
 export default function PageClient() {
   const { isVisible } = useNavVisibility();
-  const { isSelectedMoodCode, toggleMoodCode } = useSelectedMoodCode();
+  const { data: moods = [] } = useGetMoodIdList();
+  const initialMoodId =
+    moods.find((mood) => mood.name === MOOD_CODE[MOOD_CODE_INDEX.따스한])?.id || 0;
+  const { selectedMoodCodeId, toggleMoodCode } = useSelectedMoodCode(initialMoodId);
+
+  const { data, isPending } = useGetPopularProducts(
+    selectedMoodCodeId && selectedMoodCodeId > 0 ? String(selectedMoodCodeId) : undefined,
+  );
 
   return (
     <div className='relative flex w-full flex-col'>
@@ -23,18 +30,27 @@ export default function PageClient() {
           <div className='w-full'>
             <div className='scrollbar-hide w-full overflow-x-auto'>
               <div className='flex gap-[0.4rem] px-[2rem] py-[1.2rem]'>
-                {MOOD_CODE.map((mood) => (
-                  <FilterChip
-                    key={mood}
-                    label={mood}
-                    isSelected={isSelectedMoodCode(mood)}
-                    onClick={toggleMoodCode}
-                  />
-                ))}
+                {moods.map((mood) => {
+                  if (mood.id === 0 || !mood.name) return null;
+
+                  return (
+                    <FilterChip
+                      key={mood.id}
+                      label={mood.name}
+                      isSelected={selectedMoodCodeId === mood.id}
+                      onClick={() => toggleMoodCode(mood.id)}
+                    />
+                  );
+                })}
+
                 <div className='w-[2rem] shrink-0' />
               </div>
             </div>
-            <ProductInformationFrameList products={MOCK} />
+            {isPending ? (
+              <ProductInformationFrameListSkeleton />
+            ) : (
+              <ProductInformationFrameList products={data || []} />
+            )}
           </div>
         </section>
         {/*  무드 큐레이션 영역 */}
