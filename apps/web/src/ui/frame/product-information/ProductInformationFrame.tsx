@@ -1,28 +1,26 @@
 import { CSSProperties } from 'react';
 import { IconStar } from '@snappin/design-system/assets';
 import { ImageWithShadow } from '@snappin/design-system';
-import { ProductCardProps } from '@snappin/shared/types';
 import ProductClient from '../components/Product.client';
+import { GetPopularMoodProductItemResponse } from '@/swagger-api/data-contracts';
 
 type CssSize = CSSProperties['width'];
 
-export type ProductInformationFrameProps = ProductCardProps & {
-  id: number;
-  isLiked: boolean;
+export type ProductInformationFrameProps = GetPopularMoodProductItemResponse & {
   height?: CssSize;
   width?: CssSize;
   imageClassName?: string;
 };
 
 export default function ProductInformationFrame({
-  image,
-  name,
+  imageUrl,
+  title,
   rate,
   reviewCount,
   photographer,
   price,
-  id,
-  isLiked,
+  id = 0,
+  isLiked = false,
   width = '100%',
   height = '26.6rem',
   imageClassName,
@@ -30,15 +28,15 @@ export default function ProductInformationFrame({
   return (
     <div className='relative overflow-hidden' style={{ width }}>
       <ImageWithShadow
-        src={image.src}
-        alt={image.alt ?? '제품 이미지'}
+        src={imageUrl || '/apps/web/public/imgs/default-image.png'}
+        alt={`${title} 상품 이미지`}
         imageHeight={height}
         imageWidth={width}
         className={imageClassName}
       />
       <div className='absolute right-0 bottom-0 flex w-full flex-col items-center gap-[0.8rem] p-[1.2rem]'>
         <div className='text-black-1 flex w-full flex-col'>
-          <p className='caption-11-md truncate'>{name}</p>
+          <p className='caption-11-md truncate'>{title}</p>
           <span className='caption-14-bd'>{price}원~</span>
         </div>
 
