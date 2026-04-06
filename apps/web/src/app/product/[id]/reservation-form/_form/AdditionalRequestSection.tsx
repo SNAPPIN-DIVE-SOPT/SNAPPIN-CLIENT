@@ -1,6 +1,7 @@
 import { type ChangeEvent } from 'react';
 import { FieldMessage, TextareaField } from '@snappin/design-system';
 import { type ReservationCopyFormModel } from '../hooks';
+import RESERVATION_FORM_INFORMATION_MOCK from '../mock/reservationFormInformation.mock';
 
 type AdditionalRequestSectionProps = {
   reservationCopyFormModel: Pick<
@@ -22,16 +23,33 @@ export default function AdditionalRequestSection({
   const handleRequestContentInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     handleRequestContentChange(event.target.value);
   };
+  const { additionalRequest } = RESERVATION_FORM_INFORMATION_MOCK;
 
   return (
     <>
-      {/* TODO: api 명세서 받은 후 변경 및 노출 분기 처리 */}
-      <section>
-        <span className='text-black-10 font-16-sb'>기타 요청 사항</span>
-        <div className='bg-black-3 mt-[1rem] rounded-[0.6rem] p-[1.6rem]'>
-          <p className='text-black-7 caption-14-rg'>학위복 대여 안내</p>
-        </div>
-      </section>
+      {additionalRequest ? (
+        <section>
+          <span className='text-black-10 font-16-sb'>기타 요청 사항</span>
+          <div className='bg-black-3 mt-[1rem] flex flex-col gap-[1.6rem] rounded-[0.6rem] p-[1.6rem]'>
+            {additionalRequest.map(({ title, content }) => {
+              return (
+                <div key={title}>
+                  <p className='text-black-7 caption-14-rg'>{title}</p>
+                  <div className='mt-[0.8rem] flex flex-col gap-[0.4rem]'>
+                    {content.map((contentValue) => {
+                      return (
+                        <p key={contentValue} className='text-black-10 caption-14-rg'>
+                          • {contentValue}
+                        </p>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
 
       <section>
         <TextareaField

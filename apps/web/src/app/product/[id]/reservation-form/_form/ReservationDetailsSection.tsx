@@ -1,6 +1,8 @@
+import { type ReactNode } from 'react';
 import { Button, ComboBox, ControlRow, Stepper } from '@snappin/design-system';
 import { DateButton } from '../components';
 import { SCHEDULE_CHOICES, type ReservationCopyFormModel } from '../hooks';
+import RESERVATION_FORM_INFORMATION_MOCK from '../mock/reservationFormInformation.mock';
 import {
   createDurationLabel,
   createScheduleDateLabel,
@@ -12,6 +14,18 @@ type ReservationDetailsSectionProps = {
     ReservationCopyFormModel,
     'values' | 'viewState' | 'limits' | 'actions'
   >;
+};
+
+type RequiredLabelProps = {
+  children: ReactNode;
+};
+
+const RequiredLabel = ({ children }: RequiredLabelProps) => {
+  return (
+    <span className='text-black-10 caption-14-md'>
+      {children} <span className='text-red-error'>*</span>
+    </span>
+  );
 };
 
 export default function ReservationDetailsSection({
@@ -30,6 +44,15 @@ export default function ReservationDetailsSection({
       handleSchedulePickerOpen,
     },
   } = reservationCopyFormModel;
+  const {
+    uploadConsent: { agreeNote, disagreeNote },
+  } = RESERVATION_FORM_INFORMATION_MOCK;
+  const uploadConsentNotes = [
+    { label: '동의 시', note: agreeNote },
+    { label: '비동의 시', note: disagreeNote },
+  ].filter(({ note }) => {
+    return Boolean(note);
+  });
 
   return (
     <section className='flex flex-col gap-[1.8rem]'>
@@ -38,10 +61,7 @@ export default function ReservationDetailsSection({
       </span>
 
       <div className='flex flex-col gap-[0.8rem]'>
-        <span className='text-black-10 caption-14-md'>
-          촬영 장소 <span className='text-red-error'>*</span>
-        </span>
-        {/* TODO: input box 변동 필요 */}
+        <RequiredLabel>촬영 장소</RequiredLabel>
         <ComboBox
           placeholder='장소 이름을 검색하세요'
           value={placeKeyword}
@@ -52,11 +72,7 @@ export default function ReservationDetailsSection({
       </div>
 
       <ControlRow
-        leftLabel={
-          <span className='text-black-10 caption-14-md'>
-            촬영 시간 <span className='text-red-error'>*</span>
-          </span>
-        }
+        leftLabel={<RequiredLabel>촬영 시간</RequiredLabel>}
         rightControl={
           <Stepper
             value={createDurationLabel(durationHours)}
@@ -70,11 +86,7 @@ export default function ReservationDetailsSection({
 
       <ControlRow
         centered
-        leftLabel={
-          <span className='text-black-10 caption-14-md'>
-            촬영 인원 <span className='text-red-error'>*</span>
-          </span>
-        }
+        leftLabel={<RequiredLabel>촬영 인원</RequiredLabel>}
         rightControl={
           <Stepper
             value={`${peopleCount}명`}
@@ -87,9 +99,7 @@ export default function ReservationDetailsSection({
       />
 
       <div className='flex flex-col gap-[1.6rem]'>
-        <span className='text-black-10 caption-14-md'>
-          촬영 일정 <span className='text-red-error'>*</span>
-        </span>
+        <RequiredLabel>촬영 일정</RequiredLabel>
         {SCHEDULE_CHOICES.map(({ key, label }) => {
           const scheduleDate = scheduleSelections[key]?.date ?? '';
           const scheduleTime = scheduleSelections[key]?.time ?? '';
@@ -115,21 +125,28 @@ export default function ReservationDetailsSection({
       </div>
 
       <div className='flex flex-col gap-[1rem]'>
-        <span className='text-black-10 caption-14-md'>
-          업로드 동의 여부 <span className='text-red-error'>*</span>
-        </span>
-        {/* TODO: api 명세서 받은 후 변경 */}
-        <div className='bg-black-3 rounded-[0.6rem] p-[1.6rem]'>
-          <p className='caption-14-rg text-black-7'>
-            업로드 동의 시 보정본 추가 혜택이 제공될 수 있어요.
-          </p>
-        </div>
+        <RequiredLabel>업로드 동의 여부</RequiredLabel>
+        {uploadConsentNotes.length > 0 ? (
+          <div className='bg-black-3 rounded-[0.6rem] p-[1.6rem]'>
+            <div className='flex flex-col gap-[1.2rem]'>
+              {uploadConsentNotes.map(({ label, note }) => {
+                return (
+                  <div key={label}>
+                    <p className='caption-14-rg text-black-7'>{label}</p>
+                    <p className='text-black-10 caption-14-rg mt-[0.4rem]'>{note}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
         <div className='flex gap-[1rem]'>
           <Button
             type='button'
             display='inline'
             size='small'
             color={uploadConsentStatus === 'agree' ? 'black' : 'white'}
+            className={uploadConsentStatus === 'agree' ? 'border border-transparent' : undefined}
             onClick={() => handleUploadConsentStatusClick('agree')}
           >
             동의
@@ -139,6 +156,7 @@ export default function ReservationDetailsSection({
             display='inline'
             size='small'
             color={uploadConsentStatus === 'disagree' ? 'black' : 'white'}
+            className={uploadConsentStatus === 'disagree' ? 'border border-transparent' : undefined}
             onClick={() => handleUploadConsentStatusClick('disagree')}
           >
             비동의
