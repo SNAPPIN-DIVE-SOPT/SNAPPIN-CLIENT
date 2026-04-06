@@ -12,16 +12,11 @@ type ReservationFormContentProps = {
   handleCopySuccess?: () => void;
 };
 
-const DEFAULT_MINIMUM_DURATION_HOURS = 1;
-const DEFAULT_MAX_PEOPLE = 15;
-
 export default function ReservationFormContent({
   handleCopySuccess,
 }: ReservationFormContentProps) {
   const reservationCopyFormModel = useReservationCopyForm({
     applicant: RESERVATION_FORM_MOCK,
-    minimumDurationHours: DEFAULT_MINIMUM_DURATION_HOURS,
-    maxPeople: DEFAULT_MAX_PEOPLE,
   });
 
   const {

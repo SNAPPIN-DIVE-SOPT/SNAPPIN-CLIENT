@@ -60,8 +60,8 @@ export default function ReservationDetailsSection({
         rightControl={
           <Stepper
             value={createDurationLabel(durationHours)}
-            handleClickMinus={() => handleDurationHoursStep('decrease')}
-            handleClickAdd={() => handleDurationHoursStep('increase')}
+            handleClickMinus={handleDurationHoursStep.decrease}
+            handleClickAdd={handleDurationHoursStep.increase}
             isDisabledMinus={durationHours <= minimumDurationHours}
             isDisabledAdd={durationHours >= maximumDurationHours}
           />
@@ -78,8 +78,8 @@ export default function ReservationDetailsSection({
         rightControl={
           <Stepper
             value={`${peopleCount}명`}
-            handleClickMinus={() => handlePeopleCountStep('decrease')}
-            handleClickAdd={() => handlePeopleCountStep('increase')}
+            handleClickMinus={handlePeopleCountStep.decrease}
+            handleClickAdd={handlePeopleCountStep.increase}
             isDisabledMinus={peopleCount <= minimumPeopleCount}
             isDisabledAdd={peopleCount >= maxPeople}
           />

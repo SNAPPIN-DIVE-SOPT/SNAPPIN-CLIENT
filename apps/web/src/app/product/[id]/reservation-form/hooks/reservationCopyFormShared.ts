@@ -9,7 +9,6 @@ export const PRIMARY_SCHEDULE_CHOICE_KEY = SCHEDULE_CHOICE_KEYS[0];
 
 export type ScheduleChoiceKey = (typeof SCHEDULE_CHOICE_KEYS)[number];
 export type SchedulePickerType = 'date' | 'time';
-export type StepDirection = 'increase' | 'decrease';
 export type UploadConsentStatus = 'agree' | 'disagree' | '';
 
 export type ReservationApplicant = {

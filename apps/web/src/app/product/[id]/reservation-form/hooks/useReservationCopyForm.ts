@@ -18,7 +18,6 @@ import {
   type ScheduleChoiceKey,
   type SchedulePickerType,
   type ScheduleSelectionValue,
-  type StepDirection,
   type UploadConsentStatus,
 } from './reservationCopyFormShared';
 
@@ -152,8 +151,7 @@ const useReservationCopyForm = ({
   });
 
   // form 값이 변경될 때마다 최신 값을 가져옴
-  const watchedReservationCopyFormValue = (useWatch({ control }) ??
-    defaultReservationCopyFormValue) as ReservationCopyFormInput;
+  const watchedReservationCopyFormValue = useWatch({ control }) as ReservationCopyFormInput;
   const {
     placeId,
     placeKeyword,
@@ -194,31 +192,51 @@ const useReservationCopyForm = ({
   });
 
   // 촬영 시간 증감
-  const handleDurationHoursStep = (stepDirection: StepDirection) => {
-    const currentDurationHours = getValues('durationHours');
-    const durationHoursStepValue =
-      stepDirection === 'increase' ? DURATION_STEP_HOURS : -DURATION_STEP_HOURS;
-    const nextDurationHours = Number(
-      Math.min(
-        maximumDurationHours,
-        Math.max(minimumDurationHours, currentDurationHours + durationHoursStepValue),
-      ).toFixed(1),
-    );
+  const handleDurationHoursStep = {
+    decrease: () => {
+      const currentDurationHours = getValues('durationHours');
+      const nextDurationHours = Number(
+        Math.min(
+          maximumDurationHours,
+          Math.max(minimumDurationHours, currentDurationHours - DURATION_STEP_HOURS),
+        ).toFixed(1),
+      );
 
-    setValue('durationHours', nextDurationHours, { shouldValidate: true });
+      setValue('durationHours', nextDurationHours, { shouldValidate: true });
+    },
+    increase: () => {
+      const currentDurationHours = getValues('durationHours');
+      const nextDurationHours = Number(
+        Math.min(
+          maximumDurationHours,
+          Math.max(minimumDurationHours, currentDurationHours + DURATION_STEP_HOURS),
+        ).toFixed(1),
+      );
+
+      setValue('durationHours', nextDurationHours, { shouldValidate: true });
+    },
   };
 
   // 촬영 인원 증감
-  const handlePeopleCountStep = (stepDirection: StepDirection) => {
-    const currentPeopleCount = getValues('peopleCount');
-    const peopleCountStepValue =
-      stepDirection === 'increase' ? PEOPLE_COUNT_STEP : -PEOPLE_COUNT_STEP;
-    const nextPeopleCount = Math.min(
-      maxPeople,
-      Math.max(minimumPeopleCount, currentPeopleCount + peopleCountStepValue),
-    );
+  const handlePeopleCountStep = {
+    decrease: () => {
+      const currentPeopleCount = getValues('peopleCount');
+      const nextPeopleCount = Math.min(
+        maxPeople,
+        Math.max(minimumPeopleCount, currentPeopleCount - PEOPLE_COUNT_STEP),
+      );
 
-    setValue('peopleCount', nextPeopleCount, { shouldValidate: true });
+      setValue('peopleCount', nextPeopleCount, { shouldValidate: true });
+    },
+    increase: () => {
+      const currentPeopleCount = getValues('peopleCount');
+      const nextPeopleCount = Math.min(
+        maxPeople,
+        Math.max(minimumPeopleCount, currentPeopleCount + PEOPLE_COUNT_STEP),
+      );
+
+      setValue('peopleCount', nextPeopleCount, { shouldValidate: true });
+    },
   };
 
   // 업로드 동의/비동의
