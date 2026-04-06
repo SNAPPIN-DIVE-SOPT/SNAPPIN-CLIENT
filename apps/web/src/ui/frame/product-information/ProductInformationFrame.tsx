@@ -28,7 +28,7 @@ export default function ProductInformationFrame({
   return (
     <div className='relative overflow-hidden' style={{ width }}>
       <ImageWithShadow
-        src={imageUrl || '/apps/web/public/imgs/default-image.png'}
+        src={imageUrl || '/imgs/default-image.png'}
         alt={`${title} 상품 이미지`}
         imageHeight={height}
         imageWidth={width}
