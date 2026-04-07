@@ -10,10 +10,11 @@ import { useGetProductList } from '@/app/photographer/[id]/api';
 
 type ProductListSectionProps = {
   id: number;
+  isLogIn: boolean;
 };
 
-export default function ProductListSection({ id }: ProductListSectionProps) {
-  const { data, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(id);
+export default function ProductListSection({ id, isLogIn }: ProductListSectionProps) {
+  const { data, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetProductList(id, isLogIn);
   const { ref, inView } = useInView();
 
   const productList =

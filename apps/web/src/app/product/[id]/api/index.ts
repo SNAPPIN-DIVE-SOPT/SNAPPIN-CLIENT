@@ -3,6 +3,7 @@ import {
   useQueryClient,
   useSuspenseQuery,
   useSuspenseInfiniteQuery,
+  InfiniteData,
 } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { useAuth } from '@/auth/hooks/useAuth';
@@ -14,6 +15,8 @@ import {
   ApiResponseBodyProductPeopleRangeResponseVoid,
   ApiResponseBodyProductReservationResponseVoid,
   GetProductDetailResponse,
+  GetProductListData,
+  GetProductCardResponseV2,
   ProductReservationRequest,
   UpdateWishProductData,
   WishProductResponse,
@@ -128,7 +131,7 @@ export const useGetProductDetail = (id: number) => {
 };
 
 // 상품 좋아요/취소 (위시) API
-export const useWishProduct = () => {
+export const useWishProduct = (photographerId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation<WishProductResponse, Error, number, WishProductContext>({
@@ -170,6 +173,32 @@ export const useWishProduct = () => {
       if (!context?.previousData) return;
 
       queryClient.setQueryData(USER_QUERY_KEY.PRODUCT_DETAIL(id, true), context.previousData);
+    },
+    // 작가 상품 목록 캐시 동기화
+    onSuccess: (result) => {
+      const { productId, liked } = result;
+      if (productId === undefined || liked === undefined) {
+        return;
+      }
+
+      const photographerProductsKey = USER_QUERY_KEY.PHOTOGRAPHER_PRODUCTS(photographerId, true);
+
+      queryClient.setQueryData<InfiniteData<GetProductListData>>(photographerProductsKey, (old) => {
+        if (!old) return old;
+
+        return {
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            data: {
+              ...page.data,
+              products: page.data?.products?.map((product: GetProductCardResponseV2) =>
+                product.id === productId ? { ...product, isLiked: liked } : product,
+              ),
+            },
+          })),
+        };
+      });
     },
   });
 };

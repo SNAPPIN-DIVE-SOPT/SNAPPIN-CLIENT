@@ -35,7 +35,12 @@ export const USER_QUERY_KEY = {
   // 작가
   PHOTOGRAPHER: ['photographer'],
   PHOTOGRAPHER_DETAIL: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id],
-  PHOTOGRAPHER_PRODUCTS: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id, 'products'],
+  PHOTOGRAPHER_PRODUCTS: (id: number, isLogIn: boolean) => [
+    ...USER_QUERY_KEY.PHOTOGRAPHER,
+    id,
+    'products',
+    isLogIn ? 'login' : 'not-login'
+  ],
   PHOTOGRAPHER_PORTFOLIOS: (id: number, isLogIn: boolean) => [
     ...USER_QUERY_KEY.PHOTOGRAPHER,
     id,

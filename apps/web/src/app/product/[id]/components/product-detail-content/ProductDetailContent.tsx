@@ -53,6 +53,7 @@ export default function ProductDetailContent({ productId, tab }: ProductDetailCo
         reviewCount={data?.reviewCount ?? 0}
         price={data?.price ?? 0}
         moods={data?.productInfo?.moods as MoodCode[] ?? []}
+        photographerId={data?.photographerInfo?.id ?? 0}
       />
       <PhotographerSection photographerInfo={data?.photographerInfo} />
       <Tabs>

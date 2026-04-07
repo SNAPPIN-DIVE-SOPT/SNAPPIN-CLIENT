@@ -83,16 +83,28 @@ export const photographerPortfoliosOptions = (id: number, isLogIn: boolean) =>
 
 
 // 상품 목록 조회 옵션
-export const photographerProductsOptions = (id: number) =>
+export const photographerProductsOptions = (id: number, isLogIn: boolean) =>
   infiniteQueryOptions({
-    queryKey: USER_QUERY_KEY.PHOTOGRAPHER_PRODUCTS(id),
-    initialPageParam: undefined as number | undefined,
+    queryKey: USER_QUERY_KEY.PHOTOGRAPHER_PRODUCTS(id, isLogIn),
+    initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
       try {
-        const url = new URL(`${SERVER_API_BASE_URL}/api/v1/products`);
+        const url = new URL(`${SERVER_API_BASE_URL}/api/v2/products`);
         url.searchParams.append('photographerId', String(id));
         if (pageParam) {
           url.searchParams.append('cursor', String(pageParam));
+        }
+
+        if (isLogIn) {
+          const res = await apiRequest<GetProductListData>(
+            { endPoint: `/api/v2/products?${url.searchParams}`,
+            method: 'GET' }
+          );
+          
+          if (!res?.data) {
+            throw new Error('/api/v2/products 응답에 데이터가 존재하지 않습니다.');
+          }
+          return res;
         }
 
         const res = await fetch(url.toString(), { method: 'GET' });
@@ -104,12 +116,10 @@ export const photographerProductsOptions = (id: number) =>
         const data = await res.json();
 
         if (!data?.data) {
-          throw new Error('상품 목록 응답 데이터가 비어 있습니다.');
+          throw new Error('/api/v2/products 응답에 데이터가 존재하지 않습니다.');
         }
 
-        // TODO: API 구현 완료되면 주석 풀기
-        // return data;
-        return PRODUCT_MOCK;
+        return data;
       } catch (error) {
         if (error instanceof Error) throw error;
         throw new Error('알 수 없는 에러가 발생했습니다.');

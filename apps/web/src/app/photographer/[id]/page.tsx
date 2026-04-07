@@ -49,7 +49,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     promises.push(prefetchPortfolioList(queryClient, photographerId, isLogIn));
   }
   if (selectedTab === PHOTOGRAPHER_TAB.PRODUCT) {
-    promises.push(prefetchProductList(queryClient, photographerId));
+    promises.push(prefetchProductList(queryClient, photographerId, isLogIn));
   }
   await Promise.all(promises);
 
@@ -88,7 +88,7 @@ export default async function Page({ params, searchParams }: PageProps) {
             {selectedTab === PHOTOGRAPHER_TAB.PRODUCT && (
               <div className='mb-[7.6rem]'>
                 <Suspense fallback={<ProductListSkeleton className='mt-[17.1rem]' />}>
-                  <ProductListSection id={photographerId} />
+                  <ProductListSection id={photographerId} isLogIn={isLogIn} />
                 </Suspense>
               </div>
             )}

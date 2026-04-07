@@ -1,11 +1,11 @@
 'use client';
 
-import { ImageCarousel, LikeButton, TagChip } from '@snappin/design-system';
-import { IconStar } from '@snappin/design-system/assets';
-import { formatPrice } from '@snappin/shared/lib';
 import { MoodCode } from '@snappin/shared/types';
-import { useAuth } from '@/auth/hooks/useAuth';
+import { formatPrice } from '@snappin/shared/lib';
+import { IconStar } from '@snappin/design-system/assets';
+import { ImageCarousel, LikeButton, TagChip } from '@snappin/design-system';
 import { useToast } from '@/ui';
+import { useAuth } from '@/auth/hooks/useAuth';
 import { useWishProduct } from '@/app/product/[id]/api';
 
 type ProductMainSectionProps = {
@@ -18,6 +18,7 @@ type ProductMainSectionProps = {
   reviewCount: number;
   price: number;
   moods: MoodCode[];
+  photographerId: number;
 };
 
 export default function ProductMainSection({
@@ -30,8 +31,9 @@ export default function ProductMainSection({
   reviewCount,
   price,
   moods,
+  photographerId,
 }: ProductMainSectionProps) {
-  const { mutateAsync } = useWishProduct();
+  const { mutateAsync } = useWishProduct(photographerId);
   const { isLogIn } = useAuth();
   const toast = useToast();
 

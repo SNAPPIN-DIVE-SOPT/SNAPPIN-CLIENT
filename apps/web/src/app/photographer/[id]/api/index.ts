@@ -16,6 +16,6 @@ export const useGetPortfolioList = (id: number, isLogIn: boolean) => {
 }
 
 // 상품 목록 조회 API
-export const useGetProductList = (id: number) => {
-  return useSuspenseInfiniteQuery(photographerProductsOptions(id));
+export const useGetProductList = (id: number, isLogIn: boolean) => {
+  return useSuspenseInfiniteQuery(photographerProductsOptions(id, isLogIn));
 }

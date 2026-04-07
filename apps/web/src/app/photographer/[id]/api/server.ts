@@ -23,9 +23,13 @@ export const prefetchPortfolioList = (
 }
 
 // 상품 목록 조회 prefetch
-export const prefetchProductList = (queryClient: QueryClient, id: number) => {
+export const prefetchProductList = (
+  queryClient: QueryClient,
+  id: number,
+  isLogIn: boolean
+) => {
   return queryClient.prefetchInfiniteQuery({
-    ...photographerProductsOptions(id),
+    ...photographerProductsOptions(id, isLogIn),
     pages: 1,
   });
 }
