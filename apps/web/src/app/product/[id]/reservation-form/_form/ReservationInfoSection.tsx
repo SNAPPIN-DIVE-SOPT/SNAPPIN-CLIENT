@@ -1,4 +1,4 @@
-import { type ReservationApplicant } from '../hooks';
+import { type ReservationApplicant } from '../types/copy';
 
 type ReservationInfoItem = {
   id: 'name' | 'phoneNumber' | 'email';

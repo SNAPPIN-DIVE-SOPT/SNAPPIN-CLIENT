@@ -4,29 +4,32 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useWatch } from 'react-hook-form';
 import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
-import reservationCopyFormSchema from './useReservationCopySchema';
-import createReservationCopyText from './useReservationCopyText';
 import {
-  DURATION_STEP_HOURS,
-  MAXIMUM_DURATION_HOURS,
-  MAXIMUM_PEOPLE_COUNT,
-  MINIMUM_DURATION_HOURS,
-  MINIMUM_PEOPLE_COUNT,
-  PEOPLE_COUNT_STEP,
-  SCHEDULE_CHOICE_KEYS,
+  reservationCopyFormSchema,
+  type ReservationCopyFormInput,
+  type ReservationCopyFormOutput,
+} from './useReservationCopySchema';
+import {
+  DURATION_HOURS,
+  PEOPLE_COUNT,
+  SCHEDULE_CHOICES,
+} from '../constants/copy-form';
+import type {
+  ReservationApplicant,
+  ScheduleChoiceKey,
+  ScheduleSelectionValue,
+} from '../types/copy';
+import {
+  createCopyText,
   createDefaultReservationCopyFormValue,
   hasSelectableScheduleChoice,
-  type ReservationApplicant,
-  type ReservationCopyFormInput,
-  type ScheduleSelectionValue,
-} from './reservationCopyFormShared';
+} from '../utils';
 
 // 일정 picker 관련
 type UseReservationCopyFormProps = {
   applicant: ReservationApplicant;
 };
 
-type ScheduleChoiceKey = keyof ReservationCopyFormInput['schedules'];
 type SchedulePickerType = 'date' | 'time';
 
 type ActiveSchedulePicker = {
@@ -120,7 +123,7 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
     getValues,
     trigger,
     formState: { errors: formErrors },
-  } = useForm<ReservationCopyFormInput>({
+  } = useForm<ReservationCopyFormInput, undefined, ReservationCopyFormOutput>({
     resolver: zodResolver(reservationCopyFormSchema),
     defaultValues: defaultReservationCopyFormValue,
     mode: 'onChange',
@@ -187,8 +190,8 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
       const currentDurationHours = getValues('durationHours');
       const nextDurationHours = Number(
         Math.min(
-          MAXIMUM_DURATION_HOURS,
-          Math.max(MINIMUM_DURATION_HOURS, currentDurationHours - DURATION_STEP_HOURS),
+          DURATION_HOURS.MAX,
+          Math.max(DURATION_HOURS.MIN, currentDurationHours - DURATION_HOURS.STEP),
         ).toFixed(1),
       );
 
@@ -198,8 +201,8 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
       const currentDurationHours = getValues('durationHours');
       const nextDurationHours = Number(
         Math.min(
-          MAXIMUM_DURATION_HOURS,
-          Math.max(MINIMUM_DURATION_HOURS, currentDurationHours + DURATION_STEP_HOURS),
+          DURATION_HOURS.MAX,
+          Math.max(DURATION_HOURS.MIN, currentDurationHours + DURATION_HOURS.STEP),
         ).toFixed(1),
       );
 
@@ -212,8 +215,8 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
     decrease: () => {
       const currentPeopleCount = getValues('peopleCount');
       const nextPeopleCount = Math.min(
-        MAXIMUM_PEOPLE_COUNT,
-        Math.max(MINIMUM_PEOPLE_COUNT, currentPeopleCount - PEOPLE_COUNT_STEP),
+        PEOPLE_COUNT.MAX,
+        Math.max(PEOPLE_COUNT.MIN, currentPeopleCount - PEOPLE_COUNT.STEP),
       );
 
       setValue('peopleCount', nextPeopleCount, { shouldValidate: true });
@@ -221,8 +224,8 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
     increase: () => {
       const currentPeopleCount = getValues('peopleCount');
       const nextPeopleCount = Math.min(
-        MAXIMUM_PEOPLE_COUNT,
-        Math.max(MINIMUM_PEOPLE_COUNT, currentPeopleCount + PEOPLE_COUNT_STEP),
+        PEOPLE_COUNT.MAX,
+        Math.max(PEOPLE_COUNT.MIN, currentPeopleCount + PEOPLE_COUNT.STEP),
       );
 
       setValue('peopleCount', nextPeopleCount, { shouldValidate: true });
@@ -251,7 +254,7 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
     if (!isCurrentFormValid) {
       return false;
     }
-    const reservationCopyText = createReservationCopyText({
+    const reservationCopyText = createCopyText({
       applicant,
       reservationCopyFormValue: getValues(),
     });
@@ -269,8 +272,8 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
 
   // schedules 에러를 한줄 메시지로
   const scheduleErrorMessage =
-    SCHEDULE_CHOICE_KEYS.flatMap((scheduleChoiceKey) => {
-      const scheduleFieldError = formErrors.schedules?.[scheduleChoiceKey];
+    SCHEDULE_CHOICES.flatMap(({ key }) => {
+      const scheduleFieldError = formErrors.schedules?.[key];
 
       return [
         getFieldErrorMessage(scheduleFieldError?.message),

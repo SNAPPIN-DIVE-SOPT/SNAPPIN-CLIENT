@@ -4,6 +4,7 @@ import {
   SCHEDULE_CHOICES,
 } from '../constants/copy-form';
 import type {
+  ReservationCopyFormValue,
   ScheduleChoiceKey,
   ScheduleSelections,
   ScheduleSelectionValue,
@@ -40,7 +41,7 @@ const createInitialScheduleSelections = (): ScheduleSelections => {
   ) as ScheduleSelections;
 };
 
-export const createDefaultReservationCopyFormValue = () => {
+export const createDefaultReservationCopyFormValue = (): ReservationCopyFormValue => {
   return {
     placeId: '',
     placeKeyword: '',

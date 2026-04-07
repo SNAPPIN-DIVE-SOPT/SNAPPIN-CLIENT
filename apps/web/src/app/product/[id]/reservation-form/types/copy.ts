@@ -16,3 +16,13 @@ export type ScheduleSelectionValue = {
 };
 
 export type ScheduleSelections = Record<ScheduleChoiceKey, ScheduleSelectionValue>;
+
+export type ReservationCopyFormValue = {
+  placeId: string;
+  placeKeyword: string;
+  durationHours: number;
+  peopleCount: number;
+  schedules: ScheduleSelections;
+  uploadConsentStatus: UploadConsentStatus;
+  requestContent: string;
+};

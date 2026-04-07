@@ -1,12 +1,11 @@
 import { formatShortDate } from '@/utils/formatDate';
 import { SCHEDULE_CHOICES, UPLOAD_CONSENT_STATUS_LABEL } from '../constants/copy-form';
-import type { ReservationCopyFormInput } from '../hooks/useReservationCopySchema';
-import type { ReservationApplicant } from '../types/copy';
+import type { ReservationApplicant, ReservationCopyFormValue } from '../types/copy';
 import { hasCompletedSchedule } from './reservationCopyForm';
 
 type CreateCopyTextProps = {
   applicant: ReservationApplicant;
-  reservationCopyFormValue: ReservationCopyFormInput;
+  reservationCopyFormValue: ReservationCopyFormValue;
 };
 
 // 텍스트 복사 시, form의 각 항목 노출 방식 정의
@@ -31,7 +30,9 @@ const createCopyText = ({
     return `• ${label}: ${formattedScheduleDate} ${scheduleSelection.time}`;
   });
   const uploadConsentStatusLabel =
-    uploadConsentStatus.length > 0 ? UPLOAD_CONSENT_STATUS_LABEL[uploadConsentStatus] : '-';
+    uploadConsentStatus === 'agree' || uploadConsentStatus === 'disagree'
+      ? UPLOAD_CONSENT_STATUS_LABEL[uploadConsentStatus]
+      : '-';
 
   return [
     `1) 이름: ${applicant.name}`,

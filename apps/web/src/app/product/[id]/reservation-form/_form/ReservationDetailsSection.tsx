@@ -2,21 +2,19 @@ import { type ReactNode } from 'react';
 import { Button, ComboBox, ControlRow, Stepper } from '@snappin/design-system';
 import { DateButton } from '../components';
 import {
-  MAXIMUM_DURATION_HOURS,
-  MAXIMUM_PEOPLE_COUNT,
-  MINIMUM_DURATION_HOURS,
-  MINIMUM_PEOPLE_COUNT,
+  DURATION_HOURS,
+  PEOPLE_COUNT,
   PRIMARY_SCHEDULE_CHOICE_KEY,
   SCHEDULE_CHOICES,
-  hasSelectableScheduleChoice,
-  type ReservationCopyFormModel,
-} from '../hooks';
-import RESERVATION_FORM_INFORMATION_MOCK from '../mock/reservationFormInformation.mock';
+  UPLOAD_CONSENT_NOTES,
+} from '../constants/copy-form';
+import { type ReservationCopyFormModel } from '../hooks';
 import {
   createDurationLabel,
   createScheduleDateLabel,
   createScheduleTimeLabel,
-} from '../utils/reservationFormFormatter';
+  hasSelectableScheduleChoice,
+} from '../utils';
 
 type ReservationDetailsSectionProps = {
   reservationCopyFormModel: Pick<ReservationCopyFormModel, 'values' | 'viewState' | 'actions'>;
@@ -49,15 +47,6 @@ export default function ReservationDetailsSection({
       handleSchedulePickerOpen,
     },
   } = reservationCopyFormModel;
-  const {
-    uploadConsent: { agreeNote, disagreeNote },
-  } = RESERVATION_FORM_INFORMATION_MOCK;
-  const uploadConsentNotes = [
-    { label: '동의 시', note: agreeNote },
-    { label: '비동의 시', note: disagreeNote },
-  ].filter(({ note }) => {
-    return Boolean(note);
-  });
 
   return (
     <section className='flex flex-col gap-[1.8rem]'>
@@ -83,8 +72,8 @@ export default function ReservationDetailsSection({
             value={createDurationLabel(durationHours)}
             handleClickMinus={handleDurationHoursStep.decrease}
             handleClickAdd={handleDurationHoursStep.increase}
-            isDisabledMinus={durationHours <= MINIMUM_DURATION_HOURS}
-            isDisabledAdd={durationHours >= MAXIMUM_DURATION_HOURS}
+            isDisabledMinus={durationHours <= DURATION_HOURS.MIN}
+            isDisabledAdd={durationHours >= DURATION_HOURS.MAX}
           />
         }
       />
@@ -97,8 +86,8 @@ export default function ReservationDetailsSection({
             value={`${peopleCount}명`}
             handleClickMinus={handlePeopleCountStep.decrease}
             handleClickAdd={handlePeopleCountStep.increase}
-            isDisabledMinus={peopleCount <= MINIMUM_PEOPLE_COUNT}
-            isDisabledAdd={peopleCount >= MAXIMUM_PEOPLE_COUNT}
+            isDisabledMinus={peopleCount <= PEOPLE_COUNT.MIN}
+            isDisabledAdd={peopleCount >= PEOPLE_COUNT.MAX}
           />
         }
       />
@@ -136,10 +125,10 @@ export default function ReservationDetailsSection({
 
       <div className='flex flex-col gap-[1rem]'>
         <RequiredLabel>업로드 동의 여부</RequiredLabel>
-        {uploadConsentNotes.length > 0 && (
+        {UPLOAD_CONSENT_NOTES.length > 0 && (
           <div className='bg-black-3 rounded-[0.6rem] p-[1.6rem]'>
             <div className='flex flex-col gap-[1.2rem]'>
-              {uploadConsentNotes.map(({ label, note }) => {
+              {UPLOAD_CONSENT_NOTES.map(({ label, note }) => {
                 return (
                   <div key={label}>
                     <p className='caption-14-rg text-black-7'>{label}</p>

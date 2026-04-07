@@ -1,16 +1,13 @@
 import { z } from 'zod';
 import {
-  MAXIMUM_DURATION_HOURS,
-  MAXIMUM_PEOPLE_COUNT,
-  MINIMUM_DURATION_HOURS,
-  MINIMUM_PEOPLE_COUNT,
+  DURATION_HOURS,
+  PEOPLE_COUNT,
   PRIMARY_SCHEDULE_CHOICE_KEY,
-  REQUEST_CONTENT_MAX_LENGTH,
   RESERVATION_COPY_FORM_ERROR_MESSAGE,
-  SCHEDULE_CHOICE_KEYS,
-  UPLOAD_CONSENT_STATUS_VALUES,
-  hasCompletedSchedule,
-} from './reservationCopyFormShared';
+  REQUEST_CONTENT,
+  SCHEDULE_CHOICES,
+} from '../constants/copy-form';
+import { hasCompletedSchedule } from '../utils';
 
 // 각 일정 선택이 날짜와 시간 모두 선택되었는지 검증
 const reservationScheduleSelectionSchema = z
@@ -36,17 +33,17 @@ const reservationScheduleSelectionSchema = z
 
 // 1~3지망 각각의 일정 선택
 const reservationSchedulesSchemaShape = Object.fromEntries(
-  SCHEDULE_CHOICE_KEYS.map((scheduleChoiceKey) => {
-    return [scheduleChoiceKey, reservationScheduleSelectionSchema];
+  SCHEDULE_CHOICES.map(({ key }) => {
+    return [key, reservationScheduleSelectionSchema];
   }),
-) as Record<(typeof SCHEDULE_CHOICE_KEYS)[number], typeof reservationScheduleSelectionSchema>;
+) as Record<(typeof SCHEDULE_CHOICES)[number]['key'], typeof reservationScheduleSelectionSchema>;
 
 // 1~3지망 중 하나라도 완료된 일정이 있는지 검증
 const reservationSchedulesSchema = z
   .object(reservationSchedulesSchemaShape)
   .superRefine((scheduleSelections, context) => {
-    const hasAnyCompletedSchedule = SCHEDULE_CHOICE_KEYS.some((scheduleChoiceKey) => {
-      return hasCompletedSchedule(scheduleSelections[scheduleChoiceKey]);
+    const hasAnyCompletedSchedule = SCHEDULE_CHOICES.some(({ key }) => {
+      return hasCompletedSchedule(scheduleSelections[key]);
     });
 
     if (hasAnyCompletedSchedule) {
@@ -60,21 +57,22 @@ const reservationSchedulesSchema = z
     });
   });
 
-const uploadConsentStatusSchema = z.enum(UPLOAD_CONSENT_STATUS_VALUES, {
-  error: RESERVATION_COPY_FORM_ERROR_MESSAGE.UPLOAD_CONSENT_REQUIRED,
-});
-
 // 예약 폼 전체 스키마
-const reservationCopyFormSchema = z.object({
+export const reservationCopyFormSchema = z.object({
   placeId: z.string().min(1, RESERVATION_COPY_FORM_ERROR_MESSAGE.PLACE_ID_REQUIRED),
   placeKeyword: z.string().min(1, RESERVATION_COPY_FORM_ERROR_MESSAGE.PLACE_KEYWORD_REQUIRED),
-  durationHours: z.number().min(MINIMUM_DURATION_HOURS).max(MAXIMUM_DURATION_HOURS),
-  peopleCount: z.number().min(MINIMUM_PEOPLE_COUNT).max(MAXIMUM_PEOPLE_COUNT),
+  durationHours: z.number().min(DURATION_HOURS.MIN).max(DURATION_HOURS.MAX),
+  peopleCount: z.number().min(PEOPLE_COUNT.MIN).max(PEOPLE_COUNT.MAX),
   schedules: reservationSchedulesSchema,
-  uploadConsentStatus: uploadConsentStatusSchema,
+  uploadConsentStatus: z
+    .enum(['', 'agree', 'disagree'])
+    .refine((value) => value !== '', {
+      message: RESERVATION_COPY_FORM_ERROR_MESSAGE.UPLOAD_CONSENT_REQUIRED,
+    }),
   requestContent: z
     .string()
-    .max(REQUEST_CONTENT_MAX_LENGTH, RESERVATION_COPY_FORM_ERROR_MESSAGE.REQUEST_CONTENT_MAX),
+    .max(REQUEST_CONTENT.MAX_LENGTH, RESERVATION_COPY_FORM_ERROR_MESSAGE.REQUEST_CONTENT_MAX),
 });
 
-export default reservationCopyFormSchema;
+export type ReservationCopyFormInput = z.input<typeof reservationCopyFormSchema>;
+export type ReservationCopyFormOutput = z.output<typeof reservationCopyFormSchema>;
