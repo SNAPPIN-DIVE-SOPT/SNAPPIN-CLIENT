@@ -1,8 +1,8 @@
 'use client';
 
 import { FilterChip } from '@snappin/design-system';
-import { useMoodFilters } from '@/app/(with-layout)/explore/api';
 import { GetMoodFilterResponse } from '@/swagger-api';
+import { useGetMoodIdList } from '@/queries/mood';
 
 const MAX_VISIBLE_MOODS = 6;
 
@@ -12,8 +12,8 @@ type MoodFilterProps = {
 };
 
 export default function MoodFilter({ selectedMoodIds, onToggleMoodAction }: MoodFilterProps) {
-  const { data } = useMoodFilters();
-  const moods = (data?.moods ?? [])
+  const { data = [] } = useGetMoodIdList();
+  const moods = data
     .filter((mood): mood is GetMoodFilterResponse & { id: number } => typeof mood.id === 'number')
     .slice(0, MAX_VISIBLE_MOODS);
 
