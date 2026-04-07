@@ -1,13 +1,13 @@
 import type {
   ON_BOARDING_SCHEMA,
   GenderValue,
-  InterestValue,
+  SnapCategoryValue,
 } from '@/app/(auth)/on-boarding/[step]/constants/onBoardingForm.schema';
 
 type OnBoardingFieldName = keyof typeof ON_BOARDING_SCHEMA.shape;
 
 export type OnBoardingTextField = {
-  name: Extract<OnBoardingFieldName, 'name' | 'nickname' | 'phoneNumber' | 'email'>;
+  name: Extract<OnBoardingFieldName, 'name' | 'nickname' | 'phone' | 'email'>;
   label: string;
   placeholder: string;
   type: 'text';
@@ -21,7 +21,7 @@ export type OnBoardingSelectField<T extends string = string> = {
 };
 
 export type OnBoardingCheckboxField<T extends string = string> = {
-  name: Extract<OnBoardingFieldName, 'interests'>;
+  name: Extract<OnBoardingFieldName, 'snapCategories'>;
   label: string;
   type: 'checkbox';
   options: readonly T[];
@@ -30,7 +30,7 @@ export type OnBoardingCheckboxField<T extends string = string> = {
 export type OnBoardingField =
   | OnBoardingTextField
   | OnBoardingSelectField<GenderValue>
-  | OnBoardingCheckboxField<InterestValue>;
+  | OnBoardingCheckboxField<SnapCategoryValue>;
 
 export type OnBoardingStep = {
   step: number;

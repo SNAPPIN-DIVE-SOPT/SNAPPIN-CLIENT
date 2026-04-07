@@ -8,20 +8,20 @@ export const SCHEMA = {
 } as const;
 
 export const GENDER_VALUES = ['boy', 'girl'] as const;
-export const INTEREST_VALUES = ['graduation', 'friendship', 'couple', 'life'] as const;
+export const SNAP_CATEGORIES_VALUES = ['GRADUATION', 'FRIENDS', 'COUPLE', 'DAILY'] as const;
 export type GenderValue = (typeof GENDER_VALUES)[number];
-export type InterestValue = (typeof INTEREST_VALUES)[number];
+export type SnapCategoryValue = (typeof SNAP_CATEGORIES_VALUES)[number];
 
 export const GENDER_LABELS: Record<GenderValue, string> = {
   girl: '여자',
   boy: '남자',
 };
 
-export const INTEREST_LABELS: Record<InterestValue, string> = {
-  graduation: '나만의 졸업 스냅',
-  friendship: '친구와의 우정 스냅',
-  couple: '연인과의 커플 스냅',
-  life: '소중한 내 인생 스냅',
+export const SNAP_CATEGORIES_LABELS: Record<SnapCategoryValue, string> = {
+  GRADUATION: '나만의 졸업 스냅',
+  FRIENDS: '친구와의 우정 스냅',
+  COUPLE: '연인과의 커플 스냅',
+  DAILY: '소중한 내 인생 스냅',
 };
 
 export const ERROR_MESSAGES = {
@@ -69,13 +69,13 @@ export const ON_BOARDING_SCHEMA = z.object({
       message: ERROR_MESSAGES.NICKNAME_TEXT,
     }),
 
-  phoneNumber: z.string().refine((value) => PHONE_NUMBER_REGEX.test(value.replace(/-/g, '')), {
+  phone: z.string().refine((value) => PHONE_NUMBER_REGEX.test(value.replace(/-/g, '')), {
     message: ERROR_MESSAGES.PHONE_NUMBER,
   }),
 
   email: z.email(ERROR_MESSAGES.EMAIL),
 
-  interests: z.array(z.enum(INTEREST_VALUES)).min(1, ERROR_MESSAGES.INTERESTS_REQUIRED),
+  snapCategories: z.array(z.enum(SNAP_CATEGORIES_VALUES)).min(1, ERROR_MESSAGES.INTERESTS_REQUIRED),
 });
 
 export type OnBoardingInput = z.infer<typeof ON_BOARDING_SCHEMA>;

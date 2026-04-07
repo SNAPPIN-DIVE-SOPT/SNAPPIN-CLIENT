@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ERROR_MESSAGES,
   GenderValue,
-  InterestValue,
+  SnapCategoryValue,
   OnBoardingInput,
   SCHEMA,
   ON_BOARDING_SCHEMA,
@@ -30,9 +30,9 @@ export const useOnBoardingForm = () => {
       name: '',
       gender: undefined,
       nickname: '',
-      phoneNumber: '',
+      phone: '',
       email: '',
-      interests: [],
+      snapCategories: [],
     },
     mode: 'onChange',
   });
@@ -81,7 +81,7 @@ export const useOnBoardingForm = () => {
     setValue('nickname', value, { shouldValidate: true });
   };
 
-  const updatePhoneNumber = (value: string) => {
+  const updatePhone = (value: string) => {
     const digits = value.replace(/\D/g, '').slice(0, 11);
     let sanitizedValue = digits;
 
@@ -93,37 +93,37 @@ export const useOnBoardingForm = () => {
       sanitizedValue = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
     }
 
-    setValue('phoneNumber', sanitizedValue, { shouldValidate: true });
+    setValue('phone', sanitizedValue, { shouldValidate: true });
   };
 
   const updateEmail = (value: string) => {
     setValue('email', value, { shouldValidate: true });
   };
 
-  const updateInterest = (value: InterestValue) => {
-    const currentValues = formData?.interests ?? [];
+  const updateSnapCategory = (value: SnapCategoryValue) => {
+    const currentValues = formData?.snapCategories ?? [];
     const nextValues = currentValues.includes(value)
       ? currentValues.filter((item) => item !== value)
       : [...currentValues, value];
 
-    setValue('interests', nextValues, { shouldValidate: true });
+    setValue('snapCategories', nextValues, { shouldValidate: true });
   };
 
   const compatibleFormData = {
     name: formData?.name ?? '',
     gender: formData?.gender ?? '',
     nickname: formData?.nickname ?? '',
-    phoneNumber: formData?.phoneNumber ?? '',
+    phone: formData?.phone ?? '',
     email: formData?.email ?? '',
-    interests: formData?.interests ?? [],
+    snapCategories: formData?.snapCategories ?? [],
   };
   const compatibleErrors = {
     name: errors.name?.message,
     gender: errors.gender?.message,
     nickname: errors.nickname?.message,
-    phoneNumber: errors.phoneNumber?.message,
+    phone: errors.phone?.message,
     email: errors.email?.message,
-    interests: errors.interests?.message,
+    snapCategories: errors.snapCategories?.message,
   };
 
   const handleSubmitForm = async (onSuccess: () => void | Promise<void>) => {
@@ -146,8 +146,8 @@ export const useOnBoardingForm = () => {
     updateName,
     updateGender,
     updateNickname,
-    updatePhoneNumber,
+    updatePhone,
     updateEmail,
-    updateInterest,
+    updateSnapCategory,
   };
 };
