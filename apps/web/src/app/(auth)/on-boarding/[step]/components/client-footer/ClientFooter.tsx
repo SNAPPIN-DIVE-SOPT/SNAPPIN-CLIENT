@@ -6,6 +6,8 @@ import { ROUTES } from '@/constants/routes/routes';
 import { TOTAL_STEP_COUNT } from '@/app/(auth)/on-boarding/[step]/constants/onBoardingSteps';
 import type { OnBoardingStep } from '@/app/(auth)/on-boarding/[step]/types/onBoardingStep';
 import { useOnBoardingFormContext } from '@/app/(auth)/on-boarding/hooks/useOnBoardingFormContext';
+import { usePostOnboarding } from '@/app/(auth)/on-boarding/[step]/api';
+import { GenderValue } from '@/app/(auth)/on-boarding/[step]/constants/onBoardingForm.schema';
 
 type ClientFooterProps = {
   step: number;
@@ -14,7 +16,8 @@ type ClientFooterProps = {
 
 export default function ClientFooter({ step, triggerFields }: ClientFooterProps) {
   const router = useRouter();
-  const { trigger } = useOnBoardingFormContext();
+  const { compatibleFormData, trigger, handleSubmitForm } = useOnBoardingFormContext();
+  const { mutateAsync, isPending } = usePostOnboarding();
 
   const isLast = step === TOTAL_STEP_COUNT;
 
@@ -24,8 +27,18 @@ export default function ClientFooter({ step, triggerFields }: ClientFooterProps)
     if (!isValid) return;
 
     if (isLast) {
-      router.push(ROUTES.ON_BOARDING_FINAL);
-      //TODO: API 연동
+      await handleSubmitForm(() => {
+        mutateAsync({
+          name: compatibleFormData.name,
+          gender: compatibleFormData.gender as GenderValue,
+          nickname: compatibleFormData.nickname,
+          email: compatibleFormData.email,
+          snapCategories: compatibleFormData.snapCategories,
+          phoneNumber: compatibleFormData.phoneNumber,
+        });
+
+        router.push(ROUTES.ON_BOARDING_FINAL);
+      });
     } else {
       router.push(ROUTES.ON_BOARDING(step + 1));
     }
@@ -33,7 +46,12 @@ export default function ClientFooter({ step, triggerFields }: ClientFooterProps)
 
   return (
     <BottomCTAButton fixed className='px-[2.7rem] pb-[2.8rem]'>
-      <BottomCTAButton.Single color='black' size='large' onClick={handleNextStep}>
+      <BottomCTAButton.Single
+        color='black'
+        size='large'
+        onClick={handleNextStep}
+        disabled={isPending}
+      >
         다음
       </BottomCTAButton.Single>
     </BottomCTAButton>
