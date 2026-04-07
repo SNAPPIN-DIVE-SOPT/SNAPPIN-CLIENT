@@ -13,9 +13,7 @@ type ImageAnimationProps = {
 };
 export default function ImageAnimation({ step }: ImageAnimationProps) {
   const { data } = useGetAiCurationAll();
-  //TODO: API 명세 확정되면 question은 목업으로 변경
-  const question = data?.[step - 1];
-  const photos = question?.photos;
+  const photos = data?.[step - 1]?.photos;
   const { error } = useToast();
   const sorted = useMemo(
     () => photos?.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) || [],
