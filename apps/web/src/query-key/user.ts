@@ -36,7 +36,12 @@ export const USER_QUERY_KEY = {
   PHOTOGRAPHER: ['photographer'],
   PHOTOGRAPHER_DETAIL: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id],
   PHOTOGRAPHER_PRODUCTS: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id, 'products'],
-  PHOTOGRAPHER_PORTFOLIOS: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id, 'portfolios'],
+  PHOTOGRAPHER_PORTFOLIOS: (id: number, isLogIn: boolean) => [
+    ...USER_QUERY_KEY.PHOTOGRAPHER,
+    id,
+    'portfolios',
+    isLogIn ? 'login' : 'not-login'
+  ],
 
   // 공간 카테고리
   CATEGORIES: ['categories'],

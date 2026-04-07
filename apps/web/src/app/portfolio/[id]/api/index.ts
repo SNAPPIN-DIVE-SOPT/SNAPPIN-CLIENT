@@ -1,13 +1,20 @@
-import { useSuspenseQuery, useMutation, useQueryClient, QueryClient } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
-import { SERVER_API_BASE_URL } from '@/api/constants/api';
-import { USER_QUERY_KEY } from '@/query-key/user';
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+  InfiniteData,
+} from '@tanstack/react-query';
 import {
   GetPortfolioDetailResponse,
   GetPortfolioDetailData,
   WishPortfolioResponse,
   UpdateWishPortfolioData,
+  GetPortfolioListData
 } from '@/swagger-api';
+import { apiRequest } from '@/api/apiRequest';
+import { USER_QUERY_KEY } from '@/query-key/user';
+import { SERVER_API_BASE_URL } from '@/api/constants/api';
 
 type WishPortfolioContext = {
   previousData?: GetPortfolioDetailResponse;
@@ -56,7 +63,7 @@ export const useGetPortfolioDetail = (id: number, isLogIn: boolean) => {
 };
 
 // 포폴 좋아요/취소 (위시) API
-export const useWishPortfolio = () => {
+export const useWishPortfolio = (photographerId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation<WishPortfolioResponse, Error, number, WishPortfolioContext>({
@@ -99,6 +106,32 @@ export const useWishPortfolio = () => {
       if (!context?.previousData) return;
 
       queryClient.setQueryData(USER_QUERY_KEY.PORTFOLIO_DETAIL(id, true), context.previousData);
+    },
+    // 작가 포폴 목록 캐시 동기화
+    onSuccess: (result) => {
+      const { portfolioId, liked } = result;
+      if (portfolioId === undefined || liked === undefined) {
+        return;
+      }
+
+      const photographerPortfoliosKey = USER_QUERY_KEY.PHOTOGRAPHER_PORTFOLIOS(photographerId, true);
+
+      queryClient.setQueryData<InfiniteData<GetPortfolioListData>>(photographerPortfoliosKey, (old) => {
+        if (!old) return old;
+
+        return {
+          ...old,
+          pages: old.pages.map((page) => ({
+            ...page,
+            data: {
+              ...page.data,
+              portfolios: page.data?.portfolios?.map((portfolio) =>
+                portfolio.id === portfolioId ? { ...portfolio, isLiked: liked } : portfolio,
+              ),
+            },
+          })),
+        };
+      });
     },
   });
 };

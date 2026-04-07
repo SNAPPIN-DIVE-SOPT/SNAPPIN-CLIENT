@@ -2,11 +2,11 @@
 
 import { useRef, useMemo } from 'react';
 import { Divider } from '@snappin/design-system';
-import { PhotographerSection, PortfolioSection, ProductSection } from '../../_section';
-import { useGetPortfolioDetail } from '../../api';
-import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import { ROUTES } from '@/constants/routes/routes';
 import { MoodCode } from '@snappin/shared/types';
+import { ROUTES } from '@/constants/routes/routes';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
+import { PhotographerSection, PortfolioSection, ProductSection } from '@/app/portfolio/[id]/_section';
+import { useGetPortfolioDetail } from '@/app/portfolio/[id]/api';
 
 type PortfolioDetailContentProps = {
   id: number;
@@ -31,6 +31,7 @@ export default function PortfolioDetailContent({ id, isLogIn }: PortfolioDetailC
         likeCount={data?.likeCount ?? 0}
         place={data?.place ?? ''}
         moods={data?.moods as MoodCode[]}
+        photographerId={data?.photographerInfo?.id ?? 0}
       />
       <PhotographerSection
         id={data?.photographerInfo?.id ?? 0}

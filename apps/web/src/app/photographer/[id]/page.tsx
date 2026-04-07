@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Tabs } from '@snappin/design-system';
@@ -40,15 +41,17 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const promises = [];
   const queryClient = getQueryClient();
+  const cookieStore = await cookies();
+  const isLogIn = cookieStore.has('AccessToken');
 
   promises.push(prefetchPhotographerDetail(queryClient, photographerId));
   if (selectedTab === PHOTOGRAPHER_TAB.PORTFOLIO) {
-    promises.push(prefetchPortfolioList(queryClient, photographerId));
+    promises.push(prefetchPortfolioList(queryClient, photographerId, isLogIn));
   }
   if (selectedTab === PHOTOGRAPHER_TAB.PRODUCT) {
     promises.push(prefetchProductList(queryClient, photographerId));
   }
-  Promise.all(promises);
+  await Promise.all(promises);
 
   return (
     <main className='flex flex-col'>
@@ -78,7 +81,7 @@ export default async function Page({ params, searchParams }: PageProps) {
             {selectedTab === PHOTOGRAPHER_TAB.PORTFOLIO && (
               <div className='bg-black-1 mb-[7.6rem]'>
                 <Suspense fallback={<PortfolioListSkeleton className='mt-[17.1rem]' />}>
-                  <PortfolioListSection id={photographerId} />
+                  <PortfolioListSection id={photographerId} isLogIn={isLogIn} />
                 </Suspense>
               </div>
             )}

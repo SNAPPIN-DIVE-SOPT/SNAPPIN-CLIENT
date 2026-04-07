@@ -4,7 +4,7 @@ import { TagChip, ImageCarousel, LikeButton } from '@snappin/design-system';
 import { MoodCode } from '@snappin/shared/types';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useToast } from '@/ui';
-import { useWishPortfolio } from '../api';
+import { useWishPortfolio } from '@/app/portfolio/[id]/api';
 
 type PortfolioSectionProps = {
   id: number;
@@ -14,6 +14,7 @@ type PortfolioSectionProps = {
   likeCount: number;
   place: string;
   moods: MoodCode[];
+  photographerId: number;
 };
 
 export default function PortfolioSection({
@@ -24,8 +25,9 @@ export default function PortfolioSection({
   likeCount,
   place,
   moods,
+  photographerId
 }: PortfolioSectionProps) {
-  const { mutate } = useWishPortfolio();
+  const { mutate } = useWishPortfolio(photographerId);
   const { isLogIn } = useAuth();
   const toast = useToast();
 
