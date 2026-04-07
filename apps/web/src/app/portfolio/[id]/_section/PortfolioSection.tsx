@@ -58,7 +58,7 @@ export default function PortfolioSection({
           {/* 좋아요 */}
           <div className='flex items-start'>
             <LikeButton isLiked={isLiked} handleClick={handleLike} className='h-[2rem]' />
-            <span className='font-16-md text-black-7'>{likeCount}</span>
+            <span className='font-16-rg text-black-8'>{likeCount}</span>
           </div>
         </div>
         {/* 무드 */}

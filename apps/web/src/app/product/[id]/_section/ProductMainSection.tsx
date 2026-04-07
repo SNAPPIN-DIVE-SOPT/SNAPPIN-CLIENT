@@ -62,7 +62,7 @@ export default function ProductMainSection({
             <h1 className='font-16-md text-black-10'>{title}</h1>
             <div className='flex items-start h-[2.4rem]'>
               <LikeButton isLiked={isLiked} handleClick={handleLike} className='h-[2rem]' />
-              <span className='font-16-md text-black-8'>{likeCount}</span>
+              <span className='font-16-rg text-black-8'>{likeCount}</span>
             </div>
           </div>
           <span className='title-20-md text-black-10'>{formatPrice(price)}원~</span>
