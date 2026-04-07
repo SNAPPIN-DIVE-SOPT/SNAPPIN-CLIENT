@@ -11,32 +11,45 @@
  */
 
 import {
+  CreateKakaoLogin1Data,
   CreateKakaoLoginData,
   CreateKakaoLoginRequest,
   CreateMoodCurationData,
   CreateMoodCurationRequest,
+  CreateOnboardingData,
+  CreateOnboardingRequest,
   CreatePhotoMoodConnectionData,
   CreateProductReservationData,
+  CreateProductReviewData,
+  CreateProductReviewRequest,
   CreateReissuedTokensData,
   CreateReviewData,
   CreateReviewPayload,
   GetAllCurationQuestionsData,
+  GetAllMoodFilters1Data,
   GetAllMoodFiltersData,
   GetCategoriesData,
   GetCuratedPortfoliosData,
   GetCurationQuestionData,
+  GetOnboardingData,
   GetPhotographerProfileData,
   GetPlacesData,
+  GetPopularMoodProductsData,
   GetPopularPortfoliosData,
   GetPortfolioDetailData,
+  GetPortfolioList1Data,
   GetPortfolioListData,
   GetPortfolioListRequest,
+  GetPortfolioListRequestV2,
   GetProductAvailableTimesData,
   GetProductClosedDatesData,
   GetProductDetailData,
   GetProductDurationTimeData,
+  GetProductExtraInfoData,
+  GetProductList1Data,
   GetProductListData,
   GetProductListQuery,
+  GetProductListRequestV2,
   GetProductPeopleRangeData,
   GetProductReviewsData,
   GetRecommendationData,
@@ -44,8 +57,11 @@ import {
   GetReservationPriceData,
   GetReservationsData,
   GetReviewDetailData,
+  GetUserInfo1Data,
   GetUserInfoData,
+  GetWishedPortfolios1Data,
   GetWishedPortfoliosData,
+  GetWishedProducts1Data,
   GetWishedProductsData,
   LogoutData,
   PatchUserRoleData,
@@ -71,17 +87,48 @@ export class Api<
   SecurityDataType = unknown,
 > extends HttpClient<SecurityDataType> {
   /**
-   * @description 사용자가 좋아요한 전체 상품 목록을 조회합니다.
+   * @description 인가 코드를 받아 카카오로 소셜 로그인을 진행합니다.
+   *
+   * @tags 01 - Auth
+   * @name CreateKakaoLogin
+   * @summary 카카오 로그인
+   * @request POST:/api/v2/auth/login/kakao
+   * @secure
+   * @response `200` `CreateKakaoLoginData` OK
+   */
+  createKakaoLogin = (
+    data: CreateKakaoLoginRequest,
+    query?: {
+      /**
+       * 카카오에 등록할 redirect_uri 주소입니다.
+       * @example "http://localhost:8080/api/v2/auth/login/kakao"
+       */
+      redirect_uri?: string | null;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<CreateKakaoLoginData, any>({
+      path: `/api/v2/auth/login/kakao`,
+      method: "POST",
+      query: query,
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description v2 API로 대체되었습니다. /api/v2/wishes/products로 대체해서 사용하세요.
    *
    * @tags 012 - Wish
-   * @name GetWishedProducts
+   * @name GetWishedProducts1
    * @summary 위시 상품 목록 조회
    * @request GET:/api/v1/wishes/products
+   * @deprecated
    * @secure
-   * @response `200` `GetWishedProductsData` OK
+   * @response `200` `GetWishedProducts1Data` OK
    */
-  getWishedProducts = (params: RequestParams = {}) =>
-    this.request<GetWishedProductsData, any>({
+  getWishedProducts1 = (params: RequestParams = {}) =>
+    this.request<GetWishedProducts1Data, any>({
       path: `/api/v1/wishes/products`,
       method: "GET",
       secure: true,
@@ -107,17 +154,18 @@ export class Api<
       ...params,
     });
   /**
-   * @description 사용자가 좋아요한 전체 포트폴리오 목록을 조회합니다.
+   * @description v2 API로 대체되었습니다. /api/v2/wishes/portfolios로 대체해서 사용하세요.
    *
    * @tags 012 - Wish
-   * @name GetWishedPortfolios
+   * @name GetWishedPortfolios1
    * @summary 위시 포트폴리오 목록 조회
    * @request GET:/api/v1/wishes/portfolios
+   * @deprecated
    * @secure
-   * @response `200` `GetWishedPortfoliosData` OK
+   * @response `200` `GetWishedPortfolios1Data` OK
    */
-  getWishedPortfolios = (params: RequestParams = {}) =>
-    this.request<GetWishedPortfoliosData, any>({
+  getWishedPortfolios1 = (params: RequestParams = {}) =>
+    this.request<GetWishedPortfolios1Data, any>({
       path: `/api/v1/wishes/portfolios`,
       method: "GET",
       secure: true,
@@ -139,6 +187,45 @@ export class Api<
   ) =>
     this.request<UpdateWishPortfolioData, any>({
       path: `/api/v1/wishes/portfolios`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description 예약 문의 화면에서 예약자 정보를 불러올 때 사용합니다.
+   *
+   * @tags 01 - User
+   * @name GetOnboarding
+   * @summary 온보딩 정보 조회 API
+   * @request GET:/api/v1/users/onboarding
+   * @secure
+   * @response `200` `GetOnboardingData` OK
+   */
+  getOnboarding = (params: RequestParams = {}) =>
+    this.request<GetOnboardingData, any>({
+      path: `/api/v1/users/onboarding`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 카카오 로그인 이후, 온보딩 정보가 입력되지 않은 사용자에 한해 추가 정보를 입력받습니다.
+   *
+   * @tags 01 - User
+   * @name CreateOnboarding
+   * @summary 온보딩 정보 입력 API
+   * @request POST:/api/v1/users/onboarding
+   * @secure
+   * @response `200` `CreateOnboardingData` OK
+   */
+  createOnboarding = (
+    data: CreateOnboardingRequest,
+    params: RequestParams = {},
+  ) =>
+    this.request<CreateOnboardingData, any>({
+      path: `/api/v1/users/onboarding`,
       method: "POST",
       body: data,
       secure: true,
@@ -168,12 +255,13 @@ export class Api<
       ...params,
     });
   /**
-   * @description 촬영 완료된 예약 상품에 대해 리뷰를 작성합니다.
+   * @description 상품 리뷰 API로 대체되었습니다. POST /api/v1/products/{productId}/reviews 로 대체해서 사용하세요.
    *
    * @tags 010 - Reservation
    * @name CreateReview
    * @summary 리뷰 등록
    * @request POST:/api/v1/reservations/{reservationId}/reviews
+   * @deprecated
    * @secure
    * @response `200` `CreateReviewData` OK
    */
@@ -184,6 +272,57 @@ export class Api<
   ) =>
     this.request<CreateReviewData, any>({
       path: `/api/v1/reservations/${reservationId}/reviews`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * @description 커서 기반 페이지네이션 방식으로 상품 리뷰 목록을 조회합니다.
+   *
+   * @tags 06 - Product
+   * @name GetProductReviews
+   * @summary 상품 리뷰 목록 조회
+   * @request GET:/api/v1/products/{productId}/reviews
+   * @secure
+   * @response `200` `GetProductReviewsData` OK
+   */
+  getProductReviews = (
+    productId: string,
+    query?: {
+      /**
+       * 다음 페이지 조회를 위한 커서 값
+       * @example 6
+       */
+      cursor?: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<GetProductReviewsData, any>({
+      path: `/api/v1/products/${productId}/reviews`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 상품에 대한 리뷰를 작성합니다.
+   *
+   * @tags 06 - Product
+   * @name CreateProductReview
+   * @summary 상품 리뷰 등록
+   * @request POST:/api/v1/products/{productId}/reviews
+   * @secure
+   * @response `200` `CreateProductReviewData` OK
+   */
+  createProductReview = (
+    productId: string,
+    data: CreateProductReviewRequest,
+    params: RequestParams = {},
+  ) =>
+    this.request<CreateProductReviewData, any>({
+      path: `/api/v1/products/${productId}/reviews`,
       method: "POST",
       body: data,
       secure: true,
@@ -249,11 +388,12 @@ export class Api<
     query: {
       /**
        * 조회할 단계
+       * @format int32
        * @min 1
        * @max 5
        * @example 1
        */
-      step: string;
+      step: number;
     },
     params: RequestParams = {},
   ) =>
@@ -321,27 +461,28 @@ export class Api<
       ...params,
     });
   /**
-   * @description 인가 코드를 받아 카카오로 소셜 로그인을 진행합니다.
+   * @description v2 API로 대체되었습니다. /api/v2/auth/login/kakao로 대체해서 사용하세요.
    *
    * @tags 01 - Auth
-   * @name CreateKakaoLogin
+   * @name CreateKakaoLogin1
    * @summary 카카오 로그인
    * @request POST:/api/v1/auth/login/kakao
+   * @deprecated
    * @secure
-   * @response `200` `CreateKakaoLoginData` OK
+   * @response `200` `CreateKakaoLogin1Data` OK
    */
-  createKakaoLogin = (
+  createKakaoLogin1 = (
     data: CreateKakaoLoginRequest,
     query?: {
       /**
        * 카카오에 등록할 redirect_uri 주소입니다.
        * @example "http://localhost:8080/api/v1/auth/login/kakao"
        */
-      redirect_uri?: string | null;
+      redirect_uri?: string;
     },
     params: RequestParams = {},
   ) =>
-    this.request<CreateKakaoLoginData, any>({
+    this.request<CreateKakaoLogin1Data, any>({
       path: `/api/v1/auth/login/kakao`,
       method: "POST",
       query: query,
@@ -491,17 +632,154 @@ export class Api<
       ...params,
     });
   /**
+   * @description 커서 기반 페이지네이션으로 사용자가 좋아요한 상품 목록을 조회합니다. 페이지 크기는 10입니다.
+   *
+   * @tags 012 - Wish
+   * @name GetWishedProducts
+   * @summary 위시 상품 목록 조회
+   * @request GET:/api/v2/wishes/products
+   * @secure
+   * @response `200` `GetWishedProductsData` OK
+   */
+  getWishedProducts = (
+    query?: {
+      /**
+       * 다음 페이지 조회를 위한 커서 값
+       * @example 11
+       */
+      cursor?: string | null;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<GetWishedProductsData, any>({
+      path: `/api/v2/wishes/products`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 커서 기반 페이지네이션으로 사용자가 좋아요한 포트폴리오 목록을 조회합니다. 페이지 크기는 10입니다.
+   *
+   * @tags 012 - Wish
+   * @name GetWishedPortfolios
+   * @summary 위시 포트폴리오 목록 조회
+   * @request GET:/api/v2/wishes/portfolios
+   * @secure
+   * @response `200` `GetWishedPortfoliosData` OK
+   */
+  getWishedPortfolios = (
+    query?: {
+      /**
+       * 다음 페이지 조회를 위한 커서 값
+       * @example 11
+       */
+      cursor?: string | null;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<GetWishedPortfoliosData, any>({
+      path: `/api/v2/wishes/portfolios`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
    * @description 현재 로그인한 사용자의 역할을 기반으로 사용자 정보를 조회합니다.
    *
    * @tags 01 - User
    * @name GetUserInfo
    * @summary 유저 정보 조회 API
-   * @request GET:/api/v1/users/me
+   * @request GET:/api/v2/users/me
    * @secure
    * @response `200` `GetUserInfoData` OK
    */
   getUserInfo = (params: RequestParams = {}) =>
     this.request<GetUserInfoData, any>({
+      path: `/api/v2/users/me`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 상품 전체 조회, 필터링, 검색 시 사용되는 API입니다. isLiked, likeCount, sort, minPrice, maxPrice가 추가되었습니다.
+   *
+   * @tags 06 - Product
+   * @name GetProductList
+   * @summary 상품 목록 조회 API v2
+   * @request GET:/api/v2/products
+   * @secure
+   * @response `200` `GetProductListData` OK
+   */
+  getProductList = (
+    query: {
+      /** 상품 목록 조회 요청 DTO - 쿼리 파라미터용 */
+      request: GetProductListRequestV2;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<GetProductListData, any>({
+      path: `/api/v2/products`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 포트폴리오 전체 조회, 필터링, 검색 시 사용되는 API입니다. isLiked, likeCount, sort, minPrice, maxPrice가 추가되었습니다.
+   *
+   * @tags 08 - Portfolio
+   * @name GetPortfolioList
+   * @summary 포폴 목록 조회 (전체조회/필터링/검색) API
+   * @request GET:/api/v2/portfolios
+   * @secure
+   * @response `200` `GetPortfolioListData` OK
+   */
+  getPortfolioList = (
+    query: {
+      /** 포폴 목록 조회 요청 DTO - 쿼리 파라미터용 */
+      request: GetPortfolioListRequestV2;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<GetPortfolioListData, any>({
+      path: `/api/v2/portfolios`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 전체 무드 필터 값 목록을 반환합니다.
+   *
+   * @tags 05 - Mood
+   * @name GetAllMoodFilters
+   * @summary 전체 무드 필터 값 조회 API
+   * @request GET:/api/v2/moods
+   * @secure
+   * @response `200` `GetAllMoodFiltersData` OK
+   */
+  getAllMoodFilters = (params: RequestParams = {}) =>
+    this.request<GetAllMoodFiltersData, any>({
+      path: `/api/v2/moods`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description v2 API로 대체되었습니다. /api/v2/users/me를 사용하세요.
+   *
+   * @tags 01 - User
+   * @name GetUserInfo1
+   * @summary 유저 정보 조회 API
+   * @request GET:/api/v1/users/me
+   * @deprecated
+   * @secure
+   * @response `200` `GetUserInfo1Data` OK
+   */
+  getUserInfo1 = (params: RequestParams = {}) =>
+    this.request<GetUserInfo1Data, any>({
       path: `/api/v1/users/me`,
       method: "GET",
       secure: true,
@@ -517,7 +795,7 @@ export class Api<
    * @secure
    * @response `200` `GetReviewDetailData` OK
    */
-  getReviewDetail = (reviewId: string, params: RequestParams = {}) =>
+  getReviewDetail = (reviewId: number, params: RequestParams = {}) =>
     this.request<GetReviewDetailData, any>({
       path: `/api/v1/reviews/${reviewId}`,
       method: "GET",
@@ -586,22 +864,23 @@ export class Api<
       ...params,
     });
   /**
-   * @description 요청받은 조건에 맞게 상품 목록을 필터링하여 반환합니다.
+   * @description v2 API로 대체되었습니다. `/api/v2/products`를 사용하세요.
    *
    * @tags 06 - Product
-   * @name GetProductList
-   * @summary 상품 목록 조회 API
+   * @name GetProductList1
+   * @summary 상품 목록 조회 API (Deprecated)
    * @request GET:/api/v1/products
+   * @deprecated
    * @secure
-   * @response `200` `GetProductListData` OK
+   * @response `200` `GetProductList1Data` OK
    */
-  getProductList = (
+  getProductList1 = (
     query: {
       query: GetProductListQuery;
     },
     params: RequestParams = {},
   ) =>
-    this.request<GetProductListData, any>({
+    this.request<GetProductList1Data, any>({
       path: `/api/v1/products`,
       method: "GET",
       query: query,
@@ -609,16 +888,17 @@ export class Api<
       ...params,
     });
   /**
-   * @description 상품 상세 정보, 상품 안내, 관련 작가, 관련 상품을 함께 조회합니다.
+   * @description v2 API로 대체되었습니다. `/api/v2/products/{productId}`를 사용하세요.
    *
    * @tags 06 - Product
    * @name GetProductDetail
-   * @summary 상품 상세 정보 및 상품 안내 조회 API
+   * @summary 상품 상세 정보 및 상품 안내 조회 API (Deprecated)
    * @request GET:/api/v1/products/{productId}
+   * @deprecated
    * @secure
    * @response `200` `GetProductDetailData` OK
    */
-  getProductDetail = (productId: string, params: RequestParams = {}) =>
+  getProductDetail = (productId: number, params: RequestParams = {}) =>
     this.request<GetProductDetailData, any>({
       path: `/api/v1/products/${productId}`,
       method: "GET",
@@ -626,30 +906,19 @@ export class Api<
       ...params,
     });
   /**
-   * @description 커서 기반 페이지네이션 방식으로 상품 리뷰 목록을 조회합니다.
+   * @description 작가가 등록한 업로드 동의 안내 및 기타 요청 사항을 조회합니다.
    *
    * @tags 06 - Product
-   * @name GetProductReviews
-   * @summary 상품 리뷰 목록 조회
-   * @request GET:/api/v1/products/{productId}/reviews
+   * @name GetProductExtraInfo
+   * @summary 상품 예약 부가 안내 조회
+   * @request GET:/api/v1/products/{productId}/extra-info
    * @secure
-   * @response `200` `GetProductReviewsData` OK
+   * @response `200` `GetProductExtraInfoData` OK
    */
-  getProductReviews = (
-    productId: string,
-    query?: {
-      /**
-       * 다음 페이지 조회를 위한 커서 값
-       * @example 6
-       */
-      cursor?: string;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<GetProductReviewsData, any>({
-      path: `/api/v1/products/${productId}/reviews`,
+  getProductExtraInfo = (productId: string, params: RequestParams = {}) =>
+    this.request<GetProductExtraInfoData, any>({
+      path: `/api/v1/products/${productId}/extra-info`,
       method: "GET",
-      query: query,
       secure: true,
       ...params,
     });
@@ -744,23 +1013,52 @@ export class Api<
       ...params,
     });
   /**
-   * @description 포트폴리오 전체 조회, 필터링, 검색 시 사용되는 API 입니다.
+   * @description 특정 무드 태그를 포함한 상품 중 좋아요 수가 많은 상품 12개 중 랜덤으로 4개를 조회합니다.
+   *
+   * @tags 06 - Product
+   * @name GetPopularMoodProducts
+   * @summary 인기 무드 상품 목록 조회
+   * @request GET:/api/v1/products/popular
+   * @secure
+   * @response `200` `GetPopularMoodProductsData` OK
+   */
+  getPopularMoodProducts = (
+    query: {
+      /**
+       * 무드 태그 아이디
+       * @format int64
+       * @example 1
+       */
+      moodId: number;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<GetPopularMoodProductsData, any>({
+      path: `/api/v1/products/popular`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description v2 API로 대체되었습니다. `/api/v2/portfolios`를 사용하세요.
    *
    * @tags 08 - Portfolio
-   * @name GetPortfolioList
-   * @summary 포폴 목록 조회 (전체조회/필터링(무드&상품)/검색) API
+   * @name GetPortfolioList1
+   * @summary 포폴 목록 조회 (전체조회/필터링(무드&상품)/검색) API (Deprecated)
    * @request GET:/api/v1/portfolios
+   * @deprecated
    * @secure
-   * @response `200` `GetPortfolioListData` OK
+   * @response `200` `GetPortfolioList1Data` OK
    */
-  getPortfolioList = (
+  getPortfolioList1 = (
     query: {
       /** 포폴 목록 조회 요청 DTO - 쿼리 파라미터용 */
       request: GetPortfolioListRequest;
     },
     params: RequestParams = {},
   ) =>
-    this.request<GetPortfolioListData, any>({
+    this.request<GetPortfolioList1Data, any>({
       path: `/api/v1/portfolios`,
       method: "GET",
       query: query,
@@ -830,6 +1128,7 @@ export class Api<
    */
   getPlaces = (
     query: {
+      /** 장소 검색어 */
       keyword: string;
     },
     params: RequestParams = {},
@@ -852,7 +1151,7 @@ export class Api<
    * @response `200` `GetPhotographerProfileData` OK
    */
   getPhotographerProfile = (
-    photographerId: string,
+    photographerId: number,
     params: RequestParams = {},
   ) =>
     this.request<GetPhotographerProfileData, any>({
@@ -865,14 +1164,14 @@ export class Api<
    * @description 전체 무드 필터 값을 해당 무드 카테고리, 사용자 큐레이션 진행 여부와 함께 반환합니다.
    *
    * @tags 05 - Mood
-   * @name GetAllMoodFilters
+   * @name GetAllMoodFilters1
    * @summary 전체 무드 필터 값 조회 API
    * @request GET:/api/v1/moods
    * @secure
-   * @response `200` `GetAllMoodFiltersData` OK
+   * @response `200` `GetAllMoodFilters1Data` OK
    */
-  getAllMoodFilters = (params: RequestParams = {}) =>
-    this.request<GetAllMoodFiltersData, any>({
+  getAllMoodFilters1 = (params: RequestParams = {}) =>
+    this.request<GetAllMoodFilters1Data, any>({
       path: `/api/v1/moods`,
       method: "GET",
       secure: true,

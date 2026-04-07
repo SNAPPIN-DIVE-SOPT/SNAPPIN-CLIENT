@@ -12,7 +12,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "generate:api": "dotenv -e .env -- sh -lc 'swagger-typescript-api generate -p \"$SWAGGER_API_URL\" -r -o ./src/swagger-api --modular -d --extract-request-body --extract-response-body --extract-response-error --axios'"
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.1",
@@ -59,6 +60,7 @@
     "@typescript-eslint/eslint-plugin": "^8.50.1",
     "@typescript-eslint/parser": "^8.50.1",
     "babel-plugin-react-compiler": "1.0.0",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "eslint-config-prettier": "^10.1.8",

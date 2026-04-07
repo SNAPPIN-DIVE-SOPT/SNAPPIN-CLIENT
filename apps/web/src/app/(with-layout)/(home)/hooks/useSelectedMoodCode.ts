@@ -1,29 +1,23 @@
 'use client';
 
-import { useState } from 'react';
-import { MOOD_CODE, MoodCode } from '@snappin/shared/types';
+import { useEffect, useState } from 'react';
 
-const isMoodCode = (value: string): value is MoodCode => {
-  return MOOD_CODE.includes(value as MoodCode);
-};
+export function useSelectedMoodCode(initialMoodId: number) {
+  const [selectedMoodCodeId, setSelectedMoodCodeId] = useState<number>(initialMoodId);
 
-export function useSelectedMoodCode(initialMoodCodes: MoodCode[] = []) {
-  const [selectedMoodCodes, setSelectedMoodCodes] = useState<MoodCode[]>(initialMoodCodes);
+  useEffect(() => {
+    setSelectedMoodCodeId(initialMoodId);
+  }, [initialMoodId]);
 
-  const toggleMoodCode = (value: string) => {
-    if (!isMoodCode(value)) return;
-
-    setSelectedMoodCodes((prev) =>
-      prev.includes(value) ? prev.filter((moodCode) => moodCode !== value) : [...prev, value],
-    );
-  };
-
-  const isSelectedMoodCode = (moodCode: MoodCode) => {
-    return selectedMoodCodes.includes(moodCode);
+  const toggleMoodCode = (value: number) => {
+    setSelectedMoodCodeId((prevSelectedMoodCodeId) => {
+      if (prevSelectedMoodCodeId === value) return prevSelectedMoodCodeId;
+      return value;
+    });
   };
 
   return {
     toggleMoodCode,
-    isSelectedMoodCode,
+    selectedMoodCodeId,
   };
 }

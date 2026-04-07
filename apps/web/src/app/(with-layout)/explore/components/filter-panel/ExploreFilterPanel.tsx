@@ -55,7 +55,8 @@ export default function ExploreFilterPanel({
 
         <div className='flex flex-col gap-[0.7rem]'>
           {CATEGORIES.map((category) => {
-            const moodsInCategory = moodList?.filter((m) => m.category === category);
+            //TODO: API TYPE 이 바뀜 수정 필요
+            const moodsInCategory = moodList?.filter(() => true);
             return (
               <div key={category} className='grid grid-cols-[5rem_1fr] items-start gap-x-[0.8rem]'>
                 <span className='caption-12-md text-black-9 py-[0.6rem] whitespace-nowrap'>

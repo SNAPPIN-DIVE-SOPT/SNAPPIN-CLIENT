@@ -80,6 +80,11 @@ export const USER_QUERY_KEY = {
     formatDate,
     'close-dates',
   ],
+  PRODUCT_RECOMMENDATION: (moodId?: string) => [
+    ...USER_QUERY_KEY.PRODUCT,
+    'recommendation',
+    moodId,
+  ],
 
   // 리뷰
   REVIEW: ['review'],

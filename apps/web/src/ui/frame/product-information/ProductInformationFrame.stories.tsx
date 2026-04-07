@@ -24,7 +24,7 @@ const meta: Meta<typeof ProductInformationFrame> = {
       control: { type: 'number', min: 0 },
       description: '상품 식별자',
     },
-    name: {
+    title: {
       control: 'text',
       description: '상품명',
     },
@@ -56,29 +56,17 @@ const meta: Meta<typeof ProductInformationFrame> = {
       control: 'text',
       description: '이미지 높이 (예: 26.6rem)',
     },
-    moods: {
-      table: {
-        disable: true,
-      },
-    },
     imageClassName: {
       table: {
         disable: true,
       },
     },
-    preload: {
-      table: {
-        disable: true,
-      },
-    },
+    imageUrl: { control: 'text', description: '상품 이미지 URL' },
   },
   args: {
     id: 1,
-    image: {
-      src: '/imgs/default-image.png',
-      alt: '임시 이미지',
-    },
-    name: '잊지 못 할 졸업스냅',
+    imageUrl: '/imgs/default-image.png',
+    title: '잊지 못 할 졸업스냅',
     rate: 4.8,
     reviewCount: 20,
     photographer: '김작가',
@@ -103,7 +91,7 @@ export const Liked: Story = {
 
 export const LongContent: Story = {
   args: {
-    name: '찰나의 순간을 오래 남기는 프리미엄 졸업 스냅 촬영',
+    title: '찰나의 순간을 오래 남기는 프리미엄 졸업 스냅 촬영',
     photographer: '작가 이름이 긴 포토그래퍼 스튜디오',
     reviewCount: 128,
     price: 135000,

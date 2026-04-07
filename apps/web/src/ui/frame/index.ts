@@ -4,3 +4,7 @@ export { default as ProductInformationFrame } from './product-information/Produc
 export { default as PortfolioFrameList } from './portfolio/PortfolioList';
 export { default as ProductFrameList } from './product/ProductList';
 export { default as ProductInformationFrameList } from './product-information/ProductInformationList';
+export {
+  default as ProductInformationFrameListSkeleton,
+  ProductInformationFrameSkeleton,
+} from './product-information/ProductInformationListSkeleton';

@@ -10,7 +10,7 @@ export default function AiCurationButton({ className }: AiCurationButtonProps) {
     <Button
       color='primary'
       size='large'
-      className={cn('font-16-bd rounded-[4.6rem] px-[2.4rem] py-[1.3rem]', className)}
+      className={cn('font-16-sb rounded-[4.6rem] px-[2.4rem] py-[1.3rem]', className)}
     >
       AI 무드큐레이션 하러가기
     </Button>

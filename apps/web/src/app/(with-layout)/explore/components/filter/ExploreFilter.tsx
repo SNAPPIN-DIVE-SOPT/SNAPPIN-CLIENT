@@ -37,11 +37,14 @@ export default function ExploreFilter() {
   const userResetRef = useRef(false);
   const autoAppliedRef = useRef(false);
 
+  //TODO: API type 바뀜 이슈로 build error 발생, 임시로 주석처리
   const curatedIds = useMemo(() => {
-    return (data?.moods ?? [])
-      .filter((m) => m.isCurated)
-      .map((m) => m.id)
-      .filter((id): id is number => typeof id === 'number');
+    return (
+      (data?.moods ?? [])
+        // .filter((m) => m.isCurated)
+        .map((m) => m.id)
+        .filter((id): id is number => typeof id === 'number')
+    );
   }, [data?.moods]);
 
   const replaceMoodIds = useCallback(
