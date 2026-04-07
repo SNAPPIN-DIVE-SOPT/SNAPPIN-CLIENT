@@ -22,8 +22,8 @@ export default function MoodAnimationPending() {
     >
       <Lottie animationData={curationLoadingAnimation} className='h-[7rem] w-[7rem]' />
       <div className='mt-[3rem] flex flex-col items-center gap-[0.3rem]'>
-        <span className='caption-12-md text-black-7'>?먭뎄?먭뎄</span>
-        <h1 className='title-23-eb text-black-10'>臾대뱶 ?먮젅?댁뀡 寃곌낵??..</h1>
+        <span className='caption-12-md text-black-7'>두구두구</span>
+        <h1 className='title-23-eb text-black-10'>무드 큐레이션 결과는..</h1>
       </div>
     </motion.div>
   );

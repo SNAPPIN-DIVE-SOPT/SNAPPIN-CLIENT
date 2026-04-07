@@ -16,7 +16,7 @@ import {
 import type { CreateMoodCurationResponse } from '@/swagger-api';
 import { ROUTES } from '@/constants/routes/routes';
 import { MoodCode } from '@snappin/shared/types';
-import MoodChip from '../mood-chip/MoodChip';
+import MoodChip from '@/app/(auth)/ai-curation/result/components/mood-chip/MoodChip';
 
 type MoodAnimationResultProps = { data: CreateMoodCurationResponse };
 

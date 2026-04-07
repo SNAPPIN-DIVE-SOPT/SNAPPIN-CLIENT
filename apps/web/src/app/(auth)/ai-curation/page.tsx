@@ -1,5 +1,5 @@
 ﻿import { Logo } from '@snappin/design-system/assets';
-import { ClientFooter, ClientHeader, LottieAnimation } from './components';
+import { ClientFooter, ClientHeader, LottieAnimation } from '@/app/(auth)/ai-curation/components';
 
 export default function Page() {
   return (

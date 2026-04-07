@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { useEffect, useMemo, useState, startTransition } from 'react';
 import { cn } from '@snappin/design-system/lib/cn';
 import { useToast } from '@/ui';
-import { useGetAiCurationAll } from '../../api';
-import { type STEP } from '../../constants/steps';
-import { useAiCuration } from '../../../hooks/useAiCuration';
+import { useGetAiCurationAll } from '@/app/(auth)/ai-curation/[step]/api';
+import { type STEP } from '@/app/(auth)/ai-curation/[step]/constants/steps';
+import { useAiCuration } from '@/app/(auth)/ai-curation/hooks/useAiCuration';
 
 type ImageAnimationProps = {
   step: STEP;

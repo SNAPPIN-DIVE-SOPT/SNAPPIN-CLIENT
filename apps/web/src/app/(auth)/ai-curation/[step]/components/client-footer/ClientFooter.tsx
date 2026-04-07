@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import { BottomCTAButton } from '@snappin/design-system';
 import { useToast } from '@/ui';
 import { ROUTES } from '@/constants/routes/routes';
-import { type STEP, TOTAL_STEP_COUNT } from '../../constants/steps';
-import { useAiCuration } from '../../../hooks/useAiCuration';
-import { usePostAiCuration } from '../../api';
+import { type STEP, TOTAL_STEP_COUNT } from '@/app/(auth)/ai-curation/[step]/constants/steps';
+import { useAiCuration } from '@/app/(auth)/ai-curation/hooks/useAiCuration';
+import { usePostAiCuration } from '@/app/(auth)/ai-curation/[step]/api';
 
 type ClientFooterProps = {
   step: STEP;
