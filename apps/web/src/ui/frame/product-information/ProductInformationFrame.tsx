@@ -1,8 +1,11 @@
 import { CSSProperties } from 'react';
+import Link from 'next/link';
 import { IconStar } from '@snappin/design-system/assets';
 import { ImageWithShadow } from '@snappin/design-system';
-import ProductClient from '../components/Product.client';
 import { GetPopularMoodProductItemResponse } from '@/swagger-api/data-contracts';
+import { ROUTES } from '@/constants/routes/routes';
+import { formatPrice } from '@snappin/shared/lib';
+import ProductClient from '../components/Product.client';
 
 type CssSize = CSSProperties['width'];
 
@@ -18,7 +21,7 @@ export default function ProductInformationFrame({
   rate,
   reviewCount,
   photographer,
-  price,
+  price = 0,
   id = 0,
   isLiked = false,
   width = '100%',
@@ -26,7 +29,7 @@ export default function ProductInformationFrame({
   imageClassName,
 }: ProductInformationFrameProps) {
   return (
-    <div className='relative overflow-hidden' style={{ width }}>
+    <Link href={ROUTES.PRODUCT(id)} className='relative overflow-hidden' style={{ width }}>
       <ImageWithShadow
         src={imageUrl || '/imgs/default-image.png'}
         alt={`${title} 상품 이미지`}
@@ -37,7 +40,7 @@ export default function ProductInformationFrame({
       <div className='absolute right-0 bottom-0 flex w-full flex-col items-center gap-[0.8rem] p-[1.2rem]'>
         <div className='text-black-1 flex w-full flex-col'>
           <p className='caption-11-md truncate'>{title}</p>
-          <span className='caption-14-bd'>{price}원~</span>
+          <span className='caption-14-bd'>{formatPrice(price)}원~</span>
         </div>
 
         <div className='text-black-4 flex w-full min-w-0 items-center gap-[0.8rem]'>
@@ -57,6 +60,6 @@ export default function ProductInformationFrame({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
