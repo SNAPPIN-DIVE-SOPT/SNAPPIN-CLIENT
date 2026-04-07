@@ -13,7 +13,7 @@ import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
 
 const CLIENT_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL;
 const KAKAO_LOGIN_URL =
-  `${SERVER_API_BASE_URL}/api/v1/auth/login/kakao` +
+  `${SERVER_API_BASE_URL}/api/v2/auth/login/kakao` +
   `?redirect_uri=${encodeURIComponent(CLIENT_REDIRECT_URI!)}`;
 
 export default function KakaoCallbackPage() {
@@ -55,14 +55,13 @@ export default function KakaoCallbackPage() {
         if (!isValidUserType(data.data.role)) {
           throw new Error(`Invalid role: ${data.data.role}`);
         }
-        // TODO: 서버 응답에 hasPhotographerProfile 있으면 그걸로 교체
         setAuthUser({
           role: data.data.role as UserType,
-          hasPhotographerProfile: true,
+          hasPhotographerProfile: data.data.hasPhotographerProfile ?? false,
         });
 
-        if (data.data.isNew) {
-          router.replace(ROUTES.AI_CURATION);
+        if (!data.data.isOnboardingCompleted) {
+          router.replace(ROUTES.ON_BOARDING(1));
         } else if (data.data.role === USER_TYPE.PHOTOGRAPHER) {
           router.replace(PHOTOGRAPHERS_ROUTES.RESERVATIONS());
         } else {
