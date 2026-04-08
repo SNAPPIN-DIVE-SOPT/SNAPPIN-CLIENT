@@ -81,7 +81,7 @@ const ClientProfileCard = ({ data, imageUrl }: ClientProfileCardProps) => {
         <Profile.Item>
           <Profile.Title>{data.name}</Profile.Title>
           <Profile.Description typography='caption-12-rg' color='black-8'>
-            {data.curatedMoods}
+            {data.nickname ?? '-'}
           </Profile.Description>
         </Profile.Item>
       </Profile.Content>

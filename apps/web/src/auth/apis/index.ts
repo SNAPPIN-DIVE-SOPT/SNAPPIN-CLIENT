@@ -96,12 +96,12 @@ export const useGetUserInfo = () => {
     queryKey: AUTH_QUERY_KEY.AUTH,
     queryFn: async () => {
       const res = await apiRequest<GetUserInfoData>({
-        endPoint: '/api/v1/users/me',
+        endPoint: '/api/v2/users/me',
         method: 'GET',
       });
 
       if (!res.data) {
-        throw new Error('/api/v1/users/me 응답에 데이터가 존재하지 않습니다.');
+        throw new Error('/api/v2/users/me 응답에 데이터가 존재하지 않습니다.');
       }
       return res.data;
     },
