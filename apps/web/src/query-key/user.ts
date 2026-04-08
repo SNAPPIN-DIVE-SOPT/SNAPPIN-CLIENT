@@ -104,4 +104,8 @@ export const USER_QUERY_KEY = {
   // 리뷰
   REVIEW: ['review'],
   REVIEW_DETAIL: (id: number) => [...USER_QUERY_KEY.REVIEW, id],
+
+  // 온보딩
+  ON_BOARDING: ['onboarding'],
+  ON_BOARDING_USER: () => [...USER_QUERY_KEY.ON_BOARDING, 'user'],
 } as const;

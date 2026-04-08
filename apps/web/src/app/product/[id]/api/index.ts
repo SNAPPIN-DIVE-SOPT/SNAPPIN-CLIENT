@@ -1,5 +1,6 @@
 import {
   useMutation,
+  useQuery,
   useQueryClient,
   useSuspenseQuery,
   useSuspenseInfiniteQuery,
@@ -19,6 +20,7 @@ import {
   ProductReservationRequest,
   UpdateWishProductData,
   WishProductResponse,
+  GetOnboardingData,
 } from '@/swagger-api';
 import { productDetailOptions, productPortfoliosOptions, productReviewsOptions } from './options';
 
@@ -208,4 +210,32 @@ export const useGetPortfolioList = (id: number, isLogIn: boolean) => {
 // 상품 리뷰 목록 조회 API
 export const useGetProductReviewList = (id: number) => {
   return useSuspenseInfiniteQuery(productReviewsOptions(id));
+};
+
+// 예약자 정보 조회 API
+export const useGetUsersOnboarding = (isLogIn: boolean) => {
+  return useQuery({
+    queryKey: USER_QUERY_KEY.ON_BOARDING_USER(),
+    queryFn: async () => {
+      if (!isLogIn) return null;
+
+      try {
+        const res = await apiRequest<GetOnboardingData>({
+          endPoint: '/api/v1/users/onboarding',
+          method: 'GET',
+        });
+
+        if (!res.data) {
+          throw new Error('/api/v1/users/onboarding 응답에 데이터가 존재하지 않습니다.');
+        }
+        return res.data;
+      } catch (error) {
+        if (typeof error === 'string') {
+          const parsed = JSON.parse(error);
+          if (parsed.status === 404) return null;
+        }
+        throw error;
+      }
+    }
+  });
 };
