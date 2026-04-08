@@ -152,7 +152,7 @@ export const buildExploreQuery = (sp: URLSearchParams) => {
   if (date) query.set('date', date);
 
   const peopleCount = sp.get('peopleCount');
-  if (peopleCount) query.set('peopleCount', peopleCount);
+  if (peopleCount && Number(peopleCount) > 0) query.set('peopleCount', peopleCount);
 
   return query;
 };
