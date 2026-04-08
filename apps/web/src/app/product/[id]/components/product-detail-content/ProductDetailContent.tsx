@@ -86,7 +86,7 @@ export default function ProductDetailContent({ productId, tab, isLogIn }: Produc
           )}
         </div>
       </Tabs>
-      <Footer productId={productId} contact={data?.photographerInfo?.contact} isLogIn={isLogIn} />
+      <Footer productId={productId} contactLink={data?.photographerInfo?.contactLink} isLogIn={isLogIn} />
     </>
   );
 }

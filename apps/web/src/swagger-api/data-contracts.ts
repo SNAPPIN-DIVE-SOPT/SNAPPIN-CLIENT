@@ -1188,6 +1188,137 @@ export interface GetProductMetaResponseV2 {
   nextCursor?: string;
   /** 다음 커서 존재 여부 */
   hasNext?: boolean;
+  /**
+   * 전체 검색 결과 수
+   * @format int64
+   */
+  totalCount?: number;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyGetProductDetailResponseVoid {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 상품 상세 조회 응답 DTO */
+  data?: GetProductDetailResponse;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 상품 상세 조회 응답 DTO */
+export interface GetProductDetailResponse {
+  /**
+   * 상품 ID
+   * @format int64
+   */
+  id?: number;
+  /** 상품 이미지 목록 */
+  images?: string[];
+  /** 상품명 */
+  title?: string;
+  /** 좋아요 여부 */
+  isLiked?: boolean;
+  /**
+   * 좋아요 수
+   * @format int64
+   */
+  likeCount?: number;
+  /** 평균 별점 */
+  averageRate?: number;
+  /**
+   * 리뷰 개수
+   * @format int64
+   */
+  reviewCount?: number;
+  /**
+   * 가격
+   * @format int32
+   */
+  price?: number;
+  /** 상품 조회 시 작가 응답 DTO V2 */
+  photographerInfo?: GetProductPhotographerInfoResponseV2;
+  /** 상품 안내 정보 응답 DTO */
+  productInfo?: GetProductInfoResponse;
+}
+
+/** 상품 안내 정보 응답 DTO */
+export interface GetProductInfoResponse {
+  /** 촬영 종류 (유형) */
+  snapCategory?: string;
+  /** 촬영 장소 (지역) */
+  regions?: string[];
+  /** 스냅 무드 */
+  moods?: string[];
+  /** 최대 촬영 인원 */
+  maxPeople?: string;
+  /** 촬영 작가 인원 */
+  photographerCount?: string;
+  /** 촬영 시간 (시간단위) */
+  durationTime?: string;
+  /** RAW 파일 제공 여부 */
+  provideRaw?: string;
+  /** 원본 JPG 제공 여부 */
+  provideOriginalJpg?: string;
+  /** 원본 JPG 제공 장수 */
+  originalJpgCount?: string;
+  /** 원본 제공 시점 */
+  originalDeliveryTime?: string;
+  /** 동영상 제공 여부 */
+  provideVideo?: string;
+  /** 무료 수정 횟수 */
+  freeRevisionCount?: string;
+  /** 최종 결과물 제공 장수 */
+  finalCutCount?: string;
+  /** 최종 결과물 전달 소요시간 */
+  finalDeliveryTime?: string;
+  /** 상품 소개 */
+  description?: string;
+  /** 촬영 진행 순서 */
+  processDescription?: string;
+  /** 사용 장비 */
+  equipment?: string;
+  /** 기타 주의 사항 */
+  caution?: string;
+  /** 장수 추가 가능 여부 및 금액 */
+  canAddPhoto?: string;
+  /** 유료 옵션 항목 키 목록 */
+  paidOptions?: string[];
+}
+
+/** 상품 조회 시 작가 응답 DTO V2 */
+export interface GetProductPhotographerInfoResponseV2 {
+  /**
+   * 작가 ID
+   * @format int64
+   */
+  id?: number;
+  /** 작가 이름 */
+  name?: string;
+  /** 프로필 이미지 URL */
+  profileImageUrl?: string;
+  /** 한줄 소개 */
+  bio?: string;
+  /**
+   * 연락 링크 URL
+   * @example "https://open.kakao.com/o/example"
+   */
+  contactLink?: string;
+  /** 촬영 상품 (전문 스냅 유형) */
+  specialties?: string[];
+  /** 활동 지역 */
+  locations?: string[];
 }
 
 /** 포폴 목록 조회 요청 DTO - 쿼리 파라미터용 */
@@ -1286,6 +1417,70 @@ export interface GetPortfolioMetaResponseV2 {
   nextCursor?: string;
   /** 다음 커서 존재 여부 */
   hasNext?: boolean;
+  /**
+   * 전체 검색 결과 수
+   * @format int64
+   */
+  totalCount?: number;
+}
+
+/** 공통 응답 DTO */
+export interface ApiResponseBodyGetPhotographerProfileResponseV2Void {
+  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
+  success?: boolean;
+  /**
+   * 해당 API의 HTTP 상태 코드입니다.
+   * @format int32
+   */
+  status?: number;
+  /** 해당 API의 결과에 대한 상태 메시지입니다. */
+  message?: string;
+  /**
+   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
+   * @example "TIC_200_001"
+   */
+  code?: string;
+  /** 작가 상세 조회 응답 DTO V2 */
+  data?: GetPhotographerProfileResponseV2;
+  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
+  meta?: object;
+}
+
+/** 작가 상세 조회 응답 DTO V2 */
+export interface GetPhotographerProfileResponseV2 {
+  /**
+   * 작가 ID
+   * @format int64
+   * @example 1
+   */
+  id?: number;
+  /**
+   * 작가가 설정한 작가명
+   * @example "스윙스냅"
+   */
+  name?: string;
+  /** 작가 프로필 이미지 URL */
+  profileImageUrl?: string;
+  /**
+   * 작가 한 줄 소개
+   * @example "일상의 아름다움을 포착합니다"
+   */
+  bio?: string;
+  /**
+   * 연락 링크 URL
+   * @example "https://open.kakao.com/o/example"
+   */
+  contactLink?: string;
+  /**
+   * 촬영 상품
+   * @example ["졸업스냅","웨딩스냅"]
+   */
+  specialties?: string[];
+  /**
+   * 활동 지역
+   * @example ["서울","인천"]
+   */
+  locations?: string[];
 }
 
 /** 공통 응답 DTO */
@@ -1848,118 +2043,6 @@ export interface GetProductListMeta {
 export interface GetProductListResponse {
   /** 상품 목록 */
   products?: GetProductCardResponse[];
-}
-
-/** 공통 응답 DTO */
-export interface ApiResponseBodyGetProductDetailResponseVoid {
-  /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
-  success?: boolean;
-  /**
-   * 해당 API의 HTTP 상태 코드입니다.
-   * @format int32
-   */
-  status?: number;
-  /** 해당 API의 결과에 대한 상태 메시지입니다. */
-  message?: string;
-  /**
-   * 해당 API 관련 커스텀 코드입니다. 도메인(3글자)-상태코드-순번 으로 이루어져 있습니다.
-   * @example "TIC_200_001"
-   */
-  code?: string;
-  /** 상품 상세 조회 응답 DTO */
-  data?: GetProductDetailResponse;
-  /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
-  meta?: object;
-}
-
-/** 상품 상세 조회 응답 DTO */
-export interface GetProductDetailResponse {
-  /**
-   * 상품 ID
-   * @format int64
-   */
-  id?: number;
-  /** 상품 이미지 목록 */
-  images?: string[];
-  /** 상품명 */
-  title?: string;
-  /** 좋아요 여부 */
-  isLiked?: boolean;
-  /** 평균 별점 */
-  averageRate?: number;
-  /**
-   * 리뷰 개수
-   * @format int64
-   */
-  reviewCount?: number;
-  /**
-   * 가격
-   * @format int32
-   */
-  price?: number;
-  /** 상품 조회 시 작가 응답 DTO */
-  photographerInfo?: GetProductPhotographerInfoResponse;
-  /** 상품 안내 정보 응답 DTO */
-  productInfo?: GetProductInfoResponse;
-}
-
-/** 상품 안내 정보 응답 DTO */
-export interface GetProductInfoResponse {
-  /** 촬영 종류 (유형) */
-  snapCategory?: string;
-  /** 촬영 장소 (지역) */
-  regions?: string[];
-  /** 스냅 무드 */
-  moods?: string[];
-  /** 최대 촬영 인원 */
-  maxPeople?: string;
-  /** 촬영 작가 인원 */
-  photographerCount?: string;
-  /** 촬영 시간 (시간단위) */
-  durationTime?: string;
-  /** RAW 파일 제공 여부 */
-  provideRaw?: string;
-  /** 원본 JPG 제공 여부 */
-  provideOriginalJpg?: string;
-  /** 원본 JPG 제공 장수 */
-  originalJpgCount?: string;
-  /** 원본 제공 시점 */
-  originalDeliveryTime?: string;
-  /** 동영상 제공 여부 */
-  provideVideo?: string;
-  /** 무료 수정 횟수 */
-  freeRevisionCount?: string;
-  /** 최종 결과물 제공 장수 */
-  finalCutCount?: string;
-  /** 최종 결과물 전달 소요시간 */
-  finalDeliveryTime?: string;
-  /** 상품 소개 */
-  description?: string;
-  /** 촬영 진행 순서  */
-  processDescription?: string;
-  /** 사용 장비 */
-  equipment?: string;
-  /** 기타 주의 사항 */
-  caution?: string;
-}
-
-/** 상품 조회 시 작가 응답 DTO */
-export interface GetProductPhotographerInfoResponse {
-  /**
-   * 작가 ID
-   * @format int64
-   */
-  id?: number;
-  /** 작가 이름 */
-  name?: string;
-  /** 프로필 이미지 URL */
-  profileImageUrl?: string;
-  /** 한줄 소개 */
-  bio?: string;
-  /** 촬영 상품 (전문 스냅 유형) */
-  specialties?: string[];
-  /** 활동 지역 */
-  locations?: string[];
 }
 
 /** 공통 응답 DTO */
@@ -2980,8 +3063,13 @@ export type GetUserInfoData = ApiResponseBodyGetUserInfoResponseVoid;
 export type GetProductListData =
   ApiResponseBodyGetProductListResponseV2GetProductMetaResponseV2;
 
+export type GetProductDetailData = ApiResponseBodyGetProductDetailResponseVoid;
+
 export type GetPortfolioListData =
   ApiResponseBodyGetPortfolioListResponseV2GetPortfolioMetaResponseV2;
+
+export type GetPhotographerProfileData =
+  ApiResponseBodyGetPhotographerProfileResponseV2Void;
 
 export type GetAllMoodFiltersData =
   ApiResponseBodyGetMoodFilterListResponseVoid;
@@ -3001,7 +3089,7 @@ export type GetReservationPriceData =
 export type GetProductList1Data =
   ApiResponseBodyGetProductListResponseGetProductListMeta;
 
-export type GetProductDetailData = ApiResponseBodyGetProductDetailResponseVoid;
+export type GetProductDetail1Data = ApiResponseBodyGetProductDetailResponseVoid;
 
 export type GetProductExtraInfoData =
   ApiResponseBodyGetProductExtraInfoResponseVoid;
@@ -3034,7 +3122,7 @@ export type GetPopularPortfoliosData =
 
 export type GetPlacesData = ApiResponseBodyGetPlaceListResponseVoid;
 
-export type GetPhotographerProfileData =
+export type GetPhotographerProfile1Data =
   ApiResponseBodyGetPhotographerProfileResponseVoid;
 
 export type GetAllMoodFilters1Data =

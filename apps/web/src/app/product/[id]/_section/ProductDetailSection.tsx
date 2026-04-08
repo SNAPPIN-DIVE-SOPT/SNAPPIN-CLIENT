@@ -1,12 +1,9 @@
-// TODO: API 구현 완료되면 주석 풀기
 import { Fragment } from 'react';
 import { TagChip, Divider } from '@snappin/design-system';
-// import { GetProductInfoResponse } from '@/swagger-api';
+import { GetProductInfoResponse } from '@/swagger-api';
 
 type ProductDetailSectionProps = {
-  // productInfo: GetProductInfoResponse | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  productInfo: any;
+  productInfo: GetProductInfoResponse | undefined;
 };
 
 const OPTIONAL_INFO_CONFIG = [
@@ -31,12 +28,7 @@ export default function ProductDetailSection({ productInfo }: ProductDetailSecti
   const optionalInfoList = OPTIONAL_INFO_CONFIG
     .filter(({ key }) => productInfo?.[key] !== null)
     .map(({ key, label }) => {
-      // TODO: 서버 변경 후 조건 제거
-      if (productInfo?.paidOptions) {
-        return { label: label, content: productInfo?.[key], isPaid: productInfo?.paidOptions.includes(key) };
-      }
-
-      return { label: label, content: productInfo?.[key], isPaid: true };
+      return { label: label, content: productInfo?.[key], isPaid: productInfo?.paidOptions?.includes(key) };
     });
 
   return (

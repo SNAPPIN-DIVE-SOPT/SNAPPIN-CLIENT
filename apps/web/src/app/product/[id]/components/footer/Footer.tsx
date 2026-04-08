@@ -9,21 +9,21 @@ import { useGetUsersOnboarding } from '@/app/product/[id]/api';
 
 type FooterProps = {
   productId: number;
-  contact: string;
+  contactLink: string;
   isLogIn: boolean;
 };
 
 const TOAST_STYLE = 'px-[2rem] bottom-[8.4rem]';
 
-export default function Footer({ productId, contact, isLogIn }: FooterProps) {
+export default function Footer({ productId, contactLink, isLogIn }: FooterProps) {
   const router = useRouter();
   const { login } = useToast();
 
   const { data: hasOnboarding, isPending, isError } = useGetUsersOnboarding(isLogIn);
 
   const handleContactClick = () => {
-    if (contact) {
-      window.open(contact, '_blank', 'noopener,noreferrer');
+    if (contactLink) {
+      window.open(contactLink, '_blank', 'noopener,noreferrer');
     }
   };
   const handleReservationClick = () => {
