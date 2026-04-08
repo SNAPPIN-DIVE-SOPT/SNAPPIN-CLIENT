@@ -1,15 +1,15 @@
 import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import {
-  GetPlaceResponse,
   ApiResponseBodyGetMoodFilterListResponseVoid,
+  ApiResponseBodyGetPortfolioListResponseV2GetPortfolioMetaResponseV2,
   CategoriesResponse,
   GetMoodFilterListResponse,
+  GetPlaceResponse,
   GetProductListData,
-  ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse,
 } from '@/swagger-api';
-import { USER_QUERY_KEY } from '@/query-key/user';
-import { useAuth } from '@/auth/hooks/useAuth';
 import { apiRequest } from '@/api/apiRequest';
+import { useAuth } from '@/auth/hooks/useAuth';
+import { USER_QUERY_KEY } from '@/query-key/user';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_SERVER_BASE_URL;
 
@@ -22,7 +22,7 @@ const MOODS_FULL_URL = BASE_URL + MOODS_ENDPOINT;
 const PLACE_ENDPOINT = '/api/v1/places';
 const PLACE_FULL_URL = `${BASE_URL}${PLACE_ENDPOINT}`;
 
-const PORTFOLIO_ENDPOINT = '/api/v1/portfolios';
+const PORTFOLIO_ENDPOINT = '/api/v2/portfolios';
 const PORTFOLIO_FULL_URL = `${BASE_URL}${PORTFOLIO_ENDPOINT}`;
 
 const PRODUCT_ENDPOINT = '/api/v1/products';
@@ -35,8 +35,8 @@ export const useSearchPlaces = (keyword: string) => {
     queryKey: USER_QUERY_KEY.PLACES_SEARCH(trimmedKeyword),
     queryFn: async ({ signal }) => {
       if (trimmedKeyword === '') return [];
-      const url = `${PLACE_FULL_URL}?keyword=${encodeURIComponent(trimmedKeyword)}`;
 
+      const url = `${PLACE_FULL_URL}?keyword=${encodeURIComponent(trimmedKeyword)}`;
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -48,12 +48,14 @@ export const useSearchPlaces = (keyword: string) => {
       if (!response.ok) {
         throw new Error(`촬영 장소 조회 API 요청 실패 ${response.status} ${response.statusText}`);
       }
+
       const data = await response.json();
 
       if (!data.data) return [];
+
       return data.data.places;
     },
-    staleTime: 30 * 1000, // 30 seconds
+    staleTime: 30 * 1000,
     retry: 0,
   });
 };
@@ -92,7 +94,6 @@ export const useMoodFilters = () => {
     queryKey: USER_QUERY_KEY.MOODS_FILTER(isLogIn ? 'user' : 'guest'),
     enabled: authResolved,
     queryFn: async () => {
-      // 로그인 상태
       if (isLogIn) {
         const response = await apiRequest<ApiResponseBodyGetMoodFilterListResponseVoid>({
           method: 'GET',
@@ -102,10 +103,10 @@ export const useMoodFilters = () => {
         if (!response.data) {
           throw new Error('무드 필터 데이터를 불러오지 못했습니다.');
         }
+
         return response.data;
       }
 
-      // 비 로그인상태
       const response = await fetch(MOODS_FULL_URL, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -126,7 +127,6 @@ export const useMoodFilters = () => {
   });
 };
 
-// 탐색 쿼리 빌더
 export const buildExploreQuery = (sp: URLSearchParams) => {
   const query = new URLSearchParams();
 
@@ -157,40 +157,57 @@ export const buildExploreQuery = (sp: URLSearchParams) => {
   return query;
 };
 
-// 포폴 목록 조회 API
-export const useGetPortfolioList = (sp: URLSearchParams) => {
-  const baseQuery = buildExploreQuery(sp);
+const buildExplorePortfolioQuery = (sp: URLSearchParams) => {
+  const query = buildExploreQuery(sp);
+  const sort = sp.get('sort');
 
-  return useSuspenseInfiniteQuery<ApiResponseBodyGetPortfolioListResponseGetPortfolioMetaResponse>({
-    queryKey: USER_QUERY_KEY.PORTFOLIO_LIST(baseQuery.toString()),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    initialPageParam: undefined,
-    queryFn: async ({ pageParam }) => {
-      const url = new URL(PORTFOLIO_FULL_URL);
+  query.set('snapCategory', 'GRADUATION');
 
-      // 필터 파라미터 주입
-      baseQuery.forEach((value, key) => url.searchParams.set(key, value));
+  if (sort) query.set('sort', sort);
 
-      // 커서
-      if (pageParam !== undefined && pageParam !== null) {
-        url.searchParams.set('cursor', String(pageParam));
-      }
-
-      const res = await fetch(url.toString(), { method: 'GET' });
-      if (!res.ok) throw new Error('/api/v1/portfolios 응답 실패');
-      return await res.json();
-    },
-    getNextPageParam: (lastPage) => {
-      return lastPage.meta?.hasNext ? lastPage.meta?.nextCursor : undefined;
-    },
-  });
+  return query;
 };
 
-// 상품 목록 조회 API
+export const useGetPortfolioList = (sp: URLSearchParams) => {
+  const baseQuery = buildExplorePortfolioQuery(sp);
+
+  return useSuspenseInfiniteQuery<ApiResponseBodyGetPortfolioListResponseV2GetPortfolioMetaResponseV2>(
+    {
+      queryKey: USER_QUERY_KEY.PORTFOLIO_LIST(baseQuery.toString()),
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      initialPageParam: undefined,
+      queryFn: async ({ pageParam }) => {
+        const url = new URL(PORTFOLIO_FULL_URL);
+
+        baseQuery.forEach((value, key) => url.searchParams.set(key, value));
+
+        if (pageParam !== undefined && pageParam !== null) {
+          url.searchParams.set('cursor', String(pageParam));
+        }
+
+        const response = await fetch(url.toString(), { method: 'GET' });
+        if (!response.ok) {
+          throw new Error('/api/v2/portfolios 응답 실패');
+        }
+
+        const data = await response.json();
+        if (!data.data) {
+          throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
+        }
+
+        return data;
+      },
+      getNextPageParam: (lastPage) => {
+        return lastPage.meta?.hasNext ? lastPage.meta?.nextCursor : undefined;
+      },
+    },
+  );
+};
+
 export const useGetProductList = (sq: URLSearchParams) => {
   const baseQuery = buildExploreQuery(sq);
 
@@ -205,10 +222,8 @@ export const useGetProductList = (sq: URLSearchParams) => {
     queryFn: async ({ pageParam }) => {
       const url = new URL(PRODUCT_FULL_URL);
 
-      // 필터 파라미터 주입
       baseQuery.forEach((value, key) => url.searchParams.set(key, value));
 
-      // 커서
       if (pageParam !== undefined && pageParam !== null) {
         url.searchParams.set('cursor', String(pageParam));
       }
