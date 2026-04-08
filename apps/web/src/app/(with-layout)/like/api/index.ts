@@ -1,11 +1,11 @@
 import { GetWishedPortfoliosData, GetWishedProductsData } from '@/swagger-api';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
-import { USER_QUERY_KEY } from '@/query-key/user';
+import { PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY } from '@/query-key/user';
 
 export const useGetLikePortfolios = () => {
   return useSuspenseInfiniteQuery<GetWishedPortfoliosData>({
-    queryKey: USER_QUERY_KEY.WISHED_PORTFOLIOS(),
+    queryKey: PORTFOLIO_QUERY_KEY.LIKES(),
     initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
       const cursor = typeof pageParam === 'string' ? pageParam : undefined;
@@ -29,7 +29,7 @@ export const useGetLikePortfolios = () => {
 
 export const useGetLikeProducts = () => {
   return useSuspenseInfiniteQuery<GetWishedProductsData>({
-    queryKey: USER_QUERY_KEY.WISHED_PRODUCTS(),
+    queryKey: PRODUCT_QUERY_KEY.LIKES(),
     initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
       const cursor = typeof pageParam === 'string' ? pageParam : undefined;
