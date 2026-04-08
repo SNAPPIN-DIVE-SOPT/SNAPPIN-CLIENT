@@ -1,15 +1,16 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { BottomCTAButton } from '@snappin/design-system';
 import { getReturnToParam, readReturnToContext } from '@/auth/utils/returnTo';
 import { ROUTES } from '@/constants/routes/routes';
+import { useToast } from '@/ui';
 import { TOTAL_STEP_COUNT } from '@/app/(auth)/on-boarding/[step]/constants/onBoardingSteps';
 import type { OnBoardingStep } from '@/app/(auth)/on-boarding/[step]/types/onBoardingStep';
 import { useOnBoardingFormContext } from '@/app/(auth)/on-boarding/hooks/useOnBoardingFormContext';
 import { usePostOnboarding } from '@/app/(auth)/on-boarding/[step]/api';
 import { GenderValue } from '@/app/(auth)/on-boarding/[step]/constants/onBoardingForm.schema';
-import { useToast } from '@/ui';
 
 type ClientFooterProps = {
   step: number;
@@ -22,6 +23,15 @@ export default function ClientFooter({ step, triggerFields }: ClientFooterProps)
   const returnToParams = getReturnToParam(readReturnToContext(searchParams));
   const { compatibleFormData, trigger, handleSubmitForm } = useOnBoardingFormContext();
   const { error } = useToast();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const { mutateAsync, isPending } = usePostOnboarding({
     onSuccess: () => {
@@ -30,7 +40,7 @@ export default function ClientFooter({ step, triggerFields }: ClientFooterProps)
     onError: () => {
       error('온보딩에 실패했어요. 홈으로 이동합니다.', undefined, 'bottom-[8.4rem]');
 
-      window.setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         router.push(ROUTES.HOME);
       }, 2000);
     },
