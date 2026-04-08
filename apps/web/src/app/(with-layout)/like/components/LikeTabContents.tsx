@@ -19,10 +19,10 @@ export default function LikeTabContents({ currentTab }: LikeTabContentsProps) {
         </section>
       )}
       {currentTab === LIKE_TAB.PRODUCT && (
-        <section className='bg-black-3 min-h-full'>
+        <section className='bg-black-1 min-h-full'>
           <Suspense
             fallback={
-              <div className='bg-black-3 flex h-full flex-col gap-[0.6rem]'>
+              <div className='bg-black-1 flex h-full flex-col gap-[0.6rem]'>
                 <ProductListSkeleton length={5} />
               </div>
             }

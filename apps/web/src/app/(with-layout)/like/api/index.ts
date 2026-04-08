@@ -1,38 +1,51 @@
-import {
-  ApiResponseBodyWishedPortfoliosResponseVoid,
-  ApiResponseBodyWishedProductsResponseVoid,
-  WishedPortfoliosResponse,
-  WishedProductsResponse,
-} from '@/swagger-api';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { GetWishedPortfoliosData, GetWishedProductsData } from '@/swagger-api';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { USER_QUERY_KEY } from '@/query-key/user';
 
 export const useGetLikePortfolios = () => {
-  return useSuspenseQuery<WishedPortfoliosResponse>({
+  return useSuspenseInfiniteQuery<GetWishedPortfoliosData>({
     queryKey: USER_QUERY_KEY.WISHED_PORTFOLIOS(),
-    queryFn: async () => {
-      const res = await apiRequest<ApiResponseBodyWishedPortfoliosResponseVoid>({
-        endPoint: '/api/v1/wishes/portfolios',
+    initialPageParam: undefined as string | undefined,
+    queryFn: async ({ pageParam }) => {
+      const cursor = typeof pageParam === 'string' ? pageParam : undefined;
+      const res = await apiRequest<GetWishedPortfoliosData>({
+        endPoint: '/api/v2/wishes/portfolios',
         method: 'GET',
+        params: cursor ? { cursor } : undefined,
       });
-      if (!res.data) throw new Error('No data from /api/v1/wishes/portfolios');
-      return res.data;
+
+      if (!res.data) throw new Error('No data from /api/v2/wishes/portfolios');
+
+      return res;
+    },
+    getNextPageParam: (lastPage: GetWishedPortfoliosData) => {
+      const nextCursor = lastPage.meta?.nextCursor;
+      return lastPage.meta?.hasNext && nextCursor != null ? String(nextCursor) : undefined;
     },
     staleTime: 0,
   });
 };
 
 export const useGetLikeProducts = () => {
-  return useSuspenseQuery<WishedProductsResponse>({
+  return useSuspenseInfiniteQuery<GetWishedProductsData>({
     queryKey: USER_QUERY_KEY.WISHED_PRODUCTS(),
-    queryFn: async () => {
-      const res = await apiRequest<ApiResponseBodyWishedProductsResponseVoid>({
-        endPoint: '/api/v1/wishes/products',
+    initialPageParam: undefined as string | undefined,
+    queryFn: async ({ pageParam }) => {
+      const cursor = typeof pageParam === 'string' ? pageParam : undefined;
+      const res = await apiRequest<GetWishedProductsData>({
+        endPoint: '/api/v2/wishes/products',
         method: 'GET',
+        params: cursor ? { cursor } : undefined,
       });
-      if (!res.data) throw new Error('No data from /api/v1/wishes/products');
-      return res.data;
+
+      if (!res.data) throw new Error('No data from /api/v2/wishes/products');
+
+      return res;
+    },
+    getNextPageParam: (lastPage: GetWishedProductsData) => {
+      const nextCursor = lastPage.meta?.nextCursor;
+      return lastPage.meta?.hasNext && nextCursor != null ? String(nextCursor) : undefined;
     },
     staleTime: 0,
   });
