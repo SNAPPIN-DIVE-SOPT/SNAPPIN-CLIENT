@@ -108,3 +108,21 @@ export const PRODUCT_QUERY_KEY = {
   LIKES: () => [...PRODUCT_QUERY_KEY.all, 'like'],
   LIKE: (id: number) => [...PRODUCT_QUERY_KEY.LIKES(), id],
 } as const;
+
+//이거 쓰라고
+export const PORTFOLIO_QUERY_KEY = {
+  all: ['portfolio'] as const,
+
+  LISTS: () => [...PORTFOLIO_QUERY_KEY.all, 'list'],
+  LIST: (filter: string) => [...PORTFOLIO_QUERY_KEY.LISTS(), filter],
+
+  DETAILS: () => [...PORTFOLIO_QUERY_KEY.all, 'detail'],
+  DETAIL: (id: number, isLogin: boolean) => [
+    ...PORTFOLIO_QUERY_KEY.DETAILS(),
+    id,
+    isLogin ? 'login' : 'not-login',
+  ],
+
+  LIKES: () => [...PORTFOLIO_QUERY_KEY.all, 'like'],
+  LIKE: (id: number) => [...PORTFOLIO_QUERY_KEY.LIKES(), id],
+} as const;
