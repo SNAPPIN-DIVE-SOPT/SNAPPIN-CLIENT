@@ -1,9 +1,10 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { cn } from '@snappin/design-system/lib';
 import { LikeButton } from '@snappin/design-system';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { useWishProduct } from '@/queries/product';
+import { useWishProductLike } from '@/ui/frame/apis';
 import { useToast } from '@/ui';
 
 type ProductClientProps = {
@@ -14,7 +15,12 @@ type ProductClientProps = {
 export default function ProductClient({ id, isLiked }: ProductClientProps) {
   const { isLogIn } = useAuth();
   const { error } = useToast();
-  const { mutate: wishProduct } = useWishProduct();
+  const { mutate: wishProduct } = useWishProductLike({ id, isLogin: !!isLogIn });
+  const [liked, setLiked] = useState(isLiked);
+
+  useEffect(() => {
+    setLiked(isLiked);
+  }, [isLiked]);
 
   const handleLike = (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault();
@@ -25,15 +31,22 @@ export default function ProductClient({ id, isLiked }: ProductClientProps) {
       return;
     }
 
-    wishProduct(id);
+    const previousLiked = liked;
+
+    setLiked((prev) => !prev);
+    wishProduct(id, {
+      onError: () => {
+        setLiked(previousLiked);
+      },
+    });
   };
 
   return (
     <LikeButton
-      isLiked={isLiked}
+      isLiked={liked}
       handleClick={handleLike}
-      aria-label={isLiked ? '좋아요 취소' : '좋아요'}
-      className={cn('h-[1.4rem] w-[1.4rem]', isLiked ? 'text-neon-black' : 'text-black-1')}
+      aria-label={liked ? '좋아요 취소' : '좋아요'}
+      className={cn('h-[1.4rem] w-[1.4rem]', liked ? 'text-neon-black' : 'text-black-1')}
     />
   );
 }
