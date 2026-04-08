@@ -36,7 +36,13 @@ export default function ShootReservationSection({
   reservationCopyFormModel,
 }: ShootReservationSectionProps) {
   const {
-    values: { placeKeyword, durationHours, peopleCount, scheduleSelections, uploadConsentStatus },
+    values: {
+      placeKeyword,
+      durationHours,
+      peopleCount,
+      schedules: scheduleSelections,
+      uploadConsentStatus,
+    },
     viewState: { placeOptions },
     actions: {
       handlePlaceKeywordChange,

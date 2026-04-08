@@ -128,18 +128,8 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
   });
 
   // form 값이 변경될 때마다 최신 값을 가져옴
-  const watchedReservationCopyFormValue = useWatch({ control }) as ReservationCopyFormInput;
-  const {
-    placeId,
-    placeKeyword,
-    durationHours,
-    peopleCount,
-    schedules: scheduleSelections,
-    uploadConsentStatus,
-    requestContent,
-  } = watchedReservationCopyFormValue;
-  const isCopyDisabled = !reservationCopyFormSchema.safeParse(watchedReservationCopyFormValue)
-    .success;
+  const values = useWatch({ control }) as ReservationCopyFormInput;
+  const isCopyDisabled = !reservationCopyFormSchema.safeParse(values).success;
 
   // 장소 자동완성
   const {
@@ -147,10 +137,10 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
     handleChange: handlePlaceKeywordChange,
     handleBlur: handlePlaceBlur,
   } = usePlaceSearchField({
-    value: placeKeyword,
+    value: values.placeKeyword,
     onValueChange: (nextPlaceKeyword) =>
       setValue('placeKeyword', nextPlaceKeyword, { shouldValidate: true }),
-    selectedId: placeId.length > 0 ? placeId : null,
+    selectedId: values.placeId ? values.placeId : null,
     setSelectedId: (nextPlaceId) =>
       setValue('placeId', nextPlaceId ?? '', { shouldValidate: true }),
     clearOnBlurWhenNoId: false,
@@ -175,7 +165,7 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
     scheduleChoiceKey: ScheduleChoiceKey,
     schedulePickerType: SchedulePickerType,
   ) => {
-    if (!hasSelectableScheduleChoice(scheduleChoiceKey, scheduleSelections)) {
+    if (!hasSelectableScheduleChoice(scheduleChoiceKey, values.schedules)) {
       return;
     }
 
@@ -235,7 +225,7 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
     nextUploadConsentStatus: Exclude<ReservationCopyFormInput['uploadConsentStatus'], ''>,
   ) => {
     const nextUploadConsentValue =
-      uploadConsentStatus === nextUploadConsentStatus ? '' : nextUploadConsentStatus;
+      values.uploadConsentStatus === nextUploadConsentStatus ? '' : nextUploadConsentStatus;
 
     setValue('uploadConsentStatus', nextUploadConsentValue, { shouldValidate: true });
   };
@@ -279,16 +269,6 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
         getFieldErrorMessage(scheduleFieldError?.time?.message),
       ];
     }).find((fieldErrorMessage) => fieldErrorMessage.length > 0) ?? '';
-
-  // 뷰에 필요한 값과 에러 메시지, 뷰 상태
-  const values = {
-    placeKeyword,
-    durationHours,
-    peopleCount,
-    scheduleSelections,
-    uploadConsentStatus,
-    requestContent,
-  };
 
   // 각 에러 메시지
   const errors = {

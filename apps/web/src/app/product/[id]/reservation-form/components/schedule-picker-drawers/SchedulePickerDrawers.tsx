@@ -13,7 +13,7 @@ export default function SchedulePickerDrawers({
   reservationCopyFormModel,
 }: SchedulePickerDrawersProps) {
   const {
-    values: { scheduleSelections },
+    values: { schedules: scheduleSelections },
     viewState: {
       isDatePickerBottomDrawerOpen,
       isTimePickerBottomDrawerOpen,
