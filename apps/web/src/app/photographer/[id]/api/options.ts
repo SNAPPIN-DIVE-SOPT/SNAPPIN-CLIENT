@@ -1,8 +1,8 @@
 import { queryOptions, infiniteQueryOptions } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
-import { USER_QUERY_KEY } from '@/query-key/user';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { GetPortfolioListData, GetProductListData } from '@/swagger-api';
+import { USER_QUERY_KEY, PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY } from '@/query-key/user';
 
 // 작가 상세 조회 옵션
 export const photographerDetailOptions = (id: number) =>
@@ -36,7 +36,7 @@ export const photographerDetailOptions = (id: number) =>
 // 포폴 목록 조회 옵션
 export const photographerPortfoliosOptions = (id: number, isLogIn: boolean) =>
   infiniteQueryOptions({
-    queryKey: USER_QUERY_KEY.PHOTOGRAPHER_PORTFOLIOS(id, isLogIn),
+    queryKey: PORTFOLIO_QUERY_KEY.LIST(`photographer-${id}-${isLogIn ? 'login' : 'not-login'}`),
     initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
       try {
@@ -81,11 +81,10 @@ export const photographerPortfoliosOptions = (id: number, isLogIn: boolean) =>
     },
   });
 
-
 // 상품 목록 조회 옵션
 export const photographerProductsOptions = (id: number, isLogIn: boolean) =>
   infiniteQueryOptions({
-    queryKey: USER_QUERY_KEY.PHOTOGRAPHER_PRODUCTS(id, isLogIn),
+    queryKey: PRODUCT_QUERY_KEY.LIST(`photographer-${id}-${isLogIn ? 'login' : 'not-login'}`),
     initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
       try {

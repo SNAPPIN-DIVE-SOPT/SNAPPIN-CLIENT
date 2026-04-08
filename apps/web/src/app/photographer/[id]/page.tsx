@@ -5,7 +5,7 @@ import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { Tabs } from '@snappin/design-system';
 import { ROUTES } from '@/constants/routes/routes';
 import { getQueryClient } from '@/utils/getQueryClient';
-import { PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
+import { PortfolioFrameListSkeleton, ProductFrameListSkeleton } from '@/ui';
 import { PHOTOGRAPHER_TAB, PHOTOGRAPHER_TABS } from '@/app/photographer/[id]/constants/tab';
 import { Header, Footer, FooterSkeleton } from '@/app/photographer/[id]/components';
 import {
@@ -80,14 +80,14 @@ export default async function Page({ params, searchParams }: PageProps) {
           <div>
             {selectedTab === PHOTOGRAPHER_TAB.PORTFOLIO && (
               <div className='bg-black-1 mb-[7.6rem]'>
-                <Suspense fallback={<PortfolioListSkeleton className='mt-[17.1rem]' />}>
+                <Suspense fallback={<PortfolioFrameListSkeleton className='mt-[17.1rem]' />}>
                   <PortfolioListSection id={photographerId} isLogIn={isLogIn} />
                 </Suspense>
               </div>
             )}
             {selectedTab === PHOTOGRAPHER_TAB.PRODUCT && (
               <div className='mb-[7.6rem]'>
-                <Suspense fallback={<ProductListSkeleton className='mt-[17.1rem]' />}>
+                <Suspense fallback={<ProductFrameListSkeleton className='mt-[17.1rem]' />}>
                   <ProductListSection id={photographerId} isLogIn={isLogIn} />
                 </Suspense>
               </div>
