@@ -1,6 +1,6 @@
-import { type ReservationApplicant } from '../types/copy';
+import { type ReservationApplicant } from '../../types/copy';
 
-type ReservationInfoItem = {
+type ApplicantInfoItem = {
   id: 'name' | 'phoneNumber' | 'email';
   label: string;
   value: string;
@@ -11,12 +11,10 @@ type ApplicantInfoSectionProps = {
 };
 
 export default function ApplicantInfoSection({ applicant }: ApplicantInfoSectionProps) {
-  const data = applicant;
-
-  const reservationInfoItems: ReservationInfoItem[] = [
-    { id: 'name', label: '이름', value: data.name },
-    { id: 'phoneNumber', label: '전화번호', value: data.phoneNumber },
-    { id: 'email', label: '이메일', value: data.email },
+  const applicantInfoItems: ApplicantInfoItem[] = [
+    { id: 'name', label: '이름', value: applicant.name },
+    { id: 'phoneNumber', label: '전화번호', value: applicant.phoneNumber },
+    { id: 'email', label: '이메일', value: applicant.email },
   ];
 
   return (
@@ -26,7 +24,7 @@ export default function ApplicantInfoSection({ applicant }: ApplicantInfoSection
       </span>
 
       <dl className='bg-black-3 mt-[1rem] flex flex-col gap-[0.8rem] rounded-[0.6rem] p-[1.6rem]'>
-        {reservationInfoItems.map(({ id, label, value }) => (
+        {applicantInfoItems.map(({ id, label, value }) => (
           <div key={id} className='flex items-center gap-[1.2rem]'>
             <dt className='text-black-7 caption-14-rg w-[5rem]'>{label}</dt>
             <dd className='caption-14-md text-black-10'>{value}</dd>
