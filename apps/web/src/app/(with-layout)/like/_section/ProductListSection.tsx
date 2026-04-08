@@ -5,8 +5,8 @@ import LikeEmpty from '@/app/(with-layout)/like/component/empty/LikeEmpty';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import ProductList from '@/ui/frame/product/ProductList';
-import { LIKE_SCROLL_KEY } from '../constants/scroll';
-import { useGetLikeProducts } from '../api';
+import { useGetLikeProducts } from '@/app/(with-layout)/like/api';
+import { LIKE_SCROLL_KEY } from '@/app/(with-layout)/like/constants/scroll';
 
 export default function ProductListSection() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, dataUpdatedAt } =

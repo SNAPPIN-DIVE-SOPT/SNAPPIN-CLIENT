@@ -6,8 +6,8 @@ import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinit
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
 import { type PortfolioFrameProps } from '@/ui/frame/portfolio/PortfolioFrame';
-import { LIKE_SCROLL_KEY } from '../constants/scroll';
-import { useGetLikePortfolios } from '../api';
+import { useGetLikePortfolios } from '@/app/(with-layout)/like/api';
+import { LIKE_SCROLL_KEY } from '@/app/(with-layout)/like/constants/scroll';
 
 const toPortfolioFrameProps = (
   portfolios: { id?: number; imageUrl?: string; likeCount?: number }[] = [],
@@ -17,8 +17,8 @@ const toPortfolioFrameProps = (
     isLiked: true,
     likesCount: portfolio.likeCount ?? 0,
     image: {
-      src: portfolio.imageUrl ?? '',
-      alt: `Portfolio image ${portfolio.id ?? 0}`,
+      src: portfolio.imageUrl || '/imgs/default-image.png',
+      alt: `작가 포트폴리오 ${portfolio.id ?? 0}`,
     },
   }));
 };
@@ -38,10 +38,15 @@ export default function PortfolioListSection() {
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
 
-  useScrollRestoreOnParent(anchorRef, LIKE_SCROLL_KEY.PORTFOLIO, [portfolioList.length, dataUpdatedAt], {
-    enabled: !!data,
-    resetOnKeyChange: true,
-  });
+  useScrollRestoreOnParent(
+    anchorRef,
+    LIKE_SCROLL_KEY.PORTFOLIO,
+    [portfolioList.length, dataUpdatedAt],
+    {
+      enabled: !!data,
+      resetOnKeyChange: true,
+    },
+  );
 
   if (portfolioList.length === 0) return <LikeEmpty tab='PORTFOLIO' />;
 
