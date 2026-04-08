@@ -10,7 +10,7 @@ import {
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { apiRequest } from '@/api/apiRequest';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { USER_QUERY_KEY } from '@/query-key/user';
+import { PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY, USER_QUERY_KEY } from '@/query-key/user';
 
 const CATEGORY_END_POINT = '/api/v1/categories';
 const CATEGORY_FULL_URL = SERVER_API_BASE_URL + CATEGORY_END_POINT;
@@ -173,9 +173,10 @@ const toRequestParams = (query: URLSearchParams) => {
 
 export const useGetPortfolioList = (sp: URLSearchParams, isLogIn: boolean) => {
   const baseQuery = buildExploreListQuery(sp);
+  const queryKey = `${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`;
 
   return useSuspenseInfiniteQuery<GetPortfolioListData>({
-    queryKey: USER_QUERY_KEY.PORTFOLIO_LIST(`${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`),
+    queryKey: PORTFOLIO_QUERY_KEY.LIST(queryKey),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     refetchOnMount: false,
@@ -225,9 +226,10 @@ export const useGetPortfolioList = (sp: URLSearchParams, isLogIn: boolean) => {
 
 export const useGetProductList = (sp: URLSearchParams, isLogIn: boolean) => {
   const baseQuery = buildExploreListQuery(sp);
+  const queryKey = `${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`;
 
   return useSuspenseInfiniteQuery<GetProductListData>({
-    queryKey: USER_QUERY_KEY.PRODUCT_LIST(`${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`),
+    queryKey: PRODUCT_QUERY_KEY.LIST(queryKey),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     refetchOnMount: false,

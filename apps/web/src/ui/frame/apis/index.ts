@@ -63,6 +63,10 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
 
       queryClient.setQueryData(detailQueryKey, context.previousData);
     },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: PRODUCT_QUERY_KEY.LISTS() });
+      await queryClient.invalidateQueries({ queryKey: PRODUCT_QUERY_KEY.LIKES() });
+    },
   });
 };
 
@@ -119,6 +123,10 @@ export const useWishPortfolioLike = ({ id, isLogin }: UseLikeProps) => {
       if (context?.previousData === undefined) return;
 
       queryClient.setQueryData(detailQueryKey, context.previousData);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: PORTFOLIO_QUERY_KEY.LISTS() });
+      await queryClient.invalidateQueries({ queryKey: PORTFOLIO_QUERY_KEY.LIKES() });
     },
   });
 };
