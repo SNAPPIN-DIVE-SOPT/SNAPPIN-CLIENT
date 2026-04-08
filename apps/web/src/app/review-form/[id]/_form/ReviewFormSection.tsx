@@ -58,7 +58,8 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
         const uploadedUrls = await uploadImageUrl();
 
         await submitReview({
-          reservationId,
+          // TODO: 추후 reservationId로 원복
+          productId: reservationId,
           rating: formData.rating,
           content: formData.content,
           imageUrls: uploadedUrls,
