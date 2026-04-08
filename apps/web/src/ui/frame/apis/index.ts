@@ -1,10 +1,12 @@
 import { apiRequest } from '@/api/apiRequest';
-import { PRODUCT_QUERY_KEY } from '@/query-key/user';
+import { PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY } from '@/query-key/user';
 import {
   GetPortfolioDetailResponse,
+  GetProductDetailResponse,
   UpdateWishPortfolioData,
   UpdateWishProductData,
   WishPortfolioResponse,
+  WishProductResponse,
 } from '@/swagger-api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -18,11 +20,11 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
   const detailQueryKey = PRODUCT_QUERY_KEY.DETAIL(id, isLogin);
 
   return useMutation<
-    WishPortfolioResponse,
+    WishProductResponse,
     Error,
     number,
     {
-      previousData?: GetPortfolioDetailResponse;
+      previousData?: GetProductDetailResponse;
     }
   >({
     mutationFn: async (productId) => {
@@ -41,9 +43,9 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: detailQueryKey });
 
-      const previousData = queryClient.getQueryData<GetPortfolioDetailResponse>(detailQueryKey);
+      const previousData = queryClient.getQueryData<GetProductDetailResponse>(detailQueryKey);
 
-      queryClient.setQueryData<GetPortfolioDetailResponse>(detailQueryKey, (old) => {
+      queryClient.setQueryData<GetProductDetailResponse>(detailQueryKey, (old) => {
         if (!old) return old;
 
         const nextIsLiked = !old.isLiked;
@@ -51,12 +53,6 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
         return {
           ...old,
           isLiked: nextIsLiked,
-          likeCount:
-            old.likeCount === undefined
-              ? old.likeCount
-              : nextIsLiked
-                ? old.likeCount + 1
-                : old.likeCount - 1,
         };
       });
 
@@ -72,7 +68,7 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
 
 export const useWishPortfolioLike = ({ id, isLogin }: UseLikeProps) => {
   const queryClient = useQueryClient();
-  const detailQueryKey = PRODUCT_QUERY_KEY.DETAIL(id, isLogin);
+  const detailQueryKey = PORTFOLIO_QUERY_KEY.DETAIL(id, isLogin);
 
   return useMutation<
     WishPortfolioResponse,
@@ -82,11 +78,11 @@ export const useWishPortfolioLike = ({ id, isLogin }: UseLikeProps) => {
       previousData?: GetPortfolioDetailResponse;
     }
   >({
-    mutationFn: async (productId) => {
+    mutationFn: async (portfolioId) => {
       const res = await apiRequest<UpdateWishPortfolioData>({
         endPoint: '/api/v1/wishes/portfolios',
         method: 'POST',
-        data: { productId },
+        data: { portfolioId },
       });
 
       if (!res.data) {

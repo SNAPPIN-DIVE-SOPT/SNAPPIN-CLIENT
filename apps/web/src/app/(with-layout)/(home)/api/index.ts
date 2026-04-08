@@ -7,7 +7,7 @@ export const useGetPopularProducts = (moodId: number) => {
   const moodCode = moodId > 0 ? String(moodId) : undefined;
   //토큰 불필요 api 이므로 fetch 사용
   return useQuery<GetPopularMoodProductItemResponse[]>({
-    queryKey: PRODUCT_QUERY_KEY.LIST(moodCode ? moodCode : ''),
+    queryKey: PRODUCT_QUERY_KEY.LIST(moodCode ?? ''),
     queryFn: () =>
       fetch(`${SERVER_API_BASE_URL}/api/v1/products/popular?moodId=${moodId}`, {
         method: 'GET',

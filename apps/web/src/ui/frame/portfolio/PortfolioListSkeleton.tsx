@@ -16,7 +16,7 @@ export function PortfolioFrameSkeleton() {
   );
 }
 
-export default function ProductFrameListSkeleton({
+export default function PortfolioFrameListSkeleton({
   length = 6,
   className,
 }: PortfolioFrameListSkeletonProps) {

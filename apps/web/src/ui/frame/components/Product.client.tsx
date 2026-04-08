@@ -26,6 +26,10 @@ export default function ProductClient({ id, isLiked }: ProductClientProps) {
     e?.preventDefault();
     e?.stopPropagation();
 
+    if (isLogIn === null) {
+      return;
+    }
+
     if (!isLogIn) {
       error('로그인이 필요한 기능입니다.', undefined, 'bottom-[8.4rem]');
       return;

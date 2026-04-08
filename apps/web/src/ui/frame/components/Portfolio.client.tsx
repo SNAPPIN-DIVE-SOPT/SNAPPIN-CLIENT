@@ -26,6 +26,10 @@ export default function PortfolioClient({ id, isLiked }: PortfolioClientProps) {
     e?.preventDefault();
     e?.stopPropagation();
 
+    if (isLogIn === null) {
+      return;
+    }
+
     if (!isLogIn) {
       error('로그인이 필요한 기능입니다.', undefined, 'bottom-[8.4rem]');
       return;
@@ -43,10 +47,10 @@ export default function PortfolioClient({ id, isLiked }: PortfolioClientProps) {
 
   return (
     <LikeButton
-      isLiked={isLiked}
+      isLiked={liked}
       handleClick={handleLike}
-      aria-label={isLiked ? '좋아요 취소' : '좋아요'}
-      className={cn('h-[1.4rem] w-[1.4rem]', isLiked ? 'text-neon-black' : 'text-black-1')}
+      aria-label={liked ? '좋아요 취소' : '좋아요'}
+      className={cn('h-[1.4rem] w-[1.4rem]', liked ? 'text-neon-black' : 'text-black-1')}
     />
   );
 }
