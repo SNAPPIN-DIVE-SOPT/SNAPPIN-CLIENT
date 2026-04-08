@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { GetProductPhotographerInfoResponse } from '@/swagger-api';
+import { GetProductPhotographerInfoResponseV2 } from '@/swagger-api';
 import { ROUTES } from '@/constants/routes/routes';
 import { Profile } from '@/ui';
 
 type PhotographerSectionProps = {
-  photographerInfo: GetProductPhotographerInfoResponse | undefined;
+  photographerInfo: GetProductPhotographerInfoResponseV2 | undefined;
 };
 
 export default function PhotographerSection({ photographerInfo }: PhotographerSectionProps) {
