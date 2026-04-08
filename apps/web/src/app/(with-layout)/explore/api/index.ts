@@ -1,32 +1,31 @@
 import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import {
-  ApiResponseBodyGetMoodFilterListResponseVoid,
-  ApiResponseBodyGetPortfolioListResponseV2GetPortfolioMetaResponseV2,
-  ApiResponseBodyGetProductListResponseV2GetProductMetaResponseV2,
   CategoriesResponse,
+  GetAllMoodFiltersData,
   GetMoodFilterListResponse,
   GetPlaceResponse,
+  GetPortfolioListData,
+  GetProductListData,
 } from '@/swagger-api';
+import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { apiRequest } from '@/api/apiRequest';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { USER_QUERY_KEY } from '@/query-key/user';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_SERVER_BASE_URL;
-
 const CATEGORY_END_POINT = '/api/v1/categories';
-const CATEGORY_FULL_URL = BASE_URL + CATEGORY_END_POINT;
+const CATEGORY_FULL_URL = SERVER_API_BASE_URL + CATEGORY_END_POINT;
 
 const MOODS_ENDPOINT = '/api/v1/moods';
-const MOODS_FULL_URL = BASE_URL + MOODS_ENDPOINT;
+const MOODS_FULL_URL = SERVER_API_BASE_URL + MOODS_ENDPOINT;
 
 const PLACE_ENDPOINT = '/api/v1/places';
-const PLACE_FULL_URL = `${BASE_URL}${PLACE_ENDPOINT}`;
+const PLACE_FULL_URL = `${SERVER_API_BASE_URL}${PLACE_ENDPOINT}`;
 
 const PORTFOLIO_ENDPOINT = '/api/v2/portfolios';
-const PORTFOLIO_FULL_URL = `${BASE_URL}${PORTFOLIO_ENDPOINT}`;
+const PORTFOLIO_FULL_URL = `${SERVER_API_BASE_URL}${PORTFOLIO_ENDPOINT}`;
 
 const PRODUCT_ENDPOINT = '/api/v2/products';
-const PRODUCT_FULL_URL = `${BASE_URL}${PRODUCT_ENDPOINT}`;
+const PRODUCT_FULL_URL = `${SERVER_API_BASE_URL}${PRODUCT_ENDPOINT}`;
 
 export const useSearchPlaces = (keyword: string) => {
   const trimmedKeyword = keyword.trim();
@@ -95,7 +94,7 @@ export const useMoodFilters = () => {
     enabled: authResolved,
     queryFn: async () => {
       if (isLogIn) {
-        const response = await apiRequest<ApiResponseBodyGetMoodFilterListResponseVoid>({
+        const response = await apiRequest<GetAllMoodFiltersData>({
           method: 'GET',
           endPoint: MOODS_ENDPOINT,
         });
@@ -168,51 +167,67 @@ const buildExploreListQuery = (sp: URLSearchParams) => {
   return query;
 };
 
-export const useGetPortfolioList = (sp: URLSearchParams) => {
+const toRequestParams = (query: URLSearchParams) => {
+  return Object.fromEntries(query.entries());
+};
+
+export const useGetPortfolioList = (sp: URLSearchParams, isLogIn: boolean) => {
   const baseQuery = buildExploreListQuery(sp);
 
-  return useSuspenseInfiniteQuery<ApiResponseBodyGetPortfolioListResponseV2GetPortfolioMetaResponseV2>(
-    {
-      queryKey: USER_QUERY_KEY.PORTFOLIO_LIST(baseQuery.toString()),
-      staleTime: 5 * 60 * 1000,
-      gcTime: 10 * 60 * 1000,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      initialPageParam: undefined,
-      queryFn: async ({ pageParam }) => {
-        const url = new URL(PORTFOLIO_FULL_URL);
+  return useSuspenseInfiniteQuery<GetPortfolioListData>({
+    queryKey: USER_QUERY_KEY.PORTFOLIO_LIST(`${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    initialPageParam: undefined,
+    queryFn: async ({ pageParam }) => {
+      const url = new URL(PORTFOLIO_FULL_URL);
 
-        baseQuery.forEach((value, key) => url.searchParams.set(key, value));
+      baseQuery.forEach((value, key) => url.searchParams.set(key, value));
 
-        if (pageParam !== undefined && pageParam !== null) {
-          url.searchParams.set('cursor', String(pageParam));
-        }
+      if (pageParam !== undefined && pageParam !== null) {
+        url.searchParams.set('cursor', String(pageParam));
+      }
 
-        const response = await fetch(url.toString(), { method: 'GET' });
-        if (!response.ok) {
-          throw new Error('/api/v2/portfolios 응답 실패');
-        }
+      if (isLogIn) {
+        const response = await apiRequest<GetPortfolioListData>({
+          endPoint: PORTFOLIO_ENDPOINT,
+          method: 'GET',
+          params: toRequestParams(url.searchParams),
+        });
 
-        const data = await response.json();
-        if (!data.data) {
+        if (!response.data) {
           throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
         }
 
-        return data;
-      },
-      getNextPageParam: (lastPage) => {
-        return lastPage.meta?.hasNext ? lastPage.meta?.nextCursor : undefined;
-      },
+        return response;
+      }
+
+      const response = await fetch(url.toString(), { method: 'GET' });
+      if (!response.ok) {
+        throw new Error('/api/v2/portfolios 응답 실패');
+      }
+
+      const data = await response.json();
+      if (!data.data) {
+        throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
+      }
+
+      return data;
     },
-  );
+    getNextPageParam: (lastPage) => {
+      return lastPage.meta?.hasNext ? lastPage.meta?.nextCursor : undefined;
+    },
+  });
 };
 
-export const useGetProductList = (sq: URLSearchParams) => {
-  const baseQuery = buildExploreListQuery(sq);
+export const useGetProductList = (sp: URLSearchParams, isLogIn: boolean) => {
+  const baseQuery = buildExploreListQuery(sp);
 
-  return useSuspenseInfiniteQuery<ApiResponseBodyGetProductListResponseV2GetProductMetaResponseV2>({
-    queryKey: USER_QUERY_KEY.PRODUCT_LIST(baseQuery.toString()),
+  return useSuspenseInfiniteQuery<GetProductListData>({
+    queryKey: USER_QUERY_KEY.PRODUCT_LIST(`${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     refetchOnMount: false,
@@ -226,6 +241,20 @@ export const useGetProductList = (sq: URLSearchParams) => {
 
       if (pageParam !== undefined && pageParam !== null) {
         url.searchParams.set('cursor', String(pageParam));
+      }
+
+      if (isLogIn) {
+        const response = await apiRequest<GetProductListData>({
+          endPoint: PRODUCT_ENDPOINT,
+          method: 'GET',
+          params: toRequestParams(url.searchParams),
+        });
+
+        if (!response.data) {
+          throw new Error('/api/v2/products 응답에 데이터가 존재하지 않습니다.');
+        }
+
+        return response;
       }
 
       const response = await fetch(url.toString(), { method: 'GET' });

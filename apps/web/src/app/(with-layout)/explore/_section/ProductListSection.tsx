@@ -6,6 +6,7 @@ import { GetProductCardResponseV2 } from '@/swagger-api';
 import { useGetProductList } from '@/app/(with-layout)/explore/api';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
+import { useAuth } from '@/auth/hooks/useAuth';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import type { ProductFrameProps } from '@/ui/frame/product/ProductFrame';
 import FrameProductList from '@/ui/frame/product/ProductList';
@@ -30,9 +31,24 @@ const toProductFrameProps = (products: GetProductCardResponseV2[] = []): Product
 };
 
 export default function ProductListSection() {
+  const { isLogIn } = useAuth();
   const sp = useSearchParams();
+
+  if (isLogIn === null) return null;
+
+  return <ProductListSectionContent isLogIn={isLogIn} searchParams={sp.toString()} />;
+}
+
+function ProductListSectionContent({
+  isLogIn,
+  searchParams,
+}: {
+  isLogIn: boolean;
+  searchParams: string;
+}) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, dataUpdatedAt } = useGetProductList(
-    new URLSearchParams(sp.toString()),
+    new URLSearchParams(searchParams),
+    isLogIn,
   );
   const products = useMemo(() => {
     return data.pages.flatMap((page) => page.data?.products ?? []);
@@ -45,7 +61,7 @@ export default function ProductListSection() {
     onLoadMore: fetchNextPage,
   });
   const scrollKey = useMemo(() => {
-    const allowed = toExploreSearchParams(new URLSearchParams(sp.toString()));
+    const allowed = toExploreSearchParams(new URLSearchParams(searchParams));
 
     allowed.delete('tab');
 
@@ -54,7 +70,7 @@ export default function ProductListSection() {
     allowed.forEach((value, key) => normalized.append(key, value));
 
     return `explore:product:scroll?${normalized.toString()}`;
-  }, [sp]);
+  }, [searchParams]);
   const anchorRef = useRef<HTMLDivElement | null>(null);
 
   useScrollRestoreOnParent(anchorRef, scrollKey, [productList.length, dataUpdatedAt], {

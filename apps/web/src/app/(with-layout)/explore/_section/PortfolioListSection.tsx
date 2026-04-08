@@ -6,6 +6,7 @@ import { GetPortfolioCardResponseV2 } from '@/swagger-api';
 import { useGetPortfolioList } from '@/app/(with-layout)/explore/api';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
+import { useAuth } from '@/auth/hooks/useAuth';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import type { PortfolioFrameProps } from '@/ui/frame/portfolio/PortfolioFrame';
 import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
@@ -27,9 +28,23 @@ const toPortfolioFrameProps = (
 };
 
 export default function PortfolioListSection() {
+  const { isLogIn } = useAuth();
   const sp = useSearchParams();
+
+  if (isLogIn === null) return null;
+
+  return <PortfolioListSectionContent isLogIn={isLogIn} searchParams={sp.toString()} />;
+}
+
+function PortfolioListSectionContent({
+  isLogIn,
+  searchParams,
+}: {
+  isLogIn: boolean;
+  searchParams: string;
+}) {
   const scrollKey = useMemo(() => {
-    const allowed = toExploreSearchParams(new URLSearchParams(sp.toString()));
+    const allowed = toExploreSearchParams(new URLSearchParams(searchParams));
 
     allowed.delete('tab');
 
@@ -38,8 +53,8 @@ export default function PortfolioListSection() {
     allowed.forEach((value, key) => normalized.append(key, value));
 
     return `explore:portfolio:scroll?${normalized.toString()}`;
-  }, [sp]);
-  const query = useGetPortfolioList(new URLSearchParams(sp.toString()));
+  }, [searchParams]);
+  const query = useGetPortfolioList(new URLSearchParams(searchParams), isLogIn);
   const portfolios = useMemo(() => {
     return query.data.pages.flatMap((page) => page.data?.portfolios ?? []);
   }, [query.data.pages]);
