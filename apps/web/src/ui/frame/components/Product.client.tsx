@@ -2,24 +2,21 @@
 
 import { cn } from '@snappin/design-system/lib';
 import { LikeButton } from '@snappin/design-system';
+import { useAuth } from '@/auth/hooks/useAuth';
+import { useWishProductLike } from '@/ui/frame/apis';
+import { type LikeProps, useLikeButton } from '@/ui/frame/hooks/useLike';
 
-type ProductClientProps = {
-  id: number;
-  isLiked: boolean;
-};
-
-export default function ProductClient({ id, isLiked }: ProductClientProps) {
-  //TODO: 로그인 여부에 따른 좋아요 기능 구현
-  const handleLike = () => {
-    console.log(`상품 ${id} 좋아요 토글 (현재 상태: ${isLiked})`);
-  };
+export default function ProductClient({ id, isLiked }: LikeProps) {
+  const { isLogIn } = useAuth();
+  const { mutate: wishProduct } = useWishProductLike({ id, isLogin: !!isLogIn });
+  const { liked, handleLike } = useLikeButton({ id, isLiked, mutate: wishProduct });
 
   return (
     <LikeButton
-      isLiked={isLiked}
+      isLiked={liked}
       handleClick={handleLike}
-      aria-label={isLiked ? '좋아요 취소' : '좋아요'}
-      className={cn('h-[1.4rem] w-[1.4rem]', isLiked ? 'text-neon-black' : 'text-black-1')}
+      aria-label={liked ? '좋아요 취소' : '좋아요'}
+      className={cn('h-[1.4rem] w-[1.4rem]', liked ? 'text-neon-black' : 'text-black-1')}
     />
   );
 }

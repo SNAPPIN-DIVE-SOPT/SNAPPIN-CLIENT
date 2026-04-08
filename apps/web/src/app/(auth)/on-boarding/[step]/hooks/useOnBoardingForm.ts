@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ERROR_MESSAGES,
   GenderValue,
-  InterestValue,
+  SnapCategoryValue,
   OnBoardingInput,
   SCHEMA,
   ON_BOARDING_SCHEMA,
@@ -32,7 +32,7 @@ export const useOnBoardingForm = () => {
       nickname: '',
       phoneNumber: '',
       email: '',
-      interests: [],
+      snapCategories: [],
     },
     mode: 'onChange',
   });
@@ -100,13 +100,13 @@ export const useOnBoardingForm = () => {
     setValue('email', value, { shouldValidate: true });
   };
 
-  const updateInterest = (value: InterestValue) => {
-    const currentValues = formData?.interests ?? [];
+  const updateSnapCategory = (value: SnapCategoryValue) => {
+    const currentValues = formData?.snapCategories ?? [];
     const nextValues = currentValues.includes(value)
       ? currentValues.filter((item) => item !== value)
       : [...currentValues, value];
 
-    setValue('interests', nextValues, { shouldValidate: true });
+    setValue('snapCategories', nextValues, { shouldValidate: true });
   };
 
   const compatibleFormData = {
@@ -115,21 +115,19 @@ export const useOnBoardingForm = () => {
     nickname: formData?.nickname ?? '',
     phoneNumber: formData?.phoneNumber ?? '',
     email: formData?.email ?? '',
-    interests: formData?.interests ?? [],
+    snapCategories: formData?.snapCategories ?? [],
   };
+
   const compatibleErrors = {
     name: errors.name?.message,
     gender: errors.gender?.message,
     nickname: errors.nickname?.message,
     phoneNumber: errors.phoneNumber?.message,
     email: errors.email?.message,
-    interests: errors.interests?.message,
+    snapCategories: errors.snapCategories?.message,
   };
 
-  const handleSubmitForm = async (onSuccess: () => void | Promise<void>) => {
-    const isValid = await trigger();
-    if (!isValid) return;
-
+  const handleSubmitForm = (onSuccess: () => void | Promise<void>) => {
     handleSubmit(async () => {
       await onSuccess();
 
@@ -148,6 +146,6 @@ export const useOnBoardingForm = () => {
     updateNickname,
     updatePhoneNumber,
     updateEmail,
-    updateInterest,
+    updateSnapCategory,
   };
 };

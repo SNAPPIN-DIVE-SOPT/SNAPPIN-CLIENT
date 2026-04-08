@@ -44,7 +44,7 @@ export default function ProductFrame({
           imageWidth={width}
         />
 
-        <div className='absolute right-0 bottom-0 z-10 flex items-center p-[1rem]'>
+        <div className='absolute right-0 bottom-0 flex items-center p-[1rem]'>
           <ProductClient id={id} isLiked={isLiked} />
         </div>
       </div>

@@ -8,12 +8,13 @@ import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { setAuthUser } from '@/auth/userType';
 import { setAccessToken } from '@/auth/token';
 import { useKakaoLogin } from '@/auth/apis';
+import { getReturnToParam, readReturnToContext, resolveReturnToPath } from '@/auth/utils/returnTo';
 import { useToast, Loading } from '@/ui';
 import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
 
 const CLIENT_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL;
 const KAKAO_LOGIN_URL =
-  `${SERVER_API_BASE_URL}/api/v1/auth/login/kakao` +
+  `${SERVER_API_BASE_URL}/api/v2/auth/login/kakao` +
   `?redirect_uri=${encodeURIComponent(CLIENT_REDIRECT_URI!)}`;
 
 export default function KakaoCallbackPage() {
@@ -25,6 +26,8 @@ export default function KakaoCallbackPage() {
 
   const code = params.get('code');
   const error = params.get('error');
+  const state = params.get('state');
+  const returnToContext = readReturnToContext(new URLSearchParams(state ?? ''));
 
   const startedRef = useRef(false);
 
@@ -35,7 +38,12 @@ export default function KakaoCallbackPage() {
 
     if (error) {
       startedRef.current = true;
-      router.replace(ROUTES.LOGIN({ error: 'kakao' }));
+      router.replace(
+        ROUTES.LOGIN({
+          error: 'kakao',
+          ...getReturnToParam(returnToContext),
+        }),
+      );
       return;
     }
 
@@ -55,21 +63,27 @@ export default function KakaoCallbackPage() {
         if (!isValidUserType(data.data.role)) {
           throw new Error(`Invalid role: ${data.data.role}`);
         }
-        // TODO: 서버 응답에 hasPhotographerProfile 있으면 그걸로 교체
         setAuthUser({
           role: data.data.role as UserType,
-          hasPhotographerProfile: true,
+          hasPhotographerProfile: data.data.hasPhotographerProfile ?? false,
         });
 
-        if (data.data.isNew) {
-          router.replace(ROUTES.AI_CURATION);
+        if (!data.data.isOnboardingCompleted) {
+          router.replace(ROUTES.ON_BOARDING(1, getReturnToParam(returnToContext)));
+        } else if (returnToContext.returnTo) {
+          router.replace(resolveReturnToPath(returnToContext, ROUTES.HOME));
         } else if (data.data.role === USER_TYPE.PHOTOGRAPHER) {
           router.replace(PHOTOGRAPHERS_ROUTES.RESERVATIONS());
         } else {
           router.replace(ROUTES.HOME);
         }
       } catch {
-        router.replace(ROUTES.LOGIN({ error: 'kakao' }));
+        router.replace(
+          ROUTES.LOGIN({
+            error: 'kakao',
+            ...getReturnToParam(returnToContext),
+          }),
+        );
         toast.error(
           '카카오 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
           undefined,
@@ -77,7 +91,7 @@ export default function KakaoCallbackPage() {
         );
       }
     })();
-  }, [code, error, mutateAsync, router, toast]);
+  }, [code, error, mutateAsync, returnToContext, router, toast]);
 
   return (
     <div className='bg-black-10 flex h-dvh flex-col items-center justify-center gap-[1.5rem]'>

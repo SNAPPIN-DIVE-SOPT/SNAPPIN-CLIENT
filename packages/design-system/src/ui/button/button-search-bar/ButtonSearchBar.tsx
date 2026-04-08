@@ -13,11 +13,9 @@ type ButtonSearchBarProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 
 export default function ButtonSearchBar({
   className,
   headline,
-  supportingText,
   type = 'button',
   iconClassName,
   headlineClassName,
-  supportingTextClassName,
   ...props
 }: ButtonSearchBarProps) {
   return (
@@ -34,17 +32,17 @@ export default function ButtonSearchBar({
         aria-hidden='true'
       />
       <span className='flex min-w-0 flex-1 flex-col gap-[0.4rem]'>
-        <span className={cn('font-16-md text-black-9', headlineClassName)} data-slot='headline'>
+        <span className={cn('caption-14-md text-black-9', headlineClassName)} data-slot='headline'>
           {headline}
         </span>
-        {supportingText ? (
+        {/*{supportingText ? (
           <span
             className={cn('caption-12-md text-black-5', supportingTextClassName)}
             data-slot='supporting'
           >
             {supportingText}
           </span>
-        ) : null}
+        ) : null}*/}
       </span>
     </button>
   );

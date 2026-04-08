@@ -1,9 +1,4 @@
 export const USER_QUERY_KEY = {
-  // AI 큐레이션
-  AI_CURATION: ['ai-curation'],
-  AI_CURATION_ALL: () => [...USER_QUERY_KEY.AI_CURATION, 'all'],
-  AI_CURATION_RESULT: () => [...USER_QUERY_KEY.AI_CURATION, 'result'],
-
   // 추천 스냅 명소
   RECOMMENDATION: ['recommendation'],
   RECOMMENDATION_SNAP_PLACE: () => [...USER_QUERY_KEY.RECOMMENDATION, 'places'],
@@ -99,4 +94,40 @@ export const USER_QUERY_KEY = {
   // 리뷰
   REVIEW: ['review'],
   REVIEW_DETAIL: (id: number) => [...USER_QUERY_KEY.REVIEW, id],
+} as const;
+
+//이거 써라
+export const PRODUCT_QUERY_KEY = {
+  all: ['product'] as const,
+
+  LISTS: () => [...PRODUCT_QUERY_KEY.all, 'list'],
+  LIST: (filter: string) => [...PRODUCT_QUERY_KEY.LISTS(), filter],
+
+  DETAILS: () => [...PRODUCT_QUERY_KEY.all, 'detail'],
+  DETAIL: (id: number, isLogin: boolean) => [
+    ...PRODUCT_QUERY_KEY.DETAILS(),
+    id,
+    isLogin ? 'login' : 'not-login',
+  ],
+
+  LIKES: () => [...PRODUCT_QUERY_KEY.all, 'like'],
+  LIKE: (id: number) => [...PRODUCT_QUERY_KEY.LIKES(), id],
+} as const;
+
+//이거 쓰라고
+export const PORTFOLIO_QUERY_KEY = {
+  all: ['portfolio'] as const,
+
+  LISTS: () => [...PORTFOLIO_QUERY_KEY.all, 'list'],
+  LIST: (filter: string) => [...PORTFOLIO_QUERY_KEY.LISTS(), filter],
+
+  DETAILS: () => [...PORTFOLIO_QUERY_KEY.all, 'detail'],
+  DETAIL: (id: number, isLogin: boolean) => [
+    ...PORTFOLIO_QUERY_KEY.DETAILS(),
+    id,
+    isLogin ? 'login' : 'not-login',
+  ],
+
+  LIKES: () => [...PORTFOLIO_QUERY_KEY.all, 'like'],
+  LIKE: (id: number) => [...PORTFOLIO_QUERY_KEY.LIKES(), id],
 } as const;

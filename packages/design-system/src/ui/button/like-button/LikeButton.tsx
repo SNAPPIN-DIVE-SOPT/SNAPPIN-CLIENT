@@ -7,7 +7,7 @@ import { cn } from '../../../lib/cn';
 type LikeButtonProps = {
   isLiked: boolean;
   className?: string;
-  handleClick: () => void;
+  handleClick: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export default function LikeButton({ isLiked, className, handleClick }: LikeButtonProps) {

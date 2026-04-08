@@ -5,7 +5,7 @@ import ExploreSearchButton from '@/app/(with-layout)/explore/components/header/E
 type ExploreHeaderProps = {
   currentTab: ExploreTab;
   headline: string;
-  supportingText: string;
+  isPlaceholder: boolean;
   searchSheetKey: string;
   portfolioTabHref: string;
   productTabHref: string;
@@ -14,7 +14,7 @@ type ExploreHeaderProps = {
 export default function ExploreHeader({
   currentTab,
   headline,
-  supportingText,
+  isPlaceholder,
   searchSheetKey,
   portfolioTabHref,
   productTabHref,
@@ -24,9 +24,8 @@ export default function ExploreHeader({
       <div className='px-[2rem] py-[1.6rem]'>
         <ExploreSearchButton
           headline={headline}
-          supportingText={supportingText}
+          isPlaceholder={isPlaceholder}
           searchSheetKey={searchSheetKey}
-          supportingTextClassName='text-black-7'
         />
       </div>
       <OptionSection

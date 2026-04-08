@@ -1,6 +1,6 @@
 import { formatNumber } from '@snappin/shared/lib';
-import { STEP_QUESTIONS, type STEP } from '../../constants/steps';
-import { getProgress } from '../../utils/steps';
+import { STEP_QUESTIONS, type STEP } from '@/app/(auth)/ai-curation/[step]/constants/steps';
+import { getProgress } from '@/app/(auth)/ai-curation/[step]/utils/steps';
 
 type StepHeaderProps = {
   step: STEP;

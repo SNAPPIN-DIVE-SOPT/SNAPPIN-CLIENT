@@ -1,7 +1,7 @@
 export const EXPLORE_SORT = {
-  RECOMMENDED: 'recommended',
-  POPULAR: 'popular',
-  LATEST: 'latest',
+  RECOMMENDED: 'RECOMMENDED',
+  POPULAR: 'POPULAR',
+  LATEST: 'LATEST',
 } as const;
 
 export type ExploreSort = (typeof EXPLORE_SORT)[keyof typeof EXPLORE_SORT];

@@ -6,8 +6,9 @@ export const ROUTES = {
   AI_CURATION: '/ai-curation',
   AI_CURATION_STEP: (step: number) => `/ai-curation/${step}`,
   AI_CURATION_RESULT: '/ai-curation/result',
-  ON_BOARDING: (step: number) => `/on-boarding/${step}`,
-  ON_BOARDING_FINAL: '/on-boarding/final',
+  ON_BOARDING: (step: number, params?: Params) =>
+    `/on-boarding/${step}${params ? getQueryParams(params) : ''}`,
+  ON_BOARDING_FINAL: (params?: Params) => `/on-boarding/final${params ? getQueryParams(params) : ''}`,
   EXPLORE: (params?: Params) => `/explore${params ? getQueryParams(params) : ''}`,
   LIKE: '/like',
   PROFILE: '/profile',

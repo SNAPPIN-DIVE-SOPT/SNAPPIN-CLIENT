@@ -4,18 +4,16 @@ import Image from 'next/image';
 import { useEffect, useMemo, useState, startTransition } from 'react';
 import { cn } from '@snappin/design-system/lib/cn';
 import { useToast } from '@/ui';
-import { useGetAiCurationAll } from '../../api';
-import { type STEP } from '../../constants/steps';
-import { useAiCuration } from '../../../hooks/useAiCuration';
+import { useGetAiCurationAll } from '@/app/(auth)/ai-curation/[step]/api';
+import { type STEP } from '@/app/(auth)/ai-curation/[step]/constants/steps';
+import { useAiCuration } from '@/app/(auth)/ai-curation/hooks/useAiCuration';
 
 type ImageAnimationProps = {
   step: STEP;
 };
 export default function ImageAnimation({ step }: ImageAnimationProps) {
   const { data } = useGetAiCurationAll();
-  //TODO: API 명세 확정되면 question은 목업으로 변경
-  const question = data?.[step - 1];
-  const photos = question?.photos;
+  const photos = data?.[step - 1]?.photos;
   const { error } = useToast();
   const sorted = useMemo(
     () => photos?.slice().sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) || [],

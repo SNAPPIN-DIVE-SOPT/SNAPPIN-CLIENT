@@ -16,7 +16,7 @@ type ExplorePageProps = {
 export default async function Explore({ searchParams }: ExplorePageProps) {
   const resolvedSearchParams = await searchParams;
   const initialSearchParams = toExploreSearchParams(resolvedSearchParams);
-  const { headline, supportingText } = getExploreSearchBarText(initialSearchParams);
+  const { headline, isPlaceholder } = getExploreSearchBarText(initialSearchParams);
   const initialTab = resolveExploreTab(initialSearchParams.get('tab'));
   const placeName = parseInitialDraft(initialSearchParams).placeName ?? '';
   const searchSheetKey = SEARCH_SHEET_KEY(placeName, initialSearchParams.toString());
@@ -33,7 +33,7 @@ export default async function Explore({ searchParams }: ExplorePageProps) {
       <ExploreHeader
         currentTab={initialTab}
         headline={headline}
-        supportingText={supportingText}
+        isPlaceholder={isPlaceholder}
         searchSheetKey={searchSheetKey}
         portfolioTabHref={getTabHref(EXPLORE_TAB.PORTFOLIO)}
         productTabHref={getTabHref(EXPLORE_TAB.PRODUCT)}

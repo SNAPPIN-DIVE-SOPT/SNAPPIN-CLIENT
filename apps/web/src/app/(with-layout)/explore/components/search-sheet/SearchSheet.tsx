@@ -116,7 +116,10 @@ function SearchSheetContent({
       placeId: searchDraft.placeId || null,
       placeName: searchDraft.placeId ? placeKeyword : null,
       date: searchDraft.date ?? null,
-      peopleCount: searchDraft.peopleCount ?? null,
+      peopleCount:
+        searchDraft.peopleCount != null && searchDraft.peopleCount > 0
+          ? searchDraft.peopleCount
+          : null,
     });
 
     navigate(nextParams, { basePath: ROUTES.EXPLORE() });

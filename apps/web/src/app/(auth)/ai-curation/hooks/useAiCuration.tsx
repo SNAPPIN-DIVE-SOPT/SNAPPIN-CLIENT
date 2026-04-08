@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { STEP_QUESTIONS, type STEP } from '../[step]/constants/steps';
+import { STEP_QUESTIONS, type STEP } from '@/app/(auth)/ai-curation/[step]/constants/steps';
 
 type SelectedImage = Record<STEP, number | null>;
 

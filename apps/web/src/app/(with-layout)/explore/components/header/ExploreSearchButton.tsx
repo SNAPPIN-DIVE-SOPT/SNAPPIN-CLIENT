@@ -5,22 +5,19 @@ import { openSearchSheet } from '@/utils/openSearchSheet';
 
 type ExploreSearchButtonProps = {
   headline: string;
-  supportingText?: string;
-  supportingTextClassName?: string;
+  isPlaceholder: boolean;
   searchSheetKey: string;
 };
 
 export default function ExploreSearchButton({
   headline,
-  supportingText,
-  supportingTextClassName,
+  isPlaceholder,
   searchSheetKey,
 }: ExploreSearchButtonProps) {
   return (
     <ButtonSearchBar
       headline={headline}
-      supportingText={supportingText}
-      supportingTextClassName={supportingTextClassName}
+      headlineClassName={isPlaceholder ? 'text-black-7' : undefined}
       onClick={() => openSearchSheet(searchSheetKey)}
     />
   );

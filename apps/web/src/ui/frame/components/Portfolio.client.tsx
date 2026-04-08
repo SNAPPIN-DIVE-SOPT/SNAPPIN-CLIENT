@@ -2,23 +2,21 @@
 
 import { LikeButton } from '@snappin/design-system';
 import { cn } from '@snappin/design-system/lib/cn';
+import { useAuth } from '@/auth/hooks/useAuth';
+import { useWishPortfolioLike } from '@/ui/frame/apis';
+import { type LikeProps, useLikeButton } from '@/ui/frame/hooks/useLike';
 
-type PortfolioClientProps = {
-  id: number;
-  isLiked: boolean;
-};
-
-export default function PortfolioClient({ id, isLiked }: PortfolioClientProps) {
-  const handleClickLike = () => {
-    console.log(`포트폴리오 ${id} 좋아요 토글 (현재 상태: ${isLiked})`);
-  };
+export default function PortfolioClient({ id, isLiked }: LikeProps) {
+  const { isLogIn } = useAuth();
+  const { mutate: wishPortfolio } = useWishPortfolioLike({ id, isLogin: !!isLogIn });
+  const { liked, handleLike } = useLikeButton({ id, isLiked, mutate: wishPortfolio });
 
   return (
     <LikeButton
-      isLiked={isLiked}
-      handleClick={handleClickLike}
-      aria-label={isLiked ? '좋아요 취소' : '좋아요'}
-      className={cn('h-[1.4rem] w-[1.4rem]', isLiked ? 'text-neon-black' : 'text-black-1')}
+      isLiked={liked}
+      handleClick={handleLike}
+      aria-label={liked ? '좋아요 취소' : '좋아요'}
+      className={cn('h-[1.4rem] w-[1.4rem]', liked ? 'text-neon-black' : 'text-black-1')}
     />
   );
 }

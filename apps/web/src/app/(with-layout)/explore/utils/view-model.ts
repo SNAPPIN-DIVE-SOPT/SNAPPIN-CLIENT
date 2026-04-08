@@ -1,15 +1,14 @@
-import { SNAP_CATEGORY } from '@/constants/categories/snap-category';
+import { INITIAL_MAX_PRICE, INITIAL_MIN_PRICE } from '../constants/price';
 import { EXPLORE_TAB, ExploreTab } from '../constants/tab';
-import { parseInitialDraft } from './query';
+import { parseInitialDraft, parsePriceRange } from './query';
 
-const formatDateDot = (raw: string | null | undefined) => {
-  if (!raw) return null;
-  return raw.replaceAll('-', '/');
-};
+const PLACEHOLDER_HEADLINE = '탐색을 시작해 보세요';
 
-const formatPeople = (count: number | null | undefined) => {
-  if (!count || count <= 0) return null;
-  return `${count}인`;
+const formatPriceSummary = (minPrice: number, maxPrice: number) => {
+  const minInManwon = minPrice / 10_000;
+  const maxInManwon = maxPrice / 10_000;
+
+  return `${minInManwon}만원 ~ ${maxInManwon}만원`;
 };
 
 export const resolveExploreTab = (
@@ -21,24 +20,25 @@ export const resolveExploreTab = (
 };
 
 export const getExploreSearchBarText = (sp: URLSearchParams) => {
-  const { snapCategory, placeName, date, peopleCount } = parseInitialDraft(sp);
-  const snapCategoryLabel = SNAP_CATEGORY[snapCategory as keyof typeof SNAP_CATEGORY] ?? null;
+  const { placeName } = parseInitialDraft(sp);
+  const [minPrice, maxPrice] = parsePriceRange(sp);
   const normalizedPlaceName = placeName?.trim() ? placeName.trim() : null;
-  const formattedDate = formatDateDot(date);
-  const formattedPeople = formatPeople(peopleCount);
+  const hasCustomPriceRange =
+    minPrice !== INITIAL_MIN_PRICE || maxPrice !== INITIAL_MAX_PRICE;
+  const priceSummary = hasCustomPriceRange ? formatPriceSummary(minPrice, maxPrice) : null;
+  const headlineParts = [normalizedPlaceName, priceSummary].filter(
+    (value): value is string => Boolean(value),
+  );
 
-  const isAllEmpty =
-    !snapCategoryLabel && !normalizedPlaceName && !formattedDate && !formattedPeople;
-
-  if (isAllEmpty) {
+  if (headlineParts.length === 0) {
     return {
-      headline: '어떤 스냅 작가를 찾고 있나요?',
-      supportingText: '날짜, 스냅 종류, 지역 기반으로 정교한 검색',
+      headline: PLACEHOLDER_HEADLINE,
+      isPlaceholder: true,
     };
   }
 
   return {
-    headline: `${snapCategoryLabel ?? '전체 스냅'}, ${normalizedPlaceName ?? '전체 장소'}`,
-    supportingText: `${formattedDate ?? '전체 날짜'}, ${formattedPeople ?? '전체 인원'}`,
+    headline: headlineParts.join(', '),
+    isPlaceholder: false,
   };
 };

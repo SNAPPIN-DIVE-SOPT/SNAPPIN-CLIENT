@@ -8,3 +8,11 @@ export {
   default as ProductInformationFrameListSkeleton,
   ProductInformationFrameSkeleton,
 } from './product-information/ProductInformationListSkeleton';
+export {
+  default as PortfolioFrameListSkeleton,
+  PortfolioFrameSkeleton,
+} from './portfolio/PortfolioListSkeleton';
+export {
+  default as ProductFrameListSkeleton,
+  ProductFrameSkeleton,
+} from './product/ProductIListSkeleton';
