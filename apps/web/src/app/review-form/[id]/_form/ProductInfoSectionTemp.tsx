@@ -19,7 +19,7 @@ export default function ProductInfoSectionTemp({ productId }: ProductInfoSection
         name={data.title}
         rate={data.averageRate}
         reviewCount={data.reviewCount}
-        photographer={data.photographerInfo?.name}
+        photographer={data.photographerInfo?.name ?? ''}
         price={data.price}
         moods={data.productInfo.moods}
       />

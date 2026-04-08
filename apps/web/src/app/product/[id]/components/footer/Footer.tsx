@@ -19,7 +19,7 @@ export default function Footer({ productId, contact, isLogIn }: FooterProps) {
   const router = useRouter();
   const { login } = useToast();
 
-  const { data: hasOnboarding } = useGetUsersOnboarding(isLogIn);
+  const { data: hasOnboarding, isPending, isError } = useGetUsersOnboarding(isLogIn);
 
   const handleContactClick = () => {
     if (contact) {
@@ -30,6 +30,10 @@ export default function Footer({ productId, contact, isLogIn }: FooterProps) {
     // 비로그인 -> 토스트 노출
     if (isLogIn === false) {
       login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, TOAST_STYLE);
+      return;
+    }
+
+    if (isPending || isError) {
       return;
     }
 

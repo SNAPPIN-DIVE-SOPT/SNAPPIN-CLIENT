@@ -51,10 +51,9 @@ export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTe
   // 리뷰 등록
   const handleSubmit = async () => {
     if (isSubmitting) return;
+    setIsSubmitting(true);
 
-    handleSubmitForm(async (formData) => {
-      setIsSubmitting(true);
-
+    await handleSubmitForm(async (formData) => {
       try {
         const uploadedUrls = await uploadImageUrl();
 
@@ -69,10 +68,10 @@ export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTe
       } catch {
         toast.error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
         router.back();
-      } finally {
-        setIsSubmitting(false);
       }
     });
+
+    setIsSubmitting(false);
   };
 
   const contentLength = compatibleFormData.content.length;

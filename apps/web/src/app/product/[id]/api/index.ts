@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { USER_QUERY_KEY } from '@/query-key/user';
+import { AUTH_QUERY_KEY } from '@/query-key/auth';
 import {
   ApiResponseBodyProductAvailableTimesResponseVoid,
   ApiResponseBodyProductClosedDatesResponseVoid,
@@ -215,7 +216,7 @@ export const useGetProductReviewList = (id: number) => {
 // 예약자 정보 조회 API
 export const useGetUsersOnboarding = (isLogIn: boolean) => {
   return useQuery({
-    queryKey: USER_QUERY_KEY.ON_BOARDING_USER(),
+    queryKey: AUTH_QUERY_KEY.ONBOARDING_USER(),
     queryFn: async () => {
       try {
         const res = await apiRequest<GetOnboardingData>({
