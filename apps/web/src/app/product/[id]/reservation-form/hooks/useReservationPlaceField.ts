@@ -1,8 +1,8 @@
 'use client';
 
 import { type UseFormSetValue } from 'react-hook-form';
+import type { ReservationCopyFormInput } from '@/app/product/[id]/reservation-form/constants';
 import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
-import type { ReservationCopyFormInput } from '../constants';
 
 type UseReservationPlaceFieldProps = {
   values: ReservationCopyFormInput;

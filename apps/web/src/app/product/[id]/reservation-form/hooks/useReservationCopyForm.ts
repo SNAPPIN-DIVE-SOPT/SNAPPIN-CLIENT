@@ -9,12 +9,12 @@ import {
   reservationCopyFormSchema,
   type ReservationCopyFormInput,
   type ReservationCopyFormOutput,
-} from '../constants';
-import type { ReservationApplicant } from '../types/copy';
-import { createDefaultReservationCopyFormValue } from '../utils';
-import useReservationCopyAction from './useReservationCopyAction';
-import useReservationPlaceField from './useReservationPlaceField';
-import useReservationSchedulePicker from './useReservationSchedulePicker';
+} from '@/app/product/[id]/reservation-form/constants';
+import useReservationCopyAction from '@/app/product/[id]/reservation-form/hooks/useReservationCopyAction';
+import useReservationPlaceField from '@/app/product/[id]/reservation-form/hooks/useReservationPlaceField';
+import useReservationSchedulePicker from '@/app/product/[id]/reservation-form/hooks/useReservationSchedulePicker';
+import type { ReservationApplicant } from '@/app/product/[id]/reservation-form/types/copy';
+import { createDefaultReservationCopyFormValue } from '@/app/product/[id]/reservation-form/utils';
 
 type UseReservationCopyFormProps = {
   applicant: ReservationApplicant;

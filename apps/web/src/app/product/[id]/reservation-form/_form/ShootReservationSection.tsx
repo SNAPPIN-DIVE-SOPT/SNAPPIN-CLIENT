@@ -1,20 +1,20 @@
 import { type ReactNode } from 'react';
 import { Button, ComboBox, ControlRow, Stepper } from '@snappin/design-system';
-import { DateButton } from '../components';
+import { DateButton } from '@/app/product/[id]/reservation-form/components';
 import {
   DURATION_HOURS,
   PEOPLE_COUNT,
   PRIMARY_SCHEDULE_CHOICE_KEY,
   SCHEDULE_CHOICES,
   UPLOAD_CONSENT_NOTES,
-} from '../constants';
-import { type ReservationCopyFormModel } from '../hooks';
+} from '@/app/product/[id]/reservation-form/constants';
+import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-form/hooks';
 import {
   createDurationLabel,
   createScheduleDateLabel,
   createScheduleTimeLabel,
   hasSelectableScheduleChoice,
-} from '../utils';
+} from '@/app/product/[id]/reservation-form/utils';
 
 type ShootReservationSectionProps = {
   reservationCopyFormModel: Pick<ReservationCopyFormModel, 'values' | 'viewState' | 'actions'>;

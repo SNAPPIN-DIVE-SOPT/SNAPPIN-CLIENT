@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { productDetailOptions } from '@/app/product/[id]/api/options';
+import PageClient from '@/app/product/[id]/reservation-form/page.client';
 import { getQueryClient } from '@/utils/getQueryClient';
-import PageClient from './page.client';
 
 type ReservationFormPageProps = {
   params: Promise<{ id: string }>;

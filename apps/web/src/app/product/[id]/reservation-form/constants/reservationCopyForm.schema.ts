@@ -8,7 +8,7 @@ import {
   SCHEDULE_CHOICES,
   UPLOAD_CONSENT_STATUS_VALUES,
 } from './copyForm';
-import { hasCompletedSchedule } from '../utils/reservationCopyForm';
+import { hasCompletedSchedule } from '@/app/product/[id]/reservation-form/utils/reservationCopyForm';
 
 // 각 일정 선택이 날짜와 시간 모두 선택되었는지 검증
 const reservationScheduleSelectionSchema = z

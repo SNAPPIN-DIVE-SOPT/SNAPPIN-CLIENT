@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import CancelModal from '@/app/product/[id]/reservation-form/@modal/(.)cancel-modal/CancelModal';
+import CopyModal from '@/app/product/[id]/reservation-form/@modal/(.)copy-modal/CopyModal';
+import { ReservationFormWrapper } from '@/app/product/[id]/reservation-form/_form';
+import { ClientHeader } from '@/app/product/[id]/reservation-form/components';
 import { ROUTES } from '@/constants/routes/routes';
-import CancelModal from './@modal/(.)cancel-modal/CancelModal';
-import CopyModal from './@modal/(.)copy-modal/CopyModal';
-import { ReservationFormWrapper } from './_form';
-import { ClientHeader } from './components';
 
 type PageClientProps = {
   photographerId: number;

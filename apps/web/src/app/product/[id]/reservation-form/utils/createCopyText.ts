@@ -1,7 +1,10 @@
 import { formatShortDate } from '@/utils/formatDate';
-import { SCHEDULE_CHOICES, UPLOAD_CONSENT_STATUS_LABEL } from '../constants';
-import type { ReservationApplicant, ReservationCopyFormValue } from '../types/copy';
-import { hasCompletedSchedule } from './reservationCopyForm';
+import { SCHEDULE_CHOICES, UPLOAD_CONSENT_STATUS_LABEL } from '@/app/product/[id]/reservation-form/constants';
+import type {
+  ReservationApplicant,
+  ReservationCopyFormValue,
+} from '@/app/product/[id]/reservation-form/types/copy';
+import { hasCompletedSchedule } from '@/app/product/[id]/reservation-form/utils/reservationCopyForm';
 
 type CreateCopyTextProps = {
   applicant: ReservationApplicant;

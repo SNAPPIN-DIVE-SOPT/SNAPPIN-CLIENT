@@ -1,4 +1,4 @@
-import { SCHEDULE_CHOICES, UPLOAD_CONSENT_STATUS_VALUES } from '../constants';
+import { SCHEDULE_CHOICES, UPLOAD_CONSENT_STATUS_VALUES } from '@/app/product/[id]/reservation-form/constants';
 
 export type ReservationApplicant = {
   name: string;

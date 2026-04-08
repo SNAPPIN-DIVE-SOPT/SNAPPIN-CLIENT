@@ -1,4 +1,4 @@
-import { type ReservationApplicant } from '../../types/copy';
+import { type ReservationApplicant } from '@/app/product/[id]/reservation-form/types/copy';
 
 type ApplicantInfoItem = {
   id: 'name' | 'phoneNumber' | 'email';

@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { type UseFormGetValues, type UseFormTrigger } from 'react-hook-form';
-import type { ReservationCopyFormInput } from '../constants';
-import type { ReservationApplicant } from '../types/copy';
-import { createCopyText } from '../utils';
+import type { ReservationCopyFormInput } from '@/app/product/[id]/reservation-form/constants';
+import type { ReservationApplicant } from '@/app/product/[id]/reservation-form/types/copy';
+import { createCopyText } from '@/app/product/[id]/reservation-form/utils';
 
 type UseReservationCopyActionProps = {
   applicant: ReservationApplicant;

@@ -1,9 +1,9 @@
 import { BottomDrawer, DatePicker, DrawerDescription, DrawerTitle } from '@snappin/design-system';
+import { PRIMARY_SCHEDULE_CHOICE_KEY, SCHEDULE_CHOICES } from '@/app/product/[id]/reservation-form/constants';
+import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-form/hooks';
+import RESERVATION_TIME_PICKER_MOCK from '@/app/product/[id]/reservation-form/mock/reservationTimePicker.mock';
+import { hasCompletedSchedule } from '@/app/product/[id]/reservation-form/utils';
 import { TimePicker } from '@/ui/time-picker';
-import { PRIMARY_SCHEDULE_CHOICE_KEY, SCHEDULE_CHOICES } from '../../constants';
-import { type ReservationCopyFormModel } from '../../hooks';
-import { hasCompletedSchedule } from '../../utils';
-import RESERVATION_TIME_PICKER_MOCK from '../../mock/reservationTimePicker.mock';
 
 type SchedulePickerDrawersProps = {
   reservationCopyFormModel: Pick<ReservationCopyFormModel, 'values' | 'viewState' | 'actions'>;

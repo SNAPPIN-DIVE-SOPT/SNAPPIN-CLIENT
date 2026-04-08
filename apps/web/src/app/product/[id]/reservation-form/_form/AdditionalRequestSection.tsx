@@ -1,8 +1,8 @@
 import { type ChangeEvent } from 'react';
 import { FieldMessage, TextareaField } from '@snappin/design-system';
-import { REQUEST_CONTENT } from '../constants';
-import { type ReservationCopyFormModel } from '../hooks';
-import RESERVATION_FORM_INFORMATION_MOCK from '../mock/reservationFormInformation.mock';
+import { REQUEST_CONTENT } from '@/app/product/[id]/reservation-form/constants';
+import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-form/hooks';
+import RESERVATION_FORM_INFORMATION_MOCK from '@/app/product/[id]/reservation-form/mock/reservationFormInformation.mock';
 
 type AdditionalRequestSectionProps = {
   reservationCopyFormModel: Pick<ReservationCopyFormModel, 'values' | 'errors' | 'actions'>;

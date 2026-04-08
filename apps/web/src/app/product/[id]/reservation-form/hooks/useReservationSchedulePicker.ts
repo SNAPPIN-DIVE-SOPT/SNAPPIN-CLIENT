@@ -2,9 +2,12 @@
 
 import { useState } from 'react';
 import { type UseFormSetValue } from 'react-hook-form';
-import type { ReservationCopyFormInput } from '../constants';
-import type { ScheduleChoiceKey, ScheduleSelectionValue } from '../types/copy';
-import { hasSelectableScheduleChoice } from '../utils';
+import type { ReservationCopyFormInput } from '@/app/product/[id]/reservation-form/constants';
+import type {
+  ScheduleChoiceKey,
+  ScheduleSelectionValue,
+} from '@/app/product/[id]/reservation-form/types/copy';
+import { hasSelectableScheduleChoice } from '@/app/product/[id]/reservation-form/utils';
 
 type SchedulePickerType = 'date' | 'time';
 
