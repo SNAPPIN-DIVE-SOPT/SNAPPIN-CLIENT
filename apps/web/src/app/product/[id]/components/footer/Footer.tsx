@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { overlay } from 'overlay-kit';
 import { useRouter } from 'next/navigation';
 import { Button, BottomCTAButton, ConfirmModal } from '@snappin/design-system';
 import { useToast } from '@/ui';
@@ -18,7 +18,6 @@ const TOAST_STYLE = 'px-[2rem] bottom-[8.4rem]';
 export default function Footer({ productId, contact, isLogIn }: FooterProps) {
   const router = useRouter();
   const { login } = useToast();
-  const [isOpen, setIsOpen] = useState(false);
 
   const { data: hasOnboarding } = useGetUsersOnboarding(isLogIn);
 
@@ -40,11 +39,29 @@ export default function Footer({ productId, contact, isLogIn }: FooterProps) {
       return;
     }
 
-    // 로그인 + 온보딩 미완료 -> 온보딩 유도 모달 노출
-    setIsOpen(true);
-  };
-  const handleOnboardingConfirm = () => {
-    router.push(ROUTES.ON_BOARDING(1));
+    // 로그인 + 온보딩 미완 -> 온보딩 유도 모달 노출
+    overlay.open(({ isOpen, close }) => (
+      <ConfirmModal
+        open={isOpen}
+        handleOpenChange={close}
+        showCloseButton={false}
+        title={`예약 문의 작성 전\n기본 정보를 완성해주세요`}
+        buttons={[
+          {
+            label: '취소',
+            size: 'medium',
+            color: 'disabled',
+            onClick: close,
+          },
+          {
+            label: '확인',
+            size: 'medium',
+            color: 'black',
+            onClick: () => router.push(ROUTES.ON_BOARDING(1)),
+          },
+        ]}
+      />
+    ))
   };
 
   return (
@@ -75,28 +92,6 @@ export default function Footer({ productId, contact, isLogIn }: FooterProps) {
           }
         />
       </BottomCTAButton>
-      {isOpen && (
-        <ConfirmModal
-          open={isOpen}
-          handleOpenChange={setIsOpen}
-          showCloseButton={false}
-          title={`예약 문의 작성 전\n기본 정보를 완성해주세요`}
-          buttons={[
-            {
-              label: '취소',
-              size: 'medium',
-              color: 'disabled',
-              onClick: () => setIsOpen(false),
-            },
-            {
-              label: '확인',
-              size: 'medium',
-              color: 'black',
-              onClick: handleOnboardingConfirm,
-            },
-          ]}
-        />
-      )}
     </>
   );
 }
