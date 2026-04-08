@@ -8,6 +8,7 @@ import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { setAuthUser } from '@/auth/userType';
 import { setAccessToken } from '@/auth/token';
 import { useKakaoLogin } from '@/auth/apis';
+import { parseReturnToState, buildReturnToParams, resolveReturnToPath } from '@/auth/utils/returnTo';
 import { useToast, Loading } from '@/ui';
 import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
 
@@ -25,6 +26,8 @@ export default function KakaoCallbackPage() {
 
   const code = params.get('code');
   const error = params.get('error');
+  const state = params.get('state');
+  const returnToContext = parseReturnToState(state);
 
   const startedRef = useRef(false);
 
@@ -35,7 +38,12 @@ export default function KakaoCallbackPage() {
 
     if (error) {
       startedRef.current = true;
-      router.replace(ROUTES.LOGIN({ error: 'kakao' }));
+      router.replace(
+        ROUTES.LOGIN({
+          error: 'kakao',
+          ...buildReturnToParams(returnToContext),
+        }),
+      );
       return;
     }
 
@@ -61,14 +69,21 @@ export default function KakaoCallbackPage() {
         });
 
         if (!data.data.isOnboardingCompleted) {
-          router.replace(ROUTES.ON_BOARDING(1));
+          router.replace(ROUTES.ON_BOARDING(1, buildReturnToParams(returnToContext)));
+        } else if (returnToContext.returnTo) {
+          router.replace(resolveReturnToPath(returnToContext, ROUTES.HOME));
         } else if (data.data.role === USER_TYPE.PHOTOGRAPHER) {
           router.replace(PHOTOGRAPHERS_ROUTES.RESERVATIONS());
         } else {
           router.replace(ROUTES.HOME);
         }
       } catch {
-        router.replace(ROUTES.LOGIN({ error: 'kakao' }));
+        router.replace(
+          ROUTES.LOGIN({
+            error: 'kakao',
+            ...buildReturnToParams(returnToContext),
+          }),
+        );
         toast.error(
           '카카오 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
           undefined,
@@ -76,7 +91,7 @@ export default function KakaoCallbackPage() {
         );
       }
     })();
-  }, [code, error, mutateAsync, router, toast]);
+  }, [code, error, mutateAsync, returnToContext, router, toast]);
 
   return (
     <div className='bg-black-10 flex h-dvh flex-col items-center justify-center gap-[1.5rem]'>

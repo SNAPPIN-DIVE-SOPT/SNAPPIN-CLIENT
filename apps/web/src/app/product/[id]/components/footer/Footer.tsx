@@ -45,6 +45,7 @@ export default function Footer({ productId, contact, amount }: FooterProps) {
       return;
     }
     // TODO: 온보딩 미완 -> 모달 띄우기 (온보딩 이동 모달 디자인 기다리는 중)
+    router.push(ROUTES.ON_BOARDING(1, { returnTo: ROUTES.PRODUCT(productId) }));
     // TODO: 온보딩 완료 -> 예약 양식 페이지로 이동
     setIsOpen(true);
   };
@@ -67,11 +68,7 @@ export default function Footer({ productId, contact, amount }: FooterProps) {
             </Button>
           }
           rightButton={
-            <Button
-              color='black'
-              size='medium'
-              onClick={handleOpenDrawer}
-            >
+            <Button color='black' size='medium' onClick={handleOpenDrawer}>
               예약 문의 작성
             </Button>
           }

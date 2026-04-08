@@ -1,7 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { BottomCTAButton } from '@snappin/design-system';
+import { buildReturnToParams, readReturnToContext } from '@/auth/utils/returnTo';
 import { ROUTES } from '@/constants/routes/routes';
 import { TOTAL_STEP_COUNT } from '@/app/(auth)/on-boarding/[step]/constants/onBoardingSteps';
 import type { OnBoardingStep } from '@/app/(auth)/on-boarding/[step]/types/onBoardingStep';
@@ -16,6 +17,8 @@ type ClientFooterProps = {
 
 export default function ClientFooter({ step, triggerFields }: ClientFooterProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnToParams = buildReturnToParams(readReturnToContext(searchParams));
   const { compatibleFormData, trigger, handleSubmitForm } = useOnBoardingFormContext();
   const { mutateAsync, isPending } = usePostOnboarding();
 
@@ -27,8 +30,8 @@ export default function ClientFooter({ step, triggerFields }: ClientFooterProps)
     if (!isValid) return;
 
     if (isLast) {
-      await handleSubmitForm(() => {
-        mutateAsync({
+      await handleSubmitForm(async () => {
+        await mutateAsync({
           name: compatibleFormData.name,
           gender: compatibleFormData.gender as GenderValue,
           nickname: compatibleFormData.nickname,
@@ -37,10 +40,10 @@ export default function ClientFooter({ step, triggerFields }: ClientFooterProps)
           phoneNumber: compatibleFormData.phoneNumber,
         });
 
-        router.push(ROUTES.ON_BOARDING_FINAL);
+        router.push(ROUTES.ON_BOARDING_FINAL(returnToParams));
       });
     } else {
-      router.push(ROUTES.ON_BOARDING(step + 1));
+      router.push(ROUTES.ON_BOARDING(step + 1, returnToParams));
     }
   };
 
