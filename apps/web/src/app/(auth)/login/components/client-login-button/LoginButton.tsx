@@ -1,15 +1,15 @@
 ﻿'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { BottomCTAButton } from '@snappin/design-system';
 import { IconKakao } from '@snappin/design-system/assets';
-import { readReturnToContext } from '@/auth/utils/returnTo';
 
-export default function LoginButton() {
-  const searchParams = useSearchParams();
+type LoginButtonProps = {
+  returnTo?: string;
+};
+
+export default function LoginButton({ returnTo }: LoginButtonProps) {
   const clientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL!;
-  const { returnTo } = readReturnToContext(searchParams);
   const state = returnTo ? new URLSearchParams({ returnTo }).toString() : '';
   const KAKAO_LOGIN_URL =
     `https://kauth.kakao.com/oauth/authorize` +

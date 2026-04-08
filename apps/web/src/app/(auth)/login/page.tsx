@@ -1,8 +1,22 @@
 ﻿import { Logo } from '@snappin/design-system/assets';
 import { ImageSlide } from '@snappin/design-system';
+import { readReturnToContext } from '@/auth/utils/returnTo';
 import { ClientNavigation, LoginButton } from './components';
 
-export default function Page() {
+type PageProps = {
+  searchParams: Promise<{
+    returnTo?: string;
+  }>;
+};
+
+export default async function Page({ searchParams }: PageProps) {
+  const { returnTo: rawReturnTo } = await searchParams;
+  const returnTo = readReturnToContext(
+    new URLSearchParams({
+      returnTo: rawReturnTo ?? '',
+    }),
+  ).returnTo;
+
   return (
     <div className='bg-black-10 h-full'>
       <ClientNavigation />
@@ -13,7 +27,7 @@ export default function Page() {
         </div>
         <ImageSlide />
         <div className='flex justify-center px-[2rem]'>
-          <LoginButton />
+          <LoginButton returnTo={returnTo} />
         </div>
       </div>
     </div>
