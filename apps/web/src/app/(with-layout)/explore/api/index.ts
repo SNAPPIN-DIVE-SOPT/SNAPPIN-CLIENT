@@ -2,10 +2,10 @@ import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/
 import {
   ApiResponseBodyGetMoodFilterListResponseVoid,
   ApiResponseBodyGetPortfolioListResponseV2GetPortfolioMetaResponseV2,
+  ApiResponseBodyGetProductListResponseV2GetProductMetaResponseV2,
   CategoriesResponse,
   GetMoodFilterListResponse,
   GetPlaceResponse,
-  GetProductListData,
 } from '@/swagger-api';
 import { apiRequest } from '@/api/apiRequest';
 import { useAuth } from '@/auth/hooks/useAuth';
@@ -25,7 +25,7 @@ const PLACE_FULL_URL = `${BASE_URL}${PLACE_ENDPOINT}`;
 const PORTFOLIO_ENDPOINT = '/api/v2/portfolios';
 const PORTFOLIO_FULL_URL = `${BASE_URL}${PORTFOLIO_ENDPOINT}`;
 
-const PRODUCT_ENDPOINT = '/api/v1/products';
+const PRODUCT_ENDPOINT = '/api/v2/products';
 const PRODUCT_FULL_URL = `${BASE_URL}${PRODUCT_ENDPOINT}`;
 
 export const useSearchPlaces = (keyword: string) => {
@@ -157,7 +157,7 @@ export const buildExploreQuery = (sp: URLSearchParams) => {
   return query;
 };
 
-const buildExplorePortfolioQuery = (sp: URLSearchParams) => {
+const buildExploreListQuery = (sp: URLSearchParams) => {
   const query = buildExploreQuery(sp);
   const sort = sp.get('sort');
 
@@ -169,7 +169,7 @@ const buildExplorePortfolioQuery = (sp: URLSearchParams) => {
 };
 
 export const useGetPortfolioList = (sp: URLSearchParams) => {
-  const baseQuery = buildExplorePortfolioQuery(sp);
+  const baseQuery = buildExploreListQuery(sp);
 
   return useSuspenseInfiniteQuery<ApiResponseBodyGetPortfolioListResponseV2GetPortfolioMetaResponseV2>(
     {
@@ -209,9 +209,9 @@ export const useGetPortfolioList = (sp: URLSearchParams) => {
 };
 
 export const useGetProductList = (sq: URLSearchParams) => {
-  const baseQuery = buildExploreQuery(sq);
+  const baseQuery = buildExploreListQuery(sq);
 
-  return useSuspenseInfiniteQuery<GetProductListData>({
+  return useSuspenseInfiniteQuery<ApiResponseBodyGetProductListResponseV2GetProductMetaResponseV2>({
     queryKey: USER_QUERY_KEY.PRODUCT_LIST(baseQuery.toString()),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
@@ -228,10 +228,17 @@ export const useGetProductList = (sq: URLSearchParams) => {
         url.searchParams.set('cursor', String(pageParam));
       }
 
-      const res = await fetch(url.toString(), { method: 'GET' });
-      if (!res.ok) throw new Error('/api/v1/products 응답 실패');
+      const response = await fetch(url.toString(), { method: 'GET' });
+      if (!response.ok) {
+        throw new Error('/api/v2/products 응답 실패');
+      }
 
-      return await res.json();
+      const data = await response.json();
+      if (!data.data) {
+        throw new Error('/api/v2/products 응답에 데이터가 존재하지 않습니다.');
+      }
+
+      return data;
     },
     getNextPageParam: (lastPage) => {
       return lastPage.meta?.hasNext ? lastPage.meta?.nextCursor : undefined;
