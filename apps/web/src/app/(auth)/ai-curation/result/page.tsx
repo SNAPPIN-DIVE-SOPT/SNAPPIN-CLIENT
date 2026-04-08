@@ -2,9 +2,9 @@
 
 import { useEffect, useState, startTransition } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import MoodAnimationResult from './components/mood-animation-result-state/MoodAnimationResult';
-import MoodAnimationPending from './components/mood-animation-pending-state/MoodAnimationPending';
-import { useGetAiCurationResult } from './api';
+import MoodAnimationResult from '@/app/(auth)/ai-curation/result/components/mood-animation-result-state/MoodAnimationResult';
+import MoodAnimationPending from '@/app/(auth)/ai-curation/result/components/mood-animation-pending-state/MoodAnimationPending';
+import { useGetAiCurationResult } from '@/app/(auth)/ai-curation/result/api';
 
 export default function Page() {
   const { data } = useGetAiCurationResult();

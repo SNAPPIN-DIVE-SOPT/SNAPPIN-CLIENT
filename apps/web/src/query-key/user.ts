@@ -1,9 +1,4 @@
 export const USER_QUERY_KEY = {
-  // AI 큐레이션
-  AI_CURATION: ['ai-curation'],
-  AI_CURATION_ALL: () => [...USER_QUERY_KEY.AI_CURATION, 'all'],
-  AI_CURATION_RESULT: () => [...USER_QUERY_KEY.AI_CURATION, 'result'],
-
   // 추천 스냅 명소
   RECOMMENDATION: ['recommendation'],
   RECOMMENDATION_SNAP_PLACE: () => [...USER_QUERY_KEY.RECOMMENDATION, 'places'],

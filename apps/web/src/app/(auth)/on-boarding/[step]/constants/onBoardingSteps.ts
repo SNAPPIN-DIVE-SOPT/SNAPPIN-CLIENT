@@ -1,6 +1,6 @@
 import {
   GENDER_VALUES,
-  INTEREST_VALUES,
+  SNAP_CATEGORIES_VALUES,
 } from '@/app/(auth)/on-boarding/[step]/constants/onBoardingForm.schema';
 import type { OnBoardingStep } from '@/app/(auth)/on-boarding/[step]/types/onBoardingStep';
 
@@ -74,13 +74,13 @@ export const ON_BOARDING_STEPS = [
     step: 5,
     title: '관심 있는 스냅 촬영을\n모두 선택해 주세요.',
     description: undefined,
-    triggerFields: ['interests'],
+    triggerFields: ['snapCategories'],
     fields: [
       {
-        name: 'interests',
+        name: 'snapCategories',
         label: '',
         type: 'checkbox',
-        options: INTEREST_VALUES,
+        options: SNAP_CATEGORIES_VALUES,
       },
     ],
   },

@@ -4,11 +4,11 @@ import type {
   ApiResponseBodyCreateMoodCurationResponseVoid,
   CreateMoodCurationResponse,
 } from '@/swagger-api';
-import { USER_QUERY_KEY } from '@/query-key/user';
+import { AUTH_QUERY_KEY } from '@/query-key/auth';
 
 export const useGetAiCurationResult = () => {
   return useQuery<CreateMoodCurationResponse>({
-    queryKey: USER_QUERY_KEY.AI_CURATION_RESULT(),
+    queryKey: AUTH_QUERY_KEY.AI_CURATION_RESULT(),
     queryFn: async () => {
       const res = await apiRequest<ApiResponseBodyCreateMoodCurationResponseVoid>({
         endPoint: '/api/v1/curation/result',

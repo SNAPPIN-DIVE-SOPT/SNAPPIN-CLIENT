@@ -3,14 +3,20 @@
 import { BottomCTAButton } from '@snappin/design-system';
 import { IconKakao } from '@snappin/design-system/assets';
 
-export default function LoginButton() {
+type LoginButtonProps = {
+  returnTo?: string;
+};
+
+export default function LoginButton({ returnTo }: LoginButtonProps) {
   const clientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL!;
+  const state = returnTo ? new URLSearchParams({ returnTo }).toString() : '';
   const KAKAO_LOGIN_URL =
     `https://kauth.kakao.com/oauth/authorize` +
     `?response_type=code` +
     `&client_id=${clientId}` +
-    `&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+    (state ? `&state=${encodeURIComponent(state)}` : '');
 
   const handleLogin = () => {
     window.location.href = KAKAO_LOGIN_URL;

@@ -7,7 +7,7 @@ import {
 import { useOnBoardingFormContext } from '@/app/(auth)/on-boarding/hooks/useOnBoardingFormContext';
 import {
   GENDER_LABELS,
-  INTEREST_LABELS,
+  SNAP_CATEGORIES_LABELS,
 } from '@/app/(auth)/on-boarding/[step]/constants/onBoardingForm.schema';
 import type {
   OnBoardingField,
@@ -28,7 +28,7 @@ export default function OnBoardingFields({ fields }: Props) {
     updateNickname,
     updatePhoneNumber,
     updateEmail,
-    updateInterest,
+    updateSnapCategory,
   } = useOnBoardingFormContext();
 
   const TEXT_FIELD_HANDLERS: Record<OnBoardingTextField['name'], (value: string) => void> = {
@@ -82,9 +82,9 @@ export default function OnBoardingFields({ fields }: Props) {
             key={field.name}
             label={field.label}
             value={compatibleFormData[field.name]}
-            onChange={updateInterest}
+            onChange={updateSnapCategory}
             options={field.options}
-            labels={INTEREST_LABELS}
+            labels={SNAP_CATEGORIES_LABELS}
             error={Boolean(errorText)}
             errorText={errorText}
           />

@@ -2,17 +2,17 @@
 
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
-import { USER_QUERY_KEY } from '@/query-key/user';
 import {
   ApiResponseBodyGetAllCurationQuestionsResponseVoid,
   GetCurationQuestionPhotosResponse,
   CreateMoodCurationResponse,
   ApiResponseBodyCreateMoodCurationResponseVoid,
 } from '@/swagger-api';
+import { AUTH_QUERY_KEY } from '@/query-key/auth';
 
 export const useGetAiCurationAll = () => {
   return useQuery<GetCurationQuestionPhotosResponse[]>({
-    queryKey: USER_QUERY_KEY.AI_CURATION_ALL(),
+    queryKey: AUTH_QUERY_KEY.AI_CURATION_ALL(),
     queryFn: async () => {
       const res = await apiRequest<ApiResponseBodyGetAllCurationQuestionsResponseVoid>({
         endPoint: '/api/v1/curation/all',
@@ -33,15 +33,13 @@ export const useGetAiCurationAllPrefetch = () => {
 
   return () => {
     queryClient.prefetchQuery({
-      queryKey: USER_QUERY_KEY.AI_CURATION_ALL(),
+      queryKey: AUTH_QUERY_KEY.AI_CURATION_ALL(),
       queryFn: useGetAiCurationAll,
     });
   };
 };
 
 export const usePostAiCuration = () => {
-  const queryClient = useQueryClient();
-
   return useMutation<CreateMoodCurationResponse, Error, number[]>({
     mutationFn: async (photoIds: number[]) => {
       const res = await apiRequest<ApiResponseBodyCreateMoodCurationResponseVoid>({
@@ -52,9 +50,6 @@ export const usePostAiCuration = () => {
 
       if (!res.data) throw new Error('No data from POST /api/v1/curation');
       return res.data;
-    },
-    onSuccess: (data) => {
-      queryClient.setQueryData(USER_QUERY_KEY.AI_CURATION_RESULT(), data);
     },
   });
 };
