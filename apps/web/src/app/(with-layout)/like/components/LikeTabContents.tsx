@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
-import { PortfolioListSkeleton, ProductListSkeleton } from '@/ui';
-import PortfolioListSection from '../_section/PortfolioListSection';
-import ProductListSection from '../_section/ProductListSection';
-import { LIKE_TAB, type LikeTab } from '../constants/tab';
+import { PortfolioFrameListSkeleton, ProductFrameListSkeleton } from '@/ui';
+import { LIKE_TAB, LikeTab } from '@/app/(with-layout)/like/constants/tab';
+import PortfolioListSection from '@/app/(with-layout)/like/_section/PortfolioListSection';
+import ProductListSection from '@/app/(with-layout)/like/_section/ProductListSection';
 
 type LikeTabContentsProps = {
   currentTab: LikeTab;
@@ -13,20 +13,14 @@ export default function LikeTabContents({ currentTab }: LikeTabContentsProps) {
     <div className='scrollbar-hide bg-black-1 min-h-0 overflow-y-hidden'>
       {currentTab === LIKE_TAB.PORTFOLIO && (
         <section className='min-h-full'>
-          <Suspense fallback={<PortfolioListSkeleton className='p-[1rem]' />}>
+          <Suspense fallback={<PortfolioFrameListSkeleton />}>
             <PortfolioListSection />
           </Suspense>
         </section>
       )}
       {currentTab === LIKE_TAB.PRODUCT && (
         <section className='bg-black-1 min-h-full'>
-          <Suspense
-            fallback={
-              <div className='bg-black-1 flex h-full flex-col gap-[0.6rem]'>
-                <ProductListSkeleton length={5} />
-              </div>
-            }
-          >
+          <Suspense fallback={<ProductFrameListSkeleton />}>
             <ProductListSection />
           </Suspense>
         </section>
