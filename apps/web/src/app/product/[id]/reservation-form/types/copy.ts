@@ -1,4 +1,4 @@
-import { SCHEDULE_CHOICES } from '../constants/copy-form';
+import { SCHEDULE_CHOICES } from '../constants';
 
 export type ReservationApplicant = {
   name: string;

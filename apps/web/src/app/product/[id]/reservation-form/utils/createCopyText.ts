@@ -1,5 +1,5 @@
 import { formatShortDate } from '@/utils/formatDate';
-import { SCHEDULE_CHOICES, UPLOAD_CONSENT_STATUS_LABEL } from '../constants/copy-form';
+import { SCHEDULE_CHOICES, UPLOAD_CONSENT_STATUS_LABEL } from '../constants';
 import type { ReservationApplicant, ReservationCopyFormValue } from '../types/copy';
 import { hasCompletedSchedule } from './reservationCopyForm';
 

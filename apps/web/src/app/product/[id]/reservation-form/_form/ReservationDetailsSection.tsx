@@ -7,8 +7,8 @@ import {
   PRIMARY_SCHEDULE_CHOICE_KEY,
   SCHEDULE_CHOICES,
   UPLOAD_CONSENT_NOTES,
-} from '../constants/copy-form';
-import { type ReservationCopyFormModel } from '../hooks';
+} from '../constants';
+import { type ReservationCopyFormModel } from '../hooks/useReservationCopyForm';
 import {
   createDurationLabel,
   createScheduleDateLabel,

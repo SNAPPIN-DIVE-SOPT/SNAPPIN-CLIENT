@@ -6,8 +6,8 @@ import {
   RESERVATION_COPY_FORM_ERROR_MESSAGE,
   REQUEST_CONTENT,
   SCHEDULE_CHOICES,
-} from '../constants/copy-form';
-import { hasCompletedSchedule } from '../utils';
+} from './copyForm';
+import { hasCompletedSchedule } from '../utils/reservationCopyForm';
 
 // 각 일정 선택이 날짜와 시간 모두 선택되었는지 검증
 const reservationScheduleSelectionSchema = z

@@ -5,15 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useWatch } from 'react-hook-form';
 import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
 import {
-  reservationCopyFormSchema,
-  type ReservationCopyFormInput,
-  type ReservationCopyFormOutput,
-} from './useReservationCopySchema';
-import {
   DURATION_HOURS,
   PEOPLE_COUNT,
   SCHEDULE_CHOICES,
-} from '../constants/copy-form';
+  reservationCopyFormSchema,
+  type ReservationCopyFormInput,
+  type ReservationCopyFormOutput,
+} from '../constants';
 import type {
   ReservationApplicant,
   ScheduleChoiceKey,

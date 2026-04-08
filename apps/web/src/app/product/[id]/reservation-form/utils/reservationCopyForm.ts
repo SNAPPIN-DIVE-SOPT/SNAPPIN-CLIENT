@@ -2,7 +2,7 @@ import {
   DURATION_HOURS,
   PEOPLE_COUNT,
   SCHEDULE_CHOICES,
-} from '../constants/copy-form';
+} from '../constants/copyForm';
 import type {
   ReservationCopyFormValue,
   ScheduleChoiceKey,
