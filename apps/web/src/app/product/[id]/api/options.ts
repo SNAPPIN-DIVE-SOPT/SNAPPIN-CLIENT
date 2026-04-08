@@ -72,7 +72,7 @@ export const productPortfoliosOptions = (id: number, isLogIn: boolean) =>
 export const productReviewsOptions = (id: number) =>
   infiniteQueryOptions({
     queryKey: USER_QUERY_KEY.PRODUCT_REVIEWS(id),
-    initialPageParam: undefined,
+    initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
       const url = new URL(`${SERVER_API_BASE_URL}/api/v1/products/${id}/reviews`);
       if (pageParam) {
@@ -82,7 +82,7 @@ export const productReviewsOptions = (id: number) =>
       const res = await fetch(url.toString(), { method: 'GET' });
 
       if (!res.ok) {
-        throw new Error('/api/v1/products/{productId}/reviews 응답에 데이터가 존재하지 않습니다.');
+        throw new Error('/api/v1/products/{id}/reviews 응답에 데이터가 존재하지 않습니다.');
       }
 
       return await res.json();

@@ -82,7 +82,7 @@ export default function ProductDetailContent({ productId, tab, isLogIn }: Produc
           )}
           {selectedTab === PRODUCT_TAB.REVIEW && (
             <Suspense fallback={<ReviewListSectionSkeleton />}>
-              <ReviewListSection productId={productId} averageRate={data?.averageRate ?? 0} />
+              <ReviewListSection productId={productId} averageRate={data?.averageRate ?? 0} isLogIn={isLogIn} />
             </Suspense>
           )}
         </div>

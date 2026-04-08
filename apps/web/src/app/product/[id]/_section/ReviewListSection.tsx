@@ -5,13 +5,13 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Button, Divider, ReviewStar } from '@snappin/design-system';
-import { useAuth } from '@/auth/hooks/useAuth';
 import { formatShortDate } from '@/utils/formatDate';
 import { useGetProductReviewList } from '@/app/product/[id]/api';
 
 type ReviewListSectionProps = {
   productId: number;
   averageRate: number;
+  isLogIn: boolean;
 };
 
 type ReviewProps = {
@@ -23,10 +23,9 @@ type ReviewProps = {
   content: string;
 };
 
-export default function ReviewListSection({ productId, averageRate }: ReviewListSectionProps) {
+export default function ReviewListSection({ productId, averageRate, isLogIn }: ReviewListSectionProps) {
   const { data, fetchNextPage, hasNextPage } = useGetProductReviewList(productId);
   const { ref, inView } = useInView();
-  const { isLogIn } = useAuth();
 
   const reviewList = data?.pages.flatMap((page) => page.data?.reviews ?? []) ?? [];
   const isEmpty = reviewList?.length === 0;
