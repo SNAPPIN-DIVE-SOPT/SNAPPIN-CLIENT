@@ -33,7 +33,7 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   promises.push(prefetchProductDetail(queryClient, productId, isLogIn));
   if (tab === PRODUCT_TAB.PORTFOLIO) {
-    promises.push(prefetchPortfolioList(queryClient, productId));
+    promises.push(prefetchPortfolioList(queryClient, productId, isLogIn));
   }
   if (tab === PRODUCT_TAB.REVIEW) {
     promises.push(prefetchProductReviewList(queryClient, productId));

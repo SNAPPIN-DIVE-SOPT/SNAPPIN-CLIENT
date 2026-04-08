@@ -2,7 +2,7 @@ import { queryOptions, infiniteQueryOptions } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import { USER_QUERY_KEY } from '@/query-key/user';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
-import { GetProductDetailData } from '@/swagger-api';
+import { GetPortfolioListData, GetProductDetailData } from '@/swagger-api';
 
 // 상품 상세 정보 및 상품 안내 조회 옵션
 // TODO: 서버 변경 후 v1 -> v2
@@ -34,21 +34,33 @@ export const productDetailOptions = (id: number, isLogIn: boolean) =>
   });
 
 // 포폴 목록 조회 옵션
-export const productPortfoliosOptions = (id: number) =>
+export const productPortfoliosOptions = (id: number, isLogIn: boolean) =>
   infiniteQueryOptions({
-    queryKey: USER_QUERY_KEY.PRODUCT_PORTFOLIOS(id),
-    initialPageParam: undefined,
+    queryKey: USER_QUERY_KEY.PRODUCT_PORTFOLIOS(id, isLogIn),
+    initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
-      const url = new URL(`${SERVER_API_BASE_URL}/api/v1/portfolios`);
+      const url = new URL(`${SERVER_API_BASE_URL}/api/v2/portfolios`);
       url.searchParams.append('productId', String(id));
       if (pageParam) {
         url.searchParams.append('cursor', String(pageParam));
       }
 
+      if (isLogIn) {
+        const res = await apiRequest<GetPortfolioListData>({
+          endPoint: `/api/v2/portfolios?${url.searchParams}`,
+          method: 'GET',
+        });
+
+        if (!res?.data) {
+          throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
+        }
+        return res;
+      }
+
       const res = await fetch(url.toString(), { method: 'GET' });
 
       if (!res.ok) {
-        throw new Error('/api/v1/portfolios 응답에 데이터가 존재하지 않습니다.');
+        throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
       }
 
       return await res.json();

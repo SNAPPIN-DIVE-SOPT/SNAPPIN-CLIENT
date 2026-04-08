@@ -201,8 +201,8 @@ export const useWishProduct = (photographerId: number) => {
 };
 
 // 포폴 목록 조회 API
-export const useGetPortfolioList = (id: number) => {
-  return useSuspenseInfiniteQuery(productPortfoliosOptions(id));
+export const useGetPortfolioList = (id: number, isLogIn: boolean) => {
+  return useSuspenseInfiniteQuery(productPortfoliosOptions(id, isLogIn));
 };
 
 // 상품 리뷰 목록 조회 API

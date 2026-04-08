@@ -73,7 +73,12 @@ export const USER_QUERY_KEY = {
     id,
     isLogIn ? 'login' : 'not-login',
   ],
-  PRODUCT_PORTFOLIOS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'portfolios'],
+  PRODUCT_PORTFOLIOS: (id: number, isLogIn: boolean) => [
+    ...USER_QUERY_KEY.PRODUCT,
+    id,
+    'portfolios',
+    isLogIn ? 'login' : 'not-login'
+  ],
   PRODUCT_REVIEWS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'reviews'],
   PRODUCT_LIST: (query: string) => [...USER_QUERY_KEY.PRODUCT, 'list', query],
   PRODUCT_AVAILABLE_TIME: (id: string, date: string) => [

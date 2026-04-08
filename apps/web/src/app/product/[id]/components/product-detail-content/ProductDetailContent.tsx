@@ -74,9 +74,9 @@ export default function ProductDetailContent({ productId, tab, isLogIn }: Produc
             <ProductDetailSection productInfo={data?.productInfo} />
           )}
           {selectedTab === PRODUCT_TAB.PORTFOLIO && (
-            <div className='bg-black-1 mb-[8rem] p-[1rem]'>
+            <div className='bg-black-1 mb-[8rem]'>
               <Suspense fallback={<PortfolioListSkeleton />}>
-                <PortfolioListSection productId={productId} />
+                <PortfolioListSection productId={productId} isLogIn={isLogIn} />
               </Suspense>
             </div>
           )}
