@@ -60,7 +60,7 @@ export default function AdditionalRequestSection({
             <div className='flex justify-between'>
               <FieldMessage
                 id='reservation-request-content-error'
-                message={requestContentErrorMessage || ' '}
+                message={requestContentErrorMessage}
                 variant={requestContentErrorMessage ? 'error' : 'help'}
               />
               <FieldMessage
