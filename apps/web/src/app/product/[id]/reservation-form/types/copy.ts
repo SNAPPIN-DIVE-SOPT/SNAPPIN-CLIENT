@@ -22,6 +22,6 @@ export type ReservationCopyFormValue = {
   durationHours: number;
   peopleCount: number;
   schedules: ScheduleSelections;
-  uploadConsentStatus: UploadConsentStatus;
+  uploadConsentStatus?: UploadConsentStatus;
   requestContent: string;
 };

@@ -108,10 +108,10 @@ export default function useReservationCopyForm({ applicant }: UseReservationCopy
 
   // 업로드 동의/비동의
   const handleUploadConsentStatusClick = (
-    nextUploadConsentStatus: Exclude<ReservationCopyFormInput['uploadConsentStatus'], ''>,
+    nextUploadConsentStatus: NonNullable<ReservationCopyFormInput['uploadConsentStatus']>,
   ) => {
     const nextUploadConsentValue =
-      formData.uploadConsentStatus === nextUploadConsentStatus ? '' : nextUploadConsentStatus;
+      formData.uploadConsentStatus === nextUploadConsentStatus ? undefined : nextUploadConsentStatus;
 
     setValue('uploadConsentStatus', nextUploadConsentValue, { shouldValidate: true });
   };

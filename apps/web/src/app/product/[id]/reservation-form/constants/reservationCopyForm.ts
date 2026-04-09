@@ -38,11 +38,10 @@ export const UPLOAD_CONSENT_NOTES = [
   { label: '비동의 시', note: '비동의 시 제공 범위가 달라질 수 있습니다.' },
 ] as const;
 
-export const UPLOAD_CONSENT_STATUS_VALUES = ['', 'agree', 'disagree'] as const;
+export const UPLOAD_CONSENT_STATUS_KEY = ['agree', 'disagree'] as const;
+export type UploadConsentStatus = (typeof UPLOAD_CONSENT_STATUS_KEY)[number];
 
-export type UploadConsentStatus = (typeof UPLOAD_CONSENT_STATUS_VALUES)[number];
-
-export const UPLOAD_CONSENT_STATUS_LABEL = {
+export const UPLOAD_CONSENT_STATUS: Record<UploadConsentStatus, string> = {
   agree: '동의',
   disagree: '비동의',
 } as const;

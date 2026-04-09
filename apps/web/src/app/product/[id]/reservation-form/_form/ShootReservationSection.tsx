@@ -7,7 +7,8 @@ import {
   PRIMARY_SCHEDULE_CHOICE_KEY,
   SCHEDULE_CHOICES,
   UPLOAD_CONSENT_NOTES,
-  UPLOAD_CONSENT_STATUS_LABEL,
+  UPLOAD_CONSENT_STATUS,
+  UPLOAD_CONSENT_STATUS_KEY,
 } from '@/app/product/[id]/reservation-form/constants';
 import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-form/hooks';
 import {
@@ -147,26 +148,19 @@ export default function ShootReservationSection({
           </div>
         )}
         <div className='flex gap-[1rem]'>
-          <Button
-            type='button'
-            display='inline'
-            size='small'
-            color={uploadConsentStatus === 'agree' ? 'black' : 'white'}
-            className={uploadConsentStatus === 'agree' ? 'border border-transparent' : undefined}
-            onClick={() => handleUploadConsentStatusClick('agree')}
-          >
-            {UPLOAD_CONSENT_STATUS_LABEL.agree}
-          </Button>
-          <Button
-            type='button'
-            display='inline'
-            size='small'
-            color={uploadConsentStatus === 'disagree' ? 'black' : 'white'}
-            className={uploadConsentStatus === 'disagree' ? 'border border-transparent' : undefined}
-            onClick={() => handleUploadConsentStatusClick('disagree')}
-          >
-            {UPLOAD_CONSENT_STATUS_LABEL.disagree}
-          </Button>
+          {UPLOAD_CONSENT_STATUS_KEY.map((key) => (
+            <Button
+              key={key}
+              type='button'
+              display='inline'
+              size='small'
+              color={uploadConsentStatus === key ? 'black' : 'white'}
+              className={uploadConsentStatus === key ? 'border border-transparent' : undefined}
+              onClick={() => handleUploadConsentStatusClick(key)}
+            >
+              {UPLOAD_CONSENT_STATUS[key]}
+            </Button>
+          ))}
         </div>
       </div>
     </section>

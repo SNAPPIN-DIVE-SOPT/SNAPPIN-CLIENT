@@ -1,5 +1,5 @@
 import { formatShortDate } from '@/utils/formatDate';
-import { SCHEDULE_CHOICES, UPLOAD_CONSENT_STATUS_LABEL } from '@/app/product/[id]/reservation-form/constants';
+import { SCHEDULE_CHOICES, UPLOAD_CONSENT_STATUS } from '@/app/product/[id]/reservation-form/constants';
 import type {
   ReservationApplicant,
   ReservationCopyFormValue,
@@ -34,7 +34,7 @@ const createCopyText = ({
   });
   const uploadConsentStatusLabel =
     uploadConsentStatus === 'agree' || uploadConsentStatus === 'disagree'
-      ? UPLOAD_CONSENT_STATUS_LABEL[uploadConsentStatus]
+      ? UPLOAD_CONSENT_STATUS[uploadConsentStatus]
       : '-';
 
   return [

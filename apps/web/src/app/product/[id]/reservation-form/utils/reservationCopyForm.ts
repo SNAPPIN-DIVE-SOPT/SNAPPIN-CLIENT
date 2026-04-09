@@ -48,7 +48,7 @@ export const createDefaultReservationCopyFormValue = (): ReservationCopyFormValu
     durationHours: DURATION_HOURS.MIN,
     peopleCount: PEOPLE_COUNT.MIN,
     schedules: createInitialScheduleSelections(),
-    uploadConsentStatus: '',
+    uploadConsentStatus: undefined,
     requestContent: '',
   };
 };
