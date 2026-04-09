@@ -11,6 +11,8 @@
   IconChip아날로그,
   IconChip디지털,
   IconChipY2k,
+  IconChip시크한,
+  IconChip클린한,
 } from '@snappin/design-system/assets';
 import { MOOD_CODE, MOOD_CODE_INDEX, MoodCode } from '@snappin/shared/types';
 
@@ -44,6 +46,10 @@ const mapIcon = (mood: MoodCode) => {
       return { icon: <IconChip연출된 />, location: 'right' };
     case MOOD_CODE[MOOD_CODE_INDEX.서사적인]:
       return { icon: <IconChip서사적인 />, location: 'right' };
+    case MOOD_CODE[MOOD_CODE_INDEX.클린한]:
+      return { icon: <IconChip클린한 />, location: 'left' };
+    case MOOD_CODE[MOOD_CODE_INDEX.시크한]:
+      return { icon: <IconChip시크한 />, location: 'left' };
     default:
       return { icon: null, location: 'left' };
   }

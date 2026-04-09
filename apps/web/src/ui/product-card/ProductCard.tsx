@@ -1,10 +1,10 @@
-﻿import type { HTMLAttributes } from 'react';
-import Image from 'next/image';
-import { ProductCardProps } from '@snappin/shared/types';
-import { TagChip } from '@snappin/design-system';
+﻿import Image from 'next/image';
+import type { HTMLAttributes } from 'react';
 import { cn } from '@snappin/design-system/lib';
-import { IconStar } from '@snappin/design-system/assets';
+import { TagChip } from '@snappin/design-system';
 import { formatPrice } from '@snappin/shared/lib';
+import { IconStar } from '@snappin/design-system/assets';
+import { ProductCardProps } from '@snappin/shared/types';
 
 type ProductCardRootProps = ProductCardProps & HTMLAttributes<HTMLDivElement>;
 
@@ -21,37 +21,40 @@ export default function ProductCard({
   ...props
 }: ProductCardRootProps) {
   return (
-    <div className={cn('flex w-full gap-[1.2rem]', className)} {...props}>
-      <div className='relative h-[10.2rem] w-[10.2rem] shrink-0'>
+    <div className={cn('flex gap-[1rem] w-full', className)} {...props}>
+      {/* 좌측 상품 이미지 */}
+      <div className='relative w-[9rem] h-[9rem] shrink-0 rounded-[0.4rem] overflow-hidden'>
         <Image
-          src={image.src === '' ? '/imgs/default-image.png' : image.src}
-          alt={image.alt ?? `${name} 상품 이미지`}
           fill
-          className='rounded-[0.4rem] object-cover'
+          alt={image.alt ?? ''}
+          src={image.src ?? '/imgs/default-image.png'}
+          sizes='9rem'
+          className='object-cover'
           preload={preload}
         />
       </div>
-      <div className='flex min-w-0 flex-col gap-[0.3rem]'>
-        <div className='flex flex-col gap-[0.5rem]'>
-          <span className='caption-14-bd text-black-10 truncate'>{name}</span>
-          <div className='flex flex-col gap-[0.3rem]'>
-            <div className='flex gap-[0.6rem]'>
-              <div className='flex items-center gap-[0.2rem]'>
-                <IconStar className='text-black-8 h-[1rem] w-[1rem]' />
-                <span className='caption-12-md text-black-8'>{Number(rate).toFixed(1)}</span>
-              </div>
-              <div className='flex items-center gap-[0.3rem]'>
-                <span className='caption-12-md text-black-10 text-right'>리뷰 {reviewCount}</span>
-              </div>
-            </div>
-            <span className='caption-12-md text-black-7 w-[19rem] truncate'>{photographer}</span>
-          </div>
+      {/* 우측 상품 정보 */}
+      <div className='flex flex-col gap-[0.8rem] min-w-0'>
+        {/* 이름, 가격 */}
+        <div className='flex flex-col gap-[0.2rem] text-black-10'>
+          <span className='caption-12-md truncate'>{name}</span>
+          <span className='font-16-sb truncate'>{formatPrice(price)}원~</span>
         </div>
-        <span className='font-16-md text-black-10'>{formatPrice(price)}원</span>
-        <div className='scrollbar-hide flex gap-[0.4rem] overflow-scroll'>
-          {moods.map((tag) => (
-            <TagChip key={tag} variant='neon' label={tag} />
-          ))}
+        {/* 무드, 작가, 별점, 리뷰 */}
+        <div className='flex flex-col gap-[0.8rem]'>
+          <div className='flex gap-[0.4rem]'>
+            {moods.map((mood) => <TagChip key={mood} variant='gray' label={mood} />)}
+          </div>
+          <div className='flex gap-[1.2rem] caption-12-rg text-black-7'>
+            <span>{photographer}</span>
+            <div className='flex gap-[0.6rem]'>
+              <div className='flex gap-[0.2rem]'>
+                <IconStar className='w-[1rem] h-full'/>
+                <span>{rate}</span>
+              </div>
+              <span>리뷰 {reviewCount}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

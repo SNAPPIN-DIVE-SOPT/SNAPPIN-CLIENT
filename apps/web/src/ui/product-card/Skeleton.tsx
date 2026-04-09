@@ -15,15 +15,21 @@ type ProductCardSkeletonProps = {
 
 export function ProductCardSkeleton({ className }: ProductCardSkeletonProps) {
   return (
-    <div className={cn('bg-black-1 flex w-full gap-[1.2rem] px-[2rem] py-[1.6rem]', className)}>
-      <div className='bg-black-3 relative h-[10.2rem] w-[10.2rem] shrink-0' />
-      <div className='flex flex-col justify-between'>
-        <div className='flex w-full flex-col gap-[0.4rem]'>
-          <div className='bg-black-3 h-[1.7rem] w-full' />
-          <div className='bg-black-3 h-[1.4rem] w-[12.7rem]' />
-          <div className='bg-black-3 h-[1.4rem] w-[7.4rem]' />
+    <div className={cn('bg-black-1 flex flex-col gap-[1.6rem] px-[1.8rem] py-[1.4rem]', className)}>
+      <div className='bg-black-1 flex flex-col items-start justify-center gap-[1rem] self-stretch'>
+        <div className='flex gap-[1rem] w-full'>
+          <div className='bg-black-3 relative w-[9rem] h-[9rem] rounded-[0.4rem]' />
+          <div className='flex flex-col gap-[0.8rem] min-w-0'>
+            <div className='flex flex-col gap-[0.4rem] text-black-10'>
+              <div className='bg-black-3 relative w-[14rem] h-[1.3rem] rounded-[0.4rem]' />
+              <div className='bg-black-3 relative w-[8rem] h-[2.1rem] rounded-[0.4rem]' />
+            </div>
+            <div className='flex flex-col gap-[0.8rem]'>
+              <div className='bg-black-3 relative w-[12rem] h-[1.9rem] rounded-[0.4rem]' />
+              <div className='bg-black-3 relative w-[10rem] h-[1.4rem] rounded-[0.4rem]' />
+            </div>
+          </div>
         </div>
-        <div className='bg-black-3 h-[2.2rem] w-[10.1rem]' />
       </div>
     </div>
   );

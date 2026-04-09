@@ -3,24 +3,23 @@
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
-import { PORTFOLIO_MOCK } from '@/app/product/[id]/mocks/mock';
 import { useGetPortfolioList } from '@/app/product/[id]/api';
 
 type PortfolioListSectionProps = {
   productId: number;
+  isLogIn: boolean;
 };
 
-export default function PortfolioListSection({ productId }: PortfolioListSectionProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data, fetchNextPage, hasNextPage } = useGetPortfolioList(productId);
+export default function PortfolioListSection({ productId, isLogIn }: PortfolioListSectionProps) {
+  const { data, fetchNextPage, hasNextPage } = useGetPortfolioList(productId, isLogIn);
   const { ref, inView } = useInView();
 
-  // TODO: API 구현 완료되면 주석 풀기
-  // const portfolioList = data?.pages.flatMap((page) => page.data?.portfolios ?? []) ?? [];
-  const portfolioList = PORTFOLIO_MOCK.portfolios.map(({ imageUrl, ...rest }) => ({
-    ...rest,
-    image: { src: imageUrl, alt: '' }
-  }));
+  const portfolioList = data?.pages
+    .flatMap((page) => page.data?.portfolios ?? [])
+    .map(({ imageUrl, ...rest }) => ({
+      ...rest,
+      image: { src: imageUrl ?? '', alt: '' },
+    })) ?? [];
 
   useEffect(() => {
     if (inView && hasNextPage) {

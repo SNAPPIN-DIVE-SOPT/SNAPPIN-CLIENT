@@ -32,6 +32,7 @@ import {
   GetCuratedPortfoliosData,
   GetCurationQuestionData,
   GetOnboardingData,
+  GetPhotographerProfile1Data,
   GetPhotographerProfileData,
   GetPlacesData,
   GetPopularMoodProductsData,
@@ -43,6 +44,7 @@ import {
   GetPortfolioListRequestV2,
   GetProductAvailableTimesData,
   GetProductClosedDatesData,
+  GetProductDetail1Data,
   GetProductDetailData,
   GetProductDurationTimeData,
   GetProductExtraInfoData,
@@ -727,6 +729,23 @@ export class Api<
       ...params,
     });
   /**
+   * @description 상품 안내를 포함한 상품 상세 정보를 조회합니다. 좋아요 수, 장수 추가 가능 여부, 유료 옵션 목록이 추가되었습니다.
+   *
+   * @tags 06 - Product
+   * @name GetProductDetail
+   * @summary 상품 상세 정보 및 상품 안내 조회 API
+   * @request GET:/api/v2/products/{productId}
+   * @secure
+   * @response `200` `GetProductDetailData` OK
+   */
+  getProductDetail = (productId: string, params: RequestParams = {}) =>
+    this.request<GetProductDetailData, any>({
+      path: `/api/v2/products/${productId}`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
+  /**
    * @description 포트폴리오 전체 조회, 필터링, 검색 시 사용되는 API입니다. isLiked, likeCount, sort, minPrice, maxPrice가 추가되었습니다.
    *
    * @tags 08 - Portfolio
@@ -747,6 +766,26 @@ export class Api<
       path: `/api/v2/portfolios`,
       method: "GET",
       query: query,
+      secure: true,
+      ...params,
+    });
+  /**
+   * @description 입력받은 photographerId로 해당 작가의 프로필을 조회합니다. (contactLink 포함)
+   *
+   * @tags 02 - Photographer
+   * @name GetPhotographerProfile
+   * @summary 작가 상세 조회 API V2
+   * @request GET:/api/v2/photographers/{photographerId}
+   * @secure
+   * @response `200` `GetPhotographerProfileData` OK
+   */
+  getPhotographerProfile = (
+    photographerId: number,
+    params: RequestParams = {},
+  ) =>
+    this.request<GetPhotographerProfileData, any>({
+      path: `/api/v2/photographers/${photographerId}`,
+      method: "GET",
       secure: true,
       ...params,
     });
@@ -891,15 +930,15 @@ export class Api<
    * @description v2 API로 대체되었습니다. `/api/v2/products/{productId}`를 사용하세요.
    *
    * @tags 06 - Product
-   * @name GetProductDetail
+   * @name GetProductDetail1
    * @summary 상품 상세 정보 및 상품 안내 조회 API (Deprecated)
    * @request GET:/api/v1/products/{productId}
    * @deprecated
    * @secure
-   * @response `200` `GetProductDetailData` OK
+   * @response `200` `GetProductDetail1Data` OK
    */
-  getProductDetail = (productId: number, params: RequestParams = {}) =>
-    this.request<GetProductDetailData, any>({
+  getProductDetail1 = (productId: number, params: RequestParams = {}) =>
+    this.request<GetProductDetail1Data, any>({
       path: `/api/v1/products/${productId}`,
       method: "GET",
       secure: true,
@@ -1144,17 +1183,18 @@ export class Api<
    * @description 입력받은 photographerId로 해당 작가의 프로필을 조회합니다.
    *
    * @tags 02 - Photographer
-   * @name GetPhotographerProfile
+   * @name GetPhotographerProfile1
    * @summary 작가 상세 조회 API
    * @request GET:/api/v1/photographers/{photographerId}
+   * @deprecated
    * @secure
-   * @response `200` `GetPhotographerProfileData` OK
+   * @response `200` `GetPhotographerProfile1Data` OK
    */
-  getPhotographerProfile = (
+  getPhotographerProfile1 = (
     photographerId: number,
     params: RequestParams = {},
   ) =>
-    this.request<GetPhotographerProfileData, any>({
+    this.request<GetPhotographerProfile1Data, any>({
       path: `/api/v1/photographers/${photographerId}`,
       method: "GET",
       secure: true,

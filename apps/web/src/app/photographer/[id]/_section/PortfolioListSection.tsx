@@ -9,10 +9,11 @@ import { useGetPortfolioList } from '@/app/photographer/[id]/api';
 
 type PortfolioListSectionProps = {
   id: number;
+  isLogIn: boolean;
 };
 
-export default function PortfolioListSection({ id }: PortfolioListSectionProps) {
-  const { data, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetPortfolioList(id);
+export default function PortfolioListSection({ id, isLogIn }: PortfolioListSectionProps) {
+  const { data, fetchNextPage, hasNextPage, dataUpdatedAt } = useGetPortfolioList(id, isLogIn);
   const { ref, inView } = useInView();
 
   const portfolioList = useMemo(() => {

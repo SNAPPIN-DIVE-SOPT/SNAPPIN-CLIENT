@@ -1,8 +1,8 @@
 'use client';
 
-import { ProductCard, ProductCardSkeleton } from '@/ui/product-card';
-import { useGetReservationDetail } from '../api';
 import { useAuth } from '@/auth/hooks/useAuth';
+import { ProductCard, ProductCardSkeleton } from '@/ui/product-card';
+import { useGetReservationDetail } from '@/app/review-form/[id]/api';
 
 type ProductInfoSectionProps = { reservationId: number };
 
@@ -13,12 +13,9 @@ export default function ProductInfoSection({ reservationId }: ProductInfoSection
     isLogIn === true,
   );
 
-  if (isPending || !reservationData?.productInfo)
-    return (
-      <div className='p-[1.6rem_4.2rem_0_2rem]'>
-        <ProductCardSkeleton />;
-      </div>
-    );
+  if (isPending || !reservationData?.productInfo) {
+    return <ProductCardSkeleton className='py-[1.6rem] pr-[4.2rem] pl-[2rem]'/>;
+  }
 
   const {
     imageUrl = '',

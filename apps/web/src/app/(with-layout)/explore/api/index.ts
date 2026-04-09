@@ -171,12 +171,25 @@ const toRequestParams = (query: URLSearchParams) => {
   return Object.fromEntries(query.entries());
 };
 
+const getExploreListQueryKey = (sp: URLSearchParams, isLogIn: boolean) => {
+  const baseQuery = buildExploreListQuery(sp);
+
+  return `${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`;
+};
+
+export const getExplorePortfolioListQueryKey = (sp: URLSearchParams, isLogIn: boolean) => {
+  return PORTFOLIO_QUERY_KEY.LIST(getExploreListQueryKey(sp, isLogIn));
+};
+
+export const getExploreProductListQueryKey = (sp: URLSearchParams, isLogIn: boolean) => {
+  return PRODUCT_QUERY_KEY.LIST(getExploreListQueryKey(sp, isLogIn));
+};
+
 export const useGetPortfolioList = (sp: URLSearchParams, isLogIn: boolean) => {
   const baseQuery = buildExploreListQuery(sp);
-  const LIST_QUERY_KEY = `${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`;
 
   return useSuspenseInfiniteQuery<GetPortfolioListData>({
-    queryKey: PORTFOLIO_QUERY_KEY.LIST(LIST_QUERY_KEY),
+    queryKey: getExplorePortfolioListQueryKey(sp, isLogIn),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     refetchOnMount: false,
@@ -226,10 +239,9 @@ export const useGetPortfolioList = (sp: URLSearchParams, isLogIn: boolean) => {
 
 export const useGetProductList = (sp: URLSearchParams, isLogIn: boolean) => {
   const baseQuery = buildExploreListQuery(sp);
-  const LIST_QUERY_KEY = `${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`;
 
   return useSuspenseInfiniteQuery<GetProductListData>({
-    queryKey: PRODUCT_QUERY_KEY.LIST(LIST_QUERY_KEY),
+    queryKey: getExploreProductListQueryKey(sp, isLogIn),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
     refetchOnMount: false,

@@ -11,17 +11,25 @@ export const prefetchPhotographerDetail = (queryClient: QueryClient, id: number)
 }
 
 // 포폴 목록 조회 prefetch
-export const prefetchPortfolioList = (queryClient: QueryClient, id: number) => {
+export const prefetchPortfolioList = (
+  queryClient: QueryClient,
+  id: number,
+  isLogIn: boolean
+) => {
   return queryClient.prefetchInfiniteQuery({
-    ...photographerPortfoliosOptions(id),
+    ...photographerPortfoliosOptions(id, isLogIn),
     pages: 1,
   });
 }
 
 // 상품 목록 조회 prefetch
-export const prefetchProductList = (queryClient: QueryClient, id: number) => {
+export const prefetchProductList = (
+  queryClient: QueryClient,
+  id: number,
+  isLogIn: boolean
+) => {
   return queryClient.prefetchInfiniteQuery({
-    ...photographerProductsOptions(id),
+    ...photographerProductsOptions(id, isLogIn),
     pages: 1,
   });
 }

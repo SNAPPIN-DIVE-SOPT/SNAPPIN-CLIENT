@@ -6,6 +6,7 @@ import { IconSortArrowDown } from '@snappin/design-system/assets';
 import SortDrawer from '@/app/(with-layout)/explore/components/sort-drawer/SortDrawer';
 import { ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
 import { EXPLORE_SORT_LABEL } from '@/app/(with-layout)/explore/constants/sort';
+import { useExploreResultCount } from '@/app/(with-layout)/explore/hooks/useExploreResultCount';
 import { resolveExploreSort } from '@/app/(with-layout)/explore/utils/query';
 
 type ExploreResultToolbarProps = {
@@ -13,7 +14,7 @@ type ExploreResultToolbarProps = {
 };
 
 export default function ExploreResultToolbar({ currentTab }: ExploreResultToolbarProps) {
-  const count = 100;
+  const count = useExploreResultCount(currentTab);
   const searchParams = useSearchParams();
   const currentSort = resolveExploreSort(searchParams.get('sort'));
 

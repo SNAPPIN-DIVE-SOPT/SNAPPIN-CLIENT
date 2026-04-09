@@ -35,11 +35,11 @@ export default function PhotographerSection({
           <Profile.Item>
             <Profile.Row>
               <Profile.Meta>촬영 상품</Profile.Meta>
-              <Profile.Meta>{specialties.join(', ')}</Profile.Meta>
+              <Profile.Meta className='text-black-9'>{specialties.join(', ')}</Profile.Meta>
             </Profile.Row>
             <Profile.Row>
               <Profile.Meta>활동 지역</Profile.Meta>
-              <Profile.Meta>{locations.join(', ')}</Profile.Meta>
+              <Profile.Meta className='text-black-9'>{locations.join(', ')}</Profile.Meta>
             </Profile.Row>
           </Profile.Item>
         </Profile.Content>

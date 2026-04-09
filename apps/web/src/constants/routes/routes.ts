@@ -21,6 +21,7 @@ export const ROUTES = {
   PRODUCT_REVIEW: (productId: number, reviewId: number) =>
     `/product/${productId}/review/${reviewId}`,
   RESERVATION: (id: number) => `/reservation/${id}`,
+  RESERVATION_FORM: (productId: number) => `/product/${productId}/reservation-form`,
   REVIEW_FORM: (id: number) => `/review-form/${id}`,
 } as const;
 

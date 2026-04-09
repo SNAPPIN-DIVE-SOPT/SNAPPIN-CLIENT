@@ -1,12 +1,11 @@
 'use client';
 
-import { ImageCarousel, LikeButton, TagChip } from '@snappin/design-system';
-import { IconStar } from '@snappin/design-system/assets';
-import { formatPrice } from '@snappin/shared/lib';
 import { MoodCode } from '@snappin/shared/types';
-import { useAuth } from '@/auth/hooks/useAuth';
+import { formatPrice } from '@snappin/shared/lib';
+import { IconStar } from '@snappin/design-system/assets';
+import { ImageCarousel, LikeButton, TagChip } from '@snappin/design-system';
 import { useToast } from '@/ui';
-import { useWishProduct } from '@/app/product/[id]/api';
+import { useWishProductLike } from '@/ui/frame/apis';
 
 type ProductMainSectionProps = {
   id: number;
@@ -18,6 +17,7 @@ type ProductMainSectionProps = {
   reviewCount: number;
   price: number;
   moods: MoodCode[];
+  isLogIn: boolean;
 };
 
 export default function ProductMainSection({
@@ -30,9 +30,9 @@ export default function ProductMainSection({
   reviewCount,
   price,
   moods,
+  isLogIn
 }: ProductMainSectionProps) {
-  const { mutateAsync } = useWishProduct();
-  const { isLogIn } = useAuth();
+  const { mutateAsync } = useWishProductLike({ id, isLogin: isLogIn });
   const toast = useToast();
 
   const productImages = images.map((image) => ({ src: image, alt: title }));
@@ -60,7 +60,7 @@ export default function ProductMainSection({
             <h1 className='font-16-md text-black-10'>{title}</h1>
             <div className='flex items-start h-[2.4rem]'>
               <LikeButton isLiked={isLiked} handleClick={handleLike} className='h-[2rem]' />
-              <span className='font-16-md text-black-8'>{likeCount}</span>
+              <span className='font-16-rg text-black-8'>{likeCount}</span>
             </div>
           </div>
           <span className='title-20-md text-black-10'>{formatPrice(price)}원~</span>

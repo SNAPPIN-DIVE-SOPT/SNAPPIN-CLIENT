@@ -49,13 +49,13 @@ export const useSubmitReview = () => {
   return useMutation<
     void,
     Error,
-    { reservationId: number; rating: number; content: string; imageUrls: string[] }
+    { productId: number; rating: number; content: string; imageUrls: string[] }
   >({
-    mutationFn: async ({ reservationId, rating, content, imageUrls }) => {
+    mutationFn: async ({ productId, rating, content, imageUrls }) => {
       await apiRequest<void>({
-        endPoint: `/api/v1/reservations/${reservationId}/reviews`,
+        endPoint: `/api/v1/products/${productId}/reviews`,
         method: 'POST',
-        data: { reservationId, rating, content, imageUrls },
+        data: { rating, content, imageUrls },
       });
     },
     onSuccess: () => {

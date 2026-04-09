@@ -11,9 +11,13 @@ export const prefetchProductDetail = async (
 };
 
 // 포폴 목록 조회 prefetch
-export const prefetchPortfolioList = async (queryClient: QueryClient, id: number) => {
+export const prefetchPortfolioList = async (
+  queryClient: QueryClient,
+  id: number,
+  isLogIn: boolean
+) => {
   return queryClient.prefetchInfiniteQuery({
-    ...productPortfoliosOptions(id),
+    ...productPortfoliosOptions(id, isLogIn),
     pages: 1,
   });
 };

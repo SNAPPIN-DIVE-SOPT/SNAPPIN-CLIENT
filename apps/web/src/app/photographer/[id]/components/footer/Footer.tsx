@@ -11,8 +11,8 @@ export default function Footer({ id }: FooterProps) {
   const { data } = useGetPhotographerDetail(id);
 
   const handleContactClick = () => {
-    if (data.contact) {
-      window.open(data.contact, '_blank', 'noopener,noreferrer');
+    if (data.contactLink) {
+      window.open(data.contactLink, '_blank', 'noopener,noreferrer');
     }
   };
 

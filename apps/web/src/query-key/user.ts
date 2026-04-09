@@ -30,8 +30,18 @@ export const USER_QUERY_KEY = {
   // 작가
   PHOTOGRAPHER: ['photographer'],
   PHOTOGRAPHER_DETAIL: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id],
-  PHOTOGRAPHER_PRODUCTS: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id, 'products'],
-  PHOTOGRAPHER_PORTFOLIOS: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id, 'portfolios'],
+  PHOTOGRAPHER_PRODUCTS: (id: number, isLogIn: boolean) => [
+    ...USER_QUERY_KEY.PHOTOGRAPHER,
+    id,
+    'products',
+    isLogIn ? 'login' : 'not-login'
+  ],
+  PHOTOGRAPHER_PORTFOLIOS: (id: number, isLogIn: boolean) => [
+    ...USER_QUERY_KEY.PHOTOGRAPHER,
+    id,
+    'portfolios',
+    isLogIn ? 'login' : 'not-login'
+  ],
 
   // 공간 카테고리
   CATEGORIES: ['categories'],
@@ -58,7 +68,12 @@ export const USER_QUERY_KEY = {
     id,
     isLogIn ? 'login' : 'not-login',
   ],
-  PRODUCT_PORTFOLIOS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'portfolios'],
+  PRODUCT_PORTFOLIOS: (id: number, isLogIn: boolean) => [
+    ...USER_QUERY_KEY.PRODUCT,
+    id,
+    'portfolios',
+    isLogIn ? 'login' : 'not-login'
+  ],
   PRODUCT_REVIEWS: (id: number) => [...USER_QUERY_KEY.PRODUCT, id, 'reviews'],
   PRODUCT_LIST: (query: string) => [...USER_QUERY_KEY.PRODUCT, 'list', query],
   PRODUCT_AVAILABLE_TIME: (id: string, date: string) => [
@@ -102,6 +117,15 @@ export const PRODUCT_QUERY_KEY = {
 
   LIKES: () => [...PRODUCT_QUERY_KEY.all, 'like'],
   LIKE: (id: number) => [...PRODUCT_QUERY_KEY.LIKES(), id],
+
+  REVIEWS: (id: number) => [...PRODUCT_QUERY_KEY.all, 'reviews', id],
+
+  PHOTOGRAPHER_LIST: (photographerId: number, isLogin: boolean) => [
+    ...PRODUCT_QUERY_KEY.all,
+    'photographer-list',
+    photographerId,
+    isLogin ? 'login' : 'not-login',
+  ]
 } as const;
 
 //이거 쓰라고
@@ -120,4 +144,18 @@ export const PORTFOLIO_QUERY_KEY = {
 
   LIKES: () => [...PORTFOLIO_QUERY_KEY.all, 'like'],
   LIKE: (id: number) => [...PORTFOLIO_QUERY_KEY.LIKES(), id],
+
+  PRODUCT_LIST: (productId: number, isLogin: boolean) => [
+    ...PORTFOLIO_QUERY_KEY.all,
+    'product-list',
+    productId,
+    isLogin ? 'login' : 'not-login',
+  ],
+
+  PHOTOGRAPHER_LIST: (photographerId: number, isLogin: boolean) => [
+    ...PORTFOLIO_QUERY_KEY.all,
+    'photographer-list',
+    photographerId,
+    isLogin ? 'login' : 'not-login',
+  ]
 } as const;

@@ -11,11 +11,11 @@ export const useGetPhotographerDetail = (id: number) => {
 }
 
 // 포폴 목록 조회 API
-export const useGetPortfolioList = (id: number) => {
-  return useSuspenseInfiniteQuery(photographerPortfoliosOptions(id));
+export const useGetPortfolioList = (id: number, isLogIn: boolean) => {
+  return useSuspenseInfiniteQuery(photographerPortfoliosOptions(id, isLogIn));
 }
 
 // 상품 목록 조회 API
-export const useGetProductList = (id: number) => {
-  return useSuspenseInfiniteQuery(photographerProductsOptions(id));
+export const useGetProductList = (id: number, isLogIn: boolean) => {
+  return useSuspenseInfiniteQuery(photographerProductsOptions(id, isLogIn));
 }
