@@ -35,7 +35,7 @@ export const photographerDetailOptions = (id: number) =>
 // 포폴 목록 조회 옵션
 export const photographerPortfoliosOptions = (id: number, isLogIn: boolean) =>
   infiniteQueryOptions({
-    queryKey: PORTFOLIO_QUERY_KEY.LIST(`photographer-${id}-${isLogIn ? 'login' : 'not-login'}`),
+    queryKey: PORTFOLIO_QUERY_KEY.PHOTOGRAPHER_LIST(id, isLogIn),
     initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
       try {
@@ -83,7 +83,7 @@ export const photographerPortfoliosOptions = (id: number, isLogIn: boolean) =>
 // 상품 목록 조회 옵션
 export const photographerProductsOptions = (id: number, isLogIn: boolean) =>
   infiniteQueryOptions({
-    queryKey: PRODUCT_QUERY_KEY.LIST(`photographer-${id}-${isLogIn ? 'login' : 'not-login'}`),
+    queryKey: PRODUCT_QUERY_KEY.PHOTOGRAPHER_LIST(id, isLogIn),
     initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
       try {

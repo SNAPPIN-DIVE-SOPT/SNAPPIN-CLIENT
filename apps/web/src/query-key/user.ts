@@ -30,18 +30,8 @@ export const USER_QUERY_KEY = {
   // 작가
   PHOTOGRAPHER: ['photographer'],
   PHOTOGRAPHER_DETAIL: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id],
-  PHOTOGRAPHER_PRODUCTS: (id: number, isLogIn: boolean) => [
-    ...USER_QUERY_KEY.PHOTOGRAPHER,
-    id,
-    'products',
-    isLogIn ? 'login' : 'not-login'
-  ],
-  PHOTOGRAPHER_PORTFOLIOS: (id: number, isLogIn: boolean) => [
-    ...USER_QUERY_KEY.PHOTOGRAPHER,
-    id,
-    'portfolios',
-    isLogIn ? 'login' : 'not-login'
-  ],
+  PHOTOGRAPHER_PRODUCTS: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id, 'products'],
+  PHOTOGRAPHER_PORTFOLIOS: (id: number) => [...USER_QUERY_KEY.PHOTOGRAPHER, id, 'portfolios'],
 
   // 공간 카테고리
   CATEGORIES: ['categories'],
@@ -112,6 +102,13 @@ export const PRODUCT_QUERY_KEY = {
 
   LIKES: () => [...PRODUCT_QUERY_KEY.all, 'like'],
   LIKE: (id: number) => [...PRODUCT_QUERY_KEY.LIKES(), id],
+
+  PHOTOGRAPHER_LIST: (photographerId: number, isLogin: boolean) => [
+    ...PRODUCT_QUERY_KEY.all,
+    'photographer-list',
+    photographerId,
+    isLogin ? 'login' : 'not-login',
+  ]
 } as const;
 
 //이거 쓰라고
@@ -130,4 +127,11 @@ export const PORTFOLIO_QUERY_KEY = {
 
   LIKES: () => [...PORTFOLIO_QUERY_KEY.all, 'like'],
   LIKE: (id: number) => [...PORTFOLIO_QUERY_KEY.LIKES(), id],
+
+  PHOTOGRAPHER_LIST: (photographerId: number, isLogin: boolean) => [
+    ...PORTFOLIO_QUERY_KEY.all,
+    'photographer-list',
+    photographerId,
+    isLogin ? 'login' : 'not-login',
+  ]
 } as const;
