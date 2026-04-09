@@ -1,2 +1,2 @@
-export * from './copyForm';
+export * from './reservationCopyForm';
 export * from './reservationCopyForm.schema';

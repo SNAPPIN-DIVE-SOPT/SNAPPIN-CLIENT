@@ -29,6 +29,8 @@ export const SCHEDULE_CHOICES = [
   { key: 'thirdChoice', label: '3지망' },
 ] as const;
 
+export type ScheduleChoiceKey = (typeof SCHEDULE_CHOICES)[number]['key'];
+
 export const PRIMARY_SCHEDULE_CHOICE_KEY = SCHEDULE_CHOICES[0].key;
 
 export const UPLOAD_CONSENT_NOTES = [
@@ -37,6 +39,8 @@ export const UPLOAD_CONSENT_NOTES = [
 ] as const;
 
 export const UPLOAD_CONSENT_STATUS_VALUES = ['', 'agree', 'disagree'] as const;
+
+export type UploadConsentStatus = (typeof UPLOAD_CONSENT_STATUS_VALUES)[number];
 
 export const UPLOAD_CONSENT_STATUS_LABEL = {
   agree: '동의',
