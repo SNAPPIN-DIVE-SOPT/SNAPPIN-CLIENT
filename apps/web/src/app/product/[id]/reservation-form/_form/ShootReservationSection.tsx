@@ -7,6 +7,7 @@ import {
   PRIMARY_SCHEDULE_CHOICE_KEY,
   SCHEDULE_CHOICES,
   UPLOAD_CONSENT_NOTES,
+  UPLOAD_CONSENT_STATUS_LABEL,
 } from '@/app/product/[id]/reservation-form/constants';
 import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-form/hooks';
 import {
@@ -17,7 +18,7 @@ import {
 } from '@/app/product/[id]/reservation-form/utils';
 
 type ShootReservationSectionProps = {
-  reservationCopyFormModel: Pick<ReservationCopyFormModel, 'values' | 'viewState' | 'actions'>;
+  reservationCopyFormModel: Pick<ReservationCopyFormModel, 'formData' | 'viewState' | 'actions'>;
 };
 
 type RequiredLabelProps = {
@@ -36,7 +37,7 @@ export default function ShootReservationSection({
   reservationCopyFormModel,
 }: ShootReservationSectionProps) {
   const {
-    values: {
+    formData: {
       placeKeyword,
       durationHours,
       peopleCount,
@@ -154,7 +155,7 @@ export default function ShootReservationSection({
             className={uploadConsentStatus === 'agree' ? 'border border-transparent' : undefined}
             onClick={() => handleUploadConsentStatusClick('agree')}
           >
-            동의
+            {UPLOAD_CONSENT_STATUS_LABEL.agree}
           </Button>
           <Button
             type='button'
@@ -164,7 +165,7 @@ export default function ShootReservationSection({
             className={uploadConsentStatus === 'disagree' ? 'border border-transparent' : undefined}
             onClick={() => handleUploadConsentStatusClick('disagree')}
           >
-            비동의
+            {UPLOAD_CONSENT_STATUS_LABEL.disagree}
           </Button>
         </div>
       </div>

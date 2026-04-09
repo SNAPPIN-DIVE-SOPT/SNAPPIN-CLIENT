@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { type UseFormSetValue } from 'react-hook-form';
-import type { ReservationCopyFormInput } from '@/app/product/[id]/reservation-form/constants';
 import type {
+  ReservationCopyFormInput,
   ScheduleChoiceKey,
-  ScheduleSelectionValue,
-} from '@/app/product/[id]/reservation-form/types/copy';
+} from '@/app/product/[id]/reservation-form/constants';
+import type { ScheduleSelectionValue } from '@/app/product/[id]/reservation-form/types/copy';
 import { hasSelectableScheduleChoice } from '@/app/product/[id]/reservation-form/utils';
 
 type SchedulePickerType = 'date' | 'time';
@@ -17,12 +17,15 @@ type ActiveSchedulePicker = {
 };
 
 type UseReservationSchedulePickerProps = {
-  values: ReservationCopyFormInput;
+  formData: ReservationCopyFormInput;
   setValue: UseFormSetValue<ReservationCopyFormInput>;
 };
 
 // 예약 신청 양식의 촬영 일정 선택 훅
-const useReservationSchedulePicker = ({ values, setValue }: UseReservationSchedulePickerProps) => {
+export default function useReservationSchedulePicker({
+  formData,
+  setValue,
+}: UseReservationSchedulePickerProps) {
   const [activeSchedulePicker, setActiveSchedulePicker] = useState<ActiveSchedulePicker | null>(
     null,
   );
@@ -31,7 +34,7 @@ const useReservationSchedulePicker = ({ values, setValue }: UseReservationSchedu
     scheduleChoiceKey: ScheduleChoiceKey,
     schedulePickerType: SchedulePickerType,
   ) => {
-    if (!hasSelectableScheduleChoice(scheduleChoiceKey, values.schedules)) {
+    if (!hasSelectableScheduleChoice(scheduleChoiceKey, formData.schedules)) {
       return;
     }
 
@@ -83,6 +86,4 @@ const useReservationSchedulePicker = ({ values, setValue }: UseReservationSchedu
       handleScheduleSelection,
     },
   };
-};
-
-export default useReservationSchedulePicker;
+}

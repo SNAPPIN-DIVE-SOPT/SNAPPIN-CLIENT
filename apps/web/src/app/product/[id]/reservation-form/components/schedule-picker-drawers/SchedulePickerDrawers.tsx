@@ -6,14 +6,14 @@ import { hasCompletedSchedule } from '@/app/product/[id]/reservation-form/utils'
 import { TimePicker } from '@/ui/time-picker';
 
 type SchedulePickerDrawersProps = {
-  reservationCopyFormModel: Pick<ReservationCopyFormModel, 'values' | 'viewState' | 'actions'>;
+  reservationCopyFormModel: Pick<ReservationCopyFormModel, 'formData' | 'viewState' | 'actions'>;
 };
 
 export default function SchedulePickerDrawers({
   reservationCopyFormModel,
 }: SchedulePickerDrawersProps) {
   const {
-    values: { schedules: scheduleSelections },
+    formData: { schedules: scheduleSelections },
     viewState: {
       isDatePickerBottomDrawerOpen,
       isTimePickerBottomDrawerOpen,

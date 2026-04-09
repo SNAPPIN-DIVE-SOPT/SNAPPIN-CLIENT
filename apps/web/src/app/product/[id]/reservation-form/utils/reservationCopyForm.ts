@@ -2,13 +2,13 @@ import {
   DURATION_HOURS,
   PEOPLE_COUNT,
   SCHEDULE_CHOICES,
-} from '../constants/copyForm';
+  type ScheduleChoiceKey,
+} from '@/app/product/[id]/reservation-form/constants/reservationCopyForm';
 import type {
   ReservationCopyFormValue,
-  ScheduleChoiceKey,
   ScheduleSelections,
   ScheduleSelectionValue,
-} from '../types/copy';
+} from '@/app/product/[id]/reservation-form/types/copy';
 
 // 날짜와 시간이 모두 선택되었는지 확인
 export const hasCompletedSchedule = (scheduleSelection: ScheduleSelectionValue) => {

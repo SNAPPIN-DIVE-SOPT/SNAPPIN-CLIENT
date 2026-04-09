@@ -5,14 +5,14 @@ import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-fo
 import RESERVATION_FORM_INFORMATION_MOCK from '@/app/product/[id]/reservation-form/mock/reservationFormInformation.mock';
 
 type AdditionalRequestSectionProps = {
-  reservationCopyFormModel: Pick<ReservationCopyFormModel, 'values' | 'errors' | 'actions'>;
+  reservationCopyFormModel: Pick<ReservationCopyFormModel, 'formData' | 'errors' | 'actions'>;
 };
 
 export default function AdditionalRequestSection({
   reservationCopyFormModel,
 }: AdditionalRequestSectionProps) {
   const {
-    values: { requestContent },
+    formData: { requestContent },
     errors: { requestContent: requestContentErrorMessage },
     actions: { handleRequestContentChange },
   } = reservationCopyFormModel;

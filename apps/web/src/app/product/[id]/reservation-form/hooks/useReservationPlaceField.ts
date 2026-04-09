@@ -5,21 +5,26 @@ import type { ReservationCopyFormInput } from '@/app/product/[id]/reservation-fo
 import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
 
 type UseReservationPlaceFieldProps = {
-  values: ReservationCopyFormInput;
+  placeKeyword: ReservationCopyFormInput['placeKeyword'];
+  placeId: ReservationCopyFormInput['placeId'];
   setValue: UseFormSetValue<ReservationCopyFormInput>;
 };
 
 // 예약 신청 양식의 장소 검색
-const useReservationPlaceField = ({ values, setValue }: UseReservationPlaceFieldProps) => {
+export default function useReservationPlaceField({
+  placeKeyword,
+  placeId,
+  setValue,
+}: UseReservationPlaceFieldProps) {
   const {
     options: placeOptions,
     handleChange: handlePlaceKeywordChange,
     handleBlur: handlePlaceBlur,
   } = usePlaceSearchField({
-    value: values.placeKeyword,
+    value: placeKeyword,
     onValueChange: (nextPlaceKeyword) =>
       setValue('placeKeyword', nextPlaceKeyword, { shouldValidate: true }),
-    selectedId: values.placeId ? values.placeId : null,
+    selectedId: placeId ? placeId : null,
     setSelectedId: (nextPlaceId) =>
       setValue('placeId', nextPlaceId ?? '', { shouldValidate: true }),
     clearOnBlurWhenNoId: false,
@@ -30,6 +35,4 @@ const useReservationPlaceField = ({ values, setValue }: UseReservationPlaceField
     handlePlaceKeywordChange,
     handlePlaceBlur,
   };
-};
-
-export default useReservationPlaceField;
+}

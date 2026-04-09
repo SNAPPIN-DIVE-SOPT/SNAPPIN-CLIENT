@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   DURATION_HOURS,
   PEOPLE_COUNT,
@@ -20,19 +20,15 @@ type UseReservationCopyFormProps = {
   applicant: ReservationApplicant;
 };
 
-const getFieldErrorMessage = (errorMessage: unknown) => {
-  return typeof errorMessage === 'string' ? errorMessage : '';
-};
-
 // 예약 신청 양식 폼 훅
-const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
+export default function useReservationCopyForm({ applicant }: UseReservationCopyFormProps) {
   const defaultReservationCopyFormValue: ReservationCopyFormInput =
     createDefaultReservationCopyFormValue();
 
   const {
-    control,
     setValue,
     getValues,
+    watch,
     trigger,
     formState: { errors: formErrors },
   } = useForm<ReservationCopyFormInput, undefined, ReservationCopyFormOutput>({
@@ -42,16 +38,17 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
   });
 
   // form 값이 변경될 때마다 최신 값을 가져옴
-  const values = useWatch({ control }) as ReservationCopyFormInput;
-  const isCopyDisabled = !reservationCopyFormSchema.safeParse(values).success;
+  const formData = watch();
+  const isCopyDisabled = !reservationCopyFormSchema.safeParse(formData).success;
 
   const { placeOptions, handlePlaceKeywordChange, handlePlaceBlur } = useReservationPlaceField({
-    values,
+    placeKeyword: formData.placeKeyword,
+    placeId: formData.placeId,
     setValue,
   });
 
   const schedulePicker = useReservationSchedulePicker({
-    values,
+    formData,
     setValue,
   });
 
@@ -114,7 +111,7 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
     nextUploadConsentStatus: Exclude<ReservationCopyFormInput['uploadConsentStatus'], ''>,
   ) => {
     const nextUploadConsentValue =
-      values.uploadConsentStatus === nextUploadConsentStatus ? '' : nextUploadConsentStatus;
+      formData.uploadConsentStatus === nextUploadConsentStatus ? '' : nextUploadConsentStatus;
 
     setValue('uploadConsentStatus', nextUploadConsentValue, { shouldValidate: true });
   };
@@ -130,20 +127,32 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
       const scheduleFieldError = formErrors.schedules?.[key];
 
       return [
-        getFieldErrorMessage(scheduleFieldError?.message),
-        getFieldErrorMessage(scheduleFieldError?.date?.message),
-        getFieldErrorMessage(scheduleFieldError?.time?.message),
+        typeof scheduleFieldError?.message === 'string' ? scheduleFieldError.message : '',
+        typeof scheduleFieldError?.date?.message === 'string'
+          ? scheduleFieldError.date.message
+          : '',
+        typeof scheduleFieldError?.time?.message === 'string'
+          ? scheduleFieldError.time.message
+          : '',
       ];
     }).find((fieldErrorMessage) => fieldErrorMessage.length > 0) ?? '';
 
   // 각 에러 메시지
   const errors = {
     place:
-      getFieldErrorMessage(formErrors.placeId?.message) ||
-      getFieldErrorMessage(formErrors.placeKeyword?.message),
+      (typeof formErrors.placeId?.message === 'string' ? formErrors.placeId.message : '') ||
+      (typeof formErrors.placeKeyword?.message === 'string'
+        ? formErrors.placeKeyword.message
+        : ''),
     schedules: scheduleErrorMessage,
-    uploadConsentStatus: getFieldErrorMessage(formErrors.uploadConsentStatus?.message),
-    requestContent: getFieldErrorMessage(formErrors.requestContent?.message),
+    uploadConsentStatus:
+      typeof formErrors.uploadConsentStatus?.message === 'string'
+        ? formErrors.uploadConsentStatus.message
+        : '',
+    requestContent:
+      typeof formErrors.requestContent?.message === 'string'
+        ? formErrors.requestContent.message
+        : '',
   };
 
   // 장소 옵션, 일정 picker 바텀시트 상태, 복사 중 상태
@@ -169,13 +178,11 @@ const useReservationCopyForm = ({ applicant }: UseReservationCopyFormProps) => {
   };
 
   return {
-    values,
+    formData,
     errors,
     viewState,
     actions,
   };
-};
+}
 
 export type ReservationCopyFormModel = ReturnType<typeof useReservationCopyForm>;
-
-export default useReservationCopyForm;

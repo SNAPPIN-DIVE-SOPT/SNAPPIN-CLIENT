@@ -13,11 +13,11 @@ type UseReservationCopyActionProps = {
 };
 
 // 예약 신청 양식 복사 액션 훅
-const useReservationCopyAction = ({
+export default function useReservationCopyAction({
   applicant,
   getValues,
   trigger,
-}: UseReservationCopyActionProps) => {
+}: UseReservationCopyActionProps) {
   const [isCopyPending, setIsCopyPending] = useState(false);
 
   const handleCopyReservationForm = async () => {
@@ -47,6 +47,4 @@ const useReservationCopyAction = ({
     isCopyPending,
     handleCopyReservationForm,
   };
-};
-
-export default useReservationCopyAction;
+}

@@ -7,7 +7,7 @@ import {
   REQUEST_CONTENT,
   SCHEDULE_CHOICES,
   UPLOAD_CONSENT_STATUS_VALUES,
-} from './copyForm';
+} from '@/app/product/[id]/reservation-form/constants/reservationCopyForm';
 import { hasCompletedSchedule } from '@/app/product/[id]/reservation-form/utils/reservationCopyForm';
 
 // 각 일정 선택이 날짜와 시간 모두 선택되었는지 검증
