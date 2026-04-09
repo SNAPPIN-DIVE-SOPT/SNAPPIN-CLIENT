@@ -1,0 +1,4 @@
+@import 'tailwindcss';
+@import '@snappin/tailwind-config';
+@import '@snappin/design-system/styles.css';
+@import './layout.css';

@@ -10,6 +10,7 @@ next-env.d.ts
 
 coverage/
 dist/
+apps/web/src/swagger-api/
 
 pnpm-lock.yaml
 

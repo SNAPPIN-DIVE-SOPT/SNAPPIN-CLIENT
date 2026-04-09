@@ -7,9 +7,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: sync-fork-main
+  cancel-in-progress: true
+
 jobs:
   sync:
     name: Sync forked repo
+    if: github.repository == 'SNAPPIN-DIVE-SOPT/SNAPPIN-CLIENT'
     runs-on: ubuntu-latest
 
     steps:

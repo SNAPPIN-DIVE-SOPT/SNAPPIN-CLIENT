@@ -1,0 +1,72 @@
+{
+  "name": "@snappin/design-system",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/ui/index.js",
+  "types": "./dist/ui/index.d.ts",
+  "scripts": {
+    "build": "pnpm run build:icons && tsc -p tsconfig.build.json",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "generate:component": "turbo gen --config ./turbo/generators/config.ts react-component",
+    "build:icons": "tsx scripts/generate-icon-exports.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck:storybook": "tsc -p tsconfig.storybook.json --noEmit"
+  },
+  "exports": {
+    ".": "./dist/ui/index.js",
+    "./ui/*": "./dist/ui/*.js",
+    "./assets": "./dist/assets/index.js",
+    "./assets/*": "./dist/assets/*",
+    "./lotties": "./dist/lotties/index.js",
+    "./lotties/*": "./dist/lotties/*",
+    "./lib": "./dist/lib/index.js",
+    "./lib/*": "./dist/lib/*.js",
+    "./styles.css": "./styles.css"
+  },
+  "peerDependencies": {
+    "next": "^16.1.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "framer-motion": "^12.25.0"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@snappin/shared": "workspace:*",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "embla-carousel-react": "^8.6.0",
+    "lottie-react": "^2.4.1",
+    "lucide-react": "^0.562.0",
+    "tailwind-merge": "^3.3.1",
+    "vaul": "^1.1.2"
+  },
+  "devDependencies": {
+    "@snappin/eslint-config": "workspace:*",
+    "@snappin/tailwind-config": "workspace:*",
+    "@snappin/typescript-config": "workspace:*",
+    "@storybook/addon-a11y": "^10.2.15",
+    "@storybook/addon-docs": "^10.2.15",
+    "@storybook/nextjs-vite": "^10.2.15",
+    "@svgr/core": "8.1.0",
+    "@svgr/plugin-jsx": "8.1.0",
+    "@svgr/plugin-svgo": "8.1.0",
+    "@tailwindcss/postcss": "^4.1.16",
+    "@turbo/gen": "^2.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
+    "prettier": "^3.7.4",
+    "storybook": "^10.2.15",
+    "tailwindcss": "^4.1.16",
+    "tsx": "^4.20.6",
+    "turbo": "^2.0.0",
+    "typescript": "^5",
+    "vite": "^8.0.0"
+  }
+}

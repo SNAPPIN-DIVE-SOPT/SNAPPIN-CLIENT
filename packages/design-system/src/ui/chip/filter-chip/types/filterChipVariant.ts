@@ -1,0 +1,1 @@
+export type FilterChipVariant = 'default' | 'selected' | 'selectedRemovable';

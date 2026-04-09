@@ -1,0 +1,159 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+  FieldMessage,
+  ImagePreview,
+  ImageUploadButton,
+  TextareaField,
+} from '@snappin/design-system';
+import { cn } from '@snappin/design-system/lib';
+import { IMAGE_ACCEPT } from '@snappin/shared/constants';
+import { useToast } from '@/ui';
+import { ROUTES } from '@/constants/routes/routes';
+import { useSubmitReview } from '@/app/review-form/[id]/api';
+import { StarRating } from '@/app/review-form/[id]/components';
+import { useReviewImages } from '@/app/review-form/[id]/hooks/useReviewImages';
+import ClientFooter from '@/app/review-form/[id]/components/client-footer/ClientFooter';
+import { MAX_RATING, REVIEW_CONTENT_MAX_LENGTH, useReviewWrite } from '@/app/review-form/[id]/hooks/useReviewWrite';
+
+
+type ReviewFormSectionTempProps = {
+  productId: number;
+};
+
+export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTempProps) {
+  const {
+    compatibleFormData,
+    compatibleErrors,
+    isValid,
+    updateRating,
+    updateContent,
+    handleSubmitForm,
+  } = useReviewWrite();
+  const {
+    images,
+    hasError,
+    addUploadImage,
+    removeImage,
+    uploadImageUrl,
+    useAutoScrollReviewImages,
+  } = useReviewImages();
+
+  const { mutateAsync: submitReview } = useSubmitReview();
+  const router = useRouter();
+  const toast = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useAutoScrollReviewImages(images.length);
+
+  // 리뷰 등록
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    await handleSubmitForm(async (formData) => {
+      try {
+        const uploadedUrls = await uploadImageUrl();
+
+        await submitReview({
+          productId,
+          rating: formData.rating,
+          content: formData.content,
+          imageUrls: uploadedUrls,
+        });
+
+        router.replace(ROUTES.PRODUCT(productId));
+      } catch {
+        toast.error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
+        router.back();
+      }
+    });
+
+    setIsSubmitting(false);
+  };
+
+  const contentLength = compatibleFormData.content.length;
+  const hasContentError = Boolean(compatibleErrors.content);
+  const isContentEmpty = contentLength < 1;
+
+  return (
+    <>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <section className='flex flex-col gap-[0.8rem] p-[2.4rem_2rem_2.8rem_2rem]'>
+          <span className='caption-14-md text-black-10'>이번 촬영은 어떠셨나요?</span>
+          <StarRating
+            maxLength={MAX_RATING}
+            value={compatibleFormData.rating}
+            onChange={updateRating}
+          />
+        </section>
+
+        <section className='flex flex-col px-[2rem]'>
+          <TextareaField
+            id='review-form'
+            label='자세한 스냅 촬영 리뷰를 작성해주세요'
+            placeholder={
+              '스냅 촬영의 분위기와 결과물에 대해\n자세히 작성해 주시면 유용한 리뷰가 돼요'
+            }
+            value={compatibleFormData.content}
+            hasError={hasContentError}
+            className='min-h-[11rem]'
+            helpText={
+              <div className='flex justify-between'>
+                <FieldMessage
+                  id='review-form-error'
+                  message={compatibleErrors.content ?? ' '}
+                  variant={hasContentError ? 'error' : 'help'}
+                />
+                <FieldMessage
+                  id='review-form-help'
+                  message={`(${contentLength}/${REVIEW_CONTENT_MAX_LENGTH})`}
+                  variant={hasContentError ? 'error' : 'help'}
+                />
+              </div>
+            }
+            onChange={(e) => updateContent(e.target.value)}
+          />
+        </section>
+
+        <section className='mt-[1.2rem] flex flex-col gap-[1.2rem] px-[2rem]'>
+          {images.length > 0 && (
+            <div
+              className='scrollbar-hide -mr-[1.4rem] flex gap-[0.8rem] overflow-x-auto pr-[2rem]'
+              id='review-image-list'
+            >
+              {images.map(({ id, preview }) => (
+                <ImagePreview
+                  key={id}
+                  imageSrc={preview}
+                  imageAlt='업로드한 리뷰 이미지'
+                  showRemoveButton
+                  handleRemove={() => removeImage(id)}
+                  className='shrink-0'
+                />
+              ))}
+            </div>
+          )}
+
+          <ImageUploadButton handleUploadAction={addUploadImage} accept={IMAGE_ACCEPT.WITH_HEIC} />
+
+          <p className={cn('caption-12-md', hasError ? 'text-red-error' : 'text-black-6')}>
+            20MB 이하의 JPG, PNG, HEIC, WEBP 이미지로 최대 5장까지 업로드가 가능합니다.
+          </p>
+          <div className='bg-black-1 h-[10rem] w-full' />
+        </section>
+      </form>
+      <ClientFooter
+        disabled={!isValid || isContentEmpty || isSubmitting || hasError}
+        handleClick={handleSubmit}
+      />
+    </>
+  );
+}

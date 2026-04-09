@@ -1,0 +1,48 @@
+﻿'use client';
+
+import { useSwitchUserProfile } from '@/auth/apis';
+import SwitchProfile from './components/switch-profile/SwitchProfile';
+import { useMinDurationLoading } from './hooks/useMinDurationLoading';
+import { isValidUserType, UserType } from '@snappin/shared/types';
+import { Loading } from '@/ui';
+import ProfileLayout from '@/components/layout/profile/ProfileLayout';
+
+const MIN_DURATION = 1600;
+
+type PageClientProps = {
+  initialUserType: UserType;
+};
+
+export default function PageClient({ initialUserType }: PageClientProps) {
+  const { isSwitching, start, end } = useMinDurationLoading(MIN_DURATION);
+  const { mutateAsync, isPending } = useSwitchUserProfile();
+
+  const handleSwitchClick = async () => {
+    start();
+
+    try {
+      const data = await mutateAsync();
+
+      const nextRole = data?.role;
+      if (!nextRole || !isValidUserType(nextRole)) return;
+    } finally {
+      end();
+    }
+  };
+
+  return (
+    <ProfileLayout userType={initialUserType} isSwitching={isSwitching}>
+      <SwitchProfile
+        userType={initialUserType}
+        onClick={handleSwitchClick}
+        disabled={isPending || isSwitching}
+      />
+      {isSwitching && (
+        <div className='fixed-center top-0 z-50 flex h-dvh flex-col items-center justify-center bg-black/30'>
+          <Loading />
+          <span className='title-20-bd text-neon-black'>계정 전환 중...</span>
+        </div>
+      )}
+    </ProfileLayout>
+  );
+}
