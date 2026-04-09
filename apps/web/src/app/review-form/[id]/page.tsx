@@ -1,4 +1,4 @@
-import { ProductInfoSection, ReviewFormSection } from './_form';
+import { ProductInfoSectionTemp, ReviewFormSectionTemp } from './_form';
 import { ClientHeader } from './components';
 import { Divider } from '@snappin/design-system';
 
@@ -6,15 +6,15 @@ type ReviewFormPageProps = { params: Promise<{ id: string }> };
 
 export default async function Page({ params }: ReviewFormPageProps) {
   const { id } = await params;
-  const reservationId = Number(id);
-  if (Number.isNaN(reservationId)) throw new Error('Invalid reservation id');
+  const productId = Number(id);
+  if (Number.isNaN(productId)) throw new Error('Invalid product id');
 
   return (
     <>
       <ClientHeader />
-      <ProductInfoSection reservationId={reservationId} />
+      <ProductInfoSectionTemp productId={productId} />
       <Divider thickness='large' color='bg-black-3' />
-      <ReviewFormSection reservationId={reservationId} />
+      <ReviewFormSectionTemp productId={productId} />
     </>
   );
 }

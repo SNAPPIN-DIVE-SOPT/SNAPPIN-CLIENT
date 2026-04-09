@@ -8,21 +8,22 @@ import {
   ImageUploadButton,
   TextareaField,
 } from '@snappin/design-system';
-import { cn } from '@snappin/design-system/lib/cn';
-import ClientFooter from '../components/client-footer/ClientFooter';
-import { MAX_RATING, REVIEW_CONTENT_MAX_LENGTH, useReviewWrite } from '../hooks/useReviewWrite';
-import { StarRating } from '../components';
-import { useSubmitReview } from '../api';
-import { useReviewImages } from '../hooks/useReviewImages';
+import { cn } from '@snappin/design-system/lib';
+import { IMAGE_ACCEPT } from '@snappin/shared/constants';
 import { useToast } from '@/ui';
 import { ROUTES } from '@/constants/routes/routes';
-import { IMAGE_ACCEPT } from '@snappin/shared/constants';
+import { useSubmitReview } from '@/app/review-form/[id]/api';
+import { StarRating } from '@/app/review-form/[id]/components';
+import { useReviewImages } from '@/app/review-form/[id]/hooks/useReviewImages';
+import ClientFooter from '@/app/review-form/[id]/components/client-footer/ClientFooter';
+import { MAX_RATING, REVIEW_CONTENT_MAX_LENGTH, useReviewWrite } from '@/app/review-form/[id]/hooks/useReviewWrite';
 
-type ReviewFormSectionProps = {
-  reservationId: number;
+
+type ReviewFormSectionTempProps = {
+  productId: number;
 };
 
-export default function ReviewFormSection({ reservationId }: ReviewFormSectionProps) {
+export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTempProps) {
   const {
     compatibleFormData,
     compatibleErrors,
@@ -50,27 +51,27 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
   // 리뷰 등록
   const handleSubmit = async () => {
     if (isSubmitting) return;
+    setIsSubmitting(true);
 
-    handleSubmitForm(async (formData) => {
-      setIsSubmitting(true);
-
+    await handleSubmitForm(async (formData) => {
       try {
         const uploadedUrls = await uploadImageUrl();
 
         await submitReview({
-          // TODO: 추후 reservationId로 원복
-          productId: reservationId,
+          productId,
           rating: formData.rating,
           content: formData.content,
           imageUrls: uploadedUrls,
         });
 
-        router.replace(ROUTES.RESERVATION(reservationId));
+        router.replace(ROUTES.PRODUCT(productId));
       } catch {
         toast.error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
         router.back();
       }
     });
+
+    setIsSubmitting(false);
   };
 
   const contentLength = compatibleFormData.content.length;
