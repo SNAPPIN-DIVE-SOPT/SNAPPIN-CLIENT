@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build",
+    "build": "next build --webpack",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "start": "next start",
