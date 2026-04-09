@@ -1,50 +1,65 @@
 import { queryOptions, infiniteQueryOptions } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
-import { USER_QUERY_KEY } from '@/query-key/user';
+import { PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY } from '@/query-key/user';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
-import { GetProductDetailData } from '@/swagger-api';
+import { GetPortfolioListData, GetProductDetailData } from '@/swagger-api';
 
 // 상품 상세 정보 및 상품 안내 조회 옵션
 export const productDetailOptions = (id: number, isLogIn: boolean) =>
   queryOptions({
-    queryKey: USER_QUERY_KEY.PRODUCT_DETAIL(id, isLogIn),
+    queryKey: PRODUCT_QUERY_KEY.DETAIL(id, isLogIn),
     queryFn: async () => {
       if (isLogIn) {
         const res = await apiRequest<GetProductDetailData>({
-          endPoint: `/api/v1/products/${id}`,
+          endPoint: `/api/v2/products/${id}`,
           method: 'GET',
         });
 
-        if (!res.data) throw new Error('/api/v1/products/{id} 응답에 데이터가 존재하지 않습니다.');
+        if (!res.data) {
+          throw new Error('/api/v2/products/{id} 응답에 데이터가 존재하지 않습니다.');
+        }
         return res.data;
       }
 
-      const res = await fetch(`${SERVER_API_BASE_URL}/api/v1/products/${id}`, { method: 'GET' });
+      const res = await fetch(`${SERVER_API_BASE_URL}/api/v2/products/${id}`, { method: 'GET' });
 
       if (!res.ok) {
         throw new Error('상품 상세 정보 및 상품 안내 정보를 불러오는 데 실패했습니다.');
       }
+
       const data = await res.json();
       return data.data;
     },
   });
 
 // 포폴 목록 조회 옵션
-export const productPortfoliosOptions = (id: number) =>
+export const productPortfoliosOptions = (id: number, isLogIn: boolean) =>
   infiniteQueryOptions({
-    queryKey: USER_QUERY_KEY.PRODUCT_PORTFOLIOS(id),
-    initialPageParam: undefined,
+    queryKey: PORTFOLIO_QUERY_KEY.PRODUCT_LIST(id, isLogIn),
+    initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
-      const url = new URL(`${SERVER_API_BASE_URL}/api/v1/portfolios`);
+      const url = new URL(`${SERVER_API_BASE_URL}/api/v2/portfolios`);
       url.searchParams.append('productId', String(id));
       if (pageParam) {
         url.searchParams.append('cursor', String(pageParam));
       }
 
+      if (isLogIn) {
+        const res = await apiRequest<GetPortfolioListData>({
+          endPoint: `/api/v2/portfolios?${url.searchParams}`,
+          method: 'GET',
+        });
+
+        if (!res?.data) {
+          throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
+        }
+        return res;
+      }
+
       const res = await fetch(url.toString(), { method: 'GET' });
 
       if (!res.ok) {
-        throw new Error('/api/v1/portfolios 응답에 데이터가 존재하지 않습니다.');
+        throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
       }
 
       return await res.json();
@@ -55,8 +70,8 @@ export const productPortfoliosOptions = (id: number) =>
 // 상품 리뷰 목록 조회 옵션
 export const productReviewsOptions = (id: number) =>
   infiniteQueryOptions({
-    queryKey: USER_QUERY_KEY.PRODUCT_REVIEWS(id),
-    initialPageParam: undefined,
+    queryKey: PRODUCT_QUERY_KEY.REVIEWS(id),
+    initialPageParam: undefined as string | undefined,
     queryFn: async ({ pageParam }) => {
       const url = new URL(`${SERVER_API_BASE_URL}/api/v1/products/${id}/reviews`);
       if (pageParam) {
@@ -66,7 +81,7 @@ export const productReviewsOptions = (id: number) =>
       const res = await fetch(url.toString(), { method: 'GET' });
 
       if (!res.ok) {
-        throw new Error('/api/v1/products/{productId}/reviews 응답에 데이터가 존재하지 않습니다.');
+        throw new Error('/api/v1/products/{id}/reviews 응답에 데이터가 존재하지 않습니다.');
       }
 
       return await res.json();

@@ -3,15 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useInView } from 'react-intersection-observer';
 import { Button, Divider, ReviewStar } from '@snappin/design-system';
-import { useAuth } from '@/auth/hooks/useAuth';
+import { ROUTES } from '@/constants/routes/routes';
 import { formatShortDate } from '@/utils/formatDate';
 import { useGetProductReviewList } from '@/app/product/[id]/api';
 
 type ReviewListSectionProps = {
   productId: number;
   averageRate: number;
+  isLogIn: boolean;
 };
 
 type ReviewProps = {
@@ -23,16 +25,16 @@ type ReviewProps = {
   content: string;
 };
 
-export default function ReviewListSection({ productId, averageRate }: ReviewListSectionProps) {
+export default function ReviewListSection({ productId, averageRate, isLogIn }: ReviewListSectionProps) {
   const { data, fetchNextPage, hasNextPage } = useGetProductReviewList(productId);
   const { ref, inView } = useInView();
-  const { isLogIn } = useAuth();
+  const router = useRouter();
 
   const reviewList = data?.pages.flatMap((page) => page.data?.reviews ?? []) ?? [];
   const isEmpty = reviewList?.length === 0;
 
   const handleReviewClick = () => {
-    // TODO: API 연동
+    router.push(ROUTES.REVIEW_FORM(productId));
   };
 
   useEffect(() => {
@@ -58,19 +60,16 @@ export default function ReviewListSection({ productId, averageRate }: ReviewList
           <ReviewStar rating={isEmpty ? 0 : averageRate} starSize='large' />
           <span className='title-20-bd text-black-10'>{isEmpty ? '0.0' : averageRate}</span>
         </div>
-        {
-          // TODO: 해당 상품에 대해 아직 작성하지 않은 리뷰가 없다면 버튼 렌더링 X
-          isLogIn && (
-            <Button
-              size='small'
-              color='transparent'
-              className='pr-0 border-none'
-              onClick={handleReviewClick}  
-            >
-              리뷰 작성하기
-            </Button>
-          )
-        }
+        {isLogIn && (
+          <Button
+            size='small'
+            color='transparent'
+            className='pr-0 border-none'
+            onClick={handleReviewClick}
+          >
+            리뷰 작성하기
+          </Button>
+        )}
       </div>
       <Divider thickness='large' color='bg-black-3' className='w-full' />
       {reviewList?.map((review, idx) => {

@@ -17,11 +17,11 @@ export default function ProductDetailSkeleton({ selectedTab }: ProductDetailSkel
             <div className='bg-black-3 h-[2.4rem] w-[2.4rem] rounded-[0.2rem]' />
           </div>
           <div className='flex flex-col items-start gap-[0.4rem]'>
-            <div className='bg-black-3 h-[1.4rem] w-[9.9rem] rounded-[0.2rem]' />
-            <div className='bg-black-3 h-[1.4rem] w-[4.3rem] rounded-[0.2rem]' />
+            <div className='bg-black-3 h-[2.2rem] w-[9.6rem] rounded-[0.2rem]' />
+            <div className='bg-black-3 h-[2rem] w-[12rem] rounded-[0.2rem]' />
           </div>
         </div>
-        <div className='bg-black-3 h-[2.6rem] w-[10.9rem] rounded-[0.2rem]' />
+        <div className='bg-black-3 h-[1.4rem] w-[10.9rem] rounded-[0.2rem]' />
       </div>
       <div className='px-[2rem] pb-[2rem]'>
         <div className='border-black-4 rounded-[0.6rem] border-1 p-[2rem] pt-[2.2rem] pb-[2.1rem]'>

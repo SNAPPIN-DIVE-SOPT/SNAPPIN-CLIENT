@@ -5,8 +5,7 @@ import { formatPrice } from '@snappin/shared/lib';
 import { IconStar } from '@snappin/design-system/assets';
 import { ImageCarousel, LikeButton, TagChip } from '@snappin/design-system';
 import { useToast } from '@/ui';
-import { useAuth } from '@/auth/hooks/useAuth';
-import { useWishProduct } from '@/app/product/[id]/api';
+import { useWishProductLike } from '@/ui/frame/apis';
 
 type ProductMainSectionProps = {
   id: number;
@@ -18,7 +17,7 @@ type ProductMainSectionProps = {
   reviewCount: number;
   price: number;
   moods: MoodCode[];
-  photographerId: number;
+  isLogIn: boolean;
 };
 
 export default function ProductMainSection({
@@ -31,10 +30,9 @@ export default function ProductMainSection({
   reviewCount,
   price,
   moods,
-  photographerId,
+  isLogIn
 }: ProductMainSectionProps) {
-  const { mutateAsync } = useWishProduct(photographerId);
-  const { isLogIn } = useAuth();
+  const { mutateAsync } = useWishProductLike({ id, isLogin: isLogIn });
   const toast = useToast();
 
   const productImages = images.map((image) => ({ src: image, alt: title }));

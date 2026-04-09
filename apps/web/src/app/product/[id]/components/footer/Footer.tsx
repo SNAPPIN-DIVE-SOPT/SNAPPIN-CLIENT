@@ -1,53 +1,71 @@
 'use client';
 
-import { useState } from 'react';
 import { overlay } from 'overlay-kit';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/auth/hooks/useAuth';
-import { ROUTES } from '@/constants/routes/routes';
+import { Button, BottomCTAButton, ConfirmModal } from '@snappin/design-system';
 import { useToast } from '@/ui';
-import { Button, BottomCTAButton, ResultModal } from '@snappin/design-system';
-import { ReservationDraft } from '@/app/product/[id]/types/reservation';
-import ReservationBottomDrawer from '@/app/product/[id]/components/reservation-bottom-drawer/ReservationBottomDrawer';
+import { ROUTES } from '@/constants/routes/routes';
+import { useGetUsersOnboarding } from '@/auth/apis';
 
 type FooterProps = {
   productId: number;
-  contact: string;
-  amount: number;
+  contactLink: string;
+  isLogIn: boolean;
 };
 
 const TOAST_STYLE = 'px-[2rem] bottom-[8.4rem]';
 
-export default function Footer({ productId, contact, amount }: FooterProps) {
+export default function Footer({ productId, contactLink, isLogIn }: FooterProps) {
   const router = useRouter();
   const { login } = useToast();
-  const { isLogIn } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
-  const [draft, setDraft] = useState<ReservationDraft>({
-    date: null,
-    time: null,
-    durationHours: null,
-    participantCount: 1,
-    placeId: null,
-    place: '',
-    request: '',
-  });
 
-  const close = () => setIsOpen(false);
-  const handleContact = () => {
-    if (contact) {
-      window.open(contact, '_blank', 'noopener,noreferrer');
+  const { data: hasOnboarding, isPending, isError } = useGetUsersOnboarding(isLogIn);
+
+  const handleContactClick = () => {
+    if (contactLink) {
+      window.open(contactLink, '_blank', 'noopener,noreferrer');
     }
   };
-  const handleOpenDrawer = () => {
+  const handleReservationClick = () => {
+    // 비로그인 -> 토스트 노출
     if (isLogIn === false) {
       login('예약 기능은 로그인 후에 사용할 수 있어요.', undefined, TOAST_STYLE);
       return;
     }
-    // TODO: 온보딩 미완 -> 모달 띄우기 (온보딩 이동 모달 디자인 기다리는 중)
-    router.push(ROUTES.ON_BOARDING(1, { returnTo: ROUTES.PRODUCT(productId) }));
-    // TODO: 온보딩 완료 -> 예약 양식 페이지로 이동
-    setIsOpen(true);
+
+    if (isPending || isError) {
+      return;
+    }
+
+    // 로그인 + 온보딩 완료 -> 예약 문의 작성 페이지로 이동
+    if (hasOnboarding) {
+      router.push(ROUTES.RESERVATION_FORM(productId));
+      return;
+    }
+
+    // 로그인 + 온보딩 미완 -> 온보딩 유도 모달 노출
+    overlay.open(({ isOpen, close }) => (
+      <ConfirmModal
+        open={isOpen}
+        handleOpenChange={close}
+        showCloseButton={false}
+        title={`예약 문의 작성 전\n기본 정보를 완성해주세요`}
+        buttons={[
+          {
+            label: '취소',
+            size: 'medium',
+            color: 'disabled',
+            onClick: close,
+          },
+          {
+            label: '확인',
+            size: 'medium',
+            color: 'black',
+            onClick: () => router.push(ROUTES.ON_BOARDING(1, { returnTo: ROUTES.PRODUCT(productId) })),
+          },
+        ]}
+      />
+    ))
   };
 
   return (
@@ -61,55 +79,19 @@ export default function Footer({ productId, contact, amount }: FooterProps) {
             <Button
               color='white'
               size='medium'
-              onClick={handleContact}
+              onClick={handleContactClick}
               className='border-black-10 text-black-10'
             >
               문의하러 가기
             </Button>
           }
           rightButton={
-            <Button color='black' size='medium' onClick={handleOpenDrawer}>
+            <Button color='black' size='medium' onClick={handleReservationClick}>
               예약 문의 작성
             </Button>
           }
         />
       </BottomCTAButton>
-      {isOpen && (
-        <ReservationBottomDrawer
-          isOpen={isOpen}
-          productId={String(productId)}
-          amount={amount}
-          draft={draft}
-          setDraftAction={setDraft}
-          handleOpenChangeAction={() => close()}
-          onSuccessReservationAction={() => {
-            overlay.open(({ isOpen, close }) => (
-              <ResultModal
-                open={isOpen}
-                handleOpenChange={close}
-                showCloseButton={false}
-                type='success'
-                title='예약 요청이 완료되었어요!'
-                description="'내 예약'에서 진행 상황을 확인해보세요"
-                buttons={[
-                  {
-                    label: '닫기',
-                    size: 'medium',
-                    color: 'disabled',
-                    onClick: close,
-                  },
-                  {
-                    label: '내 예약 확인',
-                    size: 'medium',
-                    color: 'black',
-                    onClick: () => router.push(ROUTES.RESERVATIONS),
-                  },
-                ]}
-              />
-            ));
-          }}
-        />
-      )}
     </>
   );
 }

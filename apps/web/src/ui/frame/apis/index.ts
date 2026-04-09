@@ -53,6 +53,12 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
         return {
           ...old,
           isLiked: nextIsLiked,
+          likeCount:
+            old.likeCount === undefined
+              ? old.likeCount
+              : nextIsLiked
+                ? old.likeCount + 1
+                : old.likeCount - 1,
         };
       });
 
