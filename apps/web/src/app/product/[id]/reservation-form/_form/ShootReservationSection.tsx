@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { Button, ComboBox, ControlRow, Stepper } from '@snappin/design-system';
+import { Button, ComboBox, ControlRow, FieldMessage, Stepper } from '@snappin/design-system';
 import { DateButton } from '@/app/product/[id]/reservation-form/components';
 import {
   DURATION_HOURS,
@@ -20,7 +20,10 @@ import {
 } from '@/app/product/[id]/reservation-form/utils';
 
 type ShootReservationSectionProps = {
-  reservationCopyFormModel: Pick<ReservationCopyFormModel, 'formData' | 'viewState' | 'actions'>;
+  reservationCopyFormModel: Pick<
+    ReservationCopyFormModel,
+    'formData' | 'errors' | 'viewState' | 'actions'
+  >;
 };
 
 type RequiredLabelProps = {
@@ -45,6 +48,11 @@ export default function ShootReservationSection({
       peopleCount,
       schedules: scheduleSelections,
       uploadConsentStatus,
+    },
+    errors: {
+      place: placeErrorMessage,
+      schedules: schedulesErrorMessage,
+      uploadConsentStatus: uploadConsentStatusErrorMessage,
     },
     viewState: { placeOptions },
     actions: {
@@ -71,6 +79,11 @@ export default function ShootReservationSection({
           options={placeOptions}
           onChange={handlePlaceKeywordChange}
           onBlur={handlePlaceBlur}
+        />
+        <FieldMessage
+          id='reservation-place-error'
+          message={placeErrorMessage}
+          variant='error'
         />
       </div>
 
@@ -130,6 +143,11 @@ export default function ShootReservationSection({
             </div>
           );
         })}
+        <FieldMessage
+          id='reservation-schedules-error'
+          message={schedulesErrorMessage}
+          variant='error'
+        />
       </div>
 
       <div className='flex flex-col gap-[1rem]'>
@@ -163,6 +181,11 @@ export default function ShootReservationSection({
             </Button>
           ))}
         </div>
+        <FieldMessage
+          id='reservation-upload-consent-status-error'
+          message={uploadConsentStatusErrorMessage}
+          variant='error'
+        />
       </div>
     </section>
   );

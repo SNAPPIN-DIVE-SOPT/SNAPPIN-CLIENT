@@ -23,7 +23,7 @@ export default function ReservationFormWrapper({
   });
 
   const {
-    viewState: { isCopyPending, isCopyDisabled },
+    viewState: { isCopyPending },
     actions: { handleCopyReservationForm },
   } = reservationCopyFormModel;
 
@@ -43,7 +43,7 @@ export default function ReservationFormWrapper({
 
       {/* 하단 버튼 */}
       <ClientFooter
-        disabled={isCopyPending || isCopyDisabled}
+        disabled={isCopyPending}
         handleClick={handleCopyReservationForm}
         handleCopySuccess={handleCopySuccess}
       />
