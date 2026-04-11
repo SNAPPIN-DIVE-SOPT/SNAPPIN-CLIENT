@@ -70,8 +70,6 @@ export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTe
         router.back();
       }
     });
-
-    setIsSubmitting(false);
   };
 
   const contentLength = compatibleFormData.content.length;
@@ -151,6 +149,7 @@ export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTe
         </section>
       </form>
       <ClientFooter
+        label={isSubmitting ? '리뷰 등록 중...' : '등록하기'}
         disabled={!isValid || isContentEmpty || isSubmitting || hasError}
         handleClick={handleSubmit}
       />

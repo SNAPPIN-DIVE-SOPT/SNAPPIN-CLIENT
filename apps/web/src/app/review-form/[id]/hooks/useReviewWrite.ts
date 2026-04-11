@@ -68,7 +68,7 @@ export const useReviewWrite = () => {
   const handleSubmitForm = async (onSuccess: (data: EnrollReviewInput) => void) => {
     const isValid = await trigger();
     if (isValid) {
-      handleSubmit((data) => onSuccess(data))();
+      await handleSubmit((data) => onSuccess(data))();
     }
   };
 
