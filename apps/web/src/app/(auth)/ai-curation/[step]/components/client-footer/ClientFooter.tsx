@@ -53,7 +53,7 @@ export default function ClientFooter({ step }: ClientFooterProps) {
         onClick={handleNextStep}
         disabled={isPending}
       >
-        {isLast ? (isPending ? '저장 중…' : '결과 보기') : '다음으로'}
+        {isLast ? '결과 보기' : '다음으로'}
       </BottomCTAButton.Single>
     </BottomCTAButton>
   );
