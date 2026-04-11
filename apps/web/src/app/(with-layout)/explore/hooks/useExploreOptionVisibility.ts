@@ -1,21 +1,35 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { EXPLORE_FROM_DETAIL_BACK, EXPLORE_OPTION_VISIBLE } from '../constants/storage-key';
 
-const getInitialVisibility = () => {
-  if (typeof window === 'undefined') return true;
+const subscribeToStorageSnapshot = () => {
+  return () => {};
+};
 
+const getRestoredVisibilitySnapshot = () => {
   const isReturningFromDetail = sessionStorage.getItem(EXPLORE_FROM_DETAIL_BACK) === '1';
-  if (!isReturningFromDetail) return true;
+
+  if (!isReturningFromDetail) {
+    return true;
+  }
 
   return sessionStorage.getItem(EXPLORE_OPTION_VISIBLE) !== '0';
 };
 
 export function useExploreOptionVisibility(targetId: string) {
-  const [isVisible, setIsVisible] = useState(getInitialVisibility);
+  const [scrollVisible, setScrollVisible] = useState<boolean | null>(null);
+  const isHydrated = useSyncExternalStore(subscribeToStorageSnapshot, () => true, () => false);
+  const restoredVisibility = useSyncExternalStore(
+    subscribeToStorageSnapshot,
+    getRestoredVisibilitySnapshot,
+    () => true,
+  );
+  const isVisible = scrollVisible ?? restoredVisibility;
 
   useEffect(() => {
+    if (!isHydrated) return;
+
     const el = document.getElementById(targetId);
     if (!el) return;
 
@@ -31,11 +45,11 @@ export function useExploreOptionVisibility(targetId: string) {
         const delta = nextScrollTop - prevScrollTop;
 
         if (nextScrollTop <= 8) {
-          setIsVisible(true);
+          setScrollVisible(true);
         } else if (delta > 4) {
-          setIsVisible(false);
+          setScrollVisible(false);
         } else if (delta < -4) {
-          setIsVisible(true);
+          setScrollVisible(true);
         }
 
         prevScrollTop = nextScrollTop;
@@ -48,11 +62,13 @@ export function useExploreOptionVisibility(targetId: string) {
       if (rafId) cancelAnimationFrame(rafId);
       el.removeEventListener('scroll', scheduleCompute);
     };
-  }, [targetId]);
+  }, [isHydrated, targetId]);
 
   useEffect(() => {
+    if (!isHydrated) return;
+
     sessionStorage.setItem(EXPLORE_OPTION_VISIBLE, isVisible ? '1' : '0');
-  }, [isVisible]);
+  }, [isHydrated, isVisible]);
 
   return { isVisible };
 }
