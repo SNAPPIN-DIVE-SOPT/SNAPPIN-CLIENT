@@ -1,16 +1,13 @@
 import { InfiniteData, QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest.client';
-import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY } from '@/query-key/user';
 import {
   GetPopularMoodProductItemResponse,
   GetPortfolioCardResponseV2,
-  GetPortfolioDetailData,
   GetPortfolioDetailResponse,
   GetPortfolioListData,
   GetProductDetailResponse,
   GetProductCardResponseV2,
-  GetProductDetailData,
   GetProductListData,
   GetWishedPortfoliosData,
   GetWishedProductsData,
@@ -32,7 +29,7 @@ type LikeMutationVariables = {
   currentIsLiked: boolean;
 };
 
-const isInfiniteQueryData = <TData,>(
+const isInfiniteQueryData = <TData>(
   value: unknown,
 ): value is InfiniteData<TData, string | undefined> => {
   if (typeof value !== 'object' || value === null) return false;
@@ -150,7 +147,9 @@ const patchLikedProductLists = (
             ...page.data,
             products: nextIsLiked
               ? page.data.products
-              : page.data.products.filter((product: WishedProductResponse) => product.id !== productId),
+              : page.data.products.filter(
+                  (product: WishedProductResponse) => product.id !== productId,
+                ),
           }
         : page.data,
     })),
@@ -217,80 +216,20 @@ const patchPortfolioListQueries = (
     (old) => patchPagedPortfolioLists(old, portfolioId, nextIsLiked),
   );
 
+  queryClient.setQueriesData<InfiniteData<GetPortfolioListData, string | undefined>>(
+    { queryKey: [...PORTFOLIO_QUERY_KEY.all, 'product-list'] },
+    (old) => patchPagedPortfolioLists(old, portfolioId, nextIsLiked),
+  );
+
+  queryClient.setQueriesData<InfiniteData<GetPortfolioListData, string | undefined>>(
+    { queryKey: [...PORTFOLIO_QUERY_KEY.all, 'photographer-list'] },
+    (old) => patchPagedPortfolioLists(old, portfolioId, nextIsLiked),
+  );
+
   queryClient.setQueriesData<InfiniteData<GetWishedPortfoliosData, string | undefined>>(
     { queryKey: PORTFOLIO_QUERY_KEY.LIKES() },
     (old) => patchLikedPortfolioLists(old, portfolioId, nextIsLiked),
   );
-};
-
-const prefetchProductDetailQuery = (
-  queryClient: QueryClient,
-  productId: number,
-  isLogin: boolean,
-) => {
-  return queryClient.prefetchQuery({
-    queryKey: PRODUCT_QUERY_KEY.DETAIL(productId, isLogin),
-    queryFn: async () => {
-      if (isLogin) {
-        const res = await apiRequest<GetProductDetailData>({
-          endPoint: `/api/v2/products/${productId}`,
-          method: 'GET',
-        });
-
-        if (!res.data) {
-          throw new Error('/api/v2/products/{id} 응답에 데이터가 존재하지 않습니다.');
-        }
-
-        return res.data;
-      }
-
-      const res = await fetch(`${SERVER_API_BASE_URL}/api/v2/products/${productId}`, {
-        method: 'GET',
-      });
-
-      if (!res.ok) {
-        throw new Error('상품 상세 정보 및 상품 안내 정보를 불러오는 데 실패했습니다.');
-      }
-
-      const data = await res.json();
-      return data.data;
-    },
-  });
-};
-
-const prefetchPortfolioDetailQuery = (
-  queryClient: QueryClient,
-  portfolioId: number,
-  isLogin: boolean,
-) => {
-  return queryClient.prefetchQuery({
-    queryKey: PORTFOLIO_QUERY_KEY.DETAIL(portfolioId, isLogin),
-    queryFn: async () => {
-      if (isLogin) {
-        const res = await apiRequest<GetPortfolioDetailData>({
-          endPoint: `/api/v1/portfolios/${portfolioId}`,
-          method: 'GET',
-        });
-
-        if (!res.data) {
-          throw new Error('/api/v1/portfolios/{portfolioId} 응답에 데이터가 존재하지 않습니다.');
-        }
-
-        return res.data;
-      }
-
-      const res = await fetch(`${SERVER_API_BASE_URL}/api/v1/portfolios/${portfolioId}`, {
-        method: 'GET',
-      });
-
-      if (!res.ok) {
-        throw new Error('포트폴리오 상세 정보를 불러오는 데 실패했습니다.');
-      }
-
-      const data = await res.json();
-      return data.data;
-    },
-  });
 };
 
 export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
@@ -348,9 +287,7 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
         queryClient.invalidateQueries({ queryKey: PRODUCT_QUERY_KEY.LIKES() }),
       ]);
     },
-    onSuccess: async () => {
-      await prefetchProductDetailQuery(queryClient, id, isLogin);
-    },
+    onSuccess: () => {},
   });
 };
 
@@ -409,8 +346,6 @@ export const useWishPortfolioLike = ({ id, isLogin }: UseLikeProps) => {
         queryClient.invalidateQueries({ queryKey: PORTFOLIO_QUERY_KEY.LIKES() }),
       ]);
     },
-    onSuccess: async () => {
-      await prefetchPortfolioDetailQuery(queryClient, id, isLogin);
-    },
+    onSuccess: () => {},
   });
 };
