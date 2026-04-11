@@ -64,7 +64,7 @@ export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTe
           imageUrls: uploadedUrls,
         });
 
-        router.replace(ROUTES.PRODUCT(productId));
+        router.replace(ROUTES.PRODUCT(productId, { tab: 'REVIEW' }));
       } catch {
         toast.error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
         router.back();
