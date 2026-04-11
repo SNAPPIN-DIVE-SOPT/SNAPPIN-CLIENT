@@ -3,10 +3,10 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest';
 import {
-  ApiResponseBodyGetAllCurationQuestionsResponseVoid,
   GetCurationQuestionPhotosResponse,
   CreateMoodCurationResponse,
   ApiResponseBodyCreateMoodCurationResponseVoid,
+  GetAllCurationQuestionsData,
 } from '@/swagger-api';
 import { AUTH_QUERY_KEY } from '@/query-key/auth';
 
@@ -14,16 +14,16 @@ export const useGetAiCurationAll = () => {
   return useQuery<GetCurationQuestionPhotosResponse[]>({
     queryKey: AUTH_QUERY_KEY.AI_CURATION_ALL(),
     queryFn: async () => {
-      const res = await apiRequest<ApiResponseBodyGetAllCurationQuestionsResponseVoid>({
+      const res = await apiRequest<GetAllCurationQuestionsData>({
         endPoint: '/api/v1/curation/all',
         method: 'GET',
       });
 
-      if (!res.data?.questions) {
+      if (!res.data) {
         throw new Error('Failed to get /api/v1/curation/all');
       }
 
-      return res.data.questions;
+      return res.data;
     },
   });
 };
