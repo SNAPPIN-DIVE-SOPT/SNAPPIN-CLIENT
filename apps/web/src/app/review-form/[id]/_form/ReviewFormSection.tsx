@@ -150,6 +150,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
         </section>
       </form>
       <ClientFooter
+        label='등록하기'
         disabled={!isValid || isContentEmpty || isSubmitting || hasError}
         handleClick={handleSubmit}
       />
