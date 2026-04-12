@@ -263,7 +263,12 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
       return res.data;
     },
     onMutate: async ({ currentIsLiked }) => {
-      await queryClient.cancelQueries({ queryKey: detailQueryKey });
+      await Promise.all([
+        queryClient.cancelQueries({ queryKey: detailQueryKey }),
+        queryClient.cancelQueries({ queryKey: PRODUCT_QUERY_KEY.LISTS() }),
+        queryClient.cancelQueries({ queryKey: [...PRODUCT_QUERY_KEY.all, 'photographer-list'] }),
+        queryClient.cancelQueries({ queryKey: PRODUCT_QUERY_KEY.LIKES() }),
+      ]);
 
       const previousData = queryClient.getQueryData<GetProductDetailResponse>(detailQueryKey);
       const nextIsLiked = !currentIsLiked;
@@ -323,7 +328,13 @@ export const useWishPortfolioLike = ({ id, isLogin }: UseLikeProps) => {
       return res.data;
     },
     onMutate: async ({ currentIsLiked }) => {
-      await queryClient.cancelQueries({ queryKey: detailQueryKey });
+      await Promise.all([
+        queryClient.cancelQueries({ queryKey: detailQueryKey }),
+        queryClient.cancelQueries({ queryKey: PORTFOLIO_QUERY_KEY.LISTS() }),
+        queryClient.cancelQueries({ queryKey: [...PORTFOLIO_QUERY_KEY.all, 'product-list'] }),
+        queryClient.cancelQueries({ queryKey: [...PORTFOLIO_QUERY_KEY.all, 'photographer-list'] }),
+        queryClient.cancelQueries({ queryKey: PORTFOLIO_QUERY_KEY.LIKES() }),
+      ]);
 
       const previousData = queryClient.getQueryData<GetPortfolioDetailResponse>(detailQueryKey);
       const nextIsLiked = !currentIsLiked;
@@ -349,6 +360,8 @@ export const useWishPortfolioLike = ({ id, isLogin }: UseLikeProps) => {
 
       void Promise.all([
         queryClient.invalidateQueries({ queryKey: PORTFOLIO_QUERY_KEY.LISTS() }),
+        queryClient.invalidateQueries({ queryKey: [...PORTFOLIO_QUERY_KEY.all, 'product-list'] }),
+        queryClient.invalidateQueries({ queryKey: [...PORTFOLIO_QUERY_KEY.all, 'photographer-list'] }),
         queryClient.invalidateQueries({ queryKey: PORTFOLIO_QUERY_KEY.LIKES() }),
       ]);
     },

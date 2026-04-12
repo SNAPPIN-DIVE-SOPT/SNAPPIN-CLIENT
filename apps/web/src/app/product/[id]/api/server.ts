@@ -28,6 +28,11 @@ const getProductDetailServer = async (id: number, isLogIn: boolean) => {
   }
 
   const data = await res.json();
+
+  if (!data?.data) {
+    throw new Error('/api/v2/products/{id} 응답에 데이터가 존재하지 않습니다.');
+  }
+
   return data.data;
 };
 
@@ -69,7 +74,13 @@ const getProductPortfoliosServer = async (
     throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
   }
 
-  return await res.json();
+  const data = await res.json();
+
+  if (!data?.data) {
+    throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
+  }
+
+  return data;
 };
 
 // 상품 상세 정보 및 상품 안내 조회 prefetch
