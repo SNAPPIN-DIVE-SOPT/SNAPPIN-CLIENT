@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import {
   ApiResponseBodyPostPresignedUrlResponseVoid,
   PostPresignedUrlResponse,

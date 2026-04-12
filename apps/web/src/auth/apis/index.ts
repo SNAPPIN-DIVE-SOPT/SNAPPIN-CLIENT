@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { AUTH_QUERY_KEY } from '@/query-key/auth';
 import {
@@ -10,11 +10,13 @@ import {
   CreateKakaoLoginData,
   GetOnboardingData
 } from '@/swagger-api';
-import { setAccessToken, getAccessToken, deleteAccessToken } from '../token';
+import { deleteAccessToken, getAccessToken, setAccessToken } from '../token.client';
 import { deleteAuthUser, setAuthUser } from '../userType';
 import { useToast } from '@/ui/toast/hooks/useToast';
 import { useAuth } from '../hooks/useAuth';
 import { isValidUserType } from '@snappin/shared/types';
+
+export { getRefreshToken } from './refresh.client';
 
 // 카카오 로그인 API
 type KakaoCodePayload = { code: string };
@@ -77,16 +79,6 @@ const logoutApi = async () => {
   await deleteAuthUser();
 
   return true;
-};
-
-// 리프레시 토큰 발급 API
-export const getRefreshToken = async () => {
-  const refreshResponse = await fetch(`${SERVER_API_BASE_URL}/api/v1/auth/reissue`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-  });
-  return refreshResponse;
 };
 
 // 유저 정보 조회 API

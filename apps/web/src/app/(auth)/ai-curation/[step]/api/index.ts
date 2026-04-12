@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import {
   ApiResponseBodyGetAllCurationQuestionsResponseVoid,
   GetCurationQuestionPhotosResponse,

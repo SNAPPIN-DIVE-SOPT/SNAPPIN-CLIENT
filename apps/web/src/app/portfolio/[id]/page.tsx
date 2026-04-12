@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { getQueryClient } from '@/utils/getQueryClient';
 import { Header, PortfolioDetailContent, PortfolioDetailSkeleton } from './components/index';
-import { prefetchPortfolioDetail } from './api';
+import { prefetchPortfolioDetail } from './api/server';
 
 type PageProps = {
   params: Promise<{ id: string }>;

@@ -1,6 +1,6 @@
 import { GetWishedPortfoliosData, GetWishedProductsData } from '@/swagger-api';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import { PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY } from '@/query-key/user';
 
 export const useGetLikePortfolios = () => {

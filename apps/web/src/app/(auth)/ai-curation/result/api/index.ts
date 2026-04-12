@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import type {
   ApiResponseBodyCreateMoodCurationResponseVoid,
   CreateMoodCurationResponse,

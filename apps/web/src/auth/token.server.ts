@@ -1,7 +1,7 @@
-'use server';
+import 'server-only';
 
 import { cookies } from 'next/headers';
-import { ACCESS_TOKEN_COOKIE_NAME } from './constant/cookie';
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/auth/constant/cookie';
 
 async function setAccessToken(value: string) {
   const cookieStore = await cookies();
@@ -20,10 +20,7 @@ async function deleteAccessToken() {
 
 async function isUserLoggedIn() {
   const isUserAccessToken = await getAccessToken();
-  if (!isUserAccessToken) {
-    return false;
-  }
-  return true;
+  return Boolean(isUserAccessToken);
 }
 
 export { setAccessToken, getAccessToken, deleteAccessToken, isUserLoggedIn };

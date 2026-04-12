@@ -1,4 +1,4 @@
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import {
   ApiResponseBodyGetCurationResponseVoid,
   GetCurationResponse,

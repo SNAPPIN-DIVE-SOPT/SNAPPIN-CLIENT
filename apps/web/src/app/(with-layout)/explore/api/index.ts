@@ -8,7 +8,7 @@ import {
   GetProductListData,
 } from '@/swagger-api';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY, USER_QUERY_KEY } from '@/query-key/user';
 

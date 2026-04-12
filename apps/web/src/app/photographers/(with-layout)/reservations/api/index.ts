@@ -1,4 +1,4 @@
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import { ApiResponseBodyReservationListResponseVoid, ReservationListResponse } from '@/swagger-api';
 import { useQuery } from '@tanstack/react-query';
 import { ReservationTab } from '../constants/tabs';

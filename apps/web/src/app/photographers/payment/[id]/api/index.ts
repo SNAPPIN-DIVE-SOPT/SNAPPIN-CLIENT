@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { PHOTOGRAPHER_QUERY_KEY } from '@/query-key/photographer';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import {
   ApiResponseBodyReservationPriceResponseVoid,
   ReservationPriceResponse,

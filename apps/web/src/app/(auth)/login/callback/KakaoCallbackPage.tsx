@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { isValidUserType, USER_TYPE, UserType } from '@snappin/shared/types';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { setAuthUser } from '@/auth/userType';
-import { setAccessToken } from '@/auth/token';
+import { setAccessToken } from '@/auth/token.client';
 import { useKakaoLogin } from '@/auth/apis';
 import { getReturnToParam, readReturnToContext, resolveReturnToPath } from '@/auth/utils/returnTo';
 import { useToast, Loading } from '@/ui';

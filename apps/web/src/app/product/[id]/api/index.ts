@@ -3,7 +3,7 @@ import {
   useSuspenseQuery,
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import { USER_QUERY_KEY } from '@/query-key/user';
 import {
   ApiResponseBodyProductAvailableTimesResponseVoid,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAccessToken } from '../token';
+import { getAccessToken } from '@/auth/token.client';
 
 export const useAuth = () => {
   const [isLogIn, setIsLogIn] = useState<boolean | null>(null);

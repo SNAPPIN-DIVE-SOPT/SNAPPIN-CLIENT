@@ -1,4 +1,4 @@
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.server';
 import { ApiResponseBodyReservationPriceResponseVoid } from '@/swagger-api';
 
 export const getPaymentBasePrice = async (reservationId: number) => {

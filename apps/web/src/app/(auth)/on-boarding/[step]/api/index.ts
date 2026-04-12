@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import { ApiResponseBodyVoidVoid, CreateOnboardingRequest } from '@/swagger-api';
 import { AUTH_QUERY_KEY } from '@/query-key/auth';
 

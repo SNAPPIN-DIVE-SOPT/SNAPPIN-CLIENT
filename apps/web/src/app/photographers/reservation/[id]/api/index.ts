@@ -1,6 +1,6 @@
 import { PHOTOGRAPHER_QUERY_KEY } from '@/query-key/photographer';
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import {
   ApiResponseBodyCompleteReservationResponseVoid,
   ApiResponseBodyConfirmReservationResponseVoid,

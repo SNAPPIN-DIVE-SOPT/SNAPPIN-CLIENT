@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { USER_QUERY_KEY } from '@/query-key/user';
 import { PHOTOGRAPHER_QUERY_KEY } from '@/query-key/photographer';
-import { apiRequest } from '@/api/apiRequest';
+import { apiRequest } from '@/api/apiRequest.client';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { GetReviewDetailData, GetReviewDetailResponse } from '@/swagger-api';
 import { useAuth } from '@/auth/hooks/useAuth';
