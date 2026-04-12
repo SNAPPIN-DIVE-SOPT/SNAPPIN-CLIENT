@@ -12,7 +12,7 @@ import {
 } from './options';
 
 const createPhotographerListFetcher =
-  <TData>(endPoint: string, errorMessage: string) =>
+  <TData extends { data?: unknown }>(endPoint: string, errorMessage: string) =>
   async (id: number, isLogIn: boolean, cursor?: string) => {
     const params: Record<string, string> = { photographerId: String(id) };
 
