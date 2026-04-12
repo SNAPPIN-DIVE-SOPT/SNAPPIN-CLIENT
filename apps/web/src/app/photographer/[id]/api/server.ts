@@ -6,90 +6,64 @@ import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { GetPortfolioListData, GetProductListData } from '@/swagger-api';
 import { PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY } from '@/query-key/user';
 import {
+  getPhotographerListNextPageParam,
+  photographerListInitialPageParam,
   photographerDetailOptions,
 } from './options';
 
-const getPhotographerPortfoliosServer = async (
-  id: number,
-  isLogIn: boolean,
-  cursor?: string,
-) => {
-  if (isLogIn) {
+const createPhotographerListFetcher =
+  <TData>(endPoint: string, errorMessage: string) =>
+  async (id: number, isLogIn: boolean, cursor?: string) => {
     const params: Record<string, string> = { photographerId: String(id) };
 
     if (cursor) {
       params.cursor = cursor;
     }
 
-    const res = await apiRequest<GetPortfolioListData>({
-      endPoint: '/api/v2/portfolios',
-      method: 'GET',
-      params,
+    if (isLogIn) {
+      const res = await apiRequest<TData>({
+        endPoint,
+        method: 'GET',
+        params,
+      });
+
+      if (!res.data) {
+        throw new Error(`${endPoint} 응답에 데이터가 존재하지 않습니다.`);
+      }
+
+      return res;
+    }
+
+    const url = new URL(`${SERVER_API_BASE_URL}${endPoint}`);
+
+    Object.entries(params).forEach(([key, value]) => {
+      url.searchParams.append(key, value);
     });
 
-    if (!res.data) {
-      throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
+    const res = await fetch(url.toString(), { method: 'GET' });
+
+    if (!res.ok) {
+      throw new Error(errorMessage);
     }
 
-    return res;
-  }
+    const data = await res.json();
 
-  const url = new URL(`${SERVER_API_BASE_URL}/api/v2/portfolios`);
-  url.searchParams.append('photographerId', String(id));
-
-  if (cursor) {
-    url.searchParams.append('cursor', cursor);
-  }
-
-  const res = await fetch(url.toString(), { method: 'GET' });
-
-  if (!res.ok) {
-    throw new Error('포트폴리오 목록 정보를 불러오는 데 실패했습니다.');
-  }
-
-  return await res.json();
-};
-
-const getPhotographerProductsServer = async (
-  id: number,
-  isLogIn: boolean,
-  cursor?: string,
-) => {
-  if (isLogIn) {
-    const params: Record<string, string> = { photographerId: String(id) };
-
-    if (cursor) {
-      params.cursor = cursor;
+    if (!data?.data) {
+      throw new Error(`${endPoint} 응답에 데이터가 존재하지 않습니다.`);
     }
 
-    const res = await apiRequest<GetProductListData>({
-      endPoint: '/api/v2/products',
-      method: 'GET',
-      params,
-    });
+    return data;
+  };
 
-    if (!res.data) {
-      throw new Error('/api/v2/products 응답에 데이터가 존재하지 않습니다.');
-    }
+const getPhotographerPortfoliosServer = createPhotographerListFetcher<GetPortfolioListData>(
+  '/api/v2/portfolios',
+  '포트폴리오 목록 정보를 불러오는 데 실패했습니다.',
+);
 
-    return res;
-  }
-
-  const url = new URL(`${SERVER_API_BASE_URL}/api/v2/products`);
-  url.searchParams.append('photographerId', String(id));
-
-  if (cursor) {
-    url.searchParams.append('cursor', cursor);
-  }
-
-  const res = await fetch(url.toString(), { method: 'GET' });
-
-  if (!res.ok) {
-    throw new Error('상품 목록 정보를 불러오는 데 실패했습니다.');
-  }
-
-  return await res.json();
-};
+const getPhotographerProductsServer = createPhotographerListFetcher<GetProductListData>(
+  '/api/v2/products',
+  '상품 목록 정보를 불러오는 데 실패했습니다.',
+);
 
 // 작가 상세 조회 prefetch
 export const prefetchPhotographerDetail = (queryClient: QueryClient, id: number) => {
@@ -104,13 +78,12 @@ export const prefetchPortfolioList = (
 ) => {
   return queryClient.prefetchInfiniteQuery({
     queryKey: PORTFOLIO_QUERY_KEY.PHOTOGRAPHER_LIST(id, isLogIn),
-    initialPageParam: undefined as string | undefined,
+    initialPageParam: photographerListInitialPageParam,
     queryFn: ({ pageParam }) => {
       const cursor = typeof pageParam === 'string' ? pageParam : undefined;
       return getPhotographerPortfoliosServer(id, isLogIn, cursor);
     },
-    getNextPageParam: (lastPage) =>
-      (lastPage.meta?.hasNext ? lastPage.meta.nextCursor : undefined),
+    getNextPageParam: getPhotographerListNextPageParam,
     pages: 1,
   });
 }
@@ -123,13 +96,12 @@ export const prefetchProductList = (
 ) => {
   return queryClient.prefetchInfiniteQuery({
     queryKey: PRODUCT_QUERY_KEY.PHOTOGRAPHER_LIST(id, isLogIn),
-    initialPageParam: undefined as string | undefined,
+    initialPageParam: photographerListInitialPageParam,
     queryFn: ({ pageParam }) => {
       const cursor = typeof pageParam === 'string' ? pageParam : undefined;
       return getPhotographerProductsServer(id, isLogIn, cursor);
     },
-    getNextPageParam: (lastPage) =>
-      (lastPage.meta?.hasNext ? lastPage.meta.nextCursor : undefined),
+    getNextPageParam: getPhotographerListNextPageParam,
     pages: 1,
   });
 }

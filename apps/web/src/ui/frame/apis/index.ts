@@ -25,7 +25,6 @@ type UseLikeProps = {
 };
 
 type LikeMutationVariables = {
-  id: number;
   currentIsLiked: boolean;
 };
 
@@ -249,11 +248,11 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
       previousData?: GetProductDetailResponse;
     }
   >({
-    mutationFn: async ({ id: productId }) => {
+    mutationFn: async () => {
       const res = await apiRequest<UpdateWishProductData>({
         endPoint: '/api/v1/wishes/products',
         method: 'POST',
-        data: { productId },
+        data: { productId: id },
       });
 
       if (!res.data) {
@@ -288,9 +287,9 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
       return { previousData };
     },
     onError: (_error, _variables, context) => {
-      if (context?.previousData === undefined) return;
-
-      queryClient.setQueryData(detailQueryKey, context.previousData);
+      if (context?.previousData !== undefined) {
+        queryClient.setQueryData(detailQueryKey, context.previousData);
+      }
 
       void Promise.all([
         queryClient.invalidateQueries({ queryKey: PRODUCT_QUERY_KEY.LISTS() }),
@@ -314,11 +313,11 @@ export const useWishPortfolioLike = ({ id, isLogin }: UseLikeProps) => {
       previousData?: GetPortfolioDetailResponse;
     }
   >({
-    mutationFn: async ({ id: portfolioId }) => {
+    mutationFn: async () => {
       const res = await apiRequest<UpdateWishPortfolioData>({
         endPoint: '/api/v1/wishes/portfolios',
         method: 'POST',
-        data: { portfolioId },
+        data: { portfolioId: id },
       });
 
       if (!res.data) {
@@ -354,9 +353,9 @@ export const useWishPortfolioLike = ({ id, isLogin }: UseLikeProps) => {
       return { previousData };
     },
     onError: (_error, _variables, context) => {
-      if (context?.previousData === undefined) return;
-
-      queryClient.setQueryData(detailQueryKey, context.previousData);
+      if (context?.previousData !== undefined) {
+        queryClient.setQueryData(detailQueryKey, context.previousData);
+      }
 
       void Promise.all([
         queryClient.invalidateQueries({ queryKey: PORTFOLIO_QUERY_KEY.LISTS() }),
