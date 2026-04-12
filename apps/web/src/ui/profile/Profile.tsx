@@ -41,7 +41,6 @@ type ProfileMetaProps = React.HTMLAttributes<HTMLParagraphElement> & {
   color?: 'black-7' | 'black-8';
 };
 type ProfileTrailingProps = React.HTMLAttributes<HTMLDivElement> & {
-  iconClassName?: string;
   children?: React.ReactNode;
 };
 
@@ -184,18 +183,13 @@ function ProfileMeta({
   );
 }
 
-function ProfileTrailing({
-  className,
-  iconClassName,
-  children,
-  ...props
-}: ProfileTrailingProps) {
+function ProfileTrailing({ className, children, ...props }: ProfileTrailingProps) {
   return (
     <div
       className={cn('text-black-6 flex shrink-0 items-center justify-center self-stretch', className)}
       {...props}
     >
-      {children ?? <IconArrowForward className={cn('h-[2rem] w-[2rem]', iconClassName)} aria-hidden='true' />}
+      {children ?? <IconArrowForward className='h-[2.6rem] w-[2.6rem]' aria-hidden='true' />}
     </div>
   );
 }
