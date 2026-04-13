@@ -8,7 +8,7 @@ import { type LikeProps, useLikeButton } from '@/ui/frame/hooks/useLike';
 
 export function PortfolioClient({ id, isLiked }: LikeProps) {
   const { isLogIn } = useAuth();
-  const { mutate: wishPortfolio } = useWishPortfolioLike({ id, isLogin: !!isLogIn });
+  const { mutate: wishPortfolio } = useWishPortfolioLike({ id, isLogIn: !!isLogIn });
   const { liked, handleLike } = useLikeButton({ id, isLiked, mutate: wishPortfolio });
 
   return (
@@ -23,7 +23,7 @@ export function PortfolioClient({ id, isLiked }: LikeProps) {
 
 export function PortfolioWithLikeCountClient({ id, isLiked, likeCount }: LikeProps) {
   const { isLogIn } = useAuth();
-  const { mutate: wishPortfolio } = useWishPortfolioLike({ id, isLogin: !!isLogIn });
+  const { mutate: wishPortfolio } = useWishPortfolioLike({ id, isLogIn: !!isLogIn });
   const { liked, handleLike, currentLikeCount } = useLikeButton({
     id,
     isLiked,
