@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { cn } from '@snappin/design-system/lib';
-import { IconKeyboardArrowRight } from '@snappin/design-system/assets';
+import { IconArrowForward } from '@snappin/design-system/assets';
 import {
   PROFILE_BASE,
   PROFILE_DESCRIPTION_TYPOGRAPHY_MAP,
@@ -186,10 +186,10 @@ function ProfileMeta({
 function ProfileTrailing({ className, children, ...props }: ProfileTrailingProps) {
   return (
     <div
-      className={cn('text-black-6 flex shrink-0 items-center justify-center', className)}
+      className={cn('text-black-6 flex shrink-0 items-center justify-center self-stretch', className)}
       {...props}
     >
-      {children ?? <IconKeyboardArrowRight className='h-[2rem] w-[2rem]' aria-hidden='true' />}
+      {children ?? <IconArrowForward className='h-[2.6rem] w-[2.6rem]' aria-hidden='true' />}
     </div>
   );
 }
