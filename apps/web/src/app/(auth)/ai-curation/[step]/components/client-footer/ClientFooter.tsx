@@ -4,12 +4,12 @@ import { useRouter } from 'next/navigation';
 import { BottomCTAButton } from '@snappin/design-system';
 import { useToast } from '@/ui';
 import { ROUTES } from '@/constants/routes/routes';
-import { type STEP, TOTAL_STEP_COUNT } from '@/app/(auth)/ai-curation/[step]/constants/steps';
 import { useAiCuration } from '@/app/(auth)/ai-curation/hooks/useAiCuration';
 import { usePostAiCuration } from '@/app/(auth)/ai-curation/[step]/api';
+import { TOTAL_STEP } from '@/app/(auth)/ai-curation/[step]/constants/steps';
 
 type ClientFooterProps = {
-  step: STEP;
+  step: number;
 };
 
 export default function ClientFooter({ step }: ClientFooterProps) {
@@ -18,7 +18,7 @@ export default function ClientFooter({ step }: ClientFooterProps) {
   const { selectedByStep } = useAiCuration();
 
   const isSelected = selectedByStep[step] != null;
-  const isLast = step === TOTAL_STEP_COUNT;
+  const isLast = step === TOTAL_STEP;
 
   const { mutateAsync, isPending } = usePostAiCuration();
 
@@ -53,7 +53,7 @@ export default function ClientFooter({ step }: ClientFooterProps) {
         onClick={handleNextStep}
         disabled={isPending}
       >
-        {isLast ? (isPending ? '저장 중…' : '결과 보기') : '다음으로'}
+        {isLast ? '결과 보기' : '다음으로'}
       </BottomCTAButton.Single>
     </BottomCTAButton>
   );

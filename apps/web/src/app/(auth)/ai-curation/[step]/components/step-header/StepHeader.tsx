@@ -1,14 +1,13 @@
 import { formatNumber } from '@snappin/shared/lib';
-import { STEP_QUESTIONS, type STEP } from '@/app/(auth)/ai-curation/[step]/constants/steps';
+import { STEP_QUESTION } from '@/app/(auth)/ai-curation/[step]/constants/steps';
 import { getProgress } from '@/app/(auth)/ai-curation/[step]/utils/steps';
 
 type StepHeaderProps = {
-  step: STEP;
+  step: number;
 };
 
 export default function StepHeader({ step }: StepHeaderProps) {
   const progress = getProgress(step);
-  const stepQuestion = STEP_QUESTIONS.find((q) => q.step === step);
 
   return (
     <div className='flex flex-col gap-[1.2rem]'>
@@ -20,7 +19,7 @@ export default function StepHeader({ step }: StepHeaderProps) {
       </div>
       <div className='flex flex-col gap-[0.4rem]'>
         <h1 className='title-20-sb text-neon-black'>{formatNumber(step)}</h1>
-        <p className='title-20-bd text-black-1'>{stepQuestion?.contents}</p>
+        <p className='title-20-bd text-black-1'>{STEP_QUESTION}</p>
       </div>
     </div>
   );

@@ -17,7 +17,6 @@ export const useGetAiCurationResult = () => {
       if (!res.data) throw new Error('No data from /api/v1/curation/result');
       return res.data;
     },
-    //캐시 읽기만 수행
-    enabled: false,
+    staleTime: 60 * 1000,
   });
 };

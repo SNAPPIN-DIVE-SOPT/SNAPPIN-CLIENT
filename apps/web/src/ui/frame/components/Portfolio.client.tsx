@@ -16,7 +16,7 @@ export default function PortfolioClient({ id, isLiked }: LikeProps) {
       isLiked={liked}
       handleClick={handleLike}
       aria-label={liked ? '좋아요 취소' : '좋아요'}
-      className={cn('h-[1.4rem] w-[1.4rem]', liked ? 'text-neon-black' : 'text-black-1')}
+      className={cn(liked ? 'text-neon-black' : 'text-black-1')}
     />
   );
 }

@@ -1,7 +1,10 @@
 'use client';
 
-import { AiCurationProvider } from '@/app/(auth)/ai-curation/hooks/useAiCuration';
+import {
+  AiCurationProvider,
+  type AiCurationProviderProps,
+} from '@/app/(auth)/ai-curation/hooks/useAiCuration';
 
-export default function AiCurationProviders({ children }: { children: React.ReactNode }) {
+export default function AiCurationProviderBridge({ children }: AiCurationProviderProps) {
   return <AiCurationProvider>{children}</AiCurationProvider>;
 }

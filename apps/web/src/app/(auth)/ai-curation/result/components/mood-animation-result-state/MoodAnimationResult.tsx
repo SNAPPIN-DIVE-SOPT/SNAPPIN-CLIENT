@@ -18,7 +18,7 @@ import { ROUTES } from '@/constants/routes/routes';
 import { MoodCode } from '@snappin/shared/types';
 import MoodChip from '@/app/(auth)/ai-curation/result/components/mood-chip/MoodChip';
 
-type MoodAnimationResultProps = { data: CreateMoodCurationResponse };
+type MoodAnimationResultProps = { data: CreateMoodCurationResponse | undefined };
 
 export default function MoodAnimationResult({ data }: MoodAnimationResultProps) {
   const router = useRouter();
@@ -79,11 +79,11 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
               animate='animate'
               className='title-23-eb absolute inset-0 flex flex-col items-center gap-[0.5rem]'
             >
-              <p>{data.userName}님은</p>
+              <p>{data?.userName}님은</p>
 
               <div className='flex items-center gap-[0.5rem]'>
                 <div className='flex gap-[0.5rem]'>
-                  {data.moods?.map((mood) => (
+                  {data?.moods?.map((mood) => (
                     <div
                       key={mood.id}
                       className='caption-14-md text-black-10 border-black-10 rounded-[0.3rem] border px-[0.6rem] py-[0.4rem]'
@@ -117,17 +117,11 @@ export default function MoodAnimationResult({ data }: MoodAnimationResultProps) 
             }
           }}
         >
-          <motion.div variants={CHIP_VARIANTS} custom={CHIP_POSES[0]}>
-            <MoodChip mood={data.moods?.[0]?.name as MoodCode} />
-          </motion.div>
-
-          <motion.div variants={CHIP_VARIANTS} custom={CHIP_POSES[1]}>
-            <MoodChip mood={data.moods?.[1]?.name as MoodCode} />
-          </motion.div>
-
-          <motion.div variants={CHIP_VARIANTS} custom={CHIP_POSES[2]}>
-            <MoodChip mood={data.moods?.[2]?.name as MoodCode} />
-          </motion.div>
+          {data?.moods?.map((mood, index) => (
+            <motion.div key={mood.id} variants={CHIP_VARIANTS} custom={CHIP_POSES[index]}>
+              <MoodChip mood={mood.name as MoodCode} />
+            </motion.div>
+          ))}
         </motion.div>
       )}
 

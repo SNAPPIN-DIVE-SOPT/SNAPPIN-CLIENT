@@ -5,15 +5,17 @@ import { Button, BottomCTAButton } from '@snappin/design-system';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { ROUTES } from '@/constants/routes/routes';
 import { useGetAiCurationAllPrefetch } from '@/app/(auth)/ai-curation/[step]/api';
+import { useToast } from '@/ui';
 
 export default function ClientFooter() {
   const router = useRouter();
   const prefetchAiCurationAll = useGetAiCurationAllPrefetch();
   const { isLogIn } = useAuth();
+  const { login } = useToast();
 
   const handleStartCuration = () => {
     if (isLogIn === false) {
-      router.push(ROUTES.LOGIN());
+      login('로그인이 필요한 서비스입니다.', undefined, 'bottom-[8.5rem]');
       return;
     }
     prefetchAiCurationAll();

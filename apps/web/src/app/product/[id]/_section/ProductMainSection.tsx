@@ -4,7 +4,6 @@ import { MoodCode } from '@snappin/shared/types';
 import { formatPrice } from '@snappin/shared/lib';
 import { IconStar } from '@snappin/design-system/assets';
 import { ImageCarousel, LikeButton, TagChip } from '@snappin/design-system';
-import { useToast } from '@/ui';
 import { useWishProductLike } from '@/ui/frame/apis';
 
 type ProductMainSectionProps = {
@@ -30,25 +29,14 @@ export default function ProductMainSection({
   reviewCount,
   price,
   moods,
-  isLogIn
+  isLogIn,
 }: ProductMainSectionProps) {
   const { mutateAsync } = useWishProductLike({ id, isLogin: isLogIn });
-  const toast = useToast();
 
   const productImages = images.map((image) => ({ src: image, alt: title }));
 
   const handleLike = async () => {
-    if (isLogIn) {
-      await mutateAsync({
-        currentIsLiked: isLiked,
-      });
-    } else if (isLogIn === false) {
-      toast.login(
-        '좋아요 기능은 로그인 후에 사용할 수 있어요.',
-        undefined,
-        'px-[2rem] bottom-[8.4rem]',
-      );
-    }
+    await mutateAsync(id);
   };
 
   return (
@@ -60,7 +48,7 @@ export default function ProductMainSection({
         <div className='flex flex-col'>
           <div className='flex justify-between'>
             <h1 className='font-16-md text-black-10'>{title}</h1>
-            <div className='flex items-start h-[2.4rem]'>
+            <div className='flex h-[2.4rem] items-start'>
               <LikeButton isLiked={isLiked} handleClick={handleLike} className='h-[2rem]' />
               <span className='font-16-rg text-black-8'>{likeCount}</span>
             </div>
@@ -69,12 +57,14 @@ export default function ProductMainSection({
         </div>
         {/* 무드 */}
         <div className='flex gap-[0.4rem]'>
-          {moods.map((mood) => <TagChip key={mood} variant='gray' label={mood} />)}
+          {moods.map((mood) => (
+            <TagChip key={mood} variant='gray' label={mood} />
+          ))}
         </div>
         {/* 별점, 리뷰 수 */}
-        <div className='flex gap-[0.6rem] caption-12-rg text-black-7'>
+        <div className='caption-12-rg text-black-7 flex gap-[0.6rem]'>
           <div className='flex items-center gap-[0.1rem]'>
-            <IconStar className='w-[1rem] h-[1rem]' />
+            <IconStar className='h-[1rem] w-[1rem]' />
             <span>{averageRate}</span>
           </div>
           <span>리뷰 {reviewCount}</span>

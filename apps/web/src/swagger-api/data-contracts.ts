@@ -440,7 +440,7 @@ export interface Type무드태그와연결할사진정보DTO {
 export interface CreateMoodCurationRequest {
   /**
    * 사용자가 선택한 사진 ID 목록
-   * @example [1,2,3,4,5]
+   * @example [1,2,3,4]
    */
   photoIds: number[];
 }
@@ -2866,8 +2866,6 @@ export interface ApiResponseBodyGetCurationQuestionPhotosResponseVoid {
 
 /** 무드 큐레이션 단계별 질문/사진 조회 DTO */
 export interface GetCurationQuestionPhotosResponse {
-  /** 질문 내용 DTO */
-  question?: GetQuestionResponse;
   /** 관련 사진 DTO */
   photos?: GetPhotoResponse[];
 }
@@ -2893,29 +2891,8 @@ export interface GetPhotoResponse {
   order?: number;
 }
 
-/** 질문 내용 DTO */
-export interface GetQuestionResponse {
-  /**
-   * 질문 id
-   * @format int64
-   * @example 1
-   */
-  id?: number;
-  /**
-   * 질문 내용
-   * @example "어떤 장소 무드를 선호하시나요?"
-   */
-  contents?: string;
-  /**
-   * 질문 단계
-   * @format int32
-   * @example 1
-   */
-  step?: number;
-}
-
 /** 공통 응답 DTO */
-export interface ApiResponseBodyGetAllCurationQuestionsResponseVoid {
+export interface ApiResponseBodyListGetCurationQuestionPhotosResponseVoid {
   /** 해당 API의 성공 여부를 반환합니다. true면 성공, false면 실패입니다. */
   success?: boolean;
   /**
@@ -2930,16 +2907,10 @@ export interface ApiResponseBodyGetAllCurationQuestionsResponseVoid {
    * @example "TIC_200_001"
    */
   code?: string;
-  /** 전체 무드 큐레이션 질문 / 사진 조회 API 응답 DTO */
-  data?: GetAllCurationQuestionsResponse;
+  /** 해당 API에서 반환하는 결과 데이터입니다. */
+  data?: GetCurationQuestionPhotosResponse[];
   /** 해당 API의 data를 설명하는 meta data입니다. 페이지네이션 정보나, 에러 발생 시 에러 정보를 반환합니다. */
   meta?: object;
-}
-
-/** 전체 무드 큐레이션 질문 / 사진 조회 API 응답 DTO */
-export interface GetAllCurationQuestionsResponse {
-  /** 질문 별 내용 및 사진 모음 목록 */
-  questions?: GetCurationQuestionPhotosResponse[];
 }
 
 /** 공통 응답 DTO */
@@ -3132,6 +3103,6 @@ export type GetRecommendationData =
   ApiResponseBodyGetPlacePhotographerRecommendationResponseVoid;
 
 export type GetAllCurationQuestionsData =
-  ApiResponseBodyGetAllCurationQuestionsResponseVoid;
+  ApiResponseBodyListGetCurationQuestionPhotosResponseVoid;
 
 export type GetCategoriesData = ApiResponseBodyCategoriesResponseVoid;

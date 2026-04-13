@@ -10,10 +10,10 @@ export type LikeProps = {
 };
 
 type UseLikeButtonProps = LikeProps & {
-  mutate: (variables: { currentIsLiked: boolean }, options: { onError: () => void }) => void;
+  mutate: (id: number, options: { onError: () => void }) => void;
 };
 
-export const useLikeButton = ({ isLiked, mutate }: UseLikeButtonProps) => {
+export const useLikeButton = ({ id, isLiked, mutate }: UseLikeButtonProps) => {
   const { isLogIn } = useAuth();
   const { error } = useToast();
   const [liked, setLiked] = useState(isLiked);
@@ -38,16 +38,11 @@ export const useLikeButton = ({ isLiked, mutate }: UseLikeButtonProps) => {
     const previousLiked = liked;
 
     setLiked((prev) => !prev);
-    mutate(
-      {
-        currentIsLiked: previousLiked,
-      },
-      {
+    mutate(id, {
       onError: () => {
         setLiked(previousLiked);
       },
-      },
-    );
+    });
   };
 
   return { liked, handleLike };

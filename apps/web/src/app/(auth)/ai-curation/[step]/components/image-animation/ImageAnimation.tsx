@@ -5,11 +5,10 @@ import { useEffect, useMemo, useState, startTransition } from 'react';
 import { cn } from '@snappin/design-system/lib/cn';
 import { useToast } from '@/ui';
 import { useGetAiCurationAll } from '@/app/(auth)/ai-curation/[step]/api';
-import { type STEP } from '@/app/(auth)/ai-curation/[step]/constants/steps';
 import { useAiCuration } from '@/app/(auth)/ai-curation/hooks/useAiCuration';
 
 type ImageAnimationProps = {
-  step: STEP;
+  step: number;
 };
 export default function ImageAnimation({ step }: ImageAnimationProps) {
   const { data } = useGetAiCurationAll();

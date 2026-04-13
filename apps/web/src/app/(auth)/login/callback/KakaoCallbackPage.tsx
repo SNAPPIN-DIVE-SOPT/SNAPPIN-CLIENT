@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { isValidUserType, USER_TYPE, UserType } from '@snappin/shared/types';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
@@ -18,7 +18,6 @@ const KAKAO_LOGIN_URL =
   `?redirect_uri=${encodeURIComponent(CLIENT_REDIRECT_URI!)}`;
 
 export default function KakaoCallbackPage() {
-  const router = useRouter();
   const params = useSearchParams();
   const toast = useToast();
   const toastRef = useRef(toast);
@@ -33,12 +32,16 @@ export default function KakaoCallbackPage() {
 
   const { mutateAsync } = useKakaoLogin(KAKAO_LOGIN_URL);
 
+  const replaceLocation = (path: string) => {
+    window.location.replace(path);
+  };
+
   useEffect(() => {
     if (startedRef.current) return;
 
     if (error) {
       startedRef.current = true;
-      router.replace(
+      replaceLocation(
         ROUTES.LOGIN({
           error: 'kakao',
           ...getReturnToParam(returnToContext),
@@ -63,22 +66,26 @@ export default function KakaoCallbackPage() {
         if (!isValidUserType(data.data.role)) {
           throw new Error(`Invalid role: ${data.data.role}`);
         }
-        setAuthUser({
+        await setAuthUser({
           role: data.data.role as UserType,
           hasPhotographerProfile: data.data.hasPhotographerProfile ?? false,
         });
 
-        if (!data.data.isOnboardingCompleted) {
-          router.replace(ROUTES.ON_BOARDING(1, getReturnToParam(returnToContext)));
-        } else if (returnToContext.returnTo) {
-          router.replace(resolveReturnToPath(returnToContext, ROUTES.HOME));
-        } else if (data.data.role === USER_TYPE.PHOTOGRAPHER) {
-          router.replace(PHOTOGRAPHERS_ROUTES.RESERVATIONS());
-        } else {
-          router.replace(ROUTES.HOME);
+        if (data.data.isOnboardingCompleted) {
+          replaceLocation(ROUTES.ON_BOARDING(1, getReturnToParam(returnToContext)));
         }
+        if (returnToContext.returnTo) {
+          resolveReturnToPath(returnToContext, ROUTES.HOME);
+        }
+
+        const destination =
+          data.data.role === USER_TYPE.PHOTOGRAPHER
+            ? PHOTOGRAPHERS_ROUTES.RESERVATIONS()
+            : ROUTES.HOME;
+
+        replaceLocation(destination);
       } catch {
-        router.replace(
+        replaceLocation(
           ROUTES.LOGIN({
             error: 'kakao',
             ...getReturnToParam(returnToContext),
@@ -91,7 +98,7 @@ export default function KakaoCallbackPage() {
         );
       }
     })();
-  }, [code, error, mutateAsync, returnToContext, router, toast]);
+  }, [code, error, mutateAsync, returnToContext, toast]);
 
   return (
     <div className='bg-black-10 flex h-dvh flex-col items-center justify-center gap-[1.5rem]'>
