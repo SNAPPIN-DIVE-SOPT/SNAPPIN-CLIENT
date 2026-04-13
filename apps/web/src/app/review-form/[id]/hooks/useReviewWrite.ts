@@ -67,9 +67,8 @@ export const useReviewWrite = () => {
   // 폼 제출 처리 함수
   const handleSubmitForm = async (onSuccess: (data: EnrollReviewInput) => void) => {
     const isValid = await trigger();
-    if (isValid) {
-      handleSubmit((data) => onSuccess(data))();
-    }
+    if (!isValid) return;
+    await handleSubmit((data) => onSuccess(data))();
   };
 
   const compatibleErrors = {

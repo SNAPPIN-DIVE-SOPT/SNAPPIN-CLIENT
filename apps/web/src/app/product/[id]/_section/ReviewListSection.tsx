@@ -16,6 +16,13 @@ type ReviewListSectionProps = {
   isLogIn: boolean;
 };
 
+type ReviewHeaderProps = {
+  productId: number;
+  isLogIn: boolean;
+  isEmpty: boolean;
+  averageRate: number;
+}
+
 type ReviewProps = {
   id: number;
   rate: number;
@@ -28,14 +35,9 @@ type ReviewProps = {
 export default function ReviewListSection({ productId, averageRate, isLogIn }: ReviewListSectionProps) {
   const { data, fetchNextPage, hasNextPage } = useGetProductReviewList(productId);
   const { ref, inView } = useInView();
-  const router = useRouter();
 
   const reviewList = data?.pages.flatMap((page) => page.data?.reviews ?? []) ?? [];
   const isEmpty = reviewList?.length === 0;
-
-  const handleReviewClick = () => {
-    router.push(ROUTES.REVIEW_FORM(productId));
-  };
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -46,6 +48,12 @@ export default function ReviewListSection({ productId, averageRate, isLogIn }: R
   if (isEmpty) {
     return (
       <section>
+        <ReviewHeader
+          productId={productId}
+          isLogIn={isLogIn}
+          isEmpty={isEmpty}
+          averageRate={averageRate}
+        />
         <div className='flex items-center justify-center pt-[8rem] pb-[15.8rem]'>
           <span className='caption-14-rg text-black-6 text-center'>아직 작성된 리뷰가 없어요</span>
         </div>
@@ -55,23 +63,12 @@ export default function ReviewListSection({ productId, averageRate, isLogIn }: R
 
   return (
     <section className='mb-[7.4rem]'>
-      <div className='flex justify-between p-[2rem]'>
-        <div className='flex gap-[0.8rem]'>
-          <ReviewStar rating={isEmpty ? 0 : averageRate} starSize='large' />
-          <span className='title-20-bd text-black-10'>{isEmpty ? '0.0' : averageRate}</span>
-        </div>
-        {isLogIn && (
-          <Button
-            size='small'
-            color='transparent'
-            className='pr-0 border-none'
-            onClick={handleReviewClick}
-          >
-            리뷰 작성하기
-          </Button>
-        )}
-      </div>
-      <Divider thickness='large' color='bg-black-3' className='w-full' />
+      <ReviewHeader
+        productId={productId}
+        isLogIn={isLogIn}
+        isEmpty={isEmpty}
+        averageRate={averageRate}
+      />
       {reviewList?.map((review, idx) => {
         const isLast = idx === reviewList.length - 1;
 
@@ -90,6 +87,36 @@ export default function ReviewListSection({ productId, averageRate, isLogIn }: R
         );
       })}
     </section>
+  );
+}
+
+function ReviewHeader({productId, isLogIn, isEmpty, averageRate}: ReviewHeaderProps) {
+  const router = useRouter();
+
+  const handleReviewClick = () => {
+    router.push(ROUTES.REVIEW_FORM(productId));
+  };
+
+  return (
+    <>
+      <div className='flex justify-between p-[2rem]'>
+        <div className='flex gap-[0.8rem]'>
+          <ReviewStar rating={isEmpty ? 0 : averageRate} starSize='large' />
+          <span className='title-20-bd text-black-10'>{isEmpty ? '0.0' : averageRate}</span>
+        </div>
+        {isLogIn && (
+          <Button
+            size='small'
+            color='transparent'
+            className='pr-0 border-none'
+            onClick={handleReviewClick}
+          >
+            리뷰 작성하기
+          </Button>
+        )}
+      </div>
+      <Divider thickness='large' color='bg-black-3' className='w-full' />
+    </>
   );
 }
 
@@ -134,28 +161,31 @@ export const ReviewListSectionSkeleton = () => {
   return (
     <section>
       <div className='flex justify-start gap-[0.8rem] p-[2rem]'>
-        <div className='bg-black-3 h-[2rem] w-[13.2rem] rounded-[0.2rem]' />
-        <div className='bg-black-3 h-[2rem] w-[3.1rem] rounded-[0.2rem]' />
+        <div className='bg-black-3 h-[2.6rem] w-[13.2rem] rounded-[0.2rem]' />
+        <div className='bg-black-3 h-[2.6rem] w-[3.1rem] rounded-[0.2rem]' />
       </div>
-      <Divider thickness='large' color='bg-black-3' />
-      <div className='flex flex-col gap-[1.2rem] pt-[2rem]'>
-        <div className='flex flex-col gap-[0.6rem] px-[2rem]'>
-          <div className='flex justify-between'>
-            <div className='bg-black-3 h-[1.4rem] w-[9.6rem] rounded-[0.2rem]' />
-            <div className='bg-black-3 h-[1.4rem] w-[4.5rem] rounded-[0.2rem]' />
-          </div>
-          <div className='bg-black-3 h-[1.4rem] w-[3.2rem] rounded-[0.2rem]' />
+      {Array.from({ length: 10 }).map((_, i) => (
+        <div key={i}>
+          <Divider thickness='large' color='bg-black-3' />
+          <div className='flex flex-col gap-[1.2rem] py-[2rem]'>
+            <div className='flex flex-col gap-[0.6rem] px-[2rem]'>
+              <div className='flex justify-between'>
+                <div className='bg-black-3 h-[1.4rem] w-[9.6rem] rounded-[0.2rem]' />
+                <div className='bg-black-3 h-[1.4rem] w-[4.5rem] rounded-[0.2rem]' />
+              </div>
+              <div className='bg-black-3 h-[1.4rem] w-[3.2rem] rounded-[0.2rem]' />
+            </div>
+            <div className='flex gap-[0.4rem] overflow-hidden pl-[2rem]'>
+              <div className='bg-black-3 h-[14rem] w-[14rem] shrink-0' />
+              <div className='bg-black-3 h-[14rem] w-[14rem] shrink-0' />
+              <div className='bg-black-3 h-[14rem] w-[14rem] shrink-0' />
+            </div>
+            <div className='flex flex-col gap-[0.6rem] px-[2rem]'>
+              <div className='bg-black-3 h-[1.7rem] w-[25.1rem] rounded-[0.2rem]' />
+            </div>
+          </div>        
         </div>
-        <div className='flex gap-[0.4rem] overflow-hidden pl-[2rem]'>
-          <div className='bg-black-3 h-[14rem] w-[14rem] shrink-0' />
-          <div className='bg-black-3 h-[14rem] w-[14rem] shrink-0' />
-          <div className='bg-black-3 h-[14rem] w-[14rem] shrink-0' />
-        </div>
-        <div className='flex flex-col gap-[0.6rem] px-[2rem]'>
-          <div className='bg-black-3 h-[1.7rem] w-[25.1rem] rounded-[0.2rem]' />
-          <div className='bg-black-3 h-[1.7rem] w-[19.4rem] rounded-[0.2rem]' />
-        </div>
-      </div>
+      ))}
     </section>
   );
 };

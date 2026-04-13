@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { overlay } from 'overlay-kit';
 import {
+  ConfirmModal,
   FieldMessage,
   ImagePreview,
   ImageUploadButton,
@@ -45,6 +47,7 @@ export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTe
   const router = useRouter();
   const toast = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useAutoScrollReviewImages(images.length);
 
@@ -64,19 +67,48 @@ export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTe
           imageUrls: uploadedUrls,
         });
 
-        router.replace(ROUTES.PRODUCT(productId));
+        overlay.open(({ isOpen, close }) => {
+          const handleClose = () => router.replace(ROUTES.PRODUCT(productId, { tab: 'REVIEW' }));
+
+          return (
+            <ConfirmModal
+              open={isOpen}
+              handleOpenChange={close}
+              showCloseButton={false}
+              title='리뷰 작성이 완료되었어요!'
+              buttons={[
+                {
+                  label: '닫기',
+                  size: 'medium',
+                  color: 'disabled',
+                  onClick: handleClose,
+                },
+                {
+                  label: '확인하러 가기',
+                  size: 'medium',
+                  color: 'black',
+                  onClick: handleClose,
+                },
+              ]}
+            />
+          );
+        })
+        setIsSubmitted(true);
       } catch {
         toast.error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
         router.back();
       }
     });
-
-    setIsSubmitting(false);
   };
 
   const contentLength = compatibleFormData.content.length;
   const hasContentError = Boolean(compatibleErrors.content);
   const isContentEmpty = contentLength < 1;
+  const getButtonLabel = () => {
+    if (isSubmitted) return '등록 완료';
+    if (isSubmitting) return '리뷰 등록 중...';
+    return '등록하기';
+  };
 
   return (
     <>
@@ -151,7 +183,8 @@ export default function ReviewFormSectionTemp({ productId }: ReviewFormSectionTe
         </section>
       </form>
       <ClientFooter
-        disabled={!isValid || isContentEmpty || isSubmitting || hasError}
+        label={getButtonLabel()}
+        disabled={!isValid || isContentEmpty || isSubmitting || hasError || isSubmitted}
         handleClick={handleSubmit}
       />
     </>
