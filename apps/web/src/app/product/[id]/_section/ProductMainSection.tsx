@@ -31,7 +31,7 @@ export default function ProductMainSection({
   moods,
   isLogIn,
 }: ProductMainSectionProps) {
-  const { mutateAsync } = useWishProductLike({ id, isLogin: isLogIn });
+  const { mutateAsync } = useWishProductLike({ id, isLogIn });
 
   const productImages = images.map((image) => ({ src: image, alt: title }));
 

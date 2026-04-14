@@ -39,9 +39,8 @@ export default function PortfolioFrame({
         imageHeight={height}
         imageWidth={width}
       />
-      <div className='absolute right-0 bottom-0 flex items-center gap-[0.5rem] p-[1.2rem]'>
-        <PortfolioClient id={id} isLiked={isLiked} />
-        <span className='caption-11-md text-black-1'>{likesCount}</span>
+      <div className='absolute right-0 bottom-0 flex items-center p-[1.2rem]'>
+        <PortfolioClient id={id} isLiked={isLiked} likeCount={likesCount} />
       </div>
     </Link>
   );

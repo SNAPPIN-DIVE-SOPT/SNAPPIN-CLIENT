@@ -25,7 +25,7 @@ export default function PortfolioSection({
   moods,
   isLogIn,
 }: PortfolioSectionProps) {
-  const { mutate } = useWishPortfolioLike({ id, isLogin: isLogIn });
+  const { mutate } = useWishPortfolioLike({ id, isLogIn });
 
   const handleLike = () => {
     mutate(id);
