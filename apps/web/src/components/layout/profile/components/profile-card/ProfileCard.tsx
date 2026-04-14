@@ -79,7 +79,7 @@ const ClientProfileCard = ({ data, imageUrl }: ClientProfileCardProps) => {
       <Profile.Avatar src={imageUrl} size='sm' />
       <Profile.Content lines={1}>
         <Profile.Item>
-          <Profile.Title>{data.name}</Profile.Title>
+          <Profile.Title>{data.name ?? '-'}</Profile.Title>
           <Profile.Description typography='caption-12-rg' color='black-8'>
             {data.nickname ?? '-'}
           </Profile.Description>
