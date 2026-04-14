@@ -38,7 +38,7 @@ export default function ProductInformationFrame({
         className={imageClassName}
       />
       <div className='absolute right-0 bottom-0 flex w-full flex-col items-center gap-[0.8rem] p-[1.2rem]'>
-        <div className='text-black-1 flex w-full flex-col'>
+        <div className='text-black-1 flex w-full flex-col gap-[0.2rem]'>
           <p className='caption-11-md truncate'>{title}</p>
           <span className='caption-14-bd'>{formatPrice(price)}원~</span>
         </div>

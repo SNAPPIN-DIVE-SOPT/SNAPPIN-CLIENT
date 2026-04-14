@@ -13,6 +13,10 @@ type SliderProps = {
 const INPUT_STYLE = `
   absolute top-1/2 -translate-y-1/2 z-20 w-full
   appearance-none pointer-events-none bg-transparent
+  [&::-webkit-slider-runnable-track]:appearance-none
+  [&::-webkit-slider-runnable-track]:border-0
+  [&::-webkit-slider-runnable-track]:bg-transparent
+  [&::-webkit-slider-runnable-track]:shadow-none
   [&::-webkit-slider-thumb]:appearance-none
   [&::-webkit-slider-thumb]:pointer-events-auto
   [&::-webkit-slider-thumb]:w-[2rem]
@@ -21,6 +25,10 @@ const INPUT_STYLE = `
   [&::-webkit-slider-thumb]:border-black-10
   [&::-webkit-slider-thumb]:rounded-full
   [&::-webkit-slider-thumb]:bg-neon-black
+  [&::-moz-range-track]:appearance-none
+  [&::-moz-range-track]:border-0
+  [&::-moz-range-track]:bg-transparent
+  [&::-moz-range-track]:shadow-none
   [&::-moz-range-thumb]:appearance-none
   [&::-moz-range-thumb]:pointer-events-auto
   [&::-moz-range-thumb]:w-[2rem]

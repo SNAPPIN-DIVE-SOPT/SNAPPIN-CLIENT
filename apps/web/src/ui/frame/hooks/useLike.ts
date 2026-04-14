@@ -7,20 +7,26 @@ import { useToast } from '@/ui';
 export type LikeProps = {
   id: number;
   isLiked: boolean;
+  likeCount?: number;
 };
 
 type UseLikeButtonProps = LikeProps & {
   mutate: (id: number, options: { onError: () => void }) => void;
 };
 
-export const useLikeButton = ({ id, isLiked, mutate }: UseLikeButtonProps) => {
+export const useLikeButton = ({ id, isLiked, likeCount, mutate }: UseLikeButtonProps) => {
   const { isLogIn } = useAuth();
   const { error } = useToast();
   const [liked, setLiked] = useState(isLiked);
+  const [currentLikeCount, setCurrentLikeCount] = useState(likeCount ?? 0);
 
   useEffect(() => {
     setLiked(isLiked);
   }, [isLiked]);
+
+  useEffect(() => {
+    setCurrentLikeCount(likeCount ?? 0);
+  }, [likeCount]);
 
   const handleLike = (e?: MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault();
@@ -36,14 +42,18 @@ export const useLikeButton = ({ id, isLiked, mutate }: UseLikeButtonProps) => {
     }
 
     const previousLiked = liked;
+    const previousLikeCount = currentLikeCount;
+    const nextLiked = !previousLiked;
 
-    setLiked((prev) => !prev);
+    setLiked(nextLiked);
+    setCurrentLikeCount(nextLiked ? previousLikeCount + 1 : previousLikeCount - 1);
     mutate(id, {
       onError: () => {
         setLiked(previousLiked);
+        setCurrentLikeCount(previousLikeCount);
       },
     });
   };
 
-  return { liked, handleLike };
+  return { liked, handleLike, currentLikeCount };
 };

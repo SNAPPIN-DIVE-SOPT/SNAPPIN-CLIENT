@@ -41,7 +41,7 @@ export default function FilterChip({
   return (
     <div
       className={cn(
-        'bg-black-10 inline-flex items-stretch rounded-[2.4rem] border-[0.1rem] transition-[background-color] duration-500 ease-in-out',
+        'bg-black-10 inline-flex items-stretch rounded-[2.4rem] border-[0.1rem] transition-[background-color] duration-200 ease-in-out',
         buttonClassName,
         className,
       )}
@@ -56,7 +56,7 @@ export default function FilterChip({
       >
         <span
           className={cn(
-            'caption-12-md block transition-[color] duration-500 ease-in-out',
+            'caption-12-md block transition-[color] duration-200 ease-in-out',
             labelClassName,
           )}
         >

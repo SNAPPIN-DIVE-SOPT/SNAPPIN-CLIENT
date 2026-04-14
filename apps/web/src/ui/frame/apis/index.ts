@@ -12,12 +12,12 @@ import { apiRequest } from '@/api/apiRequest.client';
 
 type UseLikeProps = {
   id: number;
-  isLogin: boolean;
+  isLogIn: boolean;
 };
 
-export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
+export const useWishProductLike = ({ id, isLogIn }: UseLikeProps) => {
   const queryClient = useQueryClient();
-  const detailQueryKey = PRODUCT_QUERY_KEY.DETAIL(id, isLogin);
+  const detailQueryKey = PRODUCT_QUERY_KEY.DETAIL(id, isLogIn);
 
   return useMutation<
     WishProductResponse,
@@ -75,9 +75,9 @@ export const useWishProductLike = ({ id, isLogin }: UseLikeProps) => {
   });
 };
 
-export const useWishPortfolioLike = ({ id, isLogin }: UseLikeProps) => {
+export const useWishPortfolioLike = ({ id, isLogIn }: UseLikeProps) => {
   const queryClient = useQueryClient();
-  const detailQueryKey = PORTFOLIO_QUERY_KEY.DETAIL(id, isLogin);
+  const detailQueryKey = PORTFOLIO_QUERY_KEY.DETAIL(id, isLogIn);
 
   return useMutation<
     WishPortfolioResponse,

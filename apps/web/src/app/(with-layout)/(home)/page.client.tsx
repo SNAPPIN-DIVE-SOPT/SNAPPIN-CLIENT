@@ -56,6 +56,11 @@ export default function PageClient() {
             </div>
             {isPending ? (
               <ProductInformationFrameListSkeleton />
+            ) : (data?.length ?? 0) === 0 ? (
+              <div className='flex flex-col items-center justify-center gap-[0.4rem] py-[12rem]'>
+                <p className='font-18-bd text-black-9'>상품을 준비 중입니다</p>
+                <span className='caption-14-md text-black-6'>다른 무드를 선택해 보세요</span>
+              </div>
             ) : (
               <ProductInformationFrameList products={data || []} />
             )}
