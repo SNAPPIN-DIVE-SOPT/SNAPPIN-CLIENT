@@ -66,16 +66,20 @@ export default function KakaoCallbackPage() {
         if (!isValidUserType(data.data.role)) {
           throw new Error(`Invalid role: ${data.data.role}`);
         }
+
         await setAuthUser({
           role: data.data.role as UserType,
           hasPhotographerProfile: data.data.hasPhotographerProfile ?? false,
         });
 
-        if (data.data.isOnboardingCompleted) {
+        if (!data.data.isOnboardingCompleted) {
           replaceLocation(ROUTES.ON_BOARDING(1, getReturnToParam(returnToContext)));
+          return;
         }
+
         if (returnToContext.returnTo) {
           resolveReturnToPath(returnToContext, ROUTES.HOME);
+          return;
         }
 
         const destination =
