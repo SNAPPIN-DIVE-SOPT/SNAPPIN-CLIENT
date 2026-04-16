@@ -13,14 +13,11 @@ import { useAuth } from '@/auth/hooks/useAuth';
 import { USER_QUERY_KEY } from '@/query-key/user';
 import {
   buildExploreListQuery,
-  exploreListInitialPageParam,
-  getExploreListNextPageParam,
-  getExplorePortfolioListQueryKey,
-  getExploreProductListQueryKey,
   PORTFOLIO_ENDPOINT,
   PRODUCT_ENDPOINT,
   toRequestParams,
 } from './shared';
+import { explorePortfolioListOptions, exploreProductListOptions } from './options';
 
 export { getExplorePortfolioListQueryKey, getExploreProductListQueryKey } from './shared';
 
@@ -137,101 +134,91 @@ export const useMoodFilters = () => {
 };
 
 export const useGetPortfolioList = (sp: URLSearchParams, isLogIn: boolean) => {
-  const baseQuery = buildExploreListQuery(sp);
+  return useSuspenseInfiniteQuery(
+    explorePortfolioListOptions({
+      sp,
+      isLogIn,
+      queryFn: async (cursor: string | undefined) => {
+        const baseQuery = buildExploreListQuery(sp);
+        const url = new URL(PORTFOLIO_FULL_URL);
 
-  return useSuspenseInfiniteQuery<GetPortfolioListData>({
-    queryKey: getExplorePortfolioListQueryKey(sp, isLogIn),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    initialPageParam: exploreListInitialPageParam,
-    queryFn: async ({ pageParam }) => {
-      const url = new URL(PORTFOLIO_FULL_URL);
+        baseQuery.forEach((value, key) => url.searchParams.set(key, value));
 
-      baseQuery.forEach((value, key) => url.searchParams.set(key, value));
+        if (cursor) {
+          url.searchParams.set('cursor', cursor);
+        }
 
-      if (pageParam !== undefined && pageParam !== null) {
-        url.searchParams.set('cursor', String(pageParam));
-      }
+        if (isLogIn) {
+          const response = await apiRequest<GetPortfolioListData>({
+            endPoint: PORTFOLIO_ENDPOINT,
+            method: 'GET',
+            params: toRequestParams(url.searchParams),
+          });
 
-      if (isLogIn) {
-        const response = await apiRequest<GetPortfolioListData>({
-          endPoint: PORTFOLIO_ENDPOINT,
-          method: 'GET',
-          params: toRequestParams(url.searchParams),
-        });
+          if (!response.data) {
+            throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
+          }
 
-        if (!response.data) {
+          return response;
+        }
+
+        const response = await fetch(url.toString(), { method: 'GET' });
+        if (!response.ok) {
+          throw new Error('/api/v2/portfolios 응답 실패');
+        }
+
+        const data = await response.json();
+        if (!data.data) {
           throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
         }
 
-        return response;
-      }
-
-      const response = await fetch(url.toString(), { method: 'GET' });
-      if (!response.ok) {
-        throw new Error('/api/v2/portfolios 응답 실패');
-      }
-
-      const data = await response.json();
-      if (!data.data) {
-        throw new Error('/api/v2/portfolios 응답에 데이터가 존재하지 않습니다.');
-      }
-
-      return data;
-    },
-    getNextPageParam: getExploreListNextPageParam,
-  });
+        return data;
+      },
+    }),
+  );
 };
 
 export const useGetProductList = (sp: URLSearchParams, isLogIn: boolean) => {
-  const baseQuery = buildExploreListQuery(sp);
+  return useSuspenseInfiniteQuery(
+    exploreProductListOptions({
+      sp,
+      isLogIn,
+      queryFn: async (cursor: string | undefined) => {
+        const baseQuery = buildExploreListQuery(sp);
+        const url = new URL(PRODUCT_FULL_URL);
 
-  return useSuspenseInfiniteQuery<GetProductListData>({
-    queryKey: getExploreProductListQueryKey(sp, isLogIn),
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-    initialPageParam: exploreListInitialPageParam,
-    queryFn: async ({ pageParam }) => {
-      const url = new URL(PRODUCT_FULL_URL);
+        baseQuery.forEach((value, key) => url.searchParams.set(key, value));
 
-      baseQuery.forEach((value, key) => url.searchParams.set(key, value));
+        if (cursor) {
+          url.searchParams.set('cursor', cursor);
+        }
 
-      if (pageParam !== undefined && pageParam !== null) {
-        url.searchParams.set('cursor', String(pageParam));
-      }
+        if (isLogIn) {
+          const response = await apiRequest<GetProductListData>({
+            endPoint: PRODUCT_ENDPOINT,
+            method: 'GET',
+            params: toRequestParams(url.searchParams),
+          });
 
-      if (isLogIn) {
-        const response = await apiRequest<GetProductListData>({
-          endPoint: PRODUCT_ENDPOINT,
-          method: 'GET',
-          params: toRequestParams(url.searchParams),
-        });
+          if (!response.data) {
+            throw new Error('/api/v2/products 응답에 데이터가 존재하지 않습니다.');
+          }
 
-        if (!response.data) {
+          return response;
+        }
+
+        const response = await fetch(url.toString(), { method: 'GET' });
+        if (!response.ok) {
+          throw new Error('/api/v2/products 응답 실패');
+        }
+
+        const data = await response.json();
+        if (!data.data) {
           throw new Error('/api/v2/products 응답에 데이터가 존재하지 않습니다.');
         }
 
-        return response;
-      }
-
-      const response = await fetch(url.toString(), { method: 'GET' });
-      if (!response.ok) {
-        throw new Error('/api/v2/products 응답 실패');
-      }
-
-      const data = await response.json();
-      if (!data.data) {
-        throw new Error('/api/v2/products 응답에 데이터가 존재하지 않습니다.');
-      }
-
-      return data;
-    },
-    getNextPageParam: getExploreListNextPageParam,
-  });
+        return data;
+      },
+    }),
+  );
 };

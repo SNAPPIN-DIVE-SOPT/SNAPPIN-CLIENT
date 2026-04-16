@@ -6,14 +6,11 @@ import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { GetPortfolioListData, GetProductListData } from '@/swagger-api';
 import {
   buildExploreListQuery,
-  exploreListInitialPageParam,
-  getExploreListNextPageParam,
-  getExplorePortfolioListQueryKey,
-  getExploreProductListQueryKey,
   PORTFOLIO_ENDPOINT,
   PRODUCT_ENDPOINT,
   toRequestParams,
 } from './shared';
+import { explorePortfolioListOptions, exploreProductListOptions } from './options';
 
 const getExplorePortfolioListServer = async (
   sp: URLSearchParams,
@@ -107,13 +104,11 @@ export const prefetchExplorePortfolioList = (
   isLogIn: boolean,
 ) => {
   return queryClient.prefetchInfiniteQuery({
-    queryKey: getExplorePortfolioListQueryKey(sp, isLogIn),
-    initialPageParam: exploreListInitialPageParam,
-    queryFn: ({ pageParam }) => {
-      const cursor = typeof pageParam === 'string' ? pageParam : undefined;
-      return getExplorePortfolioListServer(sp, isLogIn, cursor);
-    },
-    getNextPageParam: getExploreListNextPageParam,
+    ...explorePortfolioListOptions({
+      sp,
+      isLogIn,
+      queryFn: (cursor) => getExplorePortfolioListServer(sp, isLogIn, cursor),
+    }),
     pages: 1,
   });
 };
@@ -124,13 +119,11 @@ export const prefetchExploreProductList = (
   isLogIn: boolean,
 ) => {
   return queryClient.prefetchInfiniteQuery({
-    queryKey: getExploreProductListQueryKey(sp, isLogIn),
-    initialPageParam: exploreListInitialPageParam,
-    queryFn: ({ pageParam }) => {
-      const cursor = typeof pageParam === 'string' ? pageParam : undefined;
-      return getExploreProductListServer(sp, isLogIn, cursor);
-    },
-    getNextPageParam: getExploreListNextPageParam,
+    ...exploreProductListOptions({
+      sp,
+      isLogIn,
+      queryFn: (cursor) => getExploreProductListServer(sp, isLogIn, cursor),
+    }),
     pages: 1,
   });
 };
