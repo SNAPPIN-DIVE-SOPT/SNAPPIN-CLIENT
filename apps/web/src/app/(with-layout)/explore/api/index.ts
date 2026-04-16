@@ -10,7 +10,19 @@ import {
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { apiRequest } from '@/api/apiRequest.client';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { PORTFOLIO_QUERY_KEY, PRODUCT_QUERY_KEY, USER_QUERY_KEY } from '@/query-key/user';
+import { USER_QUERY_KEY } from '@/query-key/user';
+import {
+  buildExploreListQuery,
+  exploreListInitialPageParam,
+  getExploreListNextPageParam,
+  getExplorePortfolioListQueryKey,
+  getExploreProductListQueryKey,
+  PORTFOLIO_ENDPOINT,
+  PRODUCT_ENDPOINT,
+  toRequestParams,
+} from './shared';
+
+export { getExplorePortfolioListQueryKey, getExploreProductListQueryKey } from './shared';
 
 const CATEGORY_END_POINT = '/api/v1/categories';
 const CATEGORY_FULL_URL = SERVER_API_BASE_URL + CATEGORY_END_POINT;
@@ -21,10 +33,8 @@ const MOODS_FULL_URL = SERVER_API_BASE_URL + MOODS_ENDPOINT;
 const PLACE_ENDPOINT = '/api/v1/places';
 const PLACE_FULL_URL = `${SERVER_API_BASE_URL}${PLACE_ENDPOINT}`;
 
-const PORTFOLIO_ENDPOINT = '/api/v2/portfolios';
 const PORTFOLIO_FULL_URL = `${SERVER_API_BASE_URL}${PORTFOLIO_ENDPOINT}`;
 
-const PRODUCT_ENDPOINT = '/api/v2/products';
 const PRODUCT_FULL_URL = `${SERVER_API_BASE_URL}${PRODUCT_ENDPOINT}`;
 
 export const useSearchPlaces = (keyword: string) => {
@@ -126,65 +136,6 @@ export const useMoodFilters = () => {
   });
 };
 
-export const buildExploreQuery = (sp: URLSearchParams) => {
-  const query = new URLSearchParams();
-
-  const moodIds = sp.get('moodIds');
-  if (moodIds) query.set('moodIds', moodIds);
-
-  const minPrice = sp.get('minPrice');
-  if (minPrice) query.set('minPrice', minPrice);
-
-  const maxPrice = sp.get('maxPrice');
-  if (maxPrice) query.set('maxPrice', maxPrice);
-
-  const photographerId = sp.get('photographerId');
-  if (photographerId) query.set('photographerId', photographerId);
-
-  const snapCategory = sp.get('snapCategory');
-  if (snapCategory) query.set('snapCategory', snapCategory);
-
-  const placeId = sp.get('placeId');
-  if (placeId) query.set('placeId', placeId);
-
-  const date = sp.get('date');
-  if (date) query.set('date', date);
-
-  const peopleCount = sp.get('peopleCount');
-  if (peopleCount && Number(peopleCount) > 0) query.set('peopleCount', peopleCount);
-
-  return query;
-};
-
-const buildExploreListQuery = (sp: URLSearchParams) => {
-  const query = buildExploreQuery(sp);
-  const sort = sp.get('sort');
-
-  query.set('snapCategory', 'GRADUATION');
-
-  if (sort) query.set('sort', sort);
-
-  return query;
-};
-
-const toRequestParams = (query: URLSearchParams) => {
-  return Object.fromEntries(query.entries());
-};
-
-const getExploreListQueryKey = (sp: URLSearchParams, isLogIn: boolean) => {
-  const baseQuery = buildExploreListQuery(sp);
-
-  return `${baseQuery.toString()}-${isLogIn ? 'login' : 'guest'}`;
-};
-
-export const getExplorePortfolioListQueryKey = (sp: URLSearchParams, isLogIn: boolean) => {
-  return PORTFOLIO_QUERY_KEY.LIST(getExploreListQueryKey(sp, isLogIn));
-};
-
-export const getExploreProductListQueryKey = (sp: URLSearchParams, isLogIn: boolean) => {
-  return PRODUCT_QUERY_KEY.LIST(getExploreListQueryKey(sp, isLogIn));
-};
-
 export const useGetPortfolioList = (sp: URLSearchParams, isLogIn: boolean) => {
   const baseQuery = buildExploreListQuery(sp);
 
@@ -195,7 +146,7 @@ export const useGetPortfolioList = (sp: URLSearchParams, isLogIn: boolean) => {
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
-    initialPageParam: undefined,
+    initialPageParam: exploreListInitialPageParam,
     queryFn: async ({ pageParam }) => {
       const url = new URL(PORTFOLIO_FULL_URL);
 
@@ -231,9 +182,7 @@ export const useGetPortfolioList = (sp: URLSearchParams, isLogIn: boolean) => {
 
       return data;
     },
-    getNextPageParam: (lastPage) => {
-      return lastPage.meta?.hasNext ? lastPage.meta?.nextCursor : undefined;
-    },
+    getNextPageParam: getExploreListNextPageParam,
   });
 };
 
@@ -247,7 +196,7 @@ export const useGetProductList = (sp: URLSearchParams, isLogIn: boolean) => {
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
-    initialPageParam: undefined,
+    initialPageParam: exploreListInitialPageParam,
     queryFn: async ({ pageParam }) => {
       const url = new URL(PRODUCT_FULL_URL);
 
@@ -283,8 +232,6 @@ export const useGetProductList = (sp: URLSearchParams, isLogIn: boolean) => {
 
       return data;
     },
-    getNextPageParam: (lastPage) => {
-      return lastPage.meta?.hasNext ? lastPage.meta?.nextCursor : undefined;
-    },
+    getNextPageParam: getExploreListNextPageParam,
   });
 };
