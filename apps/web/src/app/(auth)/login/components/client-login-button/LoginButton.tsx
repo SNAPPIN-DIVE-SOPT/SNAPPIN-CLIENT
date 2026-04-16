@@ -1,5 +1,7 @@
 ﻿'use client';
 
+import { useEffect } from 'react';
+import { useToast } from '@/ui/toast/hooks/useToast';
 import { BottomCTAButton } from '@snappin/design-system';
 import { IconKakao } from '@snappin/design-system/assets';
 
@@ -8,6 +10,7 @@ type LoginButtonProps = {
 };
 
 export default function LoginButton({ returnTo }: LoginButtonProps) {
+  const { removeToast } = useToast();
   const clientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL!;
   const state = returnTo ? new URLSearchParams({ returnTo }).toString() : '';
@@ -21,6 +24,10 @@ export default function LoginButton({ returnTo }: LoginButtonProps) {
   const handleLogin = () => {
     window.location.href = KAKAO_LOGIN_URL;
   };
+
+  useEffect(() => {
+    removeToast();
+  }, []);
 
   return (
     <BottomCTAButton fixed={true} hasPadding={true} className='z-100 px-[2rem]'>
