@@ -3,25 +3,23 @@
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-import { isValidUserType, USER_TYPE, UserType } from '@snappin/shared/types';
+import { isValidUserType, USER_TYPE } from '@snappin/shared/types';
 import { SERVER_API_BASE_URL } from '@/api/constants/api';
 import { setAuthUser } from '@/auth/userType';
 import { setAccessToken } from '@/auth/token.client';
 import { useKakaoLogin } from '@/auth/apis';
 import { getReturnToParam, readReturnToContext, resolveReturnToPath } from '@/auth/utils/returnTo';
-import { useToast, Loading } from '@/ui';
+import { Loading } from '@/ui';
 import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
 
 const CLIENT_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL;
+
 const KAKAO_LOGIN_URL =
   `${SERVER_API_BASE_URL}/api/v2/auth/login/kakao` +
   `?redirect_uri=${encodeURIComponent(CLIENT_REDIRECT_URI!)}`;
 
 export default function KakaoCallbackPage() {
   const params = useSearchParams();
-  const toast = useToast();
-  const toastRef = useRef(toast);
-  toastRef.current = toast;
 
   const code = params.get('code');
   const error = params.get('error');
@@ -57,35 +55,36 @@ export default function KakaoCallbackPage() {
     (async () => {
       try {
         const data = await mutateAsync({ code });
-        if (!data.data?.accessToken || !data.data?.role) {
+        const loginData = data.data;
+
+        if (!loginData?.accessToken || !loginData?.role) {
           throw new Error('Invalid login response');
         }
 
-        await setAccessToken(data.data.accessToken);
-
-        if (!isValidUserType(data.data.role)) {
-          throw new Error(`Invalid role: ${data.data.role}`);
+        const role = loginData.role;
+        if (!isValidUserType(role)) {
+          throw new Error(`Invalid role: ${role}`);
         }
 
-        await setAuthUser({
-          role: data.data.role as UserType,
-          hasPhotographerProfile: data.data.hasPhotographerProfile ?? false,
-        });
+        await setAccessToken(loginData.accessToken);
 
-        if (!data.data.isOnboardingCompleted) {
+        await setAuthUser({
+          role,
+          hasPhotographerProfile: loginData.hasPhotographerProfile ?? false,
+        });
+        // 온보딩 미완료 시 온보딩 페이지로 이동
+        if (!loginData.isOnboardingCompleted) {
           replaceLocation(ROUTES.ON_BOARDING(1, getReturnToParam(returnToContext)));
           return;
         }
-
+        // returnTo가 있으면 returnTo로 이동
         if (returnToContext.returnTo) {
           replaceLocation(resolveReturnToPath(returnToContext, ROUTES.HOME));
           return;
         }
-
+        // 포토그래퍼는 예약 페이지로, 일반 유저는 홈으로 이동
         const destination =
-          data.data.role === USER_TYPE.PHOTOGRAPHER
-            ? PHOTOGRAPHERS_ROUTES.RESERVATIONS()
-            : ROUTES.HOME;
+          role === USER_TYPE.PHOTOGRAPHER ? PHOTOGRAPHERS_ROUTES.RESERVATIONS() : ROUTES.HOME;
 
         replaceLocation(destination);
       } catch {
@@ -95,14 +94,9 @@ export default function KakaoCallbackPage() {
             ...getReturnToParam(returnToContext),
           }),
         );
-        toast.error(
-          '카카오 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
-          undefined,
-          'top-[2rem]',
-        );
       }
     })();
-  }, [code, error, mutateAsync, returnToContext, toast]);
+  }, [code, error, mutateAsync, returnToContext]);
 
   return (
     <div className='bg-black-10 flex h-dvh flex-col items-center justify-center gap-[1.5rem]'>

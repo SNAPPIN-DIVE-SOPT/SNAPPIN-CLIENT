@@ -5,12 +5,13 @@ import { ClientNavigation, LoginButton } from './components';
 
 type PageProps = {
   searchParams: Promise<{
+    error?: string;
     returnTo?: string;
   }>;
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  const { returnTo: rawReturnTo } = await searchParams;
+  const { error, returnTo: rawReturnTo } = await searchParams;
   const returnTo = readReturnToContext(
     new URLSearchParams({
       returnTo: rawReturnTo ?? '',
@@ -27,7 +28,7 @@ export default async function Page({ searchParams }: PageProps) {
         </div>
         <ImageSlide />
         <div className='flex justify-center px-[2rem]'>
-          <LoginButton returnTo={returnTo} />
+          <LoginButton returnTo={returnTo} loginError={error} />
         </div>
       </div>
     </div>

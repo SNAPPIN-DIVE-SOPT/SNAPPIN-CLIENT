@@ -13,6 +13,7 @@ export const MOOD_CODE = [
   'Y2K',
   '클린한',
   '시크한',
+  '빈티지',
 ] as const;
 
 export const MOOD_CODE_INDEX = {
@@ -30,6 +31,7 @@ export const MOOD_CODE_INDEX = {
   Y2K: 11,
   클린한: 12,
   시크한: 13,
+  빈티지: 14,
 } as const;
 
 export type MoodCode = (typeof MOOD_CODE)[number];

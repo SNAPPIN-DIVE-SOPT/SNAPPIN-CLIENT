@@ -21,6 +21,7 @@ export { default as IconChip디지털 } from './components/IconChip디지털';
 export { default as IconChip따스한 } from './components/IconChip따스한';
 export { default as IconChip뚜렷한 } from './components/IconChip뚜렷한';
 export { default as IconChip몽환적인 } from './components/IconChip몽환적인';
+export { default as IconChip빈티지 } from './components/IconChip빈티지';
 export { default as IconChip서사적인 } from './components/IconChip서사적인';
 export { default as IconChip시크한 } from './components/IconChip시크한';
 export { default as IconChip아날로그 } from './components/IconChip아날로그';
