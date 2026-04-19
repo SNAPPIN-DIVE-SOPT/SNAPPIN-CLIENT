@@ -2,7 +2,7 @@
 
 import { Logo } from '@snappin/design-system/assets';
 import { ImageSlide } from '@snappin/design-system';
-import useLoginPage from '@/app/(auth)/login/hooks/useLoginPage';
+import useLogin from '@/app/(auth)/login/hooks/useLogin';
 import { ClientNavigation, LoginButton } from '@/app/(auth)/login/components';
 
 type PageClientProps = {
@@ -11,7 +11,7 @@ type PageClientProps = {
 };
 
 export default function PageClient({ error, returnTo }: PageClientProps) {
-  const { handleKakaoLogin } = useLoginPage({
+  const { handleKakaoLogin } = useLogin({
     loginError: error,
     returnTo,
   });
