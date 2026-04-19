@@ -1,5 +1,5 @@
 ﻿import { readReturnToContext } from '@/auth/utils/returnTo';
-import { LoginPageContent } from './components';
+import PageClient from './page.client';
 
 type PageProps = {
   searchParams: Promise<{
@@ -18,7 +18,7 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <div className='bg-black-10 h-full'>
-      <LoginPageContent error={error} returnTo={returnTo} />
+      <PageClient error={error} returnTo={returnTo} />
     </div>
   );
 }
