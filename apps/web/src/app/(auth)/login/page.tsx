@@ -1,5 +1,8 @@
-﻿import { readReturnToContext } from '@/auth/utils/returnTo';
+﻿import { Logo } from '@snappin/design-system/assets';
+import { ImageSlide } from '@snappin/design-system';
+import { readReturnToContext } from '@/auth/utils/returnTo';
 import PageClient from './page.client';
+import { ClientNavigation } from './components';
 
 type PageProps = {
   searchParams: Promise<{
@@ -18,7 +21,17 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <div className='bg-black-10 h-full'>
-      <PageClient error={error} returnTo={returnTo} />
+      <ClientNavigation />
+      <div className='mt-[6.4rem] flex flex-col gap-[2.4rem]'>
+        <div className='flex flex-col items-center gap-[1.2rem]'>
+          <Logo className='text-neon-black h-[2.8rem] w-[15.8rem]' />
+          <p className='title-20-md text-black-1'>나만의 무드에서 시작되는 스냅</p>
+        </div>
+        <ImageSlide />
+        <div className='flex justify-center px-[2rem]'>
+          <PageClient error={error} returnTo={returnTo} />
+        </div>
+      </div>
     </div>
   );
 }
