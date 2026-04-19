@@ -2,7 +2,7 @@ export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   SIGN_UP: '/sign-up',
-  MOOD_SNAP_PRODUCTS: '/login-mood-snap',
-  LOGIN_AI_CURATION: '/login-ai-curation',
-  LOGIN_MOOD_SNAP_RESERVE: '/login-mood-snap-reserve',
+  LOGIN_ENTRY: (entry: string) => `/login/${entry}`,
+  SNAPPIN_INSTAGRAM: 'https://www.instagram.com/snapping.mag/',
+  SNAPPIN_PHOTOGRAPHER_JOINT: 'https://www.notion.so/Snappin-2eea9c9b4473802d9d2ddcb2a202bc18',
 };
