@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { isValidUserType, USER_TYPE, type UserType } from '@snappin/shared/types';
-import { SERVER_API_BASE_URL } from '@/api/constants/api';
+import { getKakaoLoginApiUrl } from '@/app/(auth)/login/lib/kakaoAuth';
 import { setAuthUser } from '@/auth/userType';
 import { setAccessToken } from '@/auth/token.client';
 import { useKakaoLogin } from '@/auth/apis';
@@ -11,20 +11,14 @@ import { getReturnToParam, readReturnToContext, resolveReturnToPath } from '@/au
 import { PHOTOGRAPHERS_ROUTES, ROUTES } from '@/constants/routes/routes';
 import type { CreateKakaoLoginResponse } from '@/swagger-api';
 
-const CLIENT_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL;
-
-const KAKAO_LOGIN_URL =
-  `${SERVER_API_BASE_URL}/api/v2/auth/login/kakao` +
-  `?redirect_uri=${encodeURIComponent(CLIENT_REDIRECT_URI!)}`;
-
-// 로그인 실패 시 리다이렉트할 경로를 생성하는 함수
+// 로그인 실패 시 리다이렉트할 경로 생성
 const getLoginErrorPath = (returnTo: ReturnType<typeof readReturnToContext>) =>
   ROUTES.LOGIN({
     error: 'kakao',
     ...getReturnToParam(returnTo),
   });
 
-// 로그인 성공 후 리다이렉트할 경로를 결정하는 함수
+// 로그인 성공 후 리다이렉트할 경로 결정
 const getPostLoginDestination = (
   loginData: CreateKakaoLoginResponse,
   returnTo: ReturnType<typeof readReturnToContext>,
@@ -45,18 +39,25 @@ const getPostLoginDestination = (
 export default function useKakaoCallback() {
   const params = useSearchParams();
   const startedRef = useRef(false);
+  const kakaoLoginApiUrl = getKakaoLoginApiUrl();
 
   const code = params.get('code');
   const error = params.get('error');
   const state = params.get('state');
   const returnToContext = readReturnToContext(new URLSearchParams(state ?? ''));
 
-  const { mutateAsync } = useKakaoLogin(KAKAO_LOGIN_URL);
+  const { mutateAsync } = useKakaoLogin(kakaoLoginApiUrl ?? '');
 
   useEffect(() => {
     if (startedRef.current) return;
 
     if (error) {
+      startedRef.current = true;
+      window.location.replace(getLoginErrorPath(returnToContext));
+      return;
+    }
+
+    if (!kakaoLoginApiUrl) {
       startedRef.current = true;
       window.location.replace(getLoginErrorPath(returnToContext));
       return;
@@ -81,7 +82,7 @@ export default function useKakaoCallback() {
 
         await setAccessToken(loginData.accessToken);
         await setAuthUser({
-          role: loginData.role as UserType,
+          role: loginData.role,
           hasPhotographerProfile: loginData.hasPhotographerProfile ?? false,
         });
 
@@ -90,5 +91,5 @@ export default function useKakaoCallback() {
         window.location.replace(getLoginErrorPath(returnToContext));
       }
     })();
-  }, [code, error, mutateAsync, returnToContext]);
+  }, [code, error, kakaoLoginApiUrl, mutateAsync, returnToContext]);
 }
