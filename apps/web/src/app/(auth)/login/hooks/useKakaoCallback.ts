@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { isValidUserType, USER_TYPE, type UserType } from '@snappin/shared/types';
+import { isValidUserType, USER_TYPE } from '@snappin/shared/types';
 import { getKakaoLoginApiUrl } from '@/app/(auth)/login/lib/kakaoAuth';
 import { setAuthUser } from '@/auth/userType';
 import { setAccessToken } from '@/auth/token.client';
