@@ -118,6 +118,8 @@ export const PRODUCT_QUERY_KEY = {
   LIKES: () => [...PRODUCT_QUERY_KEY.all, 'like'],
   LIKE: (id: number) => [...PRODUCT_QUERY_KEY.LIKES(), id],
 
+  EXTRA_INFO: (id: number) => [...PRODUCT_QUERY_KEY.all, 'extra-info', id],
+
   REVIEWS: (id: number) => [...PRODUCT_QUERY_KEY.all, 'reviews', id],
 
   PHOTOGRAPHER_LIST: (photographerId: number, isLogin: boolean) => [
