@@ -9,10 +9,11 @@ import { ClientHeader } from '@/app/product/[id]/reservation-form/components';
 import { ROUTES } from '@/constants/routes/routes';
 
 type PageClientProps = {
+  productId: number;
   photographerId: number;
 };
 
-export default function PageClient({ photographerId }: PageClientProps) {
+export default function PageClient({ productId, photographerId }: PageClientProps) {
   const router = useRouter();
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [isCopyModalOpen, setIsCopyModalOpen] = useState(false);
@@ -38,7 +39,7 @@ export default function PageClient({ photographerId }: PageClientProps) {
   return (
     <>
       <ClientHeader handleClickBack={handleBackClick} />
-      <ReservationFormWrapper handleCopySuccess={handleCopySuccess} />
+      <ReservationFormWrapper productId={productId} handleCopySuccess={handleCopySuccess} />
 
       <CancelModal
         open={isCancelModalOpen}
