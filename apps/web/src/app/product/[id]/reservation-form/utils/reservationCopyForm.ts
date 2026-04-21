@@ -41,12 +41,20 @@ const createInitialScheduleSelections = (): ScheduleSelections => {
   ) as ScheduleSelections;
 };
 
-export const createDefaultReservationCopyFormValue = (): ReservationCopyFormValue => {
+type CreateDefaultReservationCopyFormValueProps = {
+  minDurationHours?: number;
+  minPeopleCount?: number;
+};
+
+export const createDefaultReservationCopyFormValue = ({
+  minDurationHours = DURATION_HOURS.DEFAULT_MIN,
+  minPeopleCount = PEOPLE_COUNT.DEFAULT_MIN,
+}: CreateDefaultReservationCopyFormValueProps = {}): ReservationCopyFormValue => {
   return {
     placeId: '',
     placeKeyword: '',
-    durationHours: DURATION_HOURS.MIN,
-    peopleCount: PEOPLE_COUNT.MIN,
+    durationHours: minDurationHours,
+    peopleCount: minPeopleCount,
     schedules: createInitialScheduleSelections(),
     uploadConsentStatus: undefined,
     requestContent: '',
