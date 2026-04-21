@@ -2,14 +2,16 @@ import { type ChangeEvent } from 'react';
 import { FieldMessage, TextareaField } from '@snappin/design-system';
 import { REQUEST_CONTENT } from '@/app/product/[id]/reservation-form/constants';
 import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-form/hooks';
-import RESERVATION_FORM_INFORMATION_MOCK from '@/app/product/[id]/reservation-form/mock/reservationFormInformation.mock';
+import { type GetProductExtraInfoResponse } from '@/swagger-api';
 
 type AdditionalRequestSectionProps = {
   reservationCopyFormModel: Pick<ReservationCopyFormModel, 'formData' | 'errors' | 'actions'>;
+  reservationExtraInfo?: GetProductExtraInfoResponse;
 };
 
 export default function AdditionalRequestSection({
   reservationCopyFormModel,
+  reservationExtraInfo,
 }: AdditionalRequestSectionProps) {
   const {
     formData: { requestContent },
@@ -20,11 +22,11 @@ export default function AdditionalRequestSection({
   const handleRequestContentInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     handleRequestContentChange(event.target.value);
   };
-  const { additionalRequest } = RESERVATION_FORM_INFORMATION_MOCK;
+  const additionalRequest = reservationExtraInfo?.additionalRequest ?? [];
 
   return (
     <>
-      {additionalRequest?.length ? (
+      {additionalRequest.length ? (
         <section>
           <span className='text-black-10 font-16-sb'>기타 요청 사항</span>
           <div className='bg-black-3 mt-[1rem] flex flex-col gap-[1.6rem] rounded-[0.6rem] p-[1.6rem]'>
@@ -32,7 +34,7 @@ export default function AdditionalRequestSection({
               <div key={title}>
                 <p className='text-black-7 caption-14-rg'>{title}</p>
                 <div className='mt-[0.8rem] flex flex-col gap-[0.4rem]'>
-                  {content.map((contentValue) => (
+                  {(content ?? []).map((contentValue) => (
                     <p key={contentValue} className='text-black-10 caption-14-rg'>
                       • {contentValue}
                     </p>
