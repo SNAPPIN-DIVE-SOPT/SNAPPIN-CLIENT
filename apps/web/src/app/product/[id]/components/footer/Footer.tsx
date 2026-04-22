@@ -29,7 +29,7 @@ export default function Footer({ productId, contactLink, isLogIn }: FooterProps)
   const handleReservationClick = () => {
     // 비로그인 -> 토스트 노출
     if (isLogIn === false) {
-      login('예약 기능은 로그인 후에 사용할 수 있어요.', TOAST_STYLE);
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', TOAST_STYLE, ROUTES.PRODUCT(productId));
       return;
     }
 
@@ -61,11 +61,12 @@ export default function Footer({ productId, contactLink, isLogIn }: FooterProps)
             label: '확인',
             size: 'medium',
             color: 'black',
-            onClick: () => router.push(ROUTES.ON_BOARDING(1, { returnTo: ROUTES.PRODUCT(productId) })),
+            onClick: () =>
+              router.push(ROUTES.ON_BOARDING(1, { returnTo: ROUTES.PRODUCT(productId) })),
           },
         ]}
       />
-    ))
+    ));
   };
 
   return (

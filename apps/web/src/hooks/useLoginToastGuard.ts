@@ -35,8 +35,8 @@ export const useLoginToastGuard = ({
     login(
       message ?? defaultToastMessage,
       toastPositionClassName ?? defaultToastPositionClassName,
-      duration,
       returnTo,
+      duration,
     );
   }, [authResolved, duration, isLoggedIn, login, message, returnTo, toastPositionClassName]);
 

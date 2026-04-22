@@ -10,6 +10,7 @@ import { RESERVATION_TAB } from '../constants/tabs';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { formatCreatedAt } from '@/utils/formatDate';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
+import { ROUTES } from '@/constants/routes/routes';
 
 export default function ShootCompletedListSection() {
   const { isLogIn } = useAuth();
@@ -18,7 +19,7 @@ export default function ShootCompletedListSection() {
 
   useEffect(() => {
     if (isLogIn === false) {
-      login('예약 기능은 로그인 후에 사용할 수 있어요.', 'bottom-[8.6rem]');
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', 'bottom-[8.6rem]', ROUTES.RESERVATIONS);
     }
   }, [isLogIn, login]);
 
