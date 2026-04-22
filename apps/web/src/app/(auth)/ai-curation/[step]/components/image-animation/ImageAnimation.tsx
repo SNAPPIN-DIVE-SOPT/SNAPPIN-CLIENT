@@ -32,7 +32,7 @@ export default function ImageAnimation({ step }: ImageAnimationProps) {
 
   const handleSelect = (id: number, isLoading: boolean) => {
     if (isLoading) {
-      error('이미지 로딩 중입니다. 잠시 후 다시 시도해주세요.', undefined, 'top-[2rem]');
+      error('이미지 로딩 중입니다. 잠시 후 다시 시도해주세요.', 'top-[2rem]');
       return;
     }
     toggleImageId(step, id);

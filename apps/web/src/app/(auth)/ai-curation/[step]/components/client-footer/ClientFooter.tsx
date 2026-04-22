@@ -24,7 +24,7 @@ export default function ClientFooter({ step }: ClientFooterProps) {
 
   const handleNextStep = async () => {
     if (!isSelected) {
-      error('마음에 드는 사진 한 장을 선택해 주세요', undefined, 'bottom-[8rem]');
+      error('마음에 드는 사진 한 장을 선택해 주세요', 'bottom-[8rem]');
       return;
     }
 
@@ -41,7 +41,7 @@ export default function ClientFooter({ step }: ClientFooterProps) {
       removeToast();
       router.push(ROUTES.AI_CURATION_RESULT);
     } catch {
-      error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
+      error('잠시 후 다시 시도해주세요.', 'bottom-[8rem]');
     }
   };
 

@@ -15,7 +15,7 @@ export default function ClientFooter() {
 
   const handleStartCuration = () => {
     if (isLogIn === false) {
-      login('로그인이 필요한 서비스입니다.', undefined, 'bottom-[8.5rem]');
+      login('로그인이 필요한 서비스입니다.', 'bottom-[8.5rem]');
       return;
     }
     prefetchAiCurationAll();

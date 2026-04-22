@@ -67,7 +67,7 @@ export default function ReviewFormSection({ reservationId }: ReviewFormSectionPr
 
         router.replace(ROUTES.RESERVATION(reservationId));
       } catch {
-        toast.error('잠시 후 다시 시도해주세요.', undefined, 'bottom-[8rem]');
+        toast.error('잠시 후 다시 시도해주세요.', 'bottom-[8rem]');
         router.back();
       }
     });

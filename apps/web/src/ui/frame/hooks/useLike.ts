@@ -37,7 +37,7 @@ export const useLikeButton = ({ id, isLiked, likeCount, mutate }: UseLikeButtonP
     }
 
     if (!isLogIn) {
-      error('로그인이 필요한 기능입니다.', undefined, 'bottom-[8.4rem]');
+      error('로그인이 필요한 기능입니다.', 'bottom-[8.4rem]');
       return;
     }
 

@@ -18,7 +18,7 @@ export default function LoginButton({ loginError, returnTo }: LoginButtonProps) 
 
   useEffect(() => {
     if (loginError === 'kakao') {
-      error('카카오 로그인에 실패했습니다. 다시 시도해주세요.', undefined, 'bottom-[8.5rem]');
+      error('카카오 로그인에 실패했습니다. 다시 시도해주세요.', 'bottom-[8.5rem]');
       return;
     }
 

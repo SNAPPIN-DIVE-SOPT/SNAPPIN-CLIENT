@@ -10,7 +10,14 @@ export default function ToastContainer() {
 
   return (
     <div className={cn('fixed-center z-50 w-full px-[1rem]', toast?.className)}>
-      {toast && <Toast type={toast.type} message={toast.message} duration={toast.duration} />}
+      {toast && (
+        <Toast
+          type={toast.type}
+          message={toast.message}
+          className={toast.className}
+          duration={toast.duration}
+        />
+      )}
     </div>
   );
 }
