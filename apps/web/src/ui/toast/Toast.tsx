@@ -17,7 +17,7 @@ const ANIMATION_DATA = {
   login: null,
 } as const;
 
-export default function Toast({ type, message, duration = 3000, className }: ToastProps) {
+export default function Toast({ type, message, className, duration = 3000 }: ToastProps) {
   const removeToast = useSetAtom(RemoveToastAtom);
   const [isFadingOut, setIsFadingOut] = useState(false);
 
