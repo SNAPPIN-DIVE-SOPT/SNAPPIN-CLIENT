@@ -6,12 +6,14 @@ type UseLoginToastGuardOptions = {
   message?: string;
   duration?: number;
   toastPositionClassName?: string;
+  returnTo?: string;
 };
 
 export const useLoginToastGuard = ({
   message,
   duration,
   toastPositionClassName,
+  returnTo,
 }: UseLoginToastGuardOptions) => {
   const { isLogIn } = useAuth();
   const { login } = useToast();
@@ -32,10 +34,11 @@ export const useLoginToastGuard = ({
 
     login(
       message ?? defaultToastMessage,
-      duration,
       toastPositionClassName ?? defaultToastPositionClassName,
+      duration,
+      returnTo,
     );
-  }, [authResolved, duration, isLoggedIn, login, message, toastPositionClassName]);
+  }, [authResolved, duration, isLoggedIn, login, message, returnTo, toastPositionClassName]);
 
   return { authResolved, isLoggedIn };
 };

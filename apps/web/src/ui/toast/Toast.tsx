@@ -1,14 +1,13 @@
 ﻿'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { RemoveToastAtom, ToastProps } from '@/ui';
-import { cn } from '@snappin/design-system/lib/cn';
 import { useSetAtom } from 'jotai';
 import Lottie from 'lottie-react';
 import { successAnimation, errorAnimation } from '@snappin/design-system/lotties';
-
-import Link from 'next/link';
 import { ROUTES } from '@/constants/routes/routes';
+import { RemoveToastAtom, ToastProps } from '@/ui';
+import { cn } from '@snappin/design-system/lib/cn';
 
 const FADE_MS = 300;
 const ANIMATION_DATA = {
@@ -17,7 +16,8 @@ const ANIMATION_DATA = {
   login: null,
 } as const;
 
-export default function Toast({ type, message, className, duration = 3000 }: ToastProps) {
+export default function Toast(props: ToastProps) {
+  const { type, message, className, duration = 3000 } = props;
   const removeToast = useSetAtom(RemoveToastAtom);
   const [isFadingOut, setIsFadingOut] = useState(false);
 
@@ -51,7 +51,10 @@ export default function Toast({ type, message, className, duration = 3000 }: Toa
       )}
       <div className='caption-14-rg text-black-1'>{message}</div>
       {type === 'login' && (
-        <Link href={ROUTES.LOGIN()} className='caption-14-md text-neon-black ml-[1rem] underline'>
+        <Link
+          href={ROUTES.LOGIN(props.returnTo ? { returnTo: props.returnTo } : undefined)}
+          className='caption-14-md text-neon-black ml-[1rem] underline'
+        >
           로그인하기
         </Link>
       )}

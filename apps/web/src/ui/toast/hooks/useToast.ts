@@ -19,8 +19,8 @@ export const useToast = () => {
       alert: (message: string, className?: string, duration?: number) =>
         addToast({ type: 'alert', message, duration, className }),
 
-      login: (message: string, className?: string, duration?: number) =>
-        addToast({ type: 'login', message, duration, className }),
+      login: (message: string, className?: string, duration?: number, returnTo?: string) =>
+        addToast({ type: 'login', message, duration, className, returnTo }),
 
       removeToast: () => removeToast(),
     }),
