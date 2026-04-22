@@ -71,7 +71,7 @@ export default function ReservationFormWrapper({
     <>
       <form onSubmit={handleFormSubmit}>
         <div className='flex flex-col gap-[3rem] p-[2rem]'>
-          {reservationApplicant ? <ApplicantInfoSection applicant={applicant} /> : null}
+          {reservationApplicant && <ApplicantInfoSection applicant={applicant} />}
           <ShootReservationSection
             reservationCopyFormModel={reservationCopyFormModel}
             reservationExtraInfo={reservationExtraInfo}
