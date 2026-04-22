@@ -26,7 +26,7 @@ export default function AdditionalRequestSection({
 
   return (
     <>
-      {additionalRequest.length ? (
+      {additionalRequest.length > 0 && (
         <section>
           <span className='text-black-10 font-16-sb'>기타 요청 사항</span>
           <div className='bg-black-3 mt-[1rem] flex flex-col gap-[1.6rem] rounded-[0.6rem] p-[1.6rem]'>
@@ -44,7 +44,7 @@ export default function AdditionalRequestSection({
             ))}
           </div>
         </section>
-      ) : null}
+      )}
 
       <section>
         <TextareaField

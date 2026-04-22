@@ -32,9 +32,8 @@ export default function useReservationCopyForm({
   maxPeopleCount,
 }: UseReservationCopyFormProps) {
   const effectiveMinDurationHours = minDurationHours ?? DURATION_HOURS.DEFAULT_MIN;
-  const effectiveMaxDurationHours = Math.max(
-    DURATION_HOURS.DEFAULT_MAX,
-    effectiveMinDurationHours,
+  const effectiveMaxDurationHours = Number(
+    (effectiveMinDurationHours + DURATION_HOURS.MAX_OFFSET).toFixed(1),
   );
   const effectiveMinPeopleCount = minPeopleCount ?? PEOPLE_COUNT.DEFAULT_MIN;
   const effectiveMaxPeopleCount = maxPeopleCount ?? PEOPLE_COUNT.DEFAULT_MAX;

@@ -1,6 +1,6 @@
 export const DURATION_HOURS = {
   DEFAULT_MIN: 1,
-  DEFAULT_MAX: 5,
+  MAX_OFFSET: 1,
   STEP: 0.5,
 } as const;
 
