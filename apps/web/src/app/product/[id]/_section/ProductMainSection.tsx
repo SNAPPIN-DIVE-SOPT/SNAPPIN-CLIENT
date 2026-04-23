@@ -5,6 +5,7 @@ import { formatPrice } from '@snappin/shared/lib';
 import { IconStar } from '@snappin/design-system/assets';
 import { ImageCarousel, LikeButton, TagChip } from '@snappin/design-system';
 import { useWishProductLike } from '@/ui/frame/apis';
+import { useLikeButton } from '@/ui/frame/hooks/useLike';
 
 type ProductMainSectionProps = {
   id: number;
@@ -31,13 +32,15 @@ export default function ProductMainSection({
   moods,
   isLogIn,
 }: ProductMainSectionProps) {
-  const { mutateAsync } = useWishProductLike({ id, isLogIn });
+  const { mutate: wishProduct} = useWishProductLike({ id, isLogIn });
+  const { liked, handleLike, currentLikeCount } = useLikeButton({
+    id,
+    isLiked,
+    likeCount,
+    mutate: wishProduct,
+  });
 
   const productImages = images.map((image) => ({ src: image, alt: title }));
-
-  const handleLike = async () => {
-    await mutateAsync(id);
-  };
 
   return (
     <section className='bg-black-1'>
@@ -49,8 +52,8 @@ export default function ProductMainSection({
           <div className='flex justify-between'>
             <h1 className='font-16-md text-black-10'>{title}</h1>
             <div className='flex h-[2.4rem] items-start'>
-              <LikeButton isLiked={isLiked} handleClick={handleLike} className='h-[2rem]' />
-              <span className='font-16-rg text-black-8'>{likeCount}</span>
+              <LikeButton isLiked={liked} handleClick={handleLike} className='h-[2rem]' />
+              <span className='font-16-rg text-black-8'>{currentLikeCount}</span>
             </div>
           </div>
           <span className='title-20-md text-black-10'>{formatPrice(price)}원~</span>
