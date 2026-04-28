@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/api/apiRequest.client';
 import { AUTH_QUERY_KEY } from '@/query-key/auth';
-import { PRODUCT_QUERY_KEY, USER_QUERY_KEY } from '@/query-key/user';
+import { USER_QUERY_KEY } from '@/query-key/user';
 import {
   GetOnboardingData,
   GetProductAvailableTimesData,
@@ -34,7 +34,7 @@ export const useGetReservationApplicant = (isEnabled: boolean) => {
 // 상품 예약 부가 안내 조회 API
 export const useGetReservationExtraInfo = (productId: number, isEnabled: boolean) => {
   return useQuery({
-    queryKey: PRODUCT_QUERY_KEY.EXTRA_INFO(productId),
+    queryKey: USER_QUERY_KEY.RESERVATION_EXTRA_INFO(productId),
     enabled: isEnabled,
     queryFn: async () => {
       const response = await apiRequest<GetProductExtraInfoData>({

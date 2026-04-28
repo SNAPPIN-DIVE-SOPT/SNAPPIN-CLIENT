@@ -56,6 +56,11 @@ export const USER_QUERY_KEY = {
   RESERVATION_LIST: (tab: string) => [...USER_QUERY_KEY.RESERVATION_LISTS(), tab],
   RESERVATION_DETAILS: () => [...USER_QUERY_KEY.RESERVATION_LISTS(), 'details'],
   RESERVATION_DETAIL: (id: number) => [...USER_QUERY_KEY.RESERVATION_DETAILS(), id],
+  RESERVATION_EXTRA_INFO: (productId: number) => [
+    ...USER_QUERY_KEY.RESERVATION,
+    'extra-info',
+    productId,
+  ],
 
   // 장소 관련
   PLACES: ['places'],
@@ -117,8 +122,6 @@ export const PRODUCT_QUERY_KEY = {
 
   LIKES: () => [...PRODUCT_QUERY_KEY.all, 'like'],
   LIKE: (id: number) => [...PRODUCT_QUERY_KEY.LIKES(), id],
-
-  EXTRA_INFO: (id: number) => [...PRODUCT_QUERY_KEY.all, 'extra-info', id],
 
   REVIEWS: (id: number) => [...PRODUCT_QUERY_KEY.all, 'reviews', id],
 
