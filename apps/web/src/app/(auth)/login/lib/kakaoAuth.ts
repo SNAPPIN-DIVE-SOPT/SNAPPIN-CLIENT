@@ -24,7 +24,7 @@ export const getKakaoAuthorizeUrl = (returnTo?: string) => {
 };
 
 export const getKakaoLoginApiUrl = () => {
-  if (!REDIRECT_URI) {
+  if (!REDIRECT_URI || !SERVER_API_BASE_URL) {
     return null;
   }
 

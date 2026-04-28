@@ -63,7 +63,11 @@ export default function useKakaoCallback() {
       return;
     }
 
-    if (!code) return;
+    if (!code) {
+      startedRef.current = true;
+      window.location.replace(ROUTES.LOGIN({ error: 'kakao' }));
+      return;
+    }
 
     startedRef.current = true;
 
