@@ -2,14 +2,15 @@
 
 import { useEffect, useRef, useMemo } from 'react';
 import { Divider } from '@snappin/design-system';
-import { EmptyView, ReservationCard, ReservationCardSkeleton } from '../components';
 import { useToast } from '@/ui';
 import { StateCode } from '@snappin/shared/types';
 import { formatCreatedAt } from '@/utils/formatDate';
-import { useGetReservationList } from '../api';
-import { RESERVATION_TAB } from '../constants/tabs';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
+import { ROUTES } from '@/constants/routes/routes';
+import { useGetReservationList } from '../api';
+import { RESERVATION_TAB } from '../constants/tabs';
+import { EmptyView, ReservationCard, ReservationCardSkeleton } from '../components';
 
 export default function ReservationListSection() {
   // 로그인 여부
@@ -33,7 +34,7 @@ export default function ReservationListSection() {
 
   useEffect(() => {
     if (isLogIn === false) {
-      login('예약 기능은 로그인 후에 사용할 수 있어요.', 'bottom-[8.6rem]');
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', 'bottom-[8.6rem]', ROUTES.RESERVATIONS);
     }
   }, [isLogIn, login]);
 
