@@ -27,6 +27,6 @@ export const G_TAG: { [key: string]: Base } = {
   PHOTOGRAPHER_JOIN: {
     label: '작가 입점 방법 알아보기',
     gtag: '작가 입점 방법 알아보기_click',
-    route: ROUTES.SNAPPIN_PHOTOGRAPHER_JOINT,
+    route: ROUTES.SNAPPIN_PHOTOGRAPHER_JOIN,
   },
 };
