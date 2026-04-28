@@ -24,7 +24,14 @@ export default function MarketingCTAButton({
       page_path: route,
     });
 
-    if (route) router.push(route);
+    if (!route) return;
+
+    if (route.startsWith('http://') || route.startsWith('https://')) {
+      window.open(route, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    router.push(route);
   };
 
   return (
