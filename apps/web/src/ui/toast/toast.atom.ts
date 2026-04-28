@@ -5,12 +5,9 @@ export const ToastDataAtom = atom<ToastProps | null>(null);
 
 export const ToastAtom = atom(
   null,
-  (_, set, { type, message, duration, className }: ToastProps) => {
+  (_, set, toast: ToastProps) => {
     const newToast = {
-      type,
-      message,
-      duration,
-      className,
+      ...toast,
       id: Date.now().toString(),
     };
 

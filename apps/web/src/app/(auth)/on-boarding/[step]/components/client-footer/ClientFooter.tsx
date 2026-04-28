@@ -38,7 +38,7 @@ export default function ClientFooter({ step, triggerFields }: ClientFooterProps)
       router.push(ROUTES.ON_BOARDING_FINAL(returnToParams));
     },
     onError: () => {
-      error('온보딩에 실패했어요. 홈으로 이동합니다.', undefined, 'bottom-[8.4rem]');
+      error('온보딩에 실패했어요. 홈으로 이동합니다.', 'bottom-[8.4rem]');
 
       timeoutRef.current = setTimeout(() => {
         router.push(ROUTES.HOME);

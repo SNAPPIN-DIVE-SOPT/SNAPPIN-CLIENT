@@ -127,7 +127,7 @@ export const useSwitchUserProfile = () => {
     },
 
     onError: () => {
-      error('프로필 전환에 실패했습니다. 잠시 후 다시 시도해주세요.', undefined, 'top-[2rem]');
+      error('프로필 전환에 실패했습니다. 잠시 후 다시 시도해주세요.', 'top-[2rem]');
     },
   });
 };

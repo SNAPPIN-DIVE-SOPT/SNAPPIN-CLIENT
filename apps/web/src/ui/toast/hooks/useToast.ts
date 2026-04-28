@@ -10,17 +10,17 @@ export const useToast = () => {
 
   return useMemo(
     () => ({
-      success: (message: string, duration?: number, className?: string) =>
+      success: (message: string, className?: string, duration?: number) =>
         addToast({ type: 'success', message, duration, className }),
 
-      error: (message: string, duration?: number, className?: string) =>
+      error: (message: string, className?: string, duration?: number) =>
         addToast({ type: 'error', message, duration, className }),
 
-      alert: (message: string, duration?: number, className?: string) =>
+      alert: (message: string, className?: string, duration?: number) =>
         addToast({ type: 'alert', message, duration, className }),
 
-      login: (message: string, duration?: number, className?: string) =>
-        addToast({ type: 'login', message, duration, className }),
+      login: (message: string, className?: string, returnTo?: string, duration?: number) =>
+        addToast({ type: 'login', message, duration, className, returnTo }),
 
       removeToast: () => removeToast(),
     }),
