@@ -4,18 +4,15 @@ import { type FormEvent } from 'react';
 import AdditionalRequestSection from '@/app/product/[id]/reservation-form/_form/AdditionalRequestSection';
 import ShootReservationSection from '@/app/product/[id]/reservation-form/_form/ShootReservationSection';
 import {
-  useGetReservationApplicant,
-  useGetReservationAvailableDurationTime,
-  useGetReservationAvailablePeopleRange,
-  useGetReservationExtraInfo,
-} from '@/app/product/[id]/reservation-form/api';
-import {
   ApplicantInfoSection,
   ClientFooter,
   SchedulePickerDrawers,
 } from '@/app/product/[id]/reservation-form/components';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { useReservationCopyForm } from '@/app/product/[id]/reservation-form/hooks';
+import {
+  useReservationCopyForm,
+  useReservationFormData,
+} from '@/app/product/[id]/reservation-form/hooks';
 
 type ReservationFormWrapperProps = {
   productId: number;
@@ -29,18 +26,14 @@ export default function ReservationFormWrapper({
   const { isLogIn } = useAuth();
   const isReservationInfoEnabled = isLogIn === true;
   const {
-    data: reservationApplicant,
-  } = useGetReservationApplicant(isReservationInfoEnabled);
-  const { data: reservationExtraInfo } = useGetReservationExtraInfo(
+    reservationApplicant,
+    reservationExtraInfo,
+    reservationAvailableDurationTime,
+    reservationAvailablePeopleRange,
+  } = useReservationFormData({
     productId,
-    isReservationInfoEnabled,
-  );
-  const {
-    data: reservationAvailableDurationTime,
-  } = useGetReservationAvailableDurationTime(productId, isReservationInfoEnabled);
-  const {
-    data: reservationAvailablePeopleRange,
-  } = useGetReservationAvailablePeopleRange(productId, isReservationInfoEnabled);
+    isEnabled: isReservationInfoEnabled,
+  });
   const applicant = {
     name: reservationApplicant?.name ?? '',
     phoneNumber: reservationApplicant?.phoneNumber ?? '',
