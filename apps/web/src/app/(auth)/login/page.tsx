@@ -1,16 +1,18 @@
 ﻿import { Logo } from '@snappin/design-system/assets';
 import { ImageSlide } from '@snappin/design-system';
 import { readReturnToContext } from '@/auth/utils/returnTo';
-import { ClientNavigation, LoginButton } from './components';
+import PageClient from './page.client';
+import { ClientNavigation } from './components';
 
 type PageProps = {
   searchParams: Promise<{
+    error?: string;
     returnTo?: string;
   }>;
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  const { returnTo: rawReturnTo } = await searchParams;
+  const { error, returnTo: rawReturnTo } = await searchParams;
   const returnTo = readReturnToContext(
     new URLSearchParams({
       returnTo: rawReturnTo ?? '',
@@ -27,7 +29,7 @@ export default async function Page({ searchParams }: PageProps) {
         </div>
         <ImageSlide />
         <div className='flex justify-center px-[2rem]'>
-          <LoginButton returnTo={returnTo} />
+          <PageClient error={error} returnTo={returnTo} />
         </div>
       </div>
     </div>

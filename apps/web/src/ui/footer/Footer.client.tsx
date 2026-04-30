@@ -31,7 +31,7 @@ export default function FooterClient({ initialUserType }: FooterClientProps) {
 
   const handleClickMenuItem = (href: string | null) => {
     if (href === null) {
-      error('준비 중입니다. 조금만 기다려주세요!', undefined, 'bottom-[8rem]');
+      error('준비 중입니다. 조금만 기다려주세요!', 'bottom-[8rem]');
       return;
     }
 

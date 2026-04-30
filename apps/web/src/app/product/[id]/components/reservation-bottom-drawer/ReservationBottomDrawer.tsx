@@ -111,7 +111,7 @@ export default function ReservationBottomDrawer({
       },
       onError: (error) => {
         const message = getErrorMessage(error);
-        toast.error(message, 3000, 'bottom-[8.6rem]');
+        toast.error(message, 'bottom-[8.6rem]', 3000);
         handleOpenChangeAction();
       },
     });

@@ -4,29 +4,15 @@ import { BottomCTAButton } from '@snappin/design-system';
 import { IconKakao } from '@snappin/design-system/assets';
 
 type LoginButtonProps = {
-  returnTo?: string;
+  onKakaoLogin: () => void;
 };
 
-export default function LoginButton({ returnTo }: LoginButtonProps) {
-  const clientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!;
-  const redirectUri = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL!;
-  const state = returnTo ? new URLSearchParams({ returnTo }).toString() : '';
-  const KAKAO_LOGIN_URL =
-    `https://kauth.kakao.com/oauth/authorize` +
-    `?response_type=code` +
-    `&client_id=${clientId}` +
-    `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-    (state ? `&state=${encodeURIComponent(state)}` : '');
-
-  const handleLogin = () => {
-    window.location.href = KAKAO_LOGIN_URL;
-  };
-
+export default function LoginButton({ onKakaoLogin }: LoginButtonProps) {
   return (
-    <BottomCTAButton fixed={true} hasPadding={true} className='z-100 px-[2rem]'>
+    <BottomCTAButton fixed hasPadding className='z-50 px-[2rem]'>
       <BottomCTAButton.Single
         color='primary'
-        onClick={handleLogin}
+        onClick={onKakaoLogin}
         className='bg-kakao flex items-center gap-[1rem]'
       >
         <IconKakao color='bg-black-10' />

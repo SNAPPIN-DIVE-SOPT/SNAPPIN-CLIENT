@@ -3,6 +3,7 @@
 import { TagChip, ImageCarousel, LikeButton } from '@snappin/design-system';
 import { MoodCode } from '@snappin/shared/types';
 import { useWishPortfolioLike } from '@/ui/frame/apis';
+import { useLikeButton } from '@/ui/frame/hooks/useLike';
 
 type PortfolioSectionProps = {
   id: number;
@@ -25,11 +26,13 @@ export default function PortfolioSection({
   moods,
   isLogIn,
 }: PortfolioSectionProps) {
-  const { mutate } = useWishPortfolioLike({ id, isLogIn });
-
-  const handleLike = () => {
-    mutate(id);
-  };
+  const { mutate: wishPortfolio} = useWishPortfolioLike({ id, isLogIn });
+  const { liked, handleLike, currentLikeCount } = useLikeButton({
+    id,
+    isLiked,
+    likeCount,
+    mutate: wishPortfolio,
+  });
 
   const portfolioImages = images.map((image) => ({
     src: image,
@@ -49,8 +52,8 @@ export default function PortfolioSection({
           </div>
           {/* 좋아요 */}
           <div className='flex items-start'>
-            <LikeButton isLiked={isLiked} handleClick={handleLike} className='h-[2rem]' />
-            <span className='font-16-rg text-black-8'>{likeCount}</span>
+            <LikeButton isLiked={liked} handleClick={handleLike} className='h-[2rem]' />
+            <span className='font-16-rg text-black-8'>{currentLikeCount}</span>
           </div>
         </div>
         {/* 무드 */}

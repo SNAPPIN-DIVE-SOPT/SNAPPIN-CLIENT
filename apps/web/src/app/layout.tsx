@@ -2,6 +2,7 @@ import { Metadata, Viewport } from 'next';
 import { preconnect, preload } from 'react-dom';
 import '@/styles/global.css';
 import { Providers } from './providers';
+import GoogleAnalytics from '@/lib/GoogleAnalytics';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -49,6 +50,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='ko'>
       <body>
+        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+        )}
         <Providers>{children}</Providers>
       </body>
     </html>
