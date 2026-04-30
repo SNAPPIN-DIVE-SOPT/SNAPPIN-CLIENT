@@ -12,11 +12,33 @@ import {
 } from './shared';
 import { explorePortfolioListOptions, exploreProductListOptions } from './options';
 
-const getExplorePortfolioListServer = async (
-  sp: URLSearchParams,
-  isLogIn: boolean,
-  cursor?: string,
-) => {
+type ExploreListEndpoint = typeof PORTFOLIO_ENDPOINT | typeof PRODUCT_ENDPOINT;
+
+type ExploreListResponse = {
+  data?: unknown;
+};
+
+type ExploreListServerParams = {
+  sp: URLSearchParams;
+  isLogIn: boolean;
+  endpoint: ExploreListEndpoint;
+  cursor?: string;
+};
+
+const buildExploreListUrl = (endpoint: ExploreListEndpoint, query: URLSearchParams) => {
+  const url = new URL(`${SERVER_API_BASE_URL}${endpoint}`);
+
+  query.forEach((value, key) => url.searchParams.set(key, value));
+
+  return url;
+};
+
+const requestExploreListServer = async <TData extends ExploreListResponse>({
+  sp,
+  isLogIn,
+  endpoint,
+  cursor,
+}: ExploreListServerParams) => {
   const query = buildExploreListQuery(sp);
 
   if (cursor) {
@@ -24,35 +46,46 @@ const getExplorePortfolioListServer = async (
   }
 
   if (isLogIn) {
-    const response = await apiRequest<GetPortfolioListData>({
-      endPoint: PORTFOLIO_ENDPOINT,
+    const response = await apiRequest<TData>({
+      endPoint: endpoint,
       method: 'GET',
       params: toRequestParams(query),
     });
 
     if (!response.data) {
-      throw new Error('/api/v2/portfolios response data is missing.');
+      throw new Error(`${endpoint} response data is missing.`);
     }
 
     return response;
   }
 
-  const url = new URL(`${SERVER_API_BASE_URL}${PORTFOLIO_ENDPOINT}`);
-  query.forEach((value, key) => url.searchParams.set(key, value));
-
+  const url = buildExploreListUrl(endpoint, query);
   const response = await fetch(url.toString(), { method: 'GET' });
 
   if (!response.ok) {
-    throw new Error('/api/v2/portfolios request failed.');
+    throw new Error(`${endpoint} request failed.`);
   }
 
   const data = await response.json();
 
   if (!data?.data) {
-    throw new Error('/api/v2/portfolios response data is missing.');
+    throw new Error(`${endpoint} response data is missing.`);
   }
 
-  return data as GetPortfolioListData;
+  return data as TData;
+};
+
+const getExplorePortfolioListServer = async (
+  sp: URLSearchParams,
+  isLogIn: boolean,
+  cursor?: string,
+) => {
+  return requestExploreListServer<GetPortfolioListData>({
+    sp,
+    isLogIn,
+    cursor,
+    endpoint: PORTFOLIO_ENDPOINT,
+  });
 };
 
 const getExploreProductListServer = async (
@@ -60,42 +93,12 @@ const getExploreProductListServer = async (
   isLogIn: boolean,
   cursor?: string,
 ) => {
-  const query = buildExploreListQuery(sp);
-
-  if (cursor) {
-    query.set('cursor', cursor);
-  }
-
-  if (isLogIn) {
-    const response = await apiRequest<GetProductListData>({
-      endPoint: PRODUCT_ENDPOINT,
-      method: 'GET',
-      params: toRequestParams(query),
-    });
-
-    if (!response.data) {
-      throw new Error('/api/v2/products response data is missing.');
-    }
-
-    return response;
-  }
-
-  const url = new URL(`${SERVER_API_BASE_URL}${PRODUCT_ENDPOINT}`);
-  query.forEach((value, key) => url.searchParams.set(key, value));
-
-  const response = await fetch(url.toString(), { method: 'GET' });
-
-  if (!response.ok) {
-    throw new Error('/api/v2/products request failed.');
-  }
-
-  const data = await response.json();
-
-  if (!data?.data) {
-    throw new Error('/api/v2/products response data is missing.');
-  }
-
-  return data as GetProductListData;
+  return requestExploreListServer<GetProductListData>({
+    sp,
+    isLogIn,
+    cursor,
+    endpoint: PRODUCT_ENDPOINT,
+  });
 };
 
 export const prefetchExplorePortfolioList = (
