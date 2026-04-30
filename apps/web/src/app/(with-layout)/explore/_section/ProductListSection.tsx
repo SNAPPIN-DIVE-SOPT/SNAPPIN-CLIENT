@@ -1,12 +1,10 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { useMemo, useRef } from 'react';
 import { GetProductCardResponseV2 } from '@/swagger-api';
 import { useGetProductList } from '@/app/(with-layout)/explore/api';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
-import { useAuth } from '@/auth/hooks/useAuth';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import type { ProductFrameProps } from '@/ui/frame/product/ProductFrame';
 import FrameProductList from '@/ui/frame/product/ProductList';
@@ -30,22 +28,15 @@ const toProductFrameProps = (products: GetProductCardResponseV2[] = []): Product
     }));
 };
 
-export default function ProductListSection() {
-  const { isLogIn } = useAuth();
-  const sp = useSearchParams();
-
-  if (isLogIn === null) return null;
-
-  return <ProductListSectionContent isLogIn={isLogIn} searchParams={sp.toString()} />;
-}
-
-function ProductListSectionContent({
-  isLogIn,
-  searchParams,
-}: {
+type ProductListSectionProps = {
   isLogIn: boolean;
   searchParams: string;
-}) {
+};
+
+export default function ProductListSection({
+  isLogIn,
+  searchParams,
+}: ProductListSectionProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, dataUpdatedAt } = useGetProductList(
     new URLSearchParams(searchParams),
     isLogIn,
