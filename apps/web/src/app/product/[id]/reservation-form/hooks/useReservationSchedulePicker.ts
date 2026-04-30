@@ -61,6 +61,16 @@ export default function useReservationSchedulePicker({
       return;
     }
 
+    // 날짜 선택 시, 시간 선택 초기화
+    const currentScheduleSelection = formData.schedules[activeScheduleChoiceKey];
+    const hasScheduleDateChanged =
+      scheduleSelectionChangeField === 'date' &&
+      currentScheduleSelection.date !== scheduleSelectionValue;
+
+    if (hasScheduleDateChanged) {
+      setValue(`schedules.${activeScheduleChoiceKey}.time`, '', { shouldValidate: true });
+    }
+
     setValue(
       `schedules.${activeScheduleChoiceKey}.${scheduleSelectionChangeField}`,
       scheduleSelectionValue,

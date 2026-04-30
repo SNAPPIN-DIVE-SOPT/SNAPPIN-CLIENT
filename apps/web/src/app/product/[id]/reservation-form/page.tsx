@@ -23,5 +23,5 @@ export default async function Page({ params }: ReservationFormPageProps) {
     return notFound();
   }
 
-  return <PageClient photographerId={photographerId} />;
+  return <PageClient productId={productId} photographerId={photographerId} />;
 }
