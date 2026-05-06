@@ -6,6 +6,7 @@ type ExploreHeaderProps = {
   currentTab: ExploreTab;
   headline: string;
   isPlaceholder: boolean;
+  isLogIn: boolean;
   searchSheetKey: string;
   portfolioTabHref: string;
   productTabHref: string;
@@ -15,6 +16,7 @@ export default function ExploreHeader({
   currentTab,
   headline,
   isPlaceholder,
+  isLogIn,
   searchSheetKey,
   portfolioTabHref,
   productTabHref,
@@ -30,6 +32,7 @@ export default function ExploreHeader({
       </div>
       <OptionSection
         currentTab={currentTab}
+        isLogIn={isLogIn}
         portfolioTabHref={portfolioTabHref}
         productTabHref={productTabHref}
       />

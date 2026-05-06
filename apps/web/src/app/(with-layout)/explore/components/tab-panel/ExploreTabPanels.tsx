@@ -9,9 +9,15 @@ import ProductListSection from '@/app/(with-layout)/explore/_section/ProductList
 
 type ExploreTabPanelsProps = {
   currentTab: ExploreTab;
+  isLogIn: boolean;
+  searchParams: string;
 };
 
-export default function ExploreTabPanels({ currentTab }: ExploreTabPanelsProps) {
+export default function ExploreTabPanels({
+  currentTab,
+  isLogIn,
+  searchParams,
+}: ExploreTabPanelsProps) {
   return (
     <ExploreDetailBackBoundary className='flex min-h-0 flex-1 flex-col overflow-hidden'>
       {currentTab === EXPLORE_TAB.PORTFOLIO && (
@@ -20,7 +26,7 @@ export default function ExploreTabPanels({ currentTab }: ExploreTabPanelsProps) 
           className='scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-contain'
         >
           <Suspense fallback={<PortfolioFrameListSkeleton />}>
-            <PortfolioListSection />
+            <PortfolioListSection isLogIn={isLogIn} searchParams={searchParams} />
           </Suspense>
         </div>
       )}
@@ -31,7 +37,7 @@ export default function ExploreTabPanels({ currentTab }: ExploreTabPanelsProps) 
           className='scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-contain'
         >
           <Suspense fallback={<ProductFrameListSkeleton />}>
-            <ProductListSection />
+            <ProductListSection isLogIn={isLogIn} searchParams={searchParams} />
           </Suspense>
         </div>
       )}

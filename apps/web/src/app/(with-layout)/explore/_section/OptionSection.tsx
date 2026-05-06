@@ -16,12 +16,14 @@ const TABS = [{ value: EXPLORE_TAB.PORTFOLIO }, { value: EXPLORE_TAB.PRODUCT }];
 
 type OptionSectionProps = {
   currentTab: ExploreTab;
+  isLogIn: boolean;
   portfolioTabHref: string;
   productTabHref: string;
 };
 
 export default function OptionSection({
   currentTab,
+  isLogIn,
   portfolioTabHref,
   productTabHref,
 }: OptionSectionProps) {
@@ -49,7 +51,7 @@ export default function OptionSection({
         </Tabs.List>
       </div>
       <ExploreFilter />
-      <ExploreResultToolbar currentTab={currentTab} />
+      <ExploreResultToolbar currentTab={currentTab} isLogIn={isLogIn} />
     </div>
   );
 }

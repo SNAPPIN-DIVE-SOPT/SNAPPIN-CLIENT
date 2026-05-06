@@ -11,10 +11,14 @@ import { resolveExploreSort } from '@/app/(with-layout)/explore/utils/query';
 
 type ExploreResultToolbarProps = {
   currentTab: ExploreTab;
+  isLogIn: boolean;
 };
 
-export default function ExploreResultToolbar({ currentTab }: ExploreResultToolbarProps) {
-  const count = useExploreResultCount(currentTab);
+export default function ExploreResultToolbar({
+  currentTab,
+  isLogIn,
+}: ExploreResultToolbarProps) {
+  const count = useExploreResultCount(currentTab, isLogIn);
   const searchParams = useSearchParams();
   const currentSort = resolveExploreSort(searchParams.get('sort'));
 

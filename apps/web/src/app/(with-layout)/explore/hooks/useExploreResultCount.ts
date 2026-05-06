@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation';
 import { InfiniteData, QueryKey, useQueryClient } from '@tanstack/react-query';
 import { GetPortfolioListData, GetProductListData } from '@/swagger-api';
 import { ExploreTab, EXPLORE_TAB } from '@/app/(with-layout)/explore/constants/tab';
-import { useAuth } from '@/auth/hooks/useAuth';
 import {
   getExplorePortfolioListQueryKey,
   getExploreProductListQueryKey,
@@ -22,16 +21,13 @@ const getResultCount = (
   return cachedData?.pages[0]?.meta?.totalCount ?? 0;
 };
 
-export const useExploreResultCount = (currentTab: ExploreTab) => {
+export const useExploreResultCount = (currentTab: ExploreTab, isLogIn: boolean) => {
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
-  const { isLogIn } = useAuth();
 
   return useSyncExternalStore(
     (onStoreChange) => queryClient.getQueryCache().subscribe(onStoreChange),
     () => {
-      if (isLogIn === null) return 0;
-
       const queryKey =
         currentTab === EXPLORE_TAB.PORTFOLIO
           ? getExplorePortfolioListQueryKey(new URLSearchParams(searchParams.toString()), isLogIn)

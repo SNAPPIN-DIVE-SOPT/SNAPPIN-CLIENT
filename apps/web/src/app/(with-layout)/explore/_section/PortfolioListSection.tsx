@@ -1,12 +1,10 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { useMemo, useRef } from 'react';
 import { GetPortfolioCardResponseV2 } from '@/swagger-api';
 import { useGetPortfolioList } from '@/app/(with-layout)/explore/api';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
-import { useAuth } from '@/auth/hooks/useAuth';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import type { PortfolioFrameProps } from '@/ui/frame/portfolio/PortfolioFrame';
 import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
@@ -27,22 +25,15 @@ const toPortfolioFrameProps = (
     }));
 };
 
-export default function PortfolioListSection() {
-  const { isLogIn } = useAuth();
-  const sp = useSearchParams();
-
-  if (isLogIn === null) return null;
-
-  return <PortfolioListSectionContent isLogIn={isLogIn} searchParams={sp.toString()} />;
-}
-
-function PortfolioListSectionContent({
-  isLogIn,
-  searchParams,
-}: {
+type PortfolioListSectionProps = {
   isLogIn: boolean;
   searchParams: string;
-}) {
+};
+
+export default function PortfolioListSection({
+  isLogIn,
+  searchParams,
+}: PortfolioListSectionProps) {
   const scrollKey = useMemo(() => {
     const allowed = toExploreSearchParams(new URLSearchParams(searchParams));
 
