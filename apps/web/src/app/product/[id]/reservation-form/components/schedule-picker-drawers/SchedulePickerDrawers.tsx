@@ -1,17 +1,27 @@
+import { useState } from 'react';
 import { BottomDrawer, DatePicker, DrawerDescription, DrawerTitle } from '@snappin/design-system';
-import { PRIMARY_SCHEDULE_CHOICE_KEY, SCHEDULE_CHOICE_KEY } from '@/app/product/[id]/reservation-form/constants';
+import {
+  useGetReservationAvailableTimes,
+  useGetReservationClosedDates,
+} from '@/app/product/[id]/reservation-form/api';
+import {
+  PRIMARY_SCHEDULE_CHOICE_KEY,
+  SCHEDULE_CHOICE_KEY,
+} from '@/app/product/[id]/reservation-form/constants';
 import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-form/hooks';
-import RESERVATION_TIME_PICKER_MOCK from '@/app/product/[id]/reservation-form/mock/reservationTimePicker.mock';
 import { hasCompletedSchedule } from '@/app/product/[id]/reservation-form/utils';
 import { TimePicker } from '@/ui/time-picker';
 
 type SchedulePickerDrawersProps = {
+  productId: number;
   reservationCopyFormModel: Pick<ReservationCopyFormModel, 'formData' | 'viewState' | 'actions'>;
 };
 
 export default function SchedulePickerDrawers({
+  productId,
   reservationCopyFormModel,
 }: SchedulePickerDrawersProps) {
+  const [viewMonth, setViewMonth] = useState(new Date());
   const {
     formData: { schedules: scheduleSelections },
     viewState: {
@@ -66,18 +76,32 @@ export default function SchedulePickerDrawers({
           return scheduleSelection.time;
         })
     : [];
+  const activeScheduleDate = activeScheduleSelection?.date ?? '';
+  const { data: reservationClosedDates = [] } = useGetReservationClosedDates(
+    productId,
+    viewMonth,
+    isDatePickerBottomDrawerOpen,
+  );
+  const { data: reservationAvailableTimes } = useGetReservationAvailableTimes(
+    productId,
+    activeScheduleDate,
+    isTimePickerBottomDrawerOpen,
+  );
+  const closedDates = Array.from(new Set([...reservationClosedDates, ...blockedDates]));
 
-  const reservationTimePickerSections = RESERVATION_TIME_PICKER_MOCK.map((section) => {
-    return {
-      ...section,
-      slots: (section.slots ?? []).map((slot) => {
-        return {
-          ...slot,
-          isAvailable: slot.isAvailable && !blockedTimes.includes(slot.time ?? ''),
-        };
-      }),
-    };
-  });
+  const reservationTimePickerSections = (reservationAvailableTimes?.sections ?? []).map(
+    (section) => {
+      return {
+        ...section,
+        slots: (section.slots ?? []).map((slot) => {
+          return {
+            ...slot,
+            isAvailable: Boolean(slot.isAvailable) && !blockedTimes.includes(slot.time ?? ''),
+          };
+        }),
+      };
+    },
+  );
 
   return (
     <>
@@ -100,7 +124,9 @@ export default function SchedulePickerDrawers({
                   ? (scheduleSelections[activeScheduleChoiceKey]?.date ?? '')
                   : ''
               }
-              closedDates={blockedDates}
+              viewDateMonth={viewMonth}
+              handleMonthChangeAction={setViewMonth}
+              closedDates={closedDates}
               handleDateChangeAction={(scheduleDate) =>
                 handleScheduleSelection('date', scheduleDate)
               }

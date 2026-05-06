@@ -1,12 +1,12 @@
 export const DURATION_HOURS = {
-  MIN: 1,
-  MAX: 2,
+  DEFAULT_MIN: 1,
+  MAX_OFFSET: 1,
   STEP: 0.5,
 } as const;
 
 export const PEOPLE_COUNT = {
-  MIN: 1,
-  MAX: 15,
+  DEFAULT_MIN: 1,
+  DEFAULT_MAX: 15,
   STEP: 1,
 } as const;
 

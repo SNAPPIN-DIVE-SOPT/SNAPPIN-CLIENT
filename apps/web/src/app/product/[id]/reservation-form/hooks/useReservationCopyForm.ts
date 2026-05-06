@@ -1,12 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
+  createReservationCopyFormSchema,
   DURATION_HOURS,
   PEOPLE_COUNT,
   SCHEDULE_CHOICE_KEY,
-  reservationCopyFormSchema,
   type ReservationCopyFormInput,
   type ReservationCopyFormOutput,
 } from '@/app/product/[id]/reservation-form/constants';
@@ -18,12 +19,35 @@ import { createDefaultReservationCopyFormValue } from '@/app/product/[id]/reserv
 
 type UseReservationCopyFormProps = {
   applicant: ReservationApplicant;
+  minDurationHours?: number;
+  minPeopleCount?: number;
+  maxPeopleCount?: number;
 };
 
 // 예약 신청 양식 폼 훅
-export default function useReservationCopyForm({ applicant }: UseReservationCopyFormProps) {
+export default function useReservationCopyForm({
+  applicant,
+  minDurationHours,
+  minPeopleCount,
+  maxPeopleCount,
+}: UseReservationCopyFormProps) {
+  const effectiveMinDurationHours = minDurationHours ?? DURATION_HOURS.DEFAULT_MIN;
+  const effectiveMaxDurationHours = Number(
+    (effectiveMinDurationHours + DURATION_HOURS.MAX_OFFSET).toFixed(1),
+  );
+  const effectiveMinPeopleCount = minPeopleCount ?? PEOPLE_COUNT.DEFAULT_MIN;
+  const effectiveMaxPeopleCount = maxPeopleCount ?? PEOPLE_COUNT.DEFAULT_MAX;
+  const reservationCopyFormSchema = createReservationCopyFormSchema({
+    minDurationHours: effectiveMinDurationHours,
+    maxDurationHours: effectiveMaxDurationHours,
+    minPeopleCount: effectiveMinPeopleCount,
+    maxPeopleCount: effectiveMaxPeopleCount,
+  });
   const defaultReservationCopyFormValue: ReservationCopyFormInput =
-    createDefaultReservationCopyFormValue();
+    createDefaultReservationCopyFormValue({
+      minDurationHours: effectiveMinDurationHours,
+      minPeopleCount: effectiveMinPeopleCount,
+    });
 
   const {
     setValue,
@@ -40,6 +64,32 @@ export default function useReservationCopyForm({ applicant }: UseReservationCopy
   // form 값이 변경될 때마다 최신 값을 가져옴
   const formData = watch();
   const isCopyDisabled = !reservationCopyFormSchema.safeParse(formData).success;
+
+  useEffect(() => {
+    const currentDurationHours = getValues('durationHours');
+
+    if (currentDurationHours < effectiveMinDurationHours) {
+      setValue('durationHours', effectiveMinDurationHours, { shouldValidate: true });
+      return;
+    }
+
+    if (currentDurationHours > effectiveMaxDurationHours) {
+      setValue('durationHours', effectiveMaxDurationHours, { shouldValidate: true });
+    }
+  }, [effectiveMaxDurationHours, effectiveMinDurationHours, getValues, setValue]);
+
+  useEffect(() => {
+    const currentPeopleCount = getValues('peopleCount');
+
+    if (currentPeopleCount < effectiveMinPeopleCount) {
+      setValue('peopleCount', effectiveMinPeopleCount, { shouldValidate: true });
+      return;
+    }
+
+    if (currentPeopleCount > effectiveMaxPeopleCount) {
+      setValue('peopleCount', effectiveMaxPeopleCount, { shouldValidate: true });
+    }
+  }, [effectiveMaxPeopleCount, effectiveMinPeopleCount, getValues, setValue]);
 
   const { placeOptions, handlePlaceKeywordChange, handlePlaceBlur } = useReservationPlaceField({
     placeKeyword: formData.placeKeyword,
@@ -65,8 +115,8 @@ export default function useReservationCopyForm({ applicant }: UseReservationCopy
       const currentDurationHours = getValues('durationHours');
       const nextDurationHours = Number(
         Math.min(
-          DURATION_HOURS.MAX,
-          Math.max(DURATION_HOURS.MIN, currentDurationHours - DURATION_HOURS.STEP),
+          effectiveMaxDurationHours,
+          Math.max(effectiveMinDurationHours, currentDurationHours - DURATION_HOURS.STEP),
         ).toFixed(1),
       );
 
@@ -76,8 +126,8 @@ export default function useReservationCopyForm({ applicant }: UseReservationCopy
       const currentDurationHours = getValues('durationHours');
       const nextDurationHours = Number(
         Math.min(
-          DURATION_HOURS.MAX,
-          Math.max(DURATION_HOURS.MIN, currentDurationHours + DURATION_HOURS.STEP),
+          effectiveMaxDurationHours,
+          Math.max(effectiveMinDurationHours, currentDurationHours + DURATION_HOURS.STEP),
         ).toFixed(1),
       );
 
@@ -90,8 +140,8 @@ export default function useReservationCopyForm({ applicant }: UseReservationCopy
     decrease: () => {
       const currentPeopleCount = getValues('peopleCount');
       const nextPeopleCount = Math.min(
-        PEOPLE_COUNT.MAX,
-        Math.max(PEOPLE_COUNT.MIN, currentPeopleCount - PEOPLE_COUNT.STEP),
+        effectiveMaxPeopleCount,
+        Math.max(effectiveMinPeopleCount, currentPeopleCount - PEOPLE_COUNT.STEP),
       );
 
       setValue('peopleCount', nextPeopleCount, { shouldValidate: true });
@@ -99,8 +149,8 @@ export default function useReservationCopyForm({ applicant }: UseReservationCopy
     increase: () => {
       const currentPeopleCount = getValues('peopleCount');
       const nextPeopleCount = Math.min(
-        PEOPLE_COUNT.MAX,
-        Math.max(PEOPLE_COUNT.MIN, currentPeopleCount + PEOPLE_COUNT.STEP),
+        effectiveMaxPeopleCount,
+        Math.max(effectiveMinPeopleCount, currentPeopleCount + PEOPLE_COUNT.STEP),
       );
 
       setValue('peopleCount', nextPeopleCount, { shouldValidate: true });
@@ -160,6 +210,10 @@ export default function useReservationCopyForm({ applicant }: UseReservationCopy
   const viewState = {
     placeOptions,
     ...schedulePicker.viewState,
+    minDurationHours: effectiveMinDurationHours,
+    maxDurationHours: effectiveMaxDurationHours,
+    minPeopleCount: effectiveMinPeopleCount,
+    maxPeopleCount: effectiveMaxPeopleCount,
     isCopyPending,
     isCopyDisabled,
   };

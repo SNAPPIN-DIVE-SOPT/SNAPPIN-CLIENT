@@ -1,7 +1,5 @@
 import { z } from 'zod';
 import {
-  DURATION_HOURS,
-  PEOPLE_COUNT,
   PRIMARY_SCHEDULE_CHOICE_KEY,
   RESERVATION_COPY_FORM_ERROR_MESSAGE,
   REQUEST_CONTENT,
@@ -58,23 +56,36 @@ const reservationSchedulesSchema = z
     });
   });
 
-// 예약 폼 전체 스키마
-export const reservationCopyFormSchema = z.object({
-  placeId: z.string().min(1, RESERVATION_COPY_FORM_ERROR_MESSAGE.PLACE_ID_REQUIRED),
-  placeKeyword: z.string().min(1, RESERVATION_COPY_FORM_ERROR_MESSAGE.PLACE_KEYWORD_REQUIRED),
-  durationHours: z.number().min(DURATION_HOURS.MIN).max(DURATION_HOURS.MAX),
-  peopleCount: z.number().min(PEOPLE_COUNT.MIN).max(PEOPLE_COUNT.MAX),
-  schedules: reservationSchedulesSchema,
-  uploadConsentStatus: z
-    .enum(UPLOAD_CONSENT_STATUS_KEY)
-    .optional()
-    .refine((value) => value !== undefined, {
-      message: RESERVATION_COPY_FORM_ERROR_MESSAGE.UPLOAD_CONSENT_REQUIRED,
-    }),
-  requestContent: z
-    .string()
-    .max(REQUEST_CONTENT.MAX_LENGTH, RESERVATION_COPY_FORM_ERROR_MESSAGE.REQUEST_CONTENT_MAX),
-});
+type CreateReservationCopyFormSchemaProps = {
+  minDurationHours: number;
+  maxDurationHours: number;
+  minPeopleCount: number;
+  maxPeopleCount: number;
+};
 
-export type ReservationCopyFormInput = z.input<typeof reservationCopyFormSchema>;
-export type ReservationCopyFormOutput = z.output<typeof reservationCopyFormSchema>;
+// 예약 폼 전체 스키마
+export const createReservationCopyFormSchema = ({
+  minDurationHours,
+  maxDurationHours,
+  minPeopleCount,
+  maxPeopleCount,
+}: CreateReservationCopyFormSchemaProps) =>
+  z.object({
+    placeId: z.string().min(1, RESERVATION_COPY_FORM_ERROR_MESSAGE.PLACE_ID_REQUIRED),
+    placeKeyword: z.string().min(1, RESERVATION_COPY_FORM_ERROR_MESSAGE.PLACE_KEYWORD_REQUIRED),
+    durationHours: z.number().min(minDurationHours).max(maxDurationHours),
+    peopleCount: z.number().min(minPeopleCount).max(maxPeopleCount),
+    schedules: reservationSchedulesSchema,
+    uploadConsentStatus: z
+      .enum(UPLOAD_CONSENT_STATUS_KEY)
+      .optional()
+      .refine((value) => value !== undefined, {
+        message: RESERVATION_COPY_FORM_ERROR_MESSAGE.UPLOAD_CONSENT_REQUIRED,
+      }),
+    requestContent: z
+      .string()
+      .max(REQUEST_CONTENT.MAX_LENGTH, RESERVATION_COPY_FORM_ERROR_MESSAGE.REQUEST_CONTENT_MAX),
+  });
+
+export type ReservationCopyFormInput = z.input<ReturnType<typeof createReservationCopyFormSchema>>;
+export type ReservationCopyFormOutput = z.output<ReturnType<typeof createReservationCopyFormSchema>>;

@@ -2,8 +2,6 @@ import { type ReactNode } from 'react';
 import { Button, ComboBox, ControlRow, FieldMessage, Stepper } from '@snappin/design-system';
 import { DateButton } from '@/app/product/[id]/reservation-form/components';
 import {
-  DURATION_HOURS,
-  PEOPLE_COUNT,
   PRIMARY_SCHEDULE_CHOICE_KEY,
   SCHEDULE_CHOICE,
   SCHEDULE_CHOICE_KEY,
@@ -12,19 +10,20 @@ import {
   UPLOAD_CONSENT_STATUS_KEY,
 } from '@/app/product/[id]/reservation-form/constants';
 import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-form/hooks';
-import RESERVATION_FORM_INFORMATION_MOCK from '@/app/product/[id]/reservation-form/mock/reservationFormInformation.mock';
 import {
   createDurationLabel,
   createScheduleDateLabel,
   createScheduleTimeLabel,
   hasSelectableScheduleChoice,
 } from '@/app/product/[id]/reservation-form/utils';
+import { type GetProductExtraInfoResponse } from '@/swagger-api';
 
 type ShootReservationSectionProps = {
   reservationCopyFormModel: Pick<
     ReservationCopyFormModel,
     'formData' | 'errors' | 'viewState' | 'actions'
   >;
+  reservationExtraInfo?: GetProductExtraInfoResponse;
 };
 
 type RequiredLabelProps = {
@@ -41,6 +40,7 @@ const RequiredLabel = ({ children }: RequiredLabelProps) => {
 
 export default function ShootReservationSection({
   reservationCopyFormModel,
+  reservationExtraInfo,
 }: ShootReservationSectionProps) {
   const {
     formData: {
@@ -55,7 +55,13 @@ export default function ShootReservationSection({
       schedules: schedulesErrorMessage,
       uploadConsentStatus: uploadConsentStatusErrorMessage,
     },
-    viewState: { placeOptions },
+    viewState: {
+      placeOptions,
+      minDurationHours,
+      maxDurationHours,
+      minPeopleCount,
+      maxPeopleCount,
+    },
     actions: {
       handlePlaceKeywordChange,
       handlePlaceBlur,
@@ -65,10 +71,10 @@ export default function ShootReservationSection({
       handleSchedulePickerOpen,
     },
   } = reservationCopyFormModel;
-  const { uploadConsent } = RESERVATION_FORM_INFORMATION_MOCK;
+  const uploadConsent = reservationExtraInfo?.uploadConsent;
   const uploadConsentNotes = UPLOAD_CONSENT_STATUS_KEY.flatMap((key) => {
     const uploadConsentNote =
-      key === 'agree' ? uploadConsent.agreeNote : uploadConsent.disagreeNote;
+      key === 'agree' ? uploadConsent?.agreeNote : uploadConsent?.disagreeNote;
 
     return uploadConsentNote
       ? [
@@ -106,8 +112,8 @@ export default function ShootReservationSection({
             value={createDurationLabel(durationHours)}
             handleClickMinus={handleDurationHoursStep.decrease}
             handleClickAdd={handleDurationHoursStep.increase}
-            isDisabledMinus={durationHours <= DURATION_HOURS.MIN}
-            isDisabledAdd={durationHours >= DURATION_HOURS.MAX}
+            isDisabledMinus={durationHours <= minDurationHours}
+            isDisabledAdd={durationHours >= maxDurationHours}
           />
         }
       />
@@ -120,8 +126,8 @@ export default function ShootReservationSection({
             value={`${peopleCount}명`}
             handleClickMinus={handlePeopleCountStep.decrease}
             handleClickAdd={handlePeopleCountStep.increase}
-            isDisabledMinus={peopleCount <= PEOPLE_COUNT.MIN}
-            isDisabledAdd={peopleCount >= PEOPLE_COUNT.MAX}
+            isDisabledMinus={peopleCount <= minPeopleCount}
+            isDisabledAdd={peopleCount >= maxPeopleCount}
           />
         }
       />
@@ -148,7 +154,7 @@ export default function ShootReservationSection({
                 <DateButton
                   value={createScheduleTimeLabel(scheduleTime)}
                   hasValue={scheduleTime.length > 0}
-                  disabled={isScheduleChoiceDisabled}
+                  disabled={isScheduleChoiceDisabled || scheduleDate.length === 0}
                   handleClick={() => handleSchedulePickerOpen(key, 'time')}
                 />
               </div>
