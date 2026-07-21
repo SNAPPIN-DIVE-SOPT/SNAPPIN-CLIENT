@@ -52,3 +52,6 @@ storybook-static
 
 docs/
 AGENTS.md
+
+# Claude Code personal overrides (not shared with team)
+.claude/settings.local.json
