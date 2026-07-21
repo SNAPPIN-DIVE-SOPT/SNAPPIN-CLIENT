@@ -1,6 +1,6 @@
 # React 19 / Vercel 배포 모범 사례
 
-이 프로젝트(snappin-client)는 Next.js 16 (App Router) + React 19 + Vercel 배포를 기준으로 합니다. 팀 컨벤션(`../code-convention-reviewer/references/conventions.md`)과 충돌하면 팀 컨벤션이 우선합니다.
+이 프로젝트(snappin-client)는 Next.js 16 (App Router) + React 19 + Vercel 배포를 기준으로 합니다. 팀 컨벤션(`../../code-convention-reviewer/references/conventions.md`)과 충돌하면 팀 컨벤션이 우선합니다.
 
 **Next.js App Router 자체의 메커니즘(RSC 경계, hydration, 비동기 API, 라우트 컨벤션, 이미지/폰트, 번들링 등)은 `next-best-practices` 스킬이 훨씬 상세하게 다룹니다.** 이 문서는 그와 겹치지 않는, React 19 성능 최적화와 Vercel 플랫폼 관점만 다룹니다.
 
