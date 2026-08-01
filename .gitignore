@@ -50,7 +50,12 @@ storybook-static
 .turbo
 .swc
 
-docs/
+docs/*
+!docs/conventions.md
+!docs/git-conventions.md
+!docs/agents/
+docs/agents/*
+!docs/agents/issue-tracker.md
 AGENTS.md
 
 # Claude Code personal overrides (not shared with team)

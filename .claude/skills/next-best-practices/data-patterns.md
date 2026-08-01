@@ -20,4 +20,4 @@
 
 가능하면 Server Component에서 미리 가져온 데이터를 props로 내려준다. 클라이언트에서 독자적으로 fetch해야 한다면, Server Action은 항상 POST라 HTTP 캐싱이 안 되므로 Route Handler가 더 낫다.
 
-이 프로젝트는 react-query + axios로 클라이언트 데이터 페칭을 이미 쓰고 있다 — 서버 컴포넌트에서 가져올 수 있는 데이터까지 react-query로 다시 가져오지 않도록 역할을 분리한다 (`react-vercel-performance` 참고).
+이 프로젝트는 react-query + axios로 클라이언트 데이터 페칭을 이미 쓰고 있다 — 서버 컴포넌트에서 가져올 수 있는 데이터까지 react-query로 다시 가져오지 않도록 역할을 분리한다 (`vercel-react-best-practices` 참고).

@@ -6,11 +6,11 @@ AI로 스냅 무드를 분석해 무드가 맞는 작가와 고객을 연결하�
 
 ## 전역 코딩 컨벤션
 
-코드 스타일(네이밍, 조건문, export 규칙, 타입 선언 등)의 유일한 기준 문서는 [`.claude/skills/code-convention-reviewer/references/conventions.md`](.claude/skills/code-convention-reviewer/references/conventions.md)다. 다른 곳에 다시 옮겨 적지 않는다 — 여기 한 곳만 갱신하면 된다.
+코드 스타일(네이밍, 조건문, export 규칙, 타입 선언 등)의 유일한 기준 문서는 [`docs/conventions.md`](docs/conventions.md)다. 다른 곳에 다시 옮겨 적지 않는다 — 여기 한 곳만 갱신하면 된다.
 
 ## Git 컨벤션
 
-브랜치명, 커밋 메시지, PR/이슈 제목 형식은 [`.claude/skills/git-convention-checker/references/git-conventions.md`](.claude/skills/git-convention-checker/references/git-conventions.md) 기준을 따른다.
+브랜치명, 커밋 메시지, PR/이슈 제목 형식은 [`docs/git-conventions.md`](docs/git-conventions.md) 기준을 따른다.
 
 ## 공통 명령어
 
