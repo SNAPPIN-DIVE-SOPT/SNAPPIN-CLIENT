@@ -7,27 +7,32 @@ allowed-tools: Bash(git branch:*), Bash(git push:*), Bash(gh pr create:*), Bash(
 2. 현재 브랜치명에서 `<type>`과 이슈 번호를 파싱한다 (`/start-work`가 만드는 브랜치는 `docs/git-conventions.md`의 브랜치명 컨벤션대로 `<type>/#<이슈번호>/<작업내용>` 형태). 번호를 못 찾으면 사용자에게 물어본다.
 3. 커밋되지 않은 변경이 있으면 사용자에게 먼저 확인한다. 원격에 브랜치가 없으면 push한다.
 4. PR 제목을 만든다. `docs/git-conventions.md`의 PR/이슈 제목 컨벤션(`<이모지> <Type>(<범위>): #<이슈번호> <설명>`)과 타입↔이모지 매핑 표를 참고해, 2번에서 파싱한 `<type>`에 맞는 이모지를 고르고 `<Type>`은 첫 글자를 대문자로 쓴다.
-5. `.github/pull_request_template.md`의 섹션 구조를 그대로 채워서 PR을 생성한다. `gh pr create`는 non-interactive 모드에서 템플릿을 자동으로 불러오지 않으므로, 아래처럼 heredoc으로 직접 채운 body를 넘긴다:
+5. `.github/pull_request_template.md`를 **먼저 읽어서** 그 시점의 실제 섹션 구조를 확인한다 — 아래 heredoc은 그 구조를 옮겨 적은 스냅샷일 뿐이니, 실제 파일과 다르면 파일 쪽을 따르고 이 커맨드 문서를 최신 구조로 고쳐둔다. `gh pr create`는 non-interactive 모드에서 템플릿을 자동으로 불러오지 않으므로, 아래처럼 heredoc으로 직접 채운 body를 넘긴다:
 
 ```bash
 gh pr create --assignee @me --title "<이모지> <Type>(<범위>): #<이슈번호> <설명>" --body "$(cat <<'EOF'
-## Summary
-
-<무엇을, 왜 바꿨는지 1~3줄>
-
-## Related Issues
+## 📌 Related Issues
 
 - close #<이슈번호>
 
-## PR Point (To Reviewer)
+## 🗯️ 체크 리스트
+
+- [x] PR 제목을 규칙에 맞게 작성했나요?
+- [x] 빌드가 성공했나요? (`pnpm build`)
+
+## 🛠️ Tasks
+
+<무엇을, 왜 바꿨는지 체크리스트 또는 1~3줄>
+
+## 👀 PR Point (To Reviewer)
 
 <리뷰어가 특히 봐줬으면 하는 부분, 애매한 결정, 트레이드오프. 없으면 "특별히 없음">
 
-## Screenshot
+## 📷 Screenshot
 
 <UI 변경이 있으면 스크린샷 표를 채운다. 없으면 섹션은 남기고 "해당 없음"만 적는다>
 
-## ETC
+## 🔔 ETC
 
 <추가로 남길 내용. 없으면 "없음">
 EOF
