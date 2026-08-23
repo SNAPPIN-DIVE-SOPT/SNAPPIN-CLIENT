@@ -15,7 +15,15 @@ type CreateCopyTextProps = {
   reservationCopyFormValue: ReservationCopyFormValue;
 };
 
-// 텍스트 복사 시, form의 각 항목 노출 방식 정의
+/**
+ * 예약 신청 폼 내용을 클립보드 복사용 텍스트로 변환합니다. 완료된 지망만
+ * 일정 목록에 포함합니다.
+ * @param props 신청자 정보와 예약 복사 폼 값
+ * @param props.applicant 신청자 정보 (이름, 전화번호, 이메일)
+ * @param props.reservationCopyFormValue 예약 복사 폼 값
+ * @returns 줄바꿈으로 구분된 복사용 텍스트
+ * @example const text = createCopyText({ applicant, reservationCopyFormValue });
+ */
 const createCopyText = ({
   applicant,
   reservationCopyFormValue: {

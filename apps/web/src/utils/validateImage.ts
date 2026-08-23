@@ -15,6 +15,17 @@ type ValidateImageResult = {
 
 const DEFAULT_ALLOWED_TYPES = new Set(IMAGE_ACCEPT.WITH_HEIC.split(','));
 
+/**
+ * 업로드하려는 이미지 파일이 형식·용량·개수 제한을 만족하는지 검사합니다.
+ * @param params 검사 대상 파일과 제약 조건
+ * @param params.file 검사할 이미지 파일
+ * @param params.currentCount 현재까지 업로드된 이미지 개수
+ * @param params.maxImageCount 업로드 가능한 최대 이미지 개수
+ * @param params.allowedTypes 허용할 MIME 타입 집합 (기본값: JPG/PNG/WEBP/HEIC)
+ * @param params.maxImageSize 허용할 최대 파일 용량 (bytes, 기본값: 20MB)
+ * @returns 검사 결과 (`ok`와, 실패 시 사용자에게 보여줄 `message`)
+ * @example const result = validateImage({ file, currentCount: 0, maxImageCount: 5 });
+ */
 const validateImage = ({
   file,
   currentCount,
