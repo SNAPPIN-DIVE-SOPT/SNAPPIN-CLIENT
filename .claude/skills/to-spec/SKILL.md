@@ -16,7 +16,7 @@ This skill takes the current conversation context and codebase understanding and
 
 Check with the user that these seams match their expectations.
 
-3. Write the spec using the template in [`.github/ISSUE_TEMPLATE/issue_template.md`](../../../.github/ISSUE_TEMPLATE/issue_template.md) — it's a single free-form "Task Description" section with no default labels, so fill the four sections below into that body yourself and apply both labels explicitly: `ready-for-agent`, plus exactly one type label (`bug` if this is a fix, `enhancement` otherwise). Then publish it to the project issue tracker. `/start-work` reads the type label to pick the `feat`/`fix` segment of the `<type>/#<이슈번호>/<작업내용>` branch name (see `docs/git-conventions.md`), so every issue needs one.
+3. Write the spec using the template in [`.github/ISSUE_TEMPLATE/issue_template.md`](../../../.github/ISSUE_TEMPLATE/issue_template.md) — it's a single free-form "Task Description" section with no default labels, so fill the four sections below into that body yourself and apply exactly one type label from this repo's actual label set: `🐾 init`, `🔨 Fix`, `🎨 Style`, `🎀 Feat`, `🔧 refactor`, or `🔖 docs` (run `gh label list` if unsure these still match). Then publish it to the project issue tracker. `/start-work` reads this label to pick the `<type>` segment of the `<type>/#<이슈번호>/<작업내용>` branch name (see `docs/git-conventions.md`), so every issue needs exactly one.
 
 Fill each section from what was actually discussed - don't pad a section just to fill it:
 

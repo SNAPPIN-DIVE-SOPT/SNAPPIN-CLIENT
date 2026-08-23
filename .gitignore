@@ -56,6 +56,7 @@ docs/*
 !docs/agents/
 docs/agents/*
 !docs/agents/issue-tracker.md
+!docs/adr/
 AGENTS.md
 
 # Claude Code personal overrides (not shared with team)

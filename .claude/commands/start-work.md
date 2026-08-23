@@ -12,7 +12,16 @@ allowed-tools: Bash(gh issue view:*), Bash(gh issue develop:*)
 gh issue view $ARGUMENTS --json labels,title -q '{labels: [.labels[].name], title: .title}'
 ```
 
-- `bug` 라벨이 있으면 `<type>`은 `fix`, 그 외에는 `feat`.
+- 라벨을 아래 표에 따라 `<type>`으로 매핑한다. 매핑되는 라벨이 없으면 실행을 멈추고 사용자에게 타입을 물어본다.
+
+  | 라벨 | `<type>` |
+  | --- | --- |
+  | `🐾 init` | `init` |
+  | `🔨 Fix` | `fix` |
+  | `🎨 Style` | `style` |
+  | `🎀 Feat` | `feat` |
+  | `🔧 refactor` | `refactor` |
+  | `🔖 docs` | `docs` |
 - 이슈 제목을 짧은 kebab-case 슬러그로 변환해 `<작업내용>`으로 쓴다 (예: "Input 컴포넌트 개발" → `input-develop`).
 
 2. 브랜치를 만들고 체크아웃한다.
