@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
     "generate:api": "dotenv -e .env -- sh -lc 'swagger-typescript-api generate -p \"$SWAGGER_API_URL\" -r -o ./src/swagger-api --modular -d --extract-request-body --extract-response-body --extract-response-error --axios'"

@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 This skill takes the current conversation context and codebase understanding and produces a spec (you may know this document as a PRD). Do NOT interview the user — just synthesize what you already know.
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+이슈 트래커 접근 방법과 triage 라벨 체계는 `docs/agents/issue-tracker.md`를 참고한다. 파일이 없다면 사용자에게 물어본다.
 
 ## Process
 

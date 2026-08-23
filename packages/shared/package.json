@@ -6,7 +6,8 @@
     "generate:shared": "node scripts/generate-shared-exports.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
   },
   "types": "src/index.ts",
   "exports": {
