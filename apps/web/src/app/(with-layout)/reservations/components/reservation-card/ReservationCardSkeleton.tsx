@@ -1,13 +1,18 @@
 import { Divider } from '@snappin/design-system';
+import { cn } from '@snappin/design-system/lib';
 import { ProductCardSkeleton } from '@/ui/product-card';
 
 type ReservationCardSkeletonProps = {
   length?: number;
+  className?: string;
 };
 
-export default function ReservationCardSkeleton({ length = 5 }: ReservationCardSkeletonProps) {
+export default function ReservationCardSkeleton({
+  length = 5,
+  className,
+}: ReservationCardSkeletonProps) {
   return (
-    <div className='flex flex-col gap-[1.2rem]'>
+    <div className={cn('flex flex-col gap-[1.2rem]', className)}>
       {Array.from({ length: length }).map((_, i) => (
         <div key={i}>
           <div className='border-black-4 w-full gap-[1.2rem] rounded-[0.6rem] border-[0.07rem] bg-transparent'>

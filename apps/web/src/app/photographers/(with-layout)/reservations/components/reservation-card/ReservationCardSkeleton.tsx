@@ -1,31 +1,14 @@
-import { Divider } from '@snappin/design-system';
-import { ProductCardSkeleton } from '@/ui/product-card';
+import { cn } from '@snappin/design-system/lib';
+import BaseReservationCardSkeleton from '@/app/(with-layout)/reservations/components/reservation-card/ReservationCardSkeleton';
 
 type ReservationCardSkeletonProps = {
   length?: number;
+  className?: string;
 };
 
-export default function ReservationCardSkeleton({ length = 5 }: ReservationCardSkeletonProps) {
-  return (
-    <div className='flex flex-col gap-[1.2rem] p-[1.6rem]'>
-      {Array.from({ length: length }).map((_, i) => (
-        <div key={i}>
-          <div className='border-black-4 w-full gap-[1.2rem] rounded-[0.6rem] border-[0.07rem] bg-transparent'>
-            <div className='flex flex-col gap-[0.6rem] px-[1.2rem] pt-[1rem]'>
-              <div className='bg-black-3 h-[1.2rem] w-[9.1rem]' />
-              <div className='mb-[1.2rem] flex justify-between'>
-                <div className='bg-black-3 h-[1.8rem] w-[5.4rem]' />
-                <div className='bg-black-3 h-[1.4rem] w-[5.2rem]' />
-              </div>
-            </div>
-            <ProductCardSkeleton className='-mx-[0.8rem] -mt-[1.6rem] -mb-[0.4rem] bg-transparent' />
-          </div>
-
-          {i < length - 1 && (
-            <Divider thickness='large' color='bg-black-3' className='-mx-[2rem] mt-[1.6rem]' />
-          )}
-        </div>
-      ))}
-    </div>
-  );
+export default function ReservationCardSkeleton({
+  length,
+  className,
+}: ReservationCardSkeletonProps) {
+  return <BaseReservationCardSkeleton length={length} className={cn('p-[1.6rem]', className)} />;
 }

@@ -1,5 +1,5 @@
 import { Tabs } from '@snappin/design-system';
-import { IconArrowForward } from '@snappin/design-system/assets';
+import { ProfileRowSkeleton } from '@/ui';
 import { PRODUCT_TAB, PRODUCT_TABS } from '../../constants/tab';
 
 type ProductDetailSkeletonProps = {
@@ -23,24 +23,7 @@ export default function ProductDetailSkeleton({ selectedTab }: ProductDetailSkel
         </div>
         <div className='bg-black-3 h-[1.4rem] w-[10.9rem] rounded-[0.2rem]' />
       </div>
-      <div className='px-[2rem] pb-[2rem]'>
-        <div className='border-black-4 rounded-[0.6rem] border-1 p-[2rem] pt-[2.2rem] pb-[2.1rem]'>
-          <div className='flex items-center gap-[1.2rem]'>
-            <div className='bg-black-3 relative h-[6.4rem] w-[6.4rem] shrink-0 rounded-full' />
-            <div className='flex flex-1 shrink flex-col gap-[0.8rem]'>
-              <div className='flex flex-col gap-[0.4rem]'>
-                <div className='bg-black-3 h-[1.7rem] w-[3.7rem] rounded-[0.2rem]' />
-                <div className='bg-black-3 h-[1.2rem] w-[9rem] rounded-[0.2rem]' />
-              </div>
-              <div className='flex flex-col gap-[0.4rem]'>
-                <div className='bg-black-3 h-[1.2rem] w-[15.8rem] rounded-[0.2rem]' />
-                <div className='bg-black-3 h-[1.2rem] w-[3.7rem] rounded-[0.2rem]' />
-              </div>
-            </div>
-            <IconArrowForward className='text-black-6' />
-          </div>
-        </div>
-      </div>
+      <ProfileRowSkeleton />
       <Tabs>
         <Tabs.List activeValue={selectedTab} tabs={PRODUCT_TABS} className='pointer-events-none'>
           {PRODUCT_TABS.map(({ value, label }) => (

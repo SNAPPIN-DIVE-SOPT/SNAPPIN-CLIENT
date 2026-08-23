@@ -1,0 +1,96 @@
+'use client';
+
+import { useEffect, useRef, useMemo } from 'react';
+import { Divider } from '@snappin/design-system';
+import { useToast } from '@/ui';
+import { StateCode } from '@snappin/shared/types';
+import { formatCreatedAt } from '@/utils/formatDate';
+import { useAuth } from '@/auth/hooks/useAuth';
+import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
+import { ROUTES } from '@/constants/routes/routes';
+import { useGetReservationList } from '../api';
+import { ReservationTab } from '../constants/tabs';
+import { EmptyView, ReservationCard, ReservationCardSkeleton } from '../components';
+
+type ReservationCardListSectionProps = {
+  tab: ReservationTab;
+  emptyTitle: string;
+};
+
+export default function ReservationCardListSection({
+  tab,
+  emptyTitle,
+}: ReservationCardListSectionProps) {
+  // 로그인 여부
+  const { isLogIn } = useAuth();
+  const { login } = useToast();
+
+  const { data, isFetching } = useGetReservationList(tab, isLogIn === true);
+
+  const anchorRef = useRef<HTMLDivElement | null>(null);
+  const scrollKey = useMemo(
+    () => `reservation:list:${tab}:${isLogIn ?? 'unknown'}`,
+    [tab, isLogIn],
+  );
+
+  useScrollRestoreOnParent(anchorRef, scrollKey, [data?.reservations?.length ?? 0], {
+    enabled: isLogIn === true,
+  });
+
+  useEffect(() => {
+    if (isLogIn === false) {
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', 'bottom-[8.6rem]', ROUTES.RESERVATIONS);
+    }
+  }, [isLogIn, login]);
+
+  if (isLogIn === null) return null;
+
+  const reservations = data?.reservations ?? [];
+  const hasData = (data?.reservations?.length ?? 0) > 0;
+
+  if (isFetching && isLogIn === true) {
+    return (
+      <div className='p-[1.6rem]'>
+        <ReservationCardSkeleton />
+      </div>
+    );
+  }
+
+  if (isLogIn === false || !hasData) {
+    return (
+      <EmptyView
+        title={emptyTitle}
+        description='&#39;탐색&#39;에서 다양한 포트폴리오를 확인해보세요'
+      />
+    );
+  }
+
+  return (
+    <section className='flex flex-col gap-[1.6rem] p-[1.6rem]' ref={anchorRef}>
+      {reservations.map((reservation, reservationIndex) => {
+        const product = reservation.product;
+        return (
+          <div key={reservation.reservationId}>
+            <ReservationCard
+              image={{ src: product?.imageUrl ?? '', alt: product?.title ?? '상품 이미지' }}
+              name={product?.title ?? ''}
+              rate={product?.rate ?? 0}
+              reviewCount={product?.reviewCount ?? 0}
+              photographer={product?.photographer ?? ''}
+              price={product?.price ?? 0}
+              moods={product?.moods ?? []}
+              status={reservation.status as StateCode}
+              date={reservation.createdAt ? formatCreatedAt(reservation.createdAt) : ''}
+              reservationId={reservation.reservationId ?? 0}
+              isReviewed={product?.isReviewed ?? false}
+            />
+
+            {reservationIndex !== reservations.length - 1 && (
+              <Divider thickness='large' color='bg-black-3' className='-mx-[1.6rem] mt-[1.6rem]' />
+            )}
+          </div>
+        );
+      })}
+    </section>
+  );
+}
