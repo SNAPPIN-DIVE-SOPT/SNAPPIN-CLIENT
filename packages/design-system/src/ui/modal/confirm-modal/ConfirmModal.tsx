@@ -1,20 +1,7 @@
-﻿import { Modal, ModalButtonProps } from '../base/Modal';
+﻿import { Modal, ModalContentProps } from '../base/Modal';
 import { cn } from '../../../lib/cn';
 
-type ConfirmModalProps = {
-  open: boolean;
-  handleOpenChange: (open: boolean) => void;
-  showCloseButton?: boolean;
-  title: string;
-  description?: string;
-  buttons: ModalButtonProps[];
-  layoutClassName?: string;
-  headerClassName?: string;
-  containerClassName?: string;
-  titleClassName?: string;
-  descriptionClassName?: string;
-  footerClassName?: string;
-};
+type ConfirmModalProps = ModalContentProps;
 
 export default function ConfirmModal({
   open,

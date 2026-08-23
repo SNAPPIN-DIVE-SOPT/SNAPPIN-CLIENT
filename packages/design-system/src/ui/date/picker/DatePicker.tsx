@@ -190,7 +190,7 @@ export default function DatePicker({
         {/* 달력 각 셀 */}
         <div className='flex flex-col gap-y-[0.8rem] px-[1.6rem]'>
           {cellRows.map((row, rowIndex) => (
-            <div key={rowIndex} role='row' className='grid grid-cols-7 place-items-center'>
+            <div key={row[0]?.key ?? rowIndex} role='row' className='grid grid-cols-7 place-items-center'>
               {row.map((cell) =>
                 cell.kind === 'day' ? (
                   <DateCell
