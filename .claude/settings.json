@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(packages/eslint-config/**)",
+      "Write(packages/eslint-config/**)",
+      "Edit(packages/tailwind-config/**)",
+      "Write(packages/tailwind-config/**)",
+      "Edit(packages/typescript-config/**)",
+      "Write(packages/typescript-config/**)"
+    ]
+  }
+}
