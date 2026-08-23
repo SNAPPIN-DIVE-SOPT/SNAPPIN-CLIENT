@@ -76,11 +76,11 @@ export default function ImageCarouselWithDots({
 
       <div className='absolute bottom-[1.8rem] z-10 flex w-full flex-col items-center gap-[0.4rem] px-[1.2rem]'>
         <div className='flex w-full items-center justify-center gap-[0.6rem]'>
-          {images.map((_, i) => {
+          {images.map((img, i) => {
             const active = i === selectedIndex;
             return (
               <IconEllipse
-                key={i}
+                key={`${img.src}-${i}`}
                 onClick={() => api?.scrollTo(i)}
                 className={cn('cursor-pointer', active ? 'text-black-1' : 'text-black-6')}
               />

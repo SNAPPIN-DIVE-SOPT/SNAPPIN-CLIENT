@@ -68,9 +68,9 @@ export default function ImageSlide({ tagChipVariant = 'transparent' }: ImageSlid
   return (
     <div className='relative w-full overflow-hidden'>
       <div className='relative mx-auto flex h-[35.7rem] items-center justify-center'>
-        {visible.map(({ pos, index, item }) => (
+        {visible.map(({ pos, item }) => (
           <motion.div
-            key={index + item.imageUrl.toString() + item.photographerName}
+            key={pos}
             className='absolute top-1/2'
             variants={CARD_VARIANTS}
             animate={pos}
