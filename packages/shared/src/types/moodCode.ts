@@ -16,25 +16,11 @@ export const MOOD_CODE = [
   '빈티지',
 ] as const;
 
-export const MOOD_CODE_INDEX = {
-  내추럴: 0,
-  연출된: 1,
-  서사적인: 2,
-  따스한: 3,
-  청량한: 4,
-  투명한: 5,
-  몽환적인: 6,
-  뚜렷한: 7,
-  차가운: 8,
-  디지털: 9,
-  아날로그: 10,
-  Y2K: 11,
-  클린한: 12,
-  시크한: 13,
-  빈티지: 14,
-} as const;
-
 export type MoodCode = (typeof MOOD_CODE)[number];
+
+export const MOOD_CODE_INDEX = Object.fromEntries(
+  MOOD_CODE.map((mood, index) => [mood, index]),
+) as Record<MoodCode, number>;
 
 export const MOOD_CATEGORY_MAP = {
   COMPOSITION: '장면구성',
