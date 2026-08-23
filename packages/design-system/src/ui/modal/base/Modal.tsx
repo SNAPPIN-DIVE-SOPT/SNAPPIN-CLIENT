@@ -28,6 +28,21 @@ export type ModalButtonProps = {
   label: string;
 } & Omit<React.ComponentProps<typeof Button>, 'children'>;
 
+export type ModalContentProps = {
+  open: boolean;
+  handleOpenChange: (open: boolean) => void;
+  showCloseButton?: boolean;
+  title: string;
+  description?: string;
+  buttons: ModalButtonProps[];
+  layoutClassName?: string;
+  headerClassName?: string;
+  containerClassName?: string;
+  titleClassName?: string;
+  descriptionClassName?: string;
+  footerClassName?: string;
+};
+
 type ModalButtonsProps = {
   buttons: ModalButtonProps[];
 };
@@ -81,8 +96,8 @@ function ModalButton({ label, onClick, ...props }: ModalButtonProps) {
 function ModalButtons({ buttons }: ModalButtonsProps) {
   return (
     <>
-      {buttons.map(({ label, ...props }, idx) => (
-        <Modal.Button key={idx} label={label} {...props} className='caption-14-md' />
+      {buttons.map(({ label, ...props }) => (
+        <Modal.Button key={label} label={label} {...props} className='caption-14-md' />
       ))}
     </>
   );

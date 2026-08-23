@@ -1,23 +1,11 @@
 ﻿import { ResultModalType } from './types/type';
-import { Modal, ModalButtonProps } from '../base/Modal';
+import { Modal, ModalContentProps } from '../base/Modal';
 import { THEME } from './constants/theme';
 import { cn } from '../../../lib/cn';
 import { GraphicError, GraphicSuccess } from '../../../assets';
 
-type ResultModalProps = {
-  open: boolean;
-  handleOpenChange: (open: boolean) => void;
-  showCloseButton?: boolean;
+type ResultModalProps = ModalContentProps & {
   type: ResultModalType;
-  title: string;
-  description?: string;
-  buttons: ModalButtonProps[];
-  layoutClassName?: string;
-  headerClassName?: string;
-  containerClassName?: string;
-  titleClassName?: string;
-  descriptionClassName?: string;
-  footerClassName?: string;
 };
 
 export default function ResultModal({
