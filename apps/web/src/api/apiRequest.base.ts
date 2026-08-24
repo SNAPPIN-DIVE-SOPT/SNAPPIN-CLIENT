@@ -1,4 +1,7 @@
 import { type RequestMethod, SERVER_API_BASE_URL } from '@/api/constants/api';
+import { ApiError, getApiErrorKind } from '@/api/apiError';
+
+type InterceptResult<T> = { handled: true; data: T } | { handled: false };
 
 export type ApiRequestProps = {
   endPoint: string;
@@ -13,6 +16,14 @@ type CreateApiRequestDependencies = {
   getRefreshToken: () => Response | Promise<Response>;
 };
 
+type ServerErrorBody = {
+  success?: boolean;
+  status?: number;
+  message?: string;
+  code?: string;
+  meta?: unknown;
+};
+
 const resolveAccessToken = async (
   getAccessToken: CreateApiRequestDependencies['getAccessToken'],
 ) => {
@@ -21,6 +32,34 @@ const resolveAccessToken = async (
   } catch {
     return null;
   }
+};
+
+/**
+ * 실패한 응답을 파싱해 구조화된 ApiError로 변환합니다. JSON 응답이면 message
+ * 필드를 우선 쓰고, 아니면 원본 텍스트나 상태 텍스트를 메시지로 씁니다.
+ * @param response 실패한(ok가 아닌) fetch Response
+ * @returns 상태 코드와 메시지를 담은 ApiError
+ * @example const apiError = await parseErrorResponse(response);
+ */
+const parseErrorResponse = async (response: Response): Promise<ApiError> => {
+  const rawText = await response.text();
+  let body: unknown = rawText;
+  let message = rawText || response.statusText;
+
+  try {
+    const parsed: unknown = JSON.parse(rawText);
+    if (typeof parsed === 'object' && parsed !== null) {
+      body = parsed;
+      const parsedMessage = (parsed as ServerErrorBody).message;
+      if (typeof parsedMessage === 'string' && parsedMessage.trim()) {
+        message = parsedMessage;
+      }
+    }
+  } catch {
+    // rawText가 JSON이 아니면 그대로 사용한다.
+  }
+
+  return new ApiError(response.status, message, body);
 };
 
 const buildRequestUrl = (endPoint: string, params?: Record<string, string>) => {
@@ -48,49 +87,53 @@ export const createApiRequest = ({
   const responseInterceptor = async <T>(
     response: Response,
     originalRequest: ApiRequestProps,
-  ): Promise<T | null> => {
-    if (response.status === 401) {
+  ): Promise<InterceptResult<T>> => {
+    if (getApiErrorKind(response.status) === 'unauthorized') {
       const refreshResponse = await getRefreshToken();
 
-      if (refreshResponse.ok) {
-        const accessToken = await resolveAccessToken(getAccessToken);
-        const retryHeader: Record<string, string> = {
-          'Content-Type': 'application/json',
-          ...originalRequest.headers,
-        };
-
-        if (accessToken) {
-          retryHeader.Authorization = `Bearer ${accessToken}`;
-        }
-
-        const fetchOptions: RequestInit = {
-          method: originalRequest.method,
-          headers: retryHeader,
-          credentials: 'include',
-        };
-
-        if (originalRequest.data && originalRequest.method !== 'GET') {
-          fetchOptions.body = JSON.stringify(originalRequest.data);
-        }
-
-        const retryResponse = await fetch(
-          buildRequestUrl(originalRequest.endPoint, originalRequest.params),
-          fetchOptions,
-        );
-
-        if (retryResponse.ok) {
-          return await retryResponse.json();
-        }
-
-        throw await retryResponse.text();
+      if (!refreshResponse.ok) {
+        // 토큰 갱신 자체가 실패하면 가로채지 않고, 원래 401 응답을 그대로
+        // 흘려보내 바깥의 공용 에러 처리(parseErrorResponse)가 처리하게 한다.
+        return { handled: false };
       }
-    } else if (response.status === 403) {
-      throw new Error('권한 없는 사용자의 접근');
-    } else {
-      return null;
+
+      const accessToken = await resolveAccessToken(getAccessToken);
+      const retryHeader: Record<string, string> = {
+        'Content-Type': 'application/json',
+        ...originalRequest.headers,
+      };
+
+      if (accessToken) {
+        retryHeader.Authorization = `Bearer ${accessToken}`;
+      }
+
+      const fetchOptions: RequestInit = {
+        method: originalRequest.method,
+        headers: retryHeader,
+        credentials: 'include',
+      };
+
+      if (originalRequest.data && originalRequest.method !== 'GET') {
+        fetchOptions.body = JSON.stringify(originalRequest.data);
+      }
+
+      const retryResponse = await fetch(
+        buildRequestUrl(originalRequest.endPoint, originalRequest.params),
+        fetchOptions,
+      );
+
+      if (!retryResponse.ok) {
+        throw await parseErrorResponse(retryResponse);
+      }
+
+      return { handled: true, data: await retryResponse.json() };
     }
 
-    return null;
+    if (getApiErrorKind(response.status) === 'forbidden') {
+      throw new ApiError(response.status, '권한 없는 사용자의 접근');
+    }
+
+    return { handled: false };
   };
 
   return async <T = unknown>({
@@ -125,7 +168,7 @@ export const createApiRequest = ({
       }
 
       const response = await fetch(requestUrl, fetchOptions);
-      const interceptedResponse = await responseInterceptor<T>(response, {
+      const intercepted = await responseInterceptor<T>(response, {
         endPoint,
         method,
         data,
@@ -133,44 +176,21 @@ export const createApiRequest = ({
         params,
       });
 
-      if (interceptedResponse) {
-        return interceptedResponse as T;
+      if (intercepted.handled) {
+        return intercepted.data;
       }
 
       if (!response.ok) {
-        const error = await response.text();
-
-        if (response.status !== 409) {
-          console.error('API Response Error:', {
-            status: response.status,
-            statusText: response.statusText,
-            url: requestUrl,
-            error,
-          });
-        }
-
-        throw error;
+        throw await parseErrorResponse(response);
       }
 
       return await response.json();
     } catch (error) {
-      if (typeof error === 'string') {
-        try {
-          const parsedError: unknown = JSON.parse(error);
+      const isExpectedConflict =
+        error instanceof ApiError && getApiErrorKind(error.status) === 'conflict';
 
-          if (
-            typeof parsedError !== 'object' ||
-            parsedError === null ||
-            !('status' in parsedError) ||
-            parsedError.status !== 409
-          ) {
-            console.error(error);
-          }
-        } catch {
-          console.error(error);
-        }
-      } else {
-        console.error(error);
+      if (!isExpectedConflict) {
+        console.error('API Request Error:', error);
       }
 
       throw error;
