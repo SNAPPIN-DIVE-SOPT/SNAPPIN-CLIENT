@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { BottomCTAButton } from '@snappin/design-system';
 import { getReturnToParam, readReturnToContext } from '@/auth/utils/returnTo';
 import { ROUTES } from '@/constants/routes/routes';
-import { useToast } from '@/ui';
+import { useApiErrorToast } from '@/ui';
 import { TOTAL_STEP_COUNT } from '@/app/(auth)/on-boarding/[step]/constants/onBoardingSteps';
 import type { OnBoardingStep } from '@/app/(auth)/on-boarding/[step]/types/onBoardingStep';
 import { useOnBoardingFormContext } from '@/app/(auth)/on-boarding/hooks/useOnBoardingFormContext';
@@ -22,7 +22,10 @@ export default function ClientFooter({ step, triggerFields }: ClientFooterProps)
   const searchParams = useSearchParams();
   const returnToParams = getReturnToParam(readReturnToContext(searchParams));
   const { compatibleFormData, trigger, handleSubmitForm } = useOnBoardingFormContext();
-  const { error } = useToast();
+  const handleOnboardingError = useApiErrorToast({
+    className: 'bottom-[8.4rem]',
+    fallbackMessage: '온보딩에 실패했어요. 홈으로 이동합니다.',
+  });
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -37,8 +40,8 @@ export default function ClientFooter({ step, triggerFields }: ClientFooterProps)
     onSuccess: () => {
       router.push(ROUTES.ON_BOARDING_FINAL(returnToParams));
     },
-    onError: () => {
-      error('온보딩에 실패했어요. 홈으로 이동합니다.', 'bottom-[8.4rem]');
+    onError: (error) => {
+      handleOnboardingError(error);
 
       timeoutRef.current = setTimeout(() => {
         router.push(ROUTES.HOME);

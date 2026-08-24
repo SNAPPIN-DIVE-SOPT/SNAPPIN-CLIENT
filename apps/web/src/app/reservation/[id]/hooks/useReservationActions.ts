@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useToast } from '@/ui';
+import { useApiErrorToast, useToast } from '@/ui';
 import { STATE_CODES, type StateCode } from '@snappin/shared/types';
 import { useCancelReservation, useRequestPayment } from '../api';
 import { type ClientFooterConfig } from '@/app/reservation/[id]/components';
@@ -13,6 +13,14 @@ export const useReservationActions = ({ reservationId, status }: UseReservationA
   const [cancelOpen, setCancelOpen] = useState(false);
   const [canceledPreviousStatus, setCanceledPreviousStatus] = useState<StateCode>();
   const toast = useToast();
+  const handleCancelError = useApiErrorToast({
+    className: 'bottom-[8rem]',
+    fallbackMessage: '예약 취소 중 오류가 발생했습니다. 다시 시도해주세요.',
+  });
+  const handlePaymentError = useApiErrorToast({
+    className: 'bottom-[8.4rem]',
+    fallbackMessage: '결제 요청 중 오류가 발생했습니다. 다시 시도해주세요.',
+  });
 
   const { mutate: cancelReservationMutation } = useCancelReservation(reservationId);
   const { mutate: requestPaymentMutation, isPending: isPaymentRequestPending } =
@@ -28,11 +36,7 @@ export const useReservationActions = ({ reservationId, status }: UseReservationA
         setCanceledPreviousStatus(cancelResponse.previousStatus as StateCode | undefined);
         setCancelOpen(false);
       },
-      onError: () =>
-        toast.error(
-          '예약 취소 중 오류가 발생했습니다. 다시 시도해주세요.',
-          'bottom-[8rem]',
-        ),
+      onError: handleCancelError,
     });
   };
 
@@ -41,11 +45,7 @@ export const useReservationActions = ({ reservationId, status }: UseReservationA
     if (isPaymentRequestPending) return;
 
     requestPaymentMutation(reservationId, {
-      onError: () =>
-        toast.error(
-          '결제 요청 중 오류가 발생했습니다. 다시 시도해주세요.',
-          'bottom-[8.4rem]',
-        ),
+      onError: handlePaymentError,
     });
   };
 

@@ -23,10 +23,9 @@ import {
 } from '../../api';
 import AvailableTimeSection from '../time-picker/AvailableTimePicker';
 import { ProductReservationRequest } from '@/swagger-api';
-import { useToast } from '@/ui';
+import { useApiErrorToast } from '@/ui';
 import { usePlaceSearchField } from '@/hooks/usePlaceSearchField';
 import { formatPrice } from '@snappin/shared/lib';
-import { getErrorMessage } from '@/utils/error';
 
 type ReservationBottomDrawerProps = {
   isOpen: boolean;
@@ -52,7 +51,7 @@ export default function ReservationBottomDrawer({
   handleOpenChangeAction,
   onSuccessReservationAction,
 }: ReservationBottomDrawerProps) {
-  const toast = useToast();
+  const handleReservationError = useApiErrorToast({ className: 'bottom-[8.6rem]', duration: 3000 });
   const { mutate, isError, isPending } = useReservation(productId);
   const timeSectionRef = useRef<HTMLDivElement>(null);
   const [viewMonth, setViewMonth] = useState<Date>(new Date());
@@ -110,8 +109,7 @@ export default function ReservationBottomDrawer({
         onSuccessReservationAction?.();
       },
       onError: (error) => {
-        const message = getErrorMessage(error);
-        toast.error(message, 'bottom-[8.6rem]', 3000);
+        handleReservationError(error);
         handleOpenChangeAction();
       },
     });
