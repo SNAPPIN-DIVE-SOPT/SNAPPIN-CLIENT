@@ -88,10 +88,9 @@ export const useReservationActions = ({ reservationId, status }: UseReservationA
   const handleInquiryClick = () => {
     const hasBottomCta = clientFooterConfig !== null;
 
-    toast.alert(
-      '메시지 기능은 준비 중이에요. 조금만 기다려주세요!',
-      hasBottomCta ? 'bottom-[8.4rem]' : 'bottom-[2rem]',
-    );
+    toast.alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', {
+      className: hasBottomCta ? 'bottom-[8.4rem]' : 'bottom-[2rem]',
+    });
   };
 
   return {

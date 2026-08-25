@@ -16,3 +16,7 @@ type DefaultToastProps = BaseToastProps & {
 };
 
 export type ToastProps = LoginToastProps | DefaultToastProps;
+
+export type ToastOptions = Omit<DefaultToastProps, 'message' | 'type'>;
+
+export type LoginToastOptions = Omit<LoginToastProps, 'message' | 'type'>;

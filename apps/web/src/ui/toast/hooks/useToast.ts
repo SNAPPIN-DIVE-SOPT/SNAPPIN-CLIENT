@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 import { useSetAtom } from 'jotai';
 import { RemoveToastAtom, ToastAtom } from '@/ui';
+import type { LoginToastOptions, ToastOptions } from '../types/toast';
 
 export const useToast = () => {
   const addToast = useSetAtom(ToastAtom);
@@ -10,17 +11,17 @@ export const useToast = () => {
 
   return useMemo(
     () => ({
-      success: (message: string, className?: string, duration?: number) =>
-        addToast({ type: 'success', message, duration, className }),
+      success: (message: string, options?: ToastOptions) =>
+        addToast({ type: 'success', message, ...options }),
 
-      error: (message: string, className?: string, duration?: number) =>
-        addToast({ type: 'error', message, duration, className }),
+      error: (message: string, options?: ToastOptions) =>
+        addToast({ type: 'error', message, ...options }),
 
-      alert: (message: string, className?: string, duration?: number) =>
-        addToast({ type: 'alert', message, duration, className }),
+      alert: (message: string, options?: ToastOptions) =>
+        addToast({ type: 'alert', message, ...options }),
 
-      login: (message: string, className?: string, returnTo?: string, duration?: number) =>
-        addToast({ type: 'login', message, duration, className, returnTo }),
+      login: (message: string, options?: LoginToastOptions) =>
+        addToast({ type: 'login', message, ...options }),
 
       removeToast: () => removeToast(),
     }),

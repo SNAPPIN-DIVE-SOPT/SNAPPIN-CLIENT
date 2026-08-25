@@ -29,7 +29,10 @@ export default function Footer({ productId, contactLink, isLogIn }: FooterProps)
   const handleReservationClick = () => {
     // 비로그인 -> 토스트 노출
     if (isLogIn === false) {
-      login('예약 기능은 로그인 후에 사용할 수 있어요.', TOAST_STYLE, ROUTES.PRODUCT(productId));
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', {
+        className: TOAST_STYLE,
+        returnTo: ROUTES.PRODUCT(productId),
+      });
       return;
     }
 

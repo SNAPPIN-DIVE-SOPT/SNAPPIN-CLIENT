@@ -50,10 +50,10 @@ export const useApiErrorToast = (options: UseApiErrorToastOptions = {}) => {
       messageByKind?.[kind] ?? fallbackMessage ?? serverMessage ?? DEFAULT_MESSAGE_BY_KIND[kind];
 
     if (kind === 'unauthorized') {
-      toast.login(message, className, returnTo, duration);
+      toast.login(message, { className, returnTo, duration });
       return;
     }
 
-    toast.error(message, className, duration);
+    toast.error(message, { className, duration });
   };
 };
