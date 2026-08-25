@@ -1,0 +1,40 @@
+name: close-linked-issue
+
+# PR base가 저장소 기본 브랜치(develop)가 아니면(예: 스택형 브랜치),
+# GitHub의 "close #N" 자동 닫힘 키워드가 동작하지 않는다.
+# 이 워크플로는 PR이 머지될 때 base와 무관하게 항상 연결된 이슈를 닫는다.
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  issues: write
+
+jobs:
+  close-issue:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close linked issues from PR body
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          issue_numbers=$(printf '%s' "$PR_BODY" \
+            | grep -ioE '(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved)[[:space:]]+#[0-9]+' \
+            | grep -oE '[0-9]+' \
+            | sort -u)
+
+          if [ -z "$issue_numbers" ]; then
+            echo "PR body에서 연결된 이슈를 찾지 못했습니다."
+            exit 0
+          fi
+
+          for issue in $issue_numbers; do
+            echo "이슈 #$issue 닫는 중..."
+            gh issue close "$issue" --repo "$REPO" \
+              --comment "PR #$PR_NUMBER 가 머지되어 자동으로 닫혔습니다." || true
+          done
