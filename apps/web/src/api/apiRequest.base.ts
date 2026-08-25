@@ -130,7 +130,10 @@ export const createApiRequest = ({
     }
 
     if (getApiErrorKind(response.status) === 'forbidden') {
-      throw new ApiError(response.status, '권한 없는 사용자의 접근');
+      // 사용자에게 보여줄 메시지는 고정 문구를 유지하되(기존 동작), 서버 응답
+      // body는 버리지 않고 남겨서 디버깅 시 확인할 수 있게 한다.
+      const parsedError = await parseErrorResponse(response);
+      throw new ApiError(response.status, '권한 없는 사용자의 접근', parsedError.body);
     }
 
     return { handled: false };
