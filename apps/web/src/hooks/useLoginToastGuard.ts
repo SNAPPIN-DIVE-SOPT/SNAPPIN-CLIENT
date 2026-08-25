@@ -32,12 +32,11 @@ export const useLoginToastGuard = ({
     if (shownRef.current) return;
     shownRef.current = true;
 
-    login(
-      message ?? defaultToastMessage,
-      toastPositionClassName ?? defaultToastPositionClassName,
+    login(message ?? defaultToastMessage, {
+      className: toastPositionClassName ?? defaultToastPositionClassName,
       returnTo,
       duration,
-    );
+    });
   }, [authResolved, duration, isLoggedIn, login, message, returnTo, toastPositionClassName]);
 
   return { authResolved, isLoggedIn };

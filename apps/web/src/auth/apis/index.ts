@@ -8,13 +8,14 @@ import {
   GetSwitchedUserProfileResponse,
   PatchUserRoleData,
   CreateKakaoLoginData,
-  GetOnboardingData
+  GetOnboardingData,
 } from '@/swagger-api';
 import { deleteAccessToken, getAccessToken, setAccessToken } from '../token.client';
 import { deleteAuthUser, setAuthUser } from '../userType';
-import { useToast } from '@/ui/toast/hooks/useToast';
+import { useApiErrorToast } from '@/ui/toast/hooks/useApiErrorToast';
 import { useAuth } from '../hooks/useAuth';
 import { isValidUserType } from '@snappin/shared/types';
+import { ApiError, getApiErrorKind } from '@/api/apiError';
 
 export { getRefreshToken } from './refresh.client';
 
@@ -105,7 +106,10 @@ export const useGetUserInfo = () => {
 // 유저 프로필 전환 API
 export const useSwitchUserProfile = () => {
   const queryClient = useQueryClient();
-  const { error } = useToast();
+  const handleSwitchError = useApiErrorToast({
+    className: 'top-[2rem]',
+    fallbackMessage: '프로필 전환에 실패했습니다. 잠시 후 다시 시도해주세요.',
+  });
 
   return useMutation<GetSwitchedUserProfileResponse, Error, void>({
     mutationFn: async () => {
@@ -126,9 +130,7 @@ export const useSwitchUserProfile = () => {
       queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY.AUTH });
     },
 
-    onError: () => {
-      error('프로필 전환에 실패했습니다. 잠시 후 다시 시도해주세요.', 'top-[2rem]');
-    },
+    onError: handleSwitchError,
   });
 };
 
@@ -148,13 +150,8 @@ export const useGetUsersOnboarding = (isLogIn: boolean) => {
         }
         return res.data;
       } catch (error) {
-        if (typeof error === 'string') {
-          try {
-            const parsed = JSON.parse(error);
-            if (parsed.status === 404) return null;
-          } catch {
-            console.error(error);
-          }
+        if (error instanceof ApiError && getApiErrorKind(error.status) === 'notFound') {
+          return null;
         }
         throw error;
       }

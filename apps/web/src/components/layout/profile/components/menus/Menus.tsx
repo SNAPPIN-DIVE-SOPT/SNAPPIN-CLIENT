@@ -5,13 +5,16 @@ import { useRouter } from 'next/navigation';
 import { ConfirmModal } from '@snappin/design-system';
 import { useLogout } from '@/auth/apis';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { useToast } from '@/ui';
+import { useApiErrorToast } from '@/ui';
 import { ROUTES } from '@/constants/routes/routes';
 
 export default function Menus() {
   const router = useRouter();
   const { isLogIn } = useAuth();
-  const { error } = useToast();
+  const handleLogoutError = useApiErrorToast({
+    className: 'top-[2rem]',
+    fallbackMessage: '로그아웃에 실패했습니다. 잠시 후 다시 시도해주세요.',
+  });
   const { mutate: logout } = useLogout();
 
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
@@ -28,9 +31,9 @@ export default function Menus() {
         router.push(ROUTES.HOME);
         setIsLogoutModalOpen(false);
       },
-      onError: () => {
+      onError: (error) => {
         setIsLogoutModalOpen(false);
-        error('로그아웃에 실패했습니다. 잠시 후 다시 시도해주세요.', 'top-[2rem]');
+        handleLogoutError(error);
       },
     });
   };

@@ -19,7 +19,10 @@ export default function ShootCompletedListSection() {
 
   useEffect(() => {
     if (isLogIn === false) {
-      login('예약 기능은 로그인 후에 사용할 수 있어요.', 'bottom-[8.6rem]', ROUTES.RESERVATIONS);
+      login('예약 기능은 로그인 후에 사용할 수 있어요.', {
+        className: 'bottom-[8.6rem]',
+        returnTo: ROUTES.RESERVATIONS,
+      });
     }
   }, [isLogIn, login]);
 
