@@ -12,3 +12,4 @@ export * from './product-card/index';
 export * from './loading/index';
 export * from './profile';
 export * from './layout/profile';
+export * from './layout/reservation';

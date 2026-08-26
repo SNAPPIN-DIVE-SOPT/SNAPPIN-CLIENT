@@ -5,7 +5,7 @@ import { Button } from '@snappin/design-system';
 import { STATE_CODES, type StateCode } from '@snappin/shared/types';
 import { useToast } from '@/ui';
 import { ProductCard } from '@/ui/product-card';
-import { Section } from '@/components/layout/reservation/SectionLayout';
+import { Section } from '@/ui/layout/reservation/SectionLayout';
 import { ROUTES } from '@/constants/routes/routes';
 
 type ReservationProductProps = {

@@ -2,7 +2,7 @@
 
 import { Divider } from '@snappin/design-system';
 import { STATE_CODES, StateCode } from '@snappin/shared/types';
-import SectionSkeleton from '@/components/layout/reservation/SectionSkeleton';
+import SectionSkeleton from '@/ui/layout/reservation/SectionSkeleton';
 import { useGetReservationDetail } from './api';
 import {
   ProductStatus,

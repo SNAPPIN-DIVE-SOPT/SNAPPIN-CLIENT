@@ -1,6 +1,6 @@
 ﻿
 import { ExtraPriceResponse } from '@/swagger-api';
-import { Section } from '@/components/layout/reservation/SectionLayout';
+import { Section } from '@/ui/layout/reservation/SectionLayout';
 import { Divider } from '@snappin/design-system';
 import { formatPrice } from '@snappin/shared/lib';
 

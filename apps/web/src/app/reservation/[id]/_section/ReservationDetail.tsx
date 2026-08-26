@@ -1,5 +1,5 @@
 import { formatReservationDateTime } from '@/utils/formatDate';
-import { Section } from '@/components/layout/reservation/SectionLayout';
+import { Section } from '@/ui/layout/reservation/SectionLayout';
 import { StateChip } from '@snappin/design-system';
 import { StateCode } from '@snappin/shared/types';
 

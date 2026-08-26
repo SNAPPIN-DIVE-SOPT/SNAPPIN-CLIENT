@@ -6,7 +6,7 @@ import { useToast } from '@/ui';
 import { ProductCard } from '@/ui/product-card';
 import { useRefuseReservation } from '../api';
 import RefuseModal from '../@modal/(.)refuse-modal/RefuseModal';
-import { Section } from '@/components/layout/reservation/SectionLayout';
+import { Section } from '@/ui/layout/reservation/SectionLayout';
 import { STATE_CODES, StateCode } from '@snappin/shared/types';
 
 type ProductStatusProps = {
