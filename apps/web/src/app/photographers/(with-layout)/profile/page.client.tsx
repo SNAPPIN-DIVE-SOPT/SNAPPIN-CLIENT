@@ -5,7 +5,7 @@ import SwitchProfile from './components/switch-profile/SwitchProfile';
 import { useMinDurationLoading } from './hooks/useMinDurationLoading';
 import { isValidUserType, UserType } from '@snappin/shared/types';
 import { Loading } from '@/ui';
-import ProfileLayout from '@/components/layout/profile/ProfileLayout';
+import ProfileLayout from '@/ui/layout/profile/ProfileLayout';
 
 const MIN_DURATION = 1600;
 
