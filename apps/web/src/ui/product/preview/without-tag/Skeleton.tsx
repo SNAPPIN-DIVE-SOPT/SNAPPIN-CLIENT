@@ -1,11 +1,11 @@
 import { cn } from '@snappin/design-system/lib';
 
-type ProductInformationFrameListSkeletonProps = {
+type WithoutTagListSkeletonProps = {
   length?: number;
   className?: string;
 };
 
-export function ProductInformationFrameSkeleton() {
+export function WithoutTagSkeleton() {
   return (
     <div className='relative overflow-hidden'>
       <div className='bg-black-3 h-[26.6rem] w-full' />
@@ -23,14 +23,14 @@ export function ProductInformationFrameSkeleton() {
   );
 }
 
-export default function ProductInformationFrameListSkeleton({
+export default function WithoutTagListSkeleton({
   length = 6,
   className,
-}: ProductInformationFrameListSkeletonProps) {
+}: WithoutTagListSkeletonProps) {
   return (
     <div className={cn('grid w-full grid-cols-2 gap-[0.2rem]', className)}>
       {Array.from({ length }).map((_, index) => (
-        <ProductInformationFrameSkeleton key={index} />
+        <WithoutTagSkeleton key={index} />
       ))}
     </div>
   );

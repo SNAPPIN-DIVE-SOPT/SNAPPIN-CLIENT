@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { PORTFOLIO_QUERY_KEY } from '@/query-key/user';
+import { PRODUCT_QUERY_KEY } from '@/query-key/user';
 import {
-  GetPortfolioDetailResponse,
-  UpdateWishPortfolioData,
-  WishPortfolioResponse,
+  GetProductDetailResponse,
+  UpdateWishProductData,
+  WishProductResponse,
 } from '@/swagger-api';
 import { apiRequest } from '@/api/apiRequest.client';
 
@@ -12,27 +12,27 @@ type UseLikeProps = {
   isLogIn: boolean;
 };
 
-export const useWishPortfolioLike = ({ id, isLogIn }: UseLikeProps) => {
+export const useWishProductLike = ({ id, isLogIn }: UseLikeProps) => {
   const queryClient = useQueryClient();
-  const detailQueryKey = PORTFOLIO_QUERY_KEY.DETAIL(id, isLogIn);
+  const detailQueryKey = PRODUCT_QUERY_KEY.DETAIL(id, isLogIn);
 
   return useMutation<
-    WishPortfolioResponse,
+    WishProductResponse,
     Error,
     number,
     {
-      previousData?: GetPortfolioDetailResponse;
+      previousData?: GetProductDetailResponse;
     }
   >({
-    mutationFn: async (portfolioId) => {
-      const res = await apiRequest<UpdateWishPortfolioData>({
-        endPoint: '/api/v1/wishes/portfolios',
+    mutationFn: async (productId) => {
+      const res = await apiRequest<UpdateWishProductData>({
+        endPoint: '/api/v1/wishes/products',
         method: 'POST',
-        data: { portfolioId },
+        data: { productId },
       });
 
       if (!res.data) {
-        throw new Error('/api/v1/wishes/portfolios 응답에 데이터가 존재하지 않습니다.');
+        throw new Error('/api/v1/wishes/products 응답에 데이터가 존재하지 않습니다.');
       }
 
       return res.data;
@@ -40,9 +40,9 @@ export const useWishPortfolioLike = ({ id, isLogIn }: UseLikeProps) => {
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: detailQueryKey });
 
-      const previousData = queryClient.getQueryData<GetPortfolioDetailResponse>(detailQueryKey);
+      const previousData = queryClient.getQueryData<GetProductDetailResponse>(detailQueryKey);
 
-      queryClient.setQueryData<GetPortfolioDetailResponse>(detailQueryKey, (old) => {
+      queryClient.setQueryData<GetProductDetailResponse>(detailQueryKey, (old) => {
         if (!old) return old;
 
         const nextIsLiked = !old.isLiked;
@@ -67,7 +67,7 @@ export const useWishPortfolioLike = ({ id, isLogIn }: UseLikeProps) => {
       queryClient.setQueryData(detailQueryKey, context.previousData);
     },
     onSuccess: async () => {
-      await Promise.all([queryClient.invalidateQueries({ queryKey: PORTFOLIO_QUERY_KEY.LIKES() })]);
+      await Promise.all([queryClient.invalidateQueries({ queryKey: PRODUCT_QUERY_KEY.LIKES() })]);
     },
   });
 };

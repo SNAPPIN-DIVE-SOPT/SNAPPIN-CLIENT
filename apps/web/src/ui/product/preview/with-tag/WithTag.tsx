@@ -5,19 +5,19 @@ import { type CSSProperties } from 'react';
 import { IconStar } from '@snappin/design-system/assets';
 import { TagChip, ImageWithShadow } from '@snappin/design-system';
 import { ProductCardProps } from '@snappin/shared/types';
-import ProductClient from '../components/Product.client';
+import LikeClient from '../Like.client';
 import { formatPrice } from '@snappin/shared/lib';
 
 type CssSize = CSSProperties['width'];
 
-export type ProductFrameProps = ProductCardProps & {
+export type WithTagProps = ProductCardProps & {
   id: number;
   isLiked: boolean;
   imageHeight?: CssSize;
   width?: CssSize;
 };
 
-export default function ProductFrame({
+export default function WithTag({
   id,
   image,
   name,
@@ -29,7 +29,7 @@ export default function ProductFrame({
   isLiked,
   width = '100%',
   imageHeight = '18.4rem',
-}: ProductFrameProps) {
+}: WithTagProps) {
   return (
     <Link
       href={`/product/${id}`}
@@ -45,7 +45,7 @@ export default function ProductFrame({
         />
 
         <div className='absolute right-0 bottom-0 flex items-center p-[1rem]'>
-          <ProductClient id={id} isLiked={isLiked} />
+          <LikeClient id={id} isLiked={isLiked} />
         </div>
       </div>
       <div className='flex w-full flex-col items-start overflow-hidden p-[1.2rem]'>

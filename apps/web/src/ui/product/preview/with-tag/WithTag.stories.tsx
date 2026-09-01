@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import ProductFrame from './ProductFrame';
+import WithTag from './WithTag';
 
-const meta: Meta<typeof ProductFrame> = {
-  title: 'UI/Frame/ProductFrame',
-  component: ProductFrame,
+const meta: Meta<typeof WithTag> = {
+  title: 'UI/Product/Preview/WithTag',
+  component: WithTag,
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
@@ -16,7 +16,7 @@ const meta: Meta<typeof ProductFrame> = {
   },
   render: (args) => (
     <div style={{ width: '18.65rem' }}>
-      <ProductFrame {...args} />
+      <WithTag {...args} />
     </div>
   ),
   argTypes: {

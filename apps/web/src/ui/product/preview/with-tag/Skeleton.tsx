@@ -1,11 +1,11 @@
 import { cn } from '@snappin/design-system/lib';
 
-type ProductFrameListSkeletonProps = {
+type WithTagListSkeletonProps = {
   length?: number;
   className?: string;
 };
 
-export function ProductFrameSkeleton() {
+export function WithTagSkeleton() {
   return (
     <div className='flex flex-col'>
       <div className='relative'>
@@ -30,14 +30,14 @@ export function ProductFrameSkeleton() {
   );
 }
 
-export default function ProductFrameListSkeleton({
+export default function WithTagListSkeleton({
   length = 6,
   className,
-}: ProductFrameListSkeletonProps) {
+}: WithTagListSkeletonProps) {
   return (
     <div className={cn('grid w-full grid-cols-2 gap-[0.2rem]', className)}>
       {Array.from({ length }).map((_, index) => (
-        <ProductFrameSkeleton key={index} />
+        <WithTagSkeleton key={index} />
       ))}
     </div>
   );

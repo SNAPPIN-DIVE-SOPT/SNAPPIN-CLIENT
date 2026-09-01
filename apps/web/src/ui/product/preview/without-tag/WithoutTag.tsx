@@ -5,17 +5,17 @@ import { ImageWithShadow } from '@snappin/design-system';
 import { GetPopularMoodProductItemResponse } from '@/swagger-api/data-contracts';
 import { ROUTES } from '@/constants/routes/routes';
 import { formatPrice } from '@snappin/shared/lib';
-import ProductClient from '../components/Product.client';
+import LikeClient from '../Like.client';
 
 type CssSize = CSSProperties['width'];
 
-export type ProductInformationFrameProps = GetPopularMoodProductItemResponse & {
+export type WithoutTagProps = GetPopularMoodProductItemResponse & {
   height?: CssSize;
   width?: CssSize;
   imageClassName?: string;
 };
 
-export default function ProductInformationFrame({
+export default function WithoutTag({
   imageUrl,
   title,
   rate,
@@ -27,7 +27,7 @@ export default function ProductInformationFrame({
   width = '100%',
   height = '26.6rem',
   imageClassName,
-}: ProductInformationFrameProps) {
+}: WithoutTagProps) {
   return (
     <Link href={ROUTES.PRODUCT(id)} className='relative overflow-hidden' style={{ width }}>
       <ImageWithShadow
@@ -56,7 +56,7 @@ export default function ProductInformationFrame({
             </div>
           </div>
           <div className='shrink-0'>
-            <ProductClient id={id} isLiked={isLiked} />
+            <LikeClient id={id} isLiked={isLiked} />
           </div>
         </div>
       </div>
