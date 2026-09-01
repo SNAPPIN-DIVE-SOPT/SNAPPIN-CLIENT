@@ -12,7 +12,7 @@ import {
 } from '@/swagger-api';
 import { deleteAccessToken, getAccessToken, setAccessToken } from '../token.client';
 import { deleteAuthUser, setAuthUser } from '../userType';
-import { useApiErrorToast } from '@/ui/toast/hooks/useApiErrorToast';
+import { useApiErrorToast } from '@/ui';
 import { useAuth } from '../hooks/useAuth';
 import { isValidUserType } from '@snappin/shared/types';
 import { ApiError, getApiErrorKind } from '@/api/apiError';

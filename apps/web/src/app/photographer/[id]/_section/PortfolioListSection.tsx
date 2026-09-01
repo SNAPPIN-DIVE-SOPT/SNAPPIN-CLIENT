@@ -3,7 +3,7 @@
 import { useEffect, useRef, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { ROUTES } from '@/constants/routes/routes';
-import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
+import { PortfolioPreviewList } from '@/ui';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { useGetPortfolioList } from '@/app/photographer/[id]/api';
 
@@ -17,12 +17,13 @@ export default function PortfolioListSection({ id, isLogIn }: PortfolioListSecti
   const { ref, inView } = useInView();
 
   const portfolioList = useMemo(() => {
-    return (data?.pages.flatMap((page) => page.data?.portfolios ?? []) ?? [])
-      .map(({ imageUrl, likeCount, ...rest }) => ({
+    return (data?.pages.flatMap((page) => page.data?.portfolios ?? []) ?? []).map(
+      ({ imageUrl, likeCount, ...rest }) => ({
         ...rest,
         likesCount: likeCount ?? 0,
-        image: { src: imageUrl, alt: '' }
-      }));
+        image: { src: imageUrl, alt: '' },
+      }),
+    );
   }, [data?.pages]);
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
@@ -59,7 +60,7 @@ export default function PortfolioListSection({ id, isLogIn }: PortfolioListSecti
   return (
     <section className='mt-[17.1rem]'>
       <div ref={anchorRef} />
-      <PortfolioList portfolios={portfolioList} />
+      <PortfolioPreviewList portfolios={portfolioList} />
       <div ref={ref} className='h-[0.1rem]' />
     </section>
   );

@@ -1,7 +1,7 @@
 
 import { formatReservationDateTime } from '@/utils/formatDate';
 import { Divider, StateChip } from '@snappin/design-system';
-import { Section } from '@/components/layout/reservation/SectionLayout';
+import { Section } from '@/ui';
 import { StateCode } from '@snappin/shared/types';
 
 type ReservationDetailProps = {

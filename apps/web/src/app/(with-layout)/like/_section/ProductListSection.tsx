@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import LikeEmpty from '@/app/(with-layout)/like/component/empty/LikeEmpty';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import ProductList from '@/ui/frame/product/ProductList';
+import { ProductPreviewWithTagList } from '@/ui';
 import { useGetLikeProducts } from '@/app/(with-layout)/like/api';
 import { LIKE_SCROLL_KEY } from '@/app/(with-layout)/like/constants/scroll';
 
@@ -37,17 +37,22 @@ export default function ProductListSection() {
 
   const anchorRef = useRef<HTMLDivElement | null>(null);
 
-  useScrollRestoreOnParent(anchorRef, LIKE_SCROLL_KEY.PRODUCT, [productList.length, dataUpdatedAt], {
-    enabled: !!data,
-    resetOnKeyChange: true,
-  });
+  useScrollRestoreOnParent(
+    anchorRef,
+    LIKE_SCROLL_KEY.PRODUCT,
+    [productList.length, dataUpdatedAt],
+    {
+      enabled: !!data,
+      resetOnKeyChange: true,
+    },
+  );
 
   if (productList.length === 0) return <LikeEmpty tab='PRODUCT' />;
 
   return (
     <section>
       <div ref={anchorRef} />
-      <ProductList products={productList} />
+      <ProductPreviewWithTagList products={productList} />
       <div ref={sentinelRef} className='h-[0.1rem]' />
     </section>
   );

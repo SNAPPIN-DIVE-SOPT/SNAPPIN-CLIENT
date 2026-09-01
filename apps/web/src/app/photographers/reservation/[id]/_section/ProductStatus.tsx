@@ -2,11 +2,9 @@
 
 import { useState } from 'react';
 import { Button } from '@snappin/design-system';
-import { useToast } from '@/ui';
-import { ProductCard } from '@/ui/product-card';
+import { useToast, ProductCard, Section } from '@/ui';
 import { useRefuseReservation } from '../api';
 import RefuseModal from '../@modal/(.)refuse-modal/RefuseModal';
-import { Section } from '@/components/layout/reservation/SectionLayout';
 import { STATE_CODES, StateCode } from '@snappin/shared/types';
 
 type ProductStatusProps = {
@@ -52,7 +50,9 @@ export default function ProductStatus({
   };
 
   const handleSendMessage = () => {
-    toast.alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', { className: 'bottom-[2rem]' });
+    toast.alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', {
+      className: 'bottom-[2rem]',
+    });
   };
 
   return (

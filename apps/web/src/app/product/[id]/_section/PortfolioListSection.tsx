@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
+import { PortfolioPreviewList } from '@/ui';
 import { useGetPortfolioList } from '@/app/product/[id]/api';
 
 type PortfolioListSectionProps = {
@@ -44,7 +44,7 @@ export default function PortfolioListSection({ productId, isLogIn }: PortfolioLi
 
   return (
     <section>
-      <PortfolioList portfolios={portfolioList} />
+      <PortfolioPreviewList portfolios={portfolioList} />
       <div ref={ref} className='h-[0.1rem]' />
     </section>
   );

@@ -3,7 +3,7 @@ export const revalidate = 0;
 
 import { Suspense } from 'react';
 import KakaoCallbackPage from './KakaoCallbackPage';
-import Loading from '@/ui/loading/Loading';
+import { Loading } from '@/ui';
 
 export default function Page() {
   return (

@@ -6,10 +6,11 @@ import { useGetProductList } from '@/app/(with-layout)/explore/api';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import type { ProductFrameProps } from '@/ui/frame/product/ProductFrame';
-import FrameProductList from '@/ui/frame/product/ProductList';
+import { ProductPreviewWithTagList, type ProductPreviewWithTagProps } from '@/ui';
 
-const toProductFrameProps = (products: GetProductCardResponseV2[] = []): ProductFrameProps[] => {
+const toProductPreviewWithTagProps = (
+  products: GetProductCardResponseV2[] = [],
+): ProductPreviewWithTagProps[] => {
   return products
     .filter((product): product is GetProductCardResponseV2 & { id: number } => product.id != null)
     .map((product) => ({
@@ -33,10 +34,7 @@ type ProductListSectionProps = {
   searchParams: string;
 };
 
-export default function ProductListSection({
-  isLogIn,
-  searchParams,
-}: ProductListSectionProps) {
+export default function ProductListSection({ isLogIn, searchParams }: ProductListSectionProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, dataUpdatedAt } = useGetProductList(
     new URLSearchParams(searchParams),
     isLogIn,
@@ -44,7 +42,7 @@ export default function ProductListSection({
   const products = useMemo(() => {
     return data.pages.flatMap((page) => page.data?.products ?? []);
   }, [data.pages]);
-  const productList = toProductFrameProps(products);
+  const productList = toProductPreviewWithTagProps(products);
   const { sentinelRef } = useInfiniteScroll({
     enabled: true,
     hasNextPage,
@@ -81,7 +79,7 @@ export default function ProductListSection({
   return (
     <section>
       <div ref={anchorRef} />
-      <FrameProductList products={productList} />
+      <ProductPreviewWithTagList products={productList} />
       <div ref={sentinelRef} className='h-[1px]' />
     </section>
   );

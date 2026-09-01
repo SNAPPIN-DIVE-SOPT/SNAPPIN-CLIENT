@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/auth/hooks/useAuth';
-import { ProductCard, ProductCardSkeleton } from '@/ui/product-card';
+import { ProductCard, ProductCardSkeleton } from '@/ui';
 import { useGetReservationDetail } from '@/app/review-form/[id]/api';
 
 type ProductInfoSectionProps = { reservationId: number };
@@ -14,7 +14,7 @@ export default function ProductInfoSection({ reservationId }: ProductInfoSection
   );
 
   if (isPending || !reservationData?.productInfo) {
-    return <ProductCardSkeleton className='py-[1.6rem] pr-[4.2rem] pl-[2rem]'/>;
+    return <ProductCardSkeleton className='py-[1.6rem] pr-[4.2rem] pl-[2rem]' />;
   }
 
   const {

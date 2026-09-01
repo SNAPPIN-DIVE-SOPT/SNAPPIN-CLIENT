@@ -2,8 +2,7 @@
 
 import { TagChip, ImageCarousel, LikeButton } from '@snappin/design-system';
 import { MoodCode } from '@snappin/shared/types';
-import { useWishPortfolioLike } from '@/ui/frame/apis';
-import { useLikeButton } from '@/ui/frame/hooks/useLike';
+import { usePortfolioLikeButton, useWishPortfolioLike } from '@/ui';
 
 type PortfolioSectionProps = {
   id: number;
@@ -27,7 +26,7 @@ export default function PortfolioSection({
   isLogIn,
 }: PortfolioSectionProps) {
   const { mutate: wishPortfolio} = useWishPortfolioLike({ id, isLogIn });
-  const { liked, handleLike, currentLikeCount } = useLikeButton({
+  const { liked, handleLike, currentLikeCount } = usePortfolioLikeButton({
     id,
     isLiked,
     likeCount,

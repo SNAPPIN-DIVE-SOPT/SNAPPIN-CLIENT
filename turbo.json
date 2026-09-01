@@ -13,8 +13,13 @@
     "lint": {
       "outputs": []
     },
+    "build:types": {
+      "dependsOn": ["^build:types"],
+      "inputs": ["$TURBO_DEFAULT$", "!.next/**", "!.turbo/**", "!dist/**"],
+      "outputs": ["dist/**/*.d.ts"]
+    },
     "typecheck": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build:types"],
       "outputs": []
     },
     "test": {

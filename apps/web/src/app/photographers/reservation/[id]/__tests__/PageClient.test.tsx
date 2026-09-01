@@ -10,7 +10,7 @@ jest.mock('../api', () => ({
   useGetReservationDetail: (reservationId: number) => useGetReservationDetailMock(reservationId),
 }));
 
-jest.mock('../../../../../components/layout/reservation/SectionSkeleton', () => ({
+jest.mock('../../../../../ui/layout/reservation/SectionSkeleton', () => ({
   __esModule: true,
   default: () => <div data-testid='section-skeleton' />,
 }));

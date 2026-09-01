@@ -1,6 +1,8 @@
 {
   "extends": "@snappin/typescript-config/nextjs",
   "compilerOptions": {
+    // tsBuildInfoFile 캐시로 tsc --noEmit 재실행이 점진적으로 빨라짐 (incremental 자체는 nextjs 프리셋에서 이미 상속됨)
+    "tsBuildInfoFile": "./.tsbuildinfo",
     "allowJs": true,
     "baseUrl": ".",
     "jsx": "react-jsx",

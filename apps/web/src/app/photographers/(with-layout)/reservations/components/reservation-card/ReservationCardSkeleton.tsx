@@ -1,5 +1,5 @@
 import { Divider } from '@snappin/design-system';
-import { ProductCardSkeleton } from '@/ui/product-card';
+import { ProductCardSkeleton } from '@/ui';
 
 type ReservationCardSkeletonProps = {
   length?: number;

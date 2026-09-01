@@ -1,5 +1,5 @@
 import { Divider } from '@snappin/design-system';
-import { UserTypeToggle } from '@/ui/user-type-toggle';
+import { UserTypeToggle } from '@/ui';
 import { USER_TYPE, UserType } from '@snappin/shared/types';
 
 type SwitchProfileProps = {

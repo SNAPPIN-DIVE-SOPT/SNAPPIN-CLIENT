@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { getKakaoAuthorizeUrl } from '@/app/(auth)/login/lib/kakaoAuth';
-import { useToast } from '@/ui/toast/hooks/useToast';
+import { useToast } from '@/ui';
 
 type UseLoginPageParams = {
   loginError?: string;

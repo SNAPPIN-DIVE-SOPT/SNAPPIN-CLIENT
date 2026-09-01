@@ -5,7 +5,7 @@ import { Tabs } from '@snappin/design-system';
 import { MoodCode } from '@snappin/shared/types';
 import { ROUTES } from '@/constants/routes/routes';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import { PortfolioFrameListSkeleton } from '@/ui';
+import { PortfolioPreviewListSkeleton } from '@/ui';
 import {
   PhotographerSection,
   PortfolioListSection,
@@ -74,7 +74,7 @@ export default function ProductDetailContent({ productId, tab, isLogIn }: Produc
           )}
           {selectedTab === PRODUCT_TAB.PORTFOLIO && (
             <div className='bg-black-1 mb-[8rem]'>
-              <Suspense fallback={<PortfolioFrameListSkeleton />}>
+              <Suspense fallback={<PortfolioPreviewListSkeleton />}>
                 <PortfolioListSection productId={productId} isLogIn={isLogIn} />
               </Suspense>
             </div>
