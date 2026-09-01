@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import PortfolioFrame from './PortfolioFrame';
+import Preview from './Preview';
 
-const meta: Meta<typeof PortfolioFrame> = {
-  title: 'UI/Frame/PortfolioFrame',
-  component: PortfolioFrame,
+const meta: Meta<typeof Preview> = {
+  title: 'UI/Portfolio/Preview/Preview',
+  component: Preview,
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
   },
   render: (args) => (
     <div style={{ width: args.width ?? '18.65rem' }}>
-      <PortfolioFrame {...args} />
+      <Preview {...args} />
     </div>
   ),
   argTypes: {

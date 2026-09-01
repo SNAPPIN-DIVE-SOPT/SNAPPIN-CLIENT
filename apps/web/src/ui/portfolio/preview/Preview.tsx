@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { CSSProperties } from 'react';
 import { ImageWithShadow } from '@snappin/design-system';
 import { ROUTES } from '@/constants/routes/routes';
-import PortfolioClient from '../components/Portfolio.client';
+import LikeClient from './Like.client';
 
 type CssSize = CSSProperties['width'];
 
 //TODO: swagger api 업데이트 시, 타입 수정 필요
-export type PortfolioFrameProps = {
+export type PreviewProps = {
   id: number;
   image: {
     src: string;
@@ -19,14 +19,14 @@ export type PortfolioFrameProps = {
   width?: CssSize;
 };
 
-export default function PortfolioFrame({
+export default function Preview({
   id,
   image,
   isLiked,
   likesCount,
   width = '100%',
   height = '26.6rem',
-}: PortfolioFrameProps) {
+}: PreviewProps) {
   return (
     <Link
       href={ROUTES.PORTFOLIO(id)}
@@ -40,8 +40,18 @@ export default function PortfolioFrame({
         imageWidth={width}
       />
       <div className='absolute right-0 bottom-0 flex items-center p-[1.2rem]'>
-        <PortfolioClient id={id} isLiked={isLiked} likeCount={likesCount} />
+        <LikeClient id={id} isLiked={isLiked} likeCount={likesCount} />
       </div>
     </Link>
+  );
+}
+
+export function PreviewList({ portfolios }: { portfolios: PreviewProps[] }) {
+  return (
+    <div className='grid w-full grid-cols-2 gap-[0.2rem]'>
+      {portfolios.map((portfolio) => (
+        <Preview key={portfolio.id} {...portfolio} width='100%' />
+      ))}
+    </div>
   );
 }

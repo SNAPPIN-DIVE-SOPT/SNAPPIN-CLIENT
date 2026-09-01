@@ -6,7 +6,7 @@ export * from './toast/hooks/useToast';
 export * from './toast/hooks/useApiErrorToast';
 export * from './toast/toast.atom';
 export * from './toast/types/toast';
-export * from './frame/index';
+export * from './portfolio/index';
 export * from './product/index';
 export * from './loading/index';
 export * from './profile';

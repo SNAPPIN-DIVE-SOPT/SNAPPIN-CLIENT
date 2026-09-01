@@ -1,11 +1,11 @@
 import { cn } from '@snappin/design-system/lib';
 
-type PortfolioFrameListSkeletonProps = {
+type PreviewListSkeletonProps = {
   length?: number;
   className?: string;
 };
 
-export function PortfolioFrameSkeleton() {
+export function PreviewSkeleton() {
   return (
     <div className='relative overflow-hidden'>
       <div className='bg-black-3 h-[26.6rem] w-full' />
@@ -16,14 +16,11 @@ export function PortfolioFrameSkeleton() {
   );
 }
 
-export default function PortfolioFrameListSkeleton({
-  length = 6,
-  className,
-}: PortfolioFrameListSkeletonProps) {
+export default function PreviewListSkeleton({ length = 6, className }: PreviewListSkeletonProps) {
   return (
     <div className={cn('grid w-full grid-cols-2 gap-[0.2rem]', className)}>
       {Array.from({ length }).map((_, index) => (
-        <PortfolioFrameSkeleton key={index} />
+        <PreviewSkeleton key={index} />
       ))}
     </div>
   );

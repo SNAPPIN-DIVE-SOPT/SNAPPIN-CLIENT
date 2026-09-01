@@ -3,10 +3,10 @@
 import { LikeButton } from '@snappin/design-system';
 import { cn } from '@snappin/design-system/lib/cn';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { useWishPortfolioLike } from '@/ui/frame/apis';
-import { type LikeProps, useLikeButton } from '@/ui/frame/hooks/useLike';
+import { useWishPortfolioLike } from './apis';
+import { type LikeProps, useLikeButton } from './hooks/useLikeButton';
 
-export default function PortfolioClient({ id, isLiked, likeCount }: LikeProps) {
+export default function LikeClient({ id, isLiked, likeCount }: LikeProps) {
   const { isLogIn } = useAuth();
   const { mutate: wishPortfolio } = useWishPortfolioLike({ id, isLogIn: !!isLogIn });
   const { liked, handleLike, currentLikeCount } = useLikeButton({
