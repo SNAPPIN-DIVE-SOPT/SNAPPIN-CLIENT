@@ -3,9 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Button } from '@snappin/design-system';
 import { STATE_CODES, type StateCode } from '@snappin/shared/types';
-import { useToast } from '@/ui';
-import { ProductCard } from '@/ui/product-card';
-import { Section } from '@/ui/layout/reservation/SectionLayout';
+import { useToast, ProductCard, Section } from '@/ui';
 import { ROUTES } from '@/constants/routes/routes';
 
 type ReservationProductProps = {
@@ -49,7 +47,9 @@ export default function ReservationProduct({
   };
 
   const handleSendMessage = () => {
-    toast.alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', { className: 'bottom-[2rem]' });
+    toast.alert('메시지 기능은 준비 중이에요. 조금만 기다려주세요!', {
+      className: 'bottom-[2rem]',
+    });
   };
 
   // 촬영 완료 상태 정의

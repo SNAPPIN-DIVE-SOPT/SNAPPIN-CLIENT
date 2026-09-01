@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { dehydrate, QueryClient, HydrationBoundary } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import SectionSkeleton from '@/ui/layout/reservation/SectionSkeleton';
+import { SectionSkeleton } from '@/ui';
 import NavigationClient from './components/navigation-client/Navigation.client';
 import PageClient from './page.client';
 import { prefetchReservationDetail } from './api';

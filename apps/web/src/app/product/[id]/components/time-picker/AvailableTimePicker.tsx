@@ -1,6 +1,6 @@
 import { useAvailableTimes } from '../../api';
 import { BottomDrawer } from '@snappin/design-system';
-import { TimePicker } from '@/ui/time-picker';
+import { TimePicker } from '@/ui';
 
 type AvailableTimeSectionProps = {
   productId: string;

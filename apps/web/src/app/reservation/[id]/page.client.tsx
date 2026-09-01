@@ -2,7 +2,7 @@
 
 import { Divider } from '@snappin/design-system';
 import { STATE_CODES, type StateCode } from '@snappin/shared/types';
-import SectionSkeleton from '@/ui/layout/reservation/SectionSkeleton';
+import { SectionSkeleton } from '@/ui';
 import { ClientNavigation, ClientFooter } from './components';
 import CancelModal from './@modal/(.)cancel-modal/CancelModal';
 import { PaymentDetail, ReservationDetail, ReservationProduct, ReviewDetail } from './_section';

@@ -1,5 +1,5 @@
 import { Divider } from '@snappin/design-system';
-import { Section } from '@/ui/layout/reservation/SectionLayout';
+import { Section } from '@/ui';
 import { formatPrice } from '@snappin/shared/lib';
 
 type PaymentDetailProps = {

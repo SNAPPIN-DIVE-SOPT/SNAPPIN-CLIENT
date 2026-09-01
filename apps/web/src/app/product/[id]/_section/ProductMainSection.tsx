@@ -4,8 +4,7 @@ import { MoodCode } from '@snappin/shared/types';
 import { formatPrice } from '@snappin/shared/lib';
 import { IconStar } from '@snappin/design-system/assets';
 import { ImageCarousel, LikeButton, TagChip } from '@snappin/design-system';
-import { useWishProductLike } from '@/ui/frame/apis';
-import { useLikeButton } from '@/ui/frame/hooks/useLike';
+import { useProductLikeButton, useWishProductLike } from '@/ui';
 
 type ProductMainSectionProps = {
   id: number;
@@ -32,8 +31,8 @@ export default function ProductMainSection({
   moods,
   isLogIn,
 }: ProductMainSectionProps) {
-  const { mutate: wishProduct} = useWishProductLike({ id, isLogIn });
-  const { liked, handleLike, currentLikeCount } = useLikeButton({
+  const { mutate: wishProduct } = useWishProductLike({ id, isLogIn });
+  const { liked, handleLike, currentLikeCount } = useProductLikeButton({
     id,
     isLiked,
     likeCount,

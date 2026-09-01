@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { FilterChip } from '@snappin/design-system';
 import { MOOD_CODE, MOOD_CODE_INDEX } from '@snappin/shared/types';
 import { useNavVisibility } from '@/hooks/useNavVisibility';
-import { ProductInformationFrameList, ProductInformationFrameListSkeleton } from '@/ui';
+import { ProductPreviewWithoutTagList, ProductPreviewWithoutTagListSkeleton } from '@/ui';
 import { useGetMoodIdList } from '@/queries/mood';
 import { useSelectedMoodCode } from '@/app/(with-layout)/(home)/hooks/useSelectedMoodCode';
 import { ClientHeader, AiCurationButton } from '@/app/(with-layout)/(home)/components';
@@ -55,14 +55,14 @@ export default function PageClient() {
               </div>
             </div>
             {isPending ? (
-              <ProductInformationFrameListSkeleton />
+              <ProductPreviewWithoutTagListSkeleton />
             ) : (data?.length ?? 0) === 0 ? (
               <div className='flex flex-col items-center justify-center gap-[0.4rem] py-[12rem]'>
                 <p className='font-18-bd text-black-9'>상품을 준비 중입니다</p>
                 <span className='caption-14-md text-black-6'>다른 무드를 선택해 보세요</span>
               </div>
             ) : (
-              <ProductInformationFrameList products={data || []} />
+              <ProductPreviewWithoutTagList products={data || []} />
             )}
           </div>
         </section>

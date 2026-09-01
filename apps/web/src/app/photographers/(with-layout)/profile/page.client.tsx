@@ -4,8 +4,7 @@ import { useSwitchUserProfile } from '@/auth/apis';
 import SwitchProfile from './components/switch-profile/SwitchProfile';
 import { useMinDurationLoading } from './hooks/useMinDurationLoading';
 import { isValidUserType, UserType } from '@snappin/shared/types';
-import { Loading } from '@/ui';
-import ProfileLayout from '@/ui/layout/profile/ProfileLayout';
+import { Loading, ProfileLayout } from '@/ui';
 
 const MIN_DURATION = 1600;
 

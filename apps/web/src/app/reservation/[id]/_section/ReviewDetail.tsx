@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatShortDate } from '@/utils/formatDate';
-import { Section } from '@/ui/layout/reservation/SectionLayout';
+import { Section } from '@/ui';
 import { ReviewStar } from '@snappin/design-system';
 
 type ReviewDetailProps = {

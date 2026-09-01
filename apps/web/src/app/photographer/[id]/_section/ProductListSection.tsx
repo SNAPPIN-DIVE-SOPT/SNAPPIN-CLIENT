@@ -3,10 +3,9 @@
 import { useEffect, useRef, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { ROUTES } from '@/constants/routes/routes';
-import ProductList from '@/ui/frame/product/ProductList';
+import { ProductPreviewWithTagList } from '@/ui';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
 import { useGetProductList } from '@/app/photographer/[id]/api';
-
 
 type ProductListSectionProps = {
   id: number;
@@ -64,7 +63,7 @@ export default function ProductListSection({ id, isLogIn }: ProductListSectionPr
   return (
     <section className='mt-[17.1rem]'>
       <div ref={anchorRef} />
-      <ProductList products={productList} />
+      <ProductPreviewWithTagList products={productList} />
       <div ref={ref} className='h-[0.1rem]' />
     </section>
   );

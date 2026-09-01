@@ -6,14 +6,18 @@ import { useGetPortfolioList } from '@/app/(with-layout)/explore/api';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { toExploreSearchParams } from '@/app/(with-layout)/explore/utils/query';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import type { PortfolioFrameProps } from '@/ui/frame/portfolio/PortfolioFrame';
-import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
+import {
+  PortfolioPreviewList,
+  type PortfolioPreviewProps,
+} from '@/ui';
 
-const toPortfolioFrameProps = (
+const toPortfolioPreviewProps = (
   portfolios: GetPortfolioCardResponseV2[] = [],
-): PortfolioFrameProps[] => {
+): PortfolioPreviewProps[] => {
   return portfolios
-    .filter((portfolio): portfolio is GetPortfolioCardResponseV2 & { id: number } => portfolio.id != null)
+    .filter(
+      (portfolio): portfolio is GetPortfolioCardResponseV2 & { id: number } => portfolio.id != null,
+    )
     .map((portfolio) => ({
       id: portfolio.id,
       isLiked: portfolio.isLiked ?? false,
@@ -30,10 +34,7 @@ type PortfolioListSectionProps = {
   searchParams: string;
 };
 
-export default function PortfolioListSection({
-  isLogIn,
-  searchParams,
-}: PortfolioListSectionProps) {
+export default function PortfolioListSection({ isLogIn, searchParams }: PortfolioListSectionProps) {
   const scrollKey = useMemo(() => {
     const allowed = toExploreSearchParams(new URLSearchParams(searchParams));
 
@@ -49,7 +50,7 @@ export default function PortfolioListSection({
   const portfolios = useMemo(() => {
     return query.data.pages.flatMap((page) => page.data?.portfolios ?? []);
   }, [query.data.pages]);
-  const portfolioList = toPortfolioFrameProps(portfolios);
+  const portfolioList = toPortfolioPreviewProps(portfolios);
   const { sentinelRef } = useInfiniteScroll({
     enabled: true,
     hasNextPage: query.hasNextPage,
@@ -75,7 +76,7 @@ export default function PortfolioListSection({
   return (
     <section className='py-[0.2rem]'>
       <div ref={anchorRef} />
-      <PortfolioList portfolios={portfolioList} />
+      <PortfolioPreviewList portfolios={portfolioList} />
       <div ref={sentinelRef} className='h-[1px]' />
     </section>
   );

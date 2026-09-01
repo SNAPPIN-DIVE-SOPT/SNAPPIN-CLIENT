@@ -5,3 +5,8 @@ export {
   default as PortfolioPreviewListSkeleton,
   PreviewSkeleton as PortfolioPreviewSkeleton,
 } from './Skeleton';
+export { useWishPortfolioLike } from './apis';
+export {
+  useLikeButton as usePortfolioLikeButton,
+  type LikeProps as PortfolioLikeProps,
+} from './hooks/useLikeButton';

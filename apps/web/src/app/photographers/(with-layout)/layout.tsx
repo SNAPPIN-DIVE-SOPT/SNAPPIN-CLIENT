@@ -1,5 +1,5 @@
 import React from 'react';
-import { Footer } from '@/ui/footer';
+import { Footer } from '@/ui';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

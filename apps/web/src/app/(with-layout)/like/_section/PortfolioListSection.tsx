@@ -4,14 +4,16 @@ import { useRef } from 'react';
 import LikeEmpty from '@/app/(with-layout)/like/component/empty/LikeEmpty';
 import { useInfiniteScroll } from '@/app/(with-layout)/explore/hooks/use-infinite-scroll';
 import { useScrollRestoreOnParent } from '@/hooks/useScrollRestoreOnParent';
-import PortfolioList from '@/ui/frame/portfolio/PortfolioList';
-import { type PortfolioFrameProps } from '@/ui/frame/portfolio/PortfolioFrame';
+import {
+  PortfolioPreviewList,
+  type PortfolioPreviewProps,
+} from '@/ui';
 import { useGetLikePortfolios } from '@/app/(with-layout)/like/api';
 import { LIKE_SCROLL_KEY } from '@/app/(with-layout)/like/constants/scroll';
 
-const toPortfolioFrameProps = (
+const toPortfolioPreviewProps = (
   portfolios: { id?: number; imageUrl?: string; likeCount?: number }[] = [],
-): PortfolioFrameProps[] => {
+): PortfolioPreviewProps[] => {
   return portfolios.map((portfolio) => ({
     id: portfolio.id ?? 0,
     isLiked: true,
@@ -26,7 +28,7 @@ const toPortfolioFrameProps = (
 export default function PortfolioListSection() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, dataUpdatedAt } =
     useGetLikePortfolios();
-  const portfolioList = toPortfolioFrameProps(
+  const portfolioList = toPortfolioPreviewProps(
     data.pages.flatMap((page) => page.data?.portfolios ?? []),
   );
   const { sentinelRef } = useInfiniteScroll({
@@ -53,7 +55,7 @@ export default function PortfolioListSection() {
   return (
     <section>
       <div ref={anchorRef} />
-      <PortfolioList portfolios={portfolioList} />
+      <PortfolioPreviewList portfolios={portfolioList} />
       <div ref={sentinelRef} className='h-[0.1rem]' />
     </section>
   );

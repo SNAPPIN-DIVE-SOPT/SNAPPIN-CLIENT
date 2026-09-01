@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { PortfolioFrameListSkeleton, ProductFrameListSkeleton } from '@/ui';
+import { PortfolioPreviewListSkeleton, ProductPreviewWithTagListSkeleton } from '@/ui';
 import { EXPLORE_TAB, ExploreTab } from '@/app/(with-layout)/explore/constants/tab';
 import ExploreDetailBackBoundary from '@/app/(with-layout)/explore/components/tab-panel/ExploreDetailBackBoundary';
 import PortfolioListSection from '@/app/(with-layout)/explore/_section/PortfolioListSection';
@@ -25,7 +25,7 @@ export default function ExploreTabPanels({
           id='explore-portfolio-scroll'
           className='scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-contain'
         >
-          <Suspense fallback={<PortfolioFrameListSkeleton />}>
+          <Suspense fallback={<PortfolioPreviewListSkeleton />}>
             <PortfolioListSection isLogIn={isLogIn} searchParams={searchParams} />
           </Suspense>
         </div>
@@ -36,7 +36,7 @@ export default function ExploreTabPanels({
           id='explore-product-scroll'
           className='scrollbar-hide min-h-0 flex-1 overflow-y-auto overscroll-contain'
         >
-          <Suspense fallback={<ProductFrameListSkeleton />}>
+          <Suspense fallback={<ProductPreviewWithTagListSkeleton />}>
             <ProductListSection isLogIn={isLogIn} searchParams={searchParams} />
           </Suspense>
         </div>

@@ -10,7 +10,7 @@ import {
 } from '@/app/product/[id]/reservation-form/constants';
 import { type ReservationCopyFormModel } from '@/app/product/[id]/reservation-form/hooks';
 import { hasCompletedSchedule } from '@/app/product/[id]/reservation-form/utils';
-import { TimePicker } from '@/ui/time-picker';
+import { TimePicker } from '@/ui';
 
 type SchedulePickerDrawersProps = {
   productId: number;
