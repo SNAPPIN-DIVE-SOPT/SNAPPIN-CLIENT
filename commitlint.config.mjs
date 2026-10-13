@@ -15,6 +15,8 @@ export default {
         'typescript-config',
       ],
     ],
+    // 한국어 설명은 'API', 'Modal'처럼 대문자 고유명사로 시작하는 경우가 많아 대소문자를 검사하지 않는다.
+    'subject-case': [0],
     // 한국어 본문은 줄 길이 기준이 맞지 않아 제한하지 않는다.
     'body-max-line-length': [0],
     'footer-max-line-length': [0],
