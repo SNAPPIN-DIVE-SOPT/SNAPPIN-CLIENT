@@ -31,7 +31,7 @@
 | `chore`    | 그 외 잡무 (husky, `.claude` 설정, 초기 세팅 등)    |
 | `revert`   | 이전 커밋 되돌리기                                  |
 
-GitHub 이슈의 type 라벨 이름은 위 타입과 똑같습니다. 이슈에는 type 라벨을 정확히 하나 붙이고, `/start-work`는 그 라벨을 그대로 브랜치의 `<type>`으로 씁니다.
+GitHub의 type 라벨 이름은 위 타입과 똑같습니다. PR·이슈를 열거나 제목을 고치면 `auto-label` 워크플로가 제목의 type과 같은 라벨 하나와 작성자 라벨을 자동으로 붙입니다. `/start-work`는 이슈의 type 라벨을 그대로 브랜치의 `<type>`으로 씁니다.
 
 ## scope
 
