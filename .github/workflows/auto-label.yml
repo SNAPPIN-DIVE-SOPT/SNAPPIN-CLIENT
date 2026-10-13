@@ -12,14 +12,13 @@ on:
   issues:
     types: [opened, reopened, edited]
 
-permissions:
-  issues: write
-  pull-requests: write
-
 jobs:
   label:
     if: github.event.action != 'edited' || github.event.changes.title
     runs-on: ubuntu-latest
+    permissions:
+      # 라벨 API는 PR에도 issues 엔드포인트를 쓰며, Issues 쓰기 권한만으로 PR·이슈 모두 처리된다.
+      issues: write
     steps:
       - uses: actions/github-script@v7
         with:
@@ -36,15 +35,23 @@ jobs:
             const currentLabels = target.labels.map((label) => label.name);
             const issueParams = { ...context.repo, issue_number: target.number };
 
+            // addLabels는 없는 라벨을 새로 만들어 버리므로, 저장소에 이미 있는 라벨만 다룬다.
+            const repoLabels = await github.paginate(github.rest.issues.listLabelsForRepo, { ...context.repo, per_page: 100 });
+            const existingLabels = new Set(repoLabels.map((label) => label.name));
+
             const labelsToAdd = [];
             const authorLabel = AUTHOR_LABELS[target.user.login];
             if (authorLabel && !currentLabels.includes(authorLabel)) {
               labelsToAdd.push(authorLabel);
             }
 
-            const typeMatch = target.title.match(new RegExp(`^(${TYPES.join('|')})(\\([a-z-]+\\))?!?: `));
-            if (typeMatch) {
-              const type = typeMatch[1];
+            const typeMatch = target.title.match(new RegExp(`^(${TYPES.join('|')})(\\([a-z-]+\\))?!?: \\S`));
+            const type = typeMatch?.[1];
+            if (type && !existingLabels.has(type)) {
+              // 새 type 라벨이 아직 없으면 기존 type 라벨을 떼지 않고 그대로 둔다.
+              core.warning(`저장소에 없는 type 라벨이라 건너뜀: ${type}`);
+            }
+            if (type && existingLabels.has(type)) {
               const staleTypeLabels = currentLabels.filter((name) => TYPES.includes(name) && name !== type);
               for (const name of staleTypeLabels) {
                 await github.rest.issues.removeLabel({ ...issueParams, name });
@@ -54,9 +61,6 @@ jobs:
               }
             }
 
-            // addLabels는 없는 라벨을 새로 만들어 버리므로, 저장소에 이미 있는 라벨만 붙인다.
-            const repoLabels = await github.paginate(github.rest.issues.listLabelsForRepo, { ...context.repo, per_page: 100 });
-            const existingLabels = new Set(repoLabels.map((label) => label.name));
             const missingLabels = labelsToAdd.filter((name) => !existingLabels.has(name));
             const applicableLabels = labelsToAdd.filter((name) => existingLabels.has(name));
 
