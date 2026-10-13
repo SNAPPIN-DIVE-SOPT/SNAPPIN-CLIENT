@@ -1,6 +1,6 @@
 ---
 name: 이슈 템플릿 ✏️
-about: 해당 템플릿으로 이슈를 작성해주세요! 제목은 `type(scope): 설명` 형식, type 라벨은 정확히 하나
+about: '해당 템플릿으로 이슈를 작성해주세요! 제목은 `type(scope): 설명` 형식, type 라벨은 정확히 하나'
 title: ''
 labels: ''
 assignees: ''
