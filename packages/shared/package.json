@@ -19,6 +19,7 @@
     "@snappin/eslint-config": "workspace:*",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
-    "prettier": "^3.7.4"
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3"
   }
 }
