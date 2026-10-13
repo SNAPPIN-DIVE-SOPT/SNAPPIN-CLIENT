@@ -36,6 +36,9 @@ jobs:
       - name: Run lint (${{ matrix.app }})
         run: pnpm turbo run lint --filter=${{ matrix.app }}
 
+      - name: Run typecheck (${{ matrix.app }})
+        run: pnpm turbo run typecheck --filter=${{ matrix.app }}
+
       - name: Run build (${{ matrix.app }})
         run: pnpm turbo run build --filter=${{ matrix.app }}
 
@@ -64,6 +67,9 @@ jobs:
 
       - name: Run lint (packages)
         run: pnpm turbo run lint --filter=./packages/*
+
+      - name: Run typecheck (packages)
+        run: pnpm turbo run typecheck --filter=./packages/*
 
       - name: Run build (packages)
         run: pnpm turbo run build --filter=./packages/*
