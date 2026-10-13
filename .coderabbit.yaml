@@ -243,12 +243,16 @@ reviews:
 
     description:
       mode: 'warning'
-      requirements: |
-        PR 본문의 Related Issues 섹션에 `close #<이슈번호>` 형식으로 연결된 이슈가 하나 이상 있어야 한다.
-        (close-linked-issue 워크플로가 이 줄을 읽어 머지 시 이슈를 닫는다.)
 
     issue_assessment:
       mode: 'off'
+
+    custom_checks:
+      - name: 'Linked issue'
+        mode: 'warning'
+        instructions: |
+          PR 본문의 Related Issues 섹션에 `close #<이슈번호>` 형식으로 연결된 이슈가 하나 이상 있어야 통과한다.
+          (close-linked-issue 워크플로가 이 줄을 읽어 머지 시 이슈를 닫는다.)
 
   # =====================
   # Finishing Touches
