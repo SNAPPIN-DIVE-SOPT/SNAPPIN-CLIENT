@@ -43,10 +43,9 @@ reviews:
     - 'tsconfig*.json'
     - 'package.json'
     - '.coderabbit.yaml'
-    - 'scripts/**'
     - 'public/**'
     - 'README.md'
-    - 'CONVENTIONS.md'
+    - 'docs/**'
 
     # 제외 경로
     - '!node_modules/**'
@@ -93,13 +92,6 @@ reviews:
         - path_filters / path_instructions 중복 여부 점검
         - 프로젝트 구조와 설정 일관성 검토
 
-    - path: '.storybook/**'
-      instructions: |
-        Storybook 설정 리뷰 시:
-        - stories glob 패턴이 실제 파일과 일치하는지
-        - Next.js 환경 호환성 확인
-        - 불필요한 addon 제거로 런타임 이슈 방지
-
     - path: 'apps/**/package.json'
       instructions: |
         앱 워크스페이스 package.json 리뷰 시:
@@ -127,7 +119,7 @@ reviews:
         - 주요 props 변형에 대한 스토리 커버
         - interaction test 사용 시 사용자 플로우/접근성 중심 검토
 
-    - path: 'apps/web/src/app/**'
+    - path: 'apps/*/src/app/**'
       instructions: |
         Next.js App Router 리뷰 시:
         - Server / Client 컴포넌트 경계 최소화
@@ -137,8 +129,6 @@ reviews:
     - path: 'apps/web/src/ui/**'
       instructions: |
         UI 컴포넌트 리뷰 시:
-        - 재사용성 중심 설계 여부
-        - common 컴포넌트에서 children 활용 여부
         - className 조합 시 cn 유틸 사용 일관성
 
     - path: 'apps/web/src/hooks/**'
@@ -148,24 +138,24 @@ reviews:
         - 의존성 배열(exhaustive-deps) 준수
         - 브라우저 API 사용의 SSR 안전성 확인
 
-    - path: 'apps/web/src/**/utils/**'
-      instructions: |
-        유틸 함수 리뷰 시:
-        - 반환값 기준 네이밍(has*/is*/can*)
-        - 중복 로직의 공통화 여부
-
-    - path: 'apps/web/src/lib/**'
+    - path: 'apps/*/src/lib/**'
       instructions: |
         lib 레이어 리뷰 시:
-        - 재사용 가능한 공통 로직 분리 여부
         - 서버/클라이언트 의존성 혼입 여부
 
-    - path: 'apps/web/src/types/**'
+    - path: 'apps/*/src/types/**'
       instructions: |
         타입 정의 리뷰 시:
         - PascalCase 사용 여부
         - any 최소화
         - export type 우선 사용
+
+    - path: 'apps/ad/src/**'
+      instructions: |
+        광고/랜딩 앱(apps/ad) 리뷰 시:
+        - 페이지별 metadata(title/description/OG)가 누락되지 않았는지
+        - 첫 화면 이미지·Lottie가 LCP/CLS를 해치지 않는지 (next/image 사이즈 지정, 지연 로딩)
+        - 불필요한 클라이언트 컴포넌트로 번들이 커지지 않는지
 
     - path: 'packages/design-system/src/ui/**'
       instructions: |
@@ -229,7 +219,6 @@ reviews:
       - 'dependabot'
       - 'renovate'
     ignore_title_keywords:
-      - '[docs]'
       - '[skip-review]'
 
   # =====================
@@ -239,27 +228,24 @@ reviews:
     title:
       mode: 'warning'
       requirements: |
-        PR 제목은 아래 형식을 따르고 50자 이내로 작성해요.
+        PR 제목은 Conventional Commits 형식을 따른다 (docs/git-conventions.md).
 
-        형식:
-        [이모지] [Type] (작업범위) : #이슈번호 제목
+        형식: <type>(<scope>): <설명>  — scope는 생략 가능
 
-        허용 이모지 / Type:
-        🐾 Init
-        🔨 Fix
-        🎨 Style
-        🎀 Feat
-        🔧 Refactor
+        - type: feat, fix, refactor, style, docs, test, perf, build, ci, chore, revert 중 하나 (소문자)
+        - scope: web, ad, design-system, shared, eslint-config, tailwind-config, typescript-config 중 하나.
+          루트 파일이나 여러 워크스페이스에 걸친 변경은 scope를 생략한다.
+        - 이모지와 이슈 번호는 제목에 넣지 않는다.
 
         예시:
-        🎀 Feat (design-system) : #123 로그인 버튼 추가
+        feat(design-system): 로그인 버튼 추가
+        ci: typecheck 단계 추가
 
     description:
       mode: 'warning'
       requirements: |
-        PR 본문은 반드시 아래 형식으로 시작해요.
-
-        [이모지] [Type] (작업범위) : #이슈번호
+        PR 본문의 Related Issues 섹션에 `close #<이슈번호>` 형식으로 연결된 이슈가 하나 이상 있어야 한다.
+        (close-linked-issue 워크플로가 이 줄을 읽어 머지 시 이슈를 닫는다.)
 
     issue_assessment:
       mode: 'off'
@@ -304,4 +290,5 @@ knowledge_base:
   code_guidelines:
     enabled: true
     filePatterns:
-      - 'CONVENTIONS.md'
+      - 'docs/conventions.md'
+      - 'docs/adr/**'
